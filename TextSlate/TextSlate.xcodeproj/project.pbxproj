@@ -7,9 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		971687DD1A1F1BCA00FE98FC /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 971687D91A1F1BCA00FE98FC /* ViewController.m */; };
+		971687E01A1F1C2B00FE98FC /* TSTeacher.m in Sources */ = {isa = PBXBuildFile; fileRef = 971687DF1A1F1C2B00FE98FC /* TSTeacher.m */; };
+		971687E31A1F1C3900FE98FC /* TSParent.m in Sources */ = {isa = PBXBuildFile; fileRef = 971687E21A1F1C3900FE98FC /* TSParent.m */; };
 		973A4BD81A1F174D0039175A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 973A4BD71A1F174D0039175A /* main.m */; };
 		973A4BDB1A1F174D0039175A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 973A4BDA1A1F174D0039175A /* AppDelegate.m */; };
-		973A4BDE1A1F174D0039175A /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 973A4BDD1A1F174D0039175A /* ViewController.m */; };
 		973A4BE11A1F174D0039175A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 973A4BDF1A1F174D0039175A /* Main.storyboard */; };
 		973A4BE31A1F174D0039175A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 973A4BE21A1F174D0039175A /* Images.xcassets */; };
 		973A4BE61A1F174D0039175A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 973A4BE41A1F174D0039175A /* LaunchScreen.xib */; };
@@ -27,13 +29,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		971687D81A1F1BCA00FE98FC /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		971687D91A1F1BCA00FE98FC /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		971687DE1A1F1C2B00FE98FC /* TSTeacher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSTeacher.h; sourceTree = "<group>"; };
+		971687DF1A1F1C2B00FE98FC /* TSTeacher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSTeacher.m; sourceTree = "<group>"; };
+		971687E11A1F1C3900FE98FC /* TSParent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSParent.h; sourceTree = "<group>"; };
+		971687E21A1F1C3900FE98FC /* TSParent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSParent.m; sourceTree = "<group>"; };
 		973A4BD21A1F174D0039175A /* TextSlate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TextSlate.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		973A4BD61A1F174D0039175A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		973A4BD71A1F174D0039175A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		973A4BD91A1F174D0039175A /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		973A4BDA1A1F174D0039175A /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		973A4BDC1A1F174D0039175A /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		973A4BDD1A1F174D0039175A /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		973A4BE01A1F174D0039175A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		973A4BE21A1F174D0039175A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		973A4BE51A1F174D0039175A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -60,6 +66,40 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		971687D71A1F1BCA00FE98FC /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				971687D81A1F1BCA00FE98FC /* ViewController.h */,
+				971687D91A1F1BCA00FE98FC /* ViewController.m */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		971687DA1A1F1BCA00FE98FC /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				971687DE1A1F1C2B00FE98FC /* TSTeacher.h */,
+				971687DF1A1F1C2B00FE98FC /* TSTeacher.m */,
+				971687E11A1F1C3900FE98FC /* TSParent.h */,
+				971687E21A1F1C3900FE98FC /* TSParent.m */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		971687DB1A1F1BCA00FE98FC /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		971687DC1A1F1BCA00FE98FC /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		973A4BC91A1F174D0039175A = {
 			isa = PBXGroup;
 			children = (
@@ -81,10 +121,12 @@
 		973A4BD41A1F174D0039175A /* TextSlate */ = {
 			isa = PBXGroup;
 			children = (
+				971687D71A1F1BCA00FE98FC /* Controllers */,
+				971687DA1A1F1BCA00FE98FC /* Models */,
+				971687DB1A1F1BCA00FE98FC /* Resources */,
+				971687DC1A1F1BCA00FE98FC /* Views */,
 				973A4BD91A1F174D0039175A /* AppDelegate.h */,
 				973A4BDA1A1F174D0039175A /* AppDelegate.m */,
-				973A4BDC1A1F174D0039175A /* ViewController.h */,
-				973A4BDD1A1F174D0039175A /* ViewController.m */,
 				973A4BDF1A1F174D0039175A /* Main.storyboard */,
 				973A4BE21A1F174D0039175A /* Images.xcassets */,
 				973A4BE41A1F174D0039175A /* LaunchScreen.xib */,
@@ -219,8 +261,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				973A4BDE1A1F174D0039175A /* ViewController.m in Sources */,
 				973A4BDB1A1F174D0039175A /* AppDelegate.m in Sources */,
+				971687E01A1F1C2B00FE98FC /* TSTeacher.m in Sources */,
+				971687DD1A1F1BCA00FE98FC /* ViewController.m in Sources */,
+				971687E31A1F1C3900FE98FC /* TSParent.m in Sources */,
 				973A4BD81A1F174D0039175A /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -412,6 +456,7 @@
 				973A4BF71A1F174D0039175A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		973A4BF81A1F174D0039175A /* Build configuration list for PBXNativeTarget "TextSlateTests" */ = {
 			isa = XCConfigurationList;
@@ -420,6 +465,7 @@
 				973A4BFA1A1F174D0039175A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

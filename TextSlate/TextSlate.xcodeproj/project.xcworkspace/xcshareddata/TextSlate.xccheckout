@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>D0D5F4DC-C9E0-4A9A-A4E7-C1411F09E598</string>
+	<key>IDESourceControlProjectName</key>
+	<string>TextSlate</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>D073BD16C80A2561AAC7BBFBE18B6F09DA4229ED</key>
+		<string>https://github.com/dhaneshkumar/TextSlate-IOS.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>TextSlate/TextSlate.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>D073BD16C80A2561AAC7BBFBE18B6F09DA4229ED</key>
+		<string>../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/dhaneshkumar/TextSlate-IOS.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>D073BD16C80A2561AAC7BBFBE18B6F09DA4229ED</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>D073BD16C80A2561AAC7BBFBE18B6F09DA4229ED</string>
+			<key>IDESourceControlWCCName</key>
+			<string>TextSlate-IOS</string>
+		</dict>
+	</array>
+</dict>
+</plist>
