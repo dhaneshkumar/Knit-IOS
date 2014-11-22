@@ -28,6 +28,12 @@
 		973A4BF21A1F174D0039175A /* TextSlateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 973A4BF11A1F174D0039175A /* TextSlateTests.m */; };
 		975B1E7E1A2070070028BE25 /* TSSignInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 975B1E7A1A2070070028BE25 /* TSSignInViewController.m */; };
 		975B1E7F1A2070070028BE25 /* TSSignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 975B1E7D1A2070070028BE25 /* TSSignUpViewController.m */; };
+		975B1E861A20F7C50028BE25 /* TSClassroomViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 975B1E851A20F7C50028BE25 /* TSClassroomViewController.m */; };
+		975B1E891A20F7D40028BE25 /* TSInboxViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 975B1E881A20F7D40028BE25 /* TSInboxViewController.m */; };
+		975B1E8D1A2118D00028BE25 /* TSClassTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 975B1E8C1A2118D00028BE25 /* TSClassTableViewCell.m */; };
+		975B1E901A211A380028BE25 /* TSClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 975B1E8F1A211A380028BE25 /* TSClass.m */; };
+		975B1E941A2133030028BE25 /* TSTabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 975B1E931A2133030028BE25 /* TSTabBarViewController.m */; };
+		975B1E981A2133C10028BE25 /* Data.m in Sources */ = {isa = PBXBuildFile; fileRef = 975B1E971A2133C10028BE25 /* Data.m */; };
 		97C439BC1A206A3D00DD9B1B /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97C439B81A206A3D00DD9B1B /* Bolts.framework */; };
 		97C439BD1A206A3D00DD9B1B /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97C439B91A206A3D00DD9B1B /* Parse.framework */; };
 		97C439BE1A206A3D00DD9B1B /* ParseFacebookUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97C439BA1A206A3D00DD9B1B /* ParseFacebookUtils.framework */; };
@@ -76,6 +82,18 @@
 		975B1E7A1A2070070028BE25 /* TSSignInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSSignInViewController.m; sourceTree = "<group>"; };
 		975B1E7C1A2070070028BE25 /* TSSignUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSSignUpViewController.h; sourceTree = "<group>"; };
 		975B1E7D1A2070070028BE25 /* TSSignUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSSignUpViewController.m; sourceTree = "<group>"; };
+		975B1E841A20F7C50028BE25 /* TSClassroomViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSClassroomViewController.h; sourceTree = "<group>"; };
+		975B1E851A20F7C50028BE25 /* TSClassroomViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSClassroomViewController.m; sourceTree = "<group>"; };
+		975B1E871A20F7D40028BE25 /* TSInboxViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSInboxViewController.h; sourceTree = "<group>"; };
+		975B1E881A20F7D40028BE25 /* TSInboxViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSInboxViewController.m; sourceTree = "<group>"; };
+		975B1E8B1A2118D00028BE25 /* TSClassTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSClassTableViewCell.h; sourceTree = "<group>"; };
+		975B1E8C1A2118D00028BE25 /* TSClassTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSClassTableViewCell.m; sourceTree = "<group>"; };
+		975B1E8E1A211A380028BE25 /* TSClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSClass.h; sourceTree = "<group>"; };
+		975B1E8F1A211A380028BE25 /* TSClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSClass.m; sourceTree = "<group>"; };
+		975B1E921A2133030028BE25 /* TSTabBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSTabBarViewController.h; sourceTree = "<group>"; };
+		975B1E931A2133030028BE25 /* TSTabBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSTabBarViewController.m; sourceTree = "<group>"; };
+		975B1E961A2133C10028BE25 /* Data.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Data.h; sourceTree = "<group>"; };
+		975B1E971A2133C10028BE25 /* Data.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Data.m; sourceTree = "<group>"; };
 		97C439B81A206A3D00DD9B1B /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 		97C439B91A206A3D00DD9B1B /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		97C439BA1A206A3D00DD9B1B /* ParseFacebookUtils.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseFacebookUtils.framework; sourceTree = "<group>"; };
@@ -117,6 +135,11 @@
 		971687D71A1F1BCA00FE98FC /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				975B1E911A2132D10028BE25 /* Tab Controllers */,
+				975B1E821A20F7AE0028BE25 /* Classrooms Controllers */,
+				975B1E831A20F7AE0028BE25 /* Inbox Controllers */,
+				975B1E801A20F5CD0028BE25 /* Parent Controllers */,
+				975B1E811A20F5CD0028BE25 /* Teacher Controllers */,
 				975B1E781A2070070028BE25 /* Sign In Controllers */,
 				975B1E7B1A2070070028BE25 /* Sign Up Controllers */,
 			);
@@ -130,6 +153,8 @@
 				971687DF1A1F1C2B00FE98FC /* TSTeacher.m */,
 				971687E11A1F1C3900FE98FC /* TSParent.h */,
 				971687E21A1F1C3900FE98FC /* TSParent.m */,
+				975B1E8E1A211A380028BE25 /* TSClass.h */,
+				975B1E8F1A211A380028BE25 /* TSClass.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -144,6 +169,7 @@
 		971687DC1A1F1BCA00FE98FC /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				975B1E8A1A2118B50028BE25 /* Classes Table View Cells */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -192,6 +218,7 @@
 		973A4BD41A1F174D0039175A /* TextSlate */ = {
 			isa = PBXGroup;
 			children = (
+				975B1E951A2133B10028BE25 /* Data */,
 				971687E41A1F822D00FE98FC /* Utils */,
 				971687D71A1F1BCA00FE98FC /* Controllers */,
 				971687DA1A1F1BCA00FE98FC /* Models */,
@@ -249,6 +276,65 @@
 				975B1E7D1A2070070028BE25 /* TSSignUpViewController.m */,
 			);
 			path = "Sign Up Controllers";
+			sourceTree = "<group>";
+		};
+		975B1E801A20F5CD0028BE25 /* Parent Controllers */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "Parent Controllers";
+			sourceTree = "<group>";
+		};
+		975B1E811A20F5CD0028BE25 /* Teacher Controllers */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "Teacher Controllers";
+			sourceTree = "<group>";
+		};
+		975B1E821A20F7AE0028BE25 /* Classrooms Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				975B1E841A20F7C50028BE25 /* TSClassroomViewController.h */,
+				975B1E851A20F7C50028BE25 /* TSClassroomViewController.m */,
+			);
+			path = "Classrooms Controllers";
+			sourceTree = "<group>";
+		};
+		975B1E831A20F7AE0028BE25 /* Inbox Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				975B1E871A20F7D40028BE25 /* TSInboxViewController.h */,
+				975B1E881A20F7D40028BE25 /* TSInboxViewController.m */,
+			);
+			path = "Inbox Controllers";
+			sourceTree = "<group>";
+		};
+		975B1E8A1A2118B50028BE25 /* Classes Table View Cells */ = {
+			isa = PBXGroup;
+			children = (
+				975B1E8B1A2118D00028BE25 /* TSClassTableViewCell.h */,
+				975B1E8C1A2118D00028BE25 /* TSClassTableViewCell.m */,
+			);
+			path = "Classes Table View Cells";
+			sourceTree = "<group>";
+		};
+		975B1E911A2132D10028BE25 /* Tab Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				975B1E921A2133030028BE25 /* TSTabBarViewController.h */,
+				975B1E931A2133030028BE25 /* TSTabBarViewController.m */,
+			);
+			path = "Tab Controllers";
+			sourceTree = "<group>";
+		};
+		975B1E951A2133B10028BE25 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				975B1E961A2133C10028BE25 /* Data.h */,
+				975B1E971A2133C10028BE25 /* Data.m */,
+			);
+			path = Data;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -351,13 +437,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				975B1E981A2133C10028BE25 /* Data.m in Sources */,
 				973A4BDB1A1F174D0039175A /* AppDelegate.m in Sources */,
 				975B1E7F1A2070070028BE25 /* TSSignUpViewController.m in Sources */,
 				975B1E7E1A2070070028BE25 /* TSSignInViewController.m in Sources */,
 				971687E01A1F1C2B00FE98FC /* TSTeacher.m in Sources */,
 				971687E31A1F1C3900FE98FC /* TSParent.m in Sources */,
+				975B1E901A211A380028BE25 /* TSClass.m in Sources */,
+				975B1E8D1A2118D00028BE25 /* TSClassTableViewCell.m in Sources */,
+				975B1E891A20F7D40028BE25 /* TSInboxViewController.m in Sources */,
 				971687E71A1F823900FE98FC /* TSUtils.m in Sources */,
+				975B1E941A2133030028BE25 /* TSTabBarViewController.m in Sources */,
 				973A4BD81A1F174D0039175A /* main.m in Sources */,
+				975B1E861A20F7C50028BE25 /* TSClassroomViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
