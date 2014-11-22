@@ -7,11 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		971687DD1A1F1BCA00FE98FC /* TSSignInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 971687D91A1F1BCA00FE98FC /* TSSignInViewController.m */; };
 		971687E01A1F1C2B00FE98FC /* TSTeacher.m in Sources */ = {isa = PBXBuildFile; fileRef = 971687DF1A1F1C2B00FE98FC /* TSTeacher.m */; };
 		971687E31A1F1C3900FE98FC /* TSParent.m in Sources */ = {isa = PBXBuildFile; fileRef = 971687E21A1F1C3900FE98FC /* TSParent.m */; };
 		971687E71A1F823900FE98FC /* TSUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 971687E61A1F823900FE98FC /* TSUtils.m */; };
-		971687EC1A2057C800FE98FC /* TSSignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 971687EB1A2057C800FE98FC /* TSSignUpViewController.m */; };
 		971688131A20656100FE98FC /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 971688091A20656100FE98FC /* AudioToolbox.framework */; };
 		971688141A20656100FE98FC /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9716880A1A20656100FE98FC /* CFNetwork.framework */; };
 		971688151A20656100FE98FC /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9716880B1A20656100FE98FC /* CoreGraphics.framework */; };
@@ -28,6 +26,8 @@
 		973A4BE31A1F174D0039175A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 973A4BE21A1F174D0039175A /* Images.xcassets */; };
 		973A4BE61A1F174D0039175A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 973A4BE41A1F174D0039175A /* LaunchScreen.xib */; };
 		973A4BF21A1F174D0039175A /* TextSlateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 973A4BF11A1F174D0039175A /* TextSlateTests.m */; };
+		975B1E7E1A2070070028BE25 /* TSSignInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 975B1E7A1A2070070028BE25 /* TSSignInViewController.m */; };
+		975B1E7F1A2070070028BE25 /* TSSignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 975B1E7D1A2070070028BE25 /* TSSignUpViewController.m */; };
 		97C439BC1A206A3D00DD9B1B /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97C439B81A206A3D00DD9B1B /* Bolts.framework */; };
 		97C439BD1A206A3D00DD9B1B /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97C439B91A206A3D00DD9B1B /* Parse.framework */; };
 		97C439BE1A206A3D00DD9B1B /* ParseFacebookUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97C439BA1A206A3D00DD9B1B /* ParseFacebookUtils.framework */; };
@@ -45,16 +45,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		971687D81A1F1BCA00FE98FC /* TSSignInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSSignInViewController.h; sourceTree = "<group>"; };
-		971687D91A1F1BCA00FE98FC /* TSSignInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSSignInViewController.m; sourceTree = "<group>"; };
 		971687DE1A1F1C2B00FE98FC /* TSTeacher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSTeacher.h; sourceTree = "<group>"; };
 		971687DF1A1F1C2B00FE98FC /* TSTeacher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSTeacher.m; sourceTree = "<group>"; };
 		971687E11A1F1C3900FE98FC /* TSParent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSParent.h; sourceTree = "<group>"; };
 		971687E21A1F1C3900FE98FC /* TSParent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSParent.m; sourceTree = "<group>"; };
 		971687E51A1F823900FE98FC /* TSUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSUtils.h; sourceTree = "<group>"; };
 		971687E61A1F823900FE98FC /* TSUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSUtils.m; sourceTree = "<group>"; };
-		971687EA1A2057C800FE98FC /* TSSignUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSSignUpViewController.h; sourceTree = "<group>"; };
-		971687EB1A2057C800FE98FC /* TSSignUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSSignUpViewController.m; sourceTree = "<group>"; };
 		971688091A20656100FE98FC /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		9716880A1A20656100FE98FC /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		9716880B1A20656100FE98FC /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -76,6 +72,10 @@
 		973A4BEB1A1F174D0039175A /* TextSlateTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TextSlateTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		973A4BF01A1F174D0039175A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		973A4BF11A1F174D0039175A /* TextSlateTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TextSlateTests.m; sourceTree = "<group>"; };
+		975B1E791A2070070028BE25 /* TSSignInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSSignInViewController.h; sourceTree = "<group>"; };
+		975B1E7A1A2070070028BE25 /* TSSignInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSSignInViewController.m; sourceTree = "<group>"; };
+		975B1E7C1A2070070028BE25 /* TSSignUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSSignUpViewController.h; sourceTree = "<group>"; };
+		975B1E7D1A2070070028BE25 /* TSSignUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSSignUpViewController.m; sourceTree = "<group>"; };
 		97C439B81A206A3D00DD9B1B /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 		97C439B91A206A3D00DD9B1B /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		97C439BA1A206A3D00DD9B1B /* ParseFacebookUtils.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseFacebookUtils.framework; sourceTree = "<group>"; };
@@ -117,10 +117,8 @@
 		971687D71A1F1BCA00FE98FC /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				971687D81A1F1BCA00FE98FC /* TSSignInViewController.h */,
-				971687D91A1F1BCA00FE98FC /* TSSignInViewController.m */,
-				971687EA1A2057C800FE98FC /* TSSignUpViewController.h */,
-				971687EB1A2057C800FE98FC /* TSSignUpViewController.m */,
+				975B1E781A2070070028BE25 /* Sign In Controllers */,
+				975B1E7B1A2070070028BE25 /* Sign Up Controllers */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -235,6 +233,24 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		975B1E781A2070070028BE25 /* Sign In Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				975B1E791A2070070028BE25 /* TSSignInViewController.h */,
+				975B1E7A1A2070070028BE25 /* TSSignInViewController.m */,
+			);
+			path = "Sign In Controllers";
+			sourceTree = "<group>";
+		};
+		975B1E7B1A2070070028BE25 /* Sign Up Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				975B1E7C1A2070070028BE25 /* TSSignUpViewController.h */,
+				975B1E7D1A2070070028BE25 /* TSSignUpViewController.m */,
+			);
+			path = "Sign Up Controllers";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -336,9 +352,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				973A4BDB1A1F174D0039175A /* AppDelegate.m in Sources */,
-				971687EC1A2057C800FE98FC /* TSSignUpViewController.m in Sources */,
+				975B1E7F1A2070070028BE25 /* TSSignUpViewController.m in Sources */,
+				975B1E7E1A2070070028BE25 /* TSSignInViewController.m in Sources */,
 				971687E01A1F1C2B00FE98FC /* TSTeacher.m in Sources */,
-				971687DD1A1F1BCA00FE98FC /* TSSignInViewController.m in Sources */,
 				971687E31A1F1C3900FE98FC /* TSParent.m in Sources */,
 				971687E71A1F823900FE98FC /* TSUtils.m in Sources */,
 				973A4BD81A1F174D0039175A /* main.m in Sources */,

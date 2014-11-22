@@ -37,7 +37,7 @@
         if (!error) {
             NSLog(@"Succesfully Logged in");
         } else {
-            NSLog([error localizedDescription]);
+            NSLog(@"got error %@",[error localizedDescription]);
         }
     }];
 }
