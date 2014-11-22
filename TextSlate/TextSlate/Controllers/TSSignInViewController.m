@@ -8,6 +8,7 @@
 
 #import "TSSignInViewController.h"
 #import "TSUtils.h"
+#import <Parse/Parse.h>
 
 @interface TSSignInViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *emailTextField;
@@ -32,7 +33,13 @@
 }
 
 - (IBAction)signInClicked:(UIButton *)sender {
-    
+    [PFUser logInWithUsernameInBackground:_emailTextField.text password:_passwordTextField.text block:^(PFUser *user, NSError *error) {
+        if (!error) {
+            NSLog(@"Succesfully Logged in");
+        } else {
+            NSLog([error localizedDescription]);
+        }
+    }];
 }
 
 - (IBAction)signUpClicked:(UIButton *)sender {
@@ -41,4 +48,5 @@
     
     [self presentViewController:signUpController animated:YES completion:nil];
 }
+
 @end
