@@ -7,6 +7,10 @@
 //
 
 #import "TSTabBarViewController.h"
+#import "TSCreateClassroomViewController.h"
+#import "TSSignInViewController.h"
+
+#import <Parse/Parse.h>
 
 @interface TSTabBarViewController ()
 
@@ -17,6 +21,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    if (![PFUser currentUser]) {
+        TSSignInViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"signInNavigationController"];
+        [self presentViewController:vc animated:NO completion:nil];
+    } else {
+        
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -35,7 +46,8 @@
 */
 
 - (IBAction)addClassClicked:(UIBarButtonItem *)sender {
-    
+    TSCreateClassroomViewController *createClassroomViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"createNewClassNavigationController"];
+    [self presentViewController:createClassroomViewController animated:YES completion:nil];
 }
 
 @end

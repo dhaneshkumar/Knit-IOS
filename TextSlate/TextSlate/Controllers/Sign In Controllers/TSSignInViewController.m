@@ -36,6 +36,9 @@
     [PFUser logInWithUsernameInBackground:_emailTextField.text password:_passwordTextField.text block:^(PFUser *user, NSError *error) {
         if (!error) {
             NSLog(@"Succesfully Logged in");
+            if (self.presentingViewController) {
+                [self dismissViewControllerAnimated:YES completion:nil];
+            }
         } else {
             NSLog(@"got error %@",[error localizedDescription]);
         }

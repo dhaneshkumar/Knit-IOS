@@ -9,7 +9,7 @@
         <!--Navigation Controller-->
         <scene sceneID="FnL-m0-aPX">
             <objects>
-                <navigationController id="4rF-ZB-hOG" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="signInNavigationController" id="4rF-ZB-hOG" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="M0c-Ux-iSd">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -142,6 +142,89 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XkB-KM-9sW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="762" y="310.5"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="4X9-Ct-ZqL">
+            <objects>
+                <navigationController storyboardIdentifier="createNewClassNavigationController" id="lvc-Ej-Mha" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="hI9-Tj-Wy0">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="aJn-Q1-P7l" kind="relationship" relationship="rootViewController" id="A60-hf-FW8"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="4Bg-RS-ISY" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1626" y="604.5"/>
+        </scene>
+        <!--Create Classroom View Controller-->
+        <scene sceneID="8K5-LC-669">
+            <objects>
+                <viewController id="aJn-Q1-P7l" customClass="TSCreateClassroomViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Rh6-tU-2aY"/>
+                        <viewControllerLayoutGuide type="bottom" id="10E-iN-eiu"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Js5-Uf-6aP">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="aaP-OU-Ebb">
+                                <rect key="frame" x="0.0" y="-30" width="97" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <variation key="heightClass=regular" fixedFrame="YES">
+                                    <rect key="frame" x="16" y="72" width="568" height="30"/>
+                                </variation>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="WmQ-qW-Qzz">
+                                <rect key="frame" x="0.0" y="-30" width="97" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <variation key="heightClass=regular" fixedFrame="YES">
+                                    <rect key="frame" x="16" y="110" width="568" height="30"/>
+                                </variation>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dX5-Eq-SEZ">
+                                <rect key="frame" x="-23" y="-15" width="46" height="30"/>
+                                <state key="normal" title="Create new class">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <variation key="heightClass=regular" fixedFrame="YES">
+                                    <rect key="frame" x="241" y="148" width="118" height="30"/>
+                                </variation>
+                                <connections>
+                                    <action selector="createNewClassClicked:" destination="aJn-Q1-P7l" eventType="touchUpInside" id="00k-YY-aVf"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <variation key="default">
+                            <mask key="subviews">
+                                <exclude reference="aaP-OU-Ebb"/>
+                                <exclude reference="WmQ-qW-Qzz"/>
+                                <exclude reference="dX5-Eq-SEZ"/>
+                            </mask>
+                        </variation>
+                        <variation key="heightClass=regular">
+                            <mask key="subviews">
+                                <include reference="aaP-OU-Ebb"/>
+                                <include reference="WmQ-qW-Qzz"/>
+                                <include reference="dX5-Eq-SEZ"/>
+                            </mask>
+                        </variation>
+                    </view>
+                    <navigationItem key="navigationItem" id="vUV-Ak-8AC"/>
+                    <connections>
+                        <outlet property="classCodeTextField" destination="WmQ-qW-Qzz" id="oeu-hu-bxo"/>
+                        <outlet property="classNameTextField" destination="aaP-OU-Ebb" id="POw-cK-Mrs"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gFy-Wl-6QN" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2386" y="604.5"/>
         </scene>
         <!--Sign Up View Controller-->
         <scene sceneID="i4d-Or-Ji0">
@@ -302,6 +385,7 @@
                         <viewControllerLayoutGuide type="bottom" id="MZL-1t-seL"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="bNc-mu-ndc">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -320,6 +404,7 @@
                         <viewControllerLayoutGuide type="bottom" id="8qb-mv-RC1"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="x0A-Xi-Yid">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="7Ob-Te-rZI">
@@ -392,7 +477,7 @@
                                     </tableViewCell>
                                 </prototypes>
                                 <variation key="heightClass=regular" fixedFrame="YES">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="864"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="0.0" height="0.0"/>
                                 </variation>
                                 <connections>
                                     <outlet property="dataSource" destination="nk7-a0-I6n" id="tUY-tK-C1z"/>

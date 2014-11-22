@@ -8,6 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
+typedef void (^successBlock)(id object);
+typedef void (^errorBlock)(NSError *error);
+
 @interface Data : NSObject
+
++(void) createNewClassWithClassName:(NSString*)className classCode:(NSString*)classCode successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock;
 
 @end

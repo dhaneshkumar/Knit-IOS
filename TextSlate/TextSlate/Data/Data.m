@@ -7,7 +7,19 @@
 //
 
 #import "Data.h"
+#import <Parse/Parse.h>
 
 @implementation Data
+
++(void) createNewClassWithClassName:(NSString *)className classCode:(NSString *)classCode successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
+    [PFCloud callFunctionInBackground:@"createnewclass" withParameters:@{@"classname" : className, @"classcode" : classCode} block:^(id object, NSError *error) {
+        if (error) {
+            NSLog(@"error : %@", [error localizedDescription]);
+            errorBlock(error);
+        } else {
+            successBlock(object);
+        }
+    }];
+}
 
 @end
