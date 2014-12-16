@@ -22,4 +22,19 @@
     }];
 }
 
++(void) getClassRooms:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
+    [PFUser currentUser];
+}
+
++(void) getInboxDetails:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
+    [PFCloud callFunctionInBackground:@"showallclassesmessages" withParameters:nil block:^(id object, NSError *error) {
+        if (error) {
+            NSLog(@"error : %@", [error localizedDescription]);
+            errorBlock(error);
+        } else {
+            successBlock(object);
+        }
+    }];
+}
+
 @end

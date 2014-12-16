@@ -39,9 +39,14 @@
 
 - (IBAction)createNewClassClicked:(UIButton *)sender {
     [Data createNewClassWithClassName:_classNameTextField.text classCode:_classCodeTextField.text successBlock:^(id object) {
-        NSLog(@"%@", [object description]);
+        UIAlertView *successAlertView = [[UIAlertView alloc] initWithTitle:@"Text Slate" message:[NSString stringWithFormat:@"Successfully create Class: %@",_classNameTextField.text] delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+        [self dismissViewControllerAnimated:YES completion:nil];
+        [successAlertView show];
     } errorBlock:^(NSError *error) {
-#warning Show the Alert View
+        UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Text Slate" message:@"Error occured creating class. Please try again later" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+        [errorAlertView show];
     }];
 }
+
+
 @end

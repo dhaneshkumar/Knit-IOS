@@ -189,20 +189,7 @@
 		973A4BC91A1F174D0039175A = {
 			isa = PBXGroup;
 			children = (
-				97C439B81A206A3D00DD9B1B /* Bolts.framework */,
-				97C439B91A206A3D00DD9B1B /* Parse.framework */,
-				97C439BA1A206A3D00DD9B1B /* ParseFacebookUtils.framework */,
-				97C439BB1A206A3D00DD9B1B /* ParseUI.framework */,
-				971688091A20656100FE98FC /* AudioToolbox.framework */,
-				9716880A1A20656100FE98FC /* CFNetwork.framework */,
-				9716880B1A20656100FE98FC /* CoreGraphics.framework */,
-				9716880C1A20656100FE98FC /* CoreLocation.framework */,
-				9716880D1A20656100FE98FC /* libz.dylib */,
-				9716880E1A20656100FE98FC /* MobileCoreServices.framework */,
-				9716880F1A20656100FE98FC /* QuartzCore.framework */,
-				971688101A20656100FE98FC /* Security.framework */,
-				971688111A20656100FE98FC /* StoreKit.framework */,
-				971688121A20656100FE98FC /* SystemConfiguration.framework */,
+				9786AE491A3F47E300801838 /* Frameworks */,
 				973A4BD41A1F174D0039175A /* TextSlate */,
 				973A4BEE1A1F174D0039175A /* TextSlateTests */,
 				973A4BD31A1F174D0039175A /* Products */,
@@ -340,6 +327,27 @@
 				975B1E971A2133C10028BE25 /* Data.m */,
 			);
 			path = Data;
+			sourceTree = "<group>";
+		};
+		9786AE491A3F47E300801838 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				97C439B81A206A3D00DD9B1B /* Bolts.framework */,
+				97C439B91A206A3D00DD9B1B /* Parse.framework */,
+				97C439BA1A206A3D00DD9B1B /* ParseFacebookUtils.framework */,
+				97C439BB1A206A3D00DD9B1B /* ParseUI.framework */,
+				971688091A20656100FE98FC /* AudioToolbox.framework */,
+				9716880A1A20656100FE98FC /* CFNetwork.framework */,
+				9716880B1A20656100FE98FC /* CoreGraphics.framework */,
+				9716880C1A20656100FE98FC /* CoreLocation.framework */,
+				9716880D1A20656100FE98FC /* libz.dylib */,
+				9716880E1A20656100FE98FC /* MobileCoreServices.framework */,
+				9716880F1A20656100FE98FC /* QuartzCore.framework */,
+				971688101A20656100FE98FC /* Security.framework */,
+				971688111A20656100FE98FC /* StoreKit.framework */,
+				971688121A20656100FE98FC /* SystemConfiguration.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
