@@ -7,6 +7,7 @@
 //
 
 #import "TSInboxViewController.h"
+#import "Data.h"
 
 @interface TSInboxViewController ()
 
@@ -18,7 +19,11 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    
+    [Data getInboxDetails:^(id object) {
+        
+    } errorBlock:^(NSError *error) {
+        
+    }];
 }
 
 - (void)didReceiveMemoryWarning {

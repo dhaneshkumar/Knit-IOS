@@ -9,10 +9,15 @@
 #import "TSSignUpViewController.h"
 #import <Parse/Parse.h>
 
-@interface TSSignUpViewController ()
+@interface TSSignUpViewController () <UIAlertViewDelegate>
+
+@property (weak, nonatomic) IBOutlet UITextField *nameTextField;
+@property (weak, nonatomic) IBOutlet UITextField *phoneNumberTextField;
 @property (weak, nonatomic) IBOutlet UITextField *emailTextField;
 @property (weak, nonatomic) IBOutlet UITextField *passwordTextField;
 @property (weak, nonatomic) IBOutlet UITextField *confirmPasswordTextField;
+
+@property (nonatomic) bool isParent;
 
 @end
 
@@ -26,6 +31,21 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+-(void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    UIAlertView *selectionAlertView = [[UIAlertView alloc] initWithTitle:@"Text Slate - Role" message:@"Please select your profession" delegate:self cancelButtonTitle:@"CANCEL" otherButtonTitles:@"PARENT", @"TEACHER", nil];
+    [selectionAlertView show];
+}
+
+-(void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 1) {
+        _isParent = true;
+    } else if (buttonIndex == 2) {
+        _isParent = false;
+    }
 }
 
 /*
@@ -53,6 +73,10 @@
     user.username = _emailTextField.text;
     user.password = _passwordTextField.text;
     user.email = _emailTextField.text;
+    
+    [user setObject:_phoneNumberTextField.text forKey:@"phone"];
+    [user setObject:_nameTextField.text forKey:@"name"];
+    [user setObject:_isParent ? @"parent" : @"teacher" forKey:@"role"];
     
     [user signUpInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (!error) {

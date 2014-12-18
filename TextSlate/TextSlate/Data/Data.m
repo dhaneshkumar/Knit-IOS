@@ -12,7 +12,7 @@
 @implementation Data
 
 +(void) createNewClassWithClassName:(NSString *)className classCode:(NSString *)classCode successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
-    [PFCloud callFunctionInBackground:@"createnewclass" withParameters:@{@"classname" : className, @"classcode" : classCode} block:^(id object, NSError *error) {
+    [PFCloud callFunctionInBackground:@"createnewclass2" withParameters:@{@"classname" : className, @"classcode" : classCode} block:^(id object, NSError *error) {
         if (error) {
             NSLog(@"error : %@", [error localizedDescription]);
             errorBlock(error);
@@ -27,7 +27,7 @@
 }
 
 +(void) getInboxDetails:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
-    [PFCloud callFunctionInBackground:@"showallclassesmessages" withParameters:nil block:^(id object, NSError *error) {
+    [PFCloud callFunctionInBackground:@"showallclassesmessages" withParameters:@{} block:^(id object, NSError *error) {
         if (error) {
             NSLog(@"error : %@", [error localizedDescription]);
             errorBlock(error);
