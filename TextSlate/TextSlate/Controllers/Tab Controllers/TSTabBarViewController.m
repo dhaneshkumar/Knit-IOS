@@ -12,7 +12,9 @@
 
 #import <Parse/Parse.h>
 
-@interface TSTabBarViewController ()
+#define classJoinAlertTag 1001
+
+@interface TSTabBarViewController () <UIAlertViewDelegate>
 
 @end
 
@@ -28,6 +30,14 @@
     } else {
         
     }
+    
+    UIBarButtonItem *joinBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Join" style:UIBarButtonItemStylePlain target:self action:@selector(joinClassBarButtonItemClicked)];
+    [self.navigationItem setRightBarButtonItems:@[self.navigationItem.rightBarButtonItem, joinBarButtonItem]];
+}
+
+-(void) joinClassBarButtonItemClicked {
+    UINavigationController *joinNewClassNavigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"joinNewClassViewController"];
+    [self presentViewController:joinNewClassNavigationController animated:YES completion:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -46,8 +56,19 @@
 */
 
 - (IBAction)addClassClicked:(UIBarButtonItem *)sender {
-    TSCreateClassroomViewController *createClassroomViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"createNewClassNavigationController"];
-    [self presentViewController:createClassroomViewController animated:YES completion:nil];
+    UINavigationController *createClassroomNavigationViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"createNewClassNavigationController"];
+    [self presentViewController:createClassroomNavigationViewController animated:YES completion:nil];
+}
+
+#pragma mark - Alert View Delegate
+-(void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (alertView.tag == classJoinAlertTag) {
+        if (buttonIndex == 0) {
+            // Cancel pressed. Screw it.
+        } else if (buttonIndex == 1) {
+            // Have to start searching for this class.
+        }
+    }
 }
 
 @end

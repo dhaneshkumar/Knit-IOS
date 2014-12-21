@@ -48,5 +48,10 @@
     }];
 }
 
+- (IBAction)cancelClicked:(UIBarButtonItem *)sender {
+    if (self.presentingViewController) {
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }
+}
 
 @end

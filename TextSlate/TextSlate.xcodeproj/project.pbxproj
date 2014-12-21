@@ -35,6 +35,7 @@
 		975B1E941A2133030028BE25 /* TSTabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 975B1E931A2133030028BE25 /* TSTabBarViewController.m */; };
 		975B1E981A2133C10028BE25 /* Data.m in Sources */ = {isa = PBXBuildFile; fileRef = 975B1E971A2133C10028BE25 /* Data.m */; };
 		975B1E9B1A213A130028BE25 /* TSCreateClassroomViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 975B1E9A1A213A130028BE25 /* TSCreateClassroomViewController.m */; };
+		9786AE4C1A473E2B00801838 /* TSJoinNewClassViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9786AE4B1A473E2B00801838 /* TSJoinNewClassViewController.m */; };
 		97C439BC1A206A3D00DD9B1B /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97C439B81A206A3D00DD9B1B /* Bolts.framework */; };
 		97C439BD1A206A3D00DD9B1B /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97C439B91A206A3D00DD9B1B /* Parse.framework */; };
 		97C439BE1A206A3D00DD9B1B /* ParseFacebookUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97C439BA1A206A3D00DD9B1B /* ParseFacebookUtils.framework */; };
@@ -97,6 +98,8 @@
 		975B1E971A2133C10028BE25 /* Data.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Data.m; sourceTree = "<group>"; };
 		975B1E991A213A130028BE25 /* TSCreateClassroomViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSCreateClassroomViewController.h; sourceTree = "<group>"; };
 		975B1E9A1A213A130028BE25 /* TSCreateClassroomViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSCreateClassroomViewController.m; sourceTree = "<group>"; };
+		9786AE4A1A473E2B00801838 /* TSJoinNewClassViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSJoinNewClassViewController.h; sourceTree = "<group>"; };
+		9786AE4B1A473E2B00801838 /* TSJoinNewClassViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSJoinNewClassViewController.m; sourceTree = "<group>"; };
 		97C439B81A206A3D00DD9B1B /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 		97C439B91A206A3D00DD9B1B /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		97C439BA1A206A3D00DD9B1B /* ParseFacebookUtils.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseFacebookUtils.framework; sourceTree = "<group>"; };
@@ -289,6 +292,8 @@
 				975B1E851A20F7C50028BE25 /* TSClassroomViewController.m */,
 				975B1E991A213A130028BE25 /* TSCreateClassroomViewController.h */,
 				975B1E9A1A213A130028BE25 /* TSCreateClassroomViewController.m */,
+				9786AE4A1A473E2B00801838 /* TSJoinNewClassViewController.h */,
+				9786AE4B1A473E2B00801838 /* TSJoinNewClassViewController.m */,
 			);
 			path = "Classrooms Controllers";
 			sourceTree = "<group>";
@@ -464,6 +469,7 @@
 				975B1E941A2133030028BE25 /* TSTabBarViewController.m in Sources */,
 				973A4BD81A1F174D0039175A /* main.m in Sources */,
 				975B1E861A20F7C50028BE25 /* TSClassroomViewController.m in Sources */,
+				9786AE4C1A473E2B00801838 /* TSJoinNewClassViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

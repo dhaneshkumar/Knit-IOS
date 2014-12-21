@@ -37,4 +37,15 @@
     }];
 }
 
++(void) joinNewClass:(NSString *)classCode childName:(NSString *)childName successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
+    [PFCloud callFunctionInBackground:@"joinnewclass" withParameters:@{@"classcode" : classCode, @"childName" : childName} block:^(id object, NSError *error) {
+        if (error) {
+            NSLog(@"error : %@", [error localizedDescription]);
+            errorBlock(error);
+        } else {
+            successBlock(object);
+        }
+    }];
+}
+
 @end
