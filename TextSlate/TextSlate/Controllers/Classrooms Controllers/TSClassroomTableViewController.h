@@ -1,5 +1,5 @@
 //
-//  TSClassTableViewCell.h
+//  TSClassroomViewController.h
 //  TextSlate
 //
 //  Created by Ravi Vooda on 11/22/14.
@@ -7,10 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "TSClass.h"
 
-@interface TSClassTableViewCell : UITableViewCell
-
-@property (strong, nonatomic) TSClass *class;
+@interface TSClassroomTableViewController : UITableViewController
 
 @end

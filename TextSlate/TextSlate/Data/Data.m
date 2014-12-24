@@ -23,7 +23,16 @@
 }
 
 +(void) getClassRooms:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
-    [PFUser currentUser];
+    [[PFUser currentUser] fetchInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+        if (error) {
+            errorBlock(error);
+        } else {
+            NSArray *codeGroup = [[PFUser currentUser] objectForKey:@"Created_groups"];
+            if (codeGroup.count > 0) {
+                successBlock([codeGroup objectAtIndex:0]);
+            }
+        }
+    }];
 }
 
 +(void) getInboxDetails:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {

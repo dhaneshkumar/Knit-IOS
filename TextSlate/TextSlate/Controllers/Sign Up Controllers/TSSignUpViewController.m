@@ -81,6 +81,9 @@
     [user signUpInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (!error) {
             NSLog(@"Sign up successfull");
+            if (self.presentingViewController) {
+                [self dismissViewControllerAnimated:YES completion:nil];
+            }
         } else {
             NSLog(@"Error is: %@", [error localizedDescription]);
         }

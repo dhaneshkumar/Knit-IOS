@@ -26,6 +26,16 @@
     }];
 }
 
+-(void) viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    [Data getInboxDetails:^(id object) {
+        
+    } errorBlock:^(NSError *error) {
+        
+    }];
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
