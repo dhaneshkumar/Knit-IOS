@@ -404,6 +404,7 @@
 				TargetAttributes = {
 					973A4BD11A1F174D0039175A = {
 						CreatedOnToolsVersion = 6.1;
+						DevelopmentTeam = 89J88EWMRD;
 					};
 					973A4BEA1A1F174D0039175A = {
 						CreatedOnToolsVersion = 6.1;
@@ -591,6 +592,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/TextSlate/External",
@@ -612,6 +614,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/TextSlate/External",

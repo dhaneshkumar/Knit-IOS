@@ -52,4 +52,8 @@
     [self presentViewController:signUpController animated:YES completion:nil];
 }
 
+- (IBAction)tappedOutside:(UITapGestureRecognizer *)sender {
+    [_emailTextField resignFirstResponder];
+    [_passwordTextField resignFirstResponder];
+}
 @end

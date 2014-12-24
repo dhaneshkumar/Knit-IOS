@@ -86,4 +86,12 @@
         }
     }];
 }
+
+- (IBAction)tappedOutside:(UITapGestureRecognizer *)sender {
+    [_nameTextField resignFirstResponder];
+    [_phoneNumberTextField resignFirstResponder];
+    [_emailTextField resignFirstResponder];
+    [_passwordTextField resignFirstResponder];
+    [_confirmPasswordTextField resignFirstResponder];
+}
 @end

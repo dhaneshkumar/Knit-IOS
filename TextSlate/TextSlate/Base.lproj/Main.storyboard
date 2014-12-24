@@ -20,7 +20,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="f7x-n1-dt1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-14" y="311"/>
+            <point key="canvasLocation" x="-148" y="-97.5"/>
         </scene>
         <!--Sign In View Controller-->
         <scene sceneID="poc-ZH-6pJ">
@@ -66,6 +66,7 @@
                             </button>
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="cx0-IW-83X" firstAttribute="centerX" secondItem="U2T-wP-ld8" secondAttribute="centerX" id="0rd-fG-nNn"/>
                             <constraint firstItem="5f6-dT-Jzl" firstAttribute="leading" secondItem="aso-FF-jzp" secondAttribute="leadingMargin" id="Ce4-N9-Vzc"/>
@@ -134,6 +135,9 @@
                                 <include reference="rBb-0m-sbS"/>
                             </mask>
                         </variation>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="lMs-VV-uZv" appends="YES" id="CY2-9L-T65"/>
+                        </connections>
                     </view>
                     <navigationItem key="navigationItem" id="zGk-RC-auA"/>
                     <connections>
@@ -144,8 +148,13 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XkB-KM-9sW" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="lMs-VV-uZv">
+                    <connections>
+                        <action selector="tappedOutside:" destination="kmz-vV-waR" id="KGK-5P-cKx"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="762" y="310.5"/>
+            <point key="canvasLocation" x="497" y="-97.5"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="4X9-Ct-ZqL">
@@ -386,6 +395,7 @@
                             </button>
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="k8d-17-yJy" firstAttribute="leading" secondItem="VZe-n1-nTb" secondAttribute="leadingMargin" id="16d-wr-Vt2"/>
                             <constraint firstItem="85G-aH-ggJ" firstAttribute="trailing" secondItem="k8d-17-yJy" secondAttribute="trailing" id="2EZ-sA-sq5"/>
@@ -499,6 +509,9 @@
                                 <include reference="M7N-D1-fis"/>
                             </mask>
                         </variation>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="Har-G9-5dJ" appends="YES" id="6nh-Wm-kfM"/>
+                        </connections>
                     </view>
                     <navigationItem key="navigationItem" id="eTR-Mg-raL"/>
                     <connections>
@@ -510,6 +523,11 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4ae-LT-kpf" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="Har-G9-5dJ">
+                    <connections>
+                        <action selector="tappedOutside:" destination="Uvz-ky-B2V" id="lX4-Jr-96S"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="497" y="-801"/>
         </scene>
