@@ -7,8 +7,12 @@
 //
 
 #import "TSSendClassMessageViewController.h"
+#import "NSBubbleData.h"
 
 @interface TSSendClassMessageViewController ()
+
+@property (strong, nonatomic) NSMutableArray *messagesArray;
+@property (weak, nonatomic) IBOutlet UIBubbleTableView *messagesTableView;
 
 @end
 
@@ -17,6 +21,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+}
+
+-(void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -33,5 +42,13 @@
     // Pass the selected object to the new view controller.
 }
 */
+
+-(NSInteger)rowsForBubbleTable:(UIBubbleTableView *)tableView {
+    return [_messagesArray count];
+}
+
+-(NSBubbleData*)bubbleTableView:(UIBubbleTableView *)tableView dataForRow:(NSInteger)row {
+    return [_messagesArray objectAtIndex:row];
+}
 
 @end

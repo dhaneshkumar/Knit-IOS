@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "UIBubbleTableViewDataSource.h"
 
-@interface TSSendClassMessageViewController : UIViewController
+@interface TSSendClassMessageViewController : UIViewController <UIBubbleTableViewDataSource>
+
+@property (strong, nonatomic) NSString *classCode;
 
 @end
