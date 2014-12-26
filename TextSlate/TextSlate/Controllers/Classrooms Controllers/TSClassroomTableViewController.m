@@ -11,6 +11,7 @@
 #import "Data.h"
 
 #import "TSClass.h"
+#import "TSUtils.h"
 
 @interface TSClassroomTableViewController ()
 
@@ -34,19 +35,21 @@
     [super viewDidAppear:animated];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [Data getClassRooms:^(id object) {
-            NSArray *classNames = (NSArray*) object;
-            if ([classNames count] <= 0) {
+            NSArray *classValues = (NSArray*) object;
+            /*if ([classValues count] <= 0) {
+                _classesArray = [[NSArray alloc] init];
                 return;
-            }
+            }*/
             NSMutableArray *classes = [[NSMutableArray alloc] init];
-            for (NSString *className in classNames) {
+            for (NSArray *classValue in classValues) {
                 
-                if (!className || [className isKindOfClass:[NSNull class]] || [className isEqualToString:@""]) {
+                if (classValue.count < 2) {
                     continue;
                 }
                 
                 TSClass *cl = [[TSClass alloc] init];
-                cl.name = className;
+                cl.name = [TSUtils safe_string:[classValue objectAtIndex:1]];
+                cl.code = [TSUtils safe_string:[classValue objectAtIndex:0]];
                 [classes addObject:cl];
             }
             _classesArray = [[NSArray alloc] initWithArray:classes];
@@ -82,6 +85,10 @@
     [cell setClassObject:_classesArray[indexPath.row]];
     
     return cell;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
 }
 
 @end

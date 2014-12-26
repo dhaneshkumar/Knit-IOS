@@ -28,9 +28,7 @@
             errorBlock(error);
         } else {
             NSArray *codeGroup = [[PFUser currentUser] objectForKey:@"Created_groups"];
-            if (codeGroup.count > 0) {
-                successBlock([codeGroup objectAtIndex:0]);
-            }
+            successBlock(codeGroup);
         }
     }];
 }

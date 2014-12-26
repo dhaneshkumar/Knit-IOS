@@ -13,4 +13,8 @@
 
 + (void) applyRoundedCorners:(UIButton*)button;
 
++(NSString *)safe_string:(id) object;
+
++(int)safe_int:(id) object;
+
 @end
