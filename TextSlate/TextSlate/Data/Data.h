@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 typedef void (^successBlock)(id object);
 typedef void (^errorBlock)(NSError *error);
@@ -19,5 +20,9 @@ typedef void (^errorBlock)(NSError *error);
 +(void) getInboxDetails:(successBlock)successBlock errorBlock:(errorBlock)errorBlock;
 
 +(void) joinNewClass:(NSString*)classCode childName:(NSString*)childName successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock;
+
++(void) getClassMessagesWithClassCode:(NSString*)classCode successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock;
+
++(void) sendMessageOnClass:(NSString*)classCode className:(NSString*)className message:(NSString*)message withImage:(UIImage*)image successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock;
 
 @end

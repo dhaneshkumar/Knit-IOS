@@ -88,7 +88,9 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
+    [self performSegueWithIdentifier:@"pushMessages" sender:self];
 }
+
+
 
 @end

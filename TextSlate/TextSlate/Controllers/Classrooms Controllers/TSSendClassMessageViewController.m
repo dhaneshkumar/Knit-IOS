@@ -8,12 +8,15 @@
 
 #import "TSSendClassMessageViewController.h"
 #import "NSBubbleData.h"
+#import "Data.h"
 
 @interface TSSendClassMessageViewController ()
 
 @property (strong, nonatomic) NSMutableArray *messagesArray;
 @property (weak, nonatomic) IBOutlet UIBubbleTableView *messagesTableView;
 
+@property (weak, nonatomic) IBOutlet UIView *messageInputView;
+@property (weak, nonatomic) IBOutlet UITextField *messageInputTextField;
 @end
 
 @implementation TSSendClassMessageViewController
@@ -21,11 +24,18 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWasShown:) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillBeHidden:) name:UIKeyboardWillHideNotification object:nil];
 }
 
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    
+    [Data getClassMessagesWithClassCode:_classCode successBlock:^(id object) {
+        
+    } errorBlock:^(NSError *error) {
+        
+    }];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -50,5 +60,46 @@
 -(NSBubbleData*)bubbleTableView:(UIBubbleTableView *)tableView dataForRow:(NSInteger)row {
     return [_messagesArray objectAtIndex:row];
 }
+
+- (IBAction)sendMessageClicked:(UIButton *)sender {
+    
+}
+
+
+
+#pragma mark - Keyboard events
+- (void)keyboardWasShown:(NSNotification*)aNotification {
+    NSDictionary* info = [aNotification userInfo];
+    CGSize kbSize = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
+    
+    [UIView animateWithDuration:0.2f animations:^{
+        
+        CGRect frame = _messageInputView.frame;
+        frame.origin.y -= kbSize.height;
+        _messageInputView.frame = frame;
+        
+//        frame = _messagesTableView.frame;
+//        frame.size.height -= kbSize.height;
+//        _messagesTableView.frame = frame;
+    }];
+}
+
+- (void)keyboardWillBeHidden:(NSNotification*)aNotification
+{
+    NSDictionary* info = [aNotification userInfo];
+    CGSize kbSize = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
+    
+    [UIView animateWithDuration:0.2f animations:^{
+        
+        CGRect frame = _messageInputView.frame;
+        frame.origin.y += kbSize.height;
+        _messageInputView.frame = frame;
+        
+//        frame = _messagesTableView.frame;
+//        frame.size.height += kbSize.height;
+//        _messagesTableView.frame = frame;
+    }];
+}
+
 
 @end

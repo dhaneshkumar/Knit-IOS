@@ -55,4 +55,44 @@
     }];
 }
 
++(void) getClassMessagesWithClassCode:(NSString*)classCode successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
+//    PFQuery *query = [PFQuery queryWithClassName:@"SentMessages"];
+//    [query whereKey:@"userId" equalTo:[[PFUser currentUser] username]];
+//    [query whereKey:@"code" equalTo:classCode];
+//    
+//    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+//        if (error) {
+//            errorBlock(error);
+//            return;
+//        }
+//        
+//#warning Complete this
+//        
+//    }];
+}
+
++(void)sendMessageOnClass:(NSString *)classCode className:(NSString *)className message:(NSString *)message withImage:(UIImage *)image successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
+    if (image) {
+        // Send the image and text
+#warning Get back to this
+        return;
+    }
+    
+    PFObject *groupDetails = [[PFObject alloc] initWithClassName:@"GroupDetails"];
+    [groupDetails setObject:classCode forKey:@"code"];
+    [groupDetails setObject:message forKey:@"title"];
+    [groupDetails setObject:[[PFUser currentUser] objectForKey:@"name"] forKey:@"Creator"];
+    [groupDetails setObject:className forKey:@"name"];
+    [groupDetails setObject:[[PFUser currentUser] username] forKey:@"senderId"];
+    
+    [groupDetails saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if(error) {
+            errorBlock(error);
+            return;
+        }
+        
+        
+    }];
+}
+
 @end

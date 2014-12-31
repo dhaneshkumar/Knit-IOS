@@ -709,7 +709,7 @@
                     </tableView>
                     <tabBarItem key="tabBarItem" title="Item" id="9jP-Wv-yT6"/>
                     <connections>
-                        <segue destination="4ja-P0-J4Z" kind="show" id="Ak2-kV-7ck"/>
+                        <segue destination="4ja-P0-J4Z" kind="show" identifier="pushMessages" id="Ak2-kV-7ck"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Bej-PC-u2O" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -730,24 +730,129 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="1I0-Md-ho3" customClass="UIBubbleTableView">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <variation key="heightClass=regular" fixedFrame="YES">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="800"/>
-                                </variation>
+                                <connections>
+                                    <outlet property="bubbleDataSource" destination="4ja-P0-J4Z" id="pBW-ft-V26"/>
+                                </connections>
                             </tableView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Zrq-XD-7rl">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <subviews>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="pWZ-eM-vTl">
+                                        <rect key="frame" x="0.0" y="-30" width="97" height="30"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gEv-UE-ppE">
+                                        <rect key="frame" x="-23" y="-15" width="46" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="46" id="cCf-wn-DnE"/>
+                                        </constraints>
+                                        <state key="normal" title="Send">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <variation key="default">
+                                            <mask key="constraints">
+                                                <exclude reference="cCf-wn-DnE"/>
+                                            </mask>
+                                        </variation>
+                                        <variation key="heightClass=regular">
+                                            <mask key="constraints">
+                                                <include reference="cCf-wn-DnE"/>
+                                            </mask>
+                                        </variation>
+                                        <connections>
+                                            <action selector="sendMessageClicked:" destination="4ja-P0-J4Z" eventType="touchUpInside" id="gjg-XL-We4"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="0EF-Rr-7us"/>
+                                    <constraint firstItem="gEv-UE-ppE" firstAttribute="trailing" secondItem="Zrq-XD-7rl" secondAttribute="trailingMargin" id="0fB-uV-WKv"/>
+                                    <constraint firstItem="gEv-UE-ppE" firstAttribute="centerY" secondItem="Zrq-XD-7rl" secondAttribute="centerY" id="9fd-Np-MSV"/>
+                                    <constraint firstItem="pWZ-eM-vTl" firstAttribute="leading" secondItem="Zrq-XD-7rl" secondAttribute="leading" id="F6K-ey-ECH">
+                                        <variation key="heightClass=regular" constant="10"/>
+                                    </constraint>
+                                    <constraint firstItem="pWZ-eM-vTl" firstAttribute="top" secondItem="gEv-UE-ppE" secondAttribute="top" id="Ga0-Xj-Hcw"/>
+                                    <constraint firstItem="gEv-UE-ppE" firstAttribute="leading" secondItem="pWZ-eM-vTl" secondAttribute="trailing" constant="20" id="P9z-IJ-hqv"/>
+                                </constraints>
+                                <variation key="default">
+                                    <mask key="subviews">
+                                        <exclude reference="pWZ-eM-vTl"/>
+                                        <exclude reference="gEv-UE-ppE"/>
+                                    </mask>
+                                    <mask key="constraints">
+                                        <exclude reference="0EF-Rr-7us"/>
+                                        <exclude reference="F6K-ey-ECH"/>
+                                        <exclude reference="Ga0-Xj-Hcw"/>
+                                        <exclude reference="0fB-uV-WKv"/>
+                                        <exclude reference="9fd-Np-MSV"/>
+                                        <exclude reference="P9z-IJ-hqv"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=regular">
+                                    <mask key="subviews">
+                                        <include reference="pWZ-eM-vTl"/>
+                                        <include reference="gEv-UE-ppE"/>
+                                    </mask>
+                                    <mask key="constraints">
+                                        <include reference="0EF-Rr-7us"/>
+                                        <include reference="F6K-ey-ECH"/>
+                                        <include reference="Ga0-Xj-Hcw"/>
+                                        <include reference="0fB-uV-WKv"/>
+                                        <include reference="9fd-Np-MSV"/>
+                                        <include reference="P9z-IJ-hqv"/>
+                                    </mask>
+                                </variation>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Zrq-XD-7rl" firstAttribute="top" secondItem="zwY-aa-vm1" secondAttribute="top" constant="750" id="1pM-sy-fxf"/>
+                            <constraint firstItem="Zrq-XD-7rl" firstAttribute="trailing" secondItem="1I0-Md-ho3" secondAttribute="trailing" id="Cna-p4-gWg"/>
+                            <constraint firstAttribute="trailing" secondItem="Zrq-XD-7rl" secondAttribute="trailing" id="EGg-ya-2e9"/>
+                            <constraint firstItem="Zrq-XD-7rl" firstAttribute="leading" secondItem="1I0-Md-ho3" secondAttribute="leading" id="br9-VS-Bs7"/>
+                            <constraint firstAttribute="bottom" secondItem="Zrq-XD-7rl" secondAttribute="bottom" id="jXZ-K2-ShD"/>
+                            <constraint firstItem="Zrq-XD-7rl" firstAttribute="leading" secondItem="zwY-aa-vm1" secondAttribute="leading" id="kOg-tS-x0c"/>
+                            <constraint firstItem="1I0-Md-ho3" firstAttribute="top" secondItem="zwY-aa-vm1" secondAttribute="top" id="oyI-Yg-jcG"/>
+                            <constraint firstItem="1I0-Md-ho3" firstAttribute="bottom" secondItem="im2-pv-dGl" secondAttribute="top" id="xCD-Wa-4zE"/>
+                        </constraints>
                         <variation key="default">
                             <mask key="subviews">
                                 <exclude reference="1I0-Md-ho3"/>
+                                <exclude reference="Zrq-XD-7rl"/>
+                            </mask>
+                            <mask key="constraints">
+                                <exclude reference="oyI-Yg-jcG"/>
+                                <exclude reference="xCD-Wa-4zE"/>
+                                <exclude reference="1pM-sy-fxf"/>
+                                <exclude reference="Cna-p4-gWg"/>
+                                <exclude reference="EGg-ya-2e9"/>
+                                <exclude reference="br9-VS-Bs7"/>
+                                <exclude reference="jXZ-K2-ShD"/>
+                                <exclude reference="kOg-tS-x0c"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular">
                             <mask key="subviews">
                                 <include reference="1I0-Md-ho3"/>
+                                <include reference="Zrq-XD-7rl"/>
+                            </mask>
+                            <mask key="constraints">
+                                <include reference="oyI-Yg-jcG"/>
+                                <include reference="xCD-Wa-4zE"/>
+                                <exclude reference="1pM-sy-fxf"/>
+                                <include reference="Cna-p4-gWg"/>
+                                <include reference="EGg-ya-2e9"/>
+                                <include reference="br9-VS-Bs7"/>
+                                <include reference="jXZ-K2-ShD"/>
+                                <include reference="kOg-tS-x0c"/>
                             </mask>
                         </variation>
                     </view>
                     <connections>
+                        <outlet property="messageInputTextField" destination="pWZ-eM-vTl" id="g6v-Sa-qJn"/>
+                        <outlet property="messageInputView" destination="Zrq-XD-7rl" id="8y9-rI-gFT"/>
                         <outlet property="messagesTableView" destination="1I0-Md-ho3" id="GEh-aC-xRw"/>
                     </connections>
                 </viewController>
