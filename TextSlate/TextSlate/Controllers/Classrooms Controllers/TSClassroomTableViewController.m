@@ -8,6 +8,8 @@
 
 #import "TSClassroomTableViewController.h"
 #import "TSClassTableViewCell.h"
+#import "TSSendClassMessageViewController.h"
+
 #import "Data.h"
 
 #import "TSClass.h"
@@ -91,6 +93,12 @@
     [self performSegueWithIdentifier:@"pushMessages" sender:self];
 }
 
-
-
+-(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.identifier isEqualToString:@"pushMessages"]) {
+        TSSendClassMessageViewController *dvc = (TSSendClassMessageViewController*)segue.destinationViewController;
+        TSClass *selectedClass = _classesArray[[[self.tableView indexPathForSelectedRow] row]];
+        dvc.classCode = selectedClass.code;
+        dvc.className = selectedClass.name;
+    }
+}
 @end

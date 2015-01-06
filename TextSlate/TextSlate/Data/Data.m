@@ -56,19 +56,13 @@
 }
 
 +(void) getClassMessagesWithClassCode:(NSString*)classCode successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
-//    PFQuery *query = [PFQuery queryWithClassName:@"SentMessages"];
-//    [query whereKey:@"userId" equalTo:[[PFUser currentUser] username]];
-//    [query whereKey:@"code" equalTo:classCode];
-//    
-//    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-//        if (error) {
-//            errorBlock(error);
-//            return;
-//        }
-//        
-//#warning Complete this
-//        
-//    }];
+    [PFCloud callFunctionInBackground:@"showclassmessages" withParameters:@{@"classcode":classCode, @"limit":@20} block:^(id object, NSError *error) {
+        if (error) {
+            errorBlock(error);
+            return;
+        }
+        successBlock(object);
+    }];
 }
 
 +(void)sendMessageOnClass:(NSString *)classCode className:(NSString *)className message:(NSString *)message withImage:(UIImage *)image successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
@@ -86,12 +80,12 @@
     [groupDetails setObject:[[PFUser currentUser] username] forKey:@"senderId"];
     
     [groupDetails saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-        if(error) {
+        if(error || !succeeded) {
             errorBlock(error);
             return;
         }
         
-        
+        successBlock(nil);
     }];
 }
 

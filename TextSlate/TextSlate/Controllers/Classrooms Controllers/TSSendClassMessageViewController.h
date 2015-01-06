@@ -7,10 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "UIBubbleTableViewDataSource.h"
+#import "MessageComposerView.h"
+#import "JSQMessagesViewController.h"
 
-@interface TSSendClassMessageViewController : UIViewController <UIBubbleTableViewDataSource>
+@interface TSSendClassMessageViewController : JSQMessagesViewController <MessageComposerViewDelegate>
 
 @property (strong, nonatomic) NSString *classCode;
+@property (strong, nonatomic) NSString *className;
+
+@property (nonatomic, strong) MessageComposerView *messageComposerView;
 
 @end
