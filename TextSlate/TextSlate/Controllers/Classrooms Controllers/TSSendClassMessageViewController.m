@@ -42,11 +42,22 @@
     
     self.collectionView.collectionViewLayout.incomingAvatarViewSize = CGSizeZero;
     self.collectionView.collectionViewLayout.outgoingAvatarViewSize = CGSizeZero;
+    
+    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithTitle:@"Delete" style:UIBarButtonItemStylePlain target:self action:@selector(deleteClass)];
+    self.navigationItem.rightBarButtonItem = item;
+}
+
+-(void) deleteClass {
+    [Data deleteClass:_classCode successBlock:^(id object) {
+        [self.navigationController popViewControllerAnimated:YES];
+    } errorBlock:^(NSError *error) {
+        UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"TextSlate" message:@"Error occured in deleting the class." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+        [errorAlertView show];
+    }];
 }
 
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    
     [self reloadMessages];
 }
 

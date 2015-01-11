@@ -18,12 +18,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
-    [Data getInboxDetails:^(id object) {
-        
-    } errorBlock:^(NSError *error) {
-        
-    }];
 }
 
 -(void) viewDidAppear:(BOOL)animated {

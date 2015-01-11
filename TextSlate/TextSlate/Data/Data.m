@@ -65,6 +65,16 @@
     }];
 }
 
++(void) deleteClass:(NSString *)classCode successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
+    [PFCloud callFunctionInBackground:@"deleteclass" withParameters:@{@"classcode":classCode} block:^(id object, NSError *error) {
+        if (error) {
+            errorBlock(error);
+        } else {
+            successBlock(object);
+        }
+    }];
+}
+
 +(void)sendMessageOnClass:(NSString *)classCode className:(NSString *)className message:(NSString *)message withImage:(UIImage *)image successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
     if (image) {
         // Send the image and text

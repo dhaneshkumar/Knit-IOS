@@ -25,4 +25,6 @@ typedef void (^errorBlock)(NSError *error);
 
 +(void) sendMessageOnClass:(NSString*)classCode className:(NSString*)className message:(NSString*)message withImage:(UIImage*)image successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock;
 
++(void) deleteClass:(NSString*)classCode successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock;
+
 @end
