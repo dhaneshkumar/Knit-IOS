@@ -81,6 +81,7 @@
 		975B1E941A2133030028BE25 /* TSTabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 975B1E931A2133030028BE25 /* TSTabBarViewController.m */; };
 		975B1E981A2133C10028BE25 /* Data.m in Sources */ = {isa = PBXBuildFile; fileRef = 975B1E971A2133C10028BE25 /* Data.m */; };
 		975B1E9B1A213A130028BE25 /* TSCreateClassroomViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 975B1E9A1A213A130028BE25 /* TSCreateClassroomViewController.m */; };
+		97655AC61A5D915C004A2884 /* TSSettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97655AC51A5D915C004A2884 /* TSSettingsTableViewController.m */; };
 		976F04411A4B6398003E9604 /* TSClassTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 976F04401A4B6398003E9604 /* TSClassTableViewCell.m */; };
 		976F04451A4B6EA0003E9604 /* TSSendClassMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 976F04441A4B6EA0003E9604 /* TSSendClassMessageViewController.m */; };
 		9786AE4C1A473E2B00801838 /* TSJoinNewClassViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9786AE4B1A473E2B00801838 /* TSJoinNewClassViewController.m */; };
@@ -250,6 +251,8 @@
 		975B1E971A2133C10028BE25 /* Data.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Data.m; sourceTree = "<group>"; };
 		975B1E991A213A130028BE25 /* TSCreateClassroomViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSCreateClassroomViewController.h; sourceTree = "<group>"; };
 		975B1E9A1A213A130028BE25 /* TSCreateClassroomViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSCreateClassroomViewController.m; sourceTree = "<group>"; };
+		97655AC41A5D915C004A2884 /* TSSettingsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSSettingsTableViewController.h; sourceTree = "<group>"; };
+		97655AC51A5D915C004A2884 /* TSSettingsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSSettingsTableViewController.m; sourceTree = "<group>"; };
 		976F043F1A4B6398003E9604 /* TSClassTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSClassTableViewCell.h; path = ../../../../../../../Documents/TSClassTableViewCell.h; sourceTree = "<group>"; };
 		976F04401A4B6398003E9604 /* TSClassTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSClassTableViewCell.m; path = ../../../../../../../Documents/TSClassTableViewCell.m; sourceTree = "<group>"; };
 		976F04431A4B6EA0003E9604 /* TSSendClassMessageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSSendClassMessageViewController.h; sourceTree = "<group>"; };
@@ -488,6 +491,7 @@
 		971687D71A1F1BCA00FE98FC /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				97655AC31A5D911B004A2884 /* Settings Controllers */,
 				975B1E911A2132D10028BE25 /* Tab Controllers */,
 				975B1E821A20F7AE0028BE25 /* Classrooms Controllers */,
 				975B1E831A20F7AE0028BE25 /* Inbox Controllers */,
@@ -685,6 +689,15 @@
 				975B1E971A2133C10028BE25 /* Data.m */,
 			);
 			path = Data;
+			sourceTree = "<group>";
+		};
+		97655AC31A5D911B004A2884 /* Settings Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				97655AC41A5D915C004A2884 /* TSSettingsTableViewController.h */,
+				97655AC51A5D915C004A2884 /* TSSettingsTableViewController.m */,
+			);
+			path = "Settings Controllers";
 			sourceTree = "<group>";
 		};
 		976F04461A4DE4A3003E9604 /* External Libraries */ = {
@@ -887,6 +900,7 @@
 				9707CA091A5BC3110065D2BA /* JSQMessagesAvatarImage.m in Sources */,
 				9707C9FE1A5BC3110065D2BA /* JSQMessagesAvatarImageFactory.m in Sources */,
 				9707C9FB1A5BC3110065D2BA /* JSQMessagesKeyboardController.m in Sources */,
+				97655AC61A5D915C004A2884 /* TSSettingsTableViewController.m in Sources */,
 				9707C9F71A5BC3110065D2BA /* UIColor+JSQMessages.m in Sources */,
 				9707CA0B1A5BC3110065D2BA /* JSQPhotoMediaItem.m in Sources */,
 				975B1E861A20F7C50028BE25 /* TSClassroomTableViewController.m in Sources */,

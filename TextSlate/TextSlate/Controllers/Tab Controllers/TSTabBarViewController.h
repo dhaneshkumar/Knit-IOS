@@ -10,4 +10,6 @@
 
 @interface TSTabBarViewController : UITabBarController
 
+-(void) logout;
+
 @end

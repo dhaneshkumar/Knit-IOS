@@ -71,4 +71,10 @@
     }
 }
 
+-(void) logout {
+    [PFUser logOut];
+    TSSignInViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"signInNavigationController"];
+    [self presentViewController:vc animated:NO completion:nil];
+}
+
 @end
