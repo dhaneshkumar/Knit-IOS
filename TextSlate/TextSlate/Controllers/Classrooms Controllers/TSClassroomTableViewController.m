@@ -37,24 +37,7 @@
     [super viewDidAppear:animated];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [Data getClassRooms:^(id object) {
-            NSArray *classValues = (NSArray*) object;
-            /*if ([classValues count] <= 0) {
-                _classesArray = [[NSArray alloc] init];
-                return;
-            }*/
-            NSMutableArray *classes = [[NSMutableArray alloc] init];
-            for (NSArray *classValue in classValues) {
-                
-                if (classValue.count < 2) {
-                    continue;
-                }
-                
-                TSClass *cl = [[TSClass alloc] init];
-                cl.name = [TSUtils safe_string:[classValue objectAtIndex:1]];
-                cl.code = [TSUtils safe_string:[classValue objectAtIndex:0]];
-                [classes addObject:cl];
-            }
-            _classesArray = [[NSArray alloc] initWithArray:classes];
+            _classesArray = (NSArray*) object;
             [self.tableView reloadData];
         } errorBlock:^(NSError *error) {
             NSLog(@"Unable to fetch classes: %@", [error description]);
@@ -97,8 +80,7 @@
     if ([segue.identifier isEqualToString:@"pushMessages"]) {
         TSSendClassMessageViewController *dvc = (TSSendClassMessageViewController*)segue.destinationViewController;
         TSClass *selectedClass = _classesArray[[[self.tableView indexPathForSelectedRow] row]];
-        dvc.classCode = selectedClass.code;
-        dvc.className = selectedClass.name;
+        dvc.classObject = selectedClass;
     }
 }
 @end

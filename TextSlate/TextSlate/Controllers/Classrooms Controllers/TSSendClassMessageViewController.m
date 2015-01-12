@@ -11,6 +11,7 @@
 #import "Data.h"
 
 #import <Parse/Parse.h>
+#import <AssetsLibrary/AssetsLibrary.h>
 #import "JSQMessage.h"
 #import "JSQMessagesBubbleImage.h"
 #import "JSQMessagesBubbleImageFactory.h"
@@ -18,6 +19,7 @@
 @interface TSSendClassMessageViewController ()
 
 @property (strong, nonatomic) NSMutableArray *messagesArray;
+@property (strong, nonatomic) UIImagePickerController *imagePicker;
 
 @end
 
@@ -27,28 +29,35 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    // standard size is (320, 54) but a custom size will also be respected
-    float defaultWidth  = 320;
-    float defaultHeight = 54;
-    CGRect subviewFrame = CGRectMake(0, self.view.frame.size.height-defaultHeight, defaultWidth, defaultHeight);
-    self.messageComposerView = [[MessageComposerView alloc] initWithFrame:subviewFrame];
-    self.messageComposerView.delegate = self;
-    [self.view addSubview:self.messageComposerView];
-    
     _messagesArray = [[NSMutableArray alloc] init];
     
-    self.senderDisplayName = _className;
+    self.senderDisplayName = _classObject.name;
     self.senderId = [[PFUser currentUser] objectForKey:@"name"];
+    
+    self.automaticallyAdjustsScrollViewInsets = YES;
     
     self.collectionView.collectionViewLayout.incomingAvatarViewSize = CGSizeZero;
     self.collectionView.collectionViewLayout.outgoingAvatarViewSize = CGSizeZero;
     
-    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithTitle:@"Delete" style:UIBarButtonItemStylePlain target:self action:@selector(deleteClass)];
-    self.navigationItem.rightBarButtonItem = item;
+    if (_classObject.class_type != CREATED_BY_ME) {
+        [self.inputToolbar setHidden:YES];
+    }
+    
+    UIBarButtonItem *deleteItem = [[UIBarButtonItem alloc] initWithTitle:@"Delete" style:UIBarButtonItemStylePlain target:self action:@selector(deleteClass)];
+    UIBarButtonItem *detailsItem = [[UIBarButtonItem alloc] initWithTitle:@"Details" style:UIBarButtonItemStylePlain target:self action:@selector(showClassDetails)];
+    self.navigationItem.rightBarButtonItems = @[deleteItem, detailsItem];
+}
+
+-(void) showClassDetails {
+    [Data getMemberDetails:_classObject.code successBlock:^(id object) {
+        
+    } errorBlock:^(NSError *error) {
+        
+    }];
 }
 
 -(void) deleteClass {
-    [Data deleteClass:_classCode successBlock:^(id object) {
+    [Data deleteClass:_classObject.code successBlock:^(id object) {
         [self.navigationController popViewControllerAnimated:YES];
     } errorBlock:^(NSError *error) {
         UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"TextSlate" message:@"Error occured in deleting the class." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
@@ -62,7 +71,7 @@
 }
 
 -(void) reloadMessages {
-    [Data getClassMessagesWithClassCode:_classCode successBlock:^(id object) {
+    [Data getClassMessagesWithClassCode:_classObject.code successBlock:^(id object) {
         NSMutableArray *messagesArr = [[NSMutableArray alloc] init];
         for (PFObject *groupObject in object) {
 #warning Need to complete here
@@ -91,16 +100,6 @@
     // Pass the selected object to the new view controller.
 }
 */
-
-#pragma mark - Message Composer Delegate
--(void) messageComposerSendMessageClickedWithMessage:(NSString *)message {
-    [Data sendMessageOnClass:_classCode className:_className message:message withImage:nil successBlock:^(id object) {
-        [self reloadMessages];
-    } errorBlock:^(NSError *error) {
-        UIAlertView *errorDialog = [[UIAlertView alloc] initWithTitle:@"Text Slate" message:@"Error occurred in sending the message" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-        [errorDialog show];
-    }];
-}
 
 #pragma mark - JSQ Messages
 - (id<JSQMessageAvatarImageDataSource>)collectionView:(JSQMessagesCollectionView *)collectionView avatarImageDataForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -183,8 +182,7 @@
         
         if ([msg.senderId isEqualToString:self.senderId]) {
             cell.textView.textColor = [UIColor blackColor];
-        }
-        else {
+        } else {
             cell.textView.textColor = [UIColor whiteColor];
         }
         
@@ -195,5 +193,44 @@
     return cell;
 }
 
+-(void) didPressSendButton:(UIButton *)button withMessageText:(NSString *)text senderId:(NSString *)senderId senderDisplayName:(NSString *)senderDisplayName date:(NSDate *)date {
+    [Data sendMessageOnClass:_classObject.code className:_classObject.name message:text withImage:nil withImageName:nil successBlock:^(id object) {
+        [self reloadMessages];
+    } errorBlock:^(NSError *error) {
+        UIAlertView *errorDialog = [[UIAlertView alloc] initWithTitle:@"Text Slate" message:@"Error occurred in sending the message" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+        [errorDialog show];
+    }];
+}
+
+-(void) didPressAccessoryButton:(UIButton *)sender {
+    _imagePicker = [[UIImagePickerController alloc] init];
+    [_imagePicker setDelegate:self];
+    [self presentViewController:_imagePicker animated:YES completion:nil];
+}
+
+-(void) imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    [_imagePicker dismissViewControllerAnimated:YES completion:^{
+        NSLog(@"%@",[info description]);
+        
+        NSURL *imageURL = [info valueForKey:UIImagePickerControllerReferenceURL];
+        ALAssetsLibraryAssetForURLResultBlock resultblock = ^(ALAsset *myasset)
+        {
+            ALAssetRepresentation *representation = [myasset defaultRepresentation];
+            NSString *fileName = [representation filename];
+            
+            [Data sendMessageOnClass:_classObject.code className:_classObject.name message:@"" withImage:[info objectForKey:@"UIImagePickerControllerOriginalImage"] withImageName:fileName successBlock:^(id object) {
+                [self reloadMessages];
+            } errorBlock:^(NSError *error) {
+                
+            }];
+
+        };
+        
+        ALAssetsLibrary* assetslibrary = [[ALAssetsLibrary alloc] init];
+        [assetslibrary assetForURL:imageURL
+                       resultBlock:resultblock
+                      failureBlock:nil];
+            }];
+}
 
 @end

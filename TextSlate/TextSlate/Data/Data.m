@@ -8,6 +8,9 @@
 
 #import "Data.h"
 #import <Parse/Parse.h>
+#import "TSCreatedClass.h"
+#import "TSJoinedClass.h"
+#import "TSUtils.h"
 
 @implementation Data
 
@@ -27,8 +30,25 @@
         if (error) {
             errorBlock(error);
         } else {
-            NSArray *codeGroup = [[PFUser currentUser] objectForKey:@"Created_groups"];
-            successBlock(codeGroup);
+            NSArray *createdGroups = [[PFUser currentUser] objectForKey:@"Created_groups"];
+            NSMutableArray *returnArray = [[NSMutableArray alloc] init];
+            for (NSArray *classArray in createdGroups) {
+                TSCreatedClass *cl = [[TSCreatedClass alloc] init];
+                cl.name = [TSUtils safe_string:[classArray objectAtIndex:1]];
+                cl.code = [TSUtils safe_string:[classArray objectAtIndex:0]];
+                cl.class_type = CREATED_BY_ME;
+                [returnArray addObject:cl];
+            }
+            
+            NSArray *joinedGroups = [[PFUser currentUser] objectForKey:@"joined_groups"];
+            for (NSArray *classArray in joinedGroups) {
+                TSJoinedClass *cl = [[TSJoinedClass alloc] init];
+                cl.name = [TSUtils safe_string:[classArray objectAtIndex:1]];
+                cl.code = [TSUtils safe_string:[classArray objectAtIndex:0]];
+                cl.class_type = JOINED_BY_ME;
+                [returnArray addObject:cl];
+            }
+            successBlock([[NSArray alloc] initWithArray:returnArray]);
         }
     }];
 }
@@ -75,10 +95,29 @@
     }];
 }
 
-+(void)sendMessageOnClass:(NSString *)classCode className:(NSString *)className message:(NSString *)message withImage:(UIImage *)image successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
++(void)sendMessageOnClass:(NSString *)classCode className:(NSString *)className message:(NSString *)message withImage:(UIImage *)image withImageName:(NSString *)imageName successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
     if (image) {
         // Send the image and text
-#warning Get back to this
+        PFFile *imageFile = [PFFile fileWithName:imageName data:UIImagePNGRepresentation(image)];
+        [imageFile saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            PFObject *groupDetails = [[PFObject alloc] initWithClassName:@"GroupDetails"];
+            [groupDetails setObject:classCode forKey:@"code"];
+            [groupDetails setObject:message forKey:@"title"];
+            [groupDetails setObject:[[PFUser currentUser] objectForKey:@"name"] forKey:@"Creator"];
+            [groupDetails setObject:className forKey:@"name"];
+            [groupDetails setObject:[[PFUser currentUser] username] forKey:@"senderId"];
+            [groupDetails setObject:imageName forKey:@"attachment_name"];
+            
+            [groupDetails saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                if(error || !succeeded) {
+                    errorBlock(error);
+                    return;
+                }
+                successBlock(nil);
+            }];
+
+            
+        }];
         return;
     }
     
@@ -96,6 +135,20 @@
         }
         
         successBlock(nil);
+    }];
+}
+
++(void)getMemberDetails:(NSString *)classCode successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
+    PFQuery *query = [[PFQuery alloc] initWithClassName:@"GroupMembers"];
+    [query whereKey:@"userId" equalTo:[[PFUser currentUser] username]];
+    [query whereKey:@"code" equalTo:classCode];
+    
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (error) {
+            errorBlock(error);
+        } else {
+            
+        }
     }];
 }
 

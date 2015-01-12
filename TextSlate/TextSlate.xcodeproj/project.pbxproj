@@ -82,6 +82,8 @@
 		975B1E981A2133C10028BE25 /* Data.m in Sources */ = {isa = PBXBuildFile; fileRef = 975B1E971A2133C10028BE25 /* Data.m */; };
 		975B1E9B1A213A130028BE25 /* TSCreateClassroomViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 975B1E9A1A213A130028BE25 /* TSCreateClassroomViewController.m */; };
 		97655AC61A5D915C004A2884 /* TSSettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97655AC51A5D915C004A2884 /* TSSettingsTableViewController.m */; };
+		9767325D1A644674001CEC97 /* TSCreatedClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 9767325C1A644674001CEC97 /* TSCreatedClass.m */; };
+		976732601A644683001CEC97 /* TSJoinedClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 9767325F1A644683001CEC97 /* TSJoinedClass.m */; };
 		976F04411A4B6398003E9604 /* TSClassTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 976F04401A4B6398003E9604 /* TSClassTableViewCell.m */; };
 		976F04451A4B6EA0003E9604 /* TSSendClassMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 976F04441A4B6EA0003E9604 /* TSSendClassMessageViewController.m */; };
 		9786AE4C1A473E2B00801838 /* TSJoinNewClassViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9786AE4B1A473E2B00801838 /* TSJoinNewClassViewController.m */; };
@@ -253,6 +255,10 @@
 		975B1E9A1A213A130028BE25 /* TSCreateClassroomViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSCreateClassroomViewController.m; sourceTree = "<group>"; };
 		97655AC41A5D915C004A2884 /* TSSettingsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSSettingsTableViewController.h; sourceTree = "<group>"; };
 		97655AC51A5D915C004A2884 /* TSSettingsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSSettingsTableViewController.m; sourceTree = "<group>"; };
+		9767325B1A644674001CEC97 /* TSCreatedClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSCreatedClass.h; sourceTree = "<group>"; };
+		9767325C1A644674001CEC97 /* TSCreatedClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSCreatedClass.m; sourceTree = "<group>"; };
+		9767325E1A644683001CEC97 /* TSJoinedClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSJoinedClass.h; sourceTree = "<group>"; };
+		9767325F1A644683001CEC97 /* TSJoinedClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSJoinedClass.m; sourceTree = "<group>"; };
 		976F043F1A4B6398003E9604 /* TSClassTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSClassTableViewCell.h; path = ../../../../../../../Documents/TSClassTableViewCell.h; sourceTree = "<group>"; };
 		976F04401A4B6398003E9604 /* TSClassTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSClassTableViewCell.m; path = ../../../../../../../Documents/TSClassTableViewCell.m; sourceTree = "<group>"; };
 		976F04431A4B6EA0003E9604 /* TSSendClassMessageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSSendClassMessageViewController.h; sourceTree = "<group>"; };
@@ -512,6 +518,10 @@
 				971687E21A1F1C3900FE98FC /* TSParent.m */,
 				975B1E8E1A211A380028BE25 /* TSClass.h */,
 				975B1E8F1A211A380028BE25 /* TSClass.m */,
+				9767325B1A644674001CEC97 /* TSCreatedClass.h */,
+				9767325C1A644674001CEC97 /* TSCreatedClass.m */,
+				9767325E1A644683001CEC97 /* TSJoinedClass.h */,
+				9767325F1A644683001CEC97 /* TSJoinedClass.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -884,7 +894,9 @@
 				976F04451A4B6EA0003E9604 /* TSSendClassMessageViewController.m in Sources */,
 				9707CA151A5BC3110065D2BA /* JSQMessagesInputToolbar.m in Sources */,
 				9707CA061A5BC3110065D2BA /* JSQLocationMediaItem.m in Sources */,
+				976732601A644683001CEC97 /* TSJoinedClass.m in Sources */,
 				9707CA081A5BC3110065D2BA /* JSQMessage.m in Sources */,
+				9767325D1A644674001CEC97 /* TSCreatedClass.m in Sources */,
 				975B1E901A211A380028BE25 /* TSClass.m in Sources */,
 				975B1E891A20F7D40028BE25 /* TSInboxViewController.m in Sources */,
 				971687E71A1F823900FE98FC /* TSUtils.m in Sources */,

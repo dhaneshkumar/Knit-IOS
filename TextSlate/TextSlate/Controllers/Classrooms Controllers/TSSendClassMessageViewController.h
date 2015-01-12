@@ -7,14 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "MessageComposerView.h"
 #import "JSQMessagesViewController.h"
+#import "TSClass.h"
 
-@interface TSSendClassMessageViewController : JSQMessagesViewController <MessageComposerViewDelegate>
+@interface TSSendClassMessageViewController : JSQMessagesViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 
-@property (strong, nonatomic) NSString *classCode;
-@property (strong, nonatomic) NSString *className;
-
-@property (nonatomic, strong) MessageComposerView *messageComposerView;
+@property (strong, nonatomic) TSClass *classObject;
 
 @end
