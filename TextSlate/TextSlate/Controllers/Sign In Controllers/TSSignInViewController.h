@@ -10,6 +10,7 @@
 
 @interface TSSignInViewController : UIViewController
 
+-(void)loggedIn;
 
 @end
 

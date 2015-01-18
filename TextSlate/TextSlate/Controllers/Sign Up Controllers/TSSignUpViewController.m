@@ -8,6 +8,7 @@
 
 #import "TSSignUpViewController.h"
 #import <Parse/Parse.h>
+#import "TSSignInViewController.h"
 
 @interface TSSignUpViewController () <UIAlertViewDelegate>
 
@@ -82,7 +83,7 @@
         if (!error) {
             NSLog(@"Sign up successfull");
             if (self.presentingViewController) {
-                [self dismissViewControllerAnimated:YES completion:nil];
+                [[(UINavigationController*)self.pViewController.presentingViewController topViewController] dismissViewControllerAnimated:YES completion:nil];
             }
         } else {
             NSLog(@"Error is: %@", [error localizedDescription]);

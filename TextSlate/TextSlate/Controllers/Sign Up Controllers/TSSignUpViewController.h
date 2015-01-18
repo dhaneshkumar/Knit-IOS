@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TSSignInViewController.h"
 
 @interface TSSignUpViewController : UIViewController
+
+@property (weak, nonatomic) TSSignInViewController *pViewController;
 
 @end

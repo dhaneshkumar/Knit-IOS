@@ -16,6 +16,8 @@
 #import "JSQMessagesBubbleImage.h"
 #import "JSQMessagesBubbleImageFactory.h"
 
+#import "TSMemberslistTableViewController.h"
+
 @interface TSSendClassMessageViewController ()
 
 @property (strong, nonatomic) NSMutableArray *messagesArray;
@@ -49,11 +51,7 @@
 }
 
 -(void) showClassDetails {
-    [Data getMemberDetails:_classObject.code successBlock:^(id object) {
-        
-    } errorBlock:^(NSError *error) {
-        
-    }];
+    [self performSegueWithIdentifier:@"showDetails" sender:self];
 }
 
 -(void) deleteClass {
@@ -231,6 +229,13 @@
                        resultBlock:resultblock
                       failureBlock:nil];
             }];
+}
+
+-(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.identifier isEqualToString:@"showDetails"]) {
+        TSMemberslistTableViewController *dvc = segue.destinationViewController;
+        dvc.classObject = _classObject;
+    }
 }
 
 @end

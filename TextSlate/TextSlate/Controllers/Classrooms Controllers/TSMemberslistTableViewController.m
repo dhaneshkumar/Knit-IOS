@@ -1,23 +1,30 @@
 //
-//  TSSettingsTableViewController.m
+//  TSMemberslistTableViewController.m
 //  TextSlate
 //
-//  Created by Ravi Vooda on 1/7/15.
+//  Created by Ravi Vooda on 1/12/15.
 //  Copyright (c) 2015 Ravi Vooda. All rights reserved.
 //
 
-#import "TSSettingsTableViewController.h"
-#import <Parse/Parse.h>
-#import "TSTabBarViewController.h"
+#import "TSMemberslistTableViewController.h"
+#import "Data.h"
 
-@interface TSSettingsTableViewController ()
+@interface TSMemberslistTableViewController ()
+
+@property (strong, nonatomic) NSArray *results;
 
 @end
 
-@implementation TSSettingsTableViewController
+@implementation TSMemberslistTableViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    [Data getMemberDetails:_classObject.code successBlock:^(id object) {
+        _results = (NSArray*) object;
+    } errorBlock:^(NSError *error) {
+        
+    }];
     
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -26,38 +33,31 @@
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
-- (void) viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    if([self respondsToSelector:@selector(edgesForExtendedLayout)])
-        [self setEdgesForExtendedLayout:UIRectEdgeBottom];
-}
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
 #pragma mark - Table view data source
- - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     // Return the number of sections.
-    return 1;
+    return 0;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
-    return 1;
+    return _results.count;
 }
-
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"settingsCellIdentifier" forIndexPath:indexPath];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"memberName" forIndexPath:indexPath];
     
-    [cell.textLabel setText:@"Logout"];
+    
     
     return cell;
 }
-
 
 /*
 // Override to support conditional editing of the table view.
@@ -102,12 +102,5 @@
     // Pass the selected object to the new view controller.
 }
 */
-
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.row == 0) {
-        // Log out.
-        [(TSTabBarViewController*)self.parentViewController logout];
-    }
-}
 
 @end

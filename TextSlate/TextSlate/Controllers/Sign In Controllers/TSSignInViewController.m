@@ -9,6 +9,7 @@
 #import "TSSignInViewController.h"
 #import "TSUtils.h"
 #import <Parse/Parse.h>
+#import "TSSignUpViewController.h"
 
 @interface TSSignInViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *emailTextField;
@@ -25,6 +26,10 @@
     // Do any additional setup after loading the view, typically from a nib.
     
     [TSUtils applyRoundedCorners:_signInButton];
+}
+
+-(void) loggedIn {
+    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -48,6 +53,9 @@
 - (IBAction)signUpClicked:(UIButton *)sender {
     UINavigationController *signUpController = [self.storyboard instantiateViewControllerWithIdentifier:@"signUpNavigationController"];
     signUpController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+    
+    TSSignUpViewController *fcontroller = (TSSignUpViewController*)signUpController.topViewController;
+    fcontroller.pViewController = self;
     
     [self presentViewController:signUpController animated:YES completion:nil];
 }
