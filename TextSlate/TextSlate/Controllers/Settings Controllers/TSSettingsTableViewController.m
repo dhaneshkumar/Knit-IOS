@@ -12,6 +12,8 @@
 
 @interface TSSettingsTableViewController ()
 
+@property (weak, nonatomic) IBOutlet UITableView *settingsTableView;
+
 @end
 
 @implementation TSSettingsTableViewController
@@ -19,17 +21,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+//    _settingsTableView.ScrollIndicatorInsets = UIEdgeInsets(64, 0, 0, 0);
+    
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-}
-
-- (void) viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    if([self respondsToSelector:@selector(edgesForExtendedLayout)])
-        [self setEdgesForExtendedLayout:UIRectEdgeBottom];
 }
 
 - (void)didReceiveMemoryWarning {

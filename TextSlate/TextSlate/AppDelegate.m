@@ -17,13 +17,10 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    
-    
     // Override point for customization after application launch.
     [Parse setApplicationId:@"7kuBxdNpJ5ZW5rcyYrpw3vlxsTLuHbuqtTd65ErZ" clientKey:@"bmfdNqrZY0olJgsezG5ZRiBN1OPO4TqO1pH46PU9"];
     [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
     
-    [PFUser logOut];
     
     // Registering for the Push notifications
     UIUserNotificationType userNotificationTypes = (UIUserNotificationTypeAlert |
