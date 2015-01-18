@@ -104,7 +104,7 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row == 0) {
         // Log out.
-        [(TSTabBarViewController*)self.parentViewController logout];
+        [(TSTabBarViewController*)self.parentViewController.parentViewController logout];
     }
 }
 

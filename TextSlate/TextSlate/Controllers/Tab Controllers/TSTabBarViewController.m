@@ -32,7 +32,12 @@
     }
     
     UIBarButtonItem *joinBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Join" style:UIBarButtonItemStylePlain target:self action:@selector(joinClassBarButtonItemClicked)];
-    [self.navigationItem setRightBarButtonItems:@[self.navigationItem.rightBarButtonItem, joinBarButtonItem]];
+    
+    if ([[[PFUser currentUser] objectForKey:@"role"] isEqualToString:@"teacher"]) {
+        [self.navigationItem setRightBarButtonItems:@[self.navigationItem.rightBarButtonItem, joinBarButtonItem]];
+    } else {
+        [self.navigationItem setRightBarButtonItems:@[joinBarButtonItem]];
+    }
 }
 
 -(void) joinClassBarButtonItemClicked {
@@ -75,6 +80,8 @@
     [PFUser logOut];
     TSSignInViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"signInNavigationController"];
     [self presentViewController:vc animated:NO completion:nil];
+    
+    [self setSelectedIndex:0];
 }
 
 @end
