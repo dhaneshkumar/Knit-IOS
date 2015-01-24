@@ -29,7 +29,7 @@
     // Configure the view for the selected state
 }
 
--(void) setClass:(TSClass *)class {
+-(void) setClassObject:(TSClass *)class {
     _class = class;
     [_classNameLabel setText:class.name];
     [_classCodeLabel setText:class.code];

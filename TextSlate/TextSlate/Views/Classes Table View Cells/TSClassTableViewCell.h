@@ -12,5 +12,6 @@
 @interface TSClassTableViewCell : UITableViewCell
 
 @property (strong, nonatomic) TSClass *class;
+-(void) setClassObject:(TSClass *) cl;
 
 @end
