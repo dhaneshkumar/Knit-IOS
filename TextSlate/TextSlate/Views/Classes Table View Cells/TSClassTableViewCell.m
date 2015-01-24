@@ -29,11 +29,11 @@
     // Configure the view for the selected state
 }
 
--(void) setClassObject:(TSClass *)class {
-    _class = class;
-    [_classNameLabel setText:class.name];
-    [_classCodeLabel setText:class.code];
-    [_membersCountlabel setText:[NSString stringWithFormat:@"%d viewer%@", class.viewers, class.viewers == 1 ? @"" :@"s"]];
+-(void) setClasses:(TSClass *)classes {
+    _classes = classes;
+    [_classNameLabel setText:classes.name];
+    [_classCodeLabel setText:classes.code];
+    [_membersCountlabel setText:[NSString stringWithFormat:@"%d viewer%@", classes.viewers, classes.viewers == 1 ? @"" :@"s"]];
     
 #warning Fix thumbnail image
 }

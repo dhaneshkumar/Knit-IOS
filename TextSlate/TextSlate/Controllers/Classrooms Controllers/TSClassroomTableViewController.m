@@ -65,9 +65,9 @@
 
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *cellIdentifier = @"classRoomProtoTypeTableViewCell";
-    TSClassTableViewCell *cell = (TSClassTableViewCell*)[tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
+    TSClassTableViewCell *cell = (TSClassTableViewCell*)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     
-    [cell setClassObject:_classesArray[indexPath.row]];
+    [cell setClasses:_classesArray[indexPath.row]];
     
     return cell;
 }
