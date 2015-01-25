@@ -30,11 +30,19 @@
     } else {
         
     }
+}
+
+-(void) viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
     
     UIBarButtonItem *joinBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Join" style:UIBarButtonItemStylePlain target:self action:@selector(joinClassBarButtonItemClicked)];
     
+    UIBarButtonItem *addNewClass = [[UIBarButtonItem alloc] initWithTitle:@"+" style:UIBarButtonItemStylePlain target:self action:@selector(addClassClicked:)];
+    
+    NSLog(@"%@",[[PFUser currentUser] objectForKey:@"role"]);
+    
     if ([[[PFUser currentUser] objectForKey:@"role"] isEqualToString:@"teacher"]) {
-        [self.navigationItem setRightBarButtonItems:@[self.navigationItem.rightBarButtonItem, joinBarButtonItem]];
+        [self.navigationItem setRightBarButtonItems:@[addNewClass, joinBarButtonItem]];
     } else {
         [self.navigationItem setRightBarButtonItems:@[joinBarButtonItem]];
     }
