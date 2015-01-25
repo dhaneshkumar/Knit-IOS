@@ -19,6 +19,8 @@ typedef void (^errorBlock)(NSError *error);
 
 +(void) getInboxDetails:(successBlock)successBlock errorBlock:(errorBlock)errorBlock;
 
++(void) getInboxMessages:(successBlock)successBlock errorBlock:(errorBlock)errorBlock;
+
 +(void) joinNewClass:(NSString*)classCode childName:(NSString*)childName successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock;
 
 +(void) getClassMessagesWithClassCode:(NSString*)classCode successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock;

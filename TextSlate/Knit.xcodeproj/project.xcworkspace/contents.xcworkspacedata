@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:TextSlate.xcodeproj">
+      location = "self:Knit.xcodeproj">
    </FileRef>
 </Workspace>

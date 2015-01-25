@@ -45,9 +45,9 @@
         [self.inputToolbar setHidden:YES];
     }
     
-    UIBarButtonItem *deleteItem = [[UIBarButtonItem alloc] initWithTitle:@"Delete" style:UIBarButtonItemStylePlain target:self action:@selector(deleteClass)];
-    UIBarButtonItem *detailsItem = [[UIBarButtonItem alloc] initWithTitle:@"Details" style:UIBarButtonItemStylePlain target:self action:@selector(showClassDetails)];
-    self.navigationItem.rightBarButtonItems = @[deleteItem, detailsItem];
+    //UIBarButtonItem *deleteItem = [[UIBarButtonItem alloc] initWithTitle:@"Delete" style:UIBarButtonItemStylePlain target:self action:@selector(deleteClass)];
+    //UIBarButtonItem *detailsItem = [[UIBarButtonItem alloc] initWithTitle:@"Details" style:UIBarButtonItemStylePlain target:self action:@selector(showClassDetails)];
+    //self.navigationItem.rightBarButtonItems = @[deleteItem, detailsItem];
 }
 
 -(void) showClassDetails {

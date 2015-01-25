@@ -33,7 +33,7 @@
     _classes = classes;
     [_classNameLabel setText:classes.name];
     [_classCodeLabel setText:classes.code];
-    [_membersCountlabel setText:[NSString stringWithFormat:@"%d viewer%@", classes.viewers, classes.viewers == 1 ? @"" :@"s"]];
+    //[_membersCountlabel setText:[NSString stringWithFormat:@"%d viewer%@", classes.viewers, classes.viewers == 1 ? @"" :@"s"]];
     
 #warning Fix thumbnail image
 }

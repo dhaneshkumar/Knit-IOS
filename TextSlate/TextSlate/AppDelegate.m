@@ -21,6 +21,9 @@
     // Enable crashing feedback.
     //[ParseCrashReporting enable];
     
+    // Enable local datastore.
+    [Parse enableLocalDatastore];
+    
     // Override point for customization after application launch.
     [Parse setApplicationId:@"7kuBxdNpJ5ZW5rcyYrpw3vlxsTLuHbuqtTd65ErZ" clientKey:@"bmfdNqrZY0olJgsezG5ZRiBN1OPO4TqO1pH46PU9"];
     [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
