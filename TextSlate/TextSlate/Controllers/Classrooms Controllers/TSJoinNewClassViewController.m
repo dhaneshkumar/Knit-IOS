@@ -8,6 +8,7 @@
 
 #import "TSJoinNewClassViewController.h"
 #import "Data.h"
+#import <Parse/Parse.h>
 
 @interface TSJoinNewClassViewController ()
 
@@ -17,7 +18,7 @@
 @end
 
 @implementation TSJoinNewClassViewController
-
+// @synthesize activityIndicator;
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -39,13 +40,21 @@
 */
 
 - (IBAction)joinNewClassClicked:(UIButton *)sender {
-    UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     indicator.center = self.view.center;
     [indicator startAnimating];
-    
+  //  NSMutableArray *str=[[NSMutableArray alloc]init];
+    //NSString *name=_associatedPersonTextField.text;
     [Data joinNewClass:_classCodeTextField.text childName:_associatedPersonTextField.text successBlock:^(id object) {
         [indicator stopAnimating];
         [indicator removeFromSuperview];
+        //NSString *channel=_associatedPersonTextField.text;
+        NSMutableArray *channel=[[NSMutableArray alloc]init];
+        [channel addObject:_classCodeTextField.text];
+        PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+        [currentInstallation addObjectsFromArray:channel forKey:@"channels"];
+        [currentInstallation saveInBackground];
+        
         if (self.presentingViewController) {
             [self dismissViewControllerAnimated:YES completion:nil];
         }

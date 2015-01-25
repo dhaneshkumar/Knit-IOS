@@ -1,4 +1,4 @@
-//
+
 //  TSClassroomViewController.m
 //  TextSlate
 //
@@ -8,6 +8,7 @@
 
 #import "TSClassroomTableViewController.h"
 #import "TSClassTableViewCell.h"
+#import "TSClassroomTableViewController.m"
 #import "TSSendClassMessageViewController.h"
 
 #import "Data.h"
@@ -26,11 +27,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    //[self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"classRoomProtoTypeTableViewCell"];
+
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+
 }
 
 -(void) viewDidAppear:(BOOL)animated {
@@ -38,13 +42,16 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [Data getClassRooms:^(id object) {
             _classesArray = (NSArray*) object;
+
             [self.tableView reloadData];
-        } errorBlock:^(NSError *error) {
+                } errorBlock:^(NSError *error) {
             NSLog(@"Unable to fetch classes: %@", [error description]);
         }];
-    });
-}
+        
 
+    });
+    
+}
 /*
 #pragma mark - Navigation
 
@@ -65,10 +72,10 @@
 
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *cellIdentifier = @"classRoomProtoTypeTableViewCell";
-    TSClassTableViewCell *cell = (TSClassTableViewCell*)[tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
+    TSClassTableViewCell *cell = (TSClassTableViewCell*)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     
-    [cell setClassObject:_classesArray[indexPath.row]];
-    
+    [cell setClasses:_classesArray[indexPath.row]];
+   // NSLog
     return cell;
 }
 
@@ -83,4 +90,5 @@
         dvc.classObject = selectedClass;
     }
 }
+    
 @end

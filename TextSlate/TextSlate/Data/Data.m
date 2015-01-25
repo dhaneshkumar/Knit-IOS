@@ -24,7 +24,11 @@
         }
     }];
 }
-
+    
+    
+    
+    
+    
 +(void) getClassRooms:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
     [[PFUser currentUser] fetchInBackgroundWithBlock:^(PFObject *object, NSError *error) {
         if (error) {
@@ -38,6 +42,7 @@
                 cl.code = [TSUtils safe_string:[classArray objectAtIndex:0]];
                 cl.class_type = CREATED_BY_ME;
                 [returnArray addObject:cl];
+                
             }
             
             NSArray *joinedGroups = [[PFUser currentUser] objectForKey:@"joined_groups"];
@@ -48,6 +53,9 @@
                 cl.class_type = JOINED_BY_ME;
                 [returnArray addObject:cl];
             }
+            // for (TSJoinedClass *c in returnArray) {
+             //  NSLog(@"%@",c.name );
+            //}
             successBlock([[NSArray alloc] initWithArray:returnArray]);
         }
     }];

@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface TSJoinNewClassViewController : UIViewController
+//@property (strong, nonatomic) IBOutlet UIView *activityIndicator;
 
 @end

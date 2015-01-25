@@ -7,6 +7,8 @@
 //
 
 #import "AppDelegate.h"
+#import "Data.h"
+#import "TSJoinedClass.h"
 #import <Parse/Parse.h>
 
 @interface AppDelegate ()
@@ -16,11 +18,14 @@
 @implementation AppDelegate
 
 
+@synthesize classArray;
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+
+    [Parse enableLocalDatastore];
     // Override point for customization after application launch.
     [Parse setApplicationId:@"7kuBxdNpJ5ZW5rcyYrpw3vlxsTLuHbuqtTd65ErZ" clientKey:@"bmfdNqrZY0olJgsezG5ZRiBN1OPO4TqO1pH46PU9"];
     [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
-    
     
     // Registering for the Push notifications
     UIUserNotificationType userNotificationTypes = (UIUserNotificationTypeAlert |
@@ -35,11 +40,14 @@
 }
 
 -(void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+    
+   // NSMutableArray *channel=[[NSMutableArray alloc]init];
     // Store the deviceToken in the current installation and save it to Parse.
     PFInstallation *currentInstallation = [PFInstallation currentInstallation];
     [currentInstallation setDeviceTokenFromData:deviceToken];
-    currentInstallation.channels = @[ @"global" ];
+  //  currentInstallation.channels = @[ @"global" ];
     [currentInstallation saveInBackground];
+    
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {

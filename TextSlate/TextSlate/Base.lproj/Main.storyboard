@@ -696,10 +696,10 @@
                                     </variation>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <outlet property="classCodeTextLabel" destination="Bd3-JA-R2e" id="YSr-7T-gKr"/>
-                                    <outlet property="classMemberCountsTextLabel" destination="EK4-r8-kXo" id="aLa-74-zTV"/>
-                                    <outlet property="classNameTextLabel" destination="lec-TJ-jwP" id="FYf-uC-c5g"/>
+                                    <outlet property="classCodeLabel" destination="Bd3-JA-R2e" id="LsD-m0-Csy"/>
+                                    <outlet property="classNameLabel" destination="EK4-r8-kXo" id="TLY-0r-xrD"/>
                                     <outlet property="classThumbnailImageView" destination="22v-Ji-Fp3" id="Xwu-XA-XfY"/>
+                                    <outlet property="membersCountlabel" destination="lec-TJ-jwP" id="sfr-DC-tHe"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
