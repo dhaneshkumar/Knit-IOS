@@ -194,10 +194,18 @@
 -(void) didPressSendButton:(UIButton *)button withMessageText:(NSString *)text senderId:(NSString *)senderId senderDisplayName:(NSString *)senderDisplayName date:(NSDate *)date {
     [Data sendMessageOnClass:_classObject.code className:_classObject.name message:text withImage:nil withImageName:nil successBlock:^(id object) {
         [self reloadMessages];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@""
+                                                        message:@"Message Has Been Sent"
+                                                       delegate:self
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil];
+        [alert show];
+         self.inputToolbar.contentView.textView.text=@"";
     } errorBlock:^(NSError *error) {
         UIAlertView *errorDialog = [[UIAlertView alloc] initWithTitle:@"Text Slate" message:@"Error occurred in sending the message" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
         [errorDialog show];
     }];
+    
 }
 
 -(void) didPressAccessoryButton:(UIButton *)sender {
@@ -205,6 +213,7 @@
     [_imagePicker setDelegate:self];
     [self presentViewController:_imagePicker animated:YES completion:nil];
 }
+
 
 -(void) imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     [_imagePicker dismissViewControllerAnimated:YES completion:^{
@@ -221,7 +230,6 @@
             } errorBlock:^(NSError *error) {
                 
             }];
-
         };
         
         ALAssetsLibrary* assetslibrary = [[ALAssetsLibrary alloc] init];
