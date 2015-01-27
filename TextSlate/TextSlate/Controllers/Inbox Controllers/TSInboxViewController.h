@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "JSQMessagesViewController.h"
 
-@interface TSInboxViewController : UIViewController
+@interface TSInboxViewController : JSQMessagesViewController <UINavigationBarDelegate>
 
 @end

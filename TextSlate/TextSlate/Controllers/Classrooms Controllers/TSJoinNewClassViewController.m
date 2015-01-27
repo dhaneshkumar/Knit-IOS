@@ -9,6 +9,7 @@
 #import "TSJoinNewClassViewController.h"
 #import "Data.h"
 #import <Parse/Parse.h>
+#import "TSClass.h"
 
 @interface TSJoinNewClassViewController ()
 
@@ -45,6 +46,17 @@
     [indicator startAnimating];
   //  NSMutableArray *str=[[NSMutableArray alloc]init];
     //NSString *name=_associatedPersonTextField.text;
+    NSArray *joinedGroups = [[PFUser currentUser] objectForKey:@"joined_groups"];
+    NSMutableArray *joinedClasses=[[NSMutableArray alloc]init];
+    for(NSArray *a in joinedGroups)
+     {
+         NSLog(@"%@",[a objectAtIndex:0]);
+         [joinedClasses addObject:[a objectAtIndex:0]];
+     }
+    if (![joinedClasses containsObject:_classCodeTextField.text]) {
+        NSLog(@"Joining this class ");
+    
+    
     [Data joinNewClass:_classCodeTextField.text childName:_associatedPersonTextField.text successBlock:^(id object) {
         [indicator stopAnimating];
         [indicator removeFromSuperview];
@@ -62,9 +74,19 @@
         [indicator stopAnimating];
         [indicator removeFromSuperview];
         
-        UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Text Slate" message:@"Error in joining Class. Please make sure you have the correct class code." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+        UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error in joining Class. Please make sure you have the correct class code." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
         [errorAlertView show];
     }];
+    }
+    
+    else
+    {
+        UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Voila" message:@"You have already joined this class! " delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+    
+        [errorAlertView show];
+    }
+    
+    
 }
 
 - (IBAction)cancelPressed:(UIBarButtonItem *)sender {

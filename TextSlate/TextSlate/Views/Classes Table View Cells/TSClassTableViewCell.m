@@ -7,6 +7,8 @@
 //
 
 #import "TSClassTableViewCell.h"
+#import "TSJoinedClass.h"
+#import "TSCreatedClass.h"
 
 @interface TSClassTableViewCell ()
 
@@ -29,11 +31,22 @@
     // Configure the view for the selected state
 }
 
--(void) setClasses:(TSClass *)cl {
-    _classes = cl;
-    [_classNameLabel setText:cl.name];
-    [_classCodeLabel setText:cl.code];
-    [_membersCountlabel setText:[NSString stringWithFormat:@"%d viewer%@", cl.viewers, cl.viewers == 1 ? @"" :@"s"]];
+
+-(void) setClasses:(TSClass *)classes {
+    _classes = classes;
+    [_classNameLabel setText:classes.name];
+    [_classCodeLabel setText:classes.code];
+    
+    // Assigning different colors to joined and created classes.
+    if([classes isKindOfClass:[TSCreatedClass class]]) {
+        _classNameLabel.textColor = [UIColor colorWithRed:(34/255.0) green:(143/255.0) blue:(194/255.0) alpha:1];
+        _classCodeLabel.textColor = [UIColor lightGrayColor];
+    }
+    else if([classes isKindOfClass:[TSJoinedClass class]]) {
+        _classNameLabel.textColor = [UIColor darkGrayColor];
+        _classCodeLabel.textColor = [UIColor lightGrayColor];
+    }
+    //[_membersCountlabel setText:[NSString stringWithFormat:@"%d viewer%@", classes.viewers, classes.viewers == 1 ? @"" :@"s"]];
     
 #warning Fix thumbnail image
 }

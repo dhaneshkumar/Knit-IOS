@@ -19,6 +19,7 @@
 @interface TSClassroomTableViewController ()
 
 @property (strong, nonatomic) NSArray *classesArray;
+@property (strong,nonatomic ) NSArray *joinedclassesArray;
 
 @end
 
@@ -39,7 +40,7 @@
 
 -(void) viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+   dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [Data getClassRooms:^(id object) {
             _classesArray = (NSArray*) object;
 
@@ -47,7 +48,9 @@
                 } errorBlock:^(NSError *error) {
             NSLog(@"Unable to fetch classes: %@", [error description]);
         }];
+
         
+               
 
     });
     
@@ -63,7 +66,7 @@
 */
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return _classesArray.count;
+    return _classesArray.count+_joinedclassesArray.count;
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -75,7 +78,7 @@
     TSClassTableViewCell *cell = (TSClassTableViewCell*)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     
     [cell setClasses:_classesArray[indexPath.row]];
-   // NSLog
+    
     return cell;
 }
 
@@ -87,8 +90,11 @@
     if ([segue.identifier isEqualToString:@"pushMessages"]) {
         TSSendClassMessageViewController *dvc = (TSSendClassMessageViewController*)segue.destinationViewController;
         TSClass *selectedClass = _classesArray[[[self.tableView indexPathForSelectedRow] row]];
+        NSString *name=selectedClass.name;
+        dvc.className=name;
         dvc.classObject = selectedClass;
     }
 }
-    
+
+
 @end

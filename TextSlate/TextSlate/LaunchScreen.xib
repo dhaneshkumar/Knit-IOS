@@ -10,23 +10,22 @@
             <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="05-xxhdpi.png" translatesAutoresizingMaskIntoConstraints="NO" id="7mH-of-wXh">
-                    <rect key="frame" x="165" y="125" width="150" height="151"/>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="05-xxhdpi.png" translatesAutoresizingMaskIntoConstraints="NO" id="3lH-pQ-aG3">
+                    <rect key="frame" x="181" y="134" width="150" height="150"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="151" id="BtX-QS-w9e"/>
-                        <constraint firstAttribute="width" constant="150" id="JbI-Ko-Rsj"/>
+                        <constraint firstAttribute="width" constant="150" id="7Dw-xJ-RGO"/>
+                        <constraint firstAttribute="height" constant="150" id="kyS-cy-tjB"/>
                     </constraints>
                 </imageView>
             </subviews>
             <color key="backgroundColor" red="0.14901960780000001" green="0.71372549019999998" blue="0.96470588239999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstAttribute="centerX" secondItem="7mH-of-wXh" secondAttribute="centerX" id="Rby-lv-MfA"/>
-                <constraint firstAttribute="centerY" secondItem="7mH-of-wXh" secondAttribute="centerY" constant="39.5" id="S7J-k3-QVK"/>
-                <constraint firstAttribute="centerY" secondItem="7mH-of-wXh" secondAttribute="centerY" constant="39.5" id="tgQ-B8-Chr"/>
+                <constraint firstAttribute="centerX" secondItem="3lH-pQ-aG3" secondAttribute="centerX" constant="-16" id="CZa-30-dXp"/>
+                <constraint firstAttribute="centerY" secondItem="3lH-pQ-aG3" secondAttribute="centerY" constant="31" id="fXy-hU-JEv"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="1162" y="844"/>
+            <point key="canvasLocation" x="1356" y="1106"/>
         </view>
     </objects>
     <resources>

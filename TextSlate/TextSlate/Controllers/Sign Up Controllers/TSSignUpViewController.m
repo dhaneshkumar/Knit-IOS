@@ -65,7 +65,7 @@
 
 - (IBAction)signUpClicked:(UIButton *)sender {
     if (![_passwordTextField.text isEqualToString:_confirmPasswordTextField.text]) {
-        UIAlertView *passwordMismatchAlertView = [[UIAlertView alloc] initWithTitle:@"Text Slate" message:@"Your password input(s) did not match. Please check again" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        UIAlertView *passwordMismatchAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Your password input(s) did not match. Please check again" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [passwordMismatchAlertView show];
         return;
     }

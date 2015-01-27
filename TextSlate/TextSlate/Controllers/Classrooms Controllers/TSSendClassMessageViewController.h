@@ -13,5 +13,5 @@
 @interface TSSendClassMessageViewController : JSQMessagesViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 
 @property (strong, nonatomic) TSClass *classObject;
-
+@property(strong,nonatomic) NSString *className;
 @end

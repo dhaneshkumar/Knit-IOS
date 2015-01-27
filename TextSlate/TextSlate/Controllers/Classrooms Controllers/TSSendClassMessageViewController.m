@@ -30,7 +30,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
+    self.navigationItem.title = _className;
+
     _messagesArray = [[NSMutableArray alloc] init];
     
     self.senderDisplayName = _classObject.name;
@@ -43,11 +44,12 @@
     
     if (_classObject.class_type != CREATED_BY_ME) {
         [self.inputToolbar setHidden:YES];
+    
     }
     
-    UIBarButtonItem *deleteItem = [[UIBarButtonItem alloc] initWithTitle:@"Delete" style:UIBarButtonItemStylePlain target:self action:@selector(deleteClass)];
-    UIBarButtonItem *detailsItem = [[UIBarButtonItem alloc] initWithTitle:@"Details" style:UIBarButtonItemStylePlain target:self action:@selector(showClassDetails)];
-    self.navigationItem.rightBarButtonItems = @[deleteItem, detailsItem];
+    //UIBarButtonItem *deleteItem = [[UIBarButtonItem alloc] initWithTitle:@"Delete" style:UIBarButtonItemStylePlain target:self action:@selector(deleteClass)];
+    //UIBarButtonItem *detailsItem = [[UIBarButtonItem alloc] initWithTitle:@"Details" style:UIBarButtonItemStylePlain target:self action:@selector(showClassDetails)];
+    //self.navigationItem.rightBarButtonItems = @[deleteItem, detailsItem];
 }
 
 -(void) showClassDetails {
@@ -79,7 +81,7 @@
         _messagesArray = messagesArr;
         [self.collectionView reloadData];
     } errorBlock:^(NSError *error) {
-        UIAlertView *errorDialog = [[UIAlertView alloc] initWithTitle:@"Text Slate" message:@"Error occurred in fetching class messages" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+        UIAlertView *errorDialog = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error occurred in fetching class messages" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
         [errorDialog show];
     }];
 }
@@ -202,7 +204,7 @@
         [alert show];
          self.inputToolbar.contentView.textView.text=@"";
     } errorBlock:^(NSError *error) {
-        UIAlertView *errorDialog = [[UIAlertView alloc] initWithTitle:@"Text Slate" message:@"Error occurred in sending the message" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+        UIAlertView *errorDialog = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error occurred in sending the message" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
         [errorDialog show];
     }];
     

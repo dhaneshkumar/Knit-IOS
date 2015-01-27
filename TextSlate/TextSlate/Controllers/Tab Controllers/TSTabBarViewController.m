@@ -30,6 +30,7 @@
     } else {
         
     }
+    
 }
 
 -(void) viewWillAppear:(BOOL)animated {
@@ -37,7 +38,7 @@
     
     UIBarButtonItem *joinBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Join" style:UIBarButtonItemStylePlain target:self action:@selector(joinClassBarButtonItemClicked)];
     
-    UIBarButtonItem *addNewClass = [[UIBarButtonItem alloc] initWithTitle:@"+" style:UIBarButtonItemStylePlain target:self action:@selector(addClassClicked:)];
+    UIBarButtonItem *addNewClass = [[UIBarButtonItem alloc] initWithTitle:@"Create" style:UIBarButtonItemStylePlain target:self action:@selector(addClassClicked:)];
     
     NSLog(@"%@",[[PFUser currentUser] objectForKey:@"role"]);
     

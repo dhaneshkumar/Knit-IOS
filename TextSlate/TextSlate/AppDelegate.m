@@ -10,6 +10,7 @@
 #import "Data.h"
 #import "TSJoinedClass.h"
 #import <Parse/Parse.h>
+#import <ParseCrashReporting/ParseCrashReporting.h>
 
 @interface AppDelegate ()
 
@@ -21,8 +22,14 @@
 @synthesize classArray;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-
+   
+    // Enable crashing feedback.
+    [ParseCrashReporting enable];
+    
+    // Enable local datastore.
     [Parse enableLocalDatastore];
+    
+
     // Override point for customization after application launch.
     [Parse setApplicationId:@"7kuBxdNpJ5ZW5rcyYrpw3vlxsTLuHbuqtTd65ErZ" clientKey:@"bmfdNqrZY0olJgsezG5ZRiBN1OPO4TqO1pH46PU9"];
     [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
