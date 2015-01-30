@@ -23,6 +23,7 @@
 @property (strong, nonatomic) NSMutableArray *messagesArray;
 @property (strong, nonatomic) UIImagePickerController *imagePicker;
 
+
 @end
 
 @implementation TSSendClassMessageViewController
@@ -60,7 +61,7 @@
     [Data deleteClass:_classObject.code successBlock:^(id object) {
         [self.navigationController popViewControllerAnimated:YES];
     } errorBlock:^(NSError *error) {
-        UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"TextSlate" message:@"Error occured in deleting the class." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+        UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error occured in deleting the class." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
         [errorAlertView show];
     }];
 }
@@ -203,11 +204,17 @@
                                               otherButtonTitles:nil];
         [alert show];
          self.inputToolbar.contentView.textView.text=@"";
+        
+               
     } errorBlock:^(NSError *error) {
         UIAlertView *errorDialog = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error occurred in sending the message" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
         [errorDialog show];
     }];
-    
+   
+}
+- (IBAction)displayMember:(id)sender {
+    [self performSegueWithIdentifier:@"showDetails" sender:sender];
+
 }
 
 -(void) didPressAccessoryButton:(UIButton *)sender {

@@ -8,29 +8,60 @@
 
 #import "TSMemberslistTableViewController.h"
 #import "Data.h"
+#import <Parse/Parse.h>
 
 @interface TSMemberslistTableViewController ()
 
-@property (strong, nonatomic) NSArray *results;
+@property (strong, nonatomic) NSArray *result;
 
 @end
 
 @implementation TSMemberslistTableViewController
 
+
 - (void)viewDidLoad {
     [super viewDidLoad];
+    if ([self respondsToSelector:@selector(edgesForExtendedLayout)])
+        self.edgesForExtendedLayout = UIRectEdgeNone;
     
+
+    _subscriber=[[NSMutableArray alloc]init];
     [Data getMemberDetails:_classObject.code successBlock:^(id object) {
-        _results = (NSArray*) object;
+        _result = (NSArray*) object;
+        for(PFObject *a in object)
+        {
+                NSString *obj= [a objectForKey:@"name"];
+                NSString *child= [a objectForKey:@"childern_names"];
+                
+                if(child.length>0)
+                {
+                    [_subscriber addObject:child];
+                }
+                else if(obj.length>0)
+                {
+                    [_subscriber addObject:obj];
+                   
+                }
+            [self.tableView reloadData];
+
+        }
+        
+        
     } errorBlock:^(NSError *error) {
         
     }];
+    
     
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+     self.navigationItem.rightBarButtonItem = self.editButtonItem;
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    
+  
 }
 
 - (void)didReceiveMemoryWarning {
@@ -42,19 +73,30 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     // Return the number of sections.
-    return 0;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
-    return _results.count;
+    return _subscriber.count;
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"memberName" forIndexPath:indexPath];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"memberName"];
+    /*if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"memberName"];
+    }*/
     
-    
+
+    if(_subscriber.count==0)
+    {
+        
+    }
+    else{
+
+        cell.textLabel.text=_subscriber[indexPath.row];
+    }
     
     return cell;
 }

@@ -29,6 +29,9 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     //[self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"classRoomProtoTypeTableViewCell"];
+    if ([self respondsToSelector:@selector(edgesForExtendedLayout)])
+        self.edgesForExtendedLayout = UIRectEdgeNone;
+
 
 }
 

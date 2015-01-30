@@ -7,7 +7,7 @@
 //
 
 #import "Data.h"
-#import <Parse/Parse.h>
+#import "Parse/Parse.h"
 #import "TSCreatedClass.h"
 #import "TSJoinedClass.h"
 #import "TSUtils.h"
@@ -160,14 +160,14 @@
 
 +(void)getMemberDetails:(NSString *)classCode successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
     PFQuery *query = [[PFQuery alloc] initWithClassName:@"GroupMembers"];
-    [query whereKey:@"userId" equalTo:[[PFUser currentUser] username]];
-    [query whereKey:@"code" equalTo:classCode];
     
-    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+    [query whereKey:@"code" equalTo:classCode];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *object, NSError *error) {
         if (error) {
+            NSLog(@"Error");
             errorBlock(error);
         } else {
-            
+            successBlock(object);
         }
     }];
 }
