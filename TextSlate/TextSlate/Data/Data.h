@@ -30,5 +30,7 @@ typedef void (^errorBlock)(NSError *error);
 +(void) deleteClass:(NSString*)classCode successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock;
 
 +(void) getMemberDetails:(NSString*)classCode successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock;
-
++(void) updateInboxLocalDatastore:(successBlock)successBlock errorBlock:(errorBlock)errorBlock;
++(void)updateInboxLocalDatastoreWithTime:(NSDate *)lastMessageTime successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock;
++(void)getMemberList:(NSDate *)lastMessageTime successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock;
 @end

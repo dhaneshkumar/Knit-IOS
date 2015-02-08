@@ -172,4 +172,39 @@
     }];
 }
 
++(void) updateInboxLocalDatastore:(successBlock)successBlock errorBlock:(errorBlock)errorBlock{
+    [PFCloud callFunctionInBackground:@"showallclassesmessageswithlimit" withParameters:@{@"limit":@20} block:^(id object, NSError *error) {
+        if(error){
+            errorBlock(error);
+        }
+        else {
+            successBlock(object);
+        }
+    }];
+}
++(void)updateInboxLocalDatastoreWithTime:(NSDate *)lastMessageTime successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock{
+    [PFCloud callFunctionInBackground:@"showallclassesmessages" withParameters:@{@"limit":@20,@"date":lastMessageTime} block:^(id object, NSError *error) {
+        if(error)
+        {
+            errorBlock(error);
+        }
+        else {
+            successBlock(object);
+        }
+        
+    }];
+}
++(void)getMemberList:(NSDate *)lastMessageTime successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock{
+    [PFCloud callFunctionInBackground:@"showAllSubscribers" withParameters:@{@"date":lastMessageTime} block:^(id object, NSError *error) {
+        if(error)
+        {
+            errorBlock(error);
+        }
+        else {
+            successBlock(object);
+        }
+        
+    }];
+}
+
 @end

@@ -17,22 +17,26 @@
 #import "JSQMessagesBubbleImageFactory.h"
 
 #import "TSMemberslistTableViewController.h"
+#import "sharedCache.h"
+
 
 @interface TSSendClassMessageViewController ()
 
 @property (strong, nonatomic) NSMutableArray *messagesArray;
 @property (strong, nonatomic) UIImagePickerController *imagePicker;
-
-
+@property(strong,nonatomic) NSDate *lastEntry;
 @end
 
 @implementation TSSendClassMessageViewController
+int lastIndex;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    _lastEntry=[[NSDate alloc]init];
+     // Do any additional setup after loading the view.
     self.navigationItem.title = _className;
-
+    
+    
     _messagesArray = [[NSMutableArray alloc] init];
     
     self.senderDisplayName = _classObject.name;
@@ -47,6 +51,8 @@
         [self.inputToolbar setHidden:YES];
     
     }
+    [self reloadMessages];
+    
     
     //UIBarButtonItem *deleteItem = [[UIBarButtonItem alloc] initWithTitle:@"Delete" style:UIBarButtonItemStylePlain target:self action:@selector(deleteClass)];
     //UIBarButtonItem *detailsItem = [[UIBarButtonItem alloc] initWithTitle:@"Details" style:UIBarButtonItemStylePlain target:self action:@selector(showClassDetails)];
@@ -68,19 +74,48 @@
 
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    [self reloadMessages];
+    lastIndex=_messagesArray.count-1;
+    NSLog(@"%i is lastIndex",lastIndex);
+    
+
 }
 
 -(void) reloadMessages {
+   
     [Data getClassMessagesWithClassCode:_classObject.code successBlock:^(id object) {
         NSMutableArray *messagesArr = [[NSMutableArray alloc] init];
         for (PFObject *groupObject in object) {
 #warning Need to complete here
             JSQMessage *message = [[JSQMessage alloc] initWithSenderId:[groupObject objectForKey:@"Creator"] senderDisplayName:[groupObject objectForKey:@"Creator"] date:[NSDate date] text:[groupObject objectForKey:@"title"]];
             [messagesArr insertObject:message atIndex:0];
+            
+            PFFile *file=[groupObject objectForKey:@"attachment"];
+            NSString *url1=file.url;
+            NSLog(@"%@ is url to the image",url1);
+            UIImage *image = [[sharedCache sharedInstance] getCachedImageForKey:url1];
+            if(image)
+            {
+                NSLog(@"This is cached");
+                
+            }
+            else{
+                
+                NSURL *imageURL = [NSURL URLWithString:url1];
+                UIImage *image = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:imageURL]];
+                
+                if(image)
+                {
+                    NSLog(@"Caching ....");
+                    [[sharedCache sharedInstance] cacheImage:image forKey:url1];
+                }
+                
+            }
+
         }
         _messagesArray = messagesArr;
         [self.collectionView reloadData];
+        
+        
     } errorBlock:^(NSError *error) {
         UIAlertView *errorDialog = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error occurred in fetching class messages" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
         [errorDialog show];

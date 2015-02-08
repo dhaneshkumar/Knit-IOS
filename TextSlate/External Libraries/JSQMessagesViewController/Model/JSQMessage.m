@@ -89,7 +89,7 @@
 {
     NSParameterAssert(senderId != nil);
     NSParameterAssert(senderDisplayName != nil);
-    NSParameterAssert(date != nil);
+  //  NSParameterAssert(date != nil);
     
     self = [super init];
     if (self) {

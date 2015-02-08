@@ -12,8 +12,8 @@
 
 @interface TSMemberslistTableViewController ()
 
-@property (strong, nonatomic) NSArray *result;
-
+@property (strong,nonatomic) NSDate *latestTime;
+@property (strong,nonatomic) NSMutableArray *result;
 @end
 
 @implementation TSMemberslistTableViewController
@@ -21,37 +21,21 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    if ([self respondsToSelector:@selector(edgesForExtendedLayout)])
-        self.edgesForExtendedLayout = UIRectEdgeNone;
-    
+   _result=[[NSMutableArray alloc]init];
 
     _subscriber=[[NSMutableArray alloc]init];
-    [Data getMemberDetails:_classObject.code successBlock:^(id object) {
-        _result = (NSArray*) object;
-        for(PFObject *a in object)
-        {
-                NSString *obj= [a objectForKey:@"name"];
-                NSString *child= [a objectForKey:@"childern_names"];
-                
-                if(child.length>0)
-                {
-                    [_subscriber addObject:child];
-                }
-                else if(obj.length>0)
-                {
-                    [_subscriber addObject:obj];
-                   
-                }
-            [self.tableView reloadData];
+    
+    
+    [self fetchMemberList];
+    [self fillArray];
+    if ([self respondsToSelector:@selector(edgesForExtendedLayout)])
+        self.edgesForExtendedLayout = UIRectEdgeNone;
+   
+    
 
-        }
-        
-        
-    } errorBlock:^(NSError *error) {
-        
-    }];
     
-    
+
+    [self.tableView reloadData];
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
@@ -60,7 +44,9 @@
 }
 
 -(void)viewWillAppear:(BOOL)animated{
-    
+    [self fetchMemberList];
+    [self.tableView reloadData];
+
   
 }
 
@@ -78,7 +64,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
-    return _subscriber.count;
+    return _result.count;
 }
 
 
@@ -89,16 +75,121 @@
     }*/
     
 
-    if(_subscriber.count==0)
+    if(_result.count==0)
     {
         
     }
     else{
 
-        cell.textLabel.text=_subscriber[indexPath.row];
+        cell.textLabel.text=_result[indexPath.row];
     }
     
     return cell;
+}
+
+-(void) fillArray{
+    PFQuery *query=[PFQuery queryWithClassName:@"GroupMembers"];
+    [query fromLocalDatastore];
+    [query orderByAscending:@"updatedAt"];
+    [query whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
+    NSArray * objects=[query findObjects];
+    NSString *classCode =_classObject.code;
+
+  //  NSLog(@"%@ array",objects);
+    for(PFObject *names in objects)
+    {
+        NSString *obj= [names objectForKey:@"name"];
+        NSString *child= [names objectForKey:@"childern_names"];
+        NSString *checkCode=[names objectForKey:@"code"];
+        if(child.length>0 && [checkCode isEqualToString:classCode])
+        {
+            [_result addObject:child];
+        }
+        else if(obj.length>0 && [checkCode isEqualToString:classCode])
+        {
+            [_result addObject:obj];
+            
+        }
+        
+        
+    }
+    PFQuery *query1=[PFQuery queryWithClassName:@"Messageneeders"];
+    [query1 fromLocalDatastore];
+    [query1 orderByAscending:@"updatedAt"];
+    [query1 whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
+    NSArray * phoneObjects=[query1 findObjects];
+    for(PFObject *names in phoneObjects)
+    {
+        NSString *child= [names objectForKey:@"subscriber"];
+        NSString *obj= [names objectForKey:@"number"];
+        NSString *checkCode=[names objectForKey:@"cod"];
+
+        if(child.length>0 && [checkCode isEqualToString:classCode])
+        {
+            [_result addObject:child];
+        }
+        else if(obj.length>0 && [checkCode isEqualToString:classCode])
+        {
+            [_result addObject:obj];
+            
+        }
+        
+        
+    }
+
+
+
+}
+
+
+
+
+-(void) fetchMemberList{
+    
+    PFQuery *query=[PFQuery queryWithClassName:@"GroupMembers"];
+    [query fromLocalDatastore];
+    [query orderByAscending:@"updatedAt"];
+    [query whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+    if(error)
+    {
+    
+    }
+    else{
+        
+        if(objects.count==0) {
+            _latestTime=[PFUser currentUser].createdAt;
+        }
+   
+        else {
+            PFObject *member=[objects objectAtIndex:0];
+            _latestTime =member.createdAt;
+        }
+        
+        [Data getMemberList:_latestTime successBlock:^(id object) {
+            
+            NSMutableDictionary *members = (NSMutableDictionary *) object;
+            
+            NSArray *appUser= [members objectForKey:@"app"];
+            NSArray *phoneUser=[members objectForKey:@"sms"];
+            if(appUser.count>0){
+            
+            [PFObject pinAllInBackground:appUser];
+            
+            }
+            if(phoneUser.count>0){
+            
+                [PFObject pinAllInBackground:phoneUser];
+
+            }
+            
+        } errorBlock:^(NSError *error) {
+            
+        }];
+      }
+    }];
+    
+    
 }
 
 /*

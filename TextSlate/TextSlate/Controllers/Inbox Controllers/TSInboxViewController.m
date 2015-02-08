@@ -22,11 +22,9 @@
 @end
 
 @implementation TSInboxViewController
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
     
     
     
@@ -40,8 +38,18 @@
 
 -(void) viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
- 
-    [Data getInboxMessages:^(id object) {
+    [self loadMessage];
+   
+}
+
+-(void) loadMessage
+{
+    PFQuery *query=[PFQuery queryWithClassName:@"GroupDetails"];
+    [query fromLocalDatastore];
+    [query orderByAscending:@"createdAt"];
+    
+/***** Complete it ******/
+    [Data updateInboxLocalDatastore:^(id object) {
         NSMutableArray * messagesArr = [[NSMutableArray alloc] init];
         for (PFObject * groupObject in object) {
 #warning Need to complete here
@@ -54,6 +62,7 @@
         UIAlertView *errorDialog = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error occurred in fetching messages" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
         [errorDialog show];
     }];
+    
 }
 
 - (void)didReceiveMemoryWarning {

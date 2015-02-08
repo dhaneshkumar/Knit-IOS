@@ -12,7 +12,5 @@
 @interface TSMemberslistTableViewController : UITableViewController
 
 @property (strong, nonatomic) TSClass *classObject;
-@property (strong, nonatomic) NSMutableArray *subscriber;
-
-
+@property (strong, nonatomic) NSMutableArray __block *subscriber;
 @end

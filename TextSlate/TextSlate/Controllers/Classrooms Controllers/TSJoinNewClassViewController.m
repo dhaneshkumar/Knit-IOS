@@ -15,6 +15,7 @@
 
 @property (weak, nonatomic) IBOutlet UITextField *classCodeTextField;
 @property (weak, nonatomic) IBOutlet UITextField *associatedPersonTextField;
+@property (weak, nonatomic) IBOutlet UIButton *joinButton;
 
 @end
 
@@ -41,6 +42,8 @@
 */
 
 - (IBAction)joinNewClassClicked:(UIButton *)sender {
+    self.joinButton.userInteractionEnabled=NO;
+    
     UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     indicator.center = self.view.center;
     [indicator startAnimating];
@@ -50,7 +53,6 @@
     NSMutableArray *joinedClasses=[[NSMutableArray alloc]init];
     for(NSArray *a in joinedGroups)
      {
-         NSLog(@"%@",[a objectAtIndex:0]);
          [joinedClasses addObject:[a objectAtIndex:0]];
      }
     if (![joinedClasses containsObject:_classCodeTextField.text]) {
@@ -86,7 +88,7 @@
         [errorAlertView show];
     }
     
-    
+    self.joinButton.userInteractionEnabled=YES;
 }
 
 - (IBAction)cancelPressed:(UIBarButtonItem *)sender {
