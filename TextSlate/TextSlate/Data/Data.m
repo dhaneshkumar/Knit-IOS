@@ -14,8 +14,8 @@
 
 @implementation Data
 
-+(void) createNewClassWithClassName:(NSString *)className classCode:(NSString *)classCode successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
-    [PFCloud callFunctionInBackground:@"createnewclass2" withParameters:@{@"classname" : className, @"classcode" : classCode} block:^(id object, NSError *error) {
++(void) createNewClassWithClassName:(NSString *)className standard:(NSString *)standard division:(NSString *)division school:(NSString *)school successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
+    [PFCloud callFunctionInBackground:@"createnewclass3" withParameters:@{@"classname":className, @"standard":standard, @"divison":division, @"school":school} block:^(id object, NSError *error) {
         if (error) {
             NSLog(@"error : %@", [error localizedDescription]);
             errorBlock(error);
@@ -24,7 +24,8 @@
         }
     }];
 }
-    
+
+
     
     
     
@@ -34,9 +35,11 @@
         if (error) {
             errorBlock(error);
         } else {
-            NSArray *createdGroups = [[PFUser currentUser] objectForKey:@"Created_groups"];
+            NSLog(@"Network query");
+            NSMutableArray *createdGroups =[[NSMutableArray alloc]init];
+            createdGroups = [[PFUser currentUser] objectForKey:@"Created_groups"];
             NSMutableArray *returnArray = [[NSMutableArray alloc] init];
-            for (NSArray *classArray in createdGroups) {
+            for (NSMutableArray *classArray in createdGroups) {
                 TSCreatedClass *cl = [[TSCreatedClass alloc] init];
                 cl.name = [TSUtils safe_string:[classArray objectAtIndex:1]];
                 cl.code = [TSUtils safe_string:[classArray objectAtIndex:0]];
@@ -44,9 +47,10 @@
                 [returnArray addObject:cl];
                 
             }
+            NSMutableArray *joinedGroups=[[NSMutableArray alloc]init];
             
-            NSArray *joinedGroups = [[PFUser currentUser] objectForKey:@"joined_groups"];
-            for (NSArray *classArray in joinedGroups) {
+            joinedGroups = [[PFUser currentUser] objectForKey:@"joined_groups"];
+            for (NSMutableArray *classArray in joinedGroups) {
                 TSJoinedClass *cl = [[TSJoinedClass alloc] init];
                 cl.name = [TSUtils safe_string:[classArray objectAtIndex:1]];
                 cl.code = [TSUtils safe_string:[classArray objectAtIndex:0]];
@@ -56,7 +60,7 @@
             // for (TSJoinedClass *c in returnArray) {
              //  NSLog(@"%@",c.name );
             //}
-            successBlock([[NSArray alloc] initWithArray:returnArray]);
+            successBlock([[NSMutableArray alloc] initWithArray:returnArray]);
         }
     }];
 }
@@ -84,8 +88,8 @@
     }];
 }
 
-+(void) joinNewClass:(NSString *)classCode childName:(NSString *)childName successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
-    [PFCloud callFunctionInBackground:@"joinnewclass" withParameters:@{@"classcode" : classCode, @"childName" : childName} block:^(id object, NSError *error) {
++(void) joinNewClass:(NSString *)classCode childName:(NSString *)childName installationId:(NSString*)installationId successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
+    [PFCloud callFunctionInBackground:@"joinnewclass2" withParameters:@{@"classcode" : classCode, @"childname" : childName, @"installationId" : installationId} block:^(id object, NSError *error) {
         if (error) {
             NSLog(@"error : %@", [error localizedDescription]);
             errorBlock(error);
@@ -105,6 +109,7 @@
     }];
 }
 
+
 +(void) deleteClass:(NSString *)classCode successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
     [PFCloud callFunctionInBackground:@"deleteclass" withParameters:@{@"classcode":classCode} block:^(id object, NSError *error) {
         if (error) {
@@ -114,6 +119,17 @@
         }
     }];
 }
+
++(void) leaveClass:(NSString *)classCode successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
+    [PFCloud callFunctionInBackground:@"leaveclass" withParameters:@{@"classcode":classCode} block:^(id object, NSError *error) {
+        if (error) {
+            errorBlock(error);
+        } else {
+            successBlock(object);
+        }
+    }];
+}
+
 
 +(void)sendMessageOnClass:(NSString *)classCode className:(NSString *)className message:(NSString *)message withImage:(UIImage *)image withImageName:(NSString *)imageName successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
     if (image) {
@@ -172,28 +188,43 @@
     }];
 }
 
-+(void) updateInboxLocalDatastore:(successBlock)successBlock errorBlock:(errorBlock)errorBlock{
-    [PFCloud callFunctionInBackground:@"showallclassesmessageswithlimit" withParameters:@{@"limit":@20} block:^(id object, NSError *error) {
-        if(error){
++(void)updateInboxLocalDatastore:(NSString *)classtype successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
+    [PFCloud callFunctionInBackground:@"showAllClassesMessagesWithlLimit" withParameters:@{@"classtype":classtype, @"limit":@30} block:^(id object, NSError *error) {
+        if (error) {
             errorBlock(error);
-        }
-        else {
+        } else {
             successBlock(object);
         }
     }];
 }
-+(void)updateInboxLocalDatastoreWithTime:(NSDate *)lastMessageTime successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock{
-    [PFCloud callFunctionInBackground:@"showallclassesmessages" withParameters:@{@"limit":@20,@"date":lastMessageTime} block:^(id object, NSError *error) {
-        if(error)
-        {
+
+
+
+
++(void)updateInboxLocalDatastoreWithTime:(NSDate *)lastMessageTime successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
+    [PFCloud callFunctionInBackground:@"showAllClassesMessagesWithTime" withParameters:@{@"date":lastMessageTime} block:^(id object, NSError *error) {
+        if (error) {
             errorBlock(error);
-        }
-        else {
+        } else {
             successBlock(object);
         }
-        
     }];
 }
+
+
++(void)updateInboxLocalDatastoreWithTime1:(NSDate *)oldestMessageTime successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
+    [PFCloud callFunctionInBackground:@"askForName" withParameters:@{@"date":oldestMessageTime, @"limit":@20} block:^(id object, NSError *error) {
+        if (error) {
+            errorBlock(error);
+        } else {
+            successBlock(object);
+        }
+    }];
+}
+
+
+
+
 +(void)getMemberList:(NSDate *)lastMessageTime successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock{
     [PFCloud callFunctionInBackground:@"showAllSubscribers" withParameters:@{@"date":lastMessageTime} block:^(id object, NSError *error) {
         if(error)
@@ -204,6 +235,60 @@
             successBlock(object);
         }
         
+    }];
+}
+
++(void)getFAQ:(NSString *)userRole successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock{
+    [PFCloud callFunctionInBackground:@"faq" withParameters:@{} block:^(id object, NSError *error) {
+        if(error)
+        {
+            errorBlock(error);
+        }
+        else {
+            successBlock(object);
+        }
+        
+    }];
+}
+
+
++(void)sendTextMessage:(NSString *)classcode classname:(NSString *)classname message:(NSString *)message successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
+    [PFCloud callFunctionInBackground:@"sendtextmessage" withParameters:@{@"classcode":classcode, @"classname":classname, @"message":message} block:^(id object, NSError *error) {
+        if (error) {
+            errorBlock(error);
+        } else {
+            successBlock(object);
+        }
+    }];
+}
+
++(void)sendTextMessagewithAttachment:(NSString *)classcode classname:(NSString *)classname message:(NSString *)message attachment:(PFFile*)attachment filename:(NSString *)filename successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
+    [PFCloud callFunctionInBackground:@"sendphototextmessage" withParameters:@{@"classcode":classcode, @"classname":classname, @"message":message,@"parsefile":attachment,@"filename":filename } block:^(id object, NSError *error) {
+        if (error) {
+            errorBlock(error);
+        } else {
+            successBlock(object);
+        }
+    }];
+}
+
++(void)removeMember:(NSString *)classcode classname:(NSString *)classname emailId:(NSString *)emailId usertype:(NSString *)usertype successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
+    [PFCloud callFunctionInBackground:@"removechild" withParameters:@{@"classcode":classcode, @"classname":classname, @"emailId":emailId,@"usertype":usertype} block:^(id object, NSError *error) {
+        if (error) {
+            errorBlock(error);
+        } else {
+            successBlock(object);
+        }
+    }];
+}
+
++(void)getAllCodegroups:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
+    [PFCloud callFunctionInBackground:@"giveClassesDetails" withParameters:@{} block:^(id object, NSError *error) {
+        if (error) {
+            errorBlock(error);
+        } else {
+            successBlock(object);
+        }
     }];
 }
 

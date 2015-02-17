@@ -8,6 +8,5 @@
 
 #import <UIKit/UIKit.h>
 
-@interface TSCreateClassroomViewController : UIViewController
-
+@interface TSCreateClassroomViewController : UIViewController<UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate>
 @end

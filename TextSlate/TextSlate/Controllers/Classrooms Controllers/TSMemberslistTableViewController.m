@@ -9,11 +9,15 @@
 #import "TSMemberslistTableViewController.h"
 #import "Data.h"
 #import <Parse/Parse.h>
+#import "TSMember.h"
 
 @interface TSMemberslistTableViewController ()
 
 @property (strong,nonatomic) NSDate *latestTime;
 @property (strong,nonatomic) NSMutableArray *result;
+@property (strong,nonatomic) NSMutableArray *memberList;
+
+
 @end
 
 @implementation TSMemberslistTableViewController
@@ -24,15 +28,13 @@
    _result=[[NSMutableArray alloc]init];
 
     _subscriber=[[NSMutableArray alloc]init];
-    
+    _memberList=[[NSMutableArray alloc]init];
     
     [self fetchMemberList];
-    [self fillArray];
     if ([self respondsToSelector:@selector(edgesForExtendedLayout)])
         self.edgesForExtendedLayout = UIRectEdgeNone;
    
     
-
     
 
     [self.tableView reloadData];
@@ -44,7 +46,7 @@
 }
 
 -(void)viewWillAppear:(BOOL)animated{
-    [self fetchMemberList];
+
     [self.tableView reloadData];
 
   
@@ -64,7 +66,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
-    return _result.count;
+    return _memberList.count;
 }
 
 
@@ -75,69 +77,172 @@
     }*/
     
 
-    if(_result.count==0)
+    if(_memberList.count==0)
     {
         
     }
     else{
-
-        cell.textLabel.text=_result[indexPath.row];
+    
+        if(((TSMember *)[_result objectAtIndex:indexPath.row]).childern!=[NSNull null])
+        {
+        cell.textLabel.text=((TSMember *)[_result objectAtIndex:indexPath.row]).childern;
+        }
+        else {
+            cell.textLabel.text=((TSMember *)[_result objectAtIndex:indexPath.row]).userName;
+        }
     }
     
     return cell;
 }
 
+
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        TSMember *toRemove=((TSMember *) [_result objectAtIndex:indexPath.row]);
+        NSString *checkEmail=toRemove.emailId;
+        NSString *userName=_result[indexPath.row];
+        [_memberList removeObjectAtIndex:indexPath.row];
+        
+        [tableView reloadData];
+        TSMember *removeMemeber1=[[TSMember alloc]init];
+        
+        for(TSMember *getMember in _result)
+        {
+            NSLog(@"%@ get memeber childern",getMember.childern);
+        
+            if(getMember.emailId==checkEmail)
+            {
+                NSLog(@"if block");
+                
+                removeMemeber1.userName=getMember.userName;
+                removeMemeber1.classCode=getMember.classCode;
+                removeMemeber1.ClassName=getMember.ClassName;
+                removeMemeber1.emailId=getMember.emailId;
+                removeMemeber1.userType=getMember.userType;
+            
+            }
+            
+            
+        
+        }
+        
+        [Data removeMember:removeMemeber1.classCode classname:removeMemeber1.ClassName emailId:removeMemeber1.emailId usertype:removeMemeber1.userType successBlock:^(id object){
+            NSLog(@"successfully deleted");
+
+            PFQuery *query=[PFQuery queryWithClassName:@"GroupMembers"];
+            [query fromLocalDatastore];
+            [query whereKey:@"emailId" equalTo:removeMemeber1.emailId];
+            NSArray *objects=[query findObjects];
+            for(PFObject *memberRemove in objects)
+            {
+                memberRemove[@"status"]=@"REMOVED";
+                
+                
+            }
+            
+            [PFObject pinAllInBackground:objects];
+            [tableView reloadData];
+            
+        }errorBlock:^(NSError *error){
+            
+            NSLog(@"error");
+        }];
+        
+    
+    }
+}
+
+
 -(void) fillArray{
+    
     PFQuery *query=[PFQuery queryWithClassName:@"GroupMembers"];
     [query fromLocalDatastore];
     [query orderByAscending:@"updatedAt"];
     [query whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
+    
     NSArray * objects=[query findObjects];
     NSString *classCode =_classObject.code;
-
-  //  NSLog(@"%@ array",objects);
+    
+    NSLog(@"local datastore %@",objects);
+    
     for(PFObject *names in objects)
     {
+    
         NSString *obj= [names objectForKey:@"name"];
-        NSString *child= [names objectForKey:@"childern_names"];
+        NSArray *child= [names objectForKey:@"children_names"];
         NSString *checkCode=[names objectForKey:@"code"];
-        if(child.length>0 && [checkCode isEqualToString:classCode])
+        NSString *email=[names objectForKey:@"emailId"];
+        NSString *status=[names objectForKey:@"status"];
+        NSLog(@"%@ is status ",status);
+        if([checkCode isEqualToString:classCode] && [status length]==0 )
         {
-            [_result addObject:child];
-        }
-        else if(obj.length>0 && [checkCode isEqualToString:classCode])
-        {
-            [_result addObject:obj];
-            
+            NSLog(@"if block");
+            TSMember *member=[[TSMember alloc]init];
+            member.ClassName=_classObject.name;
+            member.classCode=_classObject.code;
+            member.childern=[child objectAtIndex:0];
+            member.userName=obj;
+            member.userType=@"app";
+            member.emailId=email;
+            NSLog(@"childern array object at index 0 %@",member.childern );
+            [_result insertObject:member atIndex:0];
+        
         }
         
         
     }
-    PFQuery *query1=[PFQuery queryWithClassName:@"Messageneeders"];
-    [query1 fromLocalDatastore];
-    [query1 orderByAscending:@"updatedAt"];
-    [query1 whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
-    NSArray * phoneObjects=[query1 findObjects];
+    PFQuery *query3=[PFQuery queryWithClassName:@"Messageneeders"];
+    [query3 fromLocalDatastore];
+    [query3 orderByAscending:@"updatedAt"];
+    [query3 whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
+    NSArray * phoneObjects=[query3 findObjects];
     for(PFObject *names in phoneObjects)
     {
         NSString *child= [names objectForKey:@"subscriber"];
         NSString *obj= [names objectForKey:@"number"];
         NSString *checkCode=[names objectForKey:@"cod"];
+        NSString *status=[names objectForKey:@"status"];
 
-        if(child.length>0 && [checkCode isEqualToString:classCode])
+
+        if([checkCode isEqualToString:classCode] && [status length]==0 )
         {
-            [_result addObject:child];
-        }
-        else if(obj.length>0 && [checkCode isEqualToString:classCode])
-        {
-            [_result addObject:obj];
+            TSMember *member=[[TSMember alloc]init];
+            member.ClassName=_classObject.name;
+            member.classCode=_classObject.code;
+            member.userName=child;
+            member.userType=@"app";
+            member.emailId=obj;
             
+            [_result insertObject:member atIndex:0];
         }
         
         
     }
+    
+    NSLog(@"result object final %@",_result);
+    
 
-
+    for(TSMember *getName in _result)
+    {
+        NSString *childName=getName.childern;
+        if(childName !=[NSNull null])
+        {
+            NSLog(@" childern names %@",getName.childern);
+        
+            [_memberList addObject:childName];
+        
+        
+        }
+        else {
+            NSString *parentName=getName.userName;
+            NSLog(@"user name %@",parentName);
+            [_memberList addObject:parentName];
+        }
+        
+    }
+    [self.tableView reloadData];
 
 }
 
@@ -169,22 +274,33 @@
         [Data getMemberList:_latestTime successBlock:^(id object) {
             
             NSMutableDictionary *members = (NSMutableDictionary *) object;
-            
             NSArray *appUser= [members objectForKey:@"app"];
             NSArray *phoneUser=[members objectForKey:@"sms"];
             if(appUser.count>0){
             
-            [PFObject pinAllInBackground:appUser];
+                for(PFObject *user in appUser)
+                {
+                    user[@"iosUserID"]=[PFUser currentUser].objectId;
+                
+                }
+              
+                [PFObject pinAllInBackground:appUser];
             
+
             }
             if(phoneUser.count>0){
-            
+                for(PFObject *user in phoneUser)
+                {
+                    user[@"iosUserID"]=[PFUser currentUser].objectId;
+                }
                 [PFObject pinAllInBackground:phoneUser];
 
             }
+         
+            [self fillArray];
             
         } errorBlock:^(NSError *error) {
-            
+            NSLog(@"error");
         }];
       }
     }];

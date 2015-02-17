@@ -10,8 +10,12 @@
 #import "JSQMessagesViewController.h"
 #import "TSClass.h"
 
-@interface TSSendClassMessageViewController : JSQMessagesViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate>
+@interface TSSendClassMessageViewController : UIViewController <UITableViewDataSource,UITableViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
+
+@property(weak,nonatomic) IBOutlet UITableView *messageTable;
 
 @property (strong, nonatomic) TSClass *classObject;
 @property(strong,nonatomic) NSString *className;
+@property(strong,nonatomic) NSString *classCode;
+
 @end

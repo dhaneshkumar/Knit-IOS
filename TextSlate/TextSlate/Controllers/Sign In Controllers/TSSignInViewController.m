@@ -27,6 +27,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     
+    
     [TSUtils applyRoundedCorners:_signInButton];
 }
 
@@ -51,24 +52,40 @@
                 
             [Data getClassRooms:^(id object) {
                 _classArray = (NSMutableArray*) object;
+                NSLog(@"sign in classroom %@",_classArray);
                for(TSClass *a in _classArray){
+                   if(a.class_type == JOINED_BY_ME){
+
                     NSString *strChannel = [NSString stringWithFormat:@"%@", a.code];
                     [channel addObject:strChannel];
-                    [currentInstallation setChannels:channel];
-                    [currentInstallation saveInBackground];
-                    
+                                       }
                 }
             
-            
+                [currentInstallation setChannels:channel];
+                [currentInstallation saveInBackground];
+                NSLog(@"list of channels %@",channel);
+                
+                PFObject *currentTable=[PFInstallation currentInstallation];
+                currentTable[@"username"]=[PFUser currentUser].username;
+                [currentTable saveInBackground];
+                
             } errorBlock:^(NSError *error) {
                 NSLog(@"Unable to fetch classes: %@", [error description]);
             }];
              });
-                        if (self.presentingViewController) {
+                if (self.presentingViewController) {
                 [self dismissViewControllerAnimated:YES completion:nil];
 
             }
             NSLog(@"Succesfully Logged in");
+           /* UILocalNotification *localNotification = [[UILocalNotification alloc] init];
+            localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:5];
+            localNotification.alertBody = @"Local Notification – Ongraph.com";
+            localNotification.timeZone = [NSTimeZone defaultTimeZone];
+            localNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication]     applicationIconBadgeNumber] + 1;
+            
+            [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
+            */
             
         } else {
             NSLog(@"got error %@",[error localizedDescription]);

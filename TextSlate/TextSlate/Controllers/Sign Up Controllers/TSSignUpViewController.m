@@ -85,6 +85,12 @@
             if (self.presentingViewController) {
                 [[(UINavigationController*)self.pViewController.presentingViewController topViewController] dismissViewControllerAnimated:YES completion:nil];
             }
+            
+            
+            PFObject *currentTable=[PFInstallation currentInstallation];
+            currentTable[@"username"]=[PFUser currentUser].username;
+            [currentTable saveInBackground];
+            
         } else {
             NSLog(@"Error is: %@", [error localizedDescription]);
         }

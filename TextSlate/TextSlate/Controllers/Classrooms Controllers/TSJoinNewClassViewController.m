@@ -42,53 +42,49 @@
 */
 
 - (IBAction)joinNewClassClicked:(UIButton *)sender {
-    self.joinButton.userInteractionEnabled=NO;
     
+
     UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     indicator.center = self.view.center;
     [indicator startAnimating];
-  //  NSMutableArray *str=[[NSMutableArray alloc]init];
-    //NSString *name=_associatedPersonTextField.text;
-    NSArray *joinedGroups = [[PFUser currentUser] objectForKey:@"joined_groups"];
-    NSMutableArray *joinedClasses=[[NSMutableArray alloc]init];
-    for(NSArray *a in joinedGroups)
-     {
-         [joinedClasses addObject:[a objectAtIndex:0]];
-     }
-    if (![joinedClasses containsObject:_classCodeTextField.text]) {
-        NSLog(@"Joining this class ");
     
-    
-    [Data joinNewClass:_classCodeTextField.text childName:_associatedPersonTextField.text successBlock:^(id object) {
-        [indicator stopAnimating];
-        [indicator removeFromSuperview];
-        //NSString *channel=_associatedPersonTextField.text;
-        NSMutableArray *channel=[[NSMutableArray alloc]init];
-        [channel addObject:_classCodeTextField.text];
-        PFInstallation *currentInstallation = [PFInstallation currentInstallation];
-        [currentInstallation addObjectsFromArray:channel forKey:@"channels"];
-        [currentInstallation saveInBackground];
-        
-        if (self.presentingViewController) {
-            [self dismissViewControllerAnimated:YES completion:nil];
-        }
-    } errorBlock:^(NSError *error) {
-        [indicator stopAnimating];
-        [indicator removeFromSuperview];
-        
-        UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error in joining Class. Please make sure you have the correct class code." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-        [errorAlertView show];
-    }];
+    [[PFUser currentUser] fetch];
+    NSArray *joinedClasses = [[PFUser currentUser] objectForKey:@"joined_groups"];
+    NSArray *createdClasses = [[PFUser currentUser] objectForKey:@"Created_groups"];
+    NSMutableArray *joinedAndCreatedClassCodes = [[NSMutableArray alloc]init];
+    for(NSArray *joinedClass in joinedClasses) {
+        [joinedAndCreatedClassCodes addObject:[joinedClass objectAtIndex:0]];
     }
+    for(NSArray *createdClass in createdClasses) {
+        [joinedAndCreatedClassCodes addObject:[createdClass objectAtIndex:0]];
+    }
+    NSString *installationObjectId = [PFInstallation currentInstallation].objectId;
     
+    if (![joinedClasses containsObject:_classCodeTextField.text]) {
+        [Data joinNewClass:_classCodeTextField.text childName:_associatedPersonTextField.text installationId:installationObjectId successBlock:^(id object) {
+            PFObject *codeGroupForClass = (PFObject *)object;
+            codeGroupForClass[@"iosUserID"] = [PFUser currentUser].objectId;
+            [codeGroupForClass pinInBackground];
+            [indicator stopAnimating];
+            [indicator removeFromSuperview];
+            UIAlertView *successAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:[NSString stringWithFormat:@"Successfully joined Class: %@ Creator : %@",codeGroupForClass[@"name"], codeGroupForClass[@"Creator"]] delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+            if (self.presentingViewController) {
+                [self dismissViewControllerAnimated:YES completion:nil];
+            }
+            [successAlertView show];
+        } errorBlock:^(NSError *error) {
+            [indicator stopAnimating];
+            [indicator removeFromSuperview];
+            UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error in joining Class. Please make sure you have the correct class code." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+            [errorAlertView show];
+        }];
+    }
     else
     {
         UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Voila" message:@"You have already joined this class! " delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-    
         [errorAlertView show];
     }
-    
-    self.joinButton.userInteractionEnabled=YES;
+
 }
 
 - (IBAction)cancelPressed:(UIBarButtonItem *)sender {

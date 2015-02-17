@@ -7,9 +7,12 @@
 //
 
 #import "TSClass.h"
+#import <UIKit/UIKit.h>
 
 @interface TSJoinedClass : TSClass
 
-@property (strong, nonatomic) NSString *associated_person_name;
+@property (strong, nonatomic) NSString *associatedPersonName;
+@property (strong, nonatomic) NSString *teachername;
+@property (strong, nonatomic) UIImage *teacherPic;
 
 @end
