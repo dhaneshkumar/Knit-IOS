@@ -96,7 +96,7 @@
     NSLog(@"class code : %@", _classCode);
     PFQuery *localQuery = [PFQuery queryWithClassName:@"GroupDetails"];
     [localQuery fromLocalDatastore];
-    [localQuery whereKey:@"code" equalTo:_code];
+    [localQuery whereKey:@"code" equalTo:_classCode];
     [localQuery whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
     [localQuery orderByDescending:@"createdAt"];
     NSArray *msgs = (NSArray *)[localQuery findObjects];

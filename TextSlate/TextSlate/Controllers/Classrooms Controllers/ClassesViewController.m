@@ -21,6 +21,7 @@
 @property (strong, nonatomic) NSMutableArray *classes;
 @property (strong, nonatomic) NSMutableArray *joinedClasses;
 @property (strong, nonatomic) NSMutableArray *createdClasses;
+@property (strong, nonatomic) UIActivityIndicatorView *activityView;
 
 @end
 
@@ -40,11 +41,17 @@
 
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+    _activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    _activityView.center=self.view.center;
+    [_activityView startAnimating];
+    [self.view addSubview:_activityView];
+    
     _joinedClasses = nil;
     _createdClasses = nil;
     _classes = nil;
     _joinedClasses = [[NSMutableArray alloc] init];
     _createdClasses = [[NSMutableArray alloc] init];
+    //[self.classesTable deselectRowAtIndexPath:[self.classesTable indexPathForSelectedRow] animated:YES];
     if([PFUser currentUser])
         [self updateLocalDataAndDisplay];
 }
@@ -70,6 +77,7 @@
         
         TSJoinedClass *cl = (TSJoinedClass *)[_classes objectAtIndex:indexPath.row];
         cell.classCode.text = cl.code;
+        NSLog(@"code seg : %@", cl.code);
         cell.className.text = cl.name;
         cell.teacherName.text = cl.teachername;
         cell.assocName.text = cl.associatedPersonName;
@@ -113,20 +121,19 @@
         dvc.classCode = selectedClass.code;
         dvc.teacherName = selectedClass.teachername;
         dvc.teacherPic = selectedClass.teacherPic;
-        return;
     }
     else  if([segue.identifier isEqualToString:@"createdClasses"]){
         TSSendClassMessageViewController *dvc = (TSSendClassMessageViewController*)segue.destinationViewController;
         int row = [[self.classesTable indexPathForSelectedRow] row];
         NSLog(@"selected row %i",row);
-        NSArray *cls = [(NSArray *)[[PFUser currentUser] objectForKey:@"Created_groups"] objectAtIndex:row];
         TSClass *selectedClass = [[TSClass alloc] init];
         selectedClass=(TSClass *) _classes[row];
-        
         dvc.classCode=selectedClass.code;
         NSLog(@"code in created class segue %@",dvc.classCode);
-        dvc.classObject.name=selectedClass.name;
+        dvc.classObject =selectedClass;
     }
+    [self.classesTable deselectRowAtIndexPath:[self.classesTable indexPathForSelectedRow] animated:YES];
+    return;
 }
 
 - (IBAction)segmentChanged:(id)sender {
@@ -245,6 +252,7 @@
         _classes = _joinedClasses;
     else
         _classes = _createdClasses;
+    [_activityView stopAnimating];
     [self.classesTable reloadData];
     return;
 }

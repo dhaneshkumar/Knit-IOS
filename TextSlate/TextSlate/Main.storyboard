@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vM8-hp-Orb">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vM8-hp-Orb">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
@@ -1423,6 +1423,7 @@
                         <viewControllerLayoutGuide type="bottom" id="j9t-BZ-g5a"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="ICY-Ft-kYX">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ldl-OQ-r1G">
@@ -1528,6 +1529,11 @@
                                 <exclude reference="uvg-1R-nEM"/>
                             </mask>
                             <mask key="constraints">
+                                <exclude reference="gyo-NE-idZ"/>
+                                <exclude reference="Gfd-x1-C3X"/>
+                                <exclude reference="nQs-TK-4sn"/>
+                                <exclude reference="zry-lg-IG1"/>
+                                <exclude reference="eXQ-nM-DKo"/>
                                 <exclude reference="74L-NM-ODi"/>
                                 <exclude reference="AAf-dy-bjw"/>
                                 <exclude reference="NQE-qB-oTw"/>
@@ -1535,11 +1541,6 @@
                                 <exclude reference="TtT-JB-fQw"/>
                                 <exclude reference="pO1-ED-dgD"/>
                                 <exclude reference="uym-HT-dd0"/>
-                                <exclude reference="nQs-TK-4sn"/>
-                                <exclude reference="eXQ-nM-DKo"/>
-                                <exclude reference="zry-lg-IG1"/>
-                                <exclude reference="Gfd-x1-C3X"/>
-                                <exclude reference="gyo-NE-idZ"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
@@ -1551,6 +1552,11 @@
                                 <include reference="uvg-1R-nEM"/>
                             </mask>
                             <mask key="constraints">
+                                <include reference="gyo-NE-idZ"/>
+                                <include reference="Gfd-x1-C3X"/>
+                                <include reference="nQs-TK-4sn"/>
+                                <include reference="zry-lg-IG1"/>
+                                <include reference="eXQ-nM-DKo"/>
                                 <include reference="74L-NM-ODi"/>
                                 <include reference="AAf-dy-bjw"/>
                                 <include reference="NQE-qB-oTw"/>
@@ -1558,11 +1564,6 @@
                                 <include reference="TtT-JB-fQw"/>
                                 <include reference="pO1-ED-dgD"/>
                                 <include reference="uym-HT-dd0"/>
-                                <include reference="nQs-TK-4sn"/>
-                                <include reference="eXQ-nM-DKo"/>
-                                <include reference="zry-lg-IG1"/>
-                                <include reference="Gfd-x1-C3X"/>
-                                <include reference="gyo-NE-idZ"/>
                             </mask>
                         </variation>
                     </view>
@@ -1579,6 +1580,7 @@
             <objects>
                 <tableViewController id="UZ8-Qk-udY" userLabel="FAQ Controller" customClass="FAQTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="eYb-ic-hkJ">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -1760,6 +1762,7 @@
                     <connections>
                         <outlet property="associatedPersonTextField" destination="w3i-pd-Cxw" id="qyP-Ar-VpE"/>
                         <outlet property="classCodeTextField" destination="HKV-sO-cMS" id="P8e-Ib-NTZ"/>
+                        <outlet property="joinButton" destination="0qO-Bh-WR4" id="uKA-8D-wWj"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JWC-tY-EI9" userLabel="First Responder" sceneMemberID="firstResponder"/>
