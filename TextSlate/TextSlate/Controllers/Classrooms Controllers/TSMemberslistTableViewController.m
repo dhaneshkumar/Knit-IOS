@@ -30,12 +30,11 @@
     _subscriber=[[NSMutableArray alloc]init];
     _memberList=[[NSMutableArray alloc]init];
     
-    [self fetchMemberList];
     if ([self respondsToSelector:@selector(edgesForExtendedLayout)])
         self.edgesForExtendedLayout = UIRectEdgeNone;
    
     
-    
+    NSLog(@"VIEW DID APPERAR %@",_nameClass);
 
     [self.tableView reloadData];
     // Uncomment the following line to preserve selection between presentations.
@@ -45,9 +44,15 @@
      self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
+-(void) viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    [self fetchMemberList];
+    [self fillArray];
+    [self.tableView reloadData];
+
+}
 -(void)viewWillAppear:(BOOL)animated{
 
-    [self.tableView reloadData];
 
   
 }
@@ -66,7 +71,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
-    return _memberList.count;
+    return _result.count;
 }
 
 
@@ -77,20 +82,16 @@
     }*/
     
 
-    if(_memberList.count==0)
-    {
-        
-    }
-    else{
     
         if(((TSMember *)[_result objectAtIndex:indexPath.row]).childern!=[NSNull null])
         {
         cell.textLabel.text=((TSMember *)[_result objectAtIndex:indexPath.row]).childern;
+            NSLog(@"%@ child ",((TSMember *)[_result objectAtIndex:indexPath.row]).childern);
         }
         else {
             cell.textLabel.text=((TSMember *)[_result objectAtIndex:indexPath.row]).userName;
         }
-    }
+    
     
     return cell;
 }
@@ -103,19 +104,18 @@
         TSMember *toRemove=((TSMember *) [_result objectAtIndex:indexPath.row]);
         NSString *checkEmail=toRemove.emailId;
         NSString *userName=_result[indexPath.row];
-        [_memberList removeObjectAtIndex:indexPath.row];
         
         [tableView reloadData];
         TSMember *removeMemeber1=[[TSMember alloc]init];
         
         for(TSMember *getMember in _result)
         {
-            NSLog(@"%@ get memeber childern",getMember.childern);
-        
+            NSLog(@"check email %@ getmember email %@",checkEmail,getMember.emailId);
             if(getMember.emailId==checkEmail)
             {
                 NSLog(@"if block");
-                
+                NSLog(@"%@ get member classname",_nameClass);
+
                 removeMemeber1.userName=getMember.userName;
                 removeMemeber1.classCode=getMember.classCode;
                 removeMemeber1.ClassName=getMember.ClassName;
@@ -127,6 +127,8 @@
             
         
         }
+        [_result removeObjectAtIndex:indexPath.row];
+
         
         [Data removeMember:removeMemeber1.classCode classname:removeMemeber1.ClassName emailId:removeMemeber1.emailId usertype:removeMemeber1.userType successBlock:^(id object){
             NSLog(@"successfully deleted");
@@ -135,6 +137,7 @@
             [query fromLocalDatastore];
             [query whereKey:@"emailId" equalTo:removeMemeber1.emailId];
             NSArray *objects=[query findObjects];
+            NSLog(@"Query to change status %@",objects);
             for(PFObject *memberRemove in objects)
             {
                 memberRemove[@"status"]=@"REMOVED";
@@ -149,8 +152,9 @@
             
             NSLog(@"error");
         }];
+   
+        [self.tableView reloadData];
         
-    
     }
 }
 
@@ -163,7 +167,7 @@
     [query whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
     
     NSArray * objects=[query findObjects];
-    NSString *classCode =_classObject.code;
+    NSString *classCode =_codeClass;
     
     NSLog(@"local datastore %@",objects);
     
@@ -175,18 +179,15 @@
         NSString *checkCode=[names objectForKey:@"code"];
         NSString *email=[names objectForKey:@"emailId"];
         NSString *status=[names objectForKey:@"status"];
-        NSLog(@"%@ is status ",status);
-        if([checkCode isEqualToString:classCode] && [status length]==0 )
+        if([checkCode isEqualToString:classCode]  && [status length]==0)
         {
-            NSLog(@"if block");
             TSMember *member=[[TSMember alloc]init];
-            member.ClassName=_classObject.name;
-            member.classCode=_classObject.code;
+            member.ClassName=_nameClass;
+            member.classCode=classCode;
             member.childern=[child objectAtIndex:0];
             member.userName=obj;
             member.userType=@"app";
             member.emailId=email;
-            NSLog(@"childern array object at index 0 %@",member.childern );
             [_result insertObject:member atIndex:0];
         
         }
@@ -205,12 +206,12 @@
         NSString *checkCode=[names objectForKey:@"cod"];
         NSString *status=[names objectForKey:@"status"];
 
-
+        
         if([checkCode isEqualToString:classCode] && [status length]==0 )
         {
             TSMember *member=[[TSMember alloc]init];
-            member.ClassName=_classObject.name;
-            member.classCode=_classObject.code;
+            member.ClassName=_nameClass;
+            member.classCode=classCode;
             member.userName=child;
             member.userType=@"app";
             member.emailId=obj;
@@ -223,25 +224,6 @@
     
     NSLog(@"result object final %@",_result);
     
-
-    for(TSMember *getName in _result)
-    {
-        NSString *childName=getName.childern;
-        if(childName !=[NSNull null])
-        {
-            NSLog(@" childern names %@",getName.childern);
-        
-            [_memberList addObject:childName];
-        
-        
-        }
-        else {
-            NSString *parentName=getName.userName;
-            NSLog(@"user name %@",parentName);
-            [_memberList addObject:parentName];
-        }
-        
-    }
     [self.tableView reloadData];
 
 }
@@ -253,7 +235,7 @@
     
     PFQuery *query=[PFQuery queryWithClassName:@"GroupMembers"];
     [query fromLocalDatastore];
-    [query orderByAscending:@"updatedAt"];
+    [query orderByDescending:@"updatedAt"];
     [query whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
     if(error)
@@ -297,7 +279,7 @@
 
             }
          
-            [self fillArray];
+         //   [self fillArray];
             
         } errorBlock:^(NSError *error) {
             NSLog(@"error");

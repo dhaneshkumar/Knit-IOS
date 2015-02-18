@@ -261,7 +261,7 @@
     TSMessage *msg = _messagesArray[0];
     NSDate *latestMsgDate = msg.sentTime;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
-        [Data updateInboxLocalDatastoreWithTime1:latestMsgDate successBlock:^(id object) {
+     /*   [Data updateInboxLocalDatastoreWithTime1:latestMsgDate successBlock:^(id object) {
             NSArray *messages = (NSArray *) object;
             NSEnumerator *enumerator = [messages reverseObjectEnumerator];
             for(id element in enumerator) {
@@ -278,7 +278,7 @@
             [sender endRefreshing];
 
             NSLog(@"Unable to fetch inbox messages when pulled up to refresh: %@", [error description]);
-        }];
+        }];*/
     });
 }
 
@@ -309,7 +309,7 @@
         }
         else {
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
-                [Data updateInboxLocalDatastoreWithTime1:oldestMsgDate successBlock:^(id object) {
+        /*        [Data updateInboxLocalDatastoreWithTime1:oldestMsgDate successBlock:^(id object) {
                     NSArray *messages = (NSArray *) object;
                     for (PFObject * messageObject in messages) {
                         TSMessage *message = [[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:messageObject[@"title"] classCreator:messageObject[@"Creator"] sentTime:messageObject.createdAt likeCount:(messageObject[@"like_status"]?1:0) confuseCount:(messageObject[@"confuse_status"]?1:0) seenCount:0];
@@ -320,7 +320,7 @@
                     [self.messageTable reloadData];
                 } errorBlock:^(NSError *error) {
                     NSLog(@"Unable to fetch inbox messages when pulled up to refresh: %@", [error description]);
-                }];
+                }]; */
             });
         }
     }

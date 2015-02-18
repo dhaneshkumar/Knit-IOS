@@ -122,10 +122,9 @@
         NSArray *cls = [(NSArray *)[[PFUser currentUser] objectForKey:@"Created_groups"] objectAtIndex:row];
         TSClass *selectedClass = [[TSClass alloc] init];
         selectedClass=(TSClass *) _classes[row];
-        
         dvc.classCode=selectedClass.code;
         NSLog(@"code in created class segue %@",dvc.classCode);
-        dvc.classObject.name=selectedClass.name;
+        dvc.className=selectedClass.name;
     }
 }
 
