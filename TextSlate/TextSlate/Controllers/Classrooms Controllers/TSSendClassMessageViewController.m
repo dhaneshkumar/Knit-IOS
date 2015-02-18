@@ -536,6 +536,10 @@
     if ([segue.identifier isEqualToString:@"showDetails"]) {
         TSMemberslistTableViewController *dvc = segue.destinationViewController;
         dvc.classObject = _classObject;
+        dvc.codeClass=_classCode;
+        dvc.nameClass=_className;
+        NSLog(@"CLASS NAME %@",dvc.nameClass);
+        
     }
 }
 

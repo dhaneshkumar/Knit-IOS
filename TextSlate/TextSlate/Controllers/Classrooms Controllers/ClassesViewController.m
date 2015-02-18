@@ -130,7 +130,7 @@
         selectedClass=(TSClass *) _classes[row];
         dvc.classCode=selectedClass.code;
         NSLog(@"code in created class segue %@",dvc.classCode);
-        dvc.classObject =selectedClass;
+        dvc.className=selectedClass.name;
     }
     [self.classesTable deselectRowAtIndexPath:[self.classesTable indexPathForSelectedRow] animated:YES];
     return;

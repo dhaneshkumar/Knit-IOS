@@ -39,8 +39,7 @@ typedef void (^errorBlock)(NSError *error);
 
 +(void) updateInboxLocalDatastoreWithTime:(NSDate*)lastMessageTime successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock;
 
-+(void) updateInboxLocalDatastoreWithTime1:(NSDate*)oldestMessageTime successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock;
-
++(void) updateInboxLocalDatastoreWithTime1:(NSString *)classtype oldestMessageTime:(NSDate*)oldestMessageTime successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock;
 
 
 +(void)getMemberList:(NSDate *)lastMessageTime successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock;

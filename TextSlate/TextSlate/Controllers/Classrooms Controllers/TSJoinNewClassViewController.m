@@ -62,7 +62,14 @@
     
     if (![joinedClasses containsObject:_classCodeTextField.text]) {
         [Data joinNewClass:_classCodeTextField.text childName:_associatedPersonTextField.text installationId:installationObjectId successBlock:^(id object) {
-            PFObject *codeGroupForClass = (PFObject *)object;
+            NSMutableDictionary *objDict=[[NSMutableDictionary alloc]init];
+            PFObject *codeGroupForClass = [objDict objectForKey:@"codegroup"];
+            NSMutableArray *lastFiveMessage=[objDict objectForKey:@"message"];
+            for(PFObject *msg in lastFiveMessage)
+            {
+                msg[@"iosUserID"]=[PFUser currentUser].objectId;
+                [msg pinInBackground];
+            }
             codeGroupForClass[@"iosUserID"] = [PFUser currentUser].objectId;
             [codeGroupForClass pinInBackground];
             [indicator stopAnimating];
@@ -72,6 +79,7 @@
                 [self dismissViewControllerAnimated:YES completion:nil];
             }
             [successAlertView show];
+            
         } errorBlock:^(NSError *error) {
             [indicator stopAnimating];
             [indicator removeFromSuperview];
