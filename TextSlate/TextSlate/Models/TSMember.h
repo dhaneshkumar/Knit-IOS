@@ -16,4 +16,6 @@
 @property (strong,nonatomic) NSString *classCode;
 @property (strong,nonatomic) NSString *userType;
 @property (strong,nonatomic) NSString *emailId;
+@property (strong,nonatomic) NSString *phoneNum;
+
 @end

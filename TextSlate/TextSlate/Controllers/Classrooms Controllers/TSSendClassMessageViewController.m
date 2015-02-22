@@ -31,7 +31,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     _lastEntry=[[NSDate alloc]init];
-     // Do any additional setup after loading the view.
+    // Do any additional setup after loading the view.
     self.navigationItem.title = _className;
     
     
@@ -57,7 +57,7 @@
     button.frame = CGRectMake(265.0, 5, 50.0, 30.0);
     [button addTarget:self
                action:@selector(pressSendButton)
-       forControlEvents:UIControlEventTouchUpInside];
+     forControlEvents:UIControlEventTouchUpInside];
     
     UIButton *attachButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     attachButton.frame = CGRectMake(2, 5, 30, 30);
@@ -83,7 +83,7 @@
     
     [self.view addGestureRecognizer:tap];
     
-   // self.senderDisplayName = _classObject.name;
+    // self.senderDisplayName = _classObject.name;
     //self.senderId = [[PFUser currentUser] objectForKey:@"name"];
     
     self.automaticallyAdjustsScrollViewInsets = YES;
@@ -100,11 +100,11 @@
 }
 
 -(void)displayActionsheet{
-    UIAlertView * alert = [[UIAlertView alloc]initWithTitle:@"Knit" message:@"" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:@"Choose from Photos", @"Open Camera", nil];
+    UIAlertView * alert = [[UIAlertView alloc]initWithTitle:@"Knit" message:@"" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Choose from Photos", @"Open Camera", nil];
     
     [alert show];
-
-
+    
+    
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
@@ -117,7 +117,7 @@
         
         [self presentViewController:picker animated:YES completion:NULL];
         
-
+        
     }
     
     if (buttonIndex == 1) {
@@ -130,12 +130,12 @@
         
         
     }
-
+    
 }
 
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
-    
+    NSLog(@"final");
     _attachmentImage = info[UIImagePickerControllerOriginalImage];
     NSData *imageData = UIImageJPEGRepresentation(_attachmentImage, 0);
     _finalAttachment= [PFFile fileWithName:@"Profileimage.jpeg" data:imageData];
@@ -144,10 +144,10 @@
     textAttachment.image = _attachmentImage;
     NSAttributedString *attrStringWithImage = [NSAttributedString attributedStringWithAttachment:textAttachment];
     _txtField.attributedText=attrStringWithImage;
-
+    
     
     [picker dismissViewControllerAnimated:YES completion:NULL];
-
+    
 }
 
 -(void) showClassDetails {
@@ -157,18 +157,18 @@
 -(void) deleteClass {
     [Data deleteClass:_classCode
          successBlock:^(id object) {
-        [self.navigationController popViewControllerAnimated:YES];
-    } errorBlock:^(NSError *error) {
-        UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error occured in deleting the class." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-        [errorAlertView show];
-    }];
+             [self.navigationController popViewControllerAnimated:YES];
+         } errorBlock:^(NSError *error) {
+             UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error occured in deleting the class." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+             [errorAlertView show];
+         }];
 }
 
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     [self DisplayMessages];
     
-
+    
 }
 - (void)viewWillDisappear: (BOOL)animated
 {
@@ -188,7 +188,7 @@
     static NSString *cellIdentifier = @"cell";
     
     UITableViewCell *cell = [self.messageTable dequeueReusableCellWithIdentifier:
-                       cellIdentifier];
+                             cellIdentifier];
     if (cell == nil) {
         cell = [[UITableViewCell alloc]initWithStyle:
                 UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
@@ -228,9 +228,9 @@
     }
     else {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
-            [Data updateInboxLocalDatastore:@"c" successBlock:^(id object) {
+      /*      [Data updateInboxLocalDatastore:@"c" successBlock:^(id object) {
                 NSMutableDictionary *members = (NSMutableDictionary *) object;
-                NSArray *messageObjects = (NSArray *)[members objectForKey:@"message"];
+                NSMutableArray *messageObjects = (NSMutableArray*)[members objectForKey:@"message"];
                 for (PFObject *msg in messageObjects) {
                     msg[@"iosUserID"] = [PFUser currentUser].objectId;
                     msg[@"messageId"] = msg.objectId;
@@ -253,18 +253,18 @@
                 [self.messageTable reloadData];
             } errorBlock:^(NSError *error) {
                 NSLog(@"Unable to fetch inbox messages while opening inbox tab: %@", [error description]);
-            }];
+            }];*/
         });
         
     }
 }
 
 -(void) reloadMessages {
-   
+    
     [Data getClassMessagesWithClassCode:_classCode successBlock:^(id object) {
         NSMutableArray *messagesArr = [[NSMutableArray alloc] init];
         for (PFObject *groupObject in object) {
-
+            
             NSString *message=[groupObject objectForKey:@"title"];
             [messagesArr addObject:message];
             
@@ -289,7 +289,7 @@
                 }
                 
             }
-
+            
         }
         _messagesArray = messagesArr;
         [self.messageTable reloadData];
@@ -391,14 +391,13 @@
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 #pragma mark - JSQ Messages
 
@@ -418,80 +417,82 @@
      UIAlertView *errorDialog = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error occurred in sending the message" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
      [errorDialog show];
      }];*/
-
+    NSString *attachmentName=_finalAttachment.name;
     NSString *messageText=_txtField.text;
     NSLog(@"%@ is message",messageText);
-    if(!_finalAttachment)
+    if([attachmentName length]==0)
     {
-    [Data sendTextMessage:_classCode classname:_classObject.name message:messageText successBlock:^(id object) {
-        NSMutableDictionary *dict = (NSMutableDictionary *) object;
-        NSString *messageObjectId = (NSString *)[dict objectForKey:@"messageId"];
-        NSString *messageCreatedAt = (NSString *)[dict objectForKey:@"createdAt"];
-        PFObject *messageObject = [PFObject objectWithClassName:@"GroupDetails"];
-        messageObject[@"Creator"] = [[PFUser currentUser] objectForKey:@"name"];
-        messageObject[@"code"] = _classCode;
-        messageObject[@"name"] = _classObject.name;
-        messageObject[@"title"] = messageText;
-        messageObject[@"createdTime"] = messageCreatedAt;
-        messageObject[@"messageId"] = messageObjectId;
-        [messageObject pinInBackground];
-        
-        TSMessage *newMessage=[[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:messageObject[@"title"] classCreator:messageObject[@"Creator"] sentTime:messageObject.createdAt likeCount:messageObject[@"like_count"] confuseCount:messageObject[@"confused_count"] seenCount:0];
-        [_messagesArray addObject:newMessage];
-        [self.messageTable reloadData];
-        UIAlertView *messageDialog = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Gaya bey!" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-        
-        [messageDialog show];
-        
-        [self dismissKeyboard];
-        
-        
-    } errorBlock:^(NSError *error) {
-        UIAlertView *errorDialog = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error occurred in sending the message" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-        [errorDialog show];
-    }];
+        NSLog(@"if block");
+        [Data sendMessage:_classCode classname:_className message:messageText successBlock:^(id object) {
+            NSMutableDictionary *dict = (NSMutableDictionary *) object;
+            NSString *messageObjectId = (NSString *)[dict objectForKey:@"messageId"];
+            NSString *messageCreatedAt = (NSString *)[dict objectForKey:@"createdAt"];
+            PFObject *messageObject = [PFObject objectWithClassName:@"GroupDetails"];
+            messageObject[@"Creator"] = [[PFUser currentUser] objectForKey:@"name"];
+            messageObject[@"code"] = _classCode;
+            messageObject[@"name"] = _className;
+            messageObject[@"title"] = messageText;
+            messageObject[@"createdTime"] = messageCreatedAt;
+            messageObject[@"messageId"] = messageObjectId;
+            [messageObject pinInBackground];
+            
+            TSMessage *newMessage=[[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:messageObject[@"title"] classCreator:messageObject[@"Creator"] sentTime:messageObject.createdAt likeCount:messageObject[@"like_count"] confuseCount:messageObject[@"confused_count"] seenCount:0];
+            [_messagesArray addObject:newMessage];
+          //  [self.messageTable reloadData];
+            UIAlertView *messageDialog = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Gaya bey!" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+            
+            [messageDialog show];
+            
+            [self dismissKeyboard];
+            
+            
+        } errorBlock:^(NSError *error) {
+            UIAlertView *errorDialog = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error occurred in sending the message" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+            [errorDialog show];
+        }];
     }
-    else if(_finalAttachment)
-     {
-         [_finalAttachment saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-             if (succeeded) {
-                 // The object has been saved.
-                 
-         
-         [Data sendTextMessagewithAttachment:_classCode classname:_classObject.name message:messageText attachment:(PFFile*) _finalAttachment filename:_finalAttachment.name successBlock:^(id object) {
-             NSMutableDictionary *dict = (NSMutableDictionary *) object;
-             NSString *messageObjectId = (NSString *)[dict objectForKey:@"messageId"];
-             NSString *messageCreatedAt = (NSString *)[dict objectForKey:@"createdAt"];
-             PFObject *messageObject = [PFObject objectWithClassName:@"GroupDetails"];
-             messageObject[@"Creator"] = [[PFUser currentUser] objectForKey:@"name"];
-             messageObject[@"code"] = _classCode;
-             messageObject[@"name"] = _classObject.name;
-             messageObject[@"title"] = messageText;
-             messageObject[@"createdTime"] = messageCreatedAt;
-             messageObject[@"messageId"] = messageObjectId;
-             [messageObject pinInBackground];
-             
-             TSMessage *newMessage=[[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:messageObject[@"title"] classCreator:messageObject[@"Creator"] sentTime:messageObject.createdAt likeCount:messageObject[@"like_count"] confuseCount:messageObject[@"confused_count"] seenCount:0];
-             [_messagesArray addObject:newMessage];
-             [self.messageTable reloadData];
-             UIAlertView *messageDialog = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Gaya bey!" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-             
-             [messageDialog show];
-             
-             [self dismissKeyboard];
-             
-             
-         } errorBlock:^(NSError *error) {
-             UIAlertView *errorDialog = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error occurred in sending the message" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-             [errorDialog show];
-         }];
-        }
-             
-        else {
-             NSLog(@"url to file error");
-         }
-         }];
-     }
+    else
+    {
+        NSLog(@"name of attachment %@",_finalAttachment.name);
+        [_finalAttachment saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            if (succeeded) {
+                // The object has been saved.
+                
+                
+                [Data sendTextMessagewithAttachment:_classCode classname:_className message:messageText attachment:(PFFile*) _finalAttachment filename:_finalAttachment.name successBlock:^(id object) {
+                    NSMutableDictionary *dict = (NSMutableDictionary *) object;
+                    NSString *messageObjectId = (NSString *)[dict objectForKey:@"messageId"];
+                    NSString *messageCreatedAt = (NSString *)[dict objectForKey:@"createdAt"];
+                    PFObject *messageObject = [PFObject objectWithClassName:@"GroupDetails"];
+                    messageObject[@"Creator"] = [[PFUser currentUser] objectForKey:@"name"];
+                    messageObject[@"code"] = _classCode;
+                    messageObject[@"name"] = _classObject.name;
+                    messageObject[@"title"] = messageText;
+                    messageObject[@"createdTime"] = messageCreatedAt;
+                    messageObject[@"messageId"] = messageObjectId;
+                    [messageObject pinInBackground];
+                    
+                    TSMessage *newMessage=[[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:messageObject[@"title"] classCreator:messageObject[@"Creator"] sentTime:messageObject.createdAt likeCount:messageObject[@"like_count"] confuseCount:messageObject[@"confused_count"] seenCount:0];
+                    [_messagesArray addObject:newMessage];
+                    [self.messageTable reloadData];
+                    UIAlertView *messageDialog = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Gaya bey!" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+                    
+                    [messageDialog show];
+                    
+                    [self dismissKeyboard];
+                    
+                    
+                } errorBlock:^(NSError *error) {
+                    UIAlertView *errorDialog = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error occurred in sending the message" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+                    [errorDialog show];
+                }];
+            }
+            
+            else {
+                NSLog(@"url to file error");
+            }
+        }];
+    }
 }
 
 
@@ -502,34 +503,34 @@
 
 - (IBAction)displayMember:(id)sender {
     [self performSegueWithIdentifier:@"showDetails" sender:sender];
-
+    
 }
 
 
 /**
--(void) imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
-    [_imagePicker dismissViewControllerAnimated:YES completion:^{
-        NSLog(@"%@",[info description]);
-        
-        NSURL *imageURL = [info valueForKey:UIImagePickerControllerReferenceURL];
-        ALAssetsLibraryAssetForURLResultBlock resultblock = ^(ALAsset *myasset)
-        {
-            ALAssetRepresentation *representation = [myasset defaultRepresentation];
-            NSString *fileName = [representation filename];
-            
-            [Data sendMessageOnClass:_classObject.code className:_classObject.name message:@"" withImage:[info objectForKey:@"UIImagePickerControllerOriginalImage"] withImageName:fileName successBlock:^(id object) {
-                [self reloadMessages];
-            } errorBlock:^(NSError *error) {
-                
-            }];
-        };
-        
-        ALAssetsLibrary* assetslibrary = [[ALAssetsLibrary alloc] init];
-        [assetslibrary assetForURL:imageURL
-                       resultBlock:resultblock
-                      failureBlock:nil];
-            }];
-}
+ -(void) imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+ [_imagePicker dismissViewControllerAnimated:YES completion:^{
+ NSLog(@"%@",[info description]);
+ 
+ NSURL *imageURL = [info valueForKey:UIImagePickerControllerReferenceURL];
+ ALAssetsLibraryAssetForURLResultBlock resultblock = ^(ALAsset *myasset)
+ {
+ ALAssetRepresentation *representation = [myasset defaultRepresentation];
+ NSString *fileName = [representation filename];
+ 
+ [Data sendMessageOnClass:_classObject.code className:_classObject.name message:@"" withImage:[info objectForKey:@"UIImagePickerControllerOriginalImage"] withImageName:fileName successBlock:^(id object) {
+ [self reloadMessages];
+ } errorBlock:^(NSError *error) {
+ 
+ }];
+ };
+ 
+ ALAssetsLibrary* assetslibrary = [[ALAssetsLibrary alloc] init];
+ [assetslibrary assetForURL:imageURL
+ resultBlock:resultblock
+ failureBlock:nil];
+ }];
+ }
  **/
 
 -(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {

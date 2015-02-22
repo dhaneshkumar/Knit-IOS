@@ -1,4 +1,4 @@
-//
+  //
 //  Data.m
 //  TextSlate
 //
@@ -252,7 +252,7 @@
 }
 
 
-+(void)sendTextMessage:(NSString *)classcode classname:(NSString *)classname message:(NSString *)message successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
++(void)sendMessage:(NSString *)classcode classname:(NSString *)classname message:(NSString *)message successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
     [PFCloud callFunctionInBackground:@"sendTextMessage" withParameters:@{@"classcode":classcode, @"classname":classname, @"message":message} block:^(id object, NSError *error) {
         if (error) {
             errorBlock(error);
@@ -300,5 +300,62 @@
         }
     }];
 }
+
++(void)changeName:(NSString *)classcode newName:(NSString *)newName successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
+    [PFCloud callFunctionInBackground:@"changeAssociateName" withParameters:@{@"classCode":classcode, @"childName":newName} block:^(id object, NSError *error) {
+        if (error) {
+            errorBlock(error);
+        } else {
+            successBlock(object);
+        }
+    }];
+}
+
+
++(void) classSuggestion:(NSMutableArray *) joinedClasses date:(NSDate *)date successBlock:(successBlock) successBlock errorBlock:(errorBlock) errorBlock{
+    [PFCloud callFunctionInBackground:@"suggestClasses" withParameters:@{@"input":joinedClasses,@"date":date } block:^(id object, NSError *error) {
+        if (error) {
+            NSLog(@"Error");
+
+            errorBlock(error);
+        } else {
+            NSLog(@"Success");
+
+            successBlock(object);
+        }
+    }];
+    
+}
+
++(void) autoComplete:(NSString*)area successBlock:(successBlock) successBlock errorBlock:(errorBlock) errorBlock{
+    [PFCloud callFunctionInBackground:@"areaAutoComplete" withParameters:@{@"partialAreaName":area } block:^(id object, NSError *error) {
+        if (error) {
+            NSLog(@"Error");
+            
+            errorBlock(error);
+        } else {
+            NSLog(@"Success");
+            
+            successBlock(object);
+        }
+    }];
+    
+}
+
++(void) autoCompleteSchool:(NSString*)area successBlock:(successBlock) successBlock errorBlock:(errorBlock) errorBlock{
+    [PFCloud callFunctionInBackground:@"schoolsNearby" withParameters:@{@"areaName":area } block:^(id object, NSError *error) {
+        if (error) {
+            NSLog(@"Error");
+            
+            errorBlock(error);
+        } else {
+            NSLog(@"Success");
+            
+            successBlock(object);
+        }
+    }];
+    
+}
+
 
 @end

@@ -14,6 +14,7 @@
 #import "TSJoinedClassMessagesViewController.h"
 #import "TSJoinedClass.h"
 #import "TSCreatedClass.h"
+#import "TSSuggestion.h"
 #import "Data.h"
 
 @interface ClassesViewController ()
@@ -21,12 +22,17 @@
 @property (strong, nonatomic) NSMutableArray *classes;
 @property (strong, nonatomic) NSMutableArray *joinedClasses;
 @property (strong, nonatomic) NSMutableArray *createdClasses;
+@property (strong, nonatomic) NSMutableArray *suggestionInput;
+@property (strong, nonatomic) NSMutableArray *suggestionClass;
+
+
 
 @end
 
 @implementation ClassesViewController
 
 - (void)viewDidLoad {
+    _suggestionInput=[[NSMutableArray alloc]init];
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.classesTable.delegate = self;
@@ -45,8 +51,10 @@
     _classes = nil;
     _joinedClasses = [[NSMutableArray alloc] init];
     _createdClasses = [[NSMutableArray alloc] init];
-    if([PFUser currentUser])
+    if([PFUser currentUser]){
         [self updateLocalDataAndDisplay];
+        [self suggestClassArray];
+    }
 }
 
 /*
@@ -100,7 +108,257 @@
     else {
         [self performSegueWithIdentifier:@"createdClasses" sender:self];
     }
+
+    
 }
+
+
+
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        if(self.segmentedControl.selectedSegmentIndex==0) {
+            NSString *classCode=((TSJoinedClass*)[_classes objectAtIndex:indexPath.row]).code;
+            //[_classes removeObject:indexPath.row];
+            [self leaveClass:classCode];
+            NSLog(@"Leave Joined classes");
+        }
+        
+        else if(self.segmentedControl.selectedSegmentIndex==1) {
+            NSString *classCode=((TSJoinedClass*)[_classes objectAtIndex:indexPath.row]).code;
+            [_classes removeObjectAtIndex:indexPath.row];
+            [self deleteClass:classCode];
+            
+            NSLog(@"Delete Created classes");
+            
+        }
+        
+        
+        //add code here for when you hit delete
+    }
+}
+
+
+-(void) suggestClassArray{
+    NSMutableDictionary *temp=[[NSMutableDictionary alloc]init];
+    PFQuery *query=[PFQuery queryWithClassName:@"Codegroup"];
+    [query fromPinWithName:@"classSuggestion"];
+    [query orderByDescending:@"updatedAt"];
+    [query whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
+    NSArray *objects=[query findObjects];
+    NSLog(@"object count %i",objects.count);
+    if(objects.count==0)
+    {
+        [self suggestClassLatestDate];
+    }
+    
+    else {
+        for(PFObject *entry in objects)
+        {
+            NSString *school=[entry objectForKey:@"school"];
+            NSString *standard=[entry objectForKey:@"standard"];
+            NSString *division =[entry objectForKey:@"division"];
+            if([division length]==0)
+            {
+                division=@"NA";
+            }
+            [temp setObject:school forKey:@"school"];
+            [temp setObject:standard forKey:@"standard"];
+            [temp setObject:division forKey:@"division"];
+            [_suggestionClass addObject:temp];
+            NSLog(@"DICTIONARY %@",temp);
+        }
+    }
+   
+    
+}
+
+-(void) suggestClassLatestDate{
+    NSDate *date;
+    PFQuery *query=[PFQuery queryWithClassName:@"Codegroup"];
+    [query fromPinWithName:@"classSuggestion"];
+    [query orderByDescending:@"updatedAt"];
+    [query whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
+    NSArray *objects=[query findObjects];
+    if(objects.count==0)
+    {
+        NSString *year   = @"2011";
+        NSString *month  = @"1";
+        NSString *day    = @"2";
+        NSDateComponents *dateComponents = [[NSDateComponents alloc] init];
+        dateComponents.year   = [year intValue];
+        dateComponents.month  = [month intValue];
+        dateComponents.day    = [day intValue];
+        date = [[NSCalendar currentCalendar] dateFromComponents:dateComponents];
+        [self suggestClassGlobal:date];
+    }
+
+    else {
+        date=((PFObject *)[objects objectAtIndex:0]).createdAt;
+        
+        [self suggestClassGlobal:date];
+    }
+    
+}
+
+
+
+
+
+-(void) suggestClassGlobal:(NSDate *)latestDate{
+   
+
+    
+    PFQuery *query=[PFQuery queryWithClassName:@"Codegroup"];
+    [query fromLocalDatastore];
+    
+    NSArray *objects=[query findObjects];
+    NSMutableArray * joined_class=[[NSMutableArray alloc]init];
+    joined_class = [[PFUser currentUser] objectForKey:@"joined_groups"];
+    NSMutableArray *classCode =[[NSMutableArray alloc]init];
+    for(NSArray *joinedcl in joined_class)
+    {
+        [classCode addObject:joinedcl[0]];
+    }
+
+    
+    for(PFObject *codegroup in objects)
+    {
+        NSString *code=[codegroup objectForKey:@"code"];
+        NSString *school=[codegroup objectForKey:@"school"];
+        NSString *standard=[codegroup objectForKey:@"standard"];
+        NSString *division=[codegroup objectForKey:@"division"];
+        TSSuggestion *input;
+        NSMutableDictionary *test1=[[NSMutableDictionary alloc]init];
+        
+        if([classCode indexOfObject:code]!=NSNotFound)
+           {
+               input=[[TSSuggestion alloc]init];
+            if(![school isEqualToString:@"other"] && [school length]!=0)
+                {
+                    [test1 setObject:school forKey:@"school"];
+                }
+
+            if([standard length]!=0 && ![standard isEqualToString:@"NA"])
+            {
+                [test1 setObject:standard forKey:@"standard"];
+
+                
+            }
+           
+           if([division length]!=0)
+           {
+               [test1 setObject:division forKey:@"division"];
+               
+           }
+           else {
+               division=@"NA";
+               [test1 setObject:division forKey:@"division"];
+
+
+           }
+           
+            
+        }
+       
+        if([test1 objectForKey:@"school"]  && [test1 objectForKey:@"standard"] && [test1 objectForKey:@"division"] ){
+        [_suggestionInput addObject:test1];
+        }
+      
+        
+    }
+    
+    [Data classSuggestion:_suggestionInput date:latestDate successBlock:^(id object) {
+        NSLog(@"SUCCESSFULL");
+        for(PFObject *entry in object)
+        {
+            entry[@"iosUserID"]=[PFUser currentUser].objectId;
+        }
+        
+
+        [PFObject pinAllInBackground:object withName:@"classSuggestion"];
+
+    } errorBlock:^(NSError *error) {
+        NSLog(@"ERROR");
+    }];
+}
+
+
+-(void)leaveClass:(NSString *)classCode {
+    [Data leaveClass:classCode successBlock:^(id object) {
+        [self deleteAllLocalMessages:classCode];
+        [self deleteLocalCodegroupEntry:classCode];
+        [[PFUser currentUser] fetch];
+        [self.classesTable reloadData];
+        //[self.navigationController popViewControllerAnimated:YES];
+    } errorBlock:^(NSError *error) {
+        UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error occured in leaving the class." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+        [errorAlertView show];
+    }];
+}
+
+
+
+-(void)deleteClass:(NSString *)classCode {
+    [Data deleteClass:classCode successBlock:^(id object) {
+        [self deleteAllLocalMessages:classCode];
+        [self deleteAllLocalClassMembers:classCode];
+        [self deleteAllLocalMessageNeeders:classCode];
+        [self deleteLocalCodegroupEntry:classCode];
+        [[PFUser currentUser] fetch];
+        [self.classesTable reloadData];
+        //[self.navigationController popViewControllerAnimated:YES];
+    } errorBlock:^(NSError *error) {
+        UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error occured in deleting the class." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+        [errorAlertView show];
+    }];
+}
+
+-(void)deleteAllLocalMessages:(NSString *)classCode {
+    PFQuery *query = [PFQuery queryWithClassName:@"GroupDetails"];
+    [query fromLocalDatastore];
+    [query whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
+    [query whereKey:@"code" equalTo:classCode];
+    
+    NSArray *messages = [query findObjects];
+    [PFObject unpinAllInBackground:messages];
+    return;
+}
+
+-(void)deleteAllLocalClassMembers:(NSString *)classCode {
+    PFQuery *query = [PFQuery queryWithClassName:@"GroupMembers"];
+    [query fromLocalDatastore];
+    [query whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
+    [query whereKey:@"code" equalTo:classCode];
+    
+    NSArray *appUsers = [query findObjects];
+    [PFObject unpinAllInBackground:appUsers];
+    return;
+}
+
+-(void)deleteAllLocalMessageNeeders:(NSString *)classCode {
+    PFQuery *query = [PFQuery queryWithClassName:@"Messageneeders"];
+    [query fromLocalDatastore];
+    [query whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
+    [query whereKey:@"cod" equalTo:classCode];
+    
+    NSArray *messageNeeders = [query findObjects];
+    [PFObject unpinAllInBackground:messageNeeders];
+    return;
+}
+
+-(void)deleteLocalCodegroupEntry:(NSString *)classCode {
+    PFQuery *query = [PFQuery queryWithClassName:@"Codegroup"];
+    [query fromLocalDatastore];
+    [query whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
+    [query whereKey:@"code" equalTo:classCode];
+    
+    NSArray *messages = [query findObjects];
+    [PFObject unpinAllInBackground:messages];
+    return;
+}
+
+
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if([segue.identifier isEqualToString:@"joinedClasses"]) {
