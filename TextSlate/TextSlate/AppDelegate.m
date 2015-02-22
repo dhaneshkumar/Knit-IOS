@@ -9,7 +9,6 @@
 #import "AppDelegate.h"
 #import "Data.h"
 #import "TSJoinedClass.h"
-#import "MessageViewController.h"
 #import <Parse/Parse.h>
 #import <ParseCrashReporting/ParseCrashReporting.h>
 
@@ -62,7 +61,7 @@
     [currentInstallation saveInBackground];
     
 }
-
+/*
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
     if(UIApplicationStateBackground){
         NSLog(@"background");
@@ -75,7 +74,7 @@
     [PFPush handlePush:userInfo];
     
 
-}
+}*/
 
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification
 {

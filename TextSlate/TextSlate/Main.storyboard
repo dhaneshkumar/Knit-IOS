@@ -1905,7 +1905,7 @@
                     <connections>
                         <outlet property="associatedPersonTextField" destination="w3i-pd-Cxw" id="qyP-Ar-VpE"/>
                         <outlet property="classCodeTextField" destination="HKV-sO-cMS" id="P8e-Ib-NTZ"/>
-                        <outlet property="joinButton" destination="0qO-Bh-WR4" id="sDx-hJ-tgm"/>
+                        <outlet property="joinButton" destination="0qO-Bh-WR4" id="uKA-8D-wWj"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JWC-tY-EI9" userLabel="First Responder" sceneMemberID="firstResponder"/>
