@@ -56,8 +56,6 @@
 
 
 - (IBAction)createNewClassClicked:(UIButton *)sender {
-    
-    
     [Data createNewClassWithClassName:_classNameTextField.text standard:_selectedStandard division:_selectedDivision school:@"Others" successBlock:^(id object) {
         PFObject *codeGroupForClass = (PFObject *)object;
         codeGroupForClass[@"iosUserID"] = [PFUser currentUser].objectId;

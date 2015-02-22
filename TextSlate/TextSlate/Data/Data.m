@@ -25,10 +25,6 @@
     }];
 }
 
-
-    
-    
-    
     
 +(void) getClassRooms:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
     [[PFUser currentUser] fetchInBackgroundWithBlock:^(PFObject *object, NSError *error) {
@@ -189,7 +185,7 @@
 }
 
 +(void)updateInboxLocalDatastore:(NSString *)classtype successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
-    [PFCloud callFunctionInBackground:@"showLatestMessagesWithlLimit" withParameters:@{@"classtype":classtype, @"limit":@30} block:^(id object, NSError *error) {
+    [PFCloud callFunctionInBackground:@"showLatestMessagesWithLimit" withParameters:@{@"classtype":classtype, @"limit":@30} block:^(id object, NSError *error) {
         if (error) {
             errorBlock(error);
         } else {
@@ -197,9 +193,6 @@
         }
     }];
 }
-
-
-
 
 +(void)updateInboxLocalDatastoreWithTime:(NSDate *)lastMessageTime successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
     [PFCloud callFunctionInBackground:@"showLatestMessages" withParameters:@{@"date":lastMessageTime} block:^(id object, NSError *error) {
@@ -220,10 +213,6 @@
         }
     }];
 }
-
-
-
-
 
 +(void)getMemberList:(NSDate *)lastMessageTime successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock{
     [PFCloud callFunctionInBackground:@"showAllSubscribers" withParameters:@{@"date":lastMessageTime} block:^(id object, NSError *error) {

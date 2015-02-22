@@ -42,11 +42,9 @@
 */
 
 - (IBAction)joinNewClassClicked:(UIButton *)sender {
-    
-
-    UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    indicator.center = self.view.center;
-    [indicator startAnimating];
+    //UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    //indicator.center = self.view.center;
+    //[indicator startAnimating];
     
     [[PFUser currentUser] fetch];
     NSArray *joinedClasses = [[PFUser currentUser] objectForKey:@"joined_groups"];
@@ -62,27 +60,31 @@
     
     if (![joinedClasses containsObject:_classCodeTextField.text]) {
         [Data joinNewClass:_classCodeTextField.text childName:_associatedPersonTextField.text installationId:installationObjectId successBlock:^(id object) {
-            NSMutableDictionary *objDict=[[NSMutableDictionary alloc]init];
+            NSMutableDictionary *objDict=(NSMutableDictionary *)object;
             PFObject *codeGroupForClass = [objDict objectForKey:@"codegroup"];
-            NSMutableArray *lastFiveMessage=[objDict objectForKey:@"message"];
+            NSMutableArray *lastFiveMessage=[objDict objectForKey:@"messages"];
             for(PFObject *msg in lastFiveMessage)
             {
                 msg[@"iosUserID"]=[PFUser currentUser].objectId;
+                if(codeGroupForClass[@"senderPic"])
+                    msg[@"senderPic"] = codeGroupForClass[@"senderPic"];
+                msg[@"likeStatus"] = @"false";
+                msg[@"confuseStatus"] = @"false";
                 [msg pinInBackground];
             }
             codeGroupForClass[@"iosUserID"] = [PFUser currentUser].objectId;
             [codeGroupForClass pinInBackground];
-            [indicator stopAnimating];
-            [indicator removeFromSuperview];
+            //[indicator stopAnimating];
+            //[indicator removeFromSuperview];
+            
             UIAlertView *successAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:[NSString stringWithFormat:@"Successfully joined Class: %@ Creator : %@",codeGroupForClass[@"name"], codeGroupForClass[@"Creator"]] delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
             if (self.presentingViewController) {
                 [self dismissViewControllerAnimated:YES completion:nil];
             }
             [successAlertView show];
-            
         } errorBlock:^(NSError *error) {
-            [indicator stopAnimating];
-            [indicator removeFromSuperview];
+            //[indicator stopAnimating];
+            //[indicator removeFromSuperview];
             UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error in joining Class. Please make sure you have the correct class code." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
             [errorAlertView show];
         }];
