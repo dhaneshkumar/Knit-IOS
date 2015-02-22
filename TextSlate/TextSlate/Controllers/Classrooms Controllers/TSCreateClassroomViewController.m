@@ -12,12 +12,15 @@
 
 @interface TSCreateClassroomViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *classNameTextField;
+@property (weak, nonatomic) IBOutlet UITextField *schoolNameTextField;
+
 @property (nonatomic) bool flag;
 @property (weak, nonatomic) IBOutlet UIPickerView *standardAndDivisionPicker;
 @property (strong, nonatomic) NSArray *standardPickerData;
 @property (strong, nonatomic) NSArray *divisionPickerData;
 @property (strong, nonatomic) NSString *selectedStandard;
 @property (strong, nonatomic) NSString *selectedDivision;
+@property (strong, nonatomic) NSString *selectedSchool;
 
 
 
@@ -28,6 +31,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.classNameTextField.delegate = self;
+    self.schoolNameTextField.delegate=self;
     self.standardAndDivisionPicker.delegate = self;
     self.standardAndDivisionPicker.dataSource = self;
     
@@ -35,6 +39,7 @@
     _divisionPickerData = @[@"NA", @"A", @"B", @"C", @"D", @"E", @"F", @"G", @"H", @"I", @"J", @"K", @"L", @"M", @"N", @"O", @"P", @"Q", @"R", @"S", @"T", @"U", @"V", @"W", @"X", @"Y", @"Z"];
     _selectedStandard = @"NA";
     _selectedDivision = @"NA";
+    
     // Do any additional setup after loading the view.
 }
 
@@ -56,7 +61,17 @@
 
 
 - (IBAction)createNewClassClicked:(UIButton *)sender {
-    [Data createNewClassWithClassName:_classNameTextField.text standard:_selectedStandard division:_selectedDivision school:@"Others" successBlock:^(id object) {
+    if([_schoolNameTextField.text isEqual:@""])
+    {
+        _selectedSchool=@"Others";
+    }
+    else {
+        _selectedSchool=_schoolNameTextField.text;
+    }
+    NSLog(@"School Name %@",_selectedSchool);
+    
+    
+    [Data createNewClassWithClassName:_classNameTextField.text standard:_selectedStandard division:_selectedDivision school:_selectedSchool successBlock:^(id object) {
         PFObject *codeGroupForClass = (PFObject *)object;
         codeGroupForClass[@"iosUserID"] = [PFUser currentUser].objectId;
         [codeGroupForClass pinInBackground];
@@ -114,10 +129,10 @@
     }
 }
 
-- (BOOL)textFieldShouldReturn:(UITextField *)theTextField {
-    if (theTextField == self.classNameTextField) {
-        [theTextField resignFirstResponder];
-    }
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    
+    [textField resignFirstResponder];
+    
     return YES;
 }
 

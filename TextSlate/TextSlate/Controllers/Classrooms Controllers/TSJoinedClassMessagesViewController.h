@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface TSJoinedClassMessagesViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+@interface TSJoinedClassMessagesViewController : UIViewController <UITableViewDataSource, UITableViewDelegate,UIAlertViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *messagesTable;
 @property (strong, nonatomic) NSString *className;

@@ -30,7 +30,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     _lastEntry=[[NSDate alloc]init];
-     // Do any additional setup after loading the view.
+    // Do any additional setup after loading the view.
     self.navigationItem.title = _className;
     
     
@@ -56,7 +56,7 @@
     button.frame = CGRectMake(265.0, 5, 50.0, 30.0);
     [button addTarget:self
                action:@selector(pressSendButton)
-       forControlEvents:UIControlEventTouchUpInside];
+     forControlEvents:UIControlEventTouchUpInside];
     
     UIButton *attachButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     attachButton.frame = CGRectMake(2, 5, 30, 30);
@@ -91,11 +91,11 @@
 }
 
 -(void)displayActionsheet{
-    UIAlertView * alert = [[UIAlertView alloc]initWithTitle:@"Knit" message:@"" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:@"Choose from Photos", @"Open Camera", nil];
+    UIAlertView * alert = [[UIAlertView alloc]initWithTitle:@"Knit" message:@"" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Choose from Photos", @"Open Camera", nil];
     
     [alert show];
-
-
+    
+    
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
@@ -118,7 +118,7 @@
 
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
-    
+    NSLog(@"final");
     _attachmentImage = info[UIImagePickerControllerOriginalImage];
     NSData *imageData = UIImageJPEGRepresentation(_attachmentImage, 0);
     _finalAttachment= [PFFile fileWithName:@"Profileimage.jpeg" data:imageData];
@@ -128,7 +128,7 @@
     NSAttributedString *attrStringWithImage = [NSAttributedString attributedStringWithAttachment:textAttachment];
     _txtField.attributedText=attrStringWithImage;
     [picker dismissViewControllerAnimated:YES completion:NULL];
-
+    
 }
 
 -(void) showClassDetails {
@@ -138,18 +138,18 @@
 -(void) deleteClass {
     [Data deleteClass:_classCode
          successBlock:^(id object) {
-        [self.navigationController popViewControllerAnimated:YES];
-    } errorBlock:^(NSError *error) {
-        UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error occured in deleting the class." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-        [errorAlertView show];
-    }];
+             [self.navigationController popViewControllerAnimated:YES];
+         } errorBlock:^(NSError *error) {
+             UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error occured in deleting the class." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+             [errorAlertView show];
+         }];
 }
 
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     [self DisplayMessages];
     
-
+    
 }
 - (void)viewWillDisappear: (BOOL)animated
 {
@@ -167,7 +167,6 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:
 (NSIndexPath *)indexPath{
     static NSString *cellIdentifier = @"createdClassMessageCell";
-    
     TSCreatedClassMessageTableViewCell *cell = (TSCreatedClassMessageTableViewCell *)[self.messageTable dequeueReusableCellWithIdentifier:cellIdentifier];
     if (cell == nil) {
         cell = [[TSCreatedClassMessageTableViewCell alloc]initWithStyle:
@@ -259,11 +258,11 @@
 }
 
 -(void) reloadMessages {
-   
+    
     [Data getClassMessagesWithClassCode:_classCode successBlock:^(id object) {
         NSMutableArray *messagesArr = [[NSMutableArray alloc] init];
         for (PFObject *groupObject in object) {
-
+            
             NSString *message=[groupObject objectForKey:@"title"];
             [messagesArr addObject:message];
             
@@ -415,14 +414,13 @@
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 #pragma mark - JSQ Messages
 
@@ -443,7 +441,7 @@
      UIAlertView *errorDialog = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error occurred in sending the message" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
      [errorDialog show];
      }];*/
-
+    NSString *attachmentName=_finalAttachment.name;
     NSString *messageText=_txtField.text;
     if(!_finalAttachment)
     {
@@ -526,29 +524,29 @@
 
 
 /**
--(void) imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
-    [_imagePicker dismissViewControllerAnimated:YES completion:^{
-        NSLog(@"%@",[info description]);
-        
-        NSURL *imageURL = [info valueForKey:UIImagePickerControllerReferenceURL];
-        ALAssetsLibraryAssetForURLResultBlock resultblock = ^(ALAsset *myasset)
-        {
-            ALAssetRepresentation *representation = [myasset defaultRepresentation];
-            NSString *fileName = [representation filename];
-            
-            [Data sendMessageOnClass:_classObject.code className:_classObject.name message:@"" withImage:[info objectForKey:@"UIImagePickerControllerOriginalImage"] withImageName:fileName successBlock:^(id object) {
-                [self reloadMessages];
-            } errorBlock:^(NSError *error) {
-                
-            }];
-        };
-        
-        ALAssetsLibrary* assetslibrary = [[ALAssetsLibrary alloc] init];
-        [assetslibrary assetForURL:imageURL
-                       resultBlock:resultblock
-                      failureBlock:nil];
-            }];
-}
+ -(void) imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+ [_imagePicker dismissViewControllerAnimated:YES completion:^{
+ NSLog(@"%@",[info description]);
+ 
+ NSURL *imageURL = [info valueForKey:UIImagePickerControllerReferenceURL];
+ ALAssetsLibraryAssetForURLResultBlock resultblock = ^(ALAsset *myasset)
+ {
+ ALAssetRepresentation *representation = [myasset defaultRepresentation];
+ NSString *fileName = [representation filename];
+ 
+ [Data sendMessageOnClass:_classObject.code className:_classObject.name message:@"" withImage:[info objectForKey:@"UIImagePickerControllerOriginalImage"] withImageName:fileName successBlock:^(id object) {
+ [self reloadMessages];
+ } errorBlock:^(NSError *error) {
+ 
+ }];
+ };
+ 
+ ALAssetsLibrary* assetslibrary = [[ALAssetsLibrary alloc] init];
+ [assetslibrary assetForURL:imageURL
+ resultBlock:resultblock
+ failureBlock:nil];
+ }];
+ }
  **/
 
 -(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {

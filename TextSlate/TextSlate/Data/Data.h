@@ -45,13 +45,26 @@ typedef void (^errorBlock)(NSError *error);
 +(void)getMemberList:(NSDate *)lastMessageTime successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock;
 +(void)getFAQ:(NSString *)userRole successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock;
 
-+(void)sendTextMessage:(NSString *)classcode classname:(NSString *)classname message:(NSString *)message successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorblock;
++(void)sendMessage:(NSString *)classcode classname:(NSString *)classname message:(NSString *)message successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorblock;
 
 +(void)sendTextMessagewithAttachment:(NSString *)classcode classname:(NSString *)classname message:(NSString *)message attachment:(PFFile*)attachment filename:(NSString *)filename successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock ;
 
++(void)removeMemberPhone:(NSString *)classcode classname:(NSString *)classname number:(NSString *)number usertype:(NSString *)usertype successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock ;
 
-+(void)removeMember:(NSString *)classcode classname:(NSString *)classname emailId:(NSString *)emailId usertype:(NSString *)usertype successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock;
++(void)removeMemberApp:(NSString *)classcode classname:(NSString *)classname emailId:(NSString *)emailId usertype:(NSString *)usertype successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock;
+
 
 +(void)getAllCodegroups:(successBlock)successBlock errorBlock:(errorBlock)errorBlock ;
+
+
++(void)changeName:(NSString *)classcode newName:(NSString *)newName  successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock;
+
+
++(void) classSuggestion:(NSMutableArray *) joinedClasses  date:(NSDate *) date successBlock:(successBlock) successBlock errorBlock:(errorBlock) errorBlock;
+
++(void) autoComplete:(NSString*)area successBlock:(successBlock) successBlock errorBlock:(errorBlock) errorBlock;
+
+
++(void) autoCompleteSchool:(NSString*)area successBlock:(successBlock) successBlock errorBlock:(errorBlock) errorBlock;
 
 @end

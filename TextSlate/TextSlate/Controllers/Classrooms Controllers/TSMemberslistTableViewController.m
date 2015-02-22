@@ -81,14 +81,16 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"memberName"];
     }*/
     
-
+        NSString *childName=((TSMember *)[_result objectAtIndex:indexPath.row]).childern;
     
-        if(((TSMember *)[_result objectAtIndex:indexPath.row]).childern!=[NSNull null])
+    
+        if([childName length]!=0)
         {
         cell.textLabel.text=((TSMember *)[_result objectAtIndex:indexPath.row]).childern;
             NSLog(@"%@ child ",((TSMember *)[_result objectAtIndex:indexPath.row]).childern);
         }
         else {
+            
             cell.textLabel.text=((TSMember *)[_result objectAtIndex:indexPath.row]).userName;
         }
     
@@ -103,6 +105,7 @@
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         TSMember *toRemove=((TSMember *) [_result objectAtIndex:indexPath.row]);
         NSString *checkEmail=toRemove.emailId;
+        NSString *num=toRemove.phoneNum;
         NSString *userName=_result[indexPath.row];
         
         [tableView reloadData];
@@ -121,7 +124,20 @@
                 removeMemeber1.ClassName=getMember.ClassName;
                 removeMemeber1.emailId=getMember.emailId;
                 removeMemeber1.userType=getMember.userType;
+                removeMemeber1.phoneNum=getMember.phoneNum;
             
+            }
+            else if(getMember.phoneNum==num && [num length]!=0)
+            {
+                NSLog(@"else block");
+                NSLog(@"%@ get member classname",_nameClass);
+                
+                removeMemeber1.userName=getMember.userName;
+                removeMemeber1.classCode=getMember.classCode;
+                removeMemeber1.ClassName=getMember.ClassName;
+                removeMemeber1.emailId=getMember.emailId;
+                removeMemeber1.userType=getMember.userType;
+                removeMemeber1.phoneNum=getMember.phoneNum;
             }
             
             
@@ -129,8 +145,9 @@
         }
         [_result removeObjectAtIndex:indexPath.row];
 
+        if([removeMemeber1.userType isEqualToString:@"app"]){
         
-        [Data removeMember:removeMemeber1.classCode classname:removeMemeber1.ClassName emailId:removeMemeber1.emailId usertype:removeMemeber1.userType successBlock:^(id object){
+        [Data removeMemberApp:removeMemeber1.classCode classname:removeMemeber1.ClassName emailId:removeMemeber1.emailId usertype:removeMemeber1.userType successBlock:^(id object){
             NSLog(@"successfully deleted");
 
             PFQuery *query=[PFQuery queryWithClassName:@"GroupMembers"];
@@ -152,10 +169,41 @@
             
             NSLog(@"error");
         }];
-   
+        }
+        else if([removeMemeber1.userType isEqualToString:@"sms"])
+        {
+            NSLog(@"Removing phone user");
+            [Data removeMemberPhone:removeMemeber1.classCode classname:removeMemeber1.ClassName number:removeMemeber1.phoneNum usertype:removeMemeber1.userType successBlock:^(id object){
+                NSLog(@"successfully deleted");
+                NSLog(@"phone num to be deleted %@",removeMemeber1.phoneNum);
+                
+                PFQuery *query=[PFQuery queryWithClassName:@"Messageneeders"];
+                [query fromLocalDatastore];
+                [query whereKey:@"number" equalTo:removeMemeber1.phoneNum];
+                NSArray *objects=[query findObjects];
+                NSLog(@"Query to change status %@",objects);
+                for(PFObject *memberRemove in objects)
+                {
+                    memberRemove[@"status"]=@"REMOVED";
+                    
+                    
+                }
+                
+                [PFObject pinAllInBackground:objects];
+                [tableView reloadData];
+
+                
+                 }
+                         errorBlock:^(NSError *error)
+             {
+                 NSLog(@"error");
+             }];
+        }
+        
         [self.tableView reloadData];
         
     }
+
 }
 
 
@@ -179,6 +227,7 @@
         NSString *checkCode=[names objectForKey:@"code"];
         NSString *email=[names objectForKey:@"emailId"];
         NSString *status=[names objectForKey:@"status"];
+        
         if([checkCode isEqualToString:classCode]  && [status length]==0)
         {
             TSMember *member=[[TSMember alloc]init];
@@ -199,6 +248,7 @@
     [query3 orderByAscending:@"updatedAt"];
     [query3 whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
     NSArray * phoneObjects=[query3 findObjects];
+    NSLog(@"PHONE OBJECTS %@",phoneObjects);
     for(PFObject *names in phoneObjects)
     {
         NSString *child= [names objectForKey:@"subscriber"];
@@ -206,15 +256,14 @@
         NSString *checkCode=[names objectForKey:@"cod"];
         NSString *status=[names objectForKey:@"status"];
 
-        
         if([checkCode isEqualToString:classCode] && [status length]==0 )
         {
             TSMember *member=[[TSMember alloc]init];
             member.ClassName=_nameClass;
             member.classCode=classCode;
             member.userName=child;
-            member.userType=@"app";
-            member.emailId=obj;
+            member.userType=@"sms";
+            member.phoneNum=obj;
             
             [_result insertObject:member atIndex:0];
         }

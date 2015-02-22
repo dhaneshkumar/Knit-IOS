@@ -10,6 +10,7 @@
 #import "TSJoinedClassMessageTableViewCell.h"
 #import "TSMessage.h"
 #import "Parse/Parse.h"
+#import "Data.h"
 
 @interface TSJoinedClassMessagesViewController ()
 
@@ -29,6 +30,8 @@
     // Do any additional setup after loading the view.
     self.messagesTable.dataSource = self;
     self.messagesTable.delegate = self;
+    //self.navigationItem.rightBarButtonItem = self.editButtonItem;
+
 }
 
 - (void)didReceiveMemoryWarning {
@@ -56,6 +59,9 @@
     // Pass the selected object to the new view controller.
 }
 */
+
+
+
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
@@ -109,5 +115,40 @@
     [self.messagesTable reloadData];
     return;
 }
+
+
+
+- (IBAction)changeName:(UIButton *)sender {
+    
+    UIAlertView *messageDialog = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Enter New Name" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
+    messageDialog.alertViewStyle = UIAlertViewStylePlainTextInput;
+    [messageDialog show];
+    
+}
+
+    // Is this my Alert View?
+    
+    
+- (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+        if (buttonIndex == [alertView firstOtherButtonIndex]) {
+
+            NSLog(@"OK BUTTON");
+            UITextField *textfield =  [alertView textFieldAtIndex: 0];
+            NSLog(@"%@ IS TEXT",textfield.text);
+            NSString *name=textfield.text;
+            [Data changeName:_classCode newName:name successBlock:^(id object) {
+                
+                NSLog(@"Name Changed Successfully");
+            } errorBlock:^(NSError *error) {
+               
+                
+                NSLog(@"Name Change Error");
+                
+            }];
+
+        }
+    
+}
+
 
 @end
