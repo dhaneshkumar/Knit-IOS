@@ -246,7 +246,7 @@
                 NSArray *msgs = (NSArray *)[query findObjects];
                 for (PFObject * msg in msgs) {
                     TSMessage *message = [[TSMessage alloc] initWithValues:msg[@"name"] classCode:msg[@"code"] message:msg[@"title"] sender:msg[@"Creator"] sentTime:msg[@"createdTime"] senderPic:nil likeCount:[msg[@"like_count"] intValue] confuseCount:[msg[@"confused_count"] intValue] seenCount:[msg[@"seen_count"] intValue]];
-                    [_messagesArray addObject:message];
+                    [_messagesArray insertObject:message atIndex:0];
                 }
                 [self.messageTable reloadData];
             } errorBlock:^(NSError *error) {
@@ -445,11 +445,14 @@
     NSString *messageText=_txtField.text;
     if(!_finalAttachment)
     {
+        NSLog(@"classCode : %@", _classCode);
+        NSLog(@"className : %@", _className);
         [Data sendTextMessage:_classCode classname:_className message:messageText successBlock:^(id object) {
             NSMutableDictionary *dict = (NSMutableDictionary *) object;
             NSString *messageObjectId = (NSString *)[dict objectForKey:@"messageId"];
             NSString *messageCreatedAt = (NSString *)[dict objectForKey:@"createdAt"];
             PFObject *messageObject = [PFObject objectWithClassName:@"GroupDetails"];
+            messageObject[@"iosUserID"] = [PFUser currentUser].objectId;
             messageObject[@"Creator"] = [[PFUser currentUser] objectForKey:@"name"];
             messageObject[@"code"] = _classCode;
             messageObject[@"name"] = _className;
@@ -460,6 +463,7 @@
             messageObject[@"confused_count"] = [NSNumber numberWithInt:0];
             messageObject[@"seen_count"] = [NSNumber numberWithInt:0];
             [messageObject pinInBackground];
+            
             TSMessage *newMessage=[[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:messageObject[@"title"] sender:messageObject[@"Creator"] sentTime:messageObject[@"createdTime"] senderPic:nil likeCount:[messageObject[@"like_count"] intValue] confuseCount:[messageObject[@"confused_count"] intValue] seenCount:[messageObject[@"seen_count"] intValue]];
             [_messagesArray addObject:newMessage];
             [self.messageTable reloadData];

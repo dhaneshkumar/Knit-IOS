@@ -7,26 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		40192A521A8CDDAC00EDF966 /* TSMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 40192A511A8CDDAC00EDF966 /* TSMessage.m */; };
 		4068825E1A8A307D00C055E1 /* ProfilePictureViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4068825D1A8A307D00C055E1 /* ProfilePictureViewController.m */; };
 		40C7B2D31A935F6E00C1BFC8 /* ClassesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 40C7B2D21A935F6E00C1BFC8 /* ClassesViewController.m */; };
 		40C7B2D61A935F8700C1BFC8 /* TSJoinedClassMessagesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 40C7B2D51A935F8700C1BFC8 /* TSJoinedClassMessagesViewController.m */; };
-		40C7B2D91A93604100C1BFC8 /* TSCreatedClassTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 40C7B2D81A93604100C1BFC8 /* TSCreatedClassTableViewCell.m */; };
-		40C7B2DC1A93605800C1BFC8 /* TSJoinedClassMessageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 40C7B2DB1A93605800C1BFC8 /* TSJoinedClassMessageTableViewCell.m */; };
-		40C7B2DF1A93607200C1BFC8 /* TSJoinedClassTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 40C7B2DE1A93607200C1BFC8 /* TSJoinedClassTableViewCell.m */; };
 		40C7B2E11A9361CB00C1BFC8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 40C7B2E01A9361CB00C1BFC8 /* Main.storyboard */; };
-		40C7B2E31A93659800C1BFC8 /* defaultTeacher.png in Resources */ = {isa = PBXBuildFile; fileRef = 40C7B2E21A93659800C1BFC8 /* defaultTeacher.png */; };
-		40C7B2E61A94B7D200C1BFC8 /* TSInboxViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 40C7B2E51A94B7D200C1BFC8 /* TSInboxViewController.m */; };
 		40C7B2E91A965AFF00C1BFC8 /* TSSuggestion.m in Sources */ = {isa = PBXBuildFile; fileRef = 40C7B2E81A965AFF00C1BFC8 /* TSSuggestion.m */; };
 		40C7B2ED1A985AA000C1BFC8 /* SchoolController.m in Sources */ = {isa = PBXBuildFile; fileRef = 40C7B2EC1A985AA000C1BFC8 /* SchoolController.m */; };
 		40CD58651A89455B000CB1AB /* FAQTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 40CD58641A89455B000CB1AB /* FAQTableViewController.m */; };
 		40CDDBB61A90E47E00922ADF /* TSMember.m in Sources */ = {isa = PBXBuildFile; fileRef = 40CDDBB51A90E47E00922ADF /* TSMember.m */; };
 		40D0B9501A83A86700FF24EA /* TableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 40D0B94F1A83A86700FF24EA /* TableCell.m */; };
-		40D0B9531A83A93400FF24EA /* MessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 40D0B9521A83A93400FF24EA /* MessageViewController.m */; };
-		40D0B9561A85117700FF24EA /* sharedCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 40D0B9551A85117700FF24EA /* sharedCache.m */; };
 		40EBADA81A7E60B6003FB0B1 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 40EBADA71A7E60B6003FB0B1 /* LaunchScreen.xib */; };
 		40EBADAC1A7E611F003FB0B1 /* 05-xxhdpi.png in Resources */ = {isa = PBXBuildFile; fileRef = 40EBADAB1A7E611F003FB0B1 /* 05-xxhdpi.png */; };
-		40EBADAE1A7E6135003FB0B1 /* 640 x 960.png in Resources */ = {isa = PBXBuildFile; fileRef = 40EBADAD1A7E6135003FB0B1 /* 640 x 960.png */; };
 		40EBADB01A7E6142003FB0B1 /* 640 x 1136.png in Resources */ = {isa = PBXBuildFile; fileRef = 40EBADAF1A7E6142003FB0B1 /* 640 x 1136.png */; };
 		40EBADB41A7E6150003FB0B1 /* classroom.png in Resources */ = {isa = PBXBuildFile; fileRef = 40EBADB11A7E6150003FB0B1 /* classroom.png */; };
 		40EBADB51A7E6150003FB0B1 /* inbox_grey.png in Resources */ = {isa = PBXBuildFile; fileRef = 40EBADB21A7E6150003FB0B1 /* inbox_grey.png */; };
@@ -120,30 +111,17 @@
 		FBACC6701A742D6E00DC1747 /* ParseCrashReporting.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FBACC66B1A742D6E00DC1747 /* ParseCrashReporting.framework */; };
 		FBACC6711A742D6E00DC1747 /* ParseFacebookUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FBACC66C1A742D6E00DC1747 /* ParseFacebookUtils.framework */; };
 		FBACC6721A742D6E00DC1747 /* ParseUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FBACC66D1A742D6E00DC1747 /* ParseUI.framework */; };
-		FBBA45961A94C3BE0088CCBC /* ClassesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FBBA45951A94C3BE0088CCBC /* ClassesViewController.m */; };
-		FBBA459E1A94C4F40088CCBC /* TSMember.m in Sources */ = {isa = PBXBuildFile; fileRef = FBBA459B1A94C4F40088CCBC /* TSMember.m */; };
 		FBBA459F1A94C4F40088CCBC /* TSMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = FBBA459D1A94C4F40088CCBC /* TSMessage.m */; };
 		FBBA45A61A94C5130088CCBC /* TSCreatedClassTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FBBA45A11A94C5130088CCBC /* TSCreatedClassTableViewCell.m */; };
 		FBBA45A71A94C5130088CCBC /* TSJoinedClassMessageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FBBA45A31A94C5130088CCBC /* TSJoinedClassMessageTableViewCell.m */; };
 		FBBA45A81A94C5130088CCBC /* TSJoinedClassTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FBBA45A51A94C5130088CCBC /* TSJoinedClassTableViewCell.m */; };
-		FBBA45B01A94C5330088CCBC /* 05-xxhdpi.png in Resources */ = {isa = PBXBuildFile; fileRef = FBBA45A91A94C5330088CCBC /* 05-xxhdpi.png */; };
-		FBBA45B11A94C5330088CCBC /* 640 x 960.png in Resources */ = {isa = PBXBuildFile; fileRef = FBBA45AA1A94C5330088CCBC /* 640 x 960.png */; };
-		FBBA45B21A94C5330088CCBC /* 640 x 1136.png in Resources */ = {isa = PBXBuildFile; fileRef = FBBA45AB1A94C5330088CCBC /* 640 x 1136.png */; };
-		FBBA45B31A94C5330088CCBC /* classroom.png in Resources */ = {isa = PBXBuildFile; fileRef = FBBA45AC1A94C5330088CCBC /* classroom.png */; };
-		FBBA45B41A94C5330088CCBC /* defaultTeacher.png in Resources */ = {isa = PBXBuildFile; fileRef = FBBA45AD1A94C5330088CCBC /* defaultTeacher.png */; };
-		FBBA45B51A94C5330088CCBC /* inbox_grey.png in Resources */ = {isa = PBXBuildFile; fileRef = FBBA45AE1A94C5330088CCBC /* inbox_grey.png */; };
-		FBBA45B61A94C5330088CCBC /* settings_32.png in Resources */ = {isa = PBXBuildFile; fileRef = FBBA45AF1A94C5330088CCBC /* settings_32.png */; };
-		FBBA45B91A94C55C0088CCBC /* TSJoinedClassMessagesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FBBA45B81A94C55C0088CCBC /* TSJoinedClassMessagesViewController.m */; };
-		FBBA45BC1A94C58B0088CCBC /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = FBBA45BA1A94C58B0088CCBC /* LaunchScreen.xib */; };
-		FBBA45BD1A94C58B0088CCBC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FBBA45BB1A94C58B0088CCBC /* Main.storyboard */; };
 		FBBA45C01A94C6EB0088CCBC /* sharedCache.m in Sources */ = {isa = PBXBuildFile; fileRef = FBBA45BF1A94C6EB0088CCBC /* sharedCache.m */; };
-		FBBA45C51A94C7610088CCBC /* FAQTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FBBA45C21A94C7610088CCBC /* FAQTableViewController.m */; };
-		FBBA45C61A94C7610088CCBC /* ProfilePictureViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FBBA45C41A94C7610088CCBC /* ProfilePictureViewController.m */; };
 		FBBA45C91A94D2330088CCBC /* TSNewInboxViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FBBA45C81A94D2330088CCBC /* TSNewInboxViewController.m */; };
 		FBBA45CC1A94D3170088CCBC /* TSInboxMessageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FBBA45CB1A94D3170088CCBC /* TSInboxMessageTableViewCell.m */; };
 		FBBA45CF1A9673AC0088CCBC /* TSCreatedClassMessageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FBBA45CE1A9673AC0088CCBC /* TSCreatedClassMessageTableViewCell.m */; };
 		FBBA45D21A96962A0088CCBC /* TSOutboxViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FBBA45D11A96962A0088CCBC /* TSOutboxViewController.m */; };
 		FBBA45D51A9696B60088CCBC /* TSOutboxMessageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FBBA45D41A9696B60088CCBC /* TSOutboxMessageTableViewCell.m */; };
+		FBBA45D71A9DE4400088CCBC /* defaultTeacher.png in Resources */ = {isa = PBXBuildFile; fileRef = FBBA45D61A9DE4400088CCBC /* defaultTeacher.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -157,24 +135,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		40192A501A8CDDAC00EDF966 /* TSMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSMessage.h; path = "../Controllers/Inbox Controllers/TSMessage.h"; sourceTree = "<group>"; };
-		40192A511A8CDDAC00EDF966 /* TSMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSMessage.m; path = "../Controllers/Inbox Controllers/TSMessage.m"; sourceTree = "<group>"; };
 		4068825C1A8A307D00C055E1 /* ProfilePictureViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfilePictureViewController.h; sourceTree = "<group>"; };
 		4068825D1A8A307D00C055E1 /* ProfilePictureViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfilePictureViewController.m; sourceTree = "<group>"; };
 		40C7B2D11A935F6E00C1BFC8 /* ClassesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClassesViewController.h; sourceTree = "<group>"; };
 		40C7B2D21A935F6E00C1BFC8 /* ClassesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClassesViewController.m; sourceTree = "<group>"; };
 		40C7B2D41A935F8700C1BFC8 /* TSJoinedClassMessagesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSJoinedClassMessagesViewController.h; sourceTree = "<group>"; };
 		40C7B2D51A935F8700C1BFC8 /* TSJoinedClassMessagesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSJoinedClassMessagesViewController.m; sourceTree = "<group>"; };
-		40C7B2D71A93604100C1BFC8 /* TSCreatedClassTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSCreatedClassTableViewCell.h; sourceTree = "<group>"; };
-		40C7B2D81A93604100C1BFC8 /* TSCreatedClassTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSCreatedClassTableViewCell.m; sourceTree = "<group>"; };
-		40C7B2DA1A93605800C1BFC8 /* TSJoinedClassMessageTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSJoinedClassMessageTableViewCell.h; sourceTree = "<group>"; };
-		40C7B2DB1A93605800C1BFC8 /* TSJoinedClassMessageTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSJoinedClassMessageTableViewCell.m; sourceTree = "<group>"; };
-		40C7B2DD1A93607200C1BFC8 /* TSJoinedClassTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSJoinedClassTableViewCell.h; sourceTree = "<group>"; };
-		40C7B2DE1A93607200C1BFC8 /* TSJoinedClassTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSJoinedClassTableViewCell.m; sourceTree = "<group>"; };
 		40C7B2E01A9361CB00C1BFC8 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
-		40C7B2E21A93659800C1BFC8 /* defaultTeacher.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = defaultTeacher.png; sourceTree = "<group>"; };
-		40C7B2E41A94B7D200C1BFC8 /* TSInboxViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSInboxViewController.h; sourceTree = "<group>"; };
-		40C7B2E51A94B7D200C1BFC8 /* TSInboxViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSInboxViewController.m; sourceTree = "<group>"; };
 		40C7B2E71A965AFF00C1BFC8 /* TSSuggestion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSSuggestion.h; sourceTree = "<group>"; };
 		40C7B2E81A965AFF00C1BFC8 /* TSSuggestion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSSuggestion.m; sourceTree = "<group>"; };
 		40C7B2EB1A985AA000C1BFC8 /* SchoolController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SchoolController.h; sourceTree = "<group>"; };
@@ -185,8 +152,6 @@
 		40CDDBB51A90E47E00922ADF /* TSMember.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSMember.m; sourceTree = "<group>"; };
 		40D0B94E1A83A86700FF24EA /* TableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableCell.h; sourceTree = "<group>"; };
 		40D0B94F1A83A86700FF24EA /* TableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableCell.m; sourceTree = "<group>"; };
-		40D0B9511A83A93400FF24EA /* MessageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageViewController.h; sourceTree = "<group>"; };
-		40D0B9521A83A93400FF24EA /* MessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageViewController.m; sourceTree = "<group>"; };
 		40D0B9541A85117700FF24EA /* sharedCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sharedCache.h; sourceTree = "<group>"; };
 		40D0B9551A85117700FF24EA /* sharedCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = sharedCache.m; sourceTree = "<group>"; };
 		40EBADA71A7E60B6003FB0B1 /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
@@ -366,10 +331,6 @@
 		FBACC66B1A742D6E00DC1747 /* ParseCrashReporting.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseCrashReporting.framework; sourceTree = "<group>"; };
 		FBACC66C1A742D6E00DC1747 /* ParseFacebookUtils.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseFacebookUtils.framework; sourceTree = "<group>"; };
 		FBACC66D1A742D6E00DC1747 /* ParseUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseUI.framework; sourceTree = "<group>"; };
-		FBBA45941A94C3BE0088CCBC /* ClassesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClassesViewController.h; sourceTree = "<group>"; };
-		FBBA45951A94C3BE0088CCBC /* ClassesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClassesViewController.m; sourceTree = "<group>"; };
-		FBBA459A1A94C4F40088CCBC /* TSMember.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSMember.h; sourceTree = "<group>"; };
-		FBBA459B1A94C4F40088CCBC /* TSMember.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSMember.m; sourceTree = "<group>"; };
 		FBBA459C1A94C4F40088CCBC /* TSMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSMessage.h; sourceTree = "<group>"; };
 		FBBA459D1A94C4F40088CCBC /* TSMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSMessage.m; sourceTree = "<group>"; };
 		FBBA45A01A94C5130088CCBC /* TSCreatedClassTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSCreatedClassTableViewCell.h; sourceTree = "<group>"; };
@@ -378,23 +339,8 @@
 		FBBA45A31A94C5130088CCBC /* TSJoinedClassMessageTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSJoinedClassMessageTableViewCell.m; sourceTree = "<group>"; };
 		FBBA45A41A94C5130088CCBC /* TSJoinedClassTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSJoinedClassTableViewCell.h; sourceTree = "<group>"; };
 		FBBA45A51A94C5130088CCBC /* TSJoinedClassTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSJoinedClassTableViewCell.m; sourceTree = "<group>"; };
-		FBBA45A91A94C5330088CCBC /* 05-xxhdpi.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "05-xxhdpi.png"; sourceTree = "<group>"; };
-		FBBA45AA1A94C5330088CCBC /* 640 x 960.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "640 x 960.png"; sourceTree = "<group>"; };
-		FBBA45AB1A94C5330088CCBC /* 640 x 1136.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "640 x 1136.png"; sourceTree = "<group>"; };
-		FBBA45AC1A94C5330088CCBC /* classroom.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = classroom.png; sourceTree = "<group>"; };
-		FBBA45AD1A94C5330088CCBC /* defaultTeacher.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = defaultTeacher.png; sourceTree = "<group>"; };
-		FBBA45AE1A94C5330088CCBC /* inbox_grey.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = inbox_grey.png; sourceTree = "<group>"; };
-		FBBA45AF1A94C5330088CCBC /* settings_32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = settings_32.png; sourceTree = "<group>"; };
-		FBBA45B71A94C55C0088CCBC /* TSJoinedClassMessagesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSJoinedClassMessagesViewController.h; sourceTree = "<group>"; };
-		FBBA45B81A94C55C0088CCBC /* TSJoinedClassMessagesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSJoinedClassMessagesViewController.m; sourceTree = "<group>"; };
-		FBBA45BA1A94C58B0088CCBC /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
-		FBBA45BB1A94C58B0088CCBC /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		FBBA45BE1A94C6EB0088CCBC /* sharedCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sharedCache.h; sourceTree = "<group>"; };
 		FBBA45BF1A94C6EB0088CCBC /* sharedCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = sharedCache.m; sourceTree = "<group>"; };
-		FBBA45C11A94C7610088CCBC /* FAQTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAQTableViewController.h; sourceTree = "<group>"; };
-		FBBA45C21A94C7610088CCBC /* FAQTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAQTableViewController.m; sourceTree = "<group>"; };
-		FBBA45C31A94C7610088CCBC /* ProfilePictureViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfilePictureViewController.h; sourceTree = "<group>"; };
-		FBBA45C41A94C7610088CCBC /* ProfilePictureViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfilePictureViewController.m; sourceTree = "<group>"; };
 		FBBA45C71A94D2330088CCBC /* TSNewInboxViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TSNewInboxViewController.h; path = "../../Views/Classes Table View Cells/TSNewInboxViewController.h"; sourceTree = "<group>"; };
 		FBBA45C81A94D2330088CCBC /* TSNewInboxViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TSNewInboxViewController.m; path = "../../Views/Classes Table View Cells/TSNewInboxViewController.m"; sourceTree = "<group>"; };
 		FBBA45CA1A94D3170088CCBC /* TSInboxMessageTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSInboxMessageTableViewCell.h; sourceTree = "<group>"; };
@@ -405,6 +351,7 @@
 		FBBA45D11A96962A0088CCBC /* TSOutboxViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSOutboxViewController.m; sourceTree = "<group>"; };
 		FBBA45D31A9696B60088CCBC /* TSOutboxMessageTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSOutboxMessageTableViewCell.h; sourceTree = "<group>"; };
 		FBBA45D41A9696B60088CCBC /* TSOutboxMessageTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSOutboxMessageTableViewCell.m; sourceTree = "<group>"; };
+		FBBA45D61A9DE4400088CCBC /* defaultTeacher.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = defaultTeacher.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -474,8 +421,6 @@
 			children = (
 				40D0B94E1A83A86700FF24EA /* TableCell.h */,
 				40D0B94F1A83A86700FF24EA /* TableCell.m */,
-				40D0B9511A83A93400FF24EA /* MessageViewController.h */,
-				40D0B9521A83A93400FF24EA /* MessageViewController.m */,
 			);
 			name = "Message Controllers";
 			sourceTree = "<group>";
@@ -681,7 +626,6 @@
 				97655AC31A5D911B004A2884 /* Settings Controllers */,
 				975B1E911A2132D10028BE25 /* Tab Controllers */,
 				975B1E821A20F7AE0028BE25 /* Classrooms Controllers */,
-				975B1E831A20F7AE0028BE25 /* Inbox Controllers */,
 				975B1E801A20F5CD0028BE25 /* Parent Controllers */,
 				975B1E811A20F5CD0028BE25 /* Teacher Controllers */,
 				975B1E781A2070070028BE25 /* Sign In Controllers */,
@@ -693,14 +637,10 @@
 		971687DA1A1F1BCA00FE98FC /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				FBBA459A1A94C4F40088CCBC /* TSMember.h */,
-				FBBA459B1A94C4F40088CCBC /* TSMember.m */,
 				FBBA459C1A94C4F40088CCBC /* TSMessage.h */,
 				FBBA459D1A94C4F40088CCBC /* TSMessage.m */,
 				971687DE1A1F1C2B00FE98FC /* TSTeacher.h */,
 				971687DF1A1F1C2B00FE98FC /* TSTeacher.m */,
-				40192A501A8CDDAC00EDF966 /* TSMessage.h */,
-				40192A511A8CDDAC00EDF966 /* TSMessage.m */,
 				971687E11A1F1C3900FE98FC /* TSParent.h */,
 				971687E21A1F1C3900FE98FC /* TSParent.m */,
 				975B1E8E1A211A380028BE25 /* TSClass.h */,
@@ -720,7 +660,7 @@
 		971687DB1A1F1BCA00FE98FC /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				40C7B2E21A93659800C1BFC8 /* defaultTeacher.png */,
+				FBBA45D61A9DE4400088CCBC /* defaultTeacher.png */,
 				40EBADB11A7E6150003FB0B1 /* classroom.png */,
 				40EBADB21A7E6150003FB0B1 /* inbox_grey.png */,
 				40EBADB31A7E6150003FB0B1 /* settings_32.png */,
@@ -875,13 +815,6 @@
 				FBBA45D11A96962A0088CCBC /* TSOutboxViewController.m */,
 			);
 			path = "Classrooms Controllers";
-			sourceTree = "<group>";
-		};
-		975B1E831A20F7AE0028BE25 /* Inbox Controllers */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = "Inbox Controllers";
 			sourceTree = "<group>";
 		};
 		975B1E8A1A2118B50028BE25 /* Classes Table View Cells */ = {
@@ -1066,9 +999,8 @@
 			files = (
 				9707C9F41A5BC3110065D2BA /* JSQMessages.strings in Resources */,
 				9707CA181A5BC3110065D2BA /* JSQMessagesLoadEarlierHeaderView.xib in Resources */,
-				FBBA45B41A94C5330088CCBC /* defaultTeacher.png in Resources */,
+				FBBA45D71A9DE4400088CCBC /* defaultTeacher.png in Resources */,
 				9707C9FD1A5BC3110065D2BA /* JSQMessagesViewController.xib in Resources */,
-				40C7B2E31A93659800C1BFC8 /* defaultTeacher.png in Resources */,
 				40EBADA81A7E60B6003FB0B1 /* LaunchScreen.xib in Resources */,
 				9707C9F31A5BC3110065D2BA /* JSQMessagesAssets.bundle in Resources */,
 				40C7B2E11A9361CB00C1BFC8 /* Main.storyboard in Resources */,
@@ -1120,7 +1052,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FBBA45961A94C3BE0088CCBC /* ClassesViewController.m in Sources */,
 				FBBA459F1A94C4F40088CCBC /* TSMessage.m in Sources */,
 				FBBA45D21A96962A0088CCBC /* TSOutboxViewController.m in Sources */,
 				9707CA191A5BC3110065D2BA /* JSQMessagesMediaPlaceholderView.m in Sources */,
@@ -1129,7 +1060,6 @@
 				975B1E981A2133C10028BE25 /* Data.m in Sources */,
 				973A4BDB1A1F174D0039175A /* AppDelegate.m in Sources */,
 				9707CA0E1A5BC3110065D2BA /* JSQMessagesCollectionView.m in Sources */,
-				40D0B9531A83A93400FF24EA /* MessageViewController.m in Sources */,
 				9707CA171A5BC3110065D2BA /* JSQMessagesLoadEarlierHeaderView.m in Sources */,
 				9707CA021A5BC3110065D2BA /* JSQMessagesToolbarButtonFactory.m in Sources */,
 				9707C9F51A5BC3110065D2BA /* JSQSystemSoundPlayer+JSQMessages.m in Sources */,
@@ -1150,7 +1080,6 @@
 				9707CA031A5BC3110065D2BA /* JSQMessagesCollectionViewFlowLayout.m in Sources */,
 				9707C9FF1A5BC3110065D2BA /* JSQMessagesBubbleImageFactory.m in Sources */,
 				9707C9FA1A5BC3110065D2BA /* UIView+JSQMessages.m in Sources */,
-				FBBA459E1A94C4F40088CCBC /* TSMember.m in Sources */,
 				975B1E9B1A213A130028BE25 /* TSCreateClassroomViewController.m in Sources */,
 				FBBA45A71A94C5130088CCBC /* TSJoinedClassMessageTableViewCell.m in Sources */,
 				971687E31A1F1C3900FE98FC /* TSParent.m in Sources */,
@@ -1162,19 +1091,15 @@
 				9707C9F81A5BC3110065D2BA /* UIDevice+JSQMessages.m in Sources */,
 				40C7B2ED1A985AA000C1BFC8 /* SchoolController.m in Sources */,
 				976F04451A4B6EA0003E9604 /* TSSendClassMessageViewController.m in Sources */,
-				40C7B2E61A94B7D200C1BFC8 /* TSInboxViewController.m in Sources */,
 				9707CA151A5BC3110065D2BA /* JSQMessagesInputToolbar.m in Sources */,
 				FBBA45C91A94D2330088CCBC /* TSNewInboxViewController.m in Sources */,
 				976732631A647C8D001CEC97 /* TSMemberslistTableViewController.m in Sources */,
 				9707CA061A5BC3110065D2BA /* JSQLocationMediaItem.m in Sources */,
 				976732601A644683001CEC97 /* TSJoinedClass.m in Sources */,
-				40C7B2D91A93604100C1BFC8 /* TSCreatedClassTableViewCell.m in Sources */,
 				9707CA081A5BC3110065D2BA /* JSQMessage.m in Sources */,
-				40C7B2DF1A93607200C1BFC8 /* TSJoinedClassTableViewCell.m in Sources */,
 				9767325D1A644674001CEC97 /* TSCreatedClass.m in Sources */,
 				975B1E901A211A380028BE25 /* TSClass.m in Sources */,
 				971687E71A1F823900FE98FC /* TSUtils.m in Sources */,
-				40C7B2DC1A93605800C1BFC8 /* TSJoinedClassMessageTableViewCell.m in Sources */,
 				9707CA0F1A5BC3110065D2BA /* JSQMessagesCollectionViewCell.m in Sources */,
 				975B1E941A2133030028BE25 /* TSTabBarViewController.m in Sources */,
 				9707C9831A5BADC50065D2BA /* MessageComposerView.m in Sources */,
@@ -1190,17 +1115,14 @@
 				9707CA091A5BC3110065D2BA /* JSQMessagesAvatarImage.m in Sources */,
 				40CDDBB61A90E47E00922ADF /* TSMember.m in Sources */,
 				9707C9FE1A5BC3110065D2BA /* JSQMessagesAvatarImageFactory.m in Sources */,
-				FBBA45B91A94C55C0088CCBC /* TSJoinedClassMessagesViewController.m in Sources */,
 				FBBA45CC1A94D3170088CCBC /* TSInboxMessageTableViewCell.m in Sources */,
 				9707C9FB1A5BC3110065D2BA /* JSQMessagesKeyboardController.m in Sources */,
 				97655AC61A5D915C004A2884 /* TSSettingsTableViewController.m in Sources */,
 				9707C9F71A5BC3110065D2BA /* UIColor+JSQMessages.m in Sources */,
 				9707CA0B1A5BC3110065D2BA /* JSQPhotoMediaItem.m in Sources */,
 				975B1E861A20F7C50028BE25 /* TSClassroomTableViewController.m in Sources */,
-				40192A521A8CDDAC00EDF966 /* TSMessage.m in Sources */,
 				9707CA071A5BC3110065D2BA /* JSQMediaItem.m in Sources */,
 				9707CA101A5BC3110065D2BA /* JSQMessagesCollectionViewCellIncoming.m in Sources */,
-				FBBA45C51A94C7610088CCBC /* FAQTableViewController.m in Sources */,
 				9786AE4C1A473E2B00801838 /* TSJoinNewClassViewController.m in Sources */,
 				9707CA1A1A5BC3110065D2BA /* JSQMessagesToolbarContentView.m in Sources */,
 				4068825E1A8A307D00C055E1 /* ProfilePictureViewController.m in Sources */,

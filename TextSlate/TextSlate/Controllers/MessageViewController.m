@@ -5,7 +5,7 @@
 //  Created by Anjaly Mehla on 2/5/15.
 //  Copyright (c) 2015 Trumplab Edusolutions Pvt. Ltd. All rights reserved.
 //
-#import<Parse/Parse.h>
+#import <Parse/Parse.h>
 #import "MessageViewController.h"
 #import "TableCell.h"
 #import "Data.h"
@@ -146,6 +146,7 @@
                     
                     NSArray *messages = (NSArray *)[query findObjects];
                     for (PFObject * messageObject in messages) {
+                        TSMessage *message = [[TSMessage alloc] initWithValues:<#(NSString *)#> classCode:<#(NSString *)#> message:<#(NSString *)#> sender:<#(NSString *)#> sentTime:<#(NSDate *)#> senderPic:<#(UIImage *)#> likeCount:<#(int)#> confuseCount:<#(int)#> seenCount:<#(int)#>];
                         TSMessage *message = [[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:messageObject[@"title"] classCreator:messageObject[@"Creator"] sentTime:messageObject.createdAt likeCount:(messageObject[@"like_status"]?1:0) confuseCount:(messageObject[@"confuse_status"]?1:0) seenCount:0];
                         [_messagesArray addObject:message];
                     }

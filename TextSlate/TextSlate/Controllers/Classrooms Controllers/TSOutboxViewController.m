@@ -36,6 +36,7 @@
     [super viewDidAppear:animated];
     _messagesArray=nil;
     _messagesArray=[[NSMutableArray alloc] init];
+    NSLog(@"Outbox loaded");
     [self fetchAndDisplayMessages];
 }
 
