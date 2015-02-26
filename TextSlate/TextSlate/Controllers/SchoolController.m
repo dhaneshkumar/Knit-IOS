@@ -5,18 +5,20 @@
 //  Created by Anjaly Mehla on 2/21/15.
 //  Copyright (c) 2015 Trumplab Edusolutions Pvt. Ltd. All rights reserved.
 //
-
+#import <Parse/Parse.h>
 #import "SchoolController.h"
+#import "TSTabBarViewController.h"
 #import "Data.h"
+#import "SchoolAreaViewController.h"
+#import "SchoolNameViewController.h"
+#import "TSTabBarViewController.h"
 
 @interface SchoolController ()
 @property (strong, nonatomic) IBOutlet UITextField *schoolArea;
 @property (weak, nonatomic) IBOutlet UITextField *schoolName;
 @property (nonatomic, retain) NSMutableArray *schoolArray;
 @property (nonatomic, retain) NSMutableArray *areaName;
-@property (nonatomic, retain) UITableView *autocompleteAreaTableView;
-
-@property (nonatomic, retain) UITableView *autocompleteSchoolTableView;
+@property (nonatomic, retain) NSString *schoolVicinity;
 
 
 @end
@@ -29,23 +31,7 @@
     self.areaName = [[NSMutableArray alloc] init];
     _schoolName.delegate=self;
     _schoolArea.delegate=self;
-    _autocompleteAreaTableView = [[UITableView alloc] initWithFrame:CGRectMake(10, 200, 320, 120) style:UITableViewStylePlain];
-    _autocompleteAreaTableView.delegate = self;
-    _autocompleteAreaTableView.dataSource = self;
-    _autocompleteAreaTableView.scrollEnabled = YES;
-    _autocompleteAreaTableView.hidden = YES;
-    [self.view addSubview:_autocompleteAreaTableView];
-    
-    _autocompleteSchoolTableView = [[UITableView alloc] initWithFrame:CGRectMake(10, 200, 320, 120) style:UITableViewStylePlain];
-    _autocompleteSchoolTableView.delegate = self;
-    _autocompleteSchoolTableView.dataSource = self;
-    _autocompleteSchoolTableView.scrollEnabled = YES;
-    _autocompleteSchoolTableView.hidden = YES;
-    [self.view addSubview:_autocompleteSchoolTableView];
-    
-
-    
-    [_autocompleteAreaTableView reloadData];
+    NSLog(@"%@ object id ",[PFUser currentUser].objectId);
 
     // Do any additional setup after loading the view.
 }
@@ -55,124 +41,71 @@
     // Dispose of any resources that can be recreated.
 }
 
-
-- (void)searchAutocompleteEntriesWithSubstring:(NSString *)substring tableView:(UITableView*)tableView{
-    
-    if(tableView==_autocompleteSchoolTableView){
-    
-    for(NSString *curString in self.schoolArray) {
-        NSLog(@"searach autocompletion");
-        NSRange substringRange = [curString rangeOfString:substring];
-        if (substringRange.location == 0) {
-        
-        }
-    }
-    [_autocompleteAreaTableView reloadData];
-    }
-    
-    else if (tableView==_autocompleteAreaTableView)
-    {
-        
-        for(NSString *curString in self.areaName) {
-            NSLog(@"searach autocompletion");
-            NSRange substringRange = [curString rangeOfString:substring];
-            if (substringRange.location == 0) {
-                
-            }
-        }
-        [_autocompleteAreaTableView reloadData];
-        
-    }
-}
-
-- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
-    if([textField.text length]>=3){
-    if(textField==_schoolArea){
-    _autocompleteAreaTableView.hidden = NO;
-        NSString *areaName=_schoolArea.text;
-        [Data autoComplete:areaName successBlock:^(id object) {
-            NSLog(@"area object %@",object);
-        
-            _areaName=(NSMutableArray*)object;
-        } errorBlock:^(NSError *error) {
-            NSLog(@"Error");
-        }];
-    
-    NSString *substring = [NSString stringWithString:textField.text];
-    substring = [substring stringByReplacingCharactersInRange:range withString:string];
-    [self searchAutocompleteEntriesWithSubstring:substring tableView:_autocompleteAreaTableView];
-    }
-    else {
-        _autocompleteSchoolTableView.hidden = NO;
-        
-        NSString *substring = [NSString stringWithString:textField.text];
-        substring = [substring stringByReplacingCharactersInRange:range withString:string];
-        [self searchAutocompleteEntriesWithSubstring:substring tableView:_autocompleteSchoolTableView];
-        
-    }
-    }
-    
-        return YES;
-}
-
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger) section {
-    if(tableView==_autocompleteSchoolTableView){
-        return _schoolArray.count;
-        
-    }
-    else
-        return _areaName.count;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSLog(@"create table");
-    
-    UITableViewCell *cell = nil;
-    static NSString *AutoCompleteRowIdentifier = @"AutoCompleteRowIdentifier";
-    cell = [tableView dequeueReusableCellWithIdentifier:AutoCompleteRowIdentifier];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc]
-                 initWithStyle:UITableViewCellStyleDefault reuseIdentifier:AutoCompleteRowIdentifier];
-    }
-    if(tableView==_autocompleteAreaTableView){
-    cell.textLabel.text = [_schoolArray objectAtIndex:indexPath.row];
-    }
-    else {
-        cell.textLabel.text=[_areaName objectAtIndex:indexPath.row];
-    }
-        
-        return cell;
-}
-
-#pragma mark UITableViewDelegate methods
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-
-    UITableViewCell *selectedCell = [tableView cellForRowAtIndexPath:indexPath];
-    if(tableView==_autocompleteSchoolTableView){
-    _schoolName.text = selectedCell.textLabel.text;
-    }
-    else{
-        _schoolArea.text=selectedCell.textLabel.text;
-    
-        [Data autoCompleteSchool:_schoolArea.text successBlock:^(id object) {
-            
-            NSLog(@"object %@",object);
-        } errorBlock:^(NSError *error) {
-            NSLog(@"Error");
-        }];
-    }
-
-}
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     [textField resignFirstResponder];
-    self.autocompleteAreaTableView.hidden=YES;
-    self.autocompleteSchoolTableView.hidden=YES;
     return YES;
 }
+
+-(IBAction)prepareForUnwind:(UIStoryboardSegue *)segue {
+    
+    SchoolAreaViewController *areaSourceController=segue.sourceViewController;
+    if(areaSourceController.area)
+    {
+        NSLog(@"Message recieved %@",areaSourceController.area);
+        self.schoolArea.text=areaSourceController.area;
+    }
+}
+
+-(IBAction)prepareForUnwindSchoolName:(UIStoryboardSegue *)segue {
+    
+    SchoolNameViewController *nameSourceController=segue.sourceViewController;
+    if(nameSourceController.nameSchool)
+    {
+         self.schoolName.text=nameSourceController.nameSchool;
+        self.schoolVicinity=nameSourceController.schoolWithVicinity;
+        NSLog(@"School Vicinity %@",self.schoolVicinity);
+        
+    }
+}
+
+- (IBAction)sendAreaName:(id)sender {
+    [self performSegueWithIdentifier:@"schoolArea" sender:self];
+    
+}
+- (IBAction)dismiss:(id)sender {
+    
+    [Data getSchoolId:_schoolVicinity successBlock:^(id object) {
+        NSLog(@"school OD returned %@",object);
+        if([PFUser currentUser])
+        {
+            PFObject *current=[PFUser currentUser];
+            [current setObject:object forKey:@"school"];
+            [current saveInBackground];
+
+        }
+    } errorBlock:^(NSError *error) {
+        NSLog(@"Error");
+    }];
+    
+    //[self performSegueWithIdentifier:@"tabBar" sender:self];
+  //  TSTabBarViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"tabBar"];
+    //[self presentViewController:vc animated:NO completion:nil];
+}
+
+
+-(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.identifier isEqualToString:@"schoolArea"]) {
+        SchoolNameViewController * sendAreaName=segue.destinationViewController;
+        sendAreaName.schoolArea=_schoolArea.text;
+        
+        NSLog(@"school area %@",sendAreaName.schoolArea);
+    }
+
+    
+}
+
+
 /*
 #pragma mark - Navigation
 

@@ -67,4 +67,11 @@ typedef void (^errorBlock)(NSError *error);
 
 +(void) autoCompleteSchool:(NSString*)area successBlock:(successBlock) successBlock errorBlock:(errorBlock) errorBlock;
 
++(void) getSchoolId:(NSString*)schoolName successBlock:(successBlock) successBlock errorBlock:(errorBlock) errorBlock;
+
+
++(void) generateOTP:(NSString*)phoneNum successBlock:(successBlock) successBlock errorBlock:(errorBlock) errorBlock;
+
++(void) verifyOTP:(NSString *)phoneNum code:(NSInteger)code successBlock:(successBlock) successBlock errorBlock:(errorBlock) errorBlock;
+
 @end

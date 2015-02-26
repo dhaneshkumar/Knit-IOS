@@ -356,6 +356,54 @@
     }];
     
 }
++(void) getSchoolId:(NSString*)schoolName successBlock:(successBlock) successBlock errorBlock:(errorBlock) errorBlock{
+    [PFCloud callFunctionInBackground:@"getSchoolId" withParameters:@{@"school":schoolName } block:^(id object, NSError *error) {
+        if (error) {
+            NSLog(@"Error");
+            
+            errorBlock(error);
+        } else {
+            NSLog(@"Success");
+            
+            successBlock(object);
+        }
+    }];
+    
+}
+
++(void) generateOTP:(NSString *)phoneNum successBlock:(successBlock) successBlock errorBlock:(errorBlock) errorBlock{
+    [PFCloud callFunctionInBackground:@"genCode" withParameters:@{@"number":phoneNum } block:^(id object, NSError *error) {
+        if (error) {
+            NSLog(@"Error");
+            
+            errorBlock(error);
+        } else {
+            NSLog(@"Success");
+            
+            successBlock(object);
+        }
+    }];
+    
+}
+
++(void) verifyOTP:(NSString *)phoneNum code:(NSInteger)code successBlock:(successBlock) successBlock errorBlock:(errorBlock) errorBlock{
+    NSNumber *codeNum = [NSNumber numberWithInteger:code];
+
+    [PFCloud callFunctionInBackground:@"verifyCode" withParameters:@{@"number":phoneNum ,@"code":codeNum} block:^(id object, NSError *error) {
+        if (error) {
+            NSLog(@"Error");
+            
+            errorBlock(error);
+        } else {
+            NSLog(@"Success");
+            
+            successBlock(object);
+        }
+    }];
+    
+}
+
+
 
 
 @end

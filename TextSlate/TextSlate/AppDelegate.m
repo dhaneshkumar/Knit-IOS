@@ -9,6 +9,8 @@
 #import "AppDelegate.h"
 #import "Data.h"
 #import "TSJoinedClass.h"
+#import "TSSettingsTableViewController.h"
+#import "TSTabBarViewController.h"
 #import <Parse/Parse.h>
 #import <ParseCrashReporting/ParseCrashReporting.h>
 
@@ -44,7 +46,9 @@
     [application registerForRemoteNotifications];
     UILocalNotification *locationNotification = [launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey];
     if (locationNotification) {
-        // Set icon badge number to zero
+        NSLog(@"Notification");
+       
+        
         application.applicationIconBadgeNumber = 0;
     }
     
@@ -61,20 +65,31 @@
     [currentInstallation saveInBackground];
     
 }
-/*
+
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
-    if(UIApplicationStateBackground){
-        NSLog(@"background");
-        MessageViewController *openInbox=[[MessageViewController alloc]init];
+    
+    if (userInfo) {
+        NSLog(@"%@",userInfo);
+        UIStoryboard *storyboard1 = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
+        UINavigationController *signUpController = [storyboard1 instantiateViewControllerWithIdentifier:@"tabBar"];
+        signUpController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
         
-        self.window.rootViewController=openInbox;
+        TSTabBarViewController *fcontroller = (TSTabBarViewController*)signUpController.topViewController;
+        [fcontroller setSelectedIndex:2];
+        self.window.rootViewController=signUpController;
         
+        if ([userInfo objectForKey:@"aps"]) {
+            if([[userInfo objectForKey:@"aps"] objectForKey:@"badgecount"]) {
+                [UIApplication sharedApplication].applicationIconBadgeNumber = [[[userInfo objectForKey:@"aps"] objectForKey: @"badgecount"] intValue];
+                
+            }
+        }
     }
     
     [PFPush handlePush:userInfo];
     
 
-}*/
+}
 
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification
 {

@@ -25,6 +25,7 @@
     // Do any additional setup after loading the view.
     
     if (![PFUser currentUser]) {
+        NSLog(@"Tab bar controller");
         TSSignInViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"signInNavigationController"];
         [self presentViewController:vc animated:NO completion:nil];
     } else {
@@ -47,6 +48,20 @@
     } else {
         [self.navigationItem setRightBarButtonItems:@[joinBarButtonItem]];
     }
+}
+
+-(void) viewDidAppear:(BOOL)animated{
+
+    [super viewDidAppear:animated];
+    if(self.presentingViewController)
+    {
+        [self.presentingViewController dismissViewControllerAnimated:YES completion:Nil ];
+    }
+    if(![PFUser currentUser])
+    {
+        NSLog(@"NO USER");
+    }
+    NSLog(@"Current User");
 }
 
 -(void) joinClassBarButtonItemClicked {

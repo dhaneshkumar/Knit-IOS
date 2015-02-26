@@ -18,7 +18,7 @@
 
 @property (weak, nonatomic) IBOutlet UIButton *signInButton;
 @property (weak, nonatomic) IBOutlet UIButton *signUpButton;
-@property (weak,nonatomic) NSMutableArray *classArray;
+@property (strong,nonatomic) NSMutableArray *classArray;
 @end
 
 @implementation TSSignInViewController
@@ -94,6 +94,7 @@
 }
 
 - (IBAction)signUpClicked:(UIButton *)sender {
+    NSLog(@"Sign UP");
     UINavigationController *signUpController = [self.storyboard instantiateViewControllerWithIdentifier:@"signUpNavigationController"];
     signUpController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
     

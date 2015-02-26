@@ -84,7 +84,6 @@
         
         TSJoinedClass *cl = (TSJoinedClass *)[_classes objectAtIndex:indexPath.row];
         cell.classCode.text = cl.code;
-        NSLog(@"code seg : %@", cl.code);
         cell.className.text = cl.name;
         cell.teacherName.text = cl.teachername;
         cell.assocName.text = cl.associatedPersonName;
@@ -173,7 +172,6 @@
             [temp setObject:standard forKey:@"standard"];
             [temp setObject:division forKey:@"division"];
             [_suggestionClass addObject:temp];
-            NSLog(@"DICTIONARY %@",temp);
         }
     }
    
