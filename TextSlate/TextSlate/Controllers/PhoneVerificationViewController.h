@@ -17,6 +17,14 @@
 @property (strong, nonatomic) NSString *password;
 @property (strong, nonatomic) NSString *confirmPassword;
 @property (strong,nonatomic) NSString *otpCode;
+@property (strong, nonatomic) NSString *modal;
+@property (strong, nonatomic) NSString *sex;
+@property (strong, nonatomic) NSString *role;
+
 @property (assign) bool parent ;
+@property (assign) bool isSignIn ;
+@property (assign) bool isSignUp ;
+
+
 @end
 

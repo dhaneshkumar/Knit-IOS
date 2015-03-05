@@ -31,7 +31,6 @@
     self.areaName = [[NSMutableArray alloc] init];
     _schoolName.delegate=self;
     _schoolArea.delegate=self;
-    NSLog(@"%@ object id ",[PFUser currentUser].objectId);
 
     // Do any additional setup after loading the view.
 }

@@ -152,7 +152,6 @@
     [query orderByDescending:@"updatedAt"];
     [query whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
     NSArray *objects=[query findObjects];
-    NSLog(@"object count %i",objects.count);
     if(objects.count==0)
     {
         [self suggestClassLatestDate];
@@ -370,7 +369,6 @@
         NSLog(@"Reaching prep for segue");
         TSJoinedClassMessagesViewController *dvc = (TSJoinedClassMessagesViewController *)segue.destinationViewController;
         int row = [[self.classesTable indexPathForSelectedRow] row];
-        NSLog(@"ROW : %d", row);
         TSJoinedClass *selectedClass = (TSJoinedClass *)_classes[row];
         dvc.className = selectedClass.name;
         dvc.classCode = selectedClass.code;
@@ -380,11 +378,9 @@
     else  if([segue.identifier isEqualToString:@"createdClasses"]){
         TSSendClassMessageViewController *dvc = (TSSendClassMessageViewController*)segue.destinationViewController;
         int row = [[self.classesTable indexPathForSelectedRow] row];
-        NSLog(@"selected row %i",row);
         TSClass *selectedClass = [[TSClass alloc] init];
         selectedClass=(TSClass *) _classes[row];
         dvc.classCode=selectedClass.code;
-        NSLog(@"code in created class segue %@",dvc.classCode);
         dvc.className=selectedClass.name;
     }
     [self.classesTable deselectRowAtIndexPath:[self.classesTable indexPathForSelectedRow] animated:YES];
@@ -408,8 +404,6 @@
     NSMutableArray *classCodes = [[NSMutableArray alloc] init];
     NSArray *joined = (NSArray *)[[PFUser currentUser] objectForKey:@"joined_groups"];
     NSArray *created = (NSArray *)[[PFUser currentUser] objectForKey:@"Created_groups"];
-    NSLog(@"Joined : %d", joined.count);
-    NSLog(@"Created : %d", created.count);
     for(NSArray *joinedcl in joined)
         [classCodes addObject:joinedcl[0]];
     for(NSArray *createdcl in created)
@@ -444,7 +438,6 @@
                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                     [Data getAllCodegroups:^(id object) {
                         NSArray *cgs = (NSArray *)object;
-                        NSLog(@"cgs : %d", cgs.count);
                         for(PFObject *cg in cgs) {
                             cg[@"iosUserID"] = [PFUser currentUser].objectId;
                             [cg pinInBackground];

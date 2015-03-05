@@ -58,9 +58,7 @@
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
     if([textField.text length]>=2){
             NSString *areaName=_schoolArea.text;
-            NSLog(@"School area %@",areaName);
             [Data autoComplete:areaName successBlock:^(id object) {
-                NSLog(@"area object %@",object);
                 
                 _areaName=(NSMutableArray*)object;
                 _autocompleteAreaTableView.hidden = NO;
@@ -110,7 +108,6 @@
         
         [Data autoCompleteSchool:_schoolArea.text successBlock:^(id object) {
             
-            NSLog(@"object %@",object);
         } errorBlock:^(NSError *error) {
             NSLog(@"Error");
         }];

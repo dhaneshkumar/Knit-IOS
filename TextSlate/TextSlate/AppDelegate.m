@@ -45,12 +45,9 @@
     [application registerUserNotificationSettings:settings];
     [application registerForRemoteNotifications];
     UILocalNotification *locationNotification = [launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey];
-    if (locationNotification) {
-        NSLog(@"Notification");
-       
-        
+    
         application.applicationIconBadgeNumber = 0;
-    }
+    
     
     return YES;
 }
@@ -70,25 +67,27 @@
     
     if (userInfo) {
         NSLog(@"%@",userInfo);
+        
         UIStoryboard *storyboard1 = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
         UINavigationController *signUpController = [storyboard1 instantiateViewControllerWithIdentifier:@"tabBar"];
         signUpController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
         
         TSTabBarViewController *fcontroller = (TSTabBarViewController*)signUpController.topViewController;
-        [fcontroller setSelectedIndex:2];
+        [fcontroller setSelectedIndex:1];
         self.window.rootViewController=signUpController;
+
+        
         
         if ([userInfo objectForKey:@"aps"]) {
             if([[userInfo objectForKey:@"aps"] objectForKey:@"badgecount"]) {
                 [UIApplication sharedApplication].applicationIconBadgeNumber = [[[userInfo objectForKey:@"aps"] objectForKey: @"badgecount"] intValue];
                 
             }
+        
         }
-    }
-    
+        
     [PFPush handlePush:userInfo];
-    
-
+    }
 }
 
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification

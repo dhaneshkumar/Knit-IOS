@@ -25,10 +25,6 @@
     }];
 }
 
-
-    
-    
-    
     
 +(void) getClassRooms:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
     [[PFUser currentUser] fetchInBackgroundWithBlock:^(PFObject *object, NSError *error) {
@@ -189,7 +185,7 @@
 }
 
 +(void)updateInboxLocalDatastore:(NSString *)classtype successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
-    [PFCloud callFunctionInBackground:@"showLatestMessagesWithlLimit" withParameters:@{@"classtype":classtype, @"limit":@30} block:^(id object, NSError *error) {
+    [PFCloud callFunctionInBackground:@"showLatestMessagesWithLimit" withParameters:@{@"classtype":classtype, @"limit":@30} block:^(id object, NSError *error) {
         if (error) {
             errorBlock(error);
         } else {
@@ -197,9 +193,6 @@
         }
     }];
 }
-
-
-
 
 +(void)updateInboxLocalDatastoreWithTime:(NSDate *)lastMessageTime successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
     [PFCloud callFunctionInBackground:@"showLatestMessages" withParameters:@{@"date":lastMessageTime} block:^(id object, NSError *error) {
@@ -220,10 +213,6 @@
         }
     }];
 }
-
-
-
-
 
 +(void)getMemberList:(NSDate *)lastMessageTime successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock{
     [PFCloud callFunctionInBackground:@"showAllSubscribers" withParameters:@{@"date":lastMessageTime} block:^(id object, NSError *error) {
@@ -252,7 +241,7 @@
 }
 
 
-+(void)sendMessage:(NSString *)classcode classname:(NSString *)classname message:(NSString *)message successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
++(void)sendTextMessage:(NSString *)classcode classname:(NSString *)classname message:(NSString *)message successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
     [PFCloud callFunctionInBackground:@"sendTextMessage" withParameters:@{@"classcode":classcode, @"classname":classname, @"message":message} block:^(id object, NSError *error) {
         if (error) {
             errorBlock(error);
@@ -386,10 +375,10 @@
     
 }
 
-+(void) verifyOTP:(NSString *)phoneNum code:(NSInteger)code successBlock:(successBlock) successBlock errorBlock:(errorBlock) errorBlock{
++(void) verifyOTPSignUp:(NSString *)phoneNum code:(NSInteger)code modal:(NSString *) modal os:(NSString *)os name:(NSString *)name role:(NSString *)role sex:(NSString*)sex successBlock:(successBlock) successBlock errorBlock:(errorBlock) errorBlock{
     NSNumber *codeNum = [NSNumber numberWithInteger:code];
 
-    [PFCloud callFunctionInBackground:@"verifyCode" withParameters:@{@"number":phoneNum ,@"code":codeNum} block:^(id object, NSError *error) {
+    [PFCloud callFunctionInBackground:@"verifyCode" withParameters:@{@"number":phoneNum ,@"code":codeNum, @"modal":modal, @"os":os ,@"name":name, @"role":role ,@"sex":sex} block:^(id object, NSError *error) {
         if (error) {
             NSLog(@"Error");
             

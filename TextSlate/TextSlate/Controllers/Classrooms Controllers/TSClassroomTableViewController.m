@@ -8,7 +8,7 @@
 
 #import "TSClassroomTableViewController.h"
 #import "TSClassTableViewCell.h"
-#import "TSClassroomTableViewController.m"
+//#import "TSClassroomTableViewController.m"
 #import "TSSendClassMessageViewController.h"
 
 #import "Data.h"

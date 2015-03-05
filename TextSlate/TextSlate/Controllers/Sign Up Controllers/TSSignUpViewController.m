@@ -21,6 +21,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *emailTextField;
 @property (weak, nonatomic) IBOutlet UITextField *passwordTextField;
 @property (weak, nonatomic) IBOutlet UITextField *confirmPasswordTextField;
+@property (weak, nonatomic) IBOutlet UITextField *sex;
 @property (strong,nonatomic) NSString *getOTP;
 
 
@@ -43,6 +44,7 @@
 
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+    _sex.delegate=self;
     
     UIAlertView *selectionAlertView = [[UIAlertView alloc] initWithTitle:@"Knit - Role" message:@"Please select your profession" delegate:self cancelButtonTitle:@"CANCEL" otherButtonTitles:@"PARENT", @"TEACHER", nil];
     [selectionAlertView show];
@@ -104,7 +106,6 @@
     [user signUpInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (!error) {
             NSLog(@"Sign up successfull");
-         
             PFObject *currentTable=[PFInstallation currentInstallation];
             currentTable[@"username"]=[PFUser currentUser].username;
             [currentTable saveInBackground];
@@ -132,13 +133,17 @@
     if ([segue.identifier isEqualToString:@"signUpDetail"]) {
         UINavigationController *nav = [segue destinationViewController];
         PhoneVerificationViewController *dvc = (PhoneVerificationViewController *)nav.topViewController;
-        
+        NSString *deviceType = [UIDevice currentDevice].model;
+        NSLog(@"device %@",deviceType);
         dvc.nameText=_nameTextField.text;
         dvc.phoneNumber=_phoneNumberTextField.text;
         dvc.emailText=_emailTextField.text;
         dvc.password=_passwordTextField.text;
         dvc.confirmPassword=_confirmPasswordTextField.text;
         dvc.parent= _isParent;
+        dvc.modal=deviceType;
+        dvc.isSignUp=true;
+        dvc.sex=_sex.text;
         
     }
     

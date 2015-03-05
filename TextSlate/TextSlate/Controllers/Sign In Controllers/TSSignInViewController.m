@@ -26,8 +26,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
-    
-    
     [TSUtils applyRoundedCorners:_signInButton];
 }
 
@@ -45,6 +43,9 @@
         if (!error) {
             NSMutableArray *channel=[[NSMutableArray alloc]init];
             PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+           
+
+            
             
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
           //  currentInstallation.currentInstallation
@@ -95,6 +96,7 @@
 
 - (IBAction)signUpClicked:(UIButton *)sender {
     NSLog(@"Sign UP");
+    
     UINavigationController *signUpController = [self.storyboard instantiateViewControllerWithIdentifier:@"signUpNavigationController"];
     signUpController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
     

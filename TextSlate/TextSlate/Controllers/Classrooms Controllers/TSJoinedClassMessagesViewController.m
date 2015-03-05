@@ -107,9 +107,10 @@
     [localQuery orderByDescending:@"createdAt"];
     NSArray *msgs = (NSArray *)[localQuery findObjects];
     for(PFObject *msg in msgs) {
-            TSMessage *m = [[TSMessage alloc] initWithValues:msg[@"name"] classCode:msg[@"code"] message:msg[@"title"] classCreator:msg[@"Creator"] sentTime:msg.createdAt likeCount:(msg[@"like_status"] && ((BOOL)msg[@"like_status"]==YES))?1:0 confuseCount:(msg[@"confused_status"] && ((BOOL)msg[@"confused_status"]==YES))?1:0 seenCount:0];
-        [_messages addObject:m];
-
+        TSMessage *message = [[TSMessage alloc] initWithValues:msg[@"name"] classCode:msg[@"code"] message:msg[@"title"] sender:msg[@"Creator"] sentTime:msg.createdAt senderPic:msg[@"senderPic"] likeCount:[msg[@"like_count"] intValue] confuseCount:[msg[@"confused_count"] intValue] seenCount:0];
+        message.likeStatus = msg[@"likeStatus"];
+        message.confuseStatus = msg[@"confuseStatus"];
+        [_messages addObject:message];
     }
     [self.messagesTable reloadData];
     return;

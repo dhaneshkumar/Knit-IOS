@@ -68,7 +68,6 @@
     else {
         _selectedSchool=_schoolNameTextField.text;
     }
-    NSLog(@"School Name %@",_selectedSchool);
     
     
     [Data createNewClassWithClassName:_classNameTextField.text standard:_selectedStandard division:_selectedDivision school:_selectedSchool successBlock:^(id object) {
