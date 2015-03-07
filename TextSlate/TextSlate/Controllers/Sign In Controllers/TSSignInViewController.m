@@ -10,10 +10,11 @@
 #import "TSUtils.h"
 #import <Parse/Parse.h>
 #import "TSSignUpViewController.h"
+#import "PhoneVerificationViewController.h"
 #import "TSClass.h"
 #import "Data.h"
 @interface TSSignInViewController ()
-@property (weak, nonatomic) IBOutlet UITextField *emailTextField;
+@property (weak, nonatomic) IBOutlet UITextField *phoneTextField;
 @property (weak, nonatomic) IBOutlet UITextField *passwordTextField;
 
 @property (weak, nonatomic) IBOutlet UIButton *signInButton;
@@ -39,6 +40,17 @@
 }
 
 - (IBAction)signInClicked:(UIButton *)sender {
+    
+    [Data generateOTP:_phoneTextField.text successBlock:^(id object) {
+        [self performSegueWithIdentifier:@"verification" sender:self];
+
+        
+    } errorBlock:^(NSError *error) {
+        NSLog(@"Couldn't generate OTP");
+    }];
+    
+    
+    /*
     [PFUser logInWithUsernameInBackground:_emailTextField.text password:_passwordTextField.text block:^(PFUser *user, NSError *error) {
         if (!error) {
             NSMutableArray *channel=[[NSMutableArray alloc]init];
@@ -79,19 +91,38 @@
 
             }
             NSLog(@"Succesfully Logged in");
-           /* UILocalNotification *localNotification = [[UILocalNotification alloc] init];
+            UILocalNotification *localNotification = [[UILocalNotification alloc] init];
             localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:5];
             localNotification.alertBody = @"Local Notification – Ongraph.com";
             localNotification.timeZone = [NSTimeZone defaultTimeZone];
             localNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication]     applicationIconBadgeNumber] + 1;
             
             [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
-            */
+     
             
         } else {
             NSLog(@"got error %@",[error localizedDescription]);
         }
-    }];
+    }];*/
+
+
+}
+
+
+-(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    
+    if ([segue.identifier isEqualToString:@"verification"]) {
+        UINavigationController *nav = [segue destinationViewController];
+        PhoneVerificationViewController *dvc = (PhoneVerificationViewController *)nav.topViewController;
+        NSString *deviceType = [UIDevice currentDevice].model;
+        NSLog(@"device %@",deviceType);
+        NSLog(@"phone text %@",_phoneTextField.text);
+        dvc.phoneNumber=_phoneTextField.text;
+        dvc.password=_passwordTextField.text;
+        dvc.isNewSignIn=true;
+        
+    }
+    
 }
 
 - (IBAction)signUpClicked:(UIButton *)sender {
@@ -107,7 +138,7 @@
 }
 
 - (IBAction)tappedOutside:(UITapGestureRecognizer *)sender {
-    [_emailTextField resignFirstResponder];
+    [_phoneTextField resignFirstResponder];
     [_passwordTextField resignFirstResponder];
 }
 @end

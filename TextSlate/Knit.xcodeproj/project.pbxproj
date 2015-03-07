@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		403C1AF91AAAED11003E7D81 /* OldSignInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 403C1AF81AAAED11003E7D81 /* OldSignInViewController.m */; };
 		4068825E1A8A307D00C055E1 /* ProfilePictureViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4068825D1A8A307D00C055E1 /* ProfilePictureViewController.m */; };
 		40C7B2D31A935F6E00C1BFC8 /* ClassesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 40C7B2D21A935F6E00C1BFC8 /* ClassesViewController.m */; };
 		40C7B2D61A935F8700C1BFC8 /* TSJoinedClassMessagesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 40C7B2D51A935F8700C1BFC8 /* TSJoinedClassMessagesViewController.m */; };
@@ -16,7 +17,6 @@
 		40CD58651A89455B000CB1AB /* FAQTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 40CD58641A89455B000CB1AB /* FAQTableViewController.m */; };
 		40CDDBB61A90E47E00922ADF /* TSMember.m in Sources */ = {isa = PBXBuildFile; fileRef = 40CDDBB51A90E47E00922ADF /* TSMember.m */; };
 		40D0B9501A83A86700FF24EA /* TableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 40D0B94F1A83A86700FF24EA /* TableCell.m */; };
-		40D0B9531A83A93400FF24EA /* MessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 40D0B9521A83A93400FF24EA /* MessageViewController.m */; };
 		40D0B9561A85117700FF24EA /* sharedCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 40D0B9551A85117700FF24EA /* sharedCache.m */; };
 		40D986141A99ED4E00D8BB0C /* SchoolAreaViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 40D986131A99ED4E00D8BB0C /* SchoolAreaViewController.m */; };
 		40D986171A9A274500D8BB0C /* SchoolNameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 40D986161A9A274500D8BB0C /* SchoolNameViewController.m */; };
@@ -120,7 +120,6 @@
 		FBBA45A61A94C5130088CCBC /* TSCreatedClassTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FBBA45A11A94C5130088CCBC /* TSCreatedClassTableViewCell.m */; };
 		FBBA45A71A94C5130088CCBC /* TSJoinedClassMessageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FBBA45A31A94C5130088CCBC /* TSJoinedClassMessageTableViewCell.m */; };
 		FBBA45A81A94C5130088CCBC /* TSJoinedClassTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FBBA45A51A94C5130088CCBC /* TSJoinedClassTableViewCell.m */; };
-		FBBA45C01A94C6EB0088CCBC /* sharedCache.m in Sources */ = {isa = PBXBuildFile; fileRef = FBBA45BF1A94C6EB0088CCBC /* sharedCache.m */; };
 		FBBA45C91A94D2330088CCBC /* TSNewInboxViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FBBA45C81A94D2330088CCBC /* TSNewInboxViewController.m */; };
 		FBBA45CC1A94D3170088CCBC /* TSInboxMessageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FBBA45CB1A94D3170088CCBC /* TSInboxMessageTableViewCell.m */; };
 		FBBA45CF1A9673AC0088CCBC /* TSCreatedClassMessageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FBBA45CE1A9673AC0088CCBC /* TSCreatedClassMessageTableViewCell.m */; };
@@ -140,6 +139,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		403C1AF71AAAED11003E7D81 /* OldSignInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OldSignInViewController.h; sourceTree = "<group>"; };
+		403C1AF81AAAED11003E7D81 /* OldSignInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OldSignInViewController.m; sourceTree = "<group>"; };
 		4068825C1A8A307D00C055E1 /* ProfilePictureViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfilePictureViewController.h; sourceTree = "<group>"; };
 		4068825D1A8A307D00C055E1 /* ProfilePictureViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfilePictureViewController.m; sourceTree = "<group>"; };
 		40C7B2D11A935F6E00C1BFC8 /* ClassesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClassesViewController.h; sourceTree = "<group>"; };
@@ -400,6 +401,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		403C1AF31AAAEC7D003E7D81 /* Old Sign In */ = {
+			isa = PBXGroup;
+			children = (
+				403C1AF71AAAED11003E7D81 /* OldSignInViewController.h */,
+				403C1AF81AAAED11003E7D81 /* OldSignInViewController.m */,
+			);
+			name = "Old Sign In";
+			sourceTree = "<group>";
+		};
 		4068825B1A8A305100C055E1 /* Profile Picture Controller */ = {
 			isa = PBXGroup;
 			children = (
@@ -643,6 +653,7 @@
 		971687D71A1F1BCA00FE98FC /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				403C1AF31AAAEC7D003E7D81 /* Old Sign In */,
 				40D986181A9B91F500D8BB0C /* Phone Verification Controller */,
 				40C7B2EA1A985A1200C1BFC8 /* School Controller */,
 				4068825B1A8A305100C055E1 /* Profile Picture Controller */,
@@ -1085,6 +1096,7 @@
 				975B1E981A2133C10028BE25 /* Data.m in Sources */,
 				973A4BDB1A1F174D0039175A /* AppDelegate.m in Sources */,
 				9707CA0E1A5BC3110065D2BA /* JSQMessagesCollectionView.m in Sources */,
+				403C1AF91AAAED11003E7D81 /* OldSignInViewController.m in Sources */,
 				9707CA171A5BC3110065D2BA /* JSQMessagesLoadEarlierHeaderView.m in Sources */,
 				9707CA021A5BC3110065D2BA /* JSQMessagesToolbarButtonFactory.m in Sources */,
 				40D986171A9A274500D8BB0C /* SchoolNameViewController.m in Sources */,

@@ -20,11 +20,10 @@
 @property (strong, nonatomic) NSString *modal;
 @property (strong, nonatomic) NSString *sex;
 @property (strong, nonatomic) NSString *role;
-
 @property (assign) bool parent ;
-@property (assign) bool isSignIn ;
+@property (assign) bool isOldSignIn ;
+@property (assign) bool isNewSignIn ;
 @property (assign) bool isSignUp ;
-
 
 @end
 

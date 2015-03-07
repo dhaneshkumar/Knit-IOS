@@ -65,11 +65,12 @@
             
             NSDictionary *tokenDict=[[NSDictionary alloc]init];
             tokenDict=object;
-            NSString *flagValue=[tokenDict objectForKey:@"flag"];
+            NSString *flagString=[tokenDict objectForKey:@"flag"];
+            int flagValue=[flagString integerValue];
             NSString *token=[tokenDict objectForKey:@"sessionToken"];
-            NSLog(@"Flag %@ and session token %@",flagValue,token);
+            NSLog(@"Flag %i and session token %@",flagValue,token);
             
-            if([token length]>0){
+            if(flagValue==1){
             [PFUser becomeInBackground:token block:^(PFUser *user, NSError *error) {
                 if (error) {
                     NSLog(@"Session token could not be validated");
@@ -86,45 +87,129 @@
                 }
             }];
             }
-            /*PFUser *user = [PFUser user];
-            user.username = _emailText;
-            user.password = _password;
-            user.email = _emailText;
-            
-            [user setObject:_phoneNumber forKey:@"phone"];
-            [user setObject:_nameText forKey:@"name"];
-            [user setObject:_parent ? @"parent" : @"teacher" forKey:@"role"];
-            
-            [user signUpInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-                if (!error) {
-                    NSLog(@"Sign up successfull");
-                    
-                    PFObject *currentTable=[PFInstallation currentInstallation];
-                    currentTable[@"username"]=[PFUser currentUser].username;
-                    [currentTable saveInBackground];
-                    
-                } else {
-                    NSLog(@"Error is: %@", [error localizedDescription]);
-                }
-            }];
-             */
-            if(_parent==false){
-                   // [self performSegueWithIdentifier:@"schoolDetail" sender:self];
-                }
-                else {
-                    NSLog(@"Parent");
-                    
-                    //                        [self dismissViewControllerAnimated:NO completion:Nil];
-                
-                }
-            
-            
-            
         } errorBlock:^(NSError *error) {
             NSLog(@"Error in verification");
         }];
     }
     
+        else if(_isOldSignIn==true)
+        {
+            
+            
+            [Data verifyOTPOldSignIn:_emailText password:_password successBlock:^(id object) {
+                
+                NSDictionary *tokenDict=[[NSDictionary alloc]init];
+                tokenDict=object;
+                NSString *flagString=[tokenDict objectForKey:@"flag"];
+                int flagValue=[flagString integerValue];
+                NSString *token=[tokenDict objectForKey:@"sessionToken"];
+                NSLog(@"Flag %i and session token %@",flagValue,token);
+                
+                if(flagValue==1)
+                {
+                    [PFUser becomeInBackground:token block:^(PFUser *user, NSError *error) {
+                        if (error) {
+                            NSLog(@"Session token could not be validated");
+                        } else {
+                            
+                            NSLog(@"Successfully Validated ");
+                            PFUser *current=[PFUser currentUser];
+                            NSLog(@"%@ current user",current.objectId);
+                            UINavigationController *tab=[self.storyboard instantiateViewControllerWithIdentifier:@"tabBar"];
+                            TSTabBarViewController *mainTab=(TSTabBarViewController*) tab.topViewController;
+                            [self dismissViewControllerAnimated:YES completion:^{
+                                [self presentViewController:mainTab animated:NO completion:nil];
+                            }];
+                        }
+                    }];
+                }
+
+                
+                
+            } errorBlock:^(NSError *error) {
+                NSLog(@"Error in Signing In...");
+            }];
+            
+            
+        }
+        
+        else if(_isNewSignIn==true)
+        {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Knit"
+                                                            message:@"Old Sign In"
+                                                           delegate:self cancelButtonTitle:@"OK"
+                                                  otherButtonTitles:nil];
+            [alert show];
+            NSInteger verificationCode=[_codeText.text integerValue];
+            NSLog(@"phone number %@",_phoneNumber);
+            NSString *number=_phoneNumber;
+            
+            
+            [Data  newSignInVerification:number code:verificationCode successBlock:^(id object) {
+                NSLog(@"Verified");
+                NSDictionary *tokenDict=[[NSDictionary alloc]init];
+                tokenDict=object;
+                NSString *flagString=[tokenDict objectForKey:@"flag"];
+                int flagValue=[flagString integerValue];
+                NSString *token=[tokenDict objectForKey:@"sessionToken"];
+                NSLog(@"Flag %i and session token %@",flagValue,token);
+                
+                if(flagValue==1)
+                {
+                    [PFUser becomeInBackground:token block:^(PFUser *user, NSError *error) {
+                        if (error) {
+                            NSLog(@"Session token could not be validated");
+                        } else {
+                            
+                            NSLog(@"Successfully Validated ");
+                            PFUser *current=[PFUser currentUser];
+                            NSLog(@"%@ current user",current.objectId);
+                            UINavigationController *tab=[self.storyboard instantiateViewControllerWithIdentifier:@"tabBar"];
+                            TSTabBarViewController *mainTab=(TSTabBarViewController*) tab.topViewController;
+                            [self dismissViewControllerAnimated:YES completion:^{
+                                [self presentViewController:mainTab animated:NO completion:nil];
+                            }];
+                        }
+                    }];
+                }
+            } errorBlock:^(NSError *error) {
+                NSLog(@"Error in verification");
+            }];
+            
+            
+            /*
+            [Data verifyOTPNewSignIn:number code:verificationCode successBlock:^(id object){
+                NSDictionary *tokenDict=[[NSDictionary alloc]init];
+                tokenDict=object;
+                NSString *flagString=[tokenDict objectForKey:@"flag"];
+                int flagValue=[flagString integerValue];
+                NSString *token=[tokenDict objectForKey:@"sessionToken"];
+                NSLog(@"Flag %i and session token %@",flagValue,token);
+                
+                if(flagValue==1){
+                    [PFUser becomeInBackground:token block:^(PFUser *user, NSError *error) {
+                        if (error) {
+                            NSLog(@"Session token could not be validated");
+                        } else {
+                            
+                            NSLog(@"Successfully Validated ");
+                            PFUser *current=[PFUser currentUser];
+                            NSLog(@"%@ current user",current.objectId);
+                            UINavigationController *tab=[self.storyboard instantiateViewControllerWithIdentifier:@"tabBar"];
+                            TSTabBarViewController *mainTab=(TSTabBarViewController*) tab.topViewController;
+                            [self dismissViewControllerAnimated:YES completion:^{
+                                [self presentViewController:mainTab animated:NO completion:nil];
+                            }];
+                        }
+                    }];
+                }
+            } errorBlock:^(NSError *error) {
+                NSLog(@"Error in verification");
+            }];*/
+        
+        }
+        
+        
     }
 }
 

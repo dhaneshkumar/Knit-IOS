@@ -375,6 +375,44 @@
     
 }
 
+
+
++(void) verifyOTPOldSignIn:(NSString *)email password:(NSString *)password successBlock:(successBlock) successBlock errorBlock:(errorBlock) errorBlock{
+    
+    [PFCloud callFunctionInBackground:@"verifyCode" withParameters:@{@"email":email,@"password":password} block:^(id object, NSError *error) {
+        if (error) {
+            NSLog(@"Error in signing in..");
+            
+            errorBlock(error);
+        } else {
+            NSLog(@"Success");
+            
+            successBlock(object);
+        }
+    }];
+    
+}
+
+/*
+ Code ain't no working! 
+ 
++(void) verifyOTNewSignIn:(NSString*)phoneNum code:(NSInteger)code successBlock:(successBlock) successBlock errorBlock:(errorBlock) errorBlock{
+        NSNumber *codeNum = [NSNumber numberWithInteger:code];
+
+    [PFCloud callFunctionInBackground:@"verifyCode" withParameters:@{@"number":phoneNum ,@"code":codeNum} block:^(id object, NSError *error) {
+             if (error) {
+                 NSLog(@"Error in signing in..");
+                 
+                 errorBlock(error);
+             } else {
+                 NSLog(@"Success");
+                 
+                 successBlock(object);
+             }
+         }];
+}
+*/
+
 +(void) verifyOTPSignUp:(NSString *)phoneNum code:(NSInteger)code modal:(NSString *) modal os:(NSString *)os name:(NSString *)name role:(NSString *)role sex:(NSString*)sex successBlock:(successBlock) successBlock errorBlock:(errorBlock) errorBlock{
     NSNumber *codeNum = [NSNumber numberWithInteger:code];
 
@@ -393,6 +431,22 @@
 }
 
 
++(void) newSignInVerification:(NSString *)phoneNum code:(NSInteger)code successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock{
+    NSNumber *codeNum = [NSNumber numberWithInteger:code];
 
+    [PFCloud callFunctionInBackground:@"verifyCode" withParameters:@{@"number":phoneNum,@"code":codeNum
+    } block:^(id object, NSError *error) {
+        if(error)
+        {
+            NSLog(@"Could not verify the code");
+        }
+        else
+        {
+            NSLog(@"code verified");
+            successBlock(object);
+        }
+    }];
+
+}
 
 @end

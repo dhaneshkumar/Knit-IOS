@@ -72,7 +72,11 @@ typedef void (^errorBlock)(NSError *error);
 
 +(void) generateOTP:(NSString*)phoneNum successBlock:(successBlock) successBlock errorBlock:(errorBlock) errorBlock;
 
-+(void) verifyOTP:(NSString *)phoneNum code:(NSInteger)code successBlock:(successBlock) successBlock errorBlock:(errorBlock) errorBlock;
++(void) verifyOTPOldSignIn:(NSString *)email password:(NSString *)password successBlock:(successBlock) successBlock errorBlock:(errorBlock) errorBlock;
+
++(void) verifyOTPNewSignIn:(NSString *)phoneNum code:(NSInteger)code successBlock:(successBlock) successBlock errorBlock:(errorBlock) errorBlock;
+
++(void) newSignInVerification:(NSString *)phoneNum code:(NSInteger) code successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock;
 
 +(void) verifyOTPSignUp:(NSString *)phoneNum code:(NSInteger)code modal:(NSString *) modal os:(NSString *)os name:(NSString *)name role:(NSString *)role sex:(NSString*)sex successBlock:(successBlock) successBlock errorBlock:(errorBlock) errorBlock;
 @end
