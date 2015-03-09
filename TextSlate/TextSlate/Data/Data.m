@@ -116,7 +116,9 @@
     }];
 }
 
-+(void) leaveClass:(NSString *)classCode installationId:(NSString *)installationId successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
++(void) leaveClass:(NSString *)classCode  successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
+    PFInstallation *current=[PFInstallation currentInstallation];
+    NSString * installationId=current.installationId;
     [PFCloud callFunctionInBackground:@"leaveClass" withParameters:@{@"classcode":classCode,@"insatllationObjectId" :installationId } block:^(id object, NSError *error) {
         if (error) {
             errorBlock(error);
@@ -448,5 +450,34 @@
     }];
 
 }
+
++(void) saveInstallationId:(NSString *)installationId deviceType:(NSString *)deviceType successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock{
+    [PFCloud callFunctionInBackground:@"appInstallation" withParameters:@{@"installationId":installationId,@"deviceType":deviceType }block:^(id object, NSError *error) {
+        if(error)
+        {
+            NSLog(@"Could not save installationID");
+        }
+        else{
+            successBlock(object);
+        }
+    }];
+    
+}
+
+
++(void)appLogout:(NSString *)objectId successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock{
+    
+    [PFCloud callFunctionInBackground:@"appLogout" withParameters:@{@"installationObjectId":objectId} block:^(id object, NSError *error) {
+        if(error){
+            NSLog(@"Could not logout the user...");
+        }
+        else{
+           successBlock(object);
+        }
+    }];
+    
+}
+
+
 
 @end

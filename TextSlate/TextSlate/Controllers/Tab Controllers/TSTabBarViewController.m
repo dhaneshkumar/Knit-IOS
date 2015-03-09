@@ -102,8 +102,8 @@
 }
 
 -(void) logout {
-    [[PFInstallation currentInstallation] removeObjectForKey:@"channels"];
-    [[PFInstallation currentInstallation] saveInBackground];
+    //[[PFInstallation currentInstallation] removeObjectForKey:@"channels"];
+    //[[PFInstallation currentInstallation] saveInBackground];
     [PFUser logOut];
     TSSignInViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"signInNavigationController"];
     [self presentViewController:vc animated:NO completion:nil];

@@ -24,7 +24,7 @@
     [super viewDidLoad];
     float version=[[[UIDevice currentDevice] systemVersion] floatValue];
     _osVersion=[[NSNumber numberWithFloat:version] stringValue];
-
+    
     // Do any additional setup after loading the view.
 }
 
@@ -40,7 +40,7 @@
 
 
 - (IBAction)verifyCode:(UIButton *)sender {
-   
+    
     if([_codeText.text length]<3)
     {
         //ADD UI alert
@@ -51,47 +51,60 @@
     {
         if(_isSignUp==true)
         {
-        if(_parent==true)
-        {
-            _role=@"parent";
-        }
-        else{
-            _role=@"teacher";
-        }
+            if(_parent==true)
+            {
+                _role=@"parent";
+            }
+            else{
+                _role=@"teacher";
+            }
             
-        NSInteger verificationCode=[_codeText.text integerValue];
-        NSLog(@"code text %@",_codeText.text);
-        [Data verifyOTPSignUp:_phoneNumber code:verificationCode modal:_modal os:_osVersion name:_nameText role:_role sex:_sex successBlock:^(id object){
-            
-            NSDictionary *tokenDict=[[NSDictionary alloc]init];
-            tokenDict=object;
-            NSString *flagString=[tokenDict objectForKey:@"flag"];
-            int flagValue=[flagString integerValue];
-            NSString *token=[tokenDict objectForKey:@"sessionToken"];
-            NSLog(@"Flag %i and session token %@",flagValue,token);
-            
-            if(flagValue==1){
-            [PFUser becomeInBackground:token block:^(PFUser *user, NSError *error) {
-                if (error) {
-                    NSLog(@"Session token could not be validated");
-                } else {
-                    
-                    NSLog(@"Successfully Validated ");
-                    PFUser *current=[PFUser currentUser];
-                    NSLog(@"%@ current user",current.objectId);
-                    UINavigationController *tab=[self.storyboard instantiateViewControllerWithIdentifier:@"tabBar"];
-                    TSTabBarViewController *mainTab=(TSTabBarViewController*) tab.topViewController;
-                    [self dismissViewControllerAnimated:YES completion:^{
-                        [self presentViewController:mainTab animated:NO completion:nil];
+            NSInteger verificationCode=[_codeText.text integerValue];
+            NSLog(@"code text %@",_codeText.text);
+            [Data verifyOTPSignUp:_phoneNumber code:verificationCode modal:_modal os:_osVersion name:_nameText role:_role sex:_sex successBlock:^(id object){
+                
+                NSDictionary *tokenDict=[[NSDictionary alloc]init];
+                tokenDict=object;
+                NSString *flagString=[tokenDict objectForKey:@"flag"];
+                int flagValue=[flagString integerValue];
+                NSString *token=[tokenDict objectForKey:@"sessionToken"];
+                NSLog(@"Flag %i and session token %@",flagValue,token);
+                
+                if(flagValue==1){
+                    [PFUser becomeInBackground:token block:^(PFUser *user, NSError *error) {
+                        if (error) {
+                            NSLog(@"Session token could not be validated");
+                        } else {
+                            NSLog(@"Successfully Validated ");
+                            PFUser *current=[PFUser currentUser];
+                            NSLog(@"%@ current user",current.objectId);
+                            PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+                            NSString *installationId=[currentInstallation objectForKey:@"installationId"];
+                            NSString *devicetype=[currentInstallation objectForKey:@"deviceType"];
+                            [Data saveInstallationId:installationId deviceType:devicetype successBlock:^(id object) {
+                                NSLog(@"Successfully saved installationID");
+                                
+                                UINavigationController *tab=[self.storyboard instantiateViewControllerWithIdentifier:@"tabBar"];
+                                TSTabBarViewController *mainTab=(TSTabBarViewController*) tab.topViewController;
+                                [self dismissViewControllerAnimated:YES completion:^{
+                                    [self presentViewController:mainTab animated:NO completion:nil];
+                                }];
+                                
+                                
+                                
+                            } errorBlock:^(NSError *error) {
+                                return ;
+                            }];
+                            
+                            
+                        }
                     }];
                 }
+            } errorBlock:^(NSError *error) {
+                NSLog(@"Error in verification");
             }];
-            }
-        } errorBlock:^(NSError *error) {
-            NSLog(@"Error in verification");
-        }];
-    }
-    
+        }
+       /*
         else if(_isOldSignIn==true)
         {
             
@@ -115,15 +128,27 @@
                             NSLog(@"Successfully Validated ");
                             PFUser *current=[PFUser currentUser];
                             NSLog(@"%@ current user",current.objectId);
-                            UINavigationController *tab=[self.storyboard instantiateViewControllerWithIdentifier:@"tabBar"];
-                            TSTabBarViewController *mainTab=(TSTabBarViewController*) tab.topViewController;
-                            [self dismissViewControllerAnimated:YES completion:^{
-                                [self presentViewController:mainTab animated:NO completion:nil];
+                            PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+                            NSString *installationId=[currentInstallation objectForKey:@"installationId"];
+                            NSString *devicetype=[currentInstallation objectForKey:@"deviceType"];
+                            [Data saveInstallationId:installationId deviceType:devicetype successBlock:^(id object) {
+                                NSLog(@"Successfully saved installationID");
+                                
+                                UINavigationController *tab=[self.storyboard instantiateViewControllerWithIdentifier:@"tabBar"];
+                                TSTabBarViewController *mainTab=(TSTabBarViewController*) tab.topViewController;
+                                [self dismissViewControllerAnimated:YES completion:^{
+                                    [self presentViewController:mainTab animated:NO completion:nil];
+                                }];
+                            
+                            
+                            } errorBlock:^(NSError *error) {
+                                return ;
                             }];
+                            
                         }
                     }];
                 }
-
+                
                 
                 
             } errorBlock:^(NSError *error) {
@@ -131,7 +156,7 @@
             }];
             
             
-        }
+        }*/
         
         else if(_isNewSignIn==true)
         {
@@ -164,49 +189,28 @@
                             NSLog(@"Successfully Validated ");
                             PFUser *current=[PFUser currentUser];
                             NSLog(@"%@ current user",current.objectId);
-                            UINavigationController *tab=[self.storyboard instantiateViewControllerWithIdentifier:@"tabBar"];
-                            TSTabBarViewController *mainTab=(TSTabBarViewController*) tab.topViewController;
-                            [self dismissViewControllerAnimated:YES completion:^{
-                                [self presentViewController:mainTab animated:NO completion:nil];
+                            PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+                            NSString *installationId=[currentInstallation objectForKey:@"installationId"];
+                            NSString *devicetype=[currentInstallation objectForKey:@"deviceType"];
+                            [Data saveInstallationId:installationId deviceType:devicetype successBlock:^(id object) {
+                                NSLog(@"Successfully saved installationID");
+                                
+                                UINavigationController *tab=[self.storyboard instantiateViewControllerWithIdentifier:@"tabBar"];
+                                TSTabBarViewController *mainTab=(TSTabBarViewController*) tab.topViewController;
+                                [self dismissViewControllerAnimated:YES completion:^{
+                                    [self presentViewController:mainTab animated:NO completion:nil];
+                                }];
+                            } errorBlock:^(NSError *error) {
+                                return ;
                             }];
+                            
+                            
                         }
                     }];
                 }
             } errorBlock:^(NSError *error) {
                 NSLog(@"Error in verification");
             }];
-            
-            
-            /*
-            [Data verifyOTPNewSignIn:number code:verificationCode successBlock:^(id object){
-                NSDictionary *tokenDict=[[NSDictionary alloc]init];
-                tokenDict=object;
-                NSString *flagString=[tokenDict objectForKey:@"flag"];
-                int flagValue=[flagString integerValue];
-                NSString *token=[tokenDict objectForKey:@"sessionToken"];
-                NSLog(@"Flag %i and session token %@",flagValue,token);
-                
-                if(flagValue==1){
-                    [PFUser becomeInBackground:token block:^(PFUser *user, NSError *error) {
-                        if (error) {
-                            NSLog(@"Session token could not be validated");
-                        } else {
-                            
-                            NSLog(@"Successfully Validated ");
-                            PFUser *current=[PFUser currentUser];
-                            NSLog(@"%@ current user",current.objectId);
-                            UINavigationController *tab=[self.storyboard instantiateViewControllerWithIdentifier:@"tabBar"];
-                            TSTabBarViewController *mainTab=(TSTabBarViewController*) tab.topViewController;
-                            [self dismissViewControllerAnimated:YES completion:^{
-                                [self presentViewController:mainTab animated:NO completion:nil];
-                            }];
-                        }
-                    }];
-                }
-            } errorBlock:^(NSError *error) {
-                NSLog(@"Error in verification");
-            }];*/
-        
         }
         
         
@@ -238,16 +242,16 @@
         UINavigationController *nav = [segue destinationViewController];
         TSTabBarViewController *dvc = (TSTabBarViewController*)nav.topViewController;
     }
-
+    
 }
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end

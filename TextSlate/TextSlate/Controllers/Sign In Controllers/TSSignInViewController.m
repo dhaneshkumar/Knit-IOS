@@ -40,7 +40,7 @@
 }
 
 - (IBAction)signInClicked:(UIButton *)sender {
-    
+
     [Data generateOTP:_phoneTextField.text successBlock:^(id object) {
         [self performSegueWithIdentifier:@"verification" sender:self];
 

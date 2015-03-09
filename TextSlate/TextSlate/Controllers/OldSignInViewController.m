@@ -52,11 +52,34 @@
                     NSLog(@"Successfully Validated ");
                     PFUser *current=[PFUser currentUser];
                     NSLog(@"%@ current user",current.objectId);
-                    UINavigationController *tab=[self.storyboard instantiateViewControllerWithIdentifier:@"tabBar"];
+                    PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+                    NSString *installationId=[currentInstallation objectForKey:@"installationId"];
+                    NSString *devicetype=[currentInstallation objectForKey:@"deviceType"];
+                    [Data saveInstallationId:installationId deviceType:devicetype successBlock:^(id object) {
+                        NSLog(@"Successfully saved installationID");
+                        
+                        UINavigationController *tab=[self.storyboard instantiateViewControllerWithIdentifier:@"tabBar"];
+                        TSTabBarViewController *mainTab=(TSTabBarViewController*) tab.topViewController;
+                        [self dismissViewControllerAnimated:YES completion:^{
+                            [self presentViewController:mainTab animated:NO completion:nil];
+                        }];
+                        UILocalNotification *localNotification = [[UILocalNotification alloc] init];
+                        localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:5];
+                        localNotification.alertBody = @"Local Notification – Ongraph.com";
+                        localNotification.timeZone = [NSTimeZone defaultTimeZone];
+                        localNotification.alertAction=@"Create";
+                        localNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication]     applicationIconBadgeNumber] + 1;
+                    [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
+                    } errorBlock:^(NSError *error) {
+                        return ;
+                    }];
+                    
+
+                    /*UINavigationController *tab=[self.storyboard instantiateViewControllerWithIdentifier:@"tabBar"];
                     TSTabBarViewController *mainTab=(TSTabBarViewController*) tab.topViewController;
                     [self dismissViewControllerAnimated:YES completion:^{
                         [self presentViewController:mainTab animated:NO completion:nil];
-                    }];
+                    }];*/
                 }
             }];
         }

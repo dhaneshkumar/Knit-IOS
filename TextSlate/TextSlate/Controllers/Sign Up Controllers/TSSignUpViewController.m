@@ -44,7 +44,6 @@
 
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    _sex.delegate=self;
     
     UIAlertView *selectionAlertView = [[UIAlertView alloc] initWithTitle:@"Knit - Role" message:@"Please select your profession" delegate:self cancelButtonTitle:@"CANCEL" otherButtonTitles:@"PARENT", @"TEACHER", nil];
     [selectionAlertView show];
@@ -73,19 +72,19 @@
 }
 
 - (IBAction)signUpClicked:(UIButton *)sender {
-   
     if (![_passwordTextField.text isEqualToString:_confirmPasswordTextField.text]) {
         UIAlertView *passwordMismatchAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Your password input(s) did not match. Please check again" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [passwordMismatchAlertView show];
         return;
     }
-
+    
     [Data generateOTP:_phoneNumberTextField.text successBlock:^(id object) {
         [self performSegueWithIdentifier:@"signUpDetail" sender:self];
         NSLog(@"code %@",object);
     
     } errorBlock:^(NSError *error) {
         NSLog(@"Error");
+    
     }];
     
 
@@ -158,5 +157,6 @@
     [_emailTextField resignFirstResponder];
     [_passwordTextField resignFirstResponder];
     [_confirmPasswordTextField resignFirstResponder];
+    [_sex resignFirstResponder];
 }
 @end
