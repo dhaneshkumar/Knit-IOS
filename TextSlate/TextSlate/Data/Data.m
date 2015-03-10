@@ -346,5 +346,17 @@
     
 }
 
++(void)getServerTime:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
+    [PFCloud callFunctionInBackground:@"getServerTime" withParameters:@{} block:^(id object, NSError *error) {
+        if (error) {
+            NSLog(@"Error");
+            errorBlock(error);
+        } else {
+            NSLog(@"Success");
+            successBlock(object);
+        }
+    }];
+}
+
 
 @end

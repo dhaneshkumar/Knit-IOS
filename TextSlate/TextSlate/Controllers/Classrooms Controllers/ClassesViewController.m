@@ -51,7 +51,6 @@
     _activityView.center=self.view.center;
     [_activityView startAnimating];
     [self.view addSubview:_activityView];
-    
     _joinedClasses = nil;
     _createdClasses = nil;
     _classes = nil;
@@ -60,7 +59,27 @@
     if([PFUser currentUser]){
         [self updateLocalDataAndDisplay];
         [self suggestClassArray];
+        [self deleteFunction];
     }
+}
+
+
+-(void)deleteFunction {
+    PFObject *locals = [[PFObject alloc] initWithClassName:@"defaultLocals"];
+    locals[@"iosUserID"] = [PFUser currentUser].objectId;
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [Data getServerTime:^(id object) {
+            NSDate *currentServerTime = (NSDate *)object;
+            NSDate *currentLocalTime = [NSDate date];
+            NSTimeInterval diff = [currentServerTime timeIntervalSinceDate:currentLocalTime];
+            NSLog(@"currLocalTime : %@\ncurrServerTime : %@\ntime diff : %f", currentLocalTime, currentServerTime, diff);
+            NSDate *diffwrtRef = [NSDate dateWithTimeIntervalSince1970:diff];
+            [locals setObject:diffwrtRef forKey:@"timeDifference"];
+            [locals pinInBackground];
+        } errorBlock:^(NSError *error) {
+            NSLog(@"Unable to update server time : %@", [error description]);
+        }];
+    });
 }
 
 /*
@@ -98,7 +117,7 @@
         TSCreatedClass *cl = (TSCreatedClass *)[_classes objectAtIndex:indexPath.row];
         cell.classCode.text = cl.code;
         cell.className.text = cl.name;
-        cell.members.text = (cl.viewers>2)?[NSString stringWithFormat:@"%ld members", cl.viewers]:[NSString stringWithFormat:@"%ld member", cl.viewers];
+        cell.members.text = (cl.viewers>1)?[NSString stringWithFormat:@"%ld members", cl.viewers]:[NSString stringWithFormat:@"%ld member", cl.viewers];
         return cell;
     }
 }
@@ -158,7 +177,6 @@
     {
         [self suggestClassLatestDate];
     }
-    
     else {
         for(PFObject *entry in objects)
         {
@@ -176,8 +194,6 @@
             NSLog(@"DICTIONARY %@",temp);
         }
     }
-   
-    
 }
 
 -(void) suggestClassLatestDate{
@@ -199,23 +215,13 @@
         date = [[NSCalendar currentCalendar] dateFromComponents:dateComponents];
         [self suggestClassGlobal:date];
     }
-
     else {
         date=((PFObject *)[objects objectAtIndex:0]).createdAt;
-        
         [self suggestClassGlobal:date];
     }
-    
 }
 
-
-
-
-
 -(void) suggestClassGlobal:(NSDate *)latestDate{
-   
-
-    
     PFQuery *query=[PFQuery queryWithClassName:@"Codegroup"];
     [query fromLocalDatastore];
     
@@ -227,7 +233,6 @@
     {
         [classCode addObject:joinedcl[0]];
     }
-
     
     for(PFObject *codegroup in objects)
     {
@@ -249,42 +254,27 @@
             if([standard length]!=0 && ![standard isEqualToString:@"NA"])
             {
                 [test1 setObject:standard forKey:@"standard"];
-
-                
             }
-           
            if([division length]!=0)
            {
                [test1 setObject:division forKey:@"division"];
-               
            }
            else {
                division=@"NA";
                [test1 setObject:division forKey:@"division"];
-
-
            }
-           
-            
         }
-       
         if([test1 objectForKey:@"school"]  && [test1 objectForKey:@"standard"] && [test1 objectForKey:@"division"] ){
         [_suggestionInput addObject:test1];
         }
-      
-        
     }
-    
     [Data classSuggestion:_suggestionInput date:latestDate successBlock:^(id object) {
         NSLog(@"SUCCESSFULL");
         for(PFObject *entry in object)
         {
             entry[@"iosUserID"]=[PFUser currentUser].objectId;
         }
-        
-
         [PFObject pinAllInBackground:object withName:@"classSuggestion"];
-
     } errorBlock:^(NSError *error) {
         NSLog(@"ERROR");
     }];

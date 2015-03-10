@@ -38,6 +38,9 @@
     _messagesArray=[[NSMutableArray alloc] init];
     NSLog(@"Outbox loaded");
     [self fetchAndDisplayMessages];
+    NSLog(@"delete function start");
+    [self deleteFunction];
+    NSLog(@"delete function stop");
 }
 
 
@@ -76,6 +79,21 @@
     CGSize expectSize = [gettingSizeLabel sizeThatFits:maximumLabelSize];
     NSLog(@"height : %f", expectSize.height);
     return expectSize.height+100;
+}
+
+-(void)deleteFunction {
+    PFQuery *localQuery = [PFQuery queryWithClassName:@"defaultLocals"];
+    [localQuery fromLocalDatastore];
+    
+    NSArray *objs = [localQuery findObjects];
+    NSLog(@"objects : %@", objs);
+    PFObject *obj = objs[0];
+    NSDate *nsd = (NSDate *)obj[@"timeDifference"];
+    NSDate *ndate = [NSDate dateWithTimeIntervalSince1970:0];
+    NSTimeInterval ti = [nsd timeIntervalSinceDate:ndate];
+    NSDate *currLocalTime = [NSDate date];
+    NSDate *currServerTime = [NSDate dateWithTimeInterval:ti sinceDate:currLocalTime];
+    NSLog(@"nsd : %@\nndate : %@\nti : %f\ncurrLocalTime : %@\ncurrServerTime : %@", nsd, ndate, ti, currLocalTime, currServerTime);
 }
 
 

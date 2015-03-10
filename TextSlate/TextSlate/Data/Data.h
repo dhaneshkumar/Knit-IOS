@@ -67,4 +67,6 @@ typedef void (^errorBlock)(NSError *error);
 
 +(void) autoCompleteSchool:(NSString*)area successBlock:(successBlock) successBlock errorBlock:(errorBlock) errorBlock;
 
++(void) getServerTime:(successBlock)successBlock errorBlock:(errorBlock)errorBlock;
+
 @end
