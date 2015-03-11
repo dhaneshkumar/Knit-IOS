@@ -10,7 +10,7 @@
 #import "Data.h"
 #import <Parse/Parse.h>
 #import "TSClass.h"
-
+#import "TSTabBarViewController.h"
 @interface TSJoinNewClassViewController ()
 
 @property (weak, nonatomic) IBOutlet UITextField *classCodeTextField;
@@ -57,8 +57,9 @@
     for(NSArray *createdClass in createdClasses) {
         [joinedAndCreatedClassCodes addObject:[createdClass objectAtIndex:0]];
     }
-    NSString *installationObjectId = [PFInstallation currentInstallation].objectId;
-    
+
+    NSString *installationObjectId = [[PFUser currentUser] objectForKey:@"installationObjectId"];
+    NSLog(@"installationID user %@",installationObjectId);
     if (![joinedClasses containsObject:_classCodeTextField.text]) {
         [Data joinNewClass:_classCodeTextField.text childName:_associatedPersonTextField.text installationId:installationObjectId successBlock:^(id object) {
             NSMutableDictionary *objDict=(NSMutableDictionary *)object;
@@ -82,6 +83,8 @@
             if (self.presentingViewController) {
                 [self dismissViewControllerAnimated:YES completion:nil];
             }
+            [self dismissViewControllerAnimated:YES completion:nil];
+
             [successAlertView show];
         } errorBlock:^(NSError *error) {
             //[indicator stopAnimating];
@@ -110,6 +113,12 @@
     if (self.presentingViewController) {
         [self dismissViewControllerAnimated:YES completion:nil];
     }
+   /* UINavigationController *tab=[self.storyboard instantiateViewControllerWithIdentifier:@"tabBar"];
+    TSTabBarViewController *mainTab=(TSTabBarViewController*) tab.topViewController;
+    [self dismissViewControllerAnimated:YES completion:^{
+        [self presentViewController:mainTab animated:NO completion:nil];
+    }];
+*/
 }
 
 @end

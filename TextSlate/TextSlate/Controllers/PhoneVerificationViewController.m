@@ -40,7 +40,7 @@
 
 
 - (IBAction)verifyCode:(UIButton *)sender {
-    
+    [_codeText resignFirstResponder];
     if([_codeText.text length]<3)
     {
         //ADD UI alert
@@ -83,7 +83,9 @@
                             NSString *devicetype=[currentInstallation objectForKey:@"deviceType"];
                             [Data saveInstallationId:installationId deviceType:devicetype successBlock:^(id object) {
                                 NSLog(@"Successfully saved installationID");
-                                
+                                current[@"installationObjectId"]=object;
+                                [current pinInBackground];
+
                                 UINavigationController *tab=[self.storyboard instantiateViewControllerWithIdentifier:@"tabBar"];
                                 TSTabBarViewController *mainTab=(TSTabBarViewController*) tab.topViewController;
                                 [self dismissViewControllerAnimated:YES completion:^{
@@ -91,6 +93,13 @@
                                 }];
                                 
                                 
+                                UILocalNotification *localNotification = [[UILocalNotification alloc] init];
+                                localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:60*60];
+                                localNotification.alertBody = @"Welcome to Knit! Have fun using it";
+                                localNotification.timeZone = [NSTimeZone defaultTimeZone];
+                                localNotification.alertAction=@"Welcome";
+                                localNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication]     applicationIconBadgeNumber] + 1;
+                                [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
                                 
                             } errorBlock:^(NSError *error) {
                                 return ;
@@ -104,67 +113,10 @@
                 NSLog(@"Error in verification");
             }];
         }
-       /*
-        else if(_isOldSignIn==true)
-        {
-            
-            
-            [Data verifyOTPOldSignIn:_emailText password:_password successBlock:^(id object) {
-                
-                NSDictionary *tokenDict=[[NSDictionary alloc]init];
-                tokenDict=object;
-                NSString *flagString=[tokenDict objectForKey:@"flag"];
-                int flagValue=[flagString integerValue];
-                NSString *token=[tokenDict objectForKey:@"sessionToken"];
-                NSLog(@"Flag %i and session token %@",flagValue,token);
-                
-                if(flagValue==1)
-                {
-                    [PFUser becomeInBackground:token block:^(PFUser *user, NSError *error) {
-                        if (error) {
-                            NSLog(@"Session token could not be validated");
-                        } else {
-                            
-                            NSLog(@"Successfully Validated ");
-                            PFUser *current=[PFUser currentUser];
-                            NSLog(@"%@ current user",current.objectId);
-                            PFInstallation *currentInstallation = [PFInstallation currentInstallation];
-                            NSString *installationId=[currentInstallation objectForKey:@"installationId"];
-                            NSString *devicetype=[currentInstallation objectForKey:@"deviceType"];
-                            [Data saveInstallationId:installationId deviceType:devicetype successBlock:^(id object) {
-                                NSLog(@"Successfully saved installationID");
-                                
-                                UINavigationController *tab=[self.storyboard instantiateViewControllerWithIdentifier:@"tabBar"];
-                                TSTabBarViewController *mainTab=(TSTabBarViewController*) tab.topViewController;
-                                [self dismissViewControllerAnimated:YES completion:^{
-                                    [self presentViewController:mainTab animated:NO completion:nil];
-                                }];
-                            
-                            
-                            } errorBlock:^(NSError *error) {
-                                return ;
-                            }];
-                            
-                        }
-                    }];
-                }
-                
-                
-                
-            } errorBlock:^(NSError *error) {
-                NSLog(@"Error in Signing In...");
-            }];
-            
-            
-        }*/
-        
+               
         else if(_isNewSignIn==true)
         {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Knit"
-                                                            message:@"Old Sign In"
-                                                           delegate:self cancelButtonTitle:@"OK"
-                                                  otherButtonTitles:nil];
-            [alert show];
+            
             NSInteger verificationCode=[_codeText.text integerValue];
             NSLog(@"phone number %@",_phoneNumber);
             NSString *number=_phoneNumber;
@@ -194,12 +146,45 @@
                             NSString *devicetype=[currentInstallation objectForKey:@"deviceType"];
                             [Data saveInstallationId:installationId deviceType:devicetype successBlock:^(id object) {
                                 NSLog(@"Successfully saved installationID");
-                                
+                                NSLog(@"current installation %@",object);
+                                current[@"installationObjectId"]=object;
+                                [current pinInBackground];
                                 UINavigationController *tab=[self.storyboard instantiateViewControllerWithIdentifier:@"tabBar"];
                                 TSTabBarViewController *mainTab=(TSTabBarViewController*) tab.topViewController;
                                 [self dismissViewControllerAnimated:YES completion:^{
                                     [self presentViewController:mainTab animated:NO completion:nil];
                                 }];
+                                
+                                PFUser *current=[PFUser currentUser];
+                                NSString * role=[current objectForKey:@"role"];
+                                NSArray *joinedClass=[current objectForKey:@"joined_groups"];
+                                
+                                NSArray *createdClass=[current objectForKey:@"Created_groups"];
+                                if([role isEqualToString:@"parent"] && joinedClass.count<1)
+ 
+                                {
+                                UILocalNotification *localNotification = [[UILocalNotification alloc] init];
+                                localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:60*60*24];
+                                localNotification.alertBody = @"We see you have not joined any class.";
+                                localNotification.timeZone = [NSTimeZone defaultTimeZone];
+                                localNotification.alertAction=@"Join";
+                                localNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication]     applicationIconBadgeNumber] + 1;
+                                [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
+                                
+                                }
+                                if([role isEqualToString:@"teacher"] && createdClass.count<1)
+                                    
+                                {
+                                    
+                                    UILocalNotification *localNotification = [[UILocalNotification alloc] init];
+                                    localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:60];
+                                    localNotification.alertBody = @"We see you have not created any class.";
+                                    localNotification.timeZone = [NSTimeZone defaultTimeZone];
+                                    localNotification.alertAction=@"Create";
+                                    localNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication]     applicationIconBadgeNumber] + 1;
+                                    [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
+                                    
+                                }
                             } errorBlock:^(NSError *error) {
                                 return ;
                             }];

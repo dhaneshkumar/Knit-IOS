@@ -57,19 +57,48 @@
                     NSString *devicetype=[currentInstallation objectForKey:@"deviceType"];
                     [Data saveInstallationId:installationId deviceType:devicetype successBlock:^(id object) {
                         NSLog(@"Successfully saved installationID");
-                        
+                        current[@"installationObjectId"]=object;
+                        [current pinInBackground];
+
                         UINavigationController *tab=[self.storyboard instantiateViewControllerWithIdentifier:@"tabBar"];
                         TSTabBarViewController *mainTab=(TSTabBarViewController*) tab.topViewController;
                         [self dismissViewControllerAnimated:YES completion:^{
                             [self presentViewController:mainTab animated:NO completion:nil];
                         }];
-                        UILocalNotification *localNotification = [[UILocalNotification alloc] init];
-                        localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:5];
-                        localNotification.alertBody = @"Local Notification – Ongraph.com";
-                        localNotification.timeZone = [NSTimeZone defaultTimeZone];
-                        localNotification.alertAction=@"Create";
-                        localNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication]     applicationIconBadgeNumber] + 1;
-                    [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
+                       
+                        PFUser *current=[PFUser currentUser];
+                        NSString * role=[current objectForKey:@"role"];
+                        NSArray *joinedClass=[current objectForKey:@"joined_groups"];
+                        
+                        NSArray *createdClass=[current objectForKey:@"Created_groups"];
+                        if([role isEqualToString:@"parent"] && joinedClass.count<1)
+                            
+                        {
+                            UILocalNotification *localNotification = [[UILocalNotification alloc] init];
+                            localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:60];
+                            localNotification.alertBody = @"We see you have not joined any class.";
+                            localNotification.timeZone = [NSTimeZone defaultTimeZone];
+                            localNotification.alertAction=@"Join";
+                            localNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication]     applicationIconBadgeNumber] + 1;
+                            [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
+                            
+                        }
+                        if([role isEqualToString:@"teacher"] && createdClass.count<1)
+                            
+                        {
+                            
+                            UILocalNotification *localNotification = [[UILocalNotification alloc] init];
+                            localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:24*60*60];
+                            localNotification.alertBody = @"We see you have not created any class.";
+                            localNotification.timeZone = [NSTimeZone defaultTimeZone];
+                            localNotification.alertAction=@"Create";
+                            localNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication]     applicationIconBadgeNumber] + 1;
+                            [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
+                            
+                        }
+
+                        
+                    
                     } errorBlock:^(NSError *error) {
                         return ;
                     }];
