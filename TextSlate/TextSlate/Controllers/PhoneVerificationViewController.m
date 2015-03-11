@@ -177,7 +177,7 @@
                                 {
                                     
                                     UILocalNotification *localNotification = [[UILocalNotification alloc] init];
-                                    localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:60];
+                                    localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:24*60*60];
                                     localNotification.alertBody = @"We see you have not created any class.";
                                     localNotification.timeZone = [NSTimeZone defaultTimeZone];
                                     localNotification.alertAction=@"Create";
