@@ -9,7 +9,6 @@
 #import "TSSignUpViewController.h"
 #import <Parse/Parse.h>
 #import "TSSignInViewController.h"
-#import "SchoolController.h"
 #import "PhoneVerificationViewController.h"
 #import "Data.h"
 
@@ -125,9 +124,6 @@
 
 
 -(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([segue.identifier isEqualToString:@"schoolDetail"]) {
-        SchoolController * getSchoolDetail=segue.destinationViewController;
-    }
     
     if ([segue.identifier isEqualToString:@"signUpDetail"]) {
         UINavigationController *nav = [segue destinationViewController];

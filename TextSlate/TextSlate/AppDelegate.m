@@ -95,13 +95,13 @@
 {
     UIApplicationState state = [application applicationState];
     if (state == UIApplicationStateActive){
-
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Reminder"
                                                         message:notification.alertBody
                                                        delegate:self cancelButtonTitle:@"OK"
                                               otherButtonTitles:notification.alertAction,nil];
         [alert show];
     
+        
     }
 
     if(state==UIApplicationStateInactive)
@@ -115,7 +115,7 @@
             signUpController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
             
             TSTabBarViewController *fcontroller = (TSTabBarViewController*)signUpController.topViewController;
-            [fcontroller setSelectedIndex:1];
+            [fcontroller setSelectedIndex:0];
             self.window.rootViewController=signUpController;
             
             UINavigationController *createClassController = [storyboard1 instantiateViewControllerWithIdentifier:@"createNewClassNavigationController"];
@@ -136,7 +136,7 @@
             signUpController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
             
             TSTabBarViewController *fcontroller = (TSTabBarViewController*)signUpController.topViewController;
-            [fcontroller setSelectedIndex:1];
+            [fcontroller setSelectedIndex:0];
             self.window.rootViewController=signUpController;
 
             UINavigationController *joinClassController = [storyboard1 instantiateViewControllerWithIdentifier:@"joinNewClassViewController"];
@@ -153,7 +153,8 @@
  //   [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadData" object:self];
     
     // Set icon badge number to zero
-    }
+        }
+    
     application.applicationIconBadgeNumber = 0;
 }
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
@@ -165,14 +166,14 @@
         
         UIStoryboard *storyboard1 = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
         UINavigationController *signUpController = [storyboard1 instantiateViewControllerWithIdentifier:@"tabBar"];
-        signUpController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+       // signUpController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
         
         TSTabBarViewController *fcontroller = (TSTabBarViewController*)signUpController.topViewController;
-        [fcontroller setSelectedIndex:1];
+        [fcontroller setSelectedIndex:0];
         self.window.rootViewController=signUpController;
         
         UINavigationController *createClassController = [storyboard1 instantiateViewControllerWithIdentifier:@"createNewClassNavigationController"];
-        createClassController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+        createClassController.modalTransitionStyle = UIModalTransitionStyleCoverVertical ;
         
         TSCreateClassroomViewController *f1controller = (TSCreateClassroomViewController*)createClassController.topViewController;
         //  [fcontroller setSelectedIndex:1];
@@ -185,14 +186,14 @@
     {
         UIStoryboard *storyboard1 = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
         UINavigationController *signUpController = [storyboard1 instantiateViewControllerWithIdentifier:@"tabBar"];
-        signUpController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+//        signUpController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
         
         TSTabBarViewController *fcontroller = (TSTabBarViewController*)signUpController.topViewController;
-        [fcontroller setSelectedIndex:1];
+        [fcontroller setSelectedIndex:0];
         self.window.rootViewController=signUpController;
         
         UINavigationController *joinClassController = [storyboard1 instantiateViewControllerWithIdentifier:@"joinNewClassViewController"];
-        joinClassController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+        joinClassController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
         
         TSJoinNewClassViewController *f1controller = (TSJoinNewClassViewController*)joinClassController.topViewController;
         //  [fcontroller setSelectedIndex:1];
@@ -211,6 +212,7 @@
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
+    NSLog(@"Application entered in background");
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
 }

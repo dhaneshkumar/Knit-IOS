@@ -8,7 +8,6 @@
 #import <Parse/Parse.h>
 #import "PhoneVerificationViewController.h"
 #import "Data.h"
-#import "SchoolController.h"
 #import "TSTabBarViewController.h"
 @interface PhoneVerificationViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *phoneLabel;
@@ -177,11 +176,12 @@
                                 {
                                     
                                     UILocalNotification *localNotification = [[UILocalNotification alloc] init];
-                                    localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:24*60*60];
+                                    localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:60];
                                     localNotification.alertBody = @"We see you have not created any class.";
                                     localNotification.timeZone = [NSTimeZone defaultTimeZone];
                                     localNotification.alertAction=@"Create";
                                     localNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication]     applicationIconBadgeNumber] + 1;
+                                    
                                     [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
                                     
                                 }
@@ -217,10 +217,6 @@
 }
 
 -(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([segue.identifier isEqualToString:@"schoolDetail"]) {
-        NSLog(@"Performing Segue");
-        SchoolController * getSchoolDetail=segue.destinationViewController;
-    }
     
     if ([segue.identifier isEqualToString:@"tabBar"]) {
         NSLog(@"Performing Segue");

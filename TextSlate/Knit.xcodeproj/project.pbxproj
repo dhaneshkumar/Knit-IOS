@@ -13,13 +13,10 @@
 		40C7B2D61A935F8700C1BFC8 /* TSJoinedClassMessagesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 40C7B2D51A935F8700C1BFC8 /* TSJoinedClassMessagesViewController.m */; };
 		40C7B2E11A9361CB00C1BFC8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 40C7B2E01A9361CB00C1BFC8 /* Main.storyboard */; };
 		40C7B2E91A965AFF00C1BFC8 /* TSSuggestion.m in Sources */ = {isa = PBXBuildFile; fileRef = 40C7B2E81A965AFF00C1BFC8 /* TSSuggestion.m */; };
-		40C7B2ED1A985AA000C1BFC8 /* SchoolController.m in Sources */ = {isa = PBXBuildFile; fileRef = 40C7B2EC1A985AA000C1BFC8 /* SchoolController.m */; };
 		40CD58651A89455B000CB1AB /* FAQTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 40CD58641A89455B000CB1AB /* FAQTableViewController.m */; };
 		40CDDBB61A90E47E00922ADF /* TSMember.m in Sources */ = {isa = PBXBuildFile; fileRef = 40CDDBB51A90E47E00922ADF /* TSMember.m */; };
 		40D0B9501A83A86700FF24EA /* TableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 40D0B94F1A83A86700FF24EA /* TableCell.m */; };
 		40D0B9561A85117700FF24EA /* sharedCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 40D0B9551A85117700FF24EA /* sharedCache.m */; };
-		40D986141A99ED4E00D8BB0C /* SchoolAreaViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 40D986131A99ED4E00D8BB0C /* SchoolAreaViewController.m */; };
-		40D986171A9A274500D8BB0C /* SchoolNameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 40D986161A9A274500D8BB0C /* SchoolNameViewController.m */; };
 		40D9861B1A9B921100D8BB0C /* PhoneVerificationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 40D9861A1A9B921100D8BB0C /* PhoneVerificationViewController.m */; };
 		40EBADA81A7E60B6003FB0B1 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 40EBADA71A7E60B6003FB0B1 /* LaunchScreen.xib */; };
 		40EBADAC1A7E611F003FB0B1 /* 05-xxhdpi.png in Resources */ = {isa = PBXBuildFile; fileRef = 40EBADAB1A7E611F003FB0B1 /* 05-xxhdpi.png */; };
@@ -150,8 +147,6 @@
 		40C7B2E01A9361CB00C1BFC8 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		40C7B2E71A965AFF00C1BFC8 /* TSSuggestion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSSuggestion.h; sourceTree = "<group>"; };
 		40C7B2E81A965AFF00C1BFC8 /* TSSuggestion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSSuggestion.m; sourceTree = "<group>"; };
-		40C7B2EB1A985AA000C1BFC8 /* SchoolController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SchoolController.h; sourceTree = "<group>"; };
-		40C7B2EC1A985AA000C1BFC8 /* SchoolController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SchoolController.m; sourceTree = "<group>"; };
 		40CD58631A89455B000CB1AB /* FAQTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAQTableViewController.h; sourceTree = "<group>"; };
 		40CD58641A89455B000CB1AB /* FAQTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAQTableViewController.m; sourceTree = "<group>"; };
 		40CDDBB41A90E47E00922ADF /* TSMember.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSMember.h; sourceTree = "<group>"; };
@@ -160,10 +155,6 @@
 		40D0B94F1A83A86700FF24EA /* TableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableCell.m; sourceTree = "<group>"; };
 		40D0B9541A85117700FF24EA /* sharedCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sharedCache.h; sourceTree = "<group>"; };
 		40D0B9551A85117700FF24EA /* sharedCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = sharedCache.m; sourceTree = "<group>"; };
-		40D986121A99ED4E00D8BB0C /* SchoolAreaViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SchoolAreaViewController.h; sourceTree = "<group>"; };
-		40D986131A99ED4E00D8BB0C /* SchoolAreaViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SchoolAreaViewController.m; sourceTree = "<group>"; };
-		40D986151A9A274500D8BB0C /* SchoolNameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SchoolNameViewController.h; sourceTree = "<group>"; };
-		40D986161A9A274500D8BB0C /* SchoolNameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SchoolNameViewController.m; sourceTree = "<group>"; };
 		40D986191A9B921100D8BB0C /* PhoneVerificationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhoneVerificationViewController.h; sourceTree = "<group>"; };
 		40D9861A1A9B921100D8BB0C /* PhoneVerificationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhoneVerificationViewController.m; sourceTree = "<group>"; };
 		40EBADA71A7E60B6003FB0B1 /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
@@ -419,19 +410,6 @@
 			name = "Profile Picture Controller";
 			sourceTree = "<group>";
 		};
-		40C7B2EA1A985A1200C1BFC8 /* School Controller */ = {
-			isa = PBXGroup;
-			children = (
-				40C7B2EB1A985AA000C1BFC8 /* SchoolController.h */,
-				40C7B2EC1A985AA000C1BFC8 /* SchoolController.m */,
-				40D986121A99ED4E00D8BB0C /* SchoolAreaViewController.h */,
-				40D986131A99ED4E00D8BB0C /* SchoolAreaViewController.m */,
-				40D986151A9A274500D8BB0C /* SchoolNameViewController.h */,
-				40D986161A9A274500D8BB0C /* SchoolNameViewController.m */,
-			);
-			name = "School Controller";
-			sourceTree = "<group>";
-		};
 		40CD58621A894428000CB1AB /* FAQ Controller */ = {
 			isa = PBXGroup;
 			children = (
@@ -655,7 +633,6 @@
 			children = (
 				403C1AF31AAAEC7D003E7D81 /* Old Sign In */,
 				40D986181A9B91F500D8BB0C /* Phone Verification Controller */,
-				40C7B2EA1A985A1200C1BFC8 /* School Controller */,
 				4068825B1A8A305100C055E1 /* Profile Picture Controller */,
 				40CD58621A894428000CB1AB /* FAQ Controller */,
 				40D0B9441A83A22100FF24EA /* Message Controllers */,
@@ -1099,7 +1076,6 @@
 				403C1AF91AAAED11003E7D81 /* OldSignInViewController.m in Sources */,
 				9707CA171A5BC3110065D2BA /* JSQMessagesLoadEarlierHeaderView.m in Sources */,
 				9707CA021A5BC3110065D2BA /* JSQMessagesToolbarButtonFactory.m in Sources */,
-				40D986171A9A274500D8BB0C /* SchoolNameViewController.m in Sources */,
 				9707C9F51A5BC3110065D2BA /* JSQSystemSoundPlayer+JSQMessages.m in Sources */,
 				9707C9FC1A5BC3110065D2BA /* JSQMessagesViewController.m in Sources */,
 				9707CA0C1A5BC3110065D2BA /* JSQVideoMediaItem.m in Sources */,
@@ -1117,7 +1093,6 @@
 				9707CA0D1A5BC3110065D2BA /* JSQMessagesCellTextView.m in Sources */,
 				40C7B2D61A935F8700C1BFC8 /* TSJoinedClassMessagesViewController.m in Sources */,
 				9707CA031A5BC3110065D2BA /* JSQMessagesCollectionViewFlowLayout.m in Sources */,
-				40D986141A99ED4E00D8BB0C /* SchoolAreaViewController.m in Sources */,
 				9707C9FF1A5BC3110065D2BA /* JSQMessagesBubbleImageFactory.m in Sources */,
 				9707C9FA1A5BC3110065D2BA /* UIView+JSQMessages.m in Sources */,
 				975B1E9B1A213A130028BE25 /* TSCreateClassroomViewController.m in Sources */,
@@ -1129,7 +1104,6 @@
 				FBBA45D51A9696B60088CCBC /* TSOutboxMessageTableViewCell.m in Sources */,
 				9707CA001A5BC3110065D2BA /* JSQMessagesMediaViewBubbleImageMasker.m in Sources */,
 				9707C9F81A5BC3110065D2BA /* UIDevice+JSQMessages.m in Sources */,
-				40C7B2ED1A985AA000C1BFC8 /* SchoolController.m in Sources */,
 				976F04451A4B6EA0003E9604 /* TSSendClassMessageViewController.m in Sources */,
 				9707CA151A5BC3110065D2BA /* JSQMessagesInputToolbar.m in Sources */,
 				FBBA45C91A94D2330088CCBC /* TSNewInboxViewController.m in Sources */,
