@@ -148,8 +148,6 @@
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     [self DisplayMessages];
-    
-    
 }
 - (void)viewWillDisappear: (BOOL)animated
 {
@@ -193,7 +191,7 @@
     CGSize maximumLabelSize = CGSizeMake(375, 9999);
     
     CGSize expectSize = [gettingSizeLabel sizeThatFits:maximumLabelSize];
-    NSLog(@"height : %f", expectSize.height);
+    //NSLog(@"height : %f", expectSize.height);
     return expectSize.height+100;
 }
 

@@ -14,6 +14,7 @@
 @interface TSOutboxViewController ()
 
 @property (strong, nonatomic) NSMutableArray *messagesArray;
+@property (strong, nonatomic) NSDate * timeDiff;
 
 @end
 
@@ -32,17 +33,26 @@
     // Dispose of any resources that can be recreated.
 }
 
+/*
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     _messagesArray=nil;
     _messagesArray=[[NSMutableArray alloc] init];
     NSLog(@"Outbox loaded");
     [self fetchAndDisplayMessages];
-    NSLog(@"delete function start");
-    [self deleteFunction];
-    NSLog(@"delete function stop");
+    //NSLog(@"delete function start");
+    //[self deleteFunction];
+    //NSLog(@"delete function stop");
 }
-
+*/
+-(void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    _messagesArray=nil;
+    _messagesArray=[[NSMutableArray alloc] init];
+    [self getTimeDiffBetweenLocalAndServer];
+    NSLog(@"Outbox loaded");
+    [self fetchAndDisplayMessages];
+}
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
@@ -61,7 +71,8 @@
     cell.className.text = message.className;
     cell.teacherPic.image = [UIImage imageNamed:@"defaultTeacher.png"];
     cell.message.text = message.message;
-    cell.sentTime.text = @"10 days ago";
+    NSTimeInterval mti = [self getMessageTimeDiff:message.sentTime];
+    cell.sentTime.text = [self sentTimeDisplayText:mti];
     cell.likesCount.text = [NSString stringWithFormat:@"%d", message.likeCount];
     cell.confuseCount.text = [NSString stringWithFormat:@"%d", message.confuseCount];
     cell.seenCount.text = [NSString stringWithFormat:@"%d", message.seenCount];
@@ -77,14 +88,14 @@
     CGSize maximumLabelSize = CGSizeMake(375, 9999);
     
     CGSize expectSize = [gettingSizeLabel sizeThatFits:maximumLabelSize];
-    NSLog(@"height : %f", expectSize.height);
+    //NSLog(@"height : %f", expectSize.height);
     return expectSize.height+100;
 }
 
 -(void)deleteFunction {
     PFQuery *localQuery = [PFQuery queryWithClassName:@"defaultLocals"];
     [localQuery fromLocalDatastore];
-    
+    [localQuery whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
     NSArray *objs = [localQuery findObjects];
     NSLog(@"objects : %@", objs);
     PFObject *obj = objs[0];
@@ -96,6 +107,27 @@
     NSLog(@"nsd : %@\nndate : %@\nti : %f\ncurrLocalTime : %@\ncurrServerTime : %@", nsd, ndate, ti, currLocalTime, currServerTime);
 }
 
+-(void)getTimeDiffBetweenLocalAndServer {
+    PFQuery *localQuery = [PFQuery queryWithClassName:@"defaultLocals"];
+    [localQuery fromLocalDatastore];
+    [localQuery whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
+    NSArray *objs = [localQuery findObjects];
+    //NSLog(@"objects : %@", objs);
+    if(objs.count==0) {
+        [self createLocalDatastore];
+        objs = [localQuery findObjects];
+    }
+    _timeDiff = (NSDate *)objs[0][@"timeDifference"];
+}
+
+-(NSTimeInterval)getMessageTimeDiff:(NSDate *)msgSentTime {
+    NSDate *ndate = [NSDate dateWithTimeIntervalSince1970:0];
+    NSTimeInterval ti = [_timeDiff timeIntervalSinceDate:ndate];
+    NSDate *currLocalTime = [NSDate date];
+    NSDate *currServerTime = [NSDate dateWithTimeInterval:ti sinceDate:currLocalTime];
+    NSTimeInterval mti = [currServerTime timeIntervalSinceDate:msgSentTime];
+    return mti;
+}
 
 /*
 #pragma mark - Navigation
@@ -108,12 +140,15 @@
 */
 
 -(void)fetchAndDisplayMessages {
+    NSLog(@"O1");
     NSArray *createdClasses = [[PFUser currentUser] objectForKey:@"Created_groups"];
+    if(createdClasses.count==0)
+        return;
     NSMutableArray *createdClassCodes = [[NSMutableArray alloc] init];
     for(NSArray *cls in createdClasses) {
         [createdClassCodes addObject:cls[0]];
     }
-    
+    NSLog(@"O2");
     PFQuery *localQuery = [PFQuery queryWithClassName:@"GroupDetails"];
     [localQuery fromLocalDatastore];
     [localQuery whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
@@ -121,7 +156,7 @@
     [localQuery orderByDescending:@"createdTime"];
     localQuery.limit = 20;
     NSArray *messages = [localQuery findObjects];
-    
+    NSLog(@"O3");
     if(messages.count > 0) {
         NSLog(@"Outbox A");
         for (PFObject *messageObject in messages) {
@@ -131,45 +166,65 @@
         [self.messagesTable reloadData];
     }
     else {
-        if([[PFUser currentUser] objectForKey:@"isOutboxDataConsistent"] && [[[PFUser currentUser] objectForKey:@"isOutboxDataConsistent"] isEqualToString:@"true"]) {
-            NSLog(@"Outbox B");
+        NSLog(@"Outbox B");
+        PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
+        [lq fromLocalDatastore];
+        [lq whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
+        NSArray *localObjs = [lq findObjects];
+        if(localObjs.count==0) {
+            [self createLocalDatastore];
+            localObjs = [lq findObjects];
         }
-        else {
-            NSLog(@"Outbox C");
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
-                [Data updateInboxLocalDatastore:@"c" successBlock:^(id object) {
-                    NSArray *messages = (NSArray *)object;
-                    if(messages.count==0)
-                        [[PFUser currentUser] setObject:@"true" forKey:@"isOutboxDataConsistent"];
-                    else {
-                        if(messages.count < 30) {
-                            [[PFUser currentUser] setObject:@"true" forKey:@"isOutboxDataConsistent"];
-                        }
-                        for(PFObject *messageObject in messages) {
-                            messageObject[@"iosUserID"] = [PFUser currentUser].objectId;
-                            messageObject[@"messageId"] = messageObject.objectId;
-                            messageObject[@"createdTime"] = messageObject.createdAt;
-                            [messageObject pinInBackground];
-                        }
-                        PFQuery *localQuery = [PFQuery queryWithClassName:@"GroupDetails"];
-                        [localQuery fromLocalDatastore];
-                        [localQuery whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
-                        [localQuery whereKey:@"code" containedIn:createdClassCodes];
-                        [localQuery orderByDescending:@"createdTime"];
-                        localQuery.limit = 20;
-                        messages = [localQuery findObjects];
-                    
-                        for (PFObject *messageObject in messages) {
-                            TSMessage *message = [[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:messageObject[@"title"] sender:messageObject[@"Creator"] sentTime:messageObject[@"createdTime"] senderPic:nil likeCount:[messageObject[@"like_count"] intValue] confuseCount:[messageObject[@"confuse_count"] intValue] seenCount:[messageObject[@"seen_count"] intValue]];
-                            [_messagesArray addObject:message];
-                        }
-                        [self.messagesTable reloadData];
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
+            [Data updateInboxLocalDatastore:@"c" successBlock:^(id object) {
+                NSArray *messages = (NSArray *)object;
+                if(messages.count==0) {
+                    localObjs[0][@"isOutboxDataConsistent"] = @"true";
+                    [localObjs[0] pinInBackground];
+                }
+                else {
+                    if(messages.count < 30) {
+                        localObjs[0][@"isOutboxDataConsistent"] = @"true";
+                        [localObjs[0] pinInBackground];
                     }
-                } errorBlock:^(NSError *error) {
-                    NSLog(@"Unable to fetch inbox messages while opening inbox tab: %@", [error description]);
-                }];
-            });
-        }
+                    else {
+                        localObjs[0][@"isOutboxDataConsistent"] = @"false";
+                        [localObjs[0] pinInBackground];
+                    }
+                    for(PFObject *messageObject in messages) {
+                        messageObject[@"iosUserID"] = [PFUser currentUser].objectId;
+                        messageObject[@"messageId"] = messageObject.objectId;
+                        messageObject[@"createdTime"] = messageObject.createdAt;
+                        if(!messageObject[@"like_count"])
+                            messageObject[@"like_count"] = [NSNumber numberWithInt:0];
+                        if(!messageObject[@"confuse_count"])
+                            messageObject[@"confuse_count"] = [NSNumber numberWithInt:0];
+                        if(!messageObject[@"seen_count"])
+                            messageObject[@"seen_count"] = [NSNumber numberWithInt:0];
+                        [messageObject pinInBackground];
+                    }
+                    NSLog(@"Here messages");
+                    PFQuery *localQuery = [PFQuery queryWithClassName:@"GroupDetails"];
+                    [localQuery fromLocalDatastore];
+                    [localQuery whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
+                    [localQuery whereKey:@"code" containedIn:createdClassCodes];
+                    [localQuery orderByDescending:@"createdTime"];
+                    localQuery.limit = 20;
+                    messages = [localQuery findObjects];
+                    
+                    NSLog(@"There messages : %d", messages.count);
+                    
+                    for (PFObject *messageObject in messages) {
+                        TSMessage *message = [[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:messageObject[@"title"] sender:messageObject[@"Creator"] sentTime:messageObject[@"createdTime"] senderPic:nil likeCount:[messageObject[@"like_count"] intValue] confuseCount:[messageObject[@"confuse_count"] intValue] seenCount:[messageObject[@"seen_count"] intValue]];
+                        [_messagesArray addObject:message];
+                    }
+                    [self.messagesTable reloadData];
+                }
+            } errorBlock:^(NSError *error) {
+                NSLog(@"Unable to fetch inbox messages while opening inbox tab: %@", [error description]);
+            }];
+        });
     }
 }
 
@@ -200,22 +255,40 @@
     localQuery.limit = 20;
     NSArray *messages = [localQuery findObjects];
     if(messages.count==0) {
-        if([(NSString *)[[PFUser currentUser] objectForKey:@"isOutboxDataConsistent"] isEqualToString:@"true"]) {
+        PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
+        [lq fromLocalDatastore];
+        [lq whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
+        NSArray *localObjs = [lq findObjects];
+        if([(NSString *)localObjs[0][@"isOutboxDataConsistent"] isEqualToString:@"true"]) {
             // To Do : Display "No more messages".
         }
         else {
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
                 [Data updateInboxLocalDatastoreWithTime1:@"c" oldestMessageTime:oldestMsgDate successBlock:^(id object) {
                     NSArray *messages = (NSArray *) object;
-                    if(messages.count==0)
-                        [[PFUser currentUser] setObject:@"true" forKey:@"isOutboxDataConsistent"];
+                    if(messages.count==0) {
+                        localObjs[0][@"isOutboxDataConsistent"] = @"true";
+                        [localObjs[0] pinInBackground];
+                    }
                     else {
-                        if(messages.count<20)
-                            [[PFUser currentUser] setObject:@"true" forKey:@"isOutboxDataConsistent"];
+                        if(messages.count<20) {
+                            localObjs[0][@"isOutboxDataConsistent"] = @"true";
+                            [localObjs[0] pinInBackground];
+                        }
+                        else {
+                            localObjs[0][@"isOutboxDataConsistent"] = @"false";
+                            [localObjs[0] pinInBackground];
+                        }
                         for(PFObject *messageObject in messages) {
                             messageObject[@"iosUserID"] = [PFUser currentUser].objectId;
                             messageObject[@"messageId"] = messageObject.objectId;
                             messageObject[@"createdTime"] = messageObject.createdAt;
+                            if(!messageObject[@"like_count"])
+                                messageObject[@"like_count"] = [NSNumber numberWithInt:0];
+                            if(!messageObject[@"confuse_count"])
+                                messageObject[@"confuse_count"] = [NSNumber numberWithInt:0];
+                            if(!messageObject[@"seen_count"])
+                                messageObject[@"seen_count"] = [NSNumber numberWithInt:0];
                             [messageObject pinInBackground];
                         
                             TSMessage *message = [[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:messageObject[@"title"] sender:messageObject[@"Creator"] sentTime:messageObject[@"createdTime"] senderPic:nil likeCount:[messageObject[@"like_count"] intValue] confuseCount:[messageObject[@"confuse_count"] intValue] seenCount:[messageObject[@"seen_count"] intValue]];
@@ -236,7 +309,51 @@
         }
         [self.messagesTable reloadData];
     }
-
 }
+
+-(void)createLocalDatastore {
+    PFObject *locals = [[PFObject alloc] initWithClassName:@"defaultLocals"];
+    locals[@"iosUserID"] = [PFUser currentUser].objectId;
+    [locals pinInBackground];
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [Data getServerTime:^(id object) {
+            NSDate *currentServerTime = (NSDate *)object;
+            NSDate *currentLocalTime = [NSDate date];
+            NSTimeInterval diff = [currentServerTime timeIntervalSinceDate:currentLocalTime];
+            NSLog(@"currLocalTime : %@\ncurrServerTime : %@\ntime diff : %f", currentLocalTime, currentServerTime, diff);
+            NSDate *diffwrtRef = [NSDate dateWithTimeIntervalSince1970:diff];
+            [locals setObject:diffwrtRef forKey:@"timeDifference"];
+            [locals pinInBackground];
+        } errorBlock:^(NSError *error) {
+            NSLog(@"Unable to update server time : %@", [error description]);
+        }];
+    });
+}
+
+-(NSString *)sentTimeDisplayText:(NSTimeInterval)diff {
+    if(diff>=29030400) {
+        return diff<120?@"an year ago":[NSString stringWithFormat:@"%d years ago", (int)diff/29030400];
+    }
+    else if(diff>=2419200) {
+        return diff<4838400?@"a month ago":[NSString stringWithFormat:@"%d months ago", (int)diff/2419200];
+    }
+    else if(diff>=604800) {
+        return diff<1209600?@"a week ago":[NSString stringWithFormat:@"%d weeks ago", (int)diff/604800];
+    }
+    else if(diff>=86400) {
+        return diff<172800?@"a day ago":[NSString stringWithFormat:@"%d days ago", (int)diff/86400];
+    }
+    else if(diff>=3600) {
+        return diff<7200?@"an hr ago":[NSString stringWithFormat:@"%d hrs ago", (int)diff/3600];
+    }
+    else if(diff>=60) {
+        return diff<120?@"a min ago":[NSString stringWithFormat:@"%d mins ago", (int)diff/60];
+    }
+    else {
+        return @"few secs ago";
+    }
+}
+
 
 @end

@@ -23,6 +23,7 @@
 // @synthesize activityIndicator;
 - (void)viewDidLoad {
     [super viewDidLoad];
+    _classCodeTextField.delegate=self;
     // Do any additional setup after loading the view.
 }
 
@@ -97,7 +98,15 @@
 
 }
 
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+        textField.text = [textField.text stringByReplacingCharactersInRange:range withString:[string uppercaseString]];
+        return NO;
+    
+    return YES;
+}
+
 - (IBAction)cancelPressed:(UIBarButtonItem *)sender {
+    [self.classCodeTextField resignFirstResponder];
     if (self.presentingViewController) {
         [self dismissViewControllerAnimated:YES completion:nil];
     }

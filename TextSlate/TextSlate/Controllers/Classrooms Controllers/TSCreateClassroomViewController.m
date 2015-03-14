@@ -13,7 +13,6 @@
 @interface TSCreateClassroomViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *classNameTextField;
 @property (weak, nonatomic) IBOutlet UITextField *schoolNameTextField;
-
 @property (nonatomic) bool flag;
 @property (weak, nonatomic) IBOutlet UIPickerView *standardAndDivisionPicker;
 @property (strong, nonatomic) NSArray *standardPickerData;
@@ -68,7 +67,6 @@
     else {
         _selectedSchool=_schoolNameTextField.text;
     }
-    NSLog(@"School Name %@",_selectedSchool);
     
     
     [Data createNewClassWithClassName:_classNameTextField.text standard:_selectedStandard division:_selectedDivision school:_selectedSchool successBlock:^(id object) {

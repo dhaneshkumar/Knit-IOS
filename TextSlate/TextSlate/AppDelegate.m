@@ -9,6 +9,8 @@
 #import "AppDelegate.h"
 #import "Data.h"
 #import "TSJoinedClass.h"
+#import "TSSettingsTableViewController.h"
+#import "TSTabBarViewController.h"
 #import <Parse/Parse.h>
 #import <ParseCrashReporting/ParseCrashReporting.h>
 
@@ -42,11 +44,8 @@
                                                                              categories:nil];
     [application registerUserNotificationSettings:settings];
     [application registerForRemoteNotifications];
-    UILocalNotification *locationNotification = [launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey];
-    if (locationNotification) {
-        // Set icon badge number to zero
-        application.applicationIconBadgeNumber = 0;
-    }
+    application.applicationIconBadgeNumber = 0;
+    
     
     return YES;
 }
@@ -61,30 +60,56 @@
     [currentInstallation saveInBackground];
     
 }
-/*
-- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
-    if(UIApplicationStateBackground){
-        NSLog(@"background");
-        MessageViewController *openInbox=[[MessageViewController alloc]init];
-        
-        self.window.rootViewController=openInbox;
-        
-    }
-    
-    [PFPush handlePush:userInfo];
-    
 
-}*/
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+    
+    if (userInfo) {
+        NSLog(@"%@",userInfo);
+        NSString *notificationType=[userInfo objectForKey:@"type"];
+        
+        UIStoryboard *storyboard1 = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
+        UINavigationController *signUpController = [storyboard1 instantiateViewControllerWithIdentifier:@"tabBar"];
+        signUpController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+        
+        TSTabBarViewController *fcontroller = (TSTabBarViewController*)signUpController.topViewController;
+        [fcontroller setSelectedIndex:1];
+        self.window.rootViewController=signUpController;
+
+        
+        
+        if ([userInfo objectForKey:@"aps"]) {
+            if([[userInfo objectForKey:@"aps"] objectForKey:@"badgecount"]) {
+                [UIApplication sharedApplication].applicationIconBadgeNumber = [[[userInfo objectForKey:@"aps"] objectForKey: @"badgecount"] intValue];
+                
+            }
+        
+        }
+        
+    [PFPush handlePush:userInfo];
+    }
+}
 
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification
 {
     UIApplicationState state = [application applicationState];
-    if (state == UIApplicationStateActive) {
+    if (state == UIApplicationStateActive){
+
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Reminder"
                                                         message:notification.alertBody
                                                        delegate:self cancelButtonTitle:@"OK"
-                                              otherButtonTitles:nil];
+                                              otherButtonTitles:notification.alertAction,nil];
         [alert show];
+    
+    }
+  //  NSLog(@"App is in background but take user to classroom controller if selected");
+
+//    if(state==UIApplicationStateBackground)
+    {
+
+        if([notification.alertAction isEqualToString:@"Create"])
+        {
+            NSLog(@"App is in background but take user to classroom controller if selected");
+        }
     }
     
     // Request to reload table view data
@@ -93,7 +118,16 @@
     // Set icon badge number to zero
     application.applicationIconBadgeNumber = 0;
 }
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
 
+    NSString *title = [alertView buttonTitleAtIndex:buttonIndex];
+    if([title isEqualToString:@"Create"])
+    {
+        NSLog(@"Take user to create class view");
+    }
+
+
+}
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.

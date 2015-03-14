@@ -116,7 +116,9 @@
     }];
 }
 
-+(void) leaveClass:(NSString *)classCode installationId:(NSString *)installationId successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
++(void) leaveClass:(NSString *)classCode  successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
+    PFInstallation *current=[PFInstallation currentInstallation];
+    NSString * installationId=current.installationId;
     [PFCloud callFunctionInBackground:@"leaveClass" withParameters:@{@"classcode":classCode,@"insatllationObjectId" :installationId } block:^(id object, NSError *error) {
         if (error) {
             errorBlock(error);
@@ -345,6 +347,137 @@
     }];
     
 }
++(void) getSchoolId:(NSString*)schoolName successBlock:(successBlock) successBlock errorBlock:(errorBlock) errorBlock{
+    [PFCloud callFunctionInBackground:@"getSchoolId" withParameters:@{@"school":schoolName } block:^(id object, NSError *error) {
+        if (error) {
+            NSLog(@"Error");
+            
+            errorBlock(error);
+        } else {
+            NSLog(@"Success");
+            
+            successBlock(object);
+        }
+    }];
+    
+}
+
++(void) generateOTP:(NSString *)phoneNum successBlock:(successBlock) successBlock errorBlock:(errorBlock) errorBlock{
+    [PFCloud callFunctionInBackground:@"genCode" withParameters:@{@"number":phoneNum } block:^(id object, NSError *error) {
+        if (error) {
+            NSLog(@"Error");
+            
+            errorBlock(error);
+        } else {
+            NSLog(@"Success");
+            
+            successBlock(object);
+        }
+    }];
+    
+}
+
+
+
++(void) verifyOTPOldSignIn:(NSString *)email password:(NSString *)password successBlock:(successBlock) successBlock errorBlock:(errorBlock) errorBlock{
+    
+    [PFCloud callFunctionInBackground:@"verifyCode" withParameters:@{@"email":email,@"password":password} block:^(id object, NSError *error) {
+        if (error) {
+            NSLog(@"Error in signing in..");
+            
+            errorBlock(error);
+        } else {
+            NSLog(@"Success");
+            
+            successBlock(object);
+        }
+    }];
+    
+}
+
+/*
+ Code ain't no working! 
+ 
++(void) verifyOTNewSignIn:(NSString*)phoneNum code:(NSInteger)code successBlock:(successBlock) successBlock errorBlock:(errorBlock) errorBlock{
+        NSNumber *codeNum = [NSNumber numberWithInteger:code];
+
+    [PFCloud callFunctionInBackground:@"verifyCode" withParameters:@{@"number":phoneNum ,@"code":codeNum} block:^(id object, NSError *error) {
+             if (error) {
+                 NSLog(@"Error in signing in..");
+                 
+                 errorBlock(error);
+             } else {
+                 NSLog(@"Success");
+                 
+                 successBlock(object);
+             }
+         }];
+}
+*/
+
++(void) verifyOTPSignUp:(NSString *)phoneNum code:(NSInteger)code modal:(NSString *) modal os:(NSString *)os name:(NSString *)name role:(NSString *)role sex:(NSString*)sex successBlock:(successBlock) successBlock errorBlock:(errorBlock) errorBlock{
+    NSNumber *codeNum = [NSNumber numberWithInteger:code];
+
+    [PFCloud callFunctionInBackground:@"verifyCode" withParameters:@{@"number":phoneNum ,@"code":codeNum, @"modal":modal, @"os":os ,@"name":name, @"role":role ,@"sex":sex} block:^(id object, NSError *error) {
+        if (error) {
+            NSLog(@"Error");
+            
+            errorBlock(error);
+        } else {
+            NSLog(@"Success");
+            
+            successBlock(object);
+        }
+    }];
+    
+}
+
+
++(void) newSignInVerification:(NSString *)phoneNum code:(NSInteger)code successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock{
+    NSNumber *codeNum = [NSNumber numberWithInteger:code];
+
+    [PFCloud callFunctionInBackground:@"verifyCode" withParameters:@{@"number":phoneNum,@"code":codeNum
+    } block:^(id object, NSError *error) {
+        if(error)
+        {
+            NSLog(@"Could not verify the code");
+        }
+        else
+        {
+            NSLog(@"code verified");
+            successBlock(object);
+        }
+    }];
+
+}
+
++(void) saveInstallationId:(NSString *)installationId deviceType:(NSString *)deviceType successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock{
+    [PFCloud callFunctionInBackground:@"appInstallation" withParameters:@{@"installationId":installationId,@"deviceType":deviceType }block:^(id object, NSError *error) {
+        if(error)
+        {
+            NSLog(@"Could not save installationID");
+        }
+        else{
+            successBlock(object);
+        }
+    }];
+    
+}
+
+
++(void)appLogout:(NSString *)objectId successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock{
+    
+    [PFCloud callFunctionInBackground:@"appLogout" withParameters:@{@"installationObjectId":objectId} block:^(id object, NSError *error) {
+        if(error){
+            NSLog(@"Could not logout the user...");
+        }
+        else{
+           successBlock(object);
+        }
+    }];
+    
+}
+
 
 +(void)getServerTime:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
     [PFCloud callFunctionInBackground:@"getServerTime" withParameters:@{} block:^(id object, NSError *error) {

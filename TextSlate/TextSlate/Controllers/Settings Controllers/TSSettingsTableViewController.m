@@ -13,6 +13,7 @@
 #import "FAQTableViewController.h"
 #import "ProfilePictureViewController.h"
 #import "sharedCache.h"
+#import "Data.h"
 
 
 @interface TSSettingsTableViewController ()
@@ -249,7 +250,17 @@ if(section==0)
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row == 2 && indexPath.section==1) {
         // Log out.
-        [(TSTabBarViewController*)self.parentViewController.parentViewController logout];
+     // [(TSTabBarViewController*)self.parentViewController.parentViewController logout];
+        PFInstallation *currentInstallation=[PFInstallation currentInstallation];
+        NSString *objectID=currentInstallation.objectId;
+        NSLog(@"Object ID is %@",objectID);
+        
+        [Data appLogout:objectID successBlock:^(id object) {
+            NSLog(@"Logging out...");
+            [(TSTabBarViewController*)self.parentViewController.parentViewController logout];
+        } errorBlock:^(NSError *error) {
+            NSLog(@"Some error has occured.Please try again later");
+        }];
     }
     
     if(indexPath.row==1 && indexPath.section==1)

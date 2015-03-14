@@ -7,7 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import"TSSignInViewController.h"
 
-@interface SchoolController : UIViewController<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate>
+@interface SchoolController : UIViewController<UITextFieldDelegate>
+@property (weak, nonatomic) TSSignInViewController  *pViewController;
 
 @end

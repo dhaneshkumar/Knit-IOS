@@ -47,10 +47,10 @@
 
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    _activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-    _activityView.center=self.view.center;
-    [_activityView startAnimating];
-    [self.view addSubview:_activityView];
+    //_activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    //_activityView.center=self.view.center;
+    //[_activityView startAnimating];
+    //[self.view addSubview:_activityView];
     _joinedClasses = nil;
     _createdClasses = nil;
     _classes = nil;
@@ -58,15 +58,25 @@
     _createdClasses = [[NSMutableArray alloc] init];
     if([PFUser currentUser]){
         [self updateLocalDataAndDisplay];
-        [self suggestClassArray];
-        [self deleteFunction];
+        //[self suggestClassArray];
+        //[self deleteFunction];
     }
 }
 
 
 -(void)deleteFunction {
+    NSLog(@"entering function");
+    PFQuery *localQuery = [PFQuery queryWithClassName:@"defaultLocals"];
+    [localQuery fromLocalDatastore];
+    
+    NSArray *objs = [localQuery findObjects];
+    NSLog(@"in function");
+    NSLog(@"count : %d", objs.count);
+    
     PFObject *locals = [[PFObject alloc] initWithClassName:@"defaultLocals"];
     locals[@"iosUserID"] = [PFUser currentUser].objectId;
+    [locals pinInBackground];
+    
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [Data getServerTime:^(id object) {
             NSDate *currentServerTime = (NSDate *)object;
@@ -103,7 +113,6 @@
         
         TSJoinedClass *cl = (TSJoinedClass *)[_classes objectAtIndex:indexPath.row];
         cell.classCode.text = cl.code;
-        NSLog(@"code seg : %@", cl.code);
         cell.className.text = cl.name;
         cell.teacherName.text = cl.teachername;
         cell.assocName.text = cl.associatedPersonName;
@@ -134,12 +143,7 @@
     else {
         [self performSegueWithIdentifier:@"createdClasses" sender:self];
     }
-
-    
 }
-
-
-
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
@@ -154,12 +158,8 @@
             NSString *classCode=((TSJoinedClass*)[_classes objectAtIndex:indexPath.row]).code;
             [_classes removeObjectAtIndex:indexPath.row];
             [self deleteClass:classCode];
-            
             NSLog(@"Delete Created classes");
-            
         }
-        
-        
         //add code here for when you hit delete
     }
 }
@@ -172,7 +172,6 @@
     [query orderByDescending:@"updatedAt"];
     [query whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
     NSArray *objects=[query findObjects];
-    NSLog(@"object count %i",objects.count);
     if(objects.count==0)
     {
         [self suggestClassLatestDate];
@@ -191,7 +190,6 @@
             [temp setObject:standard forKey:@"standard"];
             [temp setObject:division forKey:@"division"];
             [_suggestionClass addObject:temp];
-            NSLog(@"DICTIONARY %@",temp);
         }
     }
 }
@@ -295,7 +293,6 @@
 }
 
 
-
 -(void)deleteClass:(NSString *)classCode {
     [Data deleteClass:classCode successBlock:^(id object) {
         [self deleteAllLocalMessages:classCode];
@@ -355,14 +352,11 @@
     return;
 }
 
-
-
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if([segue.identifier isEqualToString:@"joinedClasses"]) {
         NSLog(@"Reaching prep for segue");
         TSJoinedClassMessagesViewController *dvc = (TSJoinedClassMessagesViewController *)segue.destinationViewController;
         int row = [[self.classesTable indexPathForSelectedRow] row];
-        NSLog(@"ROW : %d", row);
         TSJoinedClass *selectedClass = (TSJoinedClass *)_classes[row];
         dvc.className = selectedClass.name;
         dvc.classCode = selectedClass.code;
@@ -372,11 +366,9 @@
     else  if([segue.identifier isEqualToString:@"createdClasses"]){
         TSSendClassMessageViewController *dvc = (TSSendClassMessageViewController*)segue.destinationViewController;
         int row = [[self.classesTable indexPathForSelectedRow] row];
-        NSLog(@"selected row %i",row);
         TSClass *selectedClass = [[TSClass alloc] init];
         selectedClass=(TSClass *) _classes[row];
         dvc.classCode=selectedClass.code;
-        NSLog(@"code in created class segue %@",dvc.classCode);
         dvc.className=selectedClass.name;
     }
     [self.classesTable deselectRowAtIndexPath:[self.classesTable indexPathForSelectedRow] animated:YES];
@@ -400,8 +392,6 @@
     NSMutableArray *classCodes = [[NSMutableArray alloc] init];
     NSArray *joined = (NSArray *)[[PFUser currentUser] objectForKey:@"joined_groups"];
     NSArray *created = (NSArray *)[[PFUser currentUser] objectForKey:@"Created_groups"];
-    NSLog(@"Joined : %d", joined.count);
-    NSLog(@"Created : %d", created.count);
     for(NSArray *joinedcl in joined)
         [classCodes addObject:joinedcl[0]];
     for(NSArray *createdcl in created)
@@ -436,7 +426,6 @@
                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                     [Data getAllCodegroups:^(id object) {
                         NSArray *cgs = (NSArray *)object;
-                        NSLog(@"cgs : %d", cgs.count);
                         for(PFObject *cg in cgs) {
                             cg[@"iosUserID"] = [PFUser currentUser].objectId;
                             [cg pinInBackground];

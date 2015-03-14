@@ -23,8 +23,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
+    NSLog(@"TSTab View Controller");
     if (![PFUser currentUser]) {
+        NSLog(@"Tab bar controller");
         TSSignInViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"signInNavigationController"];
         [self presentViewController:vc animated:NO completion:nil];
     } else {
@@ -40,13 +41,27 @@
     
     UIBarButtonItem *addNewClass = [[UIBarButtonItem alloc] initWithTitle:@"Create" style:UIBarButtonItemStylePlain target:self action:@selector(addClassClicked:)];
     
-    NSLog(@"%@",[[PFUser currentUser] objectForKey:@"role"]);
+    NSLog(@"%@ user",[[PFUser currentUser] objectForKey:@"role"]);
     
     if ([[[PFUser currentUser] objectForKey:@"role"] isEqualToString:@"teacher"]) {
         [self.navigationItem setRightBarButtonItems:@[addNewClass, joinBarButtonItem]];
     } else {
         [self.navigationItem setRightBarButtonItems:@[joinBarButtonItem]];
     }
+}
+
+-(void) viewDidAppear:(BOOL)animated{
+
+    [super viewDidAppear:animated];
+    if(self.presentingViewController)
+    {
+        [self.presentingViewController dismissViewControllerAnimated:YES completion:Nil ];
+    }
+    if(![PFUser currentUser])
+    {
+        NSLog(@"NO USER");
+    }
+    NSLog(@"Current User");
 }
 
 -(void) joinClassBarButtonItemClicked {
@@ -59,7 +74,7 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
+
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -67,7 +82,6 @@
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
 }
-*/
 
 - (IBAction)addClassClicked:(UIBarButtonItem *)sender {
     UINavigationController *createClassroomNavigationViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"createNewClassNavigationController"];
@@ -86,8 +100,8 @@
 }
 
 -(void) logout {
-    [[PFInstallation currentInstallation] removeObjectForKey:@"channels"];
-    [[PFInstallation currentInstallation] saveInBackground];
+    //[[PFInstallation currentInstallation] removeObjectForKey:@"channels"];
+    //[[PFInstallation currentInstallation] saveInBackground];
     [PFUser logOut];
     TSSignInViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"signInNavigationController"];
     [self presentViewController:vc animated:NO completion:nil];

@@ -15,6 +15,7 @@
 @interface TSNewInboxViewController ()
 
 @property (nonatomic, strong) NSMutableArray *messagesArray;
+@property (strong, nonatomic) NSDate * timeDiff;
 
 @end
 
@@ -36,6 +37,7 @@
     [super viewDidAppear:animated];
     _messagesArray = nil;
     _messagesArray = [[NSMutableArray alloc] init];
+    [self getTimeDiffBetweenLocalAndServer];
     [self fetchAndDisplayNewMessages];
     NSLog(@"Number of messages %i",_messagesArray.count);
 }
@@ -58,7 +60,8 @@
     cell.teacherName.text = message.sender;
     cell.teacherPic.image = [UIImage imageNamed:@"defaultTeacher.png"];
     cell.message.text = message.message;
-    cell.sentTime.text = @"10 days ago";
+    NSTimeInterval mti = [self getMessageTimeDiff:message.sentTime];
+    cell.sentTime.text = [self sentTimeDisplayText:mti];
     cell.confuseCount.text = [NSString stringWithFormat:@"%d", message.confuseCount];
     cell.likesCount.text = [NSString stringWithFormat:@"%d", message.likeCount];
     cell.confuseView.backgroundColor = ([message.confuseStatus isEqualToString:@"true"])?[UIColor blueColor]:[UIColor whiteColor];
@@ -75,8 +78,30 @@
     CGSize maximumLabelSize = CGSizeMake(375, 9999);
     
     CGSize expectSize = [gettingSizeLabel sizeThatFits:maximumLabelSize];
-    NSLog(@"height : %f", expectSize.height);
+    //NSLog(@"height : %f", expectSize.height);
     return expectSize.height+100;
+}
+
+-(void)getTimeDiffBetweenLocalAndServer {
+    PFQuery *localQuery = [PFQuery queryWithClassName:@"defaultLocals"];
+    [localQuery fromLocalDatastore];
+    [localQuery whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
+    NSArray *objs = [localQuery findObjects];
+    //NSLog(@"objects : %@", objs);
+    if(objs.count==0) {
+        [self createLocalDatastore];
+        objs = [localQuery findObjects];
+    }
+    _timeDiff = (NSDate *)objs[0][@"timeDifference"];
+}
+
+-(NSTimeInterval)getMessageTimeDiff:(NSDate *)msgSentTime {
+    NSDate *ndate = [NSDate dateWithTimeIntervalSince1970:0];
+    NSTimeInterval ti = [_timeDiff timeIntervalSinceDate:ndate];
+    NSDate *currLocalTime = [NSDate date];
+    NSDate *currServerTime = [NSDate dateWithTimeInterval:ti sinceDate:currLocalTime];
+    NSTimeInterval mti = [currServerTime timeIntervalSinceDate:msgSentTime];
+    return mti;
 }
 
 
@@ -90,7 +115,12 @@
     }
     NSDate *latestMessageTime = [self getLatestMessageTime];
     if(latestMessageTime == nil) {
-        if([[PFUser currentUser] objectForKey:@"isInboxDataConsistent"]) {
+        PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
+        [lq fromLocalDatastore];
+        [lq whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
+        NSArray *localObjs = [lq findObjects];
+
+        if(localObjs.count==1 && localObjs[0][@"isInboxDataConsistent"]) {
             NSLog(@"Inbox A");
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
                 [Data updateInboxLocalDatastoreWithTime:[PFUser currentUser].createdAt successBlock:^(id object) {
@@ -131,6 +161,9 @@
         }
         else {
             NSLog(@"Inbox B");
+            if(localObjs.count==0)
+                [self createLocalDatastore];
+            
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
                 [Data updateInboxLocalDatastore:@"j" successBlock:^(id object) {
                     NSMutableDictionary *members = (NSMutableDictionary *) object;
@@ -164,9 +197,12 @@
                         [msg pinInBackground];
                     }
                     
-                    PFUser *currentUser = [PFUser currentUser];
-                    currentUser[@"isInboxDataConsistent"] = (messageObjects.count < 30) ? @"true" : @"false";
-                    [currentUser pinInBackground];
+                    PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
+                    [lq fromLocalDatastore];
+                    [lq whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
+                    NSArray *localOs = [lq findObjects];
+                    localOs[0][@"isInboxDataConsistent"] = (messageObjects.count < 30) ? @"true" : @"false";
+                    [localOs[0] pinInBackground];
                     
                     PFQuery *query = [PFQuery queryWithClassName:@"GroupDetails"];
                     [query fromLocalDatastore];
@@ -313,13 +349,19 @@
     [localQuery orderByDescending:@"createdAt"];
     [localQuery whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
     localQuery.limit = 20;
-    if(![[PFUser currentUser] objectForKey:@"isInboxDataConsistent"]) {
+    
+    PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
+    [lq fromLocalDatastore];
+    [lq whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
+    NSArray *localObjs = [lq findObjects];
+
+    if(localObjs.count==0 || !localObjs[0][@"isInboxDataConsistent"]) {
         NSLog(@"Daya! Kuch to gadbad hai.");
         return;
     }
     NSArray *messages = [localQuery findObjects];
     if(messages.count==0) {
-        if([(NSString *)[[PFUser currentUser] objectForKey:@"isInboxDataConsistent"] isEqualToString:@"true"]) {
+        if([(NSString *)localObjs[0][@"isInboxDataConsistent"] isEqualToString:@"true"]) {
             // To Do : Display "No more messages".
         }
         else {
@@ -361,7 +403,51 @@
     }
 }
 
+-(void)createLocalDatastore {
+    PFObject *locals = [[PFObject alloc] initWithClassName:@"defaultLocals"];
+    locals[@"iosUserID"] = [PFUser currentUser].objectId;
+    [locals pinInBackground];
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [Data getServerTime:^(id object) {
+            NSDate *currentServerTime = (NSDate *)object;
+            NSDate *currentLocalTime = [NSDate date];
+            NSTimeInterval diff = [currentServerTime timeIntervalSinceDate:currentLocalTime];
+            NSLog(@"currLocalTime : %@\ncurrServerTime : %@\ntime diff : %f", currentLocalTime, currentServerTime, diff);
+            NSDate *diffwrtRef = [NSDate dateWithTimeIntervalSince1970:diff];
+            [locals setObject:diffwrtRef forKey:@"timeDifference"];
+            [locals pinInBackground];
+        } errorBlock:^(NSError *error) {
+            NSLog(@"Unable to update server time : %@", [error description]);
+        }];
+    });
+}
 
+
+-(NSString *)sentTimeDisplayText:(NSTimeInterval)diff {
+    if(diff>=29030400) {
+        return diff<120?@"an year ago":[NSString stringWithFormat:@"%d years ago", (int)diff/29030400];
+    }
+    else if(diff>=2419200) {
+        return diff<4838400?@"a month ago":[NSString stringWithFormat:@"%d months ago", (int)diff/2419200];
+    }
+    else if(diff>=604800) {
+        return diff<1209600?@"a week ago":[NSString stringWithFormat:@"%d weeks ago", (int)diff/604800];
+    }
+    else if(diff>=86400) {
+        return diff<172800?@"a day ago":[NSString stringWithFormat:@"%d days ago", (int)diff/86400];
+    }
+    else if(diff>=3600) {
+        return diff<7200?@"an hr ago":[NSString stringWithFormat:@"%d hrs ago", (int)diff/3600];
+    }
+    else if(diff>=60) {
+        return diff<120?@"a min ago":[NSString stringWithFormat:@"%d mins ago", (int)diff/60];
+    }
+    else {
+        return @"few secs ago";
+    }
+    return @"";
+}
 
 /*
 #pragma mark - Navigation
