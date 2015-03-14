@@ -257,6 +257,7 @@ if(section==0)
         
         [Data appLogout:objectID successBlock:^(id object) {
             NSLog(@"Logging out...");
+            [[UIApplication sharedApplication] cancelAllLocalNotifications];
             [(TSTabBarViewController*)self.parentViewController.parentViewController logout];
         } errorBlock:^(NSError *error) {
             NSLog(@"Some error has occured.Please try again later");

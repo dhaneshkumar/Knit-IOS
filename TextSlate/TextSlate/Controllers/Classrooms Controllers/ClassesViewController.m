@@ -279,6 +279,9 @@
 }
 
 
+//Add parameters here rather than in data.m
+//Change it to leave there in table cell
+
 -(void)leaveClass:(NSString *)classCode {
     [Data leaveClass:classCode successBlock:^(id object) {
         [self deleteAllLocalMessages:classCode];

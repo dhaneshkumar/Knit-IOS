@@ -13,6 +13,8 @@
 #import "TSTabBarViewController.h"
 #import <Parse/Parse.h>
 #import <ParseCrashReporting/ParseCrashReporting.h>
+#import "TSCreateClassroomViewController.h"
+#import "TSJoinNewClassViewController.h"
 
 @interface AppDelegate ()
 
@@ -93,29 +95,66 @@
 {
     UIApplicationState state = [application applicationState];
     if (state == UIApplicationStateActive){
-
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Reminder"
                                                         message:notification.alertBody
                                                        delegate:self cancelButtonTitle:@"OK"
                                               otherButtonTitles:notification.alertAction,nil];
         [alert show];
     
+        
     }
-  //  NSLog(@"App is in background but take user to classroom controller if selected");
 
-//    if(state==UIApplicationStateBackground)
+    if(state==UIApplicationStateInactive)
     {
-
         if([notification.alertAction isEqualToString:@"Create"])
         {
             NSLog(@"App is in background but take user to classroom controller if selected");
+        
+            UIStoryboard *storyboard1 = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
+            UINavigationController *signUpController = [storyboard1 instantiateViewControllerWithIdentifier:@"tabBar"];
+            signUpController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+            
+            TSTabBarViewController *fcontroller = (TSTabBarViewController*)signUpController.topViewController;
+            [fcontroller setSelectedIndex:0];
+            self.window.rootViewController=signUpController;
+            
+            UINavigationController *createClassController = [storyboard1 instantiateViewControllerWithIdentifier:@"createNewClassNavigationController"];
+            createClassController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+            
+            TSCreateClassroomViewController *f1controller = (TSCreateClassroomViewController*)createClassController.topViewController;
+            //  [fcontroller setSelectedIndex:1];
+            //self.window.rootViewController=joinClassController;
+            
+            [signUpController presentViewController:createClassController animated:YES completion:nil];
+            
+
         }
-    }
+        else if([notification.alertAction isEqualToString:@"Join"])
+        {
+            UIStoryboard *storyboard1 = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
+            UINavigationController *signUpController = [storyboard1 instantiateViewControllerWithIdentifier:@"tabBar"];
+            signUpController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+            
+            TSTabBarViewController *fcontroller = (TSTabBarViewController*)signUpController.topViewController;
+            [fcontroller setSelectedIndex:0];
+            self.window.rootViewController=signUpController;
+
+            UINavigationController *joinClassController = [storyboard1 instantiateViewControllerWithIdentifier:@"joinNewClassViewController"];
+            joinClassController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+            
+            TSJoinNewClassViewController *f1controller = (TSJoinNewClassViewController*)joinClassController.topViewController;
+            //  [fcontroller setSelectedIndex:1];
+            //self.window.rootViewController=joinClassController;
+            
+            [signUpController presentViewController:joinClassController animated:YES completion:nil];
+        }
     
     // Request to reload table view data
  //   [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadData" object:self];
     
     // Set icon badge number to zero
+        }
+    
     application.applicationIconBadgeNumber = 0;
 }
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
@@ -123,7 +162,46 @@
     NSString *title = [alertView buttonTitleAtIndex:buttonIndex];
     if([title isEqualToString:@"Create"])
     {
-        NSLog(@"Take user to create class view");
+        NSLog(@"App is in background but take user to classroom controller if selected");
+        
+        UIStoryboard *storyboard1 = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
+        UINavigationController *signUpController = [storyboard1 instantiateViewControllerWithIdentifier:@"tabBar"];
+       // signUpController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+        
+        TSTabBarViewController *fcontroller = (TSTabBarViewController*)signUpController.topViewController;
+        [fcontroller setSelectedIndex:0];
+        self.window.rootViewController=signUpController;
+        
+        UINavigationController *createClassController = [storyboard1 instantiateViewControllerWithIdentifier:@"createNewClassNavigationController"];
+        createClassController.modalTransitionStyle = UIModalTransitionStyleCoverVertical ;
+        
+        TSCreateClassroomViewController *f1controller = (TSCreateClassroomViewController*)createClassController.topViewController;
+        //  [fcontroller setSelectedIndex:1];
+        //self.window.rootViewController=joinClassController;
+        
+        [signUpController presentViewController:createClassController animated:YES completion:nil];
+        
+    }
+    else if([title isEqualToString:@"Join"])
+    {
+        UIStoryboard *storyboard1 = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
+        UINavigationController *signUpController = [storyboard1 instantiateViewControllerWithIdentifier:@"tabBar"];
+//        signUpController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+        
+        TSTabBarViewController *fcontroller = (TSTabBarViewController*)signUpController.topViewController;
+        [fcontroller setSelectedIndex:0];
+        self.window.rootViewController=signUpController;
+        
+        UINavigationController *joinClassController = [storyboard1 instantiateViewControllerWithIdentifier:@"joinNewClassViewController"];
+        joinClassController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+        
+        TSJoinNewClassViewController *f1controller = (TSJoinNewClassViewController*)joinClassController.topViewController;
+        //  [fcontroller setSelectedIndex:1];
+        //self.window.rootViewController=joinClassController;
+        
+        [signUpController presentViewController:joinClassController animated:YES completion:nil];
+        
+
     }
 
 
@@ -134,6 +212,7 @@
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
+    NSLog(@"Application entered in background");
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
 }
