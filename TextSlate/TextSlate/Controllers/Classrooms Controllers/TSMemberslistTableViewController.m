@@ -149,7 +149,7 @@
         
         [Data removeMemberApp:removeMemeber1.classCode classname:removeMemeber1.ClassName emailId:removeMemeber1.emailId usertype:removeMemeber1.userType successBlock:^(id object){
             NSLog(@"successfully deleted");
-
+            
             PFQuery *query=[PFQuery queryWithClassName:@"GroupMembers"];
             [query fromLocalDatastore];
             [query whereKey:@"emailId" equalTo:removeMemeber1.emailId];
@@ -174,6 +174,11 @@
         {
             NSLog(@"Removing phone user");
             [Data removeMemberPhone:removeMemeber1.classCode classname:removeMemeber1.ClassName number:removeMemeber1.phoneNum usertype:removeMemeber1.userType successBlock:^(id object){
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Knit"
+                                                                message:@"he member has been removed.He won't be able to receive any message."
+                                                               delegate:self cancelButtonTitle:@"OK"
+                                                      otherButtonTitles:nil];
+                [alert show];
                 NSLog(@"successfully deleted");
                 NSLog(@"phone num to be deleted %@",removeMemeber1.phoneNum);
                 

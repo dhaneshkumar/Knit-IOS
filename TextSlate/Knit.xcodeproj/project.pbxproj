@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		403C1AF91AAAED11003E7D81 /* OldSignInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 403C1AF81AAAED11003E7D81 /* OldSignInViewController.m */; };
+		403FFF0E1ABB0071008FB159 /* MessageComposerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 403FFF0D1ABB0071008FB159 /* MessageComposerViewController.m */; };
+		403FFF121ABB5BEC008FB159 /* InviteParentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 403FFF111ABB5BEC008FB159 /* InviteParentViewController.m */; };
 		4068825E1A8A307D00C055E1 /* ProfilePictureViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4068825D1A8A307D00C055E1 /* ProfilePictureViewController.m */; };
 		40C7B2D31A935F6E00C1BFC8 /* ClassesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 40C7B2D21A935F6E00C1BFC8 /* ClassesViewController.m */; };
 		40C7B2D61A935F8700C1BFC8 /* TSJoinedClassMessagesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 40C7B2D51A935F8700C1BFC8 /* TSJoinedClassMessagesViewController.m */; };
@@ -138,6 +140,10 @@
 /* Begin PBXFileReference section */
 		403C1AF71AAAED11003E7D81 /* OldSignInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OldSignInViewController.h; sourceTree = "<group>"; };
 		403C1AF81AAAED11003E7D81 /* OldSignInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OldSignInViewController.m; sourceTree = "<group>"; };
+		403FFF0C1ABB0071008FB159 /* MessageComposerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageComposerViewController.h; sourceTree = "<group>"; };
+		403FFF0D1ABB0071008FB159 /* MessageComposerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageComposerViewController.m; sourceTree = "<group>"; };
+		403FFF101ABB5BEC008FB159 /* InviteParentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InviteParentViewController.h; sourceTree = "<group>"; };
+		403FFF111ABB5BEC008FB159 /* InviteParentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InviteParentViewController.m; sourceTree = "<group>"; };
 		4068825C1A8A307D00C055E1 /* ProfilePictureViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfilePictureViewController.h; sourceTree = "<group>"; };
 		4068825D1A8A307D00C055E1 /* ProfilePictureViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfilePictureViewController.m; sourceTree = "<group>"; };
 		40C7B2D11A935F6E00C1BFC8 /* ClassesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClassesViewController.h; sourceTree = "<group>"; };
@@ -401,6 +407,24 @@
 			name = "Old Sign In";
 			sourceTree = "<group>";
 		};
+		403FFF0B1ABB0044008FB159 /* Message Composer */ = {
+			isa = PBXGroup;
+			children = (
+				403FFF0C1ABB0071008FB159 /* MessageComposerViewController.h */,
+				403FFF0D1ABB0071008FB159 /* MessageComposerViewController.m */,
+			);
+			name = "Message Composer";
+			sourceTree = "<group>";
+		};
+		403FFF0F1ABB5BD3008FB159 /* Invite Parent */ = {
+			isa = PBXGroup;
+			children = (
+				403FFF101ABB5BEC008FB159 /* InviteParentViewController.h */,
+				403FFF111ABB5BEC008FB159 /* InviteParentViewController.m */,
+			);
+			name = "Invite Parent";
+			sourceTree = "<group>";
+		};
 		4068825B1A8A305100C055E1 /* Profile Picture Controller */ = {
 			isa = PBXGroup;
 			children = (
@@ -631,6 +655,8 @@
 		971687D71A1F1BCA00FE98FC /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				403FFF0F1ABB5BD3008FB159 /* Invite Parent */,
+				403FFF0B1ABB0044008FB159 /* Message Composer */,
 				403C1AF31AAAEC7D003E7D81 /* Old Sign In */,
 				40D986181A9B91F500D8BB0C /* Phone Verification Controller */,
 				4068825B1A8A305100C055E1 /* Profile Picture Controller */,
@@ -1116,6 +1142,7 @@
 				971687E71A1F823900FE98FC /* TSUtils.m in Sources */,
 				9707CA0F1A5BC3110065D2BA /* JSQMessagesCollectionViewCell.m in Sources */,
 				975B1E941A2133030028BE25 /* TSTabBarViewController.m in Sources */,
+				403FFF0E1ABB0071008FB159 /* MessageComposerViewController.m in Sources */,
 				9707C9831A5BADC50065D2BA /* MessageComposerView.m in Sources */,
 				9707C9F91A5BC3110065D2BA /* UIImage+JSQMessages.m in Sources */,
 				9707CA221A5BC3670065D2BA /* JSQSystemSoundPlayer.m in Sources */,
@@ -1141,6 +1168,7 @@
 				9707CA1A1A5BC3110065D2BA /* JSQMessagesToolbarContentView.m in Sources */,
 				4068825E1A8A307D00C055E1 /* ProfilePictureViewController.m in Sources */,
 				40C7B2D31A935F6E00C1BFC8 /* ClassesViewController.m in Sources */,
+				403FFF121ABB5BEC008FB159 /* InviteParentViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

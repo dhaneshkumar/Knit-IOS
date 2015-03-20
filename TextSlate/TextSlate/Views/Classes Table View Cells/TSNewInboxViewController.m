@@ -38,6 +38,7 @@
     _messagesArray = [[NSMutableArray alloc] init];
     [self fetchAndDisplayNewMessages];
     NSLog(@"Number of messages %i",_messagesArray.count);
+    
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
