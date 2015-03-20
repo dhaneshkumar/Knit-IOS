@@ -1,14 +1,14 @@
 //
-//  TSJoinedClassMessagesViewController.h
+//  JoinedClassTableViewController.h
 //  Knit
 //
-//  Created by Shital Godara on 16/02/15.
+//  Created by Shital Godara on 16/03/15.
 //  Copyright (c) 2015 Trumplab Edusolutions Pvt. Ltd. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
-@interface TSJoinedClassMessagesViewController : UIViewController <UITableViewDataSource, UITableViewDelegate,UIAlertViewDelegate>
+@interface JoinedClassTableViewController : UITableViewController
 
 @property (strong, nonatomic) NSString *className;
 @property (strong, nonatomic) NSString *teacherName;

@@ -34,24 +34,8 @@
     
 }
 
--(void) viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    
-    UIBarButtonItem *joinBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Join" style:UIBarButtonItemStylePlain target:self action:@selector(joinClassBarButtonItemClicked)];
-    
-    UIBarButtonItem *addNewClass = [[UIBarButtonItem alloc] initWithTitle:@"Create" style:UIBarButtonItemStylePlain target:self action:@selector(addClassClicked:)];
-    
-    NSLog(@"%@ user",[[PFUser currentUser] objectForKey:@"role"]);
-    
-    if ([[[PFUser currentUser] objectForKey:@"role"] isEqualToString:@"teacher"]) {
-        [self.navigationItem setRightBarButtonItems:@[addNewClass, joinBarButtonItem]];
-    } else {
-        [self.navigationItem setRightBarButtonItems:@[joinBarButtonItem]];
-    }
-}
 
 -(void) viewDidAppear:(BOOL)animated{
-
     [super viewDidAppear:animated];
     if(self.presentingViewController)
     {
@@ -105,7 +89,6 @@
     [PFUser logOut];
     TSSignInViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"signInNavigationController"];
     [self presentViewController:vc animated:NO completion:nil];
-    
     [self setSelectedIndex:0];
 }
 
