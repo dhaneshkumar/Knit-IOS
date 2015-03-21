@@ -13,10 +13,10 @@
 #import "PhoneVerificationViewController.h"
 #import "TSClass.h"
 #import "Data.h"
+
 @interface TSSignInViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *phoneTextField;
 @property (weak, nonatomic) IBOutlet UITextField *passwordTextField;
-
 @property (weak, nonatomic) IBOutlet UIButton *signInButton;
 @property (weak, nonatomic) IBOutlet UIButton *signUpButton;
 @property (strong,nonatomic) NSMutableArray *classArray;
@@ -39,26 +39,25 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (IBAction)signInClicked:(UIButton *)sender {
+-(void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    NSLog(@"sign in alert view");
+}
 
+- (IBAction)signInClicked:(UIButton *)sender {
+    
     [Data generateOTP:_phoneTextField.text successBlock:^(id object) {
         [self performSegueWithIdentifier:@"verification" sender:self];
-
-        
     } errorBlock:^(NSError *error) {
         NSLog(@"Couldn't generate OTP");
     }];
-    
     
     /*
     [PFUser logInWithUsernameInBackground:_emailTextField.text password:_passwordTextField.text block:^(PFUser *user, NSError *error) {
         if (!error) {
             NSMutableArray *channel=[[NSMutableArray alloc]init];
             PFInstallation *currentInstallation = [PFInstallation currentInstallation];
-           
 
-            
-            
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
           //  currentInstallation.currentInstallation
                 
@@ -104,13 +103,10 @@
             NSLog(@"got error %@",[error localizedDescription]);
         }
     }];*/
-
-
 }
 
 
 -(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    
     if ([segue.identifier isEqualToString:@"verification"]) {
         UINavigationController *nav = [segue destinationViewController];
         PhoneVerificationViewController *dvc = (PhoneVerificationViewController *)nav.topViewController;
@@ -120,9 +116,7 @@
         dvc.phoneNumber=_phoneTextField.text;
         dvc.password=_passwordTextField.text;
         dvc.isNewSignIn=true;
-        
     }
-    
 }
 
 - (IBAction)signUpClicked:(UIButton *)sender {

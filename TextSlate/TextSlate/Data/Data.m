@@ -187,7 +187,7 @@
 }
 
 +(void)updateInboxLocalDatastore:(NSString *)classtype successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
-    [PFCloud callFunctionInBackground:@"showLatestMessagesWithLimit" withParameters:@{@"classtype":classtype, @"limit":@30} block:^(id object, NSError *error) {
+    [PFCloud callFunctionInBackground:@"showLatestMessagesWithLimit" withParameters:@{@"classtype":classtype, @"limit":@20} block:^(id object, NSError *error) {
         if (error) {
             errorBlock(error);
         } else {
@@ -215,6 +215,18 @@
         }
     }];
 }
+
+
++(void)updateCounts:(NSString *)classtype oldestMessageTime:(NSDate *)oldestMessageTime successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
+    [PFCloud callFunctionInBackground:@"updateCounts" withParameters:@{@"classtype":classtype, @"date":oldestMessageTime, @"limit":@20} block:^(id object, NSError *error) {
+        if (error) {
+            errorBlock(error);
+        } else {
+            successBlock(object);
+        }
+    }];
+}
+
 
 +(void)getMemberList:(NSDate *)lastMessageTime successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock{
     [PFCloud callFunctionInBackground:@"showAllSubscribers" withParameters:@{@"date":lastMessageTime} block:^(id object, NSError *error) {
@@ -478,6 +490,18 @@
     
 }
 
+
++(void)getServerTime:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
+    [PFCloud callFunctionInBackground:@"getServerTime" withParameters:@{} block:^(id object, NSError *error) {
+        if (error) {
+            NSLog(@"Error");
+            errorBlock(error);
+        } else {
+            NSLog(@"Success");
+            successBlock(object);
+        }
+    }];
+}
 
 
 @end

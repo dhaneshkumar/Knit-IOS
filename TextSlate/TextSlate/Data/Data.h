@@ -10,13 +10,13 @@
 #import <UIKit/UIKit.h>
 #import <Parse/Parse.h>
 
-
 typedef void (^successBlock)(id object);
 typedef void (^errorBlock)(NSError *error);
 
 @interface Data : NSObject
 
 +(void) createNewClassWithClassName:(NSString *)className standard:(NSString *)standard division:(NSString *)division school:(NSString *)school successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock ;
+
 +(void) getClassRooms:(successBlock)successBlock errorBlock:(errorBlock)errorBlock;
 
 +(void) getInboxDetails:(successBlock)successBlock errorBlock:(errorBlock)errorBlock;
@@ -30,10 +30,10 @@ typedef void (^errorBlock)(NSError *error);
 +(void) sendMessageOnClass:(NSString*)classCode className:(NSString*)className message:(NSString*)message withImage:(UIImage*)image withImageName:(NSString*)imageName successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock;
 
 +(void) deleteClass:(NSString*)classCode successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock;
+
 +(void) leaveClass:(NSString *)classCode successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock ;
 
 +(void) getMemberDetails:(NSString*)classCode successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock;
-
 
 +(void) updateInboxLocalDatastore:(NSString *)classtype successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock;
 
@@ -41,8 +41,10 @@ typedef void (^errorBlock)(NSError *error);
 
 +(void) updateInboxLocalDatastoreWithTime1:(NSString *)classtype oldestMessageTime:(NSDate*)oldestMessageTime successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock;
 
++(void) updateCounts:(NSString *)classtype oldestMessageTime:(NSDate*)oldestMessageTime successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock;
 
 +(void)getMemberList:(NSDate *)lastMessageTime successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock;
+
 +(void)getFAQ:(NSString *)userRole successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock;
 
 +(void)sendTextMessage:(NSString *)classcode classname:(NSString *)classname message:(NSString *)message successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorblock;
@@ -53,22 +55,19 @@ typedef void (^errorBlock)(NSError *error);
 
 +(void)removeMemberApp:(NSString *)classcode classname:(NSString *)classname emailId:(NSString *)emailId usertype:(NSString *)usertype successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock;
 
-
 +(void)getAllCodegroups:(successBlock)successBlock errorBlock:(errorBlock)errorBlock ;
 
-
 +(void)changeName:(NSString *)classcode newName:(NSString *)newName  successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock;
-
 
 +(void) classSuggestion:(NSMutableArray *) joinedClasses  date:(NSDate *) date successBlock:(successBlock) successBlock errorBlock:(errorBlock) errorBlock;
 
 +(void) autoComplete:(NSString*)area successBlock:(successBlock) successBlock errorBlock:(errorBlock) errorBlock;
 
-
 +(void) autoCompleteSchool:(NSString*)area successBlock:(successBlock) successBlock errorBlock:(errorBlock) errorBlock;
 
-+(void) getSchoolId:(NSString*)schoolName successBlock:(successBlock) successBlock errorBlock:(errorBlock) errorBlock;
++(void) getServerTime:(successBlock)successBlock errorBlock:(errorBlock)errorBlock;
 
++(void) getSchoolId:(NSString*)schoolName successBlock:(successBlock) successBlock errorBlock:(errorBlock) errorBlock;
 
 +(void) generateOTP:(NSString*)phoneNum successBlock:(successBlock) successBlock errorBlock:(errorBlock) errorBlock;
 
@@ -81,4 +80,5 @@ typedef void (^errorBlock)(NSError *error);
 +(void) saveInstallationId:(NSString *)installationId deviceType:(NSString *)deviceType successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock;
 
 +(void)appLogout:(NSString *)objectId successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock;
+
 @end

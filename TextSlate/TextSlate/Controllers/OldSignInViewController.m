@@ -48,7 +48,6 @@
                 if (error) {
                     NSLog(@"Session token could not be validated");
                 } else {
-                    
                     NSLog(@"Successfully Validated ");
                     PFUser *current=[PFUser currentUser];
                     NSLog(@"%@ current user",current.objectId);
@@ -57,6 +56,7 @@
                     NSString *devicetype=[currentInstallation objectForKey:@"deviceType"];
                     [Data saveInstallationId:installationId deviceType:devicetype successBlock:^(id object) {
                         NSLog(@"Successfully saved installationID");
+                        [self createLocalDatastore];
                         current[@"installationObjectId"]=object;
                         [current pinInBackground];
 
@@ -124,22 +124,40 @@
 
 -(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
  
- if ([segue.identifier isEqualToString:@"verification"]) {
- UINavigationController *nav = [segue destinationViewController];
- PhoneVerificationViewController *dvc = (PhoneVerificationViewController *)nav.topViewController;
- NSString *deviceType = [UIDevice currentDevice].model;
- NSLog(@"device %@",deviceType);
-     dvc.emailText=_emailText.text;
-     dvc.password=_passwordText.text;
-     dvc.isOldSignIn=true;
- 
- }
- 
+    if([segue.identifier isEqualToString:@"verification"]) {
+        UINavigationController *nav = [segue destinationViewController];
+        PhoneVerificationViewController *dvc = (PhoneVerificationViewController *)nav.topViewController;
+        NSString *deviceType = [UIDevice currentDevice].model;
+        NSLog(@"device %@",deviceType);
+        dvc.emailText=_emailText.text;
+        dvc.password=_passwordText.text;
+        dvc.isOldSignIn=true;
+    }
 }
 -(BOOL) textFieldShouldReturn:(UITextField *)textField{
     
     [textField resignFirstResponder];
     return YES;
+}
+
+-(void)createLocalDatastore {
+    PFObject *locals = [[PFObject alloc] initWithClassName:@"defaultLocals"];
+    locals[@"iosUserID"] = [PFUser currentUser].objectId;
+    [locals pinInBackground];
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [Data getServerTime:^(id object) {
+            NSDate *currentServerTime = (NSDate *)object;
+            NSDate *currentLocalTime = [NSDate date];
+            NSTimeInterval diff = [currentServerTime timeIntervalSinceDate:currentLocalTime];
+            NSLog(@"currLocalTime : %@\ncurrServerTime : %@\ntime diff : %f", currentLocalTime, currentServerTime, diff);
+            NSDate *diffwrtRef = [NSDate dateWithTimeIntervalSince1970:diff];
+            [locals setObject:diffwrtRef forKey:@"timeDifference"];
+            [locals pinInBackground];
+        } errorBlock:^(NSError *error) {
+            NSLog(@"Unable to update server time : %@", [error description]);
+        }];
+    });
 }
 
  

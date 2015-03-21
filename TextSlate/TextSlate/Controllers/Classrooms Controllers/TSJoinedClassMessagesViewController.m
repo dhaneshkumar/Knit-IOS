@@ -18,6 +18,12 @@
 @property (strong,nonatomic) NSString *code;
 @property (nonatomic) BOOL hasLiked;
 @property (nonatomic) BOOL isConfused;
+@property (weak, nonatomic) IBOutlet UIImageView *teacherPicOutlet;
+@property (weak, nonatomic) IBOutlet UILabel *teacherNameOutlet;
+@property (weak, nonatomic) IBOutlet UILabel *classNameOutlet;
+@property (weak, nonatomic) IBOutlet UILabel *classCodeOutlet;
+@property (weak, nonatomic) IBOutlet UILabel *associatedNameOutlet;
+@property (weak, nonatomic) IBOutlet UITableView *joinClassTableOutlet;
 
 @end
 
@@ -25,13 +31,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    _code=_classCode;
-    //_messages = [[NSMutableArray alloc] init];
-    // Do any additional setup after loading the view.
-    self.messagesTable.dataSource = self;
-    self.messagesTable.delegate = self;
-    //self.navigationItem.rightBarButtonItem = self.editButtonItem;
-
+    self.navigationItem.title = _className;
+    //self.joinClassTableOutlet.delegate = self;
+    //self.joinClassTableOutlet.dataSource = self;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -39,15 +41,9 @@
     // Dispose of any resources that can be recreated.
 }
 
--(void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    _messages = nil;
-    _messages = [[NSMutableArray alloc] init];
-    [self displayFromLocalDatastore];
-}
 -(void) viewWillAppear:(BOOL)animated{
-    _code=_classCode;
-    
+    [super viewWillAppear:animated];
+    [self fillDataModel];
 }
 
 /*
@@ -60,9 +56,15 @@
 }
 */
 
+-(void)fillDataModel {
+    _teacherNameOutlet.text = _teacherName;
+    _teacherPicOutlet.image = _teacherPic;
+    _classCodeOutlet.text = _classCode;
+    _classNameOutlet.text = _className;
+    _associatedNameOutlet.text = _associatedName;
+}
 
-
-
+/*
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
 }
@@ -149,6 +151,6 @@
         }
     
 }
-
+*/
 
 @end

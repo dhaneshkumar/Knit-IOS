@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MessageComposerViewController : UIViewController<UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITextFieldDelegate,UITextViewDelegate>
-@property(strong,nonatomic) NSString *className;
-@property(strong,nonatomic) NSString *classCode;
+@interface MessageComposerViewController : UIViewController<UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITextFieldDelegate,UITextViewDelegate,UITableViewDelegate,UITableViewDataSource>
 
 @end

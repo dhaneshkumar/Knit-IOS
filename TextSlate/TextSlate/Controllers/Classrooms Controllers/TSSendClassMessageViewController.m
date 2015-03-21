@@ -148,8 +148,6 @@
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     [self DisplayMessages];
-    
-    
 }
 - (void)viewWillDisappear: (BOOL)animated
 {

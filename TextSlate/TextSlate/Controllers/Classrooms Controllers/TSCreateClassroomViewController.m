@@ -13,7 +13,6 @@
 @interface TSCreateClassroomViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *classNameTextField;
 @property (weak, nonatomic) IBOutlet UITextField *schoolNameTextField;
-
 @property (nonatomic) bool flag;
 @property (weak, nonatomic) IBOutlet UIPickerView *standardAndDivisionPicker;
 @property (strong, nonatomic) NSArray *standardPickerData;

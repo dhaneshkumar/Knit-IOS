@@ -10,8 +10,6 @@
 
 @interface TSInboxMessageTableViewCell : UITableViewCell
 
-@property (weak, nonatomic) IBOutlet UIView *header;
-@property (weak, nonatomic) IBOutlet UIImageView *teacherPic;
 @property (weak, nonatomic) IBOutlet UILabel *className;
 @property (weak, nonatomic) IBOutlet UILabel *teacherName;
 @property (weak, nonatomic) IBOutlet UILabel *sentTime;

@@ -9,7 +9,9 @@
 #import "PhoneVerificationViewController.h"
 #import "Data.h"
 #import "TSTabBarViewController.h"
+
 @interface PhoneVerificationViewController ()
+
 @property (weak, nonatomic) IBOutlet UILabel *phoneLabel;
 @property (weak, nonatomic) IBOutlet UITextField *codeText;
 @property (strong,nonatomic) NSString *osVersion;
@@ -65,7 +67,7 @@
                 NSDictionary *tokenDict=[[NSDictionary alloc]init];
                 tokenDict=object;
                 NSString *flagString=[tokenDict objectForKey:@"flag"];
-                int flagValue=[flagString integerValue];
+                int flagValue = [flagString integerValue];
                 NSString *token=[tokenDict objectForKey:@"sessionToken"];
                 NSLog(@"Flag %i and session token %@",flagValue,token);
                 
@@ -78,10 +80,15 @@
                             PFUser *current=[PFUser currentUser];
                             NSLog(@"%@ current user",current.objectId);
                             PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+                            NSLog(@"installation Id : %@", currentInstallation.objectId);
                             NSString *installationId=[currentInstallation objectForKey:@"installationId"];
                             NSString *devicetype=[currentInstallation objectForKey:@"deviceType"];
                             [Data saveInstallationId:installationId deviceType:devicetype successBlock:^(id object) {
                                 NSLog(@"Successfully saved installationID");
+                                [self createLocalDatastore];
+                                
+                                //[((UINavigationController *)self.presentingViewController.presentingViewController.presentingViewController).topViewController dismissViewControllerAnimated:YES completion:^{}];
+                                
                                 current[@"installationObjectId"]=object;
                                 [current pinInBackground];
 
@@ -115,8 +122,6 @@
                             } errorBlock:^(NSError *error) {
                                 return ;
                             }];
-                            
-                            
                         }
                     }];
                 }
@@ -124,7 +129,7 @@
                 NSLog(@"Error in verification");
             }];
         }
-               
+
         else if(_isNewSignIn==true)
         {
             
@@ -148,7 +153,6 @@
                         if (error) {
                             NSLog(@"Session token could not be validated");
                         } else {
-                            
                             NSLog(@"Successfully Validated ");
                             PFUser *current=[PFUser currentUser];
                             NSLog(@"%@ current user",current.objectId);
@@ -157,6 +161,8 @@
                             NSString *devicetype=[currentInstallation objectForKey:@"deviceType"];
                             [Data saveInstallationId:installationId deviceType:devicetype successBlock:^(id object) {
                                 NSLog(@"Successfully saved installationID");
+                                [self createLocalDatastore];
+
                                 NSLog(@"current installation %@",object);
                                 current[@"installationObjectId"]=object;
                                 [current pinInBackground];
@@ -200,8 +206,6 @@
                             } errorBlock:^(NSError *error) {
                                 return ;
                             }];
-                            
-                            
                         }
                     }];
                 }
@@ -236,6 +240,26 @@
         TSTabBarViewController *dvc = (TSTabBarViewController*)nav.topViewController;
     }
     
+}
+
+-(void)createLocalDatastore {
+    PFObject *locals = [[PFObject alloc] initWithClassName:@"defaultLocals"];
+    locals[@"iosUserID"] = [PFUser currentUser].objectId;
+    [locals pinInBackground];
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [Data getServerTime:^(id object) {
+            NSDate *currentServerTime = (NSDate *)object;
+            NSDate *currentLocalTime = [NSDate date];
+            NSTimeInterval diff = [currentServerTime timeIntervalSinceDate:currentLocalTime];
+            NSLog(@"currLocalTime : %@\ncurrServerTime : %@\ntime diff : %f", currentLocalTime, currentServerTime, diff);
+            NSDate *diffwrtRef = [NSDate dateWithTimeIntervalSince1970:diff];
+            [locals setObject:diffwrtRef forKey:@"timeDifference"];
+            [locals pinInBackground];
+        } errorBlock:^(NSError *error) {
+            NSLog(@"Unable to update server time : %@", [error description]);
+        }];
+    });
 }
 /*
  #pragma mark - Navigation

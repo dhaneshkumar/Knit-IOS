@@ -25,6 +25,7 @@
 
 
 @property (nonatomic) bool isParent;
+@property (nonatomic) BOOL showAlertView;
 
 @end
 
@@ -32,6 +33,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    _showAlertView = true;
     //self.OTP.hidden=YES;
     // Do any additional setup after loading the view.
 }
@@ -43,9 +45,12 @@
 
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    
-    UIAlertView *selectionAlertView = [[UIAlertView alloc] initWithTitle:@"Knit - Role" message:@"Please select your profession" delegate:self cancelButtonTitle:@"CANCEL" otherButtonTitles:@"PARENT", @"TEACHER", nil];
-    [selectionAlertView show];
+    NSLog(@"Sign up alert view");
+    if(_showAlertView) {
+        UIAlertView *selectionAlertView = [[UIAlertView alloc] initWithTitle:@"Knit - Role" message:@"Please select your profession" delegate:self cancelButtonTitle:@"CANCEL" otherButtonTitles:@"PARENT", @"TEACHER", nil];
+        [selectionAlertView show];
+        _showAlertView = false;
+    }
 }
 
 -(void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
@@ -85,12 +90,7 @@
         NSLog(@"Error");
     
     }];
-    
 
-    
-    
-    
-    
     /*
     PFUser *user = [PFUser user];
     user.username = _emailTextField.text;
@@ -124,7 +124,6 @@
 
 
 -(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    
     if ([segue.identifier isEqualToString:@"signUpDetail"]) {
         UINavigationController *nav = [segue destinationViewController];
         PhoneVerificationViewController *dvc = (PhoneVerificationViewController *)nav.topViewController;
@@ -139,12 +138,8 @@
         dvc.modal=deviceType;
         dvc.isSignUp=true;
         dvc.sex=_sex.text;
-        
     }
-    
 }
-
-
 
 
 - (IBAction)tappedOutside:(UITapGestureRecognizer *)sender {
