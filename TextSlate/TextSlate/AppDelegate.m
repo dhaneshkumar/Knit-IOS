@@ -68,7 +68,7 @@
     if (userInfo) {
         NSLog(@"%@",userInfo);
         NSString *notificationType=[userInfo objectForKey:@"type"];
-        
+    
         UIStoryboard *storyboard1 = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
         UINavigationController *signUpController = [storyboard1 instantiateViewControllerWithIdentifier:@"tabBar"];
         signUpController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
@@ -76,18 +76,16 @@
         TSTabBarViewController *fcontroller = (TSTabBarViewController*)signUpController.topViewController;
         [fcontroller setSelectedIndex:1];
         self.window.rootViewController=signUpController;
+        
+        if([notificationType isEqualToString:@"UPDATE"])
+        {
+            NSString *iTunesLink = @"itms://itunes.apple.com/in/app/knit-messaging/id962112913?mt=8";
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:iTunesLink]];
 
-        
-        
-        if ([userInfo objectForKey:@"aps"]) {
-            if([[userInfo objectForKey:@"aps"] objectForKey:@"badgecount"]) {
-                [UIApplication sharedApplication].applicationIconBadgeNumber = [[[userInfo objectForKey:@"aps"] objectForKey: @"badgecount"] intValue];
-                
-            }
-        
         }
         
-    [PFPush handlePush:userInfo];
+        
+    //[PFPush handlePush:userInfo];
     }
 }
 

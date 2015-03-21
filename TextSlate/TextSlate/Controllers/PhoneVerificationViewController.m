@@ -98,13 +98,27 @@
                                     [self presentViewController:mainTab animated:NO completion:nil];
                                 }];
                                 
+                                
+                                if([_role isEqualToString:@"parent"]){
                                 UILocalNotification *localNotification = [[UILocalNotification alloc] init];
-                                localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:60*60];
-                                localNotification.alertBody = @"Welcome to Knit! Have fun using it";
+                                localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:10];
+                                localNotification.alertBody = @"Welcome to Knit! You can join classes here!";
                                 localNotification.timeZone = [NSTimeZone defaultTimeZone];
-                                localNotification.alertAction=@"Welcome";
+                                localNotification.alertAction=@"Join";
                                 localNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication]     applicationIconBadgeNumber] + 1;
                                 [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
+                                }
+                                
+                                if([_role isEqualToString:@"parent"]){
+                                    UILocalNotification *localNotification = [[UILocalNotification alloc] init];
+                                    localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:10];
+                                    localNotification.alertBody = @"Welcome to Knit! You can create classes here!";
+                                    localNotification.timeZone = [NSTimeZone defaultTimeZone];
+                                    localNotification.alertAction=@"Create";
+                                    localNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication]     applicationIconBadgeNumber] + 1;
+                                    [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
+                                }
+                                
                             } errorBlock:^(NSError *error) {
                                 return ;
                             }];
