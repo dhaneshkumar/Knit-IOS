@@ -10,11 +10,12 @@
 
 @interface TSOutboxMessageTableViewCell : UITableViewCell
 
-@property (weak, nonatomic) IBOutlet UIImageView *teacherPic;
 @property (weak, nonatomic) IBOutlet UILabel *className;
-@property (weak, nonatomic) IBOutlet UILabel *sentTime;
 @property (weak, nonatomic) IBOutlet UILabel *message;
+@property (weak, nonatomic) IBOutlet UILabel *sentTime;
 @property (weak, nonatomic) IBOutlet UILabel *likesCount;
 @property (weak, nonatomic) IBOutlet UILabel *confuseCount;
 @property (weak, nonatomic) IBOutlet UILabel *seenCount;
+@property (weak, nonatomic) IBOutlet UIImageView *attachedImage;
+
 @end

@@ -17,6 +17,7 @@
 @property (strong, nonatomic) NSString * sender;
 @property (strong, nonatomic) NSDate * sentTime;
 @property (strong, nonatomic) UIImage *senderPic;
+@property (strong, nonatomic) UIImage *attachment;
 @property (nonatomic) int likeCount;
 @property (nonatomic) int confuseCount;
 @property (nonatomic) int seenCount;
