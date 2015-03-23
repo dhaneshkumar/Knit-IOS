@@ -12,4 +12,5 @@
 @interface TSOutboxViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *messagesTable;
+
 @end

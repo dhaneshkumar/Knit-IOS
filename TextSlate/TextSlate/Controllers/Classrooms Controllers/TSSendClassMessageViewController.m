@@ -17,168 +17,73 @@
 
 @interface TSSendClassMessageViewController ()
 
+@property (weak, nonatomic) IBOutlet UIView *inviteParents;
+@property (weak, nonatomic) IBOutlet UIView *subscribersList;
 @property (strong, nonatomic) NSMutableArray *messagesArray;
-@property (strong, nonatomic) UITextView *txtField;
-@property (strong,nonatomic) UIImage *attachmentImage;
-@property (strong, nonatomic) UIImagePickerController *imagePicker;
-@property (strong,nonatomic) NSDate *lastEntry;
-@property (strong,nonatomic) PFFile *finalAttachment;
+@property (strong, nonatomic) NSDate * timeDiff;
+@property (nonatomic) BOOL isBottomRefreshCalled;
+
 @end
 
 @implementation TSSendClassMessageViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    _lastEntry=[[NSDate alloc]init];
-    // Do any additional setup after loading the view.
-    self.navigationItem.title = _className;
-    
-    
-    _messagesArray = [[NSMutableArray alloc] init];
-    //_finalAttachment=[[PFFile alloc] init];
-    self.edgesForExtendedLayout=UIRectEdgeNone;
-    self.extendedLayoutIncludesOpaqueBars=NO;
-    
-    self.automaticallyAdjustsScrollViewInsets=NO;
-    
-    self.navigationController.toolbarHidden=NO;
-    
-    
-    _txtField=[[UITextView alloc] initWithFrame:CGRectMake(40, 5, 220, 30)];
-    [_txtField setFont:[UIFont systemFontOfSize:13]];
-    _txtField.layer.cornerRadius = 7.0;
-    _txtField.clipsToBounds = YES;
-    _txtField.text=@"Hello";
-    
-    
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    [button setTitle:@"Send" forState:UIControlStateNormal];
-    button.frame = CGRectMake(265.0, 5, 50.0, 30.0);
-    [button addTarget:self
-               action:@selector(pressSendButton)
-     forControlEvents:UIControlEventTouchUpInside];
-    
-    UIButton *attachButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    attachButton.frame = CGRectMake(2, 5, 30, 30);
-    UIImage *attachImage = [[UIImage imageNamed:@"60x60.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-    [attachButton setImage:attachImage forState:UIControlStateNormal];
-    
-    
-    [attachButton addTarget:self action:@selector(displayActionsheet) forControlEvents:UIControlEventTouchUpInside];
-    
-    if (_classObject.class_type != CREATED_BY_ME) {
-        
-    }
-    else{
-        [self.navigationController.toolbar addSubview:attachButton];
-        [self.navigationController.toolbar addSubview:_txtField];
-        [self.navigationController.toolbar addSubview:button];
-    }
-    
-    
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
-    
-    [self.view addGestureRecognizer:tap];
-    
-    // self.senderDisplayName = _classObject.name;
-    //self.senderId = [[PFUser currentUser] objectForKey:@"name"];
-    self.automaticallyAdjustsScrollViewInsets = YES;
-    //self.collectionView.collectionViewLayout.incomingAvatarViewSize = CGSizeZero;
-    //self.collectionView.collectionViewLayout.outgoingAvatarViewSize = CGSizeZero;
-    //UIBarButtonItem *deleteItem = [[UIBarButtonItem alloc] initWithTitle:@"Delete" style:UIBarButtonItemStylePlain target:self action:@selector(deleteClass)];
-    //UIBarButtonItem *detailsItem = [[UIBarButtonItem alloc] initWithTitle:@"Details" style:UIBarButtonItemStylePlain target:self action:@selector(showClassDetails)];
-    //self.navigationItem.rightBarButtonItems = @[deleteItem, detailsItem];
+    self.messageTable.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+    self.messageTable.dataSource = self;
+    self.messageTable.delegate = self;
+    _isBottomRefreshCalled = false;
+    UITapGestureRecognizer *inviteParentsTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(inviteParentsTap:)];
+    [self.inviteParents addGestureRecognizer:inviteParentsTap];
+    UITapGestureRecognizer *subscribersTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(subscribersTap:)];
+    [self.subscribersList addGestureRecognizer:subscribersTap];
 }
 
--(void)displayActionsheet{
-    UIAlertView * alert = [[UIAlertView alloc]initWithTitle:@"Knit" message:@"" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Choose from Photos", @"Open Camera", nil];
-    
-    [alert show];
-    
-    
-}
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if (buttonIndex == 2) {
-        UIImagePickerController *picker = [[UIImagePickerController alloc] init];
-        picker.delegate = self;
-        picker.allowsEditing = YES;
-        picker.sourceType = UIImagePickerControllerSourceTypeCamera;
-        [self presentViewController:picker animated:YES completion:NULL];
-    }
-    
-    if (buttonIndex == 1) {
-        UIImagePickerController *picker = [[UIImagePickerController alloc] init];
-        picker.delegate = self;
-        picker.allowsEditing = YES;
-        picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-        [self presentViewController:picker animated:YES completion:NULL];
-    }
-}
-
-
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
-    NSLog(@"final");
-    _attachmentImage = info[UIImagePickerControllerOriginalImage];
-    NSData *imageData = UIImageJPEGRepresentation(_attachmentImage, 0);
-    _finalAttachment= [PFFile fileWithName:@"Profileimage.jpeg" data:imageData];
-    NSTextAttachment *textAttachment = [[NSTextAttachment alloc] init];
-    textAttachment.bounds=CGRectMake(0, 0, 20, 20);
-    textAttachment.image = _attachmentImage;
-    NSAttributedString *attrStringWithImage = [NSAttributedString attributedStringWithAttachment:textAttachment];
-    _txtField.attributedText=attrStringWithImage;
-    [picker dismissViewControllerAnimated:YES completion:NULL];
-    
-}
-
--(void) showClassDetails {
-    [self performSegueWithIdentifier:@"showDetails" sender:self];
-}
-
--(void) deleteClass {
-    [Data deleteClass:_classCode
-         successBlock:^(id object) {
-             [self.navigationController popViewControllerAnimated:YES];
-         } errorBlock:^(NSError *error) {
-             UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error occured in deleting the class." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-             [errorAlertView show];
-         }];
-}
-
--(void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    [self DisplayMessages];
-}
-- (void)viewWillDisappear: (BOOL)animated
-{
-    self.navigationController.toolbarHidden=YES;
-}
-
-- (void)viewWillAppear:(BOOL)animated {
+-(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    self.navigationController.toolbarHidden=NO;
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(liftMainViewWhenKeybordAppears:) name:UIKeyboardWillShowNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(returnMainViewToInitialposition:) name:UIKeyboardWillHideNotification object:nil];
+    UIBarButtonItem *composeBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose  target:self action:@selector(composeMessage)];
+    self.tabBarController.navigationItem.rightBarButtonItem = composeBarButtonItem;
+    _messagesArray=nil;
+    _messagesArray=[[NSMutableArray alloc] init];
+    NSLog(@"class code : %@", _classCode);
+    [self getTimeDiffBetweenLocalAndServer];
+    [self displayMessages];
 }
 
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 1;
+}
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:
-(NSIndexPath *)indexPath{
-    static NSString *cellIdentifier = @"createdClassMessageCell";
-    TSCreatedClassMessageTableViewCell *cell = (TSCreatedClassMessageTableViewCell *)[self.messageTable dequeueReusableCellWithIdentifier:cellIdentifier];
-    if (cell == nil) {
-        cell = [[TSCreatedClassMessageTableViewCell alloc]initWithStyle:
-                UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
-    }
-    
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    NSLog(@"Messages : %d", _messagesArray.count);
+    return _messagesArray.count;
+}
+
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     TSMessage *message = (TSMessage *)[_messagesArray objectAtIndex:indexPath.row];
-    cell.className.text = message.className;
-    cell.teacherPic.image = [UIImage imageNamed:@"defaultTeacher.png"];
+    NSString *cellIdentifier = (message.attachment)?@"createdClassAttachmentMessageCell":@"createdClassMessageCell";
+    TSCreatedClassMessageTableViewCell *cell = (TSCreatedClassMessageTableViewCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    
     cell.message.text = message.message;
-    cell.sentTime.text = @"10 days ago";
+    NSTimeInterval mti = [self getMessageTimeDiff:message.sentTime];
+    cell.sentTime.text = [self sentTimeDisplayText:mti];
     cell.likesCount.text = [NSString stringWithFormat:@"%d", message.likeCount];
     cell.confuseCount.text = [NSString stringWithFormat:@"%d", message.confuseCount];
     cell.seenCount.text = [NSString stringWithFormat:@"%d", message.seenCount];
+    if(message.attachment)
+        cell.attachedImage.image = message.attachment;
+    
+    PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
+    [lq fromLocalDatastore];
+    [lq whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
+    
+    NSArray *localOs = [lq findObjects];
+    if(localOs[0][@"isOutboxDataConsistent"]==nil || [localOs[0][@"isOutboxDataConsistent"] isEqualToString:@"false"]) {
+        if(!_isBottomRefreshCalled && (indexPath.row == _messagesArray.count-1)) {
+            _isBottomRefreshCalled = true;
+            [self fetchOldMessages];
+        }
+    }
     return cell;
 }
 
@@ -192,227 +97,89 @@
     
     CGSize expectSize = [gettingSizeLabel sizeThatFits:maximumLabelSize];
     //NSLog(@"height : %f", expectSize.height);
-    return expectSize.height+100;
+    if(((TSMessage *)_messagesArray[indexPath.row]).attachment)
+        return expectSize.height+280;
+    else
+        return expectSize.height+80;
 }
 
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 1;
-    
-}
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:
-(NSInteger)section{
-    NSLog(@"messages count in created class : %d", _messagesArray.count);
-    return _messagesArray.count;
+-(NSTimeInterval)getMessageTimeDiff:(NSDate *)msgSentTime {
+    NSDate *ndate = [NSDate dateWithTimeIntervalSince1970:0];
+    NSTimeInterval ti = [_timeDiff timeIntervalSinceDate:ndate];
+    NSDate *currLocalTime = [NSDate date];
+    NSDate *currServerTime = [NSDate dateWithTimeInterval:ti sinceDate:currLocalTime];
+    NSTimeInterval mti = [currServerTime timeIntervalSinceDate:msgSentTime];
+    return mti;
 }
 
--(void)DisplayMessages {
-    PFQuery *query = [PFQuery queryWithClassName:@"GroupDetails"];
-    [query fromLocalDatastore];
-    [query orderByDescending:@"createdTime"];
-    [query whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
-    [query whereKey:@"code" equalTo:_classCode];
-    query.limit = 20;
-    NSMutableArray *messagesArr = [[NSMutableArray alloc] init];
-    NSArray *messages = (NSArray *)[query findObjects];
-    NSLog(@"length messages : %d", messages.count);
-    if(messages.count > 0) {
-        NSLog(@"Send msg A");
-        for (PFObject *messageObject in messages) {
-            TSMessage *message = [[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:messageObject[@"title"] sender:messageObject[@"Creator"] sentTime:messageObject[@"createdTime"] senderPic:nil likeCount:[messageObject[@"like_count"] intValue] confuseCount:[messageObject[@"confused_count"] intValue] seenCount:[messageObject[@"seen_count"] intValue]];
-            [messagesArr insertObject:message atIndex:0];
+
+-(void)displayMessages {
+    [self fetchMessagesFromLocalDatastore];
+    if(_messagesArray.count==0) {
+        PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
+        [lq fromLocalDatastore];
+        [lq whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
+        NSArray *localObjs = [lq findObjects];
+        
+        if(localObjs.count==0) {
+            NSLog(@"Pain hai bhai life me.");
+            return;
         }
-        _messagesArray = messagesArr;
-        [self.messageTable reloadData];
+        
+        if(!localObjs[0][@"isOutboxDataConsistent"] || [localObjs[0][@"isOutboxDataConsistent"] isEqualToString:@"false"]) {
+            [self fetchOldMessagesOnDataDeletion];
+        }
     }
     else {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
-            [Data updateInboxLocalDatastore:@"c" successBlock:^(id object) {
-                NSArray *messageObjects = (NSArray *)object;
-                for (PFObject *msg in messageObjects) {
-                    msg[@"iosUserID"] = [PFUser currentUser].objectId;
-                    msg[@"messageId"] = msg.objectId;
-                    msg[@"createdTime"] = msg.createdAt;
-                    [msg pinInBackground];
-                }
-                PFQuery *query = [PFQuery queryWithClassName:@"GroupDetails"];
-                [query fromLocalDatastore];
-                [query orderByDescending:@"createdTime"];
-                [query whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
-                [query whereKey:@"code" equalTo:_classCode];
-                query.limit = 20;
-                NSArray *msgs = (NSArray *)[query findObjects];
-                for (PFObject * msg in msgs) {
-                    TSMessage *message = [[TSMessage alloc] initWithValues:msg[@"name"] classCode:msg[@"code"] message:msg[@"title"] sender:msg[@"Creator"] sentTime:msg[@"createdTime"] senderPic:nil likeCount:[msg[@"like_count"] intValue] confuseCount:[msg[@"confused_count"] intValue] seenCount:[msg[@"seen_count"] intValue]];
-                    [_messagesArray insertObject:message atIndex:0];
-                }
-                [self.messageTable reloadData];
-            } errorBlock:^(NSError *error) {
-                NSLog(@"Unable to fetch inbox messages while opening inbox tab: %@", [error description]);
-            }];
-        });
-        
-    }
-}
-
--(void) reloadMessages {
-    
-    [Data getClassMessagesWithClassCode:_classCode successBlock:^(id object) {
-        NSMutableArray *messagesArr = [[NSMutableArray alloc] init];
-        for (PFObject *groupObject in object) {
-            
-            NSString *message=[groupObject objectForKey:@"title"];
-            [messagesArr addObject:message];
-            
-            PFFile *file=[groupObject objectForKey:@"attachment"];
-            NSString *url1=file.url;
-            NSLog(@"%@ is url to the image",url1);
-            UIImage *image = [[sharedCache sharedInstance] getCachedImageForKey:url1];
-            if(image)
-            {
-                NSLog(@"This is cached");
-                
-            }
-            else{
-                
-                NSURL *imageURL = [NSURL URLWithString:url1];
-                UIImage *image = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:imageURL]];
-                
-                if(image)
-                {
-                    NSLog(@"Caching ....");
-                    [[sharedCache sharedInstance] cacheImage:image forKey:url1];
-                }
-            }
-        }
-        _messagesArray = messagesArr;
-        [self.messageTable reloadData];
-    } errorBlock:^(NSError *error) {
-        UIAlertView *errorDialog = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error occurred in fetching class messages" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-        [errorDialog show];
-    }];
-}
-
--(void)pullDownToRefresh {
-    
-}
-
--(void)fetchOldMessages {
-    if(_messagesArray.count==0) {
-        NSLog(@"Daya! Kuch to gadbad hai.");
-        return;
-    }
-    
-    TSMessage *msg = _messagesArray[0];
-    NSDate *oldestMsgDate = msg.sentTime;
-    PFQuery *localQuery = [PFQuery queryWithClassName:@"GroupDetails"];
-    [localQuery fromLocalDatastore];
-    [localQuery whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
-    [localQuery whereKey:@"code" equalTo:_classCode];
-    [localQuery whereKey:@"createdTime" lessThan:oldestMsgDate];
-    [localQuery orderByDescending:@"createdTime"];
-    localQuery.limit = 20;
-    NSArray *messages = [localQuery findObjects];
-    if(messages.count>0) {
-        for (PFObject * messageObject in messages) {
-            TSMessage *newMessage=[[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:messageObject[@"title"] sender:messageObject[@"Creator"] sentTime:messageObject[@"createdTime"] senderPic:nil likeCount:[messageObject[@"like_count"] intValue] confuseCount:[messageObject[@"confused_count"] intValue] seenCount:[messageObject[@"seen_count"] intValue]];
-            [_messagesArray insertObject:newMessage atIndex:0];
-        }
         [self.messageTable reloadData];
     }
     return;
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
 
--(void) liftMainViewWhenKeybordAppears:(NSNotification*)aNotification
-{
-    NSDictionary* userInfo = [aNotification userInfo];
-    
-    NSTimeInterval animationDuration;
-    UIViewAnimationCurve animationCurve;
-    CGRect keyboardFrame;
-    CGFloat keyboardHeight;
-    
-    [[userInfo objectForKey:UIKeyboardAnimationCurveUserInfoKey] getValue:&animationCurve];
-    [[userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey] getValue:&animationDuration];
-    [[userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] getValue:&keyboardFrame];
-    
-    UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
-    
-    if (orientation == UIDeviceOrientationPortrait || orientation == UIDeviceOrientationPortraitUpsideDown ) {
-        keyboardHeight = keyboardFrame.size.height;
+-(void)getTimeDiffBetweenLocalAndServer {
+    PFQuery *localQuery = [PFQuery queryWithClassName:@"defaultLocals"];
+    [localQuery fromLocalDatastore];
+    [localQuery whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
+    NSArray *objs = [localQuery findObjects];
+    if(objs.count==0) {
+        [self createLocalDatastore];
     }
     else {
-        keyboardHeight = keyboardFrame.size.width;
+        _timeDiff = (NSDate *)objs[0][@"timeDifference"];
     }
-    
-    [UIView beginAnimations:nil context:nil];
-    [UIView setAnimationDuration:animationDuration];
-    [UIView setAnimationCurve:animationCurve];
-    
-    [self.navigationController.toolbar setFrame:CGRectMake(self.navigationController.view.frame.origin.x,
-                                                           self.navigationController.view.frame.origin.y + self.navigationController.view.frame.size.height  - keyboardHeight - self.navigationController.toolbar.frame.size.height,
-                                                           self.navigationController.toolbar.frame.size.width,
-                                                           self.navigationController.toolbar.frame.size.height)];
-    
-    [UIView commitAnimations];
-    NSLog(@"toolbar moved: %f", self.navigationController.view.frame.size.height);
-}
-
--(void) returnMainViewToInitialposition:(NSNotification*)aNotification
-{
-    NSDictionary* userInfo = [aNotification userInfo];
-    
-    NSTimeInterval animationDuration;
-    UIViewAnimationCurve animationCurve;
-    CGRect keyboardFrame;
-    CGFloat keyboardHeight;
-    
-    [[userInfo objectForKey:UIKeyboardAnimationCurveUserInfoKey] getValue:&animationCurve];
-    [[userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey] getValue:&animationDuration];
-    [[userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] getValue:&keyboardFrame];
-    
-    UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
-    
-    if (orientation == UIDeviceOrientationPortrait || orientation == UIDeviceOrientationPortraitUpsideDown ) {
-        keyboardHeight = keyboardFrame.size.height;
-    }
-    else {
-        keyboardHeight = keyboardFrame.size.width;
-    }
-    
-    [UIView beginAnimations:nil context:nil];
-    [UIView setAnimationDuration:animationDuration];
-    [UIView setAnimationCurve:animationCurve];
-    
-    [self.navigationController.toolbar setFrame:CGRectMake(self.navigationController.view.frame.origin.x,
-                                                           self.navigationController.view.frame.origin.y + self.navigationController.view.frame.size.height  -keyboardHeight +4.7 * self.navigationController.toolbar.frame.size.height,
-                                                           self.navigationController.toolbar.frame.size.width,
-                                                           self.navigationController.toolbar.frame.size.height)];
-    
-    [UIView commitAnimations];
-    
-    NSLog(@"toolbar moved: %f hi", self.navigationController.view.frame.size.height);
 }
 
 
-
-- (void)textViewDidChange:(UITextView *)textView
-{
-    CGRect textViewFrame = self.txtField.frame;
-    textViewFrame.size.height = self.txtField.contentSize.height;
-    self.txtField.frame = textViewFrame;
+-(void)createLocalDatastore {
+    PFObject *locals = [[PFObject alloc] initWithClassName:@"defaultLocals"];
+    locals[@"iosUserID"] = [PFUser currentUser].objectId;
+    [locals pinInBackground];
     
-    textViewFrame.size.height += 40.0f; // the text view padding
-    self.navigationController.toolbar.frame = textViewFrame;
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [Data getServerTime:^(id object) {
+            NSDate *currentServerTime = (NSDate *)object;
+            NSDate *currentLocalTime = [NSDate date];
+            NSTimeInterval diff = [currentServerTime timeIntervalSinceDate:currentLocalTime];
+            NSLog(@"currLocalTime : %@\ncurrServerTime : %@\ntime diff : %f", currentLocalTime, currentServerTime, diff);
+            NSDate *diffwrtRef = [NSDate dateWithTimeIntervalSince1970:diff];
+            _timeDiff = diffwrtRef;
+            [locals setObject:diffwrtRef forKey:@"timeDifference"];
+            [locals pinInBackground];
+        } errorBlock:^(NSError *error) {
+            NSLog(@"Unable to update server time : %@", [error description]);
+        }];
+    });
 }
 
+-(void) composeMessage{
+    UINavigationController *joinNewClassNavigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"messageComposer"];
+    [self presentViewController:joinNewClassNavigationController animated:YES completion:nil];
+}
 /*
  #pragma mark - Navigation
+ 
  // In a storyboard-based application, you will often want to do a little preparation before navigation
  - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
  // Get the new view controller using [segue destinationViewController].
@@ -420,136 +187,216 @@
  }
  */
 
-#pragma mark - JSQ Messages
 
--(void) pressSendButton  {
-    NSLog(@"message send pressed");
-    /*[Data sendMessageOnClass:_classObject.code className:_classObject.name message:text withImage:nil withImageName:nil successBlock:^(id object) {
-     [self reloadMessages];
-     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@""
-     message:@"Message Has Been Sent"
-     delegate:self
-     cancelButtonTitle:@"OK"
-     otherButtonTitles:nil];
-     [alert show];
-     self.inputToolbar.contentView.textView.messageText=@"";
-     
-     
-     } errorBlock:^(NSError *error) {
-     UIAlertView *errorDialog = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error occurred in sending the message" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-     [errorDialog show];
-     }];*/
-    NSString *attachmentName=_finalAttachment.name;
-    NSString *messageText=_txtField.text;
-    if(!_finalAttachment)
-    {
-        NSLog(@"classCode : %@", _classCode);
-        NSLog(@"className : %@", _className);
-        [Data sendTextMessage:_classCode classname:_className message:messageText successBlock:^(id object) {
-            NSMutableDictionary *dict = (NSMutableDictionary *) object;
-            NSString *messageObjectId = (NSString *)[dict objectForKey:@"messageId"];
-            NSString *messageCreatedAt = (NSString *)[dict objectForKey:@"createdAt"];
-            PFObject *messageObject = [PFObject objectWithClassName:@"GroupDetails"];
-            messageObject[@"iosUserID"] = [PFUser currentUser].objectId;
-            messageObject[@"Creator"] = [[PFUser currentUser] objectForKey:@"name"];
-            messageObject[@"code"] = _classCode;
-            messageObject[@"name"] = _className;
-            messageObject[@"title"] = messageText;
-            messageObject[@"createdTime"] = messageCreatedAt;
-            messageObject[@"messageId"] = messageObjectId;
-            messageObject[@"like_count"] = [NSNumber numberWithInt:0];
-            messageObject[@"confused_count"] = [NSNumber numberWithInt:0];
-            messageObject[@"seen_count"] = [NSNumber numberWithInt:0];
-            [messageObject pinInBackground];
-            
-            TSMessage *newMessage=[[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:messageObject[@"title"] sender:messageObject[@"Creator"] sentTime:messageObject[@"createdTime"] senderPic:nil likeCount:[messageObject[@"like_count"] intValue] confuseCount:[messageObject[@"confused_count"] intValue] seenCount:[messageObject[@"seen_count"] intValue]];
-            [_messagesArray addObject:newMessage];
-            [self.messageTable reloadData];
-            UIAlertView *messageDialog = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Gaya bey!" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-        
-            [messageDialog show];
-            [self dismissKeyboard];
-        } errorBlock:^(NSError *error) {
-            UIAlertView *errorDialog = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Oye nhi gaya!" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-            [errorDialog show];
-        }];
+-(void)fetchMessagesFromLocalDatastore {
+    PFQuery *query = [PFQuery queryWithClassName:@"GroupDetails"];
+    [query fromLocalDatastore];
+    [query whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
+    [query whereKey:@"code" equalTo:_classCode];
+    [query orderByDescending:@"createdTime"];
+    NSArray *messages = (NSArray *)[query findObjects];
+    NSLog(@"Number of messages : %d", messages.count);
+    for (PFObject * messageObject in messages) {
+        TSMessage *message = [[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:messageObject[@"title"] sender:messageObject[@"Creator"] sentTime:messageObject[@"createdTime"] senderPic:messageObject[@"senderPic"] likeCount:[messageObject[@"like_count"] intValue] confuseCount:[messageObject[@"confused_count"] intValue] seenCount:[messageObject[@"seen_count"] intValue]];
+        NSData *data = [(PFFile *)messageObject[@"attachment"] getData];
+        if(data)
+            message.attachment = [UIImage imageWithData:data];
+        [_messagesArray addObject:message];
     }
-    else if(_finalAttachment)
-    {
-         [_finalAttachment saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-             if (succeeded) {
-                 // The object has been saved.
-                 [Data sendTextMessagewithAttachment:_classCode classname:_className message:messageText attachment:(PFFile*) _finalAttachment filename:_finalAttachment.name successBlock:^(id object) {
-                     NSMutableDictionary *dict = (NSMutableDictionary *) object;
-                     NSString *messageObjectId = (NSString *)[dict objectForKey:@"messageId"];
-                     NSString *messageCreatedAt = (NSString *)[dict objectForKey:@"createdAt"];
-                     PFObject *messageObject = [PFObject objectWithClassName:@"GroupDetails"];
-                     messageObject[@"Creator"] = [[PFUser currentUser] objectForKey:@"name"];
-                     messageObject[@"code"] = _classCode;
-                     messageObject[@"name"] = _className;
-                     messageObject[@"title"] = messageText;
-                     messageObject[@"createdTime"] = messageCreatedAt;
-                     messageObject[@"messageId"] = messageObjectId;
-                     messageObject[@"like_count"] = [NSNumber numberWithInt:0];
-                     messageObject[@"confused_count"] = [NSNumber numberWithInt:0];
-                     messageObject[@"seen_count"] = [NSNumber numberWithInt:0];
-                    [messageObject pinInBackground];
-             
-                    TSMessage *newMessage=[[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:messageObject[@"title"] sender:messageObject[@"Creator"] sentTime:messageObject[@"createdTime"] senderPic:nil likeCount:[messageObject[@"like_count"] intValue] confuseCount:[messageObject[@"confused_count"] intValue] seenCount:[messageObject[@"seen_count"] intValue]];
-                     [_messagesArray addObject:newMessage];
-                     [self.messageTable reloadData];
-                     UIAlertView *messageDialog = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Gaya bey!" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-             
-                    [messageDialog show];
-                     [self dismissKeyboard];
-                 } errorBlock:^(NSError *error) {
-                     UIAlertView *errorDialog = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error occurred in sending the message" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-                     [errorDialog show];
-                 }];
-             }
-             else {
-                 NSLog(@"url to file error");
-             }
+}
+
+
+-(void)fetchOldMessagesOnDataDeletion {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
+        [Data updateInboxLocalDatastore:@"c" successBlock:^(id object) {
+            NSArray *messages = (NSArray *)object;
+            NSMutableArray *indices = [[NSMutableArray alloc] init];
+            for(PFObject *messageObject in messages) {
+                messageObject[@"iosUserID"] = [PFUser currentUser].objectId;
+                messageObject[@"messageId"] = messageObject.objectId;
+                messageObject[@"createdTime"] = messageObject.createdAt;
+                if(!messageObject[@"like_count"])
+                    messageObject[@"like_count"] = [NSNumber numberWithInt:0];
+                if(!messageObject[@"confuse_count"])
+                    messageObject[@"confuse_count"] = [NSNumber numberWithInt:0];
+                if(!messageObject[@"seen_count"])
+                    messageObject[@"seen_count"] = [NSNumber numberWithInt:0];
+                [messageObject pinInBackground];
+                if([messageObject[@"code"] isEqualToString:_classCode]) {
+                    TSMessage *message = [[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:messageObject[@"title"] sender:messageObject[@"Creator"] sentTime:messageObject[@"createdTime"] senderPic:messageObject[@"senderPic"] likeCount:[messageObject[@"like_count"] intValue] confuseCount:[messageObject[@"confused_count"] intValue] seenCount:[messageObject[@"seen_count"] intValue]];
+                    NSData *data = [(PFFile *)messageObject[@"attachment"] getData];
+                    if(data)
+                        message.attachment = [UIImage imageWithData:data];
+                    [_messagesArray addObject:message];
+                    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:(_messagesArray.count-1) inSection:0];
+                    [indices addObject:indexPath];
+                }
+            }
+            [self.messageTable insertRowsAtIndexPaths:indices withRowAnimation:UITableViewRowAnimationBottom];
+            PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
+            [lq fromLocalDatastore];
+            [lq whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
+            NSArray *localOs = [lq findObjects];
+            localOs[0][@"isOutboxDataConsistent"] = (messages.count < 20) ? @"true" : @"false";
+            [localOs[0] pinInBackground];
+        } errorBlock:^(NSError *error) {
+            NSLog(@"Unable to fetch inbox messages while opening inbox tab: %@", [error description]);
+        }];
+    });
+}
+
+
+-(void)fetchOldMessages {
+    NSLog(@"Fetch old messages called from outbox.");
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
+        TSMessage *msg = _messagesArray[_messagesArray.count-1];
+        NSDate *oldestMsgDate = msg.sentTime;
+        [Data updateInboxLocalDatastoreWithTime1:@"c" oldestMessageTime:oldestMsgDate successBlock:^(id object) {
+            NSArray *messages = (NSArray *)object;
+            NSMutableArray *indices = [[NSMutableArray alloc] init];
+            for(PFObject *messageObject in messages) {
+                messageObject[@"iosUserID"] = [PFUser currentUser].objectId;
+                messageObject[@"messageId"] = messageObject.objectId;
+                messageObject[@"createdTime"] = messageObject.createdAt;
+                if(!messageObject[@"like_count"])
+                    messageObject[@"like_count"] = [NSNumber numberWithInt:0];
+                if(!messageObject[@"confuse_count"])
+                    messageObject[@"confuse_count"] = [NSNumber numberWithInt:0];
+                if(!messageObject[@"seen_count"])
+                    messageObject[@"seen_count"] = [NSNumber numberWithInt:0];
+                [messageObject pinInBackground];
+                if([messageObject[@"code"] isEqualToString:_classCode]) {
+                    TSMessage *message = [[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:messageObject[@"title"] sender:messageObject[@"Creator"] sentTime:messageObject[@"createdTime"] senderPic:messageObject[@"senderPic"] likeCount:[messageObject[@"like_count"] intValue] confuseCount:[messageObject[@"confused_count"] intValue] seenCount:[messageObject[@"seen_count"] intValue]];
+                    NSData *data = [(PFFile *)messageObject[@"attachment"] getData];
+                    if(data)
+                        message.attachment = [UIImage imageWithData:data];
+                    [_messagesArray addObject:message];
+                    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:(_messagesArray.count-1) inSection:0];
+                    [indices addObject:indexPath];
+                }
+            }
+            [self.messageTable insertRowsAtIndexPaths:indices withRowAnimation:UITableViewRowAnimationBottom];
+            PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
+            [lq fromLocalDatastore];
+            [lq whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
+            NSArray *localOs = [lq findObjects];
+            localOs[0][@"isOutboxDataConsistent"] = (messages.count < 20) ? @"true" : @"false";
+            if([localOs[0][@"isOutboxDataConsistent"] isEqualToString:@"false"]) {
+                _isBottomRefreshCalled = false;
+            }
+            [localOs[0] pinInBackground];
+        } errorBlock:^(NSError *error) {
+            NSLog(@"Unable to fetch inbox messages when pulled up to refresh: %@", [error description]);
+            
+        }];
+    });
+}
+
+
+-(void)updateCounts:(NSDate *)date {
+    NSArray *createdClasses = [[PFUser currentUser] objectForKey:@"Created_groups"];
+    NSMutableArray *createdClassCodes = [[NSMutableArray alloc] init];
+    for(NSArray *cls in createdClasses) {
+        [createdClassCodes addObject:cls[0]];
+    }
+    
+    [Data updateCounts:@"c" oldestMessageTime:date successBlock:^(id object) {
+        NSArray *messageObjects = (NSArray *) object;
+        PFQuery *query = [PFQuery queryWithClassName:@"GroupDetails"];
+        [query fromLocalDatastore];
+        [query orderByDescending:@"createdTime"];
+        [query whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
+        [query whereKey:@"code" containedIn:createdClassCodes];
+        [query whereKey:@"createdTime" lessThan:date];
+        query.limit = 20;
+        NSArray *messages = (NSArray *)[query findObjects];
+        
+        if(messages.count!=0) {
+            if([((PFObject *) messageObjects[0]).objectId isEqualToString:[((PFObject *) messages[0]) objectForKey:@"messageId"]]) {
+                NSLog(@"Pehli Dikkat");
+                return;
+            }
+            NSDate *firstMessageSentTime = [((PFObject *)messages[0]) objectForKey:@"createdTime"];
+            int index = -1;
+            for(int i=0; i<_messagesArray.count; i++) {
+                if([firstMessageSentTime isEqualToDate:((TSMessage *) _messagesArray[i]).sentTime]) {
+                    index = i;
+                    break;
+                }
+            }
+            if(index==-1) {
+                NSLog(@"Doosri Dikkat");
+            }
+            else {
+                NSLog(@"Index is : %d", index);
+                for(int i=0; i<messages.count; i++) {
+                    messages[i][@"like_count"] = messageObjects[i][@"like_count"];
+                    messages[i][@"confused_count"] = messageObjects[i][@"confused_count"];
+                    messages[i][@"seen_count"] = messageObjects[i][@"seen_count"];
+                    ((TSMessage *)_messagesArray[index+i]).likeCount = [[(PFObject *)_messagesArray[index+i] objectForKey:@"like_count"] intValue];
+                    ((TSMessage *)_messagesArray[index+i]).confuseCount = [[(PFObject *)_messagesArray[index+i] objectForKey:@"confused_count"] intValue];
+                    ((TSMessage *)_messagesArray[index+i]).seenCount = [[(PFObject *)_messagesArray[index+i] objectForKey:@"seen_count"] intValue];
+                    [messages[i] pinInBackground];
+                }
+            }
+        }
+    } errorBlock:^(NSError *error) {
+        NSLog(@"Unable to fetch inbox messages when pulled up to refresh: %@", [error description]);
+    }];
+}
+
+
+-(NSString *)sentTimeDisplayText:(NSTimeInterval)diff {
+    if(diff>=29030400) {
+        return diff<120?@"an year ago":[NSString stringWithFormat:@"%d years ago", (int)diff/29030400];
+    }
+    else if(diff>=2419200) {
+        return diff<4838400?@"a month ago":[NSString stringWithFormat:@"%d months ago", (int)diff/2419200];
+    }
+    else if(diff>=604800) {
+        return diff<1209600?@"a week ago":[NSString stringWithFormat:@"%d weeks ago", (int)diff/604800];
+    }
+    else if(diff>=86400) {
+        return diff<172800?@"a day ago":[NSString stringWithFormat:@"%d days ago", (int)diff/86400];
+    }
+    else if(diff>=3600) {
+        return diff<7200?@"an hr ago":[NSString stringWithFormat:@"%d hrs ago", (int)diff/3600];
+    }
+    else if(diff>=60) {
+        return diff<120?@"a min ago":[NSString stringWithFormat:@"%d mins ago", (int)diff/60];
+    }
+    else {
+        return @"few secs ago";
+    }
+}
+
+
+- (void)inviteParentsTap:(UITapGestureRecognizer *)recognizer {
+    CGPoint location = [recognizer locationInView:[recognizer.view superview]];
+    
+}
+
+
+- (void)subscribersTap:(UITapGestureRecognizer *)recognizer {
+    CGPoint location = [recognizer locationInView:[recognizer.view superview]];
+}
+
+
+-(void) showClassDetails {
+    [self performSegueWithIdentifier:@"showDetails" sender:self];
+}
+
+
+-(void) deleteClass {
+    [Data deleteClass:_classCode
+         successBlock:^(id object) {
+             [self.navigationController popViewControllerAnimated:YES];
+         } errorBlock:^(NSError *error) {
+             UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error occured in deleting the class." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+             [errorAlertView show];
          }];
-     }
 }
 
-
--(void)dismissKeyboard {
-    [_txtField resignFirstResponder];
-    _txtField.text=@"";
-}
-
-- (IBAction)displayMember:(id)sender {
-    [self performSegueWithIdentifier:@"showDetails" sender:sender];
-}
-
-
-/**
- -(void) imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
- [_imagePicker dismissViewControllerAnimated:YES completion:^{
- NSLog(@"%@",[info description]);
- 
- NSURL *imageURL = [info valueForKey:UIImagePickerControllerReferenceURL];
- ALAssetsLibraryAssetForURLResultBlock resultblock = ^(ALAsset *myasset)
- {
- ALAssetRepresentation *representation = [myasset defaultRepresentation];
- NSString *fileName = [representation filename];
- 
- [Data sendMessageOnClass:_classObject.code className:_classObject.name message:@"" withImage:[info objectForKey:@"UIImagePickerControllerOriginalImage"] withImageName:fileName successBlock:^(id object) {
- [self reloadMessages];
- } errorBlock:^(NSError *error) {
- 
- }];
- };
- 
- ALAssetsLibrary* assetslibrary = [[ALAssetsLibrary alloc] init];
- [assetslibrary assetForURL:imageURL
- resultBlock:resultblock
- failureBlock:nil];
- }];
- }
- **/
 
 -(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"showDetails"]) {

@@ -39,7 +39,7 @@
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     UIBarButtonItem *composeBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose  target:self action:@selector(composeMessage)];
-self.tabBarController.navigationItem.rightBarButtonItem =composeBarButtonItem;
+    self.tabBarController.navigationItem.rightBarButtonItem =composeBarButtonItem;
 
     NSLog(@"Outbox viewWillAppear");
     _messagesArray=nil;
@@ -238,6 +238,7 @@ self.tabBarController.navigationItem.rightBarButtonItem =composeBarButtonItem;
                 if(!messageObject[@"seen_count"])
                     messageObject[@"seen_count"] = [NSNumber numberWithInt:0];
                 [messageObject pinInBackground];
+                NSLog(@"Pinned!!!!");
                 TSMessage *message = [[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:messageObject[@"title"] sender:messageObject[@"Creator"] sentTime:messageObject[@"createdTime"] senderPic:messageObject[@"senderPic"] likeCount:[messageObject[@"like_count"] intValue] confuseCount:[messageObject[@"confused_count"] intValue] seenCount:[messageObject[@"seen_count"] intValue]];
                 NSData *data = [(PFFile *)messageObject[@"attachment"] getData];
                 if(data)

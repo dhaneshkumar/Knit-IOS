@@ -114,6 +114,7 @@
             [self presentViewController:createClassroomNavigationViewController animated:YES completion:nil];
         }
         else {
+            NSLog(@"index selected : %d", indexPath.row);
             [self performSegueWithIdentifier:@"createdClasses" sender:self];
         }
     }
@@ -147,7 +148,7 @@
         int row = [[self.classesTable indexPathForSelectedRow] row];
         //TSJoinedClass *selectedClass = (TSJoinedClass *)_classes[row];
         JoinedClassTableViewController *dvc = (JoinedClassTableViewController *)ndvc.topViewController;
-        PFObject *codegroup = [_codegroups objectForKey:_joinedClasses[row][0]];
+        PFObject *codegroup = [_codegroups objectForKey:_joinedClasses[row-1][0]];
         dvc.className = codegroup[@"name"];
         dvc.classCode = codegroup[@"code"];
         dvc.teacherName = codegroup[@"Creator"];
@@ -164,10 +165,8 @@
     else  if([segue.identifier isEqualToString:@"createdClasses"]){
         TSSendClassMessageViewController *dvc = (TSSendClassMessageViewController*)segue.destinationViewController;
         int row = [[self.classesTable indexPathForSelectedRow] row];
-        TSClass *selectedClass = [[TSClass alloc] init];
-        selectedClass=(TSClass *) _createdClasses[row];
-        dvc.classCode=selectedClass.code;
-        dvc.className=selectedClass.name;
+        dvc.className = _createdClasses[row-1][1];
+        dvc.classCode = _createdClasses[row-1][0];
     }
     [self.classesTable deselectRowAtIndexPath:[self.classesTable indexPathForSelectedRow] animated:YES];
     return;
@@ -183,6 +182,9 @@
     _joinedClasses = (NSMutableArray *)[[PFUser currentUser] objectForKey:@"joined_groups"];
     _createdClasses = (NSMutableArray *)[[PFUser currentUser] objectForKey:@"Created_groups"];
     
+    NSLog(@"joined class length : %d", _joinedClasses.count);
+    NSLog(@"created class length : %d", _createdClasses.count);
+    
     for(NSArray *joinedcl in _joinedClasses)
         [joinedClassCodes addObject:joinedcl[0]];
     if(_joinedClasses.count==0 && _createdClasses.count==0)
@@ -197,6 +199,7 @@
     for(PFObject *localCodegroup in localCodegroups)
         [_codegroups setObject:localCodegroup forKey:[localCodegroup objectForKey:@"code"]];
     if(localCodegroups.count != joinedClassCodes.count) {
+        NSLog(@"Here in if");
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             [Data getAllCodegroups:^(id object) {
                 NSArray *cgs = (NSArray *)object;
@@ -212,6 +215,7 @@
         });
     }
     else {
+        NSLog(@"Here in else");
         [self.classesTable reloadData];
     }
     return;
