@@ -4017,7 +4017,7 @@
         <!--Navigation Controller-->
         <scene sceneID="ig2-Ri-Fwy">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" toolbarHidden="NO" id="FGN-xa-6bl" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="inviteParentNavigationController" automaticallyAdjustsScrollViewInsets="NO" toolbarHidden="NO" id="FGN-xa-6bl" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="PJq-4r-VxM">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
