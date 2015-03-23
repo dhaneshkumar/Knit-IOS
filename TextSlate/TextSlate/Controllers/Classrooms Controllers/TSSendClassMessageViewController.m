@@ -13,6 +13,7 @@
 #import "sharedCache.h"
 #import "TSMessage.h"
 #import "TSCreatedClassMessageTableViewCell.h"
+#import "InviteParentViewController.h"
 
 
 @interface TSSendClassMessageViewController ()
@@ -374,6 +375,10 @@
 - (void)inviteParentsTap:(UITapGestureRecognizer *)recognizer {
     CGPoint location = [recognizer locationInView:[recognizer.view superview]];
     NSLog(@"invite parents tapped!!");
+    UINavigationController *inviteParentNavigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"inviteParentNav"];
+    InviteParentViewController *inviteParentController = (InviteParentViewController *)inviteParentNavigationController.topViewController;
+    inviteParentController.classCode = _classCode;
+    [self presentViewController:inviteParentNavigationController animated:YES completion:nil];
 }
 
 
