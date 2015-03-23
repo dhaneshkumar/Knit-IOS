@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="FGN-xa-6bl">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vM8-hp-Orb">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
@@ -89,7 +89,7 @@
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="calibratedRGB"/>
                         <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="cx0-IW-83X" firstAttribute="centerX" secondItem="U2T-wP-ld8" secondAttribute="centerX" id="0rd-fG-nNn"/>
@@ -230,7 +230,7 @@
                                     <constraint firstAttribute="width" constant="181" id="w5V-F6-tWb"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                                 <variation key="default">
                                     <mask key="constraints">
@@ -423,7 +423,7 @@
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="cHP-ZH-ib2" firstAttribute="top" secondItem="Y07-aQ-79H" secondAttribute="bottom" constant="15" id="1DU-O4-VaQ"/>
                             <constraint firstItem="Y07-aQ-79H" firstAttribute="trailing" secondItem="xqe-de-LV9" secondAttribute="trailingMargin" id="8MQ-yc-Wwv"/>
@@ -576,6 +576,11 @@
                                 <exclude reference="phb-7c-EA6"/>
                             </mask>
                             <mask key="constraints">
+                                <exclude reference="pdF-hN-RiP"/>
+                                <exclude reference="6Cw-vr-NW5"/>
+                                <exclude reference="h3k-53-ip6"/>
+                                <exclude reference="hkg-Ac-Jwd"/>
+                                <exclude reference="x0Y-fy-kTx"/>
                                 <exclude reference="aww-Rk-09L"/>
                                 <exclude reference="g1l-xb-t75"/>
                                 <exclude reference="nhC-w9-AQf"/>
@@ -583,11 +588,6 @@
                                 <exclude reference="3MI-2O-pRo"/>
                                 <exclude reference="Cqs-7h-mhs"/>
                                 <exclude reference="eLb-7m-Mg2"/>
-                                <exclude reference="6Cw-vr-NW5"/>
-                                <exclude reference="h3k-53-ip6"/>
-                                <exclude reference="hkg-Ac-Jwd"/>
-                                <exclude reference="x0Y-fy-kTx"/>
-                                <exclude reference="pdF-hN-RiP"/>
                             </mask>
                         </variation>
                         <variation key="widthClass=compact">
@@ -602,6 +602,11 @@
                                 <include reference="phb-7c-EA6"/>
                             </mask>
                             <mask key="constraints">
+                                <include reference="pdF-hN-RiP"/>
+                                <include reference="6Cw-vr-NW5"/>
+                                <include reference="h3k-53-ip6"/>
+                                <include reference="hkg-Ac-Jwd"/>
+                                <include reference="x0Y-fy-kTx"/>
                                 <include reference="aww-Rk-09L"/>
                                 <include reference="g1l-xb-t75"/>
                                 <include reference="nhC-w9-AQf"/>
@@ -609,11 +614,6 @@
                                 <include reference="3MI-2O-pRo"/>
                                 <include reference="Cqs-7h-mhs"/>
                                 <include reference="eLb-7m-Mg2"/>
-                                <include reference="6Cw-vr-NW5"/>
-                                <include reference="h3k-53-ip6"/>
-                                <include reference="hkg-Ac-Jwd"/>
-                                <include reference="x0Y-fy-kTx"/>
-                                <include reference="pdF-hN-RiP"/>
                             </mask>
                         </variation>
                     </view>
@@ -738,7 +738,7 @@
                                 </state>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="calibratedRGB"/>
                         <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="k8d-17-yJy" firstAttribute="leading" secondItem="VZe-n1-nTb" secondAttribute="leadingMargin" id="16d-wr-Vt2"/>
@@ -934,7 +934,7 @@
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="eOV-7Z-260">
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                     <variation key="heightClass=regular-widthClass=compact">
                                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
@@ -963,7 +963,7 @@
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="5ue-v5-HHG">
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                     <variation key="heightClass=regular-widthClass=compact">
                                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
@@ -1021,6 +1021,9 @@
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
+                                                    <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
+                                                        <rect key="frame" x="110" y="19" width="100" height="21"/>
+                                                    </variation>
                                                 </label>
                                             </subviews>
                                             <constraints>
@@ -1167,7 +1170,7 @@
                                                 <constraint firstAttribute="height" constant="21" id="WhP-xr-PPN"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                             <variation key="default">
                                                 <mask key="constraints">
@@ -1229,7 +1232,7 @@
                                                 <constraint firstAttribute="width" constant="97" id="wCi-11-dyd"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                             <variation key="default">
                                                 <mask key="constraints">
@@ -1300,7 +1303,7 @@
                                                 <constraint firstAttribute="width" constant="107" id="gyb-ma-Se2"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                             <variation key="default">
                                                 <mask key="constraints">
@@ -1359,7 +1362,7 @@
                                                 <constraint firstAttribute="height" constant="21" id="fVg-Tz-xhq"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                             <variation key="default">
                                                 <mask key="constraints">
@@ -1404,7 +1407,7 @@
                                                 <constraint firstAttribute="width" constant="80" id="YgI-W3-sEo"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                             <variation key="default">
                                                 <mask key="constraints">
@@ -1475,7 +1478,7 @@
                                                 <constraint firstAttribute="height" constant="21" id="O7k-HW-byr"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                             <variation key="default">
                                                 <mask key="constraints">
@@ -1495,7 +1498,7 @@
                                                 <constraint firstAttribute="height" constant="16" id="rHG-fK-OFA"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                             <variation key="default">
                                                 <mask key="constraints">
@@ -1570,7 +1573,7 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Enter the OTP" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ea3-38-ALt">
                                 <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Iea-Um-HPC">
@@ -1712,7 +1715,7 @@
                                                                 <constraint firstAttribute="height" constant="21" id="FO7-Kc-U2J"/>
                                                             </constraints>
                                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
-                                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                             <variation key="default">
                                                                 <mask key="constraints">
@@ -1797,7 +1800,7 @@
                                                         <constraint firstAttribute="width" constant="375" id="RoD-B0-35b"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                     <variation key="default">
                                                         <mask key="constraints">
@@ -1839,7 +1842,7 @@
                                                                 <constraint firstAttribute="width" constant="27" id="ZQs-0g-f9z"/>
                                                             </constraints>
                                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                             <variation key="default">
                                                                 <mask key="constraints">
@@ -1928,7 +1931,7 @@
                                                                 <constraint firstAttribute="height" constant="23" id="Nxr-3u-Bbf"/>
                                                             </constraints>
                                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                             <variation key="default">
                                                                 <mask key="constraints">
@@ -1994,7 +1997,7 @@
                                                         <constraint firstAttribute="height" constant="23" id="aa6-nD-cNq"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                     <variation key="default">
                                                         <mask key="constraints">
@@ -2186,7 +2189,7 @@
                                                                 <constraint firstAttribute="height" constant="21" id="zei-b2-Lcb"/>
                                                             </constraints>
                                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
-                                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                             <variation key="default">
                                                                 <mask key="constraints">
@@ -2271,7 +2274,7 @@
                                                         <constraint firstAttribute="width" constant="375" id="2cd-qf-90e"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                     <variation key="default">
                                                         <mask key="constraints">
@@ -2313,7 +2316,7 @@
                                                                 <constraint firstAttribute="height" constant="23" id="nhx-9E-ieb"/>
                                                             </constraints>
                                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                             <variation key="default">
                                                                 <mask key="constraints">
@@ -2402,7 +2405,7 @@
                                                                 <constraint firstAttribute="width" constant="27" id="gtY-pH-9yt"/>
                                                             </constraints>
                                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                             <variation key="default">
                                                                 <mask key="constraints">
@@ -2468,7 +2471,7 @@
                                                         <constraint firstAttribute="height" constant="23" id="ftn-Vf-ZNT"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                     <variation key="default">
                                                         <mask key="constraints">
@@ -2665,7 +2668,7 @@
                                                         <constraint firstAttribute="width" constant="375" id="c4E-wN-bh5"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                     <variation key="default">
                                                         <mask key="constraints">
@@ -3033,7 +3036,7 @@
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="rki-pC-h5r">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="calibratedRGB"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="settingsCellIdentifier" id="3HE-mE-5LC">
                                         <autoresizingMask key="autoresizingMask"/>
@@ -3285,7 +3288,7 @@
                                     <constraint firstAttribute="height" constant="27" id="R14-fR-OiS"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                                 <variation key="default">
                                     <mask key="constraints">
@@ -3330,7 +3333,7 @@
                                             <constraint firstAttribute="height" constant="38" id="YYE-lf-Fhu"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                         <variation key="default">
                                             <mask key="constraints">
@@ -3343,7 +3346,7 @@
                                             </mask>
                                         </variation>
                                     </label>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="60x60.png" translatesAutoresizingMaskIntoConstraints="NO" id="3Mf-Qe-FjQ">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="3Mf-Qe-FjQ">
                                         <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="190" id="2Xh-lu-Jy0"/>
@@ -3363,7 +3366,7 @@
                                         </variation>
                                     </imageView>
                                 </subviews>
-                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="HvG-BE-fPq" secondAttribute="trailing" constant="94" id="4DK-hp-tuK"/>
                                     <constraint firstAttribute="height" constant="280" id="K90-mT-1C8"/>
@@ -3417,7 +3420,7 @@
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sEe-rz-9e8">
                                 <rect key="frame" x="-23" y="-15" width="46" height="30"/>
-                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="8Ds-eA-hiY"/>
                                 </constraints>
@@ -3440,7 +3443,7 @@
                                     <constraint firstAttribute="height" constant="21" id="SBP-mN-7pz"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                                 <variation key="default">
                                     <mask key="constraints">
@@ -3456,15 +3459,16 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LRJ-k4-BsH">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xlm-Av-GBD">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xlm-Av-GBD">
                                         <rect key="frame" x="-23" y="-15" width="46" height="30"/>
+                                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="80" id="5w5-mY-hPB">
                                                 <variation key="heightClass=regular-widthClass=compact" constant="75"/>
                                             </constraint>
                                             <constraint firstAttribute="height" constant="42" id="t9g-N9-XWw"/>
                                         </constraints>
-                                        <state key="normal" title="Button">
+                                        <state key="normal" title="Button" image="ios icons-24.png">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <variation key="default">
@@ -3483,15 +3487,16 @@
                                             <action selector="openWhatsApp:" destination="MQ6-bR-Jf1" eventType="touchUpInside" id="SRD-J4-qMR"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bSD-ne-tOM">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bSD-ne-tOM">
                                         <rect key="frame" x="-23" y="-15" width="46" height="30"/>
+                                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="42" id="DZZ-y3-FMh"/>
                                             <constraint firstAttribute="width" constant="80" id="FKL-xQ-yVx">
                                                 <variation key="heightClass=regular-widthClass=compact" constant="75"/>
                                             </constraint>
                                         </constraints>
-                                        <state key="normal" title="Button">
+                                        <state key="normal" title="Button" image="ios icons-25.png">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <variation key="default">
@@ -3500,7 +3505,8 @@
                                                 <exclude reference="FKL-xQ-yVx"/>
                                             </mask>
                                         </variation>
-                                        <variation key="heightClass=regular-widthClass=compact">
+                                        <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
+                                            <rect key="frame" x="73" y="0.0" width="77" height="42"/>
                                             <mask key="constraints">
                                                 <include reference="DZZ-y3-FMh"/>
                                                 <include reference="FKL-xQ-yVx"/>
@@ -3510,8 +3516,9 @@
                                             <action selector="openMessage:" destination="MQ6-bR-Jf1" eventType="touchUpInside" id="1hf-LI-YZc"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RzH-2a-v4t">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RzH-2a-v4t">
                                         <rect key="frame" x="-23" y="-15" width="46" height="30"/>
+                                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="80" id="d8y-Gh-mAQ">
                                                 <variation key="heightClass=regular-widthClass=compact" constant="75"/>
@@ -3520,7 +3527,7 @@
                                                 <variation key="heightClass=regular-widthClass=compact" constant="42"/>
                                             </constraint>
                                         </constraints>
-                                        <state key="normal" title="Button">
+                                        <state key="normal" title="Button" image="ios icons-26.png">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <variation key="default">
@@ -3529,7 +3536,8 @@
                                                 <exclude reference="gaK-kz-YyF"/>
                                             </mask>
                                         </variation>
-                                        <variation key="heightClass=regular-widthClass=compact">
+                                        <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
+                                            <rect key="frame" x="146" y="0.0" width="78" height="42"/>
                                             <mask key="constraints">
                                                 <include reference="d8y-Gh-mAQ"/>
                                                 <include reference="gaK-kz-YyF"/>
@@ -3539,61 +3547,79 @@
                                             <action selector="emailButtonPressed:" destination="MQ6-bR-Jf1" eventType="touchUpInside" id="oXK-nq-0GM"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xCw-Z9-Yhe">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8aM-rp-RnZ">
                                         <rect key="frame" x="-23" y="-15" width="46" height="30"/>
+                                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="41" id="gnr-hI-RCN">
-                                                <variation key="heightClass=regular-widthClass=compact" constant="42"/>
-                                            </constraint>
-                                            <constraint firstAttribute="width" constant="80" id="peS-Nd-Pef">
-                                                <variation key="heightClass=regular-widthClass=compact" constant="75"/>
-                                            </constraint>
+                                            <constraint firstAttribute="width" constant="75" id="C59-Ct-yv7"/>
+                                            <constraint firstAttribute="width" constant="75" id="L0r-Qk-e9V"/>
+                                            <constraint firstAttribute="height" constant="42" id="XAh-LY-gfa"/>
+                                            <constraint firstAttribute="width" constant="75" id="ZZh-1C-6A7"/>
+                                            <constraint firstAttribute="height" constant="42" id="aFn-0J-L4w"/>
+                                            <constraint firstAttribute="width" constant="74" id="bUZ-Gr-kl6"/>
+                                            <constraint firstAttribute="height" constant="42" id="prq-eP-iWa"/>
                                         </constraints>
-                                        <state key="normal" title="Button">
+                                        <state key="normal" title="Button" image="ios icons-27.png">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <variation key="default">
                                             <mask key="constraints">
-                                                <exclude reference="gnr-hI-RCN"/>
-                                                <exclude reference="peS-Nd-Pef"/>
+                                                <exclude reference="C59-Ct-yv7"/>
+                                                <exclude reference="L0r-Qk-e9V"/>
+                                                <exclude reference="XAh-LY-gfa"/>
+                                                <exclude reference="ZZh-1C-6A7"/>
+                                                <exclude reference="aFn-0J-L4w"/>
+                                                <exclude reference="bUZ-Gr-kl6"/>
+                                                <exclude reference="prq-eP-iWa"/>
                                             </mask>
                                         </variation>
-                                        <variation key="heightClass=regular-widthClass=compact">
+                                        <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
+                                            <rect key="frame" x="222" y="0.0" width="74" height="42"/>
                                             <mask key="constraints">
-                                                <include reference="gnr-hI-RCN"/>
-                                                <include reference="peS-Nd-Pef"/>
+                                                <exclude reference="C59-Ct-yv7"/>
+                                                <exclude reference="L0r-Qk-e9V"/>
+                                                <include reference="XAh-LY-gfa"/>
+                                                <exclude reference="ZZh-1C-6A7"/>
+                                                <exclude reference="aFn-0J-L4w"/>
+                                                <include reference="bUZ-Gr-kl6"/>
+                                                <exclude reference="prq-eP-iWa"/>
                                             </mask>
                                         </variation>
+                                        <connections>
+                                            <action selector="copyText:" destination="MQ6-bR-Jf1" eventType="touchUpInside" id="kdB-Ah-Rdd"/>
+                                        </connections>
                                     </button>
                                 </subviews>
-                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
+                                    <constraint firstItem="8aM-rp-RnZ" firstAttribute="top" secondItem="LRJ-k4-BsH" secondAttribute="top" id="2yR-y3-5cF"/>
                                     <constraint firstItem="RzH-2a-v4t" firstAttribute="top" secondItem="LRJ-k4-BsH" secondAttribute="top" constant="1" id="8Fm-Cz-NBg">
                                         <variation key="heightClass=regular-widthClass=compact" constant="0.0"/>
                                     </constraint>
                                     <constraint firstItem="bSD-ne-tOM" firstAttribute="top" secondItem="LRJ-k4-BsH" secondAttribute="top" id="8xT-tV-6Hz"/>
                                     <constraint firstItem="xlm-Av-GBD" firstAttribute="leading" secondItem="LRJ-k4-BsH" secondAttribute="leading" id="Kfk-z5-JEE"/>
                                     <constraint firstAttribute="height" constant="50" id="NN9-Rd-DSA"/>
-                                    <constraint firstItem="xCw-Z9-Yhe" firstAttribute="leading" secondItem="RzH-2a-v4t" secondAttribute="trailing" id="UF2-JX-Ys8">
-                                        <variation key="heightClass=regular-widthClass=compact" constant="3"/>
-                                    </constraint>
-                                    <constraint firstItem="xCw-Z9-Yhe" firstAttribute="top" secondItem="LRJ-k4-BsH" secondAttribute="top" constant="1" id="XNL-rD-tkq"/>
+                                    <constraint firstItem="8aM-rp-RnZ" firstAttribute="top" secondItem="LRJ-k4-BsH" secondAttribute="top" id="NeY-MO-1o4"/>
+                                    <constraint firstItem="8aM-rp-RnZ" firstAttribute="leading" secondItem="RzH-2a-v4t" secondAttribute="trailing" constant="-5" id="ZeU-UM-X96"/>
+                                    <constraint firstItem="8aM-rp-RnZ" firstAttribute="leading" secondItem="RzH-2a-v4t" secondAttribute="trailing" constant="-2" id="c0b-rg-zYq"/>
                                     <constraint firstItem="RzH-2a-v4t" firstAttribute="leading" secondItem="bSD-ne-tOM" secondAttribute="trailing" constant="-1" id="jL1-gZ-wY4">
                                         <variation key="heightClass=regular-widthClass=compact" constant="-4"/>
                                     </constraint>
+                                    <constraint firstItem="8aM-rp-RnZ" firstAttribute="top" secondItem="LRJ-k4-BsH" secondAttribute="top" id="lFK-zd-9cP"/>
                                     <constraint firstItem="RzH-2a-v4t" firstAttribute="leading" secondItem="bSD-ne-tOM" secondAttribute="trailing" constant="-1" id="lG5-gA-gtg"/>
                                     <constraint firstItem="bSD-ne-tOM" firstAttribute="leading" secondItem="xlm-Av-GBD" secondAttribute="trailing" id="qVu-1k-M87">
                                         <variation key="heightClass=regular-widthClass=compact" constant="-2"/>
                                     </constraint>
                                     <constraint firstItem="RzH-2a-v4t" firstAttribute="leading" secondItem="LRJ-k4-BsH" secondAttribute="leading" constant="159" id="xJQ-9L-hjw"/>
                                     <constraint firstItem="xlm-Av-GBD" firstAttribute="top" secondItem="LRJ-k4-BsH" secondAttribute="top" id="yUI-Sj-jnY"/>
+                                    <constraint firstItem="8aM-rp-RnZ" firstAttribute="leading" secondItem="RzH-2a-v4t" secondAttribute="trailing" id="zE6-ky-dM9"/>
                                 </constraints>
                                 <variation key="default">
                                     <mask key="subviews">
                                         <exclude reference="xlm-Av-GBD"/>
                                         <exclude reference="bSD-ne-tOM"/>
                                         <exclude reference="RzH-2a-v4t"/>
-                                        <exclude reference="xCw-Z9-Yhe"/>
+                                        <exclude reference="8aM-rp-RnZ"/>
                                     </mask>
                                     <mask key="constraints">
                                         <exclude reference="NN9-Rd-DSA"/>
@@ -3605,8 +3631,12 @@
                                         <exclude reference="jL1-gZ-wY4"/>
                                         <exclude reference="lG5-gA-gtg"/>
                                         <exclude reference="xJQ-9L-hjw"/>
-                                        <exclude reference="UF2-JX-Ys8"/>
-                                        <exclude reference="XNL-rD-tkq"/>
+                                        <exclude reference="2yR-y3-5cF"/>
+                                        <exclude reference="NeY-MO-1o4"/>
+                                        <exclude reference="ZeU-UM-X96"/>
+                                        <exclude reference="c0b-rg-zYq"/>
+                                        <exclude reference="lFK-zd-9cP"/>
+                                        <exclude reference="zE6-ky-dM9"/>
                                     </mask>
                                 </variation>
                                 <variation key="heightClass=regular-widthClass=compact">
@@ -3614,7 +3644,7 @@
                                         <include reference="xlm-Av-GBD"/>
                                         <include reference="bSD-ne-tOM"/>
                                         <include reference="RzH-2a-v4t"/>
-                                        <include reference="xCw-Z9-Yhe"/>
+                                        <include reference="8aM-rp-RnZ"/>
                                     </mask>
                                     <mask key="constraints">
                                         <include reference="NN9-Rd-DSA"/>
@@ -3626,8 +3656,12 @@
                                         <include reference="jL1-gZ-wY4"/>
                                         <exclude reference="lG5-gA-gtg"/>
                                         <exclude reference="xJQ-9L-hjw"/>
-                                        <include reference="UF2-JX-Ys8"/>
-                                        <include reference="XNL-rD-tkq"/>
+                                        <exclude reference="2yR-y3-5cF"/>
+                                        <exclude reference="NeY-MO-1o4"/>
+                                        <exclude reference="ZeU-UM-X96"/>
+                                        <include reference="c0b-rg-zYq"/>
+                                        <include reference="lFK-zd-9cP"/>
+                                        <exclude reference="zE6-ky-dM9"/>
                                     </mask>
                                 </variation>
                             </view>
@@ -3659,21 +3693,21 @@
                                 <exclude reference="LRJ-k4-BsH"/>
                             </mask>
                             <mask key="constraints">
-                                <exclude reference="Jc8-ZX-qeu"/>
-                                <exclude reference="WTP-K4-2XZ"/>
-                                <exclude reference="mbL-bu-PZe"/>
-                                <exclude reference="o64-LJ-PFF"/>
-                                <exclude reference="pWU-w6-i8R"/>
-                                <exclude reference="tKg-Du-49p"/>
-                                <exclude reference="JDb-2Z-wiU"/>
-                                <exclude reference="aAO-qh-BSD"/>
-                                <exclude reference="dhg-F4-7qM"/>
                                 <exclude reference="dOT-6f-2Nh"/>
                                 <exclude reference="ixV-UN-Wix"/>
                                 <exclude reference="vy7-Sq-qC4"/>
+                                <exclude reference="Jc8-ZX-qeu"/>
+                                <exclude reference="WTP-K4-2XZ"/>
+                                <exclude reference="mbL-bu-PZe"/>
+                                <exclude reference="JDb-2Z-wiU"/>
+                                <exclude reference="aAO-qh-BSD"/>
+                                <exclude reference="dhg-F4-7qM"/>
                                 <exclude reference="Ecs-0Q-Udg"/>
                                 <exclude reference="if0-7r-1EE"/>
                                 <exclude reference="mlY-ca-kg8"/>
+                                <exclude reference="o64-LJ-PFF"/>
+                                <exclude reference="pWU-w6-i8R"/>
+                                <exclude reference="tKg-Du-49p"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
@@ -3685,25 +3719,29 @@
                                 <include reference="LRJ-k4-BsH"/>
                             </mask>
                             <mask key="constraints">
-                                <include reference="Jc8-ZX-qeu"/>
-                                <include reference="WTP-K4-2XZ"/>
-                                <include reference="mbL-bu-PZe"/>
-                                <include reference="o64-LJ-PFF"/>
-                                <include reference="pWU-w6-i8R"/>
-                                <include reference="tKg-Du-49p"/>
-                                <include reference="JDb-2Z-wiU"/>
-                                <include reference="aAO-qh-BSD"/>
-                                <include reference="dhg-F4-7qM"/>
                                 <include reference="dOT-6f-2Nh"/>
                                 <include reference="ixV-UN-Wix"/>
                                 <include reference="vy7-Sq-qC4"/>
+                                <include reference="Jc8-ZX-qeu"/>
+                                <include reference="WTP-K4-2XZ"/>
+                                <include reference="mbL-bu-PZe"/>
+                                <include reference="JDb-2Z-wiU"/>
+                                <include reference="aAO-qh-BSD"/>
+                                <include reference="dhg-F4-7qM"/>
                                 <include reference="Ecs-0Q-Udg"/>
                                 <include reference="if0-7r-1EE"/>
                                 <include reference="mlY-ca-kg8"/>
+                                <include reference="o64-LJ-PFF"/>
+                                <include reference="pWU-w6-i8R"/>
+                                <include reference="tKg-Du-49p"/>
                             </mask>
                         </variation>
                     </view>
                     <navigationItem key="navigationItem" id="sOk-bq-1XH"/>
+                    <connections>
+                        <outlet property="phoneImage" destination="3Mf-Qe-FjQ" id="sF7-18-Xok"/>
+                        <outlet property="segmentControl" destination="HvG-BE-fPq" id="kdq-i2-qDE"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IvM-9u-BSy" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -3743,7 +3781,7 @@
                                     <constraint firstAttribute="height" constant="21" id="TJi-yf-C9w"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                                 <variation key="default">
                                     <mask key="constraints">
@@ -3999,9 +4037,12 @@
         </scene>
     </scenes>
     <resources>
-        <image name="60x60.png" width="60" height="60"/>
         <image name="classroom.png" width="49" height="49"/>
         <image name="inbox_grey.png" width="49" height="49"/>
+        <image name="ios icons-24.png" width="75" height="42"/>
+        <image name="ios icons-25.png" width="75" height="42"/>
+        <image name="ios icons-26.png" width="75" height="42"/>
+        <image name="ios icons-27.png" width="75" height="42"/>
         <image name="settings_32.png" width="32" height="32"/>
     </resources>
     <inferredMetricsTieBreakers>

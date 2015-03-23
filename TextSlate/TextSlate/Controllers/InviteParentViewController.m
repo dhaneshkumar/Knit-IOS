@@ -12,21 +12,64 @@
 
 @interface InviteParentViewController ()
 
+@property (weak, nonatomic) IBOutlet UISegmentedControl *segmentControl;
+@property (weak, nonatomic) IBOutlet UIImageView *phoneImage;
+
 @end
 
 @implementation InviteParentViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+
     [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:38.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0]];
     [self.navigationController.navigationBar setTranslucent:NO];
     self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName : [UIColor whiteColor]};
     
-
+    [self.segmentControl addTarget:self
+action:@selector(changeImage)
+forControlEvents:UIControlEventValueChanged];
     self.navigationItem.title=@"Invite Parents";
     // Do any additional setup after loading the view.
 }
+-(void)viewDidAppear:(BOOL)animated
+{
+    if(self.segmentControl.selectedSegmentIndex==0)
+    {
+        UIImage *image = [UIImage imageNamed: @"phone.png"];
+        [self.phoneImage setImage:image];
+        
+    }
+    else if(self.segmentControl.selectedSegmentIndex==1)
+    {
+        
+        UIImage *image = [UIImage imageNamed: @"iphone.png"];
+        [self.phoneImage setImage:image];
+        
+    }
+    
+
+}
+-(void)viewWillAppear:(BOOL)animated{
+    
+
+}
+-(void)changeImage{
+    if(self.segmentControl.selectedSegmentIndex==0)
+    {
+        UIImage *image = [UIImage imageNamed: @"phone.png"];
+        [self.phoneImage setImage:image];
+        
+    }
+    else if(self.segmentControl.selectedSegmentIndex==1)
+    {
+        
+        UIImage *image = [UIImage imageNamed: @"iphone.png"];
+        [self.phoneImage setImage:image];
+        
+    }
+}
+
 
 -(IBAction)openWhatsApp:(id)sender{
     NSString *sendCode=@"Here is the code";
@@ -54,7 +97,7 @@
 
 - (void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result
 {
-    [self dismissModalViewControllerAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (IBAction)emailButtonPressed:(id)sender
@@ -69,6 +112,13 @@
         [composeViewController setSubject:@"example subject"];
         [self presentViewController:composeViewController animated:YES completion:nil];
     }
+    else{
+
+        UIAlertView *messageDialog = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Oops! Seems like you haven't configured you mail." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+        
+        [messageDialog show];
+    
+    }
 }
 
 - (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error
@@ -77,6 +127,11 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+-(IBAction)copyText:(id)sender{
+    
+    UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
+    pasteboard.string = @"String to be copied";
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

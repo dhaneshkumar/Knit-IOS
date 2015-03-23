@@ -11,14 +11,16 @@
 		403FFF0E1ABB0071008FB159 /* MessageComposerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 403FFF0D1ABB0071008FB159 /* MessageComposerViewController.m */; };
 		403FFF121ABB5BEC008FB159 /* InviteParentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 403FFF111ABB5BEC008FB159 /* InviteParentViewController.m */; };
 		403FFF141ABD450D008FB159 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 403FFF131ABD450D008FB159 /* Main.storyboard */; };
+		404C9E171AC02176001CF571 /* ios icons-24.png in Resources */ = {isa = PBXBuildFile; fileRef = 404C9E131AC02176001CF571 /* ios icons-24.png */; };
+		404C9E181AC02176001CF571 /* ios icons-25.png in Resources */ = {isa = PBXBuildFile; fileRef = 404C9E141AC02176001CF571 /* ios icons-25.png */; };
+		404C9E191AC02176001CF571 /* ios icons-26.png in Resources */ = {isa = PBXBuildFile; fileRef = 404C9E151AC02176001CF571 /* ios icons-26.png */; };
+		404C9E1A1AC02176001CF571 /* ios icons-27.png in Resources */ = {isa = PBXBuildFile; fileRef = 404C9E161AC02176001CF571 /* ios icons-27.png */; };
+		404C9E1C1AC0260C001CF571 /* phone.png in Resources */ = {isa = PBXBuildFile; fileRef = 404C9E1B1AC0260C001CF571 /* phone.png */; };
+		404C9E1E1AC0263C001CF571 /* iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = 404C9E1D1AC0263C001CF571 /* iphone.png */; };
 		4068825E1A8A307D00C055E1 /* ProfilePictureViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4068825D1A8A307D00C055E1 /* ProfilePictureViewController.m */; };
 		40C7B2D31A935F6E00C1BFC8 /* ClassesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 40C7B2D21A935F6E00C1BFC8 /* ClassesViewController.m */; };
 		40C7B2D61A935F8700C1BFC8 /* TSJoinedClassMessagesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 40C7B2D51A935F8700C1BFC8 /* TSJoinedClassMessagesViewController.m */; };
 		40C7B2E91A965AFF00C1BFC8 /* TSSuggestion.m in Sources */ = {isa = PBXBuildFile; fileRef = 40C7B2E81A965AFF00C1BFC8 /* TSSuggestion.m */; };
-		40CABD601ABF1B72003E8293 /* ios icons-01.png in Resources */ = {isa = PBXBuildFile; fileRef = 40CABD5D1ABF1B71003E8293 /* ios icons-01.png */; };
-		40CABD611ABF1B72003E8293 /* ios icons-02.png in Resources */ = {isa = PBXBuildFile; fileRef = 40CABD5E1ABF1B71003E8293 /* ios icons-02.png */; };
-		40CABD621ABF1B72003E8293 /* ios icons-04.png in Resources */ = {isa = PBXBuildFile; fileRef = 40CABD5F1ABF1B71003E8293 /* ios icons-04.png */; };
-		40CABD641ABF1BAB003E8293 /* ios icons-03.png in Resources */ = {isa = PBXBuildFile; fileRef = 40CABD631ABF1BAB003E8293 /* ios icons-03.png */; };
 		40CD58651A89455B000CB1AB /* FAQTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 40CD58641A89455B000CB1AB /* FAQTableViewController.m */; };
 		40CDDBB61A90E47E00922ADF /* TSMember.m in Sources */ = {isa = PBXBuildFile; fileRef = 40CDDBB51A90E47E00922ADF /* TSMember.m */; };
 		40D0B9501A83A86700FF24EA /* TableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 40D0B94F1A83A86700FF24EA /* TableCell.m */; };
@@ -151,6 +153,12 @@
 		403FFF101ABB5BEC008FB159 /* InviteParentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InviteParentViewController.h; sourceTree = "<group>"; };
 		403FFF111ABB5BEC008FB159 /* InviteParentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InviteParentViewController.m; sourceTree = "<group>"; };
 		403FFF131ABD450D008FB159 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = ../../Main.storyboard; sourceTree = "<group>"; };
+		404C9E131AC02176001CF571 /* ios icons-24.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ios icons-24.png"; sourceTree = "<group>"; };
+		404C9E141AC02176001CF571 /* ios icons-25.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ios icons-25.png"; sourceTree = "<group>"; };
+		404C9E151AC02176001CF571 /* ios icons-26.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ios icons-26.png"; sourceTree = "<group>"; };
+		404C9E161AC02176001CF571 /* ios icons-27.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ios icons-27.png"; sourceTree = "<group>"; };
+		404C9E1B1AC0260C001CF571 /* phone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = phone.png; sourceTree = "<group>"; };
+		404C9E1D1AC0263C001CF571 /* iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iphone.png; sourceTree = "<group>"; };
 		4068825C1A8A307D00C055E1 /* ProfilePictureViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfilePictureViewController.h; sourceTree = "<group>"; };
 		4068825D1A8A307D00C055E1 /* ProfilePictureViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfilePictureViewController.m; sourceTree = "<group>"; };
 		40C7B2D11A935F6E00C1BFC8 /* ClassesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClassesViewController.h; sourceTree = "<group>"; };
@@ -159,10 +167,6 @@
 		40C7B2D51A935F8700C1BFC8 /* TSJoinedClassMessagesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSJoinedClassMessagesViewController.m; sourceTree = "<group>"; };
 		40C7B2E71A965AFF00C1BFC8 /* TSSuggestion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSSuggestion.h; sourceTree = "<group>"; };
 		40C7B2E81A965AFF00C1BFC8 /* TSSuggestion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSSuggestion.m; sourceTree = "<group>"; };
-		40CABD5D1ABF1B71003E8293 /* ios icons-01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ios icons-01.png"; sourceTree = "<group>"; };
-		40CABD5E1ABF1B71003E8293 /* ios icons-02.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ios icons-02.png"; sourceTree = "<group>"; };
-		40CABD5F1ABF1B71003E8293 /* ios icons-04.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ios icons-04.png"; sourceTree = "<group>"; };
-		40CABD631ABF1BAB003E8293 /* ios icons-03.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ios icons-03.png"; sourceTree = "<group>"; };
 		40CD58631A89455B000CB1AB /* FAQTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAQTableViewController.h; sourceTree = "<group>"; };
 		40CD58641A89455B000CB1AB /* FAQTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAQTableViewController.m; sourceTree = "<group>"; };
 		40CDDBB41A90E47E00922ADF /* TSMember.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSMember.h; sourceTree = "<group>"; };
@@ -711,10 +715,12 @@
 		971687DB1A1F1BCA00FE98FC /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				40CABD631ABF1BAB003E8293 /* ios icons-03.png */,
-				40CABD5D1ABF1B71003E8293 /* ios icons-01.png */,
-				40CABD5E1ABF1B71003E8293 /* ios icons-02.png */,
-				40CABD5F1ABF1B71003E8293 /* ios icons-04.png */,
+				404C9E1D1AC0263C001CF571 /* iphone.png */,
+				404C9E1B1AC0260C001CF571 /* phone.png */,
+				404C9E131AC02176001CF571 /* ios icons-24.png */,
+				404C9E141AC02176001CF571 /* ios icons-25.png */,
+				404C9E151AC02176001CF571 /* ios icons-26.png */,
+				404C9E161AC02176001CF571 /* ios icons-27.png */,
 				FBBA45D61A9DE4400088CCBC /* defaultTeacher.png */,
 				40EBADB11A7E6150003FB0B1 /* classroom.png */,
 				40EBADB21A7E6150003FB0B1 /* inbox_grey.png */,
@@ -1058,23 +1064,25 @@
 				9707CA181A5BC3110065D2BA /* JSQMessagesLoadEarlierHeaderView.xib in Resources */,
 				FBBA45D71A9DE4400088CCBC /* defaultTeacher.png in Resources */,
 				9707C9FD1A5BC3110065D2BA /* JSQMessagesViewController.xib in Resources */,
+				404C9E191AC02176001CF571 /* ios icons-26.png in Resources */,
 				40EBADA81A7E60B6003FB0B1 /* LaunchScreen.xib in Resources */,
 				403FFF141ABD450D008FB159 /* Main.storyboard in Resources */,
+				404C9E181AC02176001CF571 /* ios icons-25.png in Resources */,
+				404C9E1E1AC0263C001CF571 /* iphone.png in Resources */,
 				9707C9F31A5BC3110065D2BA /* JSQMessagesAssets.bundle in Resources */,
+				404C9E171AC02176001CF571 /* ios icons-24.png in Resources */,
 				FB1F47BB1A7589AE0093350B /* 120x120.png in Resources */,
-				40CABD601ABF1B72003E8293 /* ios icons-01.png in Resources */,
-				40CABD611ABF1B72003E8293 /* ios icons-02.png in Resources */,
 				40EBADB01A7E6142003FB0B1 /* 640 x 1136.png in Resources */,
+				404C9E1A1AC02176001CF571 /* ios icons-27.png in Resources */,
 				40EBADB51A7E6150003FB0B1 /* inbox_grey.png in Resources */,
 				40EBADB61A7E6150003FB0B1 /* settings_32.png in Resources */,
 				9707CA131A5BC3110065D2BA /* JSQMessagesCollectionViewCellOutgoing.xib in Resources */,
 				40EBADB41A7E6150003FB0B1 /* classroom.png in Resources */,
 				FB1F47BA1A7589AE0093350B /* 60x60.png in Resources */,
-				40CABD641ABF1BAB003E8293 /* ios icons-03.png in Resources */,
+				404C9E1C1AC0260C001CF571 /* phone.png in Resources */,
 				FB1F47BD1A7589AE0093350B /* 180x180.png in Resources */,
 				40EBADAC1A7E611F003FB0B1 /* 05-xxhdpi.png in Resources */,
 				FB1F47BC1A7589AE0093350B /* 152x152.png in Resources */,
-				40CABD621ABF1B72003E8293 /* ios icons-04.png in Resources */,
 				9707C9851A5BB94E0065D2BA /* avatar@2x.png in Resources */,
 				9707CA1D1A5BC3110065D2BA /* JSQMessagesTypingIndicatorFooterView.xib in Resources */,
 				973A4BE31A1F174D0039175A /* Images.xcassets in Resources */,
