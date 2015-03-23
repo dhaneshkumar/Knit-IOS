@@ -373,12 +373,13 @@
 
 - (void)inviteParentsTap:(UITapGestureRecognizer *)recognizer {
     CGPoint location = [recognizer locationInView:[recognizer.view superview]];
-    
+    NSLog(@"invite parents tapped!!");
 }
 
 
 - (void)subscribersTap:(UITapGestureRecognizer *)recognizer {
     CGPoint location = [recognizer locationInView:[recognizer.view superview]];
+    NSLog(@"subscribers tapped!!");
 }
 
 
