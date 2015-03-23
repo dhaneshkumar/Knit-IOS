@@ -189,19 +189,19 @@
                                 [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
                                 
                                 }
-                                if([role isEqualToString:@"teacher"] && createdClass.count<1)
+                                if([role isEqualToString:@"teacher"] )
                                     
                                 {
                                     
                                     UILocalNotification *localNotification = [[UILocalNotification alloc] init];
-                                    localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:60];
+                                    localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:60*2];
                                     localNotification.alertBody = @"We see you have not created any class.";
                                     localNotification.timeZone = [NSTimeZone defaultTimeZone];
                                     localNotification.alertAction=@"Create";
                                     localNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication]     applicationIconBadgeNumber] + 1;
-                                    
+                                    if(createdClass.count<1){
                                     [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
-                                    
+                                    }
                                 }
                             } errorBlock:^(NSError *error) {
                                 return ;

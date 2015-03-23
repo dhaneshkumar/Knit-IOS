@@ -48,6 +48,13 @@
     NSLog(@"Current User");
 }
 
+
+-(void) viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+   
+    
+}
+
 -(void) joinClassBarButtonItemClicked {
     UINavigationController *joinNewClassNavigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"joinNewClassViewController"];
     [self presentViewController:joinNewClassNavigationController animated:YES completion:nil];
