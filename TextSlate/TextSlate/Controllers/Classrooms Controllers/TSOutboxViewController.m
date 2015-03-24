@@ -40,8 +40,6 @@
     [super viewWillAppear:animated];
     UIBarButtonItem *composeBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose  target:self action:@selector(composeMessage)];
     self.tabBarController.navigationItem.rightBarButtonItem =composeBarButtonItem;
-
-    NSLog(@"Outbox viewWillAppear");
     _messagesArray=nil;
     _messagesArray=[[NSMutableArray alloc] init];
     [self getTimeDiffBetweenLocalAndServer];
