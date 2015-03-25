@@ -221,21 +221,6 @@
 
 -(IBAction)sendMessage:(id)sender  {
     NSLog(@"message send pressed");
-    /*[Data sendMessageOnClass:_classObject.code className:_classObject.name message:text withImage:nil withImageName:nil successBlock:^(id object) {
-     [self reloadMessages];
-     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@""
-     message:@"Message Has Been Sent"
-     delegate:self
-     cancelButtonTitle:@"OK"
-     otherButtonTitles:nil];
-     [alert show];
-     self.inputToolbar.contentView.textView.messageText=@"";
-     
-     
-     } errorBlock:^(NSError *error) {
-     UIAlertView *errorDialog = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error occurred in sending the message" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-     [errorDialog show];
-     }];*/
     NSString *attachmentName=_finalAttachment.name;
     NSString *messageText=_textMessage.text;
     if(!_finalAttachment)
@@ -354,7 +339,7 @@
     _finalAttachment= [PFFile fileWithName:@"Profileimage.jpeg" data:imageData];
     [_progressBar setProgress:70 animated:YES];
     _attachImage.image=_attachmentImage;
-    NSTextAttachment *textAttachment = [[NSTextAttachment alloc] init];
+   // NSTextAttachment *textAttachment = [[NSTextAttachment alloc] init];
    // textAttachment.bounds=CGRectMake(0, 0, 40, 40);
   //  textAttachment.image = _attachmentImage;
    // NSAttributedString *attrStringWithImage = [NSAttributedString attributedStringWithAttachment:textAttachment];

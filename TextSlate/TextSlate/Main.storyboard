@@ -580,6 +580,11 @@
                                 <exclude reference="phb-7c-EA6"/>
                             </mask>
                             <mask key="constraints">
+                                <exclude reference="pdF-hN-RiP"/>
+                                <exclude reference="6Cw-vr-NW5"/>
+                                <exclude reference="h3k-53-ip6"/>
+                                <exclude reference="hkg-Ac-Jwd"/>
+                                <exclude reference="x0Y-fy-kTx"/>
                                 <exclude reference="aww-Rk-09L"/>
                                 <exclude reference="g1l-xb-t75"/>
                                 <exclude reference="nhC-w9-AQf"/>
@@ -588,11 +593,6 @@
                                 <exclude reference="Cqs-7h-mhs"/>
                                 <exclude reference="LaU-sX-RN6"/>
                                 <exclude reference="eLb-7m-Mg2"/>
-                                <exclude reference="6Cw-vr-NW5"/>
-                                <exclude reference="h3k-53-ip6"/>
-                                <exclude reference="hkg-Ac-Jwd"/>
-                                <exclude reference="x0Y-fy-kTx"/>
-                                <exclude reference="pdF-hN-RiP"/>
                             </mask>
                         </variation>
                         <variation key="widthClass=compact">
@@ -607,6 +607,11 @@
                                 <include reference="phb-7c-EA6"/>
                             </mask>
                             <mask key="constraints">
+                                <include reference="pdF-hN-RiP"/>
+                                <include reference="6Cw-vr-NW5"/>
+                                <include reference="h3k-53-ip6"/>
+                                <include reference="hkg-Ac-Jwd"/>
+                                <include reference="x0Y-fy-kTx"/>
                                 <include reference="aww-Rk-09L"/>
                                 <include reference="g1l-xb-t75"/>
                                 <include reference="nhC-w9-AQf"/>
@@ -615,11 +620,6 @@
                                 <include reference="Cqs-7h-mhs"/>
                                 <include reference="LaU-sX-RN6"/>
                                 <include reference="eLb-7m-Mg2"/>
-                                <include reference="6Cw-vr-NW5"/>
-                                <include reference="h3k-53-ip6"/>
-                                <include reference="hkg-Ac-Jwd"/>
-                                <include reference="x0Y-fy-kTx"/>
-                                <include reference="pdF-hN-RiP"/>
                             </mask>
                         </variation>
                     </view>
@@ -4636,7 +4636,7 @@
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xlm-Av-GBD">
                                         <rect key="frame" x="-23" y="-15" width="46" height="30"/>
-                                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                        <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="80" id="5w5-mY-hPB">
                                                 <variation key="heightClass=regular-widthClass=compact" constant="75"/>
@@ -4664,7 +4664,7 @@
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bSD-ne-tOM">
                                         <rect key="frame" x="-23" y="-15" width="46" height="30"/>
-                                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                        <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="42" id="DZZ-y3-FMh"/>
                                             <constraint firstAttribute="width" constant="80" id="FKL-xQ-yVx">
@@ -4692,7 +4692,7 @@
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RzH-2a-v4t">
                                         <rect key="frame" x="-23" y="-15" width="46" height="30"/>
-                                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                        <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="80" id="d8y-Gh-mAQ">
                                                 <variation key="heightClass=regular-widthClass=compact" constant="75"/>
@@ -4722,7 +4722,7 @@
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8aM-rp-RnZ">
                                         <rect key="frame" x="-23" y="-15" width="46" height="30"/>
-                                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                        <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="75" id="C59-Ct-yv7"/>
                                             <constraint firstAttribute="width" constant="75" id="L0r-Qk-e9V"/>

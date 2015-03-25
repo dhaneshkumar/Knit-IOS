@@ -119,7 +119,14 @@
                                     localNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication]     applicationIconBadgeNumber] + 1;
                                     [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
                                 }
-                                
+                                if([_role isEqualToString:@"parent"])
+                                {
+                                    [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:nil];
+                                    NSTimer* loop = [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(inviteParentNotification) userInfo:nil repeats:NO];
+                                    [[NSRunLoop currentRunLoop] addTimer:loop forMode:NSRunLoopCommonModes];
+                                    
+                                }
+
                             } errorBlock:^(NSError *error) {
                                 return ;
                             }];
@@ -179,7 +186,7 @@
  
                                 {
                                     [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:nil];
-                                    NSTimer* loop = [NSTimer scheduledTimerWithTimeInterval:60*60*24 target:self selector:@selector(showJoinClassNotification) userInfo:nil repeats:NO];
+                                    NSTimer* loop = [NSTimer scheduledTimerWithTimeInterval:60*60*24*2 target:self selector:@selector(showJoinClassNotification) userInfo:nil repeats:NO];
                                     [[NSRunLoop currentRunLoop] addTimer:loop forMode:NSRunLoopCommonModes];
                                 
                                 }
@@ -187,10 +194,11 @@
                                     
                                 {
                                 [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:nil];
-                                    NSTimer* loop = [NSTimer scheduledTimerWithTimeInterval:60*60*24 target:self selector:@selector(showCreateClassNotification) userInfo:nil repeats:NO];
+                                    NSTimer* loop = [NSTimer scheduledTimerWithTimeInterval:60*60*24*2 target:self selector:@selector(showCreateClassNotification) userInfo:nil repeats:NO];
                                     [[NSRunLoop currentRunLoop] addTimer:loop forMode:NSRunLoopCommonModes];
                                     
                                 }
+                                
                             } errorBlock:^(NSError *error) {
                                 return ;
                             }];
@@ -243,6 +251,22 @@
     }
 }
 
+-(void)inviteParentNotification{
+    NSLog(@"Show notification");
+    
+    PFUser *current=[PFUser currentUser];
+    NSArray *joinedClass=[current objectForKey:@"joined_groups"];
+    if(joinedClass.count<1){
+        UILocalNotification *localNotification = [[UILocalNotification alloc] init];
+        localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:5];
+        localNotification.alertBody = @"We see you have not created any class.";
+        localNotification.timeZone = [NSTimeZone defaultTimeZone];
+        localNotification.alertAction=@"Invite Parent";
+        localNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication]     applicationIconBadgeNumber] + 1;
+        [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
+    }
+    
+}
 
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
 {
