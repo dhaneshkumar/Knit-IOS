@@ -39,7 +39,7 @@
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     UIBarButtonItem *composeBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose  target:self action:@selector(composeMessage)];
-self.tabBarController.navigationItem.rightBarButtonItem =composeBarButtonItem;
+    self.tabBarController.navigationItem.rightBarButtonItem =composeBarButtonItem;
 
     NSLog(@"Outbox viewWillAppear");
     _messagesArray=nil;
@@ -58,18 +58,19 @@ self.tabBarController.navigationItem.rightBarButtonItem =composeBarButtonItem;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *cellIdentifier = @"outboxMessageCell";
+    TSMessage *message = (TSMessage *)[_messagesArray objectAtIndex:indexPath.row];
+    NSString *cellIdentifier = (message.attachment)?@"outboxAttachmentMessageCell":@"outboxMessageCell";
     TSOutboxMessageTableViewCell *cell = (TSOutboxMessageTableViewCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     
-    TSMessage *message = (TSMessage *)[_messagesArray objectAtIndex:indexPath.row];
     cell.className.text = message.className;
-    cell.teacherPic.image = [UIImage imageNamed:@"defaultTeacher.png"];
     cell.message.text = message.message;
     NSTimeInterval mti = [self getMessageTimeDiff:message.sentTime];
     cell.sentTime.text = [self sentTimeDisplayText:mti];
     cell.likesCount.text = [NSString stringWithFormat:@"%d", message.likeCount];
     cell.confuseCount.text = [NSString stringWithFormat:@"%d", message.confuseCount];
     cell.seenCount.text = [NSString stringWithFormat:@"%d", message.seenCount];
+    if(message.attachment)
+        cell.attachedImage.image = message.attachment;
     
     PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
     [lq fromLocalDatastore];
@@ -95,7 +96,10 @@ self.tabBarController.navigationItem.rightBarButtonItem =composeBarButtonItem;
     
     CGSize expectSize = [gettingSizeLabel sizeThatFits:maximumLabelSize];
     //NSLog(@"height : %f", expectSize.height);
-    return expectSize.height+100;
+    if(((TSMessage *)_messagesArray[indexPath.row]).attachment)
+        return expectSize.height+280;
+    else
+        return expectSize.height+80;
 }
 
 
@@ -210,6 +214,9 @@ self.tabBarController.navigationItem.rightBarButtonItem =composeBarButtonItem;
     NSArray *messages = (NSArray *)[query findObjects];
     for (PFObject * messageObject in messages) {
         TSMessage *message = [[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:messageObject[@"title"] sender:messageObject[@"Creator"] sentTime:messageObject[@"createdTime"] senderPic:messageObject[@"senderPic"] likeCount:[messageObject[@"like_count"] intValue] confuseCount:[messageObject[@"confused_count"] intValue] seenCount:[messageObject[@"seen_count"] intValue]];
+        NSData *data = [(PFFile *)messageObject[@"attachment"] getData];
+        if(data)
+            message.attachment = [UIImage imageWithData:data];
         [_messagesArray addObject:message];
     }
 }
@@ -231,7 +238,11 @@ self.tabBarController.navigationItem.rightBarButtonItem =composeBarButtonItem;
                 if(!messageObject[@"seen_count"])
                     messageObject[@"seen_count"] = [NSNumber numberWithInt:0];
                 [messageObject pinInBackground];
+                NSLog(@"Pinned!!!!");
                 TSMessage *message = [[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:messageObject[@"title"] sender:messageObject[@"Creator"] sentTime:messageObject[@"createdTime"] senderPic:messageObject[@"senderPic"] likeCount:[messageObject[@"like_count"] intValue] confuseCount:[messageObject[@"confused_count"] intValue] seenCount:[messageObject[@"seen_count"] intValue]];
+                NSData *data = [(PFFile *)messageObject[@"attachment"] getData];
+                if(data)
+                    message.attachment = [UIImage imageWithData:data];
                 [_messagesArray addObject:message];
                 NSIndexPath *indexPath = [NSIndexPath indexPathForRow:(_messagesArray.count-1) inSection:0];
                 [indices addObject:indexPath];
@@ -270,6 +281,9 @@ self.tabBarController.navigationItem.rightBarButtonItem =composeBarButtonItem;
                     messageObject[@"seen_count"] = [NSNumber numberWithInt:0];
                 [messageObject pinInBackground];
                 TSMessage *message = [[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:messageObject[@"title"] sender:messageObject[@"Creator"] sentTime:messageObject[@"createdTime"] senderPic:messageObject[@"senderPic"] likeCount:[messageObject[@"like_count"] intValue] confuseCount:[messageObject[@"confused_count"] intValue] seenCount:[messageObject[@"seen_count"] intValue]];
+                NSData *data = [(PFFile *)messageObject[@"attachment"] getData];
+                if(data)
+                    message.attachment = [UIImage imageWithData:data];
                 [_messagesArray addObject:message];
                 NSIndexPath *indexPath = [NSIndexPath indexPathForRow:(_messagesArray.count-1) inSection:0];
                 [indices addObject:indexPath];

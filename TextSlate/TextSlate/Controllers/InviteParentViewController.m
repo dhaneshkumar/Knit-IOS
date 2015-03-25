@@ -71,6 +71,11 @@ forControlEvents:UIControlEventValueChanged];
 }
 
 
+-(IBAction)cancelButton:(id)sender{
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+
 -(IBAction)openWhatsApp:(id)sender{
     NSString *sendCode=@"Here is the code";
     NSString* strSharingText = [sendCode stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];

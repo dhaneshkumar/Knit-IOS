@@ -21,6 +21,7 @@
         self.likeCount = likeCount;
         self.confuseCount = confuseCount;
         self.seenCount = seenCount;
+        self.attachment = nil;
     }
     return self;
 }

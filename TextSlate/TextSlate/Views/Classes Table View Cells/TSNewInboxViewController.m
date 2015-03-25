@@ -63,9 +63,11 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     NSLog(@"Inbox Cell for row at index path : %d, %d", indexPath.row, _messagesArray.count);
-    static NSString *cellIdentifier = @"inboxMessageCell";
-    TSInboxMessageTableViewCell *cell = (TSInboxMessageTableViewCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     TSMessage *message = (TSMessage *)[_messagesArray objectAtIndex:indexPath.row];
+    NSString *cellIdentifier = (message.attachment)?@"inboxAttachmentMessageCell":@"inboxMessageCell";
+    NSLog(@"cell identifier : %@", cellIdentifier);
+    TSInboxMessageTableViewCell *cell = (TSInboxMessageTableViewCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    
     cell.className.text = message.className;
     cell.teacherName.text = [NSString stringWithFormat:@"by %@", message.sender];
     cell.message.text = message.message;
@@ -75,6 +77,8 @@
     cell.likesCount.text = [NSString stringWithFormat:@"%d", message.likeCount];
     cell.confuseView.backgroundColor = ([message.confuseStatus isEqualToString:@"true"])?[UIColor blueColor]:[UIColor whiteColor];
     cell.likesView.backgroundColor = ([message.likeStatus isEqualToString:@"true"])?[UIColor blueColor]:[UIColor whiteColor];
+    if(message.attachment)
+        cell.attachedImage.image = message.attachment;
         
     PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
     [lq fromLocalDatastore];
@@ -101,7 +105,13 @@
     
     CGSize expectSize = [gettingSizeLabel sizeThatFits:maximumLabelSize];
     //NSLog(@"height : %f", expectSize.height);
-    return expectSize.height+80;
+    if(((TSMessage *)_messagesArray[indexPath.row]).attachment) {
+        NSLog(@"more height");
+        return expectSize.height+280;
+    }
+    else {
+        return expectSize.height+80;
+    }
 }
 
 
@@ -261,6 +271,9 @@
         TSMessage *message = [[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:messageObject[@"title"] sender:messageObject[@"Creator"] sentTime:messageObject.createdAt senderPic:messageObject[@"senderPic"] likeCount:[messageObject[@"like_count"] intValue] confuseCount:[messageObject[@"confused_count"] intValue] seenCount:0];
         message.likeStatus = messageObject[@"likeStatus"];
         message.confuseStatus = messageObject[@"confuseStatus"];
+        NSData *data = [(PFFile *)messageObject[@"attachment"] getData];
+        if(data)
+            message.attachment = [UIImage imageWithData:data];
         [_messagesArray addObject:message];
     }
 }
@@ -280,6 +293,9 @@
                 TSMessage *message = [[TSMessage alloc] initWithValues:messageObj[@"name"] classCode:messageObj[@"code"] message:messageObj[@"title"] sender:messageObj[@"Creator"] sentTime:messageObj.createdAt senderPic:nil likeCount:[messageObj[@"like_count"] intValue] confuseCount:[messageObj[@"confused_count"] intValue] seenCount:0];
                 message.likeStatus = messageObj[@"likeStatus"];
                 message.confuseStatus = messageObj[@"confuseStatus"];
+                NSData *data = [(PFFile *)messageObj[@"attachment"] getData];
+                if(data)
+                    message.attachment = [UIImage imageWithData:data];
                 [_messagesArray insertObject:message atIndex:0];
                 NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
                 [self.messagesTable insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationTop];
@@ -317,6 +333,9 @@
                 TSMessage *message = [[TSMessage alloc] initWithValues:msg[@"name"] classCode:msg[@"code"] message:msg[@"title"] sender:msg[@"Creator"] sentTime:msg.createdAt senderPic:nil likeCount:[msg[@"like_count"] intValue] confuseCount:[msg[@"confused_count"] intValue] seenCount:0];
                 message.likeStatus = msg[@"likeStatus"];
                 message.confuseStatus = msg[@"confuseStatus"];
+                NSData *data = [(PFFile *)msg[@"attachment"] getData];
+                if(data)
+                    message.attachment = [UIImage imageWithData:data];
                 [_messagesArray addObject:message];
                 NSIndexPath *indexPath = [NSIndexPath indexPathForRow:(_messagesArray.count-1) inSection:0];
                 [indices addObject:indexPath];
@@ -364,6 +383,9 @@
                 TSMessage *message = [[TSMessage alloc] initWithValues:msg[@"name"] classCode:msg[@"code"] message:msg[@"title"] sender:msg[@"Creator"] sentTime:msg.createdAt senderPic:nil likeCount:[msg[@"like_count"] intValue] confuseCount:[msg[@"confused_count"] intValue] seenCount:0];
                 message.likeStatus = msg[@"likeStatus"];
                 message.confuseStatus = msg[@"confuseStatus"];
+                NSData *data = [(PFFile *)msg[@"attachment"] getData];
+                if(data)
+                    message.attachment = [UIImage imageWithData:data];
                 [_messagesArray addObject:message];
                 NSIndexPath *indexPath = [NSIndexPath indexPathForRow:(_messagesArray.count-1) inSection:0];
                 [indices addObject:indexPath];
