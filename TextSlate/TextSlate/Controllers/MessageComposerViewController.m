@@ -36,7 +36,7 @@
 @property (weak, nonatomic) IBOutlet UIView *testView;
 @property (strong,nonatomic) NSString *classCode;
 @property (strong,nonatomic) NSString *className;
-
+@property (strong ,nonatomic) NSTimer *timer;
 
 @end
 
@@ -47,10 +47,17 @@
     
     _attachImage=[[UIImageView alloc]init];
     [_attachImage setFrame:CGRectMake(65,1, 60, 40 )];
+    _attachImage.contentMode=UIViewContentModeScaleToFill;
+    _attachImage.clipsToBounds=YES;
+    _attachImage.layer.cornerRadius=4;
+    [_attachImage.layer setCornerRadius:5];
+    [_attachImage.layer setMasksToBounds:YES];
     
     _progressBar = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleDefault];
     [_progressBar setFrame:CGRectMake(130, 20, 100, 150)];
+    _progressBar.tintColor=[UIColor darkGrayColor];
     self.progressBar.hidden=YES;
+
     _cancelAttachment=[[UIButton alloc]init];
     [_cancelAttachment setFrame:CGRectMake(250, 1, 40, 40)];
     [_cancelAttachment setImage:[UIImage imageNamed:@"attachcancel.png"] forState:UIControlStateNormal];
@@ -66,10 +73,19 @@
     _textMessage.delegate = self;
     _textMessage.text = @"Type Message here...";
     _textMessage.textColor = [UIColor lightGrayColor];
+    _textMessage.layer.cornerRadius = 5;
+    _textMessage.clipsToBounds = YES;
+    [_textMessage.layer setBackgroundColor: [[UIColor whiteColor] CGColor]];
+   // [_textMessage.layer setBorderColor: [[UIColor colorWithRed:38.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0] CGColor]];
+    [_textMessage.layer setBorderColor:[[UIColor lightGrayColor] CGColor]];
+    [_textMessage.layer setBorderWidth: 1.0];
+    [_textMessage.layer setCornerRadius:0.0f];
+    [_textMessage.layer setMasksToBounds:YES];
+//    _textMessage.layer.borderColor=[[UIColor colorWithRed:38.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0] CGColor];
     _recipient.delegate=self;
     _recipient.text=@"Classroom";
     _recipient.textColor=[UIColor lightGrayColor];
-    _recipientTable = [[UITableView alloc] initWithFrame:CGRectMake(0, 3, 320, 500) style:UITableViewStylePlain];
+    _recipientTable = [[UITableView alloc] initWithFrame:CGRectMake(0, 3, 320, 160) style:UITableViewStylePlain];
     _recipientTable.delegate = self;
     _recipientTable.dataSource = self;
     _recipientTable.scrollEnabled = YES;
@@ -142,6 +158,8 @@
 
 -(IBAction)recipientButton:(id)sender
 {
+    [_recipient becomeFirstResponder];
+//    [_textMessage resignFirstResponder];
         self.testView.hidden=NO;
         self.recipientTable.hidden=NO;
         [self.testView addSubview:_recipientTable];
@@ -171,7 +189,6 @@
 #pragma mark UITableViewDelegate methods
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
     
         UITableViewCell *selectedCell = [tableView cellForRowAtIndexPath:indexPath];
 
@@ -337,14 +354,21 @@
 
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
-    
+
+    _progressBar.progress=0.0;
+
     NSLog(@"final");
     self.progressBar.hidden=NO;
     self.cancelAttachment.hidden=NO;
     _attachmentImage = info[UIImagePickerControllerOriginalImage];
     NSData *imageData = UIImageJPEGRepresentation(_attachmentImage, 0);
     _finalAttachment= [PFFile fileWithName:@"Profileimage.jpeg" data:imageData];
-    [_progressBar setProgress:70 animated:YES];
+
+    _timer = [NSTimer scheduledTimerWithTimeInterval: 1.0f
+                                             target: self
+                                           selector: @selector(updateTimer)
+                                           userInfo: nil
+                                            repeats: YES];
     _attachImage.image=_attachmentImage;
    // NSTextAttachment *textAttachment = [[NSTextAttachment alloc] init];
    // textAttachment.bounds=CGRectMake(0, 0, 40, 40);
@@ -355,6 +379,14 @@
     
     
 }
+- (void)updateTimer
+{
+    [UIView animateWithDuration:1 animations:^{
+        float newProgress = [self.progressBar progress] + 0.18;
+        [self.progressBar setProgress:newProgress animated:YES];
+    }];
+}
+
 
 -(IBAction)cancelButton:(id)sender{
     [self dismissViewControllerAnimated:YES completion:nil];
