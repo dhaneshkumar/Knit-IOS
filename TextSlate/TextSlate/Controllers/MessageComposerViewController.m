@@ -53,7 +53,7 @@
     self.progressBar.hidden=YES;
     _cancelAttachment=[[UIButton alloc]init];
     [_cancelAttachment setFrame:CGRectMake(250, 1, 40, 40)];
-    _cancelAttachment.backgroundColor=[UIColor blackColor];
+    [_cancelAttachment setImage:[UIImage imageNamed:@"attachcancel.png"] forState:UIControlStateNormal];
     _cancelAttachment.hidden=YES;
    [ _cancelAttachment addTarget:self action:@selector(removeAttachment) forControlEvents:UIControlEventTouchUpInside];
     [self.navigationController.toolbar addSubview:_progressBar];
@@ -67,9 +67,9 @@
     _textMessage.text = @"Type Message here...";
     _textMessage.textColor = [UIColor lightGrayColor];
     _recipient.delegate=self;
-    _recipient.text=@"To:- Classroom";
+    _recipient.text=@"Classroom";
     _recipient.textColor=[UIColor lightGrayColor];
-    _recipientTable = [[UITableView alloc] initWithFrame:CGRectMake(0, 20, 320, 500) style:UITableViewStylePlain];
+    _recipientTable = [[UITableView alloc] initWithFrame:CGRectMake(0, 3, 320, 500) style:UITableViewStylePlain];
     _recipientTable.delegate = self;
     _recipientTable.dataSource = self;
     _recipientTable.scrollEnabled = YES;
@@ -117,7 +117,7 @@
         textView.textColor = [UIColor blackColor]; //optional
         
     }
-    if([textView.text isEqualToString:@"To:- Classroom"])
+    if([textView.text isEqualToString:@"Classroom"])
     {
         self.testView.hidden=NO;
         self.recipientTable.hidden=NO;
@@ -135,12 +135,18 @@
     
     if([textView.text isEqualToString:@""] && textView==_recipient )
     {
-        textView.text=@"To:- Classroom";
+        textView.text=@"Classroom";
         textView.textColor=[UIColor lightGrayColor];
     }
 }
 
+-(IBAction)recipientButton:(id)sender
+{
+        self.testView.hidden=NO;
+        self.recipientTable.hidden=NO;
+        [self.testView addSubview:_recipientTable];
 
+}
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger) section {
             return _createdclassName.count;
     }
@@ -168,8 +174,9 @@
     
     
         UITableViewCell *selectedCell = [tableView cellForRowAtIndexPath:indexPath];
+
         _recipient.text=selectedCell.textLabel.text;
-        _recipient.textColor=[UIColor blackColor];
+    _recipient.textColor=[UIColor colorWithRed:38.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
         _className=_recipient.text;
         int index=(int) indexPath;
         NSLog(@" class code %@ %i",[_createdclassCode objectAtIndex:1],index);

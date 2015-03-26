@@ -38,9 +38,13 @@
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    NSString *role=[[PFUser currentUser] objectForKey:@"role"];
+    NSLog(@"role is %@",role);
+    if([role isEqualToString:@"teacher"]){
+        
     UIBarButtonItem *composeBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose  target:self action:@selector(composeMessage)];
     self.tabBarController.navigationItem.rightBarButtonItem =composeBarButtonItem;
-
+    }
     NSLog(@"Outbox viewWillAppear");
     _messagesArray=nil;
     _messagesArray=[[NSMutableArray alloc] init];
