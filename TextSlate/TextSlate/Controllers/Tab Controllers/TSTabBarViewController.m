@@ -27,6 +27,7 @@
     [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:38.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0]];
     [self.navigationController.navigationBar setTranslucent:NO];
     self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName : [UIColor whiteColor]};
+    self.navigationItem.title = @"Knit";
     if (![PFUser currentUser]) {
         NSLog(@"Tab bar controller");
         TSSignInViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"signInNavigationController"];

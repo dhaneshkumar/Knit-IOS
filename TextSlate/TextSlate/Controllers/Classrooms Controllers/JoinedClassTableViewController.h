@@ -16,4 +16,6 @@
 @property (strong, nonatomic) UIImage *teacherPic;
 @property (strong, nonatomic) NSString *associatedName;
 
+-(void)updateAssociatedName:(NSString*)assocName;
+
 @end

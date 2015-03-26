@@ -144,10 +144,9 @@
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if([segue.identifier isEqualToString:@"joinedClasses"]) {
         NSLog(@"Reaching prep for segue");
-        UINavigationController *ndvc = (UINavigationController *)segue.destinationViewController;
         int row = [[self.classesTable indexPathForSelectedRow] row];
         //TSJoinedClass *selectedClass = (TSJoinedClass *)_classes[row];
-        JoinedClassTableViewController *dvc = (JoinedClassTableViewController *)ndvc.topViewController;
+        JoinedClassTableViewController *dvc = (JoinedClassTableViewController *)segue.destinationViewController;
         PFObject *codegroup = [_codegroups objectForKey:_joinedClasses[row-1][0]];
         dvc.className = codegroup[@"name"];
         dvc.classCode = codegroup[@"code"];
@@ -157,10 +156,10 @@
             dvc.teacherPic = [UIImage imageWithData:data];
         else
             dvc.teacherPic = [UIImage imageNamed:@"defaultTeacher.png"];
-        if(((NSArray *)_joinedClasses[row]).count==2)
+        if(((NSArray *)_joinedClasses[row-1]).count==2)
             dvc.associatedName = [[PFUser currentUser] objectForKey:@"name"];
         else
-            dvc.associatedName = _joinedClasses[row][2];
+            dvc.associatedName = _joinedClasses[row-1][2];
     }
     else  if([segue.identifier isEqualToString:@"createdClasses"]){
         TSSendClassMessageViewController *dvc = (TSSendClassMessageViewController*)segue.destinationViewController;
