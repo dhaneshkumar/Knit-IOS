@@ -30,10 +30,14 @@
 @property (strong,nonatomic) NSMutableArray *createdClasses;
 @property (strong,nonatomic) NSMutableArray *createdclassName;
 @property (strong,nonatomic) NSMutableArray *createdclassCode;
-
+@property (strong,nonatomic) UIProgressView *progressBar;
+@property (strong,nonatomic) UIImageView *attachImage;
+@property (strong,nonatomic) UIButton *cancelAttachment;
 @property (weak, nonatomic) IBOutlet UIView *testView;
 @property (strong,nonatomic) NSString *classCode;
 @property (strong,nonatomic) NSString *className;
+
+
 @end
 
 @implementation MessageComposerViewController
@@ -41,7 +45,20 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    _attachImage=[[UIImageView alloc]init];
+    [_attachImage setFrame:CGRectMake(65,1, 60, 40 )];
     
+    _progressBar = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleDefault];
+    [_progressBar setFrame:CGRectMake(130, 20, 100, 150)];
+    self.progressBar.hidden=YES;
+    _cancelAttachment=[[UIButton alloc]init];
+    [_cancelAttachment setFrame:CGRectMake(250, 1, 40, 40)];
+    _cancelAttachment.backgroundColor=[UIColor blackColor];
+    _cancelAttachment.hidden=YES;
+   [ _cancelAttachment addTarget:self action:@selector(removeAttachment) forControlEvents:UIControlEventTouchUpInside];
+    [self.navigationController.toolbar addSubview:_progressBar];
+    [self.navigationController.toolbar addSubview:_attachImage];
+    [self.navigationController.toolbar addSubview:_cancelAttachment];
     self.navigationItem.title=@"New Message";
     _createdClasses=[[NSMutableArray alloc]init];
     _createdclassName=[[NSMutableArray alloc]init];
@@ -52,7 +69,6 @@
     _recipient.delegate=self;
     _recipient.text=@"To:- Classroom";
     _recipient.textColor=[UIColor lightGrayColor];
-    
     _recipientTable = [[UITableView alloc] initWithFrame:CGRectMake(0, 20, 320, 500) style:UITableViewStylePlain];
     _recipientTable.delegate = self;
     _recipientTable.dataSource = self;
@@ -78,9 +94,11 @@
     // Do any additional setup after loading the view.
      
 }
-
 -(void)viewDidAppear:(BOOL)animated{
-   // [_textMessage becomeFirstResponder];
+    // [_textMessage becomeFirstResponder];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(liftMainViewWhenKeybordAppears:) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(liftMainViewWhenKeybordHide:) name:UIKeyboardDidHideNotification object:nil];
+
 }
 
 
@@ -93,6 +111,7 @@
 
 - (void)textViewDidBeginEditing:(UITextView *)textView
 {
+    [textView becomeFirstResponder];
     if ([textView.text isEqualToString:@"Type Message here..."]) {
         textView.text = @"";
         textView.textColor = [UIColor blackColor]; //optional
@@ -119,7 +138,6 @@
         textView.text=@"To:- Classroom";
         textView.textColor=[UIColor lightGrayColor];
     }
-    [textView resignFirstResponder];
 }
 
 
@@ -161,7 +179,10 @@
         self.testView.hidden=YES;
     }
 
-
+-(void)liftMainViewWhenKeybordHide:(NSNotification *)aNotification
+{
+    [_textMessage becomeFirstResponder];
+}
 -(void) liftMainViewWhenKeybordAppears:(NSNotification*)aNotification
 {
         NSDictionary* userInfo = [aNotification userInfo];
@@ -194,26 +215,12 @@
                                                                 +                                                           self.navigationController.toolbar.frame.size.height)];
     
         [UIView commitAnimations];
+    [_textMessage becomeFirstResponder];
         NSLog(@"toolbar moved: %f", self.navigationController.view.frame.size.height);
 }
 
 -(IBAction)sendMessage:(id)sender  {
     NSLog(@"message send pressed");
-    /*[Data sendMessageOnClass:_classObject.code className:_classObject.name message:text withImage:nil withImageName:nil successBlock:^(id object) {
-     [self reloadMessages];
-     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@""
-     message:@"Message Has Been Sent"
-     delegate:self
-     cancelButtonTitle:@"OK"
-     otherButtonTitles:nil];
-     [alert show];
-     self.inputToolbar.contentView.textView.messageText=@"";
-     
-     
-     } errorBlock:^(NSError *error) {
-     UIAlertView *errorDialog = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error occurred in sending the message" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-     [errorDialog show];
-     }];*/
     NSString *attachmentName=_finalAttachment.name;
     NSString *messageText=_textMessage.text;
     if(!_finalAttachment)
@@ -295,6 +302,7 @@
 }
 
 -(IBAction)sendAttachment:(id)sender{
+    [_textMessage becomeFirstResponder];
     UIAlertView * alert = [[UIAlertView alloc]initWithTitle:@"Knit" message:@"" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Choose from Photos", @"Open Camera", nil];
     
     [alert show];
@@ -322,23 +330,35 @@
 
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    
     NSLog(@"final");
+    self.progressBar.hidden=NO;
+    self.cancelAttachment.hidden=NO;
     _attachmentImage = info[UIImagePickerControllerOriginalImage];
     NSData *imageData = UIImageJPEGRepresentation(_attachmentImage, 0);
     _finalAttachment= [PFFile fileWithName:@"Profileimage.jpeg" data:imageData];
-    NSTextAttachment *textAttachment = [[NSTextAttachment alloc] init];
-    textAttachment.bounds=CGRectMake(0, 0, 40, 40);
-    textAttachment.image = _attachmentImage;
-    NSAttributedString *attrStringWithImage = [NSAttributedString attributedStringWithAttachment:textAttachment];
-    _textMessage.attributedText=attrStringWithImage;
+    [_progressBar setProgress:70 animated:YES];
+    _attachImage.image=_attachmentImage;
+   // NSTextAttachment *textAttachment = [[NSTextAttachment alloc] init];
+   // textAttachment.bounds=CGRectMake(0, 0, 40, 40);
+  //  textAttachment.image = _attachmentImage;
+   // NSAttributedString *attrStringWithImage = [NSAttributedString attributedStringWithAttachment:textAttachment];
+    //_textMessage.attributedText=attrStringWithImage;
     [picker dismissViewControllerAnimated:YES completion:NULL];
+    
     
 }
 
 -(IBAction)cancelButton:(id)sender{
     [self dismissViewControllerAnimated:YES completion:nil];
 }
-
+-(void)removeAttachment{
+    _finalAttachment=nil;
+    self.progressBar.hidden=YES;
+    self.attachmentImage=nil;
+    self.attachImage.image=nil;
+    self.cancelAttachment.hidden=YES;
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

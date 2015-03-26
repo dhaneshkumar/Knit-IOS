@@ -18,7 +18,7 @@
 @property (strong, nonatomic) NSDate * timeDiff;
 @property (strong, nonatomic) UIRefreshControl *refreshControl;
 @property (nonatomic) BOOL isBottomRefreshCalled;
-
+@property (assign) int messageFlag;
 @end
 
 @implementation TSNewInboxViewController
@@ -240,6 +240,7 @@
             return;
         }
         if(localObjs[0][@"isInboxDataConsistent"] && [localObjs[0][@"isInboxDataConsistent"] isEqualToString:@"true"]) {
+            _messageFlag=1;
             [self insertLatestMessages];
         }
         else {
@@ -299,6 +300,12 @@
                 [_messagesArray insertObject:message atIndex:0];
                 NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
                 [self.messagesTable insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationTop];
+                
+                if(_messageFlag==1 && messageObjects.count>=1)
+                {
+                    UIAlertView *likeConfuseAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Hey! You can now confuse or like message and let teacher know." delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+                    [likeConfuseAlertView show];
+                }
             }
         } errorBlock:^(NSError *error) {
             NSLog(@"Unable to fetch inbox messages while opening inbox tab: %@", [error description]);
