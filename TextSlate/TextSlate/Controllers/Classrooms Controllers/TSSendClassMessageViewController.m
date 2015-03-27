@@ -378,6 +378,7 @@
     UINavigationController *inviteParentNavigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"inviteParentNav"];
     InviteParentViewController *inviteParentController = (InviteParentViewController *)inviteParentNavigationController.topViewController;
     inviteParentController.classCode = _classCode;
+    inviteParentController.className=_className;
     [self presentViewController:inviteParentNavigationController animated:YES completion:nil];
 }
 
@@ -385,13 +386,18 @@
 - (void)subscribersTap:(UITapGestureRecognizer *)recognizer {
     CGPoint location = [recognizer locationInView:[recognizer.view superview]];
     NSLog(@"subscribers tapped!!");
+    UINavigationController *memberListNavigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"memberListNav"];
+    TSMemberslistTableViewController *memberListController = (TSMemberslistTableViewController *)memberListNavigationController.topViewController;
+    memberListController.classCode = _classCode;
+    memberListController.className = _className;
+    [self presentViewController:memberListNavigationController animated:YES completion:nil];
 }
 
-
+/*
 -(void) showClassDetails {
     [self performSegueWithIdentifier:@"showDetails" sender:self];
 }
-
+*/
 
 -(void) deleteClass {
     [Data deleteClass:_classCode
@@ -403,7 +409,7 @@
          }];
 }
 
-
+/*
 -(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"showDetails"]) {
         TSMemberslistTableViewController *dvc = segue.destinationViewController;
@@ -414,5 +420,5 @@
         
     }
 }
-
+*/
 @end

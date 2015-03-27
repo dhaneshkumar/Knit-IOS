@@ -21,6 +21,7 @@
 		40A9FC841AC42C0900082555 /* attach_40x40.png in Resources */ = {isa = PBXBuildFile; fileRef = 40A9FC811AC42C0900082555 /* attach_40x40.png */; };
 		40BB899B1AC431D3002CFDFE /* attachcancel.png in Resources */ = {isa = PBXBuildFile; fileRef = 40BB89991AC431D3002CFDFE /* attachcancel.png */; };
 		40BB899C1AC431D3002CFDFE /* attachcancel1.png in Resources */ = {isa = PBXBuildFile; fileRef = 40BB899A1AC431D3002CFDFE /* attachcancel1.png */; };
+		40BB89A01AC4992C002CFDFE /* InviteTeacherViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 40BB899F1AC4992C002CFDFE /* InviteTeacherViewController.m */; };
 		40C7B2D31A935F6E00C1BFC8 /* ClassesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 40C7B2D21A935F6E00C1BFC8 /* ClassesViewController.m */; };
 		40C7B2D61A935F8700C1BFC8 /* TSJoinedClassMessagesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 40C7B2D51A935F8700C1BFC8 /* TSJoinedClassMessagesViewController.m */; };
 		40C7B2E91A965AFF00C1BFC8 /* TSSuggestion.m in Sources */ = {isa = PBXBuildFile; fileRef = 40C7B2E81A965AFF00C1BFC8 /* TSSuggestion.m */; };
@@ -114,6 +115,8 @@
 		FB1F47BC1A7589AE0093350B /* 152x152.png in Resources */ = {isa = PBXBuildFile; fileRef = FB1F47B81A7589AE0093350B /* 152x152.png */; };
 		FB1F47BD1A7589AE0093350B /* 180x180.png in Resources */ = {isa = PBXBuildFile; fileRef = FB1F47B91A7589AE0093350B /* 180x180.png */; };
 		FB6A04A61AC0738F009E9D9D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FB6A04A51AC0738F009E9D9D /* Main.storyboard */; };
+		FB6A04A81AC29770009E9D9D /* ios icons-15.png in Resources */ = {isa = PBXBuildFile; fileRef = FB6A04A71AC2976F009E9D9D /* ios icons-15.png */; };
+		FB6A04AF1AC2DE7B009E9D9D /* EditAsscoNameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FB6A04AE1AC2DE7B009E9D9D /* EditAsscoNameViewController.m */; };
 		FBACC65C1A74298800DC1747 /* libstdc++.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = FBACC65B1A74298800DC1747 /* libstdc++.6.dylib */; };
 		FBACC65E1A7429A700DC1747 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = FBACC65D1A7429A700DC1747 /* libsqlite3.dylib */; };
 		FBACC66E1A742D6E00DC1747 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FBACC6691A742D6E00DC1747 /* Bolts.framework */; };
@@ -168,6 +171,8 @@
 		40A9FC811AC42C0900082555 /* attach_40x40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = attach_40x40.png; sourceTree = "<group>"; };
 		40BB89991AC431D3002CFDFE /* attachcancel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = attachcancel.png; sourceTree = "<group>"; };
 		40BB899A1AC431D3002CFDFE /* attachcancel1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = attachcancel1.png; sourceTree = "<group>"; };
+		40BB899E1AC4992C002CFDFE /* InviteTeacherViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InviteTeacherViewController.h; sourceTree = "<group>"; };
+		40BB899F1AC4992C002CFDFE /* InviteTeacherViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InviteTeacherViewController.m; sourceTree = "<group>"; };
 		40C7B2D11A935F6E00C1BFC8 /* ClassesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClassesViewController.h; sourceTree = "<group>"; };
 		40C7B2D21A935F6E00C1BFC8 /* ClassesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClassesViewController.m; sourceTree = "<group>"; };
 		40C7B2D41A935F8700C1BFC8 /* TSJoinedClassMessagesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSJoinedClassMessagesViewController.h; sourceTree = "<group>"; };
@@ -347,6 +352,9 @@
 		FB1F47B81A7589AE0093350B /* 152x152.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 152x152.png; sourceTree = "<group>"; };
 		FB1F47B91A7589AE0093350B /* 180x180.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 180x180.png; sourceTree = "<group>"; };
 		FB6A04A51AC0738F009E9D9D /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		FB6A04A71AC2976F009E9D9D /* ios icons-15.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ios icons-15.png"; sourceTree = "<group>"; };
+		FB6A04AD1AC2DE7B009E9D9D /* EditAsscoNameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditAsscoNameViewController.h; sourceTree = "<group>"; };
+		FB6A04AE1AC2DE7B009E9D9D /* EditAsscoNameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditAsscoNameViewController.m; sourceTree = "<group>"; };
 		FBACC65B1A74298800DC1747 /* libstdc++.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.6.dylib"; path = "usr/lib/libstdc++.6.dylib"; sourceTree = SDKROOT; };
 		FBACC65D1A7429A700DC1747 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		FBACC6691A742D6E00DC1747 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
@@ -456,6 +464,15 @@
 				4068825D1A8A307D00C055E1 /* ProfilePictureViewController.m */,
 			);
 			name = "Profile Picture Controller";
+			sourceTree = "<group>";
+		};
+		40BB899D1AC49909002CFDFE /* Invite Teacher */ = {
+			isa = PBXGroup;
+			children = (
+				40BB899E1AC4992C002CFDFE /* InviteTeacherViewController.h */,
+				40BB899F1AC4992C002CFDFE /* InviteTeacherViewController.m */,
+			);
+			name = "Invite Teacher";
 			sourceTree = "<group>";
 		};
 		40CD58621A894428000CB1AB /* FAQ Controller */ = {
@@ -679,6 +696,8 @@
 		971687D71A1F1BCA00FE98FC /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				40BB899D1AC49909002CFDFE /* Invite Teacher */,
+				FB6A04A91AC2CE1C009E9D9D /* Edit Associate Name */,
 				403FFF0F1ABB5BD3008FB159 /* Invite Parent */,
 				403FFF0B1ABB0044008FB159 /* Message Composer */,
 				403C1AF31AAAEC7D003E7D81 /* Old Sign In */,
@@ -723,6 +742,7 @@
 		971687DB1A1F1BCA00FE98FC /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				FB6A04A71AC2976F009E9D9D /* ios icons-15.png */,
 				40BB89991AC431D3002CFDFE /* attachcancel.png */,
 				40BB899A1AC431D3002CFDFE /* attachcancel1.png */,
 				40A9FC801AC42C0900082555 /* attach_30x30.png */,
@@ -977,6 +997,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		FB6A04A91AC2CE1C009E9D9D /* Edit Associate Name */ = {
+			isa = PBXGroup;
+			children = (
+				FB6A04AD1AC2DE7B009E9D9D /* EditAsscoNameViewController.h */,
+				FB6A04AE1AC2DE7B009E9D9D /* EditAsscoNameViewController.m */,
+			);
+			name = "Edit Associate Name";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1072,6 +1101,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FB6A04A81AC29770009E9D9D /* ios icons-15.png in Resources */,
 				9707C9F41A5BC3110065D2BA /* JSQMessages.strings in Resources */,
 				9707CA181A5BC3110065D2BA /* JSQMessagesLoadEarlierHeaderView.xib in Resources */,
 				40BB899C1AC431D3002CFDFE /* attachcancel1.png in Resources */,
@@ -1164,6 +1194,7 @@
 				9707CA121A5BC3110065D2BA /* JSQMessagesCollectionViewCellOutgoing.m in Sources */,
 				40D0B9501A83A86700FF24EA /* TableCell.m in Sources */,
 				9707CA141A5BC3110065D2BA /* JSQMessagesComposerTextView.m in Sources */,
+				FB6A04AF1AC2DE7B009E9D9D /* EditAsscoNameViewController.m in Sources */,
 				FBC1BD021AB60CE4004921CD /* TSCreatedClass.m in Sources */,
 				9707CA0D1A5BC3110065D2BA /* JSQMessagesCellTextView.m in Sources */,
 				40C7B2D61A935F8700C1BFC8 /* TSJoinedClassMessagesViewController.m in Sources */,
@@ -1176,6 +1207,7 @@
 				FBC1BD0F1AB7004F004921CD /* associatedNameTableViewCell.m in Sources */,
 				971687E31A1F1C3900FE98FC /* TSParent.m in Sources */,
 				9707CA011A5BC3110065D2BA /* JSQMessagesTimestampFormatter.m in Sources */,
+				40BB89A01AC4992C002CFDFE /* InviteTeacherViewController.m in Sources */,
 				40C7B2E91A965AFF00C1BFC8 /* TSSuggestion.m in Sources */,
 				FBC1BD031AB60CE4004921CD /* TSJoinedClass.m in Sources */,
 				9707CA0A1A5BC3110065D2BA /* JSQMessagesBubbleImage.m in Sources */,

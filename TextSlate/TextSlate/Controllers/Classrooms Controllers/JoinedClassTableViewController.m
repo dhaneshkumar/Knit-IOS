@@ -10,6 +10,8 @@
 #import "teacherDetailsTableViewCell.h"
 #import "classDetailsTableViewCell.h"
 #import "associatedNameTableViewCell.h"
+#import "EditAsscoNameViewController.h"
+#import "Data.h"
 
 @interface JoinedClassTableViewController ()
 
@@ -34,17 +36,23 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    //NSLog(@"VWA : %@", _associatedName);
+}
 
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     // Return the number of sections.
+    //NSLog(@"sections");
     return 3;
 }
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
+    //NSLog(@"rows");
     if(section==1)
         return 3;
     return 1;
@@ -72,6 +80,7 @@
         teacherDetailsTableViewCell * cell = (teacherDetailsTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"teacherProfile"];
         cell.teacherNameOutlet.text = _teacherName;
         cell.teacherPicOutlet.image = _teacherPic;
+        cell.userInteractionEnabled = NO;
         return cell;
     }
     else if(indexPath.section==1) {
@@ -80,7 +89,10 @@
             cell.classNameOutlet.text = _className;
             [cell.codeButton setTitle:_classCode forState:UIControlStateNormal];
             [[cell.codeButton layer] setBorderWidth:2.0f];
-            [[cell.codeButton layer] setBorderColor:[UIColor blueColor].CGColor];
+            [[cell.codeButton layer] setBorderColor:[[UIColor colorWithRed:38.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0] CGColor]];
+            [cell.codeButton setBackgroundColor:[UIColor colorWithRed:38.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0]];
+            [cell.codeButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
             return cell;
         }
         else if(indexPath.row==1) {
@@ -100,18 +112,76 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
-    return;
     if(indexPath.section==0) {
     }
     else if(indexPath.section==1) {
-        
+        if(indexPath.row==1) {
+            UINavigationController *editAssocNameNavigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"editAssocNameNav"];
+            EditAsscoNameViewController *editAssocName = (EditAsscoNameViewController *)editAssocNameNavigationController.topViewController;
+            editAssocName.assocName = _associatedName;
+            editAssocName.classCode = _classCode;
+            [self presentViewController:editAssocNameNavigationController animated:YES completion:nil];
+        }
+        else if(indexPath.row==2) {
+            [self leaveClass];
+        }
     }
     else {
-        [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+        NSString *sendCode=[NSString stringWithFormat:@"I have just joined %@ classroom of %@ on Knit Messaging. You can also join this class using the code %@.\n Link: http://www.knitapp.co.in/user.html?/%@", _className, _teacherName, _classCode, _classCode];
+        NSString* strSharingText = [sendCode stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        
+        //This is whatsApp url working only when you having app in your Apple device
+        NSURL *whatsappURL = [NSURL URLWithString:[NSString stringWithFormat:@"whatsapp://send?text=%@",strSharingText]];
+        if ([[UIApplication sharedApplication] canOpenURL: whatsappURL]) {
+            [[UIApplication sharedApplication] openURL: whatsappURL];
+        }
     }
+    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+    return;
 }
 
+
+-(void)updateAssociatedName:(NSString *)assocName {
+    _associatedName = assocName;
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:1 inSection:1];
+    associatedNameTableViewCell *cell = (associatedNameTableViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+    cell.associatedNameOutlet.text = [NSString stringWithFormat:@"Associated Name: %@", _associatedName];;
+}
+
+
+-(void)leaveClass {
+    [Data leaveClass:_classCode successBlock:^(id object) {
+        [self deleteAllLocalMessages:_classCode];
+        [self deleteLocalCodegroupEntry:_classCode];
+        [[PFUser currentUser] fetch];
+        [self.navigationController popViewControllerAnimated:YES];
+    } errorBlock:^(NSError *error) {
+        UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error occured in leaving the class." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+        [errorAlertView show];
+    }];
+}
+
+
+-(void)deleteAllLocalMessages:(NSString *)classCode {
+    PFQuery *query = [PFQuery queryWithClassName:@"GroupDetails"];
+    [query fromLocalDatastore];
+    [query whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
+    [query whereKey:@"code" equalTo:classCode];
+    NSArray *messages = [query findObjects];
+    [PFObject unpinAllInBackground:messages];
+    return;
+}
+
+
+-(void)deleteLocalCodegroupEntry:(NSString *)classCode {
+    PFQuery *query = [PFQuery queryWithClassName:@"Codegroup"];
+    [query fromLocalDatastore];
+    [query whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
+    [query whereKey:@"code" equalTo:classCode];
+    NSArray *messages = [query findObjects];
+    [PFObject unpinAllInBackground:messages];
+    return;
+}
 
 /*
 // Override to support conditional editing of the table view.

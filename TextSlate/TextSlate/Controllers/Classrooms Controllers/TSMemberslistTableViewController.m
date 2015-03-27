@@ -13,10 +13,9 @@
 
 @interface TSMemberslistTableViewController ()
 
-@property (strong,nonatomic) NSDate *latestTime;
-@property (strong,nonatomic) NSMutableArray *result;
+//@property (strong,nonatomic) NSDate *latestTime;
+//@property (strong,nonatomic) NSMutableArray *result;
 @property (strong,nonatomic) NSMutableArray *memberList;
-
 
 @end
 
@@ -25,42 +24,33 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-   _result=[[NSMutableArray alloc]init];
-
-    _subscriber=[[NSMutableArray alloc]init];
-    _memberList=[[NSMutableArray alloc]init];
-    
     if ([self respondsToSelector:@selector(edgesForExtendedLayout)])
         self.edgesForExtendedLayout = UIRectEdgeNone;
-   
-    
-    NSLog(@"VIEW DID APPERAR %@",_nameClass);
-
-    [self.tableView reloadData];
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-     self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+    [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:38.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0]];
+    [self.navigationController.navigationBar setTranslucent:NO];
+    self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName : [UIColor whiteColor]};
+    self.navigationItem.title = _className;
+    self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
--(void) viewDidAppear:(BOOL)animated{
-    [super viewDidAppear:animated];
-    [self fetchMemberList];
-    [self fillArray];
-    [self.tableView reloadData];
 
-}
 -(void)viewWillAppear:(BOOL)animated{
-
-
-  
+    [super viewWillAppear:animated];
+    _memberList = nil;
+    _memberList = [[NSMutableArray alloc] init];
+    [self fetchMemberList];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+-(IBAction)cancelButton:(id)sender{
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
 
 #pragma mark - Table view data source
 
@@ -71,30 +61,14 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
-    return _result.count;
+    return _memberList.count;
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"memberName"];
-    /*if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"memberName"];
-    }*/
-    
-        NSString *childName=((TSMember *)[_result objectAtIndex:indexPath.row]).childern;
-    
-    
-        if([childName length]!=0)
-        {
-        cell.textLabel.text=((TSMember *)[_result objectAtIndex:indexPath.row]).childern;
-            NSLog(@"%@ child ",((TSMember *)[_result objectAtIndex:indexPath.row]).childern);
-        }
-        else {
-            
-            cell.textLabel.text=((TSMember *)[_result objectAtIndex:indexPath.row]).userName;
-        }
-    
-    
+    TSMember *child = (TSMember *)_memberList[indexPath.row];
+    cell.textLabel.text = child.childName;
     return cell;
 }
 
@@ -103,246 +77,155 @@
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        TSMember *toRemove=((TSMember *) [_result objectAtIndex:indexPath.row]);
-        NSString *checkEmail=toRemove.emailId;
-        NSString *num=toRemove.phoneNum;
-        NSString *userName=_result[indexPath.row];
-        
-        [tableView reloadData];
-        TSMember *removeMemeber1=[[TSMember alloc]init];
-        
-        for(TSMember *getMember in _result)
-        {
-            NSLog(@"check email %@ getmember email %@",checkEmail,getMember.emailId);
-            if(getMember.emailId==checkEmail)
-            {
-                NSLog(@"if block");
-                NSLog(@"%@ get member classname",_nameClass);
-
-                removeMemeber1.userName=getMember.userName;
-                removeMemeber1.classCode=getMember.classCode;
-                removeMemeber1.ClassName=getMember.ClassName;
-                removeMemeber1.emailId=getMember.emailId;
-                removeMemeber1.userType=getMember.userType;
-                removeMemeber1.phoneNum=getMember.phoneNum;
-            
-            }
-            else if(getMember.phoneNum==num && [num length]!=0)
-            {
-                NSLog(@"else block");
-                NSLog(@"%@ get member classname",_nameClass);
-                
-                removeMemeber1.userName=getMember.userName;
-                removeMemeber1.classCode=getMember.classCode;
-                removeMemeber1.ClassName=getMember.ClassName;
-                removeMemeber1.emailId=getMember.emailId;
-                removeMemeber1.userType=getMember.userType;
-                removeMemeber1.phoneNum=getMember.phoneNum;
-            }
-            
-            
-        
-        }
-        [_result removeObjectAtIndex:indexPath.row];
-
-        if([removeMemeber1.userType isEqualToString:@"app"]){
-        
-        [Data removeMemberApp:removeMemeber1.classCode classname:removeMemeber1.ClassName emailId:removeMemeber1.emailId usertype:removeMemeber1.userType successBlock:^(id object){
-            NSLog(@"successfully deleted");
-            
-            PFQuery *query=[PFQuery queryWithClassName:@"GroupMembers"];
-            [query fromLocalDatastore];
-            [query whereKey:@"emailId" equalTo:removeMemeber1.emailId];
-            NSArray *objects=[query findObjects];
-            NSLog(@"Query to change status %@",objects);
-            for(PFObject *memberRemove in objects)
-            {
-                memberRemove[@"status"]=@"REMOVED";
-                
-                
-            }
-            
-            [PFObject pinAllInBackground:objects];
-            [tableView reloadData];
-            
-        }errorBlock:^(NSError *error){
-            
-            NSLog(@"error");
-        }];
-        }
-        else if([removeMemeber1.userType isEqualToString:@"sms"])
-        {
-            NSLog(@"Removing phone user");
-            [Data removeMemberPhone:removeMemeber1.classCode classname:removeMemeber1.ClassName number:removeMemeber1.phoneNum usertype:removeMemeber1.userType successBlock:^(id object){
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Knit"
-                                                                message:@"he member has been removed.He won't be able to receive any message."
-                                                               delegate:self cancelButtonTitle:@"OK"
-                                                      otherButtonTitles:nil];
-                [alert show];
-                NSLog(@"successfully deleted");
-                NSLog(@"phone num to be deleted %@",removeMemeber1.phoneNum);
-                
-                PFQuery *query=[PFQuery queryWithClassName:@"Messageneeders"];
+        int row = indexPath.row;
+        TSMember *toRemove = (TSMember *)_memberList[row];
+        if([toRemove.userType isEqualToString:@"app"]) {
+            [Data removeMemberApp:_classCode classname:_className emailId:toRemove.emailId usertype:toRemove.userType successBlock:^(id object){
+                NSLog(@"Successfully removed");
+                PFQuery *query = [PFQuery queryWithClassName:@"GroupMembers"];
                 [query fromLocalDatastore];
-                [query whereKey:@"number" equalTo:removeMemeber1.phoneNum];
-                NSArray *objects=[query findObjects];
-                NSLog(@"Query to change status %@",objects);
-                for(PFObject *memberRemove in objects)
-                {
-                    memberRemove[@"status"]=@"REMOVED";
-                    
-                    
-                }
-                
-                [PFObject pinAllInBackground:objects];
-                [tableView reloadData];
-
-                
-                 }
-                         errorBlock:^(NSError *error)
-             {
-                 NSLog(@"error");
-             }];
+                [query whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
+                [query whereKey:@"code" equalTo:_classCode];
+                [query whereKey:@"emailId" equalTo:toRemove.emailId];
+                NSArray *appMembers = [query findObjects];
+                if(appMembers.count!=1)
+                    NSLog(@"Nhiiiii....");
+                appMembers[0][@"status"] = @"REMOVED";
+                [appMembers[0] pinInBackground];
+                [_memberList removeObjectAtIndex:row];
+                [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+            }errorBlock:^(NSError *error){
+                NSLog(@"Error in removing app member.");
+            }];
         }
-        
-        [self.tableView reloadData];
-        
-    }
+        else {
+            [Data removeMemberPhone:_classCode classname:_className number:toRemove.phoneNum usertype:toRemove.userType successBlock:^(id object) {
+                NSLog(@"Successfully removed");
+                PFQuery *query = [PFQuery queryWithClassName:@"Messageneeders"];
+                [query fromLocalDatastore];
+                [query whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
+                [query whereKey:@"cod" equalTo:_classCode];
+                [query whereKey:@"number" equalTo:toRemove.phoneNum];
+                NSArray *phoneMembers = [query findObjects];
+                if(phoneMembers.count!=1)
+                    NSLog(@"Nhiiiii....");
+                phoneMembers[0][@"status"] = @"REMOVED";
+                [phoneMembers[0] pinInBackground];
+                [_memberList removeObjectAtIndex:row];
+                [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
 
+            }errorBlock:^(NSError *error){
+                NSLog(@"Error in removing phone member.");
+            }];
+        }
+    }
+}
+
+
+-(void) fetchMemberList{
+    NSDate *latestTime = [self getTimeOFLatestUpdatedMember];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [Data getMemberList:latestTime successBlock:^(id object) {
+            NSMutableDictionary *members = (NSMutableDictionary *) object;
+            NSArray *appUser=(NSArray *)[members objectForKey:@"app"];
+            NSArray *phoneUser=(NSArray *)[members objectForKey:@"sms"];
+            for(PFObject * appUs in appUser) {
+                appUs[@"iosUserID"]=[PFUser currentUser].objectId;
+                [appUs pinInBackground];
+            }
+            for(PFObject * phoneUs in phoneUser) {
+                phoneUs[@"iosUserID"]=[PFUser currentUser].objectId;
+                [phoneUs pinInBackground];
+            }
+            [self fillArray];
+        } errorBlock:^(NSError *error) {
+            NSLog(@"Error in fetching member list.");
+        }];
+    });
 }
 
 
 -(void) fillArray{
-    
-    PFQuery *query=[PFQuery queryWithClassName:@"GroupMembers"];
-    [query fromLocalDatastore];
-    [query orderByAscending:@"updatedAt"];
-    [query whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
-    
-    NSArray * objects=[query findObjects];
-    NSString *classCode =_codeClass;
-    
-    NSLog(@"local datastore %@",objects);
-    
-    for(PFObject *names in objects)
-    {
-    
-        NSString *obj= [names objectForKey:@"name"];
-        NSArray *child= [names objectForKey:@"children_names"];
-        NSString *checkCode=[names objectForKey:@"code"];
-        NSString *email=[names objectForKey:@"emailId"];
-        NSString *status=[names objectForKey:@"status"];
-        
-        if([checkCode isEqualToString:classCode]  && [status length]==0)
-        {
-            TSMember *member=[[TSMember alloc]init];
-            member.ClassName=_nameClass;
-            member.classCode=classCode;
-            member.childern=[child objectAtIndex:0];
-            member.userName=obj;
-            member.userType=@"app";
-            member.emailId=email;
-            [_result insertObject:member atIndex:0];
-        
-        }
-        
-        
-    }
-    PFQuery *query3=[PFQuery queryWithClassName:@"Messageneeders"];
-    [query3 fromLocalDatastore];
-    [query3 orderByAscending:@"updatedAt"];
-    [query3 whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
-    NSArray * phoneObjects=[query3 findObjects];
-    NSLog(@"PHONE OBJECTS %@",phoneObjects);
-    for(PFObject *names in phoneObjects)
-    {
-        NSString *child= [names objectForKey:@"subscriber"];
-        NSString *obj= [names objectForKey:@"number"];
-        NSString *checkCode=[names objectForKey:@"cod"];
-        NSString *status=[names objectForKey:@"status"];
-
-        if([checkCode isEqualToString:classCode] && [status length]==0 )
-        {
-            TSMember *member=[[TSMember alloc]init];
-            member.ClassName=_nameClass;
-            member.classCode=classCode;
-            member.userName=child;
-            member.userType=@"sms";
-            member.phoneNum=obj;
-            
-            [_result insertObject:member atIndex:0];
-        }
-        
-        
-    }
-    
-    NSLog(@"result object final %@",_result);
-    
-    [self.tableView reloadData];
-
-}
-
-
-
-
--(void) fetchMemberList{
-    
     PFQuery *query=[PFQuery queryWithClassName:@"GroupMembers"];
     [query fromLocalDatastore];
     [query orderByDescending:@"updatedAt"];
     [query whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
-    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-    if(error)
-    {
+    [query whereKey:@"code" equalTo:_classCode];
+    NSArray * objects = [query findObjects];
     
+    for(PFObject *names in objects) {
+        NSString *name = [names objectForKey:@"name"];
+        NSArray *children = [names objectForKey:@"children_names"];
+        NSString *email = [names objectForKey:@"emailId"];
+        NSString *status = [names objectForKey:@"status"];
+        
+        if(!status) {
+            TSMember *member = [[TSMember alloc]init];
+            member.className = _className;
+            member.classCode = _classCode;
+            member.childName = (children.count>0)?children[0]:name;
+            member.userName = name;
+            member.userType = @"app";
+            member.emailId = email;
+            [_memberList addObject:member];
+        }
     }
-    else{
-        
-        if(objects.count==0) {
-            _latestTime=[PFUser currentUser].createdAt;
-        }
-   
-        else {
-            PFObject *member=[objects objectAtIndex:0];
-            _latestTime =member.createdAt;
-        }
-        
-        [Data getMemberList:_latestTime successBlock:^(id object) {
-            
-            NSMutableDictionary *members = (NSMutableDictionary *) object;
-            NSArray *appUser= [members objectForKey:@"app"];
-            NSArray *phoneUser=[members objectForKey:@"sms"];
-            if(appUser.count>0){
-            
-                for(PFObject *user in appUser)
-                {
-                    user[@"iosUserID"]=[PFUser currentUser].objectId;
-                
-                }
-              
-                [PFObject pinAllInBackground:appUser];
-            
-
-            }
-            if(phoneUser.count>0){
-                for(PFObject *user in phoneUser)
-                {
-                    user[@"iosUserID"]=[PFUser currentUser].objectId;
-                }
-                [PFObject pinAllInBackground:phoneUser];
-
-            }
-         
-         //   [self fillArray];
-            
-        } errorBlock:^(NSError *error) {
-            NSLog(@"error");
-        }];
-      }
-    }];
     
+    query = [PFQuery queryWithClassName:@"Messageneeders"];
+    [query fromLocalDatastore];
+    [query orderByDescending:@"updatedAt"];
+    [query whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
+    [query whereKey:@"cod" equalTo:_classCode];
+    objects = [query findObjects];
     
+    for(PFObject *names in objects)
+    {
+        NSString *child = [names objectForKey:@"subscriber"];
+        NSString *phone = [names objectForKey:@"number"];
+        NSString *status = [names objectForKey:@"status"];
+
+        if(!status) {
+            TSMember *member=[[TSMember alloc]init];
+            member.classCode = _classCode;
+            member.className = _className;
+            member.userName = child;
+            member.childName = child;
+            member.userType = @"sms";
+            member.phoneNum = phone;
+            [_memberList addObject:member];
+        }
+    }
+    [self.tableView reloadData];
 }
+
+
+-(NSDate *)getTimeOFLatestUpdatedMember {
+    PFQuery *queryApp = [PFQuery queryWithClassName:@"GroupMembers"];
+    [queryApp fromLocalDatastore];
+    [queryApp orderByDescending:@"updatedAt"];
+    [queryApp whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
+    queryApp.limit = 10;
+    NSArray *localAppMembers = [queryApp findObjects];
+    NSDate *latestTime = [PFUser currentUser].createdAt;
+    if([localAppMembers count] > 0) {
+        PFObject *mem = [localAppMembers objectAtIndex:0];
+        latestTime = mem.updatedAt;
+    }
+    
+    PFQuery *queryPhone = [PFQuery queryWithClassName:@"Messageneeders"];
+    [queryPhone fromLocalDatastore];
+    [queryPhone orderByDescending:@"updatedAt"];
+    [queryPhone whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
+    queryPhone.limit = 10;
+    NSArray *localPhoneMembers = [queryPhone findObjects];
+    if([localPhoneMembers count] > 0) {
+        NSDate *latestMessageTime = ((PFObject *)[localPhoneMembers objectAtIndex:0]).updatedAt;
+        if(latestMessageTime > latestTime)
+            latestTime = latestMessageTime;
+    }
+    return latestTime;
+}
+
 
 /*
 // Override to support conditional editing of the table view.

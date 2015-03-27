@@ -5,7 +5,8 @@
 //  Created by Anjaly Mehla on 3/20/15.
 //  Copyright (c) 2015 Trumplab Edusolutions Pvt. Ltd. All rights reserved.
 //
-
+#import <Parse/Parse.h>
+#import "Data.h"
 #import "InviteParentViewController.h"
 #import <MessageUI/MessageUI.h>
 #import <UIKit/UIKit.h>
@@ -97,9 +98,20 @@ forControlEvents:UIControlEventValueChanged];
         }
     }
 
-
-
-
+-(IBAction)sendInstruction:(id)sender{
+    
+    NSString *email=[[PFUser currentUser] objectForKey:@"email"];
+    [Data emailInstruction:email code:_classCode className:_className successBlock:^(id object) {
+        UIAlertView *messageDialog = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Voila! Instruction has been sent to you email." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+        
+        [messageDialog show];
+    } errorBlock:^(NSError *error) {
+            UIAlertView *messageDialog = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Oops! Seems like a problem occured while sending instruction." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+            
+            [messageDialog show];
+        }];
+    
+}
 - (void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result
 {
     [self dismissViewControllerAnimated:YES completion:nil];

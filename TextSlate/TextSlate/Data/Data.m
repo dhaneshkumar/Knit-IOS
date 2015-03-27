@@ -504,4 +504,33 @@
 }
 
 
+
++(void) emailInstruction:(NSString *)email code:(NSString *)code className:(NSString *)className successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock{
+    [PFCloud callFunctionInBackground:@"mailInstructions" withParameters:@{@"emailId":email,@"classcode":code,@"classname":className} block:^(id object, NSError *error) {
+        if(error)
+        {
+            NSLog(@"Could not send the instruction");
+        }
+        else{
+            successBlock(object);
+        }
+    }];
+}
+
+
++(void) inviteTeacher:(NSString *)senderId schoolName:(NSString *)schoolName teacherName:(NSString*) teacherName childName:(NSString *)childName email:(NSString *)email phoneNum:(NSString *)phoneNum successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock{
+    
+    [PFCloud callFunctionInBackground:@"inviteTeacher" withParameters:@{@"senderId":senderId,@"schoolName":schoolName,@"teacherName":teacherName,@"childName":childName,@"email":email ,@"phoneNo":phoneNum} block:^(id object, NSError *error) {
+        if(error)
+        {
+            NSLog(@"Could not send invitation");
+        }
+        else{
+            successBlock(object);
+        }
+        
+    }];
+
+}
+
 @end
