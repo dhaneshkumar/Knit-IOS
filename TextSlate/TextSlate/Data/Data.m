@@ -241,8 +241,8 @@
     }];
 }
 
-+(void)getFAQ:(NSString *)userRole successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock{
-    [PFCloud callFunctionInBackground:@"faq" withParameters:@{} block:^(id object, NSError *error) {
++(void)getFAQ:(NSString *)userRole latestDate:(NSDate *)latestDate successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock{
+    [PFCloud callFunctionInBackground:@"faq" withParameters:@{@"date":latestDate} block:^(id object, NSError *error) {
         if(error)
         {
             errorBlock(error);
