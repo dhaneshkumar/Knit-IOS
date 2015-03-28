@@ -3536,13 +3536,12 @@
                         <viewControllerLayoutGuide type="bottom" id="nX0-eS-9h1"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="MRS-ud-2d0">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Edit Associate Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2KV-Bq-kNj">
                                 <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="MPl-Du-6Cz">
@@ -5709,6 +5708,42 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Qkp-db-vex" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1191" y="1841.25"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="xeo-TZ-hag">
+            <objects>
+                <navigationController storyboardIdentifier="memberListNav" automaticallyAdjustsScrollViewInsets="NO" id="YIa-Pm-R6e" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="1Vx-gf-SA6">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="Ngy-r5-WF8" kind="relationship" relationship="rootViewController" id="AN0-Hr-VH4"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xey-lV-uh7" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="7227" y="-1325.25"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="QGc-0a-YEX">
+            <objects>
+                <navigationController storyboardIdentifier="editAssocNameNav" automaticallyAdjustsScrollViewInsets="NO" id="EoX-Bk-dNu" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="IHG-9L-Tud">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="mkc-TI-dDu" kind="relationship" relationship="rootViewController" id="9Mc-fb-tr2"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Nst-ev-cVH" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="7534.5" y="-2145"/>
         </scene>
     </scenes>
     <resources>
