@@ -378,6 +378,7 @@
     UINavigationController *inviteParentNavigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"inviteParentNav"];
     InviteParentViewController *inviteParentController = (InviteParentViewController *)inviteParentNavigationController.topViewController;
     inviteParentController.classCode = _classCode;
+    inviteParentController.className=_className;
     [self presentViewController:inviteParentNavigationController animated:YES completion:nil];
 }
 

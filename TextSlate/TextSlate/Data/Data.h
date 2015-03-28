@@ -49,7 +49,7 @@ typedef void (^errorBlock)(NSError *error);
 
 +(void)getMemberList:(NSDate *)lastMessageTime successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock;
 
-+(void)getFAQ:(NSString *)userRole successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock;
++(void)getFAQ:(NSString *)userRole latestDate:(NSDate *)latestDate successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock;
 
 +(void)sendTextMessage:(NSString *)classcode classname:(NSString *)classname message:(NSString *)message successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorblock;
 
@@ -85,4 +85,8 @@ typedef void (^errorBlock)(NSError *error);
 
 +(void)appLogout:(NSString *)objectId successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock;
 
++(void) emailInstruction:(NSString *)email code:(NSString *)code className:(NSString*)className successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock;
+
+
++(void) inviteTeacher:(NSString *)senderId schoolName:(NSString *)schoolName teacherName:(NSString*) teacherName childName:(NSString *)childName email:(NSString *)email phoneNum:(NSString *)phoneNum successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock;
 @end

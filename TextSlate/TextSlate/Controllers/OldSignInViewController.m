@@ -143,6 +143,7 @@
 -(void)createLocalDatastore {
     PFObject *locals = [[PFObject alloc] initWithClassName:@"defaultLocals"];
     locals[@"iosUserID"] = [PFUser currentUser].objectId;
+    locals[@"isOldUser"]=@"YES";
     [locals pinInBackground];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{

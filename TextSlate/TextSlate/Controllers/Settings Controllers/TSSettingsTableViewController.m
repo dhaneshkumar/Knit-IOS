@@ -21,6 +21,7 @@
 @property (weak, nonatomic) IBOutlet UITableView *settingsTableView;
 @property (strong, nonatomic) NSMutableArray *section2Content;
 @property (strong, nonatomic) NSMutableArray *section3Content;
+@property (assign) bool isOld;
 
 
 @end
@@ -29,16 +30,38 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
+    [lq fromLocalDatastore];
+    [lq whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
+    
+    NSArray *localOs = [lq findObjects];
+    NSString *checkBool=@"";
+    
+    for(PFObject *a in localOs)
+    {
+        checkBool=[a objectForKey:@"isOldUser"];
+        NSLog(@"%@ check",checkBool);
+    }
+    if([checkBool isEqualToString:@"YES"])
+    {
+        NSLog(@"is true");
+        _isOld=true;
+    }
+    else{
+        _isOld=false;
+    }
+
     _section2Content=[[NSMutableArray alloc]init];
     [_section2Content addObject:@""];
+    if(_isOld==true){
     [_section2Content addObject:@"Change Password"];
+    }
     [_section2Content addObject:@"Logout"];
     
     _section3Content=[[NSMutableArray alloc]init];
     [_section3Content addObject:@"FAQ"];
     [_section3Content addObject:@"Feedback"];
     [_section3Content addObject:@"Rate Our App"];
-    self.navigationController.navigationBarHidden=NO;
     self.navigationController.title=@"Settings";
 //    _settingsTableView.ScrollIndicatorInsets = UIEdgeInsets(64, 0, 0, 0);
     
@@ -55,7 +78,10 @@
 }
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    self.navigationItem.hidesBackButton = NO;
+    self.navigationController.navigationBarHidden=YES;
+
+    
+    
 }
 
 #pragma mark - Table view data source
@@ -248,6 +274,7 @@ if(section==0)
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if(_isOld==true){
     if (indexPath.row == 2 && indexPath.section==1) {
         // Log out.
      // [(TSTabBarViewController*)self.parentViewController.parentViewController logout];
@@ -301,6 +328,52 @@ if(section==0)
     {
         [self performSegueWithIdentifier:@"profilePic" sender:self ];
         
+        
+    }
+    
+   }
+    else{
+        if (indexPath.row == 1 && indexPath.section==1) {
+            // Log out.
+            // [(TSTabBarViewController*)self.parentViewController.parentViewController logout];
+            PFInstallation *currentInstallation=[PFInstallation currentInstallation];
+            NSString *objectID=currentInstallation.objectId;
+            NSLog(@"Object ID is %@",objectID);
+            
+            [Data appLogout:objectID successBlock:^(id object) {
+                NSLog(@"Logging out...");
+                [[UIApplication sharedApplication] cancelAllLocalNotifications];
+                [(TSTabBarViewController*)self.parentViewController.parentViewController logout];
+            } errorBlock:^(NSError *error) {
+                NSLog(@"Some error has occured.Please try again later");
+            }];
+        }
+        
+        
+        if(indexPath.row==1 && indexPath.section==2)
+        {
+            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Ok", nil];
+            alert.frame=CGRectMake(0,0,500,500);
+            alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+            
+            UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(10, 10, 100, 80)];
+            textField.keyboardType = UIKeyboardTypeDefault;
+            [alert show];
+        }
+        
+        if(indexPath.row==0 && indexPath.section==2)
+        {
+            [self performSegueWithIdentifier:@"showFAQ" sender:self ];
+            self.navigationController.navigationBarHidden=YES;
+            NSLog(@"segue");
+            
+        }
+        if(indexPath.row==0 && indexPath.section==0)
+        {
+            [self performSegueWithIdentifier:@"profilePic" sender:self ];
+            
+            
+        }
         
     }
     [tableView deselectRowAtIndexPath:indexPath animated:YES];

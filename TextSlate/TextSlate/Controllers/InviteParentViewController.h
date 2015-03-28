@@ -11,5 +11,6 @@
 @interface InviteParentViewController : UIViewController
 
 @property (nonatomic, strong) NSString * classCode;
+@property (nonatomic, strong) NSString * className;
 
 @end

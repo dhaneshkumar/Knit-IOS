@@ -25,13 +25,51 @@
     _faq=[[NSMutableArray alloc]init];
     _ques=[[NSMutableArray alloc]init];
     _answer=[[NSMutableArray alloc]init];
+    [self getFaq];
+    
+    
+    // Uncomment the following line to preserve selection between presentations.
+    // self.clearsSelectionOnViewWillAppear = NO;
+    
+    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
+}
+
+-(void) viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    self.navigationController.navigationBarHidden=NO;
+    self.navigationItem.hidesBackButton=NO;
+    
+}
+-(void)getFaq{
     NSString *userRole=[[PFUser currentUser] objectForKey:@"role"];
-
-
-     _faq=[PFCloud callFunction:@"faq" withParameters:@{@"role" :userRole}];
+    
+    NSDate *latestDate;
+    
+    
+    PFQuery *localQuery = [PFQuery queryWithClassName:@"Codegroup"];
+    [localQuery fromLocalDatastore];
+    [localQuery orderByAscending:@"createdAt"];
+    NSArray *result=[localQuery findObjects];
+    NSLog(@"result count %i",result.count);
+    if(result.count<1)
+    {
+        NSDateComponents *comps = [[NSDateComponents alloc] init];
+        [comps setDay:10];
+        [comps setMonth:10];
+        [comps setYear:2010];
+        latestDate = [[NSCalendar currentCalendar] dateFromComponents:comps];
+        
+    }
+    else{
+        PFObject *latestResult=[result objectAtIndex:0];
+        latestDate=latestResult.createdAt;
+    }
+    
+    _faq=[PFCloud callFunction:@"faq" withParameters:@{@"role" :userRole,@"date":latestDate}];
     if(_faq.count==0)
     {
-        
+        NSLog(@"count zero");
     }
     else{
         for(PFObject *faqs in _faq)
@@ -43,21 +81,8 @@
             [_answer addObject:ans];
         }
     }
-    
-    
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-}
 
--(void) viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    self.navigationController.navigationBarHidden=NO;
-    self.navigationItem.hidesBackButton=NO;
-    
 }
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
