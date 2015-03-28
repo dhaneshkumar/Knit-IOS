@@ -25,6 +25,8 @@
     UIButton *copyCodeButton = (UIButton *)sender;
     UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
     pasteboard.string = copyCodeButton.titleLabel.text;
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Code copied. :)" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+    [alertView show];
 }
 
 @end

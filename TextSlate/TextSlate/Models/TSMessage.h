@@ -18,11 +18,13 @@
 @property (strong, nonatomic) NSDate * sentTime;
 @property (strong, nonatomic) UIImage *senderPic;
 @property (strong, nonatomic) UIImage *attachment;
+@property (strong, nonatomic) NSString *messageId;
 @property (nonatomic) int likeCount;
 @property (nonatomic) int confuseCount;
 @property (nonatomic) int seenCount;
 @property (strong, nonatomic) NSString * likeStatus;
 @property (strong, nonatomic) NSString * confuseStatus;
+@property (strong, nonatomic) NSString * seenStatus;
 
 -(id)initWithValues:(NSString *)className classCode:(NSString *)classCode message:(NSString *)message sender:(NSString *)sender sentTime:(NSDate *)sentTime senderPic:(UIImage *)senderPic likeCount:(int)likeCount confuseCount:(int)confuseCount seenCount:(int)seenCount;
 

@@ -35,7 +35,7 @@
     [super didReceiveMemoryWarning];
 }
 
-
+/*
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     NSString *role=[[PFUser currentUser] objectForKey:@"role"];
@@ -51,6 +51,23 @@
     [self getTimeDiffBetweenLocalAndServer];
     [self displayMessages];
 }
+*/
+
+-(void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    NSString *role=[[PFUser currentUser] objectForKey:@"role"];
+    if([role isEqualToString:@"teacher"]){
+        
+        UIBarButtonItem *composeBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose  target:self action:@selector(composeMessage)];
+        self.tabBarController.navigationItem.rightBarButtonItem =composeBarButtonItem;
+    }
+    _messagesArray=nil;
+    _messagesArray=[[NSMutableArray alloc] init];
+    [self getTimeDiffBetweenLocalAndServer];
+    [self displayMessages];
+    return;
+}
+
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
@@ -81,6 +98,7 @@
     [lq whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
     
     NSArray *localOs = [lq findObjects];
+    NSLog(@"isoutboxdataconsistent : %@", localOs[0][@"isOutboxDataConsistent"]);
     if(localOs[0][@"isOutboxDataConsistent"]==nil || [localOs[0][@"isOutboxDataConsistent"] isEqualToString:@"false"]) {
         if(!_isBottomRefreshCalled && (indexPath.row == _messagesArray.count-1)) {
             _isBottomRefreshCalled = true;
@@ -167,7 +185,7 @@
             NSDate *currentServerTime = (NSDate *)object;
             NSDate *currentLocalTime = [NSDate date];
             NSTimeInterval diff = [currentServerTime timeIntervalSinceDate:currentLocalTime];
-            NSLog(@"currLocalTime : %@\ncurrServerTime : %@\ntime diff : %f", currentLocalTime, currentServerTime, diff);
+            //NSLog(@"currLocalTime : %@\ncurrServerTime : %@\ntime diff : %f", currentLocalTime, currentServerTime, diff);
             NSDate *diffwrtRef = [NSDate dateWithTimeIntervalSince1970:diff];
             _timeDiff = diffwrtRef;
             [locals setObject:diffwrtRef forKey:@"timeDifference"];
@@ -223,6 +241,7 @@
             message.attachment = [UIImage imageWithData:data];
         [_messagesArray addObject:message];
     }
+    NSLog(@"messags array : %@", _messagesArray);
 }
 
 
@@ -242,7 +261,6 @@
                 if(!messageObject[@"seen_count"])
                     messageObject[@"seen_count"] = [NSNumber numberWithInt:0];
                 [messageObject pinInBackground];
-                NSLog(@"Pinned!!!!");
                 TSMessage *message = [[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:messageObject[@"title"] sender:messageObject[@"Creator"] sentTime:messageObject[@"createdTime"] senderPic:messageObject[@"senderPic"] likeCount:[messageObject[@"like_count"] intValue] confuseCount:[messageObject[@"confused_count"] intValue] seenCount:[messageObject[@"seen_count"] intValue]];
                 NSData *data = [(PFFile *)messageObject[@"attachment"] getData];
                 if(data)
@@ -292,7 +310,6 @@
                 NSIndexPath *indexPath = [NSIndexPath indexPathForRow:(_messagesArray.count-1) inSection:0];
                 [indices addObject:indexPath];
             }
-            
             [self.messagesTable insertRowsAtIndexPaths:indices withRowAnimation:UITableViewRowAnimationBottom];
             PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
             [lq fromLocalDatastore];

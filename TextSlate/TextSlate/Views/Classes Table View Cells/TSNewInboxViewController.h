@@ -13,4 +13,7 @@
 
 @property (weak, nonatomic) IBOutlet UITableView *messagesTable;
 
+-(void)updateLikesDataFromCell:(int)row status:(NSString *)status;
+-(void)updateConfuseDataFromCell:(int)row status:(NSString *)status;
+
 @end

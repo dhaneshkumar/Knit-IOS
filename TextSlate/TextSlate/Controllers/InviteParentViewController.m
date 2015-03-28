@@ -26,10 +26,8 @@
     [self.navigationController.navigationBar setTranslucent:NO];
     self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName : [UIColor whiteColor]};
     
-    [self.segmentControl addTarget:self
-action:@selector(changeImage)
-forControlEvents:UIControlEventValueChanged];
-    self.navigationItem.title=@"Invite Parents";
+    [self.segmentControl addTarget:self action:@selector(changeImage) forControlEvents:UIControlEventValueChanged];
+    self.navigationItem.title = @"Invite Parents";
     // Do any additional setup after loading the view.
 }
 -(void)viewDidAppear:(BOOL)animated

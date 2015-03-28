@@ -123,7 +123,29 @@
             [self presentViewController:editAssocNameNavigationController animated:YES completion:nil];
         }
         else if(indexPath.row==2) {
-            [self leaveClass];
+            UIAlertController * alert=   [UIAlertController
+                                          alertControllerWithTitle:@"Knit"
+                                          message:@"Are you sure?"
+                                          preferredStyle:UIAlertControllerStyleAlert];
+            
+            UIAlertAction* yes = [UIAlertAction
+                                 actionWithTitle:@"YES"
+                                 style:UIAlertActionStyleDefault
+                                 handler:^(UIAlertAction * action)
+                                 {
+                                     [self leaveClass];
+                                 }];
+            UIAlertAction* no = [UIAlertAction
+                                     actionWithTitle:@"NO"
+                                     style:UIAlertActionStyleDefault
+                                     handler:^(UIAlertAction * action)
+                                     {
+                                         
+                                     }];
+            
+            [alert addAction:yes];
+            [alert addAction:no];
+            [self presentViewController:alert animated:YES completion:nil];
         }
     }
     else {

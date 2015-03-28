@@ -228,6 +228,28 @@
 }
 
 
++(void)updateLikeConfuseCountsGlobally:(NSArray *)array successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
+    [PFCloud callFunctionInBackground:@"updateLikeConfuseCountsGlobally" withParameters:@{@"statuses":array} block:^(id object, NSError *error) {
+        if (error) {
+            errorBlock(error);
+        } else {
+            successBlock(object);
+        }
+    }];
+}
+
+
++(void)updateSeenCountsGlobally:(NSArray *)array successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
+    [PFCloud callFunctionInBackground:@"updateSeenCountsGlobally" withParameters:@{@"statuses":array} block:^(id object, NSError *error) {
+        if (error) {
+            errorBlock(error);
+        } else {
+            successBlock(object);
+        }
+    }];
+}
+
+
 +(void)getMemberList:(NSDate *)lastMessageTime successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock{
     [PFCloud callFunctionInBackground:@"showAllSubscribers" withParameters:@{@"date":lastMessageTime} block:^(id object, NSError *error) {
         if(error)
