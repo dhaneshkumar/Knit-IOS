@@ -217,8 +217,8 @@
 }
 
 
-+(void)updateCounts:(NSString *)classtype oldestMessageTime:(NSDate *)oldestMessageTime successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
-    [PFCloud callFunctionInBackground:@"updateCounts" withParameters:@{@"classtype":classtype, @"date":oldestMessageTime, @"limit":@20} block:^(id object, NSError *error) {
++(void)updateCountsLocally:(NSArray *)array successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
+    [PFCloud callFunctionInBackground:@"updateCount" withParameters:@{@"array":array} block:^(id object, NSError *error) {
         if (error) {
             errorBlock(error);
         } else {
@@ -229,7 +229,7 @@
 
 
 +(void)updateLikeConfuseCountsGlobally:(NSArray *)array successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
-    [PFCloud callFunctionInBackground:@"updateLikeConfuseCountsGlobally" withParameters:@{@"statuses":array} block:^(id object, NSError *error) {
+    [PFCloud callFunctionInBackground:@"updateLikeConfuseCountsGlobally" withParameters:@{@"array":array} block:^(id object, NSError *error) {
         if (error) {
             errorBlock(error);
         } else {
@@ -240,7 +240,7 @@
 
 
 +(void)updateSeenCountsGlobally:(NSArray *)array successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
-    [PFCloud callFunctionInBackground:@"updateSeenCountsGlobally" withParameters:@{@"statuses":array} block:^(id object, NSError *error) {
+    [PFCloud callFunctionInBackground:@"updateSeenCount" withParameters:@{@"array":array} block:^(id object, NSError *error) {
         if (error) {
             errorBlock(error);
         } else {

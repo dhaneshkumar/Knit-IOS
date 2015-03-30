@@ -38,6 +38,7 @@
     // Dispose of any resources that can be recreated.
 }
 
+
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     _joinedClasses = nil;
@@ -48,6 +49,18 @@
         [self fillDataModel];
     }
 }
+
+/*
+- (void)editButtonPressed {
+    if (self.classesTable.editing) {
+        self.tabBarController.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editButtonPressed)];
+        [self.classesTable setEditing:NO animated:YES];
+    } else {
+        self.tabBarController.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(editButtonPressed)];
+        [self.classesTable setEditing:YES animated:YES];
+    }
+}
+*/
 
 /*
 #pragma mark - Navigation
@@ -98,7 +111,6 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    //[self.classesTable deselectRowAtIndexPath:indexPath animated:YES];
     if(self.segmentedControl.selectedSegmentIndex==0) {
         if(indexPath.row==0) {
             UINavigationController *joinNewClassNavigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"joinNewClassViewController"];
@@ -122,21 +134,7 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        if(self.segmentedControl.selectedSegmentIndex==0) {
-            NSString *classCode=_joinedClasses[indexPath.row-1][0];
-            [_joinedClasses removeObjectAtIndex:indexPath.row-1];
-            [self leaveClass:classCode];
-            [self.classesTable deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-            NSLog(@"Leave Joined classes");
-        }
-        else if(self.segmentedControl.selectedSegmentIndex==1) {
-            NSString *classCode=_createdClasses[indexPath.row-1][0];
-            [_createdClasses removeObjectAtIndex:indexPath.row-1];
-            [self deleteClass:classCode];
-            [self.classesTable deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-            NSLog(@"Delete Created classes");
-        }
-        //add code here for when you hit delete
+        [self showAreYouSureAlertView:self.segmentedControl.selectedSegmentIndex indexPath:indexPath];
     }
 }
 
@@ -295,6 +293,45 @@
     NSArray *messages = [query findObjects];
     [PFObject unpinAllInBackground:messages];
     return;
+}
+
+-(void)showAreYouSureAlertView:(int)segment indexPath:(NSIndexPath *)indexPath {
+    UIAlertController * alert =   [UIAlertController
+                                   alertControllerWithTitle:@"Knit"
+                                   message:@"Are you sure?"
+                                   preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction* yes = [UIAlertAction
+                          actionWithTitle:@"YES"
+                          style:UIAlertActionStyleDefault
+                          handler:^(UIAlertAction * action)
+                          {
+                              if(segment == 0) {
+                                  NSString *classCode=_joinedClasses[indexPath.row-1][0];
+                                  [_joinedClasses removeObjectAtIndex:indexPath.row-1];
+                                  [self leaveClass:classCode];
+                                  [self.classesTable deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+                                  NSLog(@"Leave Joined classes");
+                              }
+                              else {
+                                  NSString *classCode=_createdClasses[indexPath.row-1][0];
+                                  [_createdClasses removeObjectAtIndex:indexPath.row-1];
+                                  [self deleteClass:classCode];
+                                  [self.classesTable deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+                                  NSLog(@"Delete Created classes");
+                              }
+                          }];
+    UIAlertAction* no = [UIAlertAction
+                         actionWithTitle:@"NO"
+                         style:UIAlertActionStyleDefault
+                         handler:^(UIAlertAction * action)
+                         {
+                             
+                         }];
+    
+    [alert addAction:yes];
+    [alert addAction:no];
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 

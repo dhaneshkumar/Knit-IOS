@@ -27,19 +27,23 @@
     if ([self respondsToSelector:@selector(edgesForExtendedLayout)])
         self.edgesForExtendedLayout = UIRectEdgeNone;
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
-    [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:38.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0]];
-    [self.navigationController.navigationBar setTranslucent:NO];
-    self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName : [UIColor whiteColor]};
+    //[self.navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:38.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0]];
+    //[self.navigationController.navigationBar setTranslucent:NO];
+    //self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName : [UIColor whiteColor]};
     self.navigationItem.title = _className;
     self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
 
--(void)viewWillAppear:(BOOL)animated{
+-(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     _memberList = nil;
     _memberList = [[NSMutableArray alloc] init];
-    [self fetchMemberList];
+}
+
+-(void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [self displayMembers];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -50,7 +54,6 @@
 -(IBAction)cancelButton:(id)sender{
     [self dismissViewControllerAnimated:YES completion:nil];
 }
-
 
 #pragma mark - Table view data source
 
@@ -74,8 +77,7 @@
 
 
 
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         int row = indexPath.row;
         TSMember *toRemove = (TSMember *)_memberList[row];
@@ -122,22 +124,76 @@
 }
 
 
--(void) fetchMemberList{
-    NSDate *latestTime = [self getTimeOFLatestUpdatedMember];
+-(void) insertNewMembers:(NSDate *)timeOflatestMember {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [Data getMemberList:latestTime successBlock:^(id object) {
+        [Data getMemberList:timeOflatestMember successBlock:^(id object) {
             NSMutableDictionary *members = (NSMutableDictionary *) object;
             NSArray *appUser=(NSArray *)[members objectForKey:@"app"];
             NSArray *phoneUser=(NSArray *)[members objectForKey:@"sms"];
-            for(PFObject * appUs in appUser) {
+            NSEnumerator *enumerator = [appUser reverseObjectEnumerator];
+            for(PFObject * appUs in enumerator) {
                 appUs[@"iosUserID"]=[PFUser currentUser].objectId;
                 [appUs pinInBackground];
+                if(appUs[@"status"]) {
+                    int deleteIndex = -1;
+                    for(int i=0; i<_memberList.count; i++) {
+                        TSMember *mem = (TSMember *)_memberList[i];
+                        if([mem.emailId isEqualToString:appUs[@"emailId"]]) {
+                            deleteIndex = i;
+                            break;
+                        }
+                    }
+                    if(deleteIndex!=-1) {
+                        [_memberList removeObjectAtIndex:deleteIndex];
+                        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:deleteIndex inSection:0];
+                        [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+                    }
+                }
+                else {
+                    TSMember *member = [[TSMember alloc]init];
+                    member.className = _className;
+                    member.classCode = _classCode;
+                    member.childName = (((NSArray *)appUs[@"children_names"]).count>0)?((NSArray *)appUs[@"children_names"])[0]:appUs[@"name"];
+                    member.userName = appUs[@"name"];
+                    member.userType = @"app";
+                    member.emailId = appUs[@"emailId"];
+                    [_memberList insertObject:member atIndex:0];
+                    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+                    [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationTop];
+                }
             }
-            for(PFObject * phoneUs in phoneUser) {
+            enumerator = [phoneUser reverseObjectEnumerator];
+            for(PFObject * phoneUs in enumerator) {
                 phoneUs[@"iosUserID"]=[PFUser currentUser].objectId;
                 [phoneUs pinInBackground];
+                if(phoneUs[@"status"]) {
+                    int deleteIndex = -1;
+                    for(int i=0; i<_memberList.count; i++) {
+                        TSMember *mem = (TSMember *)_memberList[i];
+                        if([mem.emailId isEqualToString:phoneUs[@"number"]]) {
+                            deleteIndex = i;
+                            break;
+                        }
+                    }
+                    if(deleteIndex!=-1) {
+                        [_memberList removeObjectAtIndex:deleteIndex];
+                        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:deleteIndex inSection:0];
+                        [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+                    }
+                }
+                else {
+                    TSMember *member = [[TSMember alloc]init];
+                    member.className = _className;
+                    member.classCode = _classCode;
+                    member.childName = phoneUs[@"subscriber"];
+                    member.userName = phoneUs[@"subscriber"];
+                    member.userType = @"sms";
+                    member.emailId = phoneUs[@"number"];
+                    [_memberList insertObject:member atIndex:0];
+                    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+                    [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationTop];
+                }
             }
-            [self fillArray];
         } errorBlock:^(NSError *error) {
             NSLog(@"Error in fetching member list.");
         }];
@@ -145,7 +201,7 @@
 }
 
 
--(void) fillArray{
+-(NSDate *) fetchMembersFromLocalDatastore {
     PFQuery *query=[PFQuery queryWithClassName:@"GroupMembers"];
     [query fromLocalDatastore];
     [query orderByDescending:@"updatedAt"];
@@ -169,6 +225,11 @@
             member.emailId = email;
             [_memberList addObject:member];
         }
+    }
+    NSDate *latestTime = [PFUser currentUser].createdAt;
+    if([objects count] > 0) {
+        PFObject *mem = [objects objectAtIndex:0];
+        latestTime = mem.updatedAt;
     }
     
     query = [PFQuery queryWithClassName:@"Messageneeders"];
@@ -195,10 +256,24 @@
             [_memberList addObject:member];
         }
     }
-    [self.tableView reloadData];
+    if([objects count] > 0) {
+        NSDate *latestMessageTime = ((PFObject *)[objects objectAtIndex:0]).updatedAt;
+        if(latestMessageTime > latestTime)
+            latestTime = latestMessageTime;
+    }
+    //[self.tableView reloadData];
+    return latestTime;
 }
 
 
+-(void)displayMembers {
+    NSDate *latestDate = [self fetchMembersFromLocalDatastore];
+    [self.tableView reloadData];
+    [self insertNewMembers:latestDate];
+}
+
+
+/*
 -(NSDate *)getTimeOFLatestUpdatedMember {
     PFQuery *queryApp = [PFQuery queryWithClassName:@"GroupMembers"];
     [queryApp fromLocalDatastore];
@@ -225,7 +300,7 @@
     }
     return latestTime;
 }
-
+*/
 
 /*
 // Override to support conditional editing of the table view.

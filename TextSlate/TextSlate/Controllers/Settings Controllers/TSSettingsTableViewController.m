@@ -37,17 +37,15 @@
     NSArray *localOs = [lq findObjects];
     NSString *checkBool=@"";
     
-    for(PFObject *a in localOs)
-    {
+    for(PFObject *a in localOs) {
         checkBool=[a objectForKey:@"isOldUser"];
         NSLog(@"%@ check",checkBool);
     }
-    if([checkBool isEqualToString:@"YES"])
-    {
+    if([checkBool isEqualToString:@"YES"]) {
         NSLog(@"is true");
         _isOld=true;
     }
-    else{
+    else {
         _isOld=false;
     }
 
@@ -79,9 +77,6 @@
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     self.navigationController.navigationBarHidden=YES;
-
-    
-    
 }
 
 #pragma mark - Table view data source

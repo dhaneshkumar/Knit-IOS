@@ -23,14 +23,6 @@
 		40BB899B1AC431D3002CFDFE /* attachcancel.png in Resources */ = {isa = PBXBuildFile; fileRef = 40BB89991AC431D3002CFDFE /* attachcancel.png */; };
 		40BB899C1AC431D3002CFDFE /* attachcancel1.png in Resources */ = {isa = PBXBuildFile; fileRef = 40BB899A1AC431D3002CFDFE /* attachcancel1.png */; };
 		40BB89A01AC4992C002CFDFE /* InviteTeacherViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 40BB899F1AC4992C002CFDFE /* InviteTeacherViewController.m */; };
-		40C741501AC6A970007AA844 /* ios icons-07.png in Resources */ = {isa = PBXBuildFile; fileRef = 40C741441AC6A970007AA844 /* ios icons-07.png */; };
-		40C741511AC6A970007AA844 /* ios icons-08.png in Resources */ = {isa = PBXBuildFile; fileRef = 40C741451AC6A970007AA844 /* ios icons-08.png */; };
-		40C741521AC6A970007AA844 /* ios icons-09.png in Resources */ = {isa = PBXBuildFile; fileRef = 40C741461AC6A970007AA844 /* ios icons-09.png */; };
-		40C741531AC6A970007AA844 /* ios icons-10.png in Resources */ = {isa = PBXBuildFile; fileRef = 40C741471AC6A970007AA844 /* ios icons-10.png */; };
-		40C741541AC6A970007AA844 /* ios icons-11.png in Resources */ = {isa = PBXBuildFile; fileRef = 40C741481AC6A970007AA844 /* ios icons-11.png */; };
-		40C741551AC6A970007AA844 /* ios icons-12.png in Resources */ = {isa = PBXBuildFile; fileRef = 40C741491AC6A970007AA844 /* ios icons-12.png */; };
-		40C741561AC6A970007AA844 /* ios icons-13.png in Resources */ = {isa = PBXBuildFile; fileRef = 40C7414A1AC6A970007AA844 /* ios icons-13.png */; };
-		40C741571AC6A970007AA844 /* ios icons-14.png in Resources */ = {isa = PBXBuildFile; fileRef = 40C7414B1AC6A970007AA844 /* ios icons-14.png */; };
 		40C741581AC6A970007AA844 /* ios icons-18.png in Resources */ = {isa = PBXBuildFile; fileRef = 40C7414C1AC6A970007AA844 /* ios icons-18.png */; };
 		40C741591AC6A970007AA844 /* ios icons-19.png in Resources */ = {isa = PBXBuildFile; fileRef = 40C7414D1AC6A970007AA844 /* ios icons-19.png */; };
 		40C7415A1AC6A970007AA844 /* ios icons-20.png in Resources */ = {isa = PBXBuildFile; fileRef = 40C7414E1AC6A970007AA844 /* ios icons-20.png */; };
@@ -127,6 +119,10 @@
 		FB1F47BB1A7589AE0093350B /* 120x120.png in Resources */ = {isa = PBXBuildFile; fileRef = FB1F47B71A7589AE0093350B /* 120x120.png */; };
 		FB1F47BC1A7589AE0093350B /* 152x152.png in Resources */ = {isa = PBXBuildFile; fileRef = FB1F47B81A7589AE0093350B /* 152x152.png */; };
 		FB1F47BD1A7589AE0093350B /* 180x180.png in Resources */ = {isa = PBXBuildFile; fileRef = FB1F47B91A7589AE0093350B /* 180x180.png */; };
+		FB6955911AC94FB200E7729E /* ios icons-7.png in Resources */ = {isa = PBXBuildFile; fileRef = FB69558D1AC94FB200E7729E /* ios icons-7.png */; };
+		FB6955921AC94FB200E7729E /* ios icons-8.png in Resources */ = {isa = PBXBuildFile; fileRef = FB69558E1AC94FB200E7729E /* ios icons-8.png */; };
+		FB6955931AC94FB200E7729E /* ios icons-9.png in Resources */ = {isa = PBXBuildFile; fileRef = FB69558F1AC94FB200E7729E /* ios icons-9.png */; };
+		FB6955941AC94FB200E7729E /* ios icons-10.png in Resources */ = {isa = PBXBuildFile; fileRef = FB6955901AC94FB200E7729E /* ios icons-10.png */; };
 		FB6A04A81AC29770009E9D9D /* ios icons-15.png in Resources */ = {isa = PBXBuildFile; fileRef = FB6A04A71AC2976F009E9D9D /* ios icons-15.png */; };
 		FB6A04AF1AC2DE7B009E9D9D /* EditAsscoNameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FB6A04AE1AC2DE7B009E9D9D /* EditAsscoNameViewController.m */; };
 		FBACC65C1A74298800DC1747 /* libstdc++.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = FBACC65B1A74298800DC1747 /* libstdc++.6.dylib */; };
@@ -186,14 +182,6 @@
 		40BB899A1AC431D3002CFDFE /* attachcancel1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = attachcancel1.png; sourceTree = "<group>"; };
 		40BB899E1AC4992C002CFDFE /* InviteTeacherViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InviteTeacherViewController.h; sourceTree = "<group>"; };
 		40BB899F1AC4992C002CFDFE /* InviteTeacherViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InviteTeacherViewController.m; sourceTree = "<group>"; };
-		40C741441AC6A970007AA844 /* ios icons-07.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ios icons-07.png"; sourceTree = "<group>"; };
-		40C741451AC6A970007AA844 /* ios icons-08.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ios icons-08.png"; sourceTree = "<group>"; };
-		40C741461AC6A970007AA844 /* ios icons-09.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ios icons-09.png"; sourceTree = "<group>"; };
-		40C741471AC6A970007AA844 /* ios icons-10.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ios icons-10.png"; sourceTree = "<group>"; };
-		40C741481AC6A970007AA844 /* ios icons-11.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ios icons-11.png"; sourceTree = "<group>"; };
-		40C741491AC6A970007AA844 /* ios icons-12.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ios icons-12.png"; sourceTree = "<group>"; };
-		40C7414A1AC6A970007AA844 /* ios icons-13.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ios icons-13.png"; sourceTree = "<group>"; };
-		40C7414B1AC6A970007AA844 /* ios icons-14.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ios icons-14.png"; sourceTree = "<group>"; };
 		40C7414C1AC6A970007AA844 /* ios icons-18.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ios icons-18.png"; sourceTree = "<group>"; };
 		40C7414D1AC6A970007AA844 /* ios icons-19.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ios icons-19.png"; sourceTree = "<group>"; };
 		40C7414E1AC6A970007AA844 /* ios icons-20.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ios icons-20.png"; sourceTree = "<group>"; };
@@ -376,6 +364,10 @@
 		FB1F47B71A7589AE0093350B /* 120x120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 120x120.png; sourceTree = "<group>"; };
 		FB1F47B81A7589AE0093350B /* 152x152.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 152x152.png; sourceTree = "<group>"; };
 		FB1F47B91A7589AE0093350B /* 180x180.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 180x180.png; sourceTree = "<group>"; };
+		FB69558D1AC94FB200E7729E /* ios icons-7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ios icons-7.png"; sourceTree = "<group>"; };
+		FB69558E1AC94FB200E7729E /* ios icons-8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ios icons-8.png"; sourceTree = "<group>"; };
+		FB69558F1AC94FB200E7729E /* ios icons-9.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ios icons-9.png"; sourceTree = "<group>"; };
+		FB6955901AC94FB200E7729E /* ios icons-10.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ios icons-10.png"; sourceTree = "<group>"; };
 		FB6A04A71AC2976F009E9D9D /* ios icons-15.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ios icons-15.png"; sourceTree = "<group>"; };
 		FB6A04AD1AC2DE7B009E9D9D /* EditAsscoNameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditAsscoNameViewController.h; sourceTree = "<group>"; };
 		FB6A04AE1AC2DE7B009E9D9D /* EditAsscoNameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditAsscoNameViewController.m; sourceTree = "<group>"; };
@@ -766,14 +758,10 @@
 		971687DB1A1F1BCA00FE98FC /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				40C741441AC6A970007AA844 /* ios icons-07.png */,
-				40C741451AC6A970007AA844 /* ios icons-08.png */,
-				40C741461AC6A970007AA844 /* ios icons-09.png */,
-				40C741471AC6A970007AA844 /* ios icons-10.png */,
-				40C741481AC6A970007AA844 /* ios icons-11.png */,
-				40C741491AC6A970007AA844 /* ios icons-12.png */,
-				40C7414A1AC6A970007AA844 /* ios icons-13.png */,
-				40C7414B1AC6A970007AA844 /* ios icons-14.png */,
+				FB69558D1AC94FB200E7729E /* ios icons-7.png */,
+				FB69558E1AC94FB200E7729E /* ios icons-8.png */,
+				FB69558F1AC94FB200E7729E /* ios icons-9.png */,
+				FB6955901AC94FB200E7729E /* ios icons-10.png */,
 				40C7414C1AC6A970007AA844 /* ios icons-18.png */,
 				40C7414D1AC6A970007AA844 /* ios icons-19.png */,
 				40C7414E1AC6A970007AA844 /* ios icons-20.png */,
@@ -847,7 +835,6 @@
 		973A4BD41A1F174D0039175A /* TextSlate */ = {
 			isa = PBXGroup;
 			children = (
-				401F72E91AC6A7B0002352D6 /* Main.storyboard */,
 				975B1E951A2133B10028BE25 /* Data */,
 				971687E41A1F822D00FE98FC /* Utils */,
 				971687D71A1F1BCA00FE98FC /* Controllers */,
@@ -857,6 +844,7 @@
 				973A4BD91A1F174D0039175A /* AppDelegate.h */,
 				973A4BDA1A1F174D0039175A /* AppDelegate.m */,
 				973A4BE21A1F174D0039175A /* Images.xcassets */,
+				401F72E91AC6A7B0002352D6 /* Main.storyboard */,
 				40EBADA71A7E60B6003FB0B1 /* LaunchScreen.xib */,
 				973A4BD51A1F174D0039175A /* Supporting Files */,
 			);
@@ -1137,12 +1125,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				40C741521AC6A970007AA844 /* ios icons-09.png in Resources */,
 				FB6A04A81AC29770009E9D9D /* ios icons-15.png in Resources */,
 				9707C9F41A5BC3110065D2BA /* JSQMessages.strings in Resources */,
 				9707CA181A5BC3110065D2BA /* JSQMessagesLoadEarlierHeaderView.xib in Resources */,
 				40BB899C1AC431D3002CFDFE /* attachcancel1.png in Resources */,
+				FB6955921AC94FB200E7729E /* ios icons-8.png in Resources */,
 				FBBA45D71A9DE4400088CCBC /* defaultTeacher.png in Resources */,
+				FB6955941AC94FB200E7729E /* ios icons-10.png in Resources */,
+				FB6955911AC94FB200E7729E /* ios icons-7.png in Resources */,
+				FB6955931AC94FB200E7729E /* ios icons-9.png in Resources */,
 				9707C9FD1A5BC3110065D2BA /* JSQMessagesViewController.xib in Resources */,
 				404C9E191AC02176001CF571 /* ios icons-26.png in Resources */,
 				40EBADA81A7E60B6003FB0B1 /* LaunchScreen.xib in Resources */,
@@ -1158,30 +1149,23 @@
 				40C7415A1AC6A970007AA844 /* ios icons-20.png in Resources */,
 				40EBADB51A7E6150003FB0B1 /* inbox_grey.png in Resources */,
 				40EBADB61A7E6150003FB0B1 /* settings_32.png in Resources */,
-				40C741561AC6A970007AA844 /* ios icons-13.png in Resources */,
 				9707CA131A5BC3110065D2BA /* JSQMessagesCollectionViewCellOutgoing.xib in Resources */,
-				40C741531AC6A970007AA844 /* ios icons-10.png in Resources */,
-				40C741551AC6A970007AA844 /* ios icons-12.png in Resources */,
 				40C741591AC6A970007AA844 /* ios icons-19.png in Resources */,
 				40A9FC831AC42C0900082555 /* attach_30x30.png in Resources */,
 				40EBADB41A7E6150003FB0B1 /* classroom.png in Resources */,
 				FB1F47BA1A7589AE0093350B /* 60x60.png in Resources */,
 				404C9E1C1AC0260C001CF571 /* phone.png in Resources */,
 				40A9FC841AC42C0900082555 /* attach_40x40.png in Resources */,
-				40C741511AC6A970007AA844 /* ios icons-08.png in Resources */,
-				40C741501AC6A970007AA844 /* ios icons-07.png in Resources */,
 				FB1F47BD1A7589AE0093350B /* 180x180.png in Resources */,
 				40EBADAC1A7E611F003FB0B1 /* 05-xxhdpi.png in Resources */,
 				FB1F47BC1A7589AE0093350B /* 152x152.png in Resources */,
 				401F72EA1AC6A7B0002352D6 /* Main.storyboard in Resources */,
 				9707C9851A5BB94E0065D2BA /* avatar@2x.png in Resources */,
-				40C741541AC6A970007AA844 /* ios icons-11.png in Resources */,
 				40C741581AC6A970007AA844 /* ios icons-18.png in Resources */,
 				9707CA1D1A5BC3110065D2BA /* JSQMessagesTypingIndicatorFooterView.xib in Resources */,
 				973A4BE31A1F174D0039175A /* Images.xcassets in Resources */,
 				9707CA111A5BC3110065D2BA /* JSQMessagesCollectionViewCellIncoming.xib in Resources */,
 				9707CA1B1A5BC3110065D2BA /* JSQMessagesToolbarContentView.xib in Resources */,
-				40C741571AC6A970007AA844 /* ios icons-14.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1379,7 +1363,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -1415,7 +1399,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;

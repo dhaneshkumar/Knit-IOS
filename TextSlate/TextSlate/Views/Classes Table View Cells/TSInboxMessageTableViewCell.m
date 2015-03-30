@@ -45,9 +45,15 @@
     
     if(self.likesView.backgroundColor == [UIColor whiteColor]) {
         [inboxController updateLikesDataFromCell:indexPath.row status:@"true"];
-        self.likesView.backgroundColor = [UIColor blueColor];
+        self.likesView.backgroundColor = [UIColor colorWithRed:38.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
         int intval = [self.likesCount.text intValue];
         self.likesCount.text = [NSString stringWithFormat:@"%d", intval+1];
+        if(self.confuseView.backgroundColor != [UIColor whiteColor]) {
+            [inboxController updateConfuseDataFromCell:indexPath.row status:@"false"];
+            self.confuseView.backgroundColor = [UIColor whiteColor];
+            int intval = [self.confuseCount.text intValue];
+            self.confuseCount.text = [NSString stringWithFormat:@"%d", intval-1];
+        }
     }
     else {
         [inboxController updateLikesDataFromCell:indexPath.row status:@"false"];
@@ -73,9 +79,15 @@
     
     if(self.confuseView.backgroundColor == [UIColor whiteColor]) {
         [inboxController updateConfuseDataFromCell:indexPath.row status:@"true"];
-        self.confuseView.backgroundColor = [UIColor blueColor];
+        self.confuseView.backgroundColor = [UIColor colorWithRed:38.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
         int intval = [self.confuseCount.text intValue];
         self.confuseCount.text = [NSString stringWithFormat:@"%d", intval+1];
+        if(self.likesView.backgroundColor != [UIColor whiteColor]) {
+            [inboxController updateLikesDataFromCell:indexPath.row status:@"false"];
+            self.likesView.backgroundColor = [UIColor whiteColor];
+            int intval = [self.likesCount.text intValue];
+            self.likesCount.text = [NSString stringWithFormat:@"%d", intval-1];
+        }
     }
     else {
         [inboxController updateConfuseDataFromCell:indexPath.row status:@"false"];

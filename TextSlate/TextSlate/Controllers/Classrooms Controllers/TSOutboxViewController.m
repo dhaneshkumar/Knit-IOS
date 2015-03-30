@@ -35,37 +35,29 @@
     [super didReceiveMemoryWarning];
 }
 
-/*
--(void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    NSString *role=[[PFUser currentUser] objectForKey:@"role"];
-    NSLog(@"role is %@",role);
-    if([role isEqualToString:@"teacher"]){
-        
-    UIBarButtonItem *composeBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose  target:self action:@selector(composeMessage)];
-    self.tabBarController.navigationItem.rightBarButtonItem =composeBarButtonItem;
-    }
-    NSLog(@"Outbox viewWillAppear");
-    _messagesArray=nil;
-    _messagesArray=[[NSMutableArray alloc] init];
-    [self getTimeDiffBetweenLocalAndServer];
-    [self displayMessages];
-}
-*/
 
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    NSString *role=[[PFUser currentUser] objectForKey:@"role"];
-    if([role isEqualToString:@"teacher"]){
-        
-        UIBarButtonItem *composeBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose  target:self action:@selector(composeMessage)];
-        self.tabBarController.navigationItem.rightBarButtonItem =composeBarButtonItem;
-    }
-    _messagesArray=nil;
-    _messagesArray=[[NSMutableArray alloc] init];
     [self getTimeDiffBetweenLocalAndServer];
     [self displayMessages];
     return;
+}
+
+-(void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    NSString *role=[[PFUser currentUser] objectForKey:@"role"];
+    if([role isEqualToString:@"teacher"]) {
+        UIBarButtonItem *composeBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose  target:self action:@selector(composeMessage)];
+        self.tabBarController.navigationItem.rightBarButtonItem = composeBarButtonItem;
+    }
+    _messagesArray=nil;
+    _messagesArray=[[NSMutableArray alloc] init];
+}
+
+
+-(void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    self.tabBarController.navigationItem.rightBarButtonItem = nil;
 }
 
 
@@ -92,7 +84,7 @@
     cell.seenCount.text = [NSString stringWithFormat:@"%d", message.seenCount];
     if(message.attachment)
         cell.attachedImage.image = message.attachment;
-    
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
     [lq fromLocalDatastore];
     [lq whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
@@ -110,18 +102,18 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     UILabel *gettingSizeLabel = [[UILabel alloc] init];
-    gettingSizeLabel.font = [UIFont fontWithName:@"HelveticaNeue-Thin" size:14.0];
+    gettingSizeLabel.font = [UIFont systemFontOfSize:14.0];
     gettingSizeLabel.text = ((TSMessage *)_messagesArray[indexPath.row]).message;
     gettingSizeLabel.numberOfLines = 0;
     gettingSizeLabel.lineBreakMode = NSLineBreakByWordWrapping;
-    CGSize maximumLabelSize = CGSizeMake(375, 9999);
+    CGSize maximumLabelSize = CGSizeMake(300, 9999);
     
     CGSize expectSize = [gettingSizeLabel sizeThatFits:maximumLabelSize];
     //NSLog(@"height : %f", expectSize.height);
     if(((TSMessage *)_messagesArray[indexPath.row]).attachment)
-        return expectSize.height+280;
+        return expectSize.height+272;
     else
-        return expectSize.height+80;
+        return expectSize.height+66;
 }
 
 
@@ -138,7 +130,7 @@
 -(void)displayMessages {
     if([self noCreatedClasses])
         return;
-    [self fetchMessagesFromLocalDatastore];
+    NSArray * array = [self fetchMessagesFromLocalDatastore];
     if(_messagesArray.count==0) {
         PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
         [lq fromLocalDatastore];
@@ -156,6 +148,7 @@
     }
     else {
         [self.messagesTable reloadData];
+        //[self updateCountsLocally:array];
     }
     return;
 }
@@ -196,7 +189,7 @@
     });
 }
 
--(void) composeMessage{
+-(void)composeMessage {
     UINavigationController *joinNewClassNavigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"messageComposer"];
     [self presentViewController:joinNewClassNavigationController animated:YES completion:nil];
 
@@ -221,7 +214,7 @@
 }
 
 
--(void)fetchMessagesFromLocalDatastore {
+-(NSArray *)fetchMessagesFromLocalDatastore {
     NSArray *createdClasses = [[PFUser currentUser] objectForKey:@"Created_groups"];
     NSMutableArray *createdClassCodes = [[NSMutableArray alloc] init];
     for(NSArray *cls in createdClasses) {
@@ -234,14 +227,22 @@
     [query whereKey:@"code" containedIn:createdClassCodes];
     [query orderByDescending:@"createdTime"];
     NSArray *messages = (NSArray *)[query findObjects];
+    NSMutableArray *messageIds = [[NSMutableArray alloc] init];
+    int i=0;
+    NSCharacterSet *characterset=[NSCharacterSet characterSetWithCharactersInString:@"\uFFFC\n "];
     for (PFObject * messageObject in messages) {
-        TSMessage *message = [[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:messageObject[@"title"] sender:messageObject[@"Creator"] sentTime:messageObject[@"createdTime"] senderPic:messageObject[@"senderPic"] likeCount:[messageObject[@"like_count"] intValue] confuseCount:[messageObject[@"confused_count"] intValue] seenCount:[messageObject[@"seen_count"] intValue]];
+        TSMessage *message = [[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:[messageObject[@"title"] stringByTrimmingCharactersInSet:characterset] sender:messageObject[@"Creator"] sentTime:messageObject[@"createdTime"] senderPic:messageObject[@"senderPic"] likeCount:[messageObject[@"like_count"] intValue] confuseCount:[messageObject[@"confused_count"] intValue] seenCount:[messageObject[@"seen_count"] intValue]];
         NSData *data = [(PFFile *)messageObject[@"attachment"] getData];
         if(data)
             message.attachment = [UIImage imageWithData:data];
+        message.messageId = messageObject[@"messageId"];
         [_messagesArray addObject:message];
+        if(i<30)
+            [messageIds addObject:messageObject[@"messageId"]];
+        i++;
     }
     NSLog(@"messags array : %@", _messagesArray);
+    return messageIds;
 }
 
 
@@ -254,17 +255,13 @@
                 messageObject[@"iosUserID"] = [PFUser currentUser].objectId;
                 messageObject[@"messageId"] = messageObject.objectId;
                 messageObject[@"createdTime"] = messageObject.createdAt;
-                if(!messageObject[@"like_count"])
-                    messageObject[@"like_count"] = [NSNumber numberWithInt:0];
-                if(!messageObject[@"confuse_count"])
-                    messageObject[@"confuse_count"] = [NSNumber numberWithInt:0];
-                if(!messageObject[@"seen_count"])
-                    messageObject[@"seen_count"] = [NSNumber numberWithInt:0];
                 [messageObject pinInBackground];
-                TSMessage *message = [[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:messageObject[@"title"] sender:messageObject[@"Creator"] sentTime:messageObject[@"createdTime"] senderPic:messageObject[@"senderPic"] likeCount:[messageObject[@"like_count"] intValue] confuseCount:[messageObject[@"confused_count"] intValue] seenCount:[messageObject[@"seen_count"] intValue]];
+                NSCharacterSet *characterset=[NSCharacterSet characterSetWithCharactersInString:@"\uFFFC\n "];
+                TSMessage *message = [[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:[messageObject[@"title"] stringByTrimmingCharactersInSet:characterset] sender:messageObject[@"Creator"] sentTime:messageObject[@"createdTime"] senderPic:messageObject[@"senderPic"] likeCount:[messageObject[@"like_count"] intValue] confuseCount:[messageObject[@"confused_count"] intValue] seenCount:[messageObject[@"seen_count"] intValue]];
                 NSData *data = [(PFFile *)messageObject[@"attachment"] getData];
                 if(data)
                     message.attachment = [UIImage imageWithData:data];
+                message.messageId = messageObject[@"messageId"];
                 [_messagesArray addObject:message];
                 NSIndexPath *indexPath = [NSIndexPath indexPathForRow:(_messagesArray.count-1) inSection:0];
                 [indices addObject:indexPath];
@@ -291,21 +288,17 @@
         [Data updateInboxLocalDatastoreWithTime1:@"c" oldestMessageTime:oldestMsgDate successBlock:^(id object) {
             NSArray *messages = (NSArray *)object;
             NSMutableArray *indices = [[NSMutableArray alloc] init];
+            NSCharacterSet *characterset=[NSCharacterSet characterSetWithCharactersInString:@"\uFFFC\n "];
             for(PFObject *messageObject in messages) {
                 messageObject[@"iosUserID"] = [PFUser currentUser].objectId;
                 messageObject[@"messageId"] = messageObject.objectId;
                 messageObject[@"createdTime"] = messageObject.createdAt;
-                if(!messageObject[@"like_count"])
-                    messageObject[@"like_count"] = [NSNumber numberWithInt:0];
-                if(!messageObject[@"confuse_count"])
-                    messageObject[@"confuse_count"] = [NSNumber numberWithInt:0];
-                if(!messageObject[@"seen_count"])
-                    messageObject[@"seen_count"] = [NSNumber numberWithInt:0];
                 [messageObject pinInBackground];
-                TSMessage *message = [[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:messageObject[@"title"] sender:messageObject[@"Creator"] sentTime:messageObject[@"createdTime"] senderPic:messageObject[@"senderPic"] likeCount:[messageObject[@"like_count"] intValue] confuseCount:[messageObject[@"confused_count"] intValue] seenCount:[messageObject[@"seen_count"] intValue]];
+                TSMessage *message = [[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:[messageObject[@"title"] stringByTrimmingCharactersInSet:characterset] sender:messageObject[@"Creator"] sentTime:messageObject[@"createdTime"] senderPic:messageObject[@"senderPic"] likeCount:[messageObject[@"like_count"] intValue] confuseCount:[messageObject[@"confused_count"] intValue] seenCount:[messageObject[@"seen_count"] intValue]];
                 NSData *data = [(PFFile *)messageObject[@"attachment"] getData];
                 if(data)
                     message.attachment = [UIImage imageWithData:data];
+                message.messageId = messageObject[@"messageId"];
                 [_messagesArray addObject:message];
                 NSIndexPath *indexPath = [NSIndexPath indexPathForRow:(_messagesArray.count-1) inSection:0];
                 [indices addObject:indexPath];
@@ -328,56 +321,29 @@
 }
 
 
--(void)updateCounts:(NSDate *)date {
-    NSArray *createdClasses = [[PFUser currentUser] objectForKey:@"Created_groups"];
-    NSMutableArray *createdClassCodes = [[NSMutableArray alloc] init];
-    for(NSArray *cls in createdClasses) {
-        [createdClassCodes addObject:cls[0]];
-    }
-    
-    [Data updateCounts:@"c" oldestMessageTime:date successBlock:^(id object) {
-        NSArray *messageObjects = (NSArray *) object;
-        PFQuery *query = [PFQuery queryWithClassName:@"GroupDetails"];
-        [query fromLocalDatastore];
-        [query orderByDescending:@"createdTime"];
-        [query whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
-        [query whereKey:@"code" containedIn:createdClassCodes];
-        [query whereKey:@"createdTime" lessThan:date];
-        query.limit = 20;
-        NSArray *messages = (NSArray *)[query findObjects];
-        
-        if(messages.count!=0) {
-            if([((PFObject *) messageObjects[0]).objectId isEqualToString:[((PFObject *) messages[0]) objectForKey:@"messageId"]]) {
-                NSLog(@"Pehli Dikkat");
-                return;
+-(void)updateCountsLocally:(NSArray *)array {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
+        [Data updateCountsLocally:array successBlock:^(id object) {
+            NSArray *messageObjects = (NSArray *) object;
+            for(int i=0; i<array.count; i++) {
+                PFQuery *query = [PFQuery queryWithClassName:@"GroupDetails"];
+                [query fromLocalDatastore];
+                [query whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
+                [query whereKey:@"messageId" equalTo:array[i]];
+                NSArray *msgs = (NSArray *)[query findObjects];
+                PFObject *msg = (PFObject *)msgs[0];
+                msg[@"like_count"] = ((PFObject *) messageObjects[i])[@"like_count"];
+                msg[@"confused_count"] = ((PFObject *) messageObjects[i])[@"confused_count"];
+                msg[@"seen_count"] = ((PFObject *) messageObjects[i])[@"seen_count"];
+                [msg pinInBackground];
+                ((TSMessage *)_messagesArray[i]).likeCount = [msg[@"like_count"] intValue];
+                ((TSMessage *)_messagesArray[i]).confuseCount = [msg[@"confused_count"] intValue];
+                ((TSMessage *)_messagesArray[i]).seenCount = [msg[@"seen_count"] intValue];
             }
-            NSDate *firstMessageSentTime = [((PFObject *)messages[0]) objectForKey:@"createdTime"];
-            int index = -1;
-            for(int i=0; i<_messagesArray.count; i++) {
-                if([firstMessageSentTime isEqualToDate:((TSMessage *) _messagesArray[i]).sentTime]) {
-                    index = i;
-                    break;
-                }
-            }
-            if(index==-1) {
-                NSLog(@"Doosri Dikkat");
-            }
-            else {
-                NSLog(@"Index is : %d", index);
-                for(int i=0; i<messages.count; i++) {
-                    messages[i][@"like_count"] = messageObjects[i][@"like_count"];
-                    messages[i][@"confused_count"] = messageObjects[i][@"confused_count"];
-                    messages[i][@"seen_count"] = messageObjects[i][@"seen_count"];
-                    ((TSMessage *)_messagesArray[index+i]).likeCount = [[(PFObject *)_messagesArray[index+i] objectForKey:@"like_count"] intValue];
-                    ((TSMessage *)_messagesArray[index+i]).confuseCount = [[(PFObject *)_messagesArray[index+i] objectForKey:@"confused_count"] intValue];
-                    ((TSMessage *)_messagesArray[index+i]).seenCount = [[(PFObject *)_messagesArray[index+i] objectForKey:@"seen_count"] intValue];
-                    [messages[i] pinInBackground];
-                }
-            }
-        }
-    } errorBlock:^(NSError *error) {
-        NSLog(@"Unable to fetch inbox messages when pulled up to refresh: %@", [error description]);
-    }];
+        } errorBlock:^(NSError *error) {
+            NSLog(@"Unable to fetch like confuse counts in inbox: %@", [error description]);
+        }];
+    });
 }
 
 

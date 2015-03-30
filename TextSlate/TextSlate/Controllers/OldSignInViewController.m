@@ -161,5 +161,11 @@
     });
 }
 
+- (IBAction)tappedOutside:(UITapGestureRecognizer *)sender {
+    [_emailText resignFirstResponder];
+    [_passwordText resignFirstResponder];
+}
+
+
  
 @end
