@@ -175,7 +175,6 @@
 +(void)getMemberDetails:(NSString *)classCode successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
     PFQuery *query = [[PFQuery alloc] initWithClassName:@"GroupMembers"];
     
-    [query whereKey:@"code" equalTo:classCode];
     [query findObjectsInBackgroundWithBlock:^(NSArray *object, NSError *error) {
         if (error) {
             NSLog(@"Error");
