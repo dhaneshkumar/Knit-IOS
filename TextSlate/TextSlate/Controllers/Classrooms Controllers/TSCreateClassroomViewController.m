@@ -20,15 +20,16 @@
 @property (strong, nonatomic) NSString *selectedStandard;
 @property (strong, nonatomic) NSString *selectedDivision;
 @property (strong, nonatomic) NSString *selectedSchool;
-
-
+@property (assign) int isFirstClass;
 
 @end
 
 @implementation TSCreateClassroomViewController
 
 - (void)viewDidLoad {
+    
     [super viewDidLoad];
+    _isFirstClass=0;
     self.classNameTextField.delegate = self;
     self.schoolNameTextField.delegate=self;
     self.standardAndDivisionPicker.delegate = self;
@@ -68,14 +69,37 @@
         _selectedSchool=_schoolNameTextField.text;
     }
     
+   
     
     [Data createNewClassWithClassName:_classNameTextField.text standard:_selectedStandard division:_selectedDivision school:_selectedSchool successBlock:^(id object) {
-        PFObject *codeGroupForClass = (PFObject *)object;
+         PFObject *codeGroupForClass = (PFObject *)object;
         codeGroupForClass[@"iosUserID"] = [PFUser currentUser].objectId;
         [codeGroupForClass pinInBackground];
+        [[PFUser currentUser]fetch];
+    
+        NSArray *createdClass=[[PFUser currentUser] objectForKey:@"Created_groups"];
+       if(createdClass.count==1)
+        {
+            NSLog(@"Here");
+            [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:nil];
+            NSTimer* loop = [NSTimer scheduledTimerWithTimeInterval:60*60*24*2 target:self selector:@selector(showInviteParentNotification) userInfo:nil repeats:NO];
+            [[NSRunLoop currentRunLoop] addTimer:loop forMode:NSRunLoopCommonModes];
+            
+            
+
+        }
+        if(createdClass.count==1)
+        {
+            [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:nil];
+            NSTimer* loop = [NSTimer scheduledTimerWithTimeInterval:60*60*24*3 target:self selector:@selector(checkOutbox) userInfo:nil repeats:NO];
+            [[NSRunLoop currentRunLoop] addTimer:loop forMode:NSRunLoopCommonModes];
+        }
         UIAlertView *successAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:[NSString stringWithFormat:@"Successfully created Class: %@ Code : %@",codeGroupForClass[@"name"], codeGroupForClass[@"code"]] delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
         [self dismissViewControllerAnimated:YES completion:nil];
         [successAlertView show];
+
+        
+        
     } errorBlock:^(NSError *error) {
         UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error occured creating class. Please try again later" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
         [errorAlertView show];
@@ -83,6 +107,73 @@
     
 }
 
+
+-(void)showInviteParentNotification{
+    //NOT WORKING
+    NSLog(@"here in show invite");
+    PFUser *current=[PFUser currentUser];
+    NSArray *createdClass=[current objectForKey:@"Created_groups"];
+    NSArray *firstIndex=[createdClass objectAtIndex:0];
+    NSString *classCode=[firstIndex objectAtIndex:0];
+    [Data getMemberDetails:classCode successBlock:^(id object) {
+        NSMutableArray *memberList=[[NSMutableArray alloc]init];
+        for(PFObject *class in memberList)
+        {
+            NSString *codeFromObject=[class objectForKey:@"code"];
+            if([codeFromObject isEqualToString:classCode])
+            {
+                NSString *name=[class objectForKey:@"name"];
+                if(name.length>0)
+                {
+                    [memberList addObject:name];
+                    NSLog(@"%@ memberlist",memberList);
+                }
+            }
+        }
+      if(memberList.count<1){
+            NSLog(@"hi");
+            UILocalNotification *localNotification = [[UILocalNotification alloc] init];
+            localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:1];
+            localNotification.alertBody = @"We see you have not joined any class.";
+            localNotification.timeZone = [NSTimeZone defaultTimeZone];
+            localNotification.alertAction=@"Invite Parent";
+            localNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication]     applicationIconBadgeNumber] + 1;
+            [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
+       }
+    else{
+           NSLog(@"%@ member count ",memberList);
+    }
+        
+    } errorBlock:^(NSError *error) {
+        NSLog(@"Could not get any members");
+    }];
+        
+}
+
+-(void)checkOutbox{
+    NSArray *createdClasses = [[PFUser currentUser] objectForKey:@"Created_groups"];
+    NSMutableArray *createdClassCodes = [[NSMutableArray alloc] init];
+    for(NSArray *cls in createdClasses) {
+        [createdClassCodes addObject:cls[0]];
+    }
+    
+    PFQuery *query = [PFQuery queryWithClassName:@"GroupDetails"];
+    [query fromLocalDatastore];
+    [query whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
+    [query whereKey:@"code" containedIn:createdClassCodes];
+    NSArray *messages = (NSArray *)[query findObjects];
+    if(messages.count<1)
+    {
+        UILocalNotification *localNotification = [[UILocalNotification alloc] init];
+        localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:1];
+        localNotification.alertBody = @"We see you have not send any message.";
+        localNotification.timeZone = [NSTimeZone defaultTimeZone];
+        localNotification.alertAction=@"Send Message";
+        localNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication]     applicationIconBadgeNumber] + 1;
+        [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
+    }
+    
+}
 
 // The number of columns of data
 - (int)numberOfComponentsInPickerView:(UIPickerView *)pickerView

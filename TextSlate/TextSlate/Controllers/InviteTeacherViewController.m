@@ -45,7 +45,14 @@
         UIAlertView *messageDialog = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Oops! There ocurred some error in sending the invitation." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
         
         [messageDialog show];
+
     }];
+    
+}
+
+-(IBAction)dismiss:(id)sender{
+    NSLog(@"quitting...");
+    [self dismissViewControllerAnimated:YES completion:nil];
     
 }
 -(BOOL) textFieldShouldReturn:(UITextField *)textField{

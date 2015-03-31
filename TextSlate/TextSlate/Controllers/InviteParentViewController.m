@@ -71,7 +71,9 @@
 
 
 -(IBAction)openWhatsApp:(id)sender{
-    NSString *sendCode=@"Here is the code";
+
+    //Add appstore link to message
+    NSString *sendCode=[NSString stringWithFormat:@"Hello! I have started using a great communication tool,Knit Messaging and I will be using it to send out reminders and announcement.To join my classroon you can use my classcode %@.\n\n To download the app go to app store and download Knit Messaging.\n\n Link: http://www.knitapp.co.in/user.html?/%@", _classCode, _classCode];
     NSString* strSharingText = [sendCode stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     
     //This is whatsApp url working only when you having app in your Apple device
@@ -84,8 +86,10 @@
 -(IBAction)openMessage:(id)sender{
         if([MFMessageComposeViewController canSendText]) {
             MFMessageComposeViewController *controller = [[MFMessageComposeViewController alloc] init];
-            controller.body = @"Hello";
-            controller.recipients = [NSArray arrayWithObjects:@"+1234567890", nil];
+            
+            NSString *sendCode=[NSString stringWithFormat:@"Hello! I have started using a great communication tool,Knit Messaging and I will be using it to send out reminders and announcement.To join my classroon you can use my classcode %@.\n\n Download ios app at http://itunes.apple.com/in/app/knit-messaging/id962112913?mt=8 .\n\n Link: http://www.knitapp.co.in/user.html?/%@", _classCode, _classCode];
+            controller.body = sendCode;
+            controller.recipients = [NSArray arrayWithObjects:@"", nil];
             controller.messageComposeDelegate = self;
             [self presentViewController:controller animated:YES completion:nil];
         }
@@ -118,8 +122,8 @@
     if ([MFMailComposeViewController canSendMail]) {
         MFMailComposeViewController *composeViewController = [[MFMailComposeViewController alloc] initWithNibName:nil bundle:nil];
         [composeViewController setMailComposeDelegate:self];
-        [composeViewController setToRecipients:@[@"example@email.com"]];
-        [composeViewController setSubject:@"example subject"];
+        [composeViewController setToRecipients:@[@""]];
+        [composeViewController setSubject:@"Invitation to join me on Knit."];
         [self presentViewController:composeViewController animated:YES completion:nil];
     }
     else{

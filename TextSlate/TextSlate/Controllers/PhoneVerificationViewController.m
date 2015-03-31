@@ -118,12 +118,23 @@
                                     localNotification.alertAction=@"Create";
                                     localNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication]     applicationIconBadgeNumber] + 1;
                                     [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
+                                 
+                                    [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:nil];
+                                    NSTimer* loop = [NSTimer scheduledTimerWithTimeInterval:60*60*24*2 target:self selector:@selector(showCreateClassNotification) userInfo:nil repeats:NO];
+                                    [[NSRunLoop currentRunLoop] addTimer:loop forMode:NSRunLoopCommonModes];
+                                
+                                    
                                 }
                                 if([_role isEqualToString:@"parent"])
                                 {
                                     [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:nil];
-                                    NSTimer* loop = [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(inviteParentNotification) userInfo:nil repeats:NO];
+                                    [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:nil];
+                                    NSTimer* loop = [NSTimer scheduledTimerWithTimeInterval:60*60*24*2 target:self selector:@selector(showJoinClassNotification) userInfo:nil repeats:NO];
                                     [[NSRunLoop currentRunLoop] addTimer:loop forMode:NSRunLoopCommonModes];
+                                    
+                                    //// Invite Teacher here not parent
+                                    NSTimer* loop1 = [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(showInviteTeacherNotification) userInfo:nil repeats:NO];
+                                    [[NSRunLoop currentRunLoop] addTimer:loop1 forMode:NSRunLoopCommonModes];
                                     
                                 }
 
@@ -140,7 +151,6 @@
 
         else if(_isNewSignIn==true)
         {
-            
             NSInteger verificationCode=[_codeText.text integerValue];
             NSLog(@"phone number %@",_phoneNumber);
             NSString *number=_phoneNumber;
@@ -161,6 +171,7 @@
                         if (error) {
                             NSLog(@"Session token could not be validated");
                         } else {
+
                             NSLog(@"Successfully Validated ");
                             PFUser *current=[PFUser currentUser];
                             NSLog(@"%@ current user",current.objectId);
@@ -186,9 +197,13 @@
  
                                 {
                                     [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:nil];
-                                    NSTimer* loop = [NSTimer scheduledTimerWithTimeInterval:60*60*24*2 target:self selector:@selector(showJoinClassNotification) userInfo:nil repeats:NO];
+                                    NSTimer* loop = [NSTimer scheduledTimerWithTimeInterval:60*60*24 target:self selector:@selector(showJoinClassNotification) userInfo:nil repeats:NO];
                                     [[NSRunLoop currentRunLoop] addTimer:loop forMode:NSRunLoopCommonModes];
                                 
+                                    NSTimer* loop1 = [NSTimer scheduledTimerWithTimeInterval:60*60*24*2 target:self selector:@selector(showInviteTeacherNotification) userInfo:nil repeats:NO];
+                                    [[NSRunLoop currentRunLoop] addTimer:loop1 forMode:NSRunLoopCommonModes];
+                                    
+
                                 }
                                 if([role isEqualToString:@"teacher"] )
                                     
@@ -197,7 +212,9 @@
                                     NSTimer* loop = [NSTimer scheduledTimerWithTimeInterval:60*60*24*2 target:self selector:@selector(showCreateClassNotification) userInfo:nil repeats:NO];
                                     [[NSRunLoop currentRunLoop] addTimer:loop forMode:NSRunLoopCommonModes];
                                     
-                                }
+                                    
+                                    
+                            }
                                 
                             } errorBlock:^(NSError *error) {
                                 return ;
@@ -234,6 +251,7 @@
 
 }
 
+
 -(void)showJoinClassNotification{
     
     
@@ -251,21 +269,21 @@
     }
 }
 
--(void)inviteParentNotification{
-    NSLog(@"Show notification");
-    
+
+
+-(void)showInviteTeacherNotification{
     PFUser *current=[PFUser currentUser];
     NSArray *joinedClass=[current objectForKey:@"joined_groups"];
     if(joinedClass.count<1){
-        UILocalNotification *localNotification = [[UILocalNotification alloc] init];
-        localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:5];
-        localNotification.alertBody = @"We see you have not created any class.";
-        localNotification.timeZone = [NSTimeZone defaultTimeZone];
-        localNotification.alertAction=@"Invite Parent";
-        localNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication]     applicationIconBadgeNumber] + 1;
-        [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
-    }
+    UILocalNotification *localNotification = [[UILocalNotification alloc] init];
+    localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:5];
+    localNotification.alertBody = @"You know you can invite teachers and join their classese! ";
+    localNotification.timeZone = [NSTimeZone defaultTimeZone];
+    localNotification.alertAction=@"Invite Teacher";
+    localNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication]     applicationIconBadgeNumber] + 1;
+    [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
     
+    }
 }
 
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
