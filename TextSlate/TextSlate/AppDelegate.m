@@ -102,6 +102,7 @@
 {
     UIApplicationState state = [application applicationState];
     if (state == UIApplicationStateActive){
+        NSLog(@"APP DELEGATE");
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Reminder"
                                                         message:notification.alertBody
                                                        delegate:self cancelButtonTitle:@"OK"
@@ -168,6 +169,47 @@
             [tabbarNav presentViewController:inviteParentController animated:YES completion:nil];
 
         }
+
+        else if([notification.alertAction isEqualToString:@"Invite Teacher"]){
+            UIStoryboard *storyboard1 = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
+            UINavigationController *tabbarNav = [storyboard1 instantiateViewControllerWithIdentifier:@"tabBar"];
+            tabbarNav.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+            
+            TSTabBarViewController *fcontroller = (TSTabBarViewController*)tabbarNav.topViewController;
+            [fcontroller setSelectedIndex:0];
+            self.window.rootViewController=tabbarNav;
+            
+            UINavigationController *inviteParentController = [storyboard1 instantiateViewControllerWithIdentifier:@"inviteTeacher"];
+            inviteParentController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+            
+            [tabbarNav presentViewController:inviteParentController animated:YES completion:nil];
+            
+            
+        }
+        if([notification.alertAction isEqualToString:@"Send Message"])
+        {
+            NSLog(@"App is in background but take user to classroom controller if selected");
+            
+            UIStoryboard *storyboard1 = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
+            UINavigationController *tabbarNav = [storyboard1 instantiateViewControllerWithIdentifier:@"tabBar"];
+            tabbarNav.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+            
+            TSTabBarViewController *fcontroller = (TSTabBarViewController*)tabbarNav.topViewController;
+            [fcontroller setSelectedIndex:0];
+            self.window.rootViewController=tabbarNav;
+            
+            UINavigationController *createClassController = [storyboard1 instantiateViewControllerWithIdentifier:@"messageComposer"];
+            createClassController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+            
+            TSCreateClassroomViewController *f1controller = (TSCreateClassroomViewController*)createClassController.topViewController;
+            //  [fcontroller setSelectedIndex:1];
+            //self.window.rootViewController=joinClassController;
+            
+            [tabbarNav presentViewController:createClassController animated:YES completion:nil];
+            
+            
+        }
+
 
     // Request to reload table view data
  //   [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadData" object:self];
@@ -239,6 +281,48 @@
 
         
     }
+
+    else if([title isEqualToString:@"Invite Teacher"]){
+        UIStoryboard *storyboard1 = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
+        UINavigationController *tabbarNav = [storyboard1 instantiateViewControllerWithIdentifier:@"tabBar"];
+        tabbarNav.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+        
+        TSTabBarViewController *fcontroller = (TSTabBarViewController*)tabbarNav.topViewController;
+        [fcontroller setSelectedIndex:0];
+        self.window.rootViewController=tabbarNav;
+        
+        UINavigationController *inviteParentController = [storyboard1 instantiateViewControllerWithIdentifier:@"inviteTeacher"];
+        inviteParentController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+        
+        [tabbarNav presentViewController:inviteParentController animated:YES completion:nil];
+        
+        
+    }
+    if([title isEqualToString:@"Send Message"])
+    {
+        NSLog(@"App is in background but take user to classroom controller if selected");
+        
+        UIStoryboard *storyboard1 = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
+        UINavigationController *tabbarNav = [storyboard1 instantiateViewControllerWithIdentifier:@"tabBar"];
+        tabbarNav.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+        
+        TSTabBarViewController *fcontroller = (TSTabBarViewController*)tabbarNav.topViewController;
+        [fcontroller setSelectedIndex:0];
+        self.window.rootViewController=tabbarNav;
+        
+        UINavigationController *createClassController = [storyboard1 instantiateViewControllerWithIdentifier:@"messageComposer"];
+        createClassController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+        
+        TSCreateClassroomViewController *f1controller = (TSCreateClassroomViewController*)createClassController.topViewController;
+        //  [fcontroller setSelectedIndex:1];
+        //self.window.rootViewController=joinClassController;
+        
+        [tabbarNav presentViewController:createClassController animated:YES completion:nil];
+        
+        
+    }
+
+    
 
 
 }

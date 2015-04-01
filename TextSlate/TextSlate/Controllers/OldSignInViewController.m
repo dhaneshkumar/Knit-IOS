@@ -71,44 +71,34 @@
                         NSArray *joinedClass=[current objectForKey:@"joined_groups"];
                         
                         NSArray *createdClass=[current objectForKey:@"Created_groups"];
-                        if([role isEqualToString:@"parent"] && joinedClass.count<1)
+                        if([role isEqualToString:@"parent"] || [role isEqualToString:@"teacher"])
                             
                         {
-                            UILocalNotification *localNotification = [[UILocalNotification alloc] init];
-                            localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:24*60*60];
-                            localNotification.alertBody = @"We see you have not joined any class.";
-                            localNotification.timeZone = [NSTimeZone defaultTimeZone];
-                            localNotification.alertAction=@"Join";
-                            localNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication]     applicationIconBadgeNumber] + 1;
-                            [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
+                            [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:nil];
+                            NSTimer* loop = [NSTimer scheduledTimerWithTimeInterval:60*60*24*2 target:self selector:@selector(showJoinClassNotification) userInfo:nil repeats:NO];
+                            [[NSRunLoop currentRunLoop] addTimer:loop forMode:NSRunLoopCommonModes];
+                            
+                            
+                            [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:nil];
+                            NSTimer* loop1 = [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(showInviteTeacherNotification) userInfo:nil repeats:NO];
+                            [[NSRunLoop currentRunLoop] addTimer:loop1 forMode:NSRunLoopCommonModes];
+                            
                             
                         }
-                        if([role isEqualToString:@"teacher"] && createdClass.count<1)
+                        if([role isEqualToString:@"teacher"] )
                             
                         {
+                            [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:nil];
+                            NSTimer* loop = [NSTimer scheduledTimerWithTimeInterval:60*60*24*2 target:self selector:@selector(showCreateClassNotification) userInfo:nil repeats:NO];
+                            [[NSRunLoop currentRunLoop] addTimer:loop forMode:NSRunLoopCommonModes];
                             
-                            UILocalNotification *localNotification = [[UILocalNotification alloc] init];
-                            localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:24*60*60];
-                            localNotification.alertBody = @"We see you have not created any class.";
-                            localNotification.timeZone = [NSTimeZone defaultTimeZone];
-                            localNotification.alertAction=@"Create";
-                            localNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication]     applicationIconBadgeNumber] + 1;
-                            [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
                             
                         }
-
-                        
                     
                     } errorBlock:^(NSError *error) {
                         return ;
                     }];
                     
-
-                    /*UINavigationController *tab=[self.storyboard instantiateViewControllerWithIdentifier:@"tabBar"];
-                    TSTabBarViewController *mainTab=(TSTabBarViewController*) tab.topViewController;
-                    [self dismissViewControllerAnimated:YES completion:^{
-                        [self presentViewController:mainTab animated:NO completion:nil];
-                    }];*/
                 }
             }];
         }
@@ -121,6 +111,62 @@
     
     //[self performSegueWithIdentifier:@"verification" sender:self];
 }
+
+
+-(void)showCreateClassNotification{
+    NSLog(@"Show notification");
+    PFUser *current=[PFUser currentUser];
+    NSArray *createdClass=[current objectForKey:@"Created_groups"];
+    
+    if(createdClass.count<1 )
+        
+    {
+        UILocalNotification *localNotification = [[UILocalNotification alloc] init];
+        localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:5];
+        localNotification.alertBody = @"We see you have not created any class.";
+        localNotification.timeZone = [NSTimeZone defaultTimeZone];
+        localNotification.alertAction=@"Create";
+        localNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication]     applicationIconBadgeNumber] + 1;
+        [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
+        
+    }
+    
+}
+
+
+-(void)showJoinClassNotification{
+    
+    
+    PFUser *current=[PFUser currentUser];
+    NSArray *joinedClass=[current objectForKey:@"joined_groups"];
+    if(joinedClass.count<1){
+        
+        UILocalNotification *localNotification = [[UILocalNotification alloc] init];
+        localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:5];
+        localNotification.alertBody = @"We see you have not joined any class.";
+        localNotification.timeZone = [NSTimeZone defaultTimeZone];
+        localNotification.alertAction=@"Join";
+        localNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication]     applicationIconBadgeNumber] + 1;
+        [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
+    }
+}
+
+-(void)showInviteTeacherNotification{
+    PFUser *current=[PFUser currentUser];
+    NSArray *joinedClass=[current objectForKey:@"joined_groups"];
+    if(joinedClass.count<1){
+        UILocalNotification *localNotification = [[UILocalNotification alloc] init];
+        localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:5];
+        localNotification.alertBody = @"You know you can invite teachers and join their classese! ";
+        localNotification.timeZone = [NSTimeZone defaultTimeZone];
+        localNotification.alertAction=@"Invite Teacher";
+        localNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication]     applicationIconBadgeNumber] + 1;
+        [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
+        
+    }
+}
+
+
 
 -(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
  

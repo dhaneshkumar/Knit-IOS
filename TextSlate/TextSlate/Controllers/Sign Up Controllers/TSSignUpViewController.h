@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "TSSignInViewController.h"
 
-@interface TSSignUpViewController : UIViewController
+@interface TSSignUpViewController : UIViewController<UITextFieldDelegate>
 
 @property (weak, nonatomic) TSSignInViewController *pViewController;
 
