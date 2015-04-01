@@ -14,13 +14,12 @@
 
 
 @interface TSSignUpViewController () <UIAlertViewDelegate>
-
-@property (weak, nonatomic) IBOutlet UITextField *nameTextField;
+@property (weak, nonatomic) IBOutlet UITextField *displayName;
+@property (weak, nonatomic) IBOutlet UITextField *titleTextField;
 @property (weak, nonatomic) IBOutlet UITextField *phoneNumberTextField;
-@property (weak, nonatomic) IBOutlet UITextField *emailTextField;
-@property (weak, nonatomic) IBOutlet UITextField *passwordTextField;
-@property (weak, nonatomic) IBOutlet UITextField *confirmPasswordTextField;
-@property (weak, nonatomic) IBOutlet UITextField *sex;
+@property (strong,nonatomic) UIAlertView *getRole;
+@property (strong,nonatomic) UIAlertView *getTitle;
+@property (strong ,nonatomic) NSString *sex;
 @property (strong,nonatomic) NSString *getOTP;
 
 
@@ -34,6 +33,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     _showAlertView = true;
+    _displayName.delegate=self;
+    _phoneNumberTextField.delegate=self;
     //self.OTP.hidden=YES;
     // Do any additional setup after loading the view.
 }
@@ -47,18 +48,48 @@
     [super viewDidAppear:animated];
     NSLog(@"Sign up alert view");
     if(_showAlertView) {
-        UIAlertView *selectionAlertView = [[UIAlertView alloc] initWithTitle:@"Knit - Role" message:@"Please select your profession" delegate:self cancelButtonTitle:@"CANCEL" otherButtonTitles:@"PARENT", @"TEACHER", nil];
-        [selectionAlertView show];
+        _getRole = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Please select your profession" delegate:self cancelButtonTitle:@"CANCEL" otherButtonTitles:@"PARENT", @"TEACHER", nil];
+        [_getRole show];
+        
         _showAlertView = false;
     }
 }
 
+-(IBAction)selectRole:(id)sender
+{
+    _getTitle = [[UIAlertView alloc] initWithTitle:@"Knit - Role" message:@"Please select your profession" delegate:self cancelButtonTitle:@"CANCEL" otherButtonTitles:@"Miss", @"Mr.",@"Mrs", nil];
+    [_getTitle show];
+}
+
+
 -(void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if (buttonIndex == 1) {
-        _isParent = true;
-    } else if (buttonIndex == 2) {
-        _isParent = false;
+    if(alertView==_getRole){
+        if (buttonIndex == 1) {
+            _isParent = true;
+        } else if (buttonIndex == 2) {
+            _isParent = false;
+        }
     }
+    if(alertView==_getTitle)
+    {
+        if(buttonIndex==1)
+        {
+            _titleTextField.text=@"Miss";
+            _sex=@"female";
+        }
+    
+        else if(buttonIndex==2){
+            _titleTextField.text=@"Mr.";
+            _sex=@"male";
+        }
+        else if(buttonIndex==3)
+        {
+            _titleTextField.text=@"Mrs";
+            _sex=@"female";
+        }
+    }
+    
+    
 }
 
 /*
@@ -75,13 +106,8 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+
 - (IBAction)signUpClicked:(UIButton *)sender {
-    if (![_passwordTextField.text isEqualToString:_confirmPasswordTextField.text]) {
-        UIAlertView *passwordMismatchAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Your password input(s) did not match. Please check again" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        [passwordMismatchAlertView show];
-        return;
-    }
-    
     [Data generateOTP:_phoneNumberTextField.text successBlock:^(id object) {
         [self performSegueWithIdentifier:@"signUpDetail" sender:self];
         NSLog(@"code %@",object);
@@ -122,32 +148,29 @@
     }];*/
 }
 
-
+-(IBAction)cancelView:(id)sender{
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
 -(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"signUpDetail"]) {
         UINavigationController *nav = [segue destinationViewController];
         PhoneVerificationViewController *dvc = (PhoneVerificationViewController *)nav.topViewController;
         NSString *deviceType = [UIDevice currentDevice].model;
         NSLog(@"device %@",deviceType);
-        dvc.nameText=_nameTextField.text;
+        dvc.nameText=_displayName.text;
         dvc.phoneNumber=_phoneNumberTextField.text;
-        dvc.emailText=_emailTextField.text;
-        dvc.password=_passwordTextField.text;
-        dvc.confirmPassword=_confirmPasswordTextField.text;
         dvc.parent= _isParent;
         dvc.modal=deviceType;
         dvc.isSignUp=true;
-        dvc.sex=_sex.text;
+        dvc.sex=_sex;
     }
 }
 
 
 - (IBAction)tappedOutside:(UITapGestureRecognizer *)sender {
-    [_nameTextField resignFirstResponder];
+ //   [_nameTextField resignFirstResponder];
+    [_displayName resignFirstResponder];
     [_phoneNumberTextField resignFirstResponder];
-    [_emailTextField resignFirstResponder];
-    [_passwordTextField resignFirstResponder];
-    [_confirmPasswordTextField resignFirstResponder];
-    [_sex resignFirstResponder];
+   
 }
 @end
