@@ -134,64 +134,68 @@
             for(PFObject * appUs in enumerator) {
                 appUs[@"iosUserID"]=[PFUser currentUser].objectId;
                 [appUs pinInBackground];
-                if(appUs[@"status"]) {
-                    int deleteIndex = -1;
-                    for(int i=0; i<_memberList.count; i++) {
-                        TSMember *mem = (TSMember *)_memberList[i];
-                        if([mem.emailId isEqualToString:appUs[@"emailId"]]) {
-                            deleteIndex = i;
-                            break;
+                if([appUs[@"code"] isEqualToString:_classCode]) {
+                    if(appUs[@"status"]) {
+                        int deleteIndex = -1;
+                        for(int i=0; i<_memberList.count; i++) {
+                            TSMember *mem = (TSMember *)_memberList[i];
+                            if([mem.emailId isEqualToString:appUs[@"emailId"]]) {
+                                deleteIndex = i;
+                                break;
+                            }
+                        }
+                        if(deleteIndex!=-1) {
+                            [_memberList removeObjectAtIndex:deleteIndex];
+                            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:deleteIndex inSection:0];
+                            [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
                         }
                     }
-                    if(deleteIndex!=-1) {
-                        [_memberList removeObjectAtIndex:deleteIndex];
-                        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:deleteIndex inSection:0];
-                        [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+                    else {
+                        TSMember *member = [[TSMember alloc]init];
+                        member.className = _className;
+                        member.classCode = _classCode;
+                        member.childName = (((NSArray *)appUs[@"children_names"]).count>0)?((NSArray *)appUs[@"children_names"])[0]:appUs[@"name"];
+                        member.userName = appUs[@"name"];
+                        member.userType = @"app";
+                        member.emailId = appUs[@"emailId"];
+                        [_memberList insertObject:member atIndex:0];
+                        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+                        [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationTop];
                     }
-                }
-                else {
-                    TSMember *member = [[TSMember alloc]init];
-                    member.className = _className;
-                    member.classCode = _classCode;
-                    member.childName = (((NSArray *)appUs[@"children_names"]).count>0)?((NSArray *)appUs[@"children_names"])[0]:appUs[@"name"];
-                    member.userName = appUs[@"name"];
-                    member.userType = @"app";
-                    member.emailId = appUs[@"emailId"];
-                    [_memberList insertObject:member atIndex:0];
-                    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
-                    [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationTop];
                 }
             }
             enumerator = [phoneUser reverseObjectEnumerator];
             for(PFObject * phoneUs in enumerator) {
                 phoneUs[@"iosUserID"]=[PFUser currentUser].objectId;
                 [phoneUs pinInBackground];
-                if(phoneUs[@"status"]) {
-                    int deleteIndex = -1;
-                    for(int i=0; i<_memberList.count; i++) {
+                if([phoneUs[@"cod"] isEqualToString:_classCode]) {
+                    if(phoneUs[@"status"]) {
+                        int deleteIndex = -1;
+                        for(int i=0; i<_memberList.count; i++) {
                         TSMember *mem = (TSMember *)_memberList[i];
-                        if([mem.emailId isEqualToString:phoneUs[@"number"]]) {
-                            deleteIndex = i;
-                            break;
+                            if([mem.emailId isEqualToString:phoneUs[@"number"]]) {
+                                deleteIndex = i;
+                                break;
+                            }
+                        }
+                        if(deleteIndex!=-1) {
+                            [_memberList removeObjectAtIndex:deleteIndex];
+                            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:deleteIndex inSection:0];
+                            [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
                         }
                     }
-                    if(deleteIndex!=-1) {
-                        [_memberList removeObjectAtIndex:deleteIndex];
-                        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:deleteIndex inSection:0];
-                        [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+                    else {
+                        TSMember *member = [[TSMember alloc]init];
+                        member.className = _className;
+                        member.classCode = _classCode;
+                        member.childName = phoneUs[@"subscriber"];
+                        member.userName = phoneUs[@"subscriber"];
+                        member.userType = @"sms";
+                        member.emailId = phoneUs[@"number"];
+                        [_memberList insertObject:member atIndex:0];
+                        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+                        [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationTop];
                     }
-                }
-                else {
-                    TSMember *member = [[TSMember alloc]init];
-                    member.className = _className;
-                    member.classCode = _classCode;
-                    member.childName = phoneUs[@"subscriber"];
-                    member.userName = phoneUs[@"subscriber"];
-                    member.userType = @"sms";
-                    member.emailId = phoneUs[@"number"];
-                    [_memberList insertObject:member atIndex:0];
-                    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
-                    [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationTop];
                 }
             }
         } errorBlock:^(NSError *error) {

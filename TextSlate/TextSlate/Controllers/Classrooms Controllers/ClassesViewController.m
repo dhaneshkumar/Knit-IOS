@@ -50,6 +50,7 @@
     }
 }
 
+
 /*
 - (void)editButtonPressed {
     if (self.classesTable.editing) {
@@ -149,7 +150,9 @@
         dvc.className = codegroup[@"name"];
         dvc.classCode = codegroup[@"code"];
         dvc.teacherName = codegroup[@"Creator"];
+        NSLog(@"here");
         NSData *data = [(PFFile *)codegroup[@"senderPic"] getData];
+        NSLog(@"there");
         if(data)
             dvc.teacherPic = [UIImage imageWithData:data];
         else

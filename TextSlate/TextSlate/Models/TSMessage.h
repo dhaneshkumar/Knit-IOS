@@ -18,6 +18,7 @@
 @property (strong, nonatomic) NSDate * sentTime;
 @property (strong, nonatomic) UIImage *senderPic;
 @property (strong, nonatomic) UIImage *attachment;
+@property (nonatomic) BOOL hasAttachment;
 @property (strong, nonatomic) NSString *messageId;
 @property (nonatomic) int likeCount;
 @property (nonatomic) int confuseCount;

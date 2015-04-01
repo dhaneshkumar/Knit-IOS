@@ -228,8 +228,8 @@
 }
 
 
-+(void)updateLikeConfuseCountsGlobally:(NSArray *)array successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
-    [PFCloud callFunctionInBackground:@"updateLikeConfuseCountsGlobally" withParameters:@{@"array":array} block:^(id object, NSError *error) {
++(void)updateLikeConfuseCountsGlobally:(NSArray *)array dict:(NSDictionary *)dict successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
+    [PFCloud callFunctionInBackground:@"updateLikeConfuseCountsGlobally" withParameters:@{@"array":array, @"input":dict} block:^(id object, NSError *error) {
         if (error) {
             errorBlock(error);
         } else {

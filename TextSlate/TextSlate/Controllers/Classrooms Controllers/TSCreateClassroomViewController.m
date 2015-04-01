@@ -73,6 +73,7 @@
         PFObject *codeGroupForClass = (PFObject *)object;
         codeGroupForClass[@"iosUserID"] = [PFUser currentUser].objectId;
         [codeGroupForClass pinInBackground];
+        [[PFUser currentUser] fetch];
         UIAlertView *successAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:[NSString stringWithFormat:@"Successfully created Class: %@ Code : %@",codeGroupForClass[@"name"], codeGroupForClass[@"code"]] delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
         [self dismissViewControllerAnimated:YES completion:nil];
         [successAlertView show];
