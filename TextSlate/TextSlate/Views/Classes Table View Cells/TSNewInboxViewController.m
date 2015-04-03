@@ -9,6 +9,7 @@
 #import "TSNewInboxViewController.h"
 #import <Parse/Parse.h>
 #import "Data.h"
+#import "sharedCache.h"
 #import "TSInboxMessageTableViewCell.h"
 
 
@@ -36,6 +37,7 @@
     [self.messagesTable addSubview:_refreshControl];
     [_refreshControl addTarget:self action:@selector(pullDownToRefresh) forControlEvents:UIControlEventValueChanged];
     _isBottomRefreshCalled = false;
+
 }
 
 - (void)didReceiveMemoryWarning {
@@ -250,8 +252,38 @@
                 [_messagesArray insertObject:message atIndex:0];
                 if(message.hasAttachment) {
                     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
-                        NSData *data = [(PFFile *)messageObj[@"attachment"] getData];
-                        message.attachment = [UIImage imageWithData:data];
+                     //   NSData *data = [(PFFile *)messageObj[@"attachment"] getData];
+                       // message.attachment = [UIImage imageWithData:data];
+                        PFFile *attachImageUrl=messageObj[@"attachment"];
+                        NSString *url=attachImageUrl.url;
+                        NSLog(@"url to image in pulldowntorefresh %@",url);
+                        UIImage *image = [[sharedCache sharedInstance] getCachedImageForKey:url];
+                        if(image)
+                        {
+                            NSLog(@"already cached");
+                            message.attachment = image;
+                            
+                            
+                        }
+                        else{
+                            
+                            NSURL *imageURL = [NSURL URLWithString:url];
+                            NSData *data = [attachImageUrl getData];
+                            
+                            UIImage *image = [[UIImage alloc] initWithData:data];
+                            
+                            if(image)
+                            {
+                                NSLog(@"Caching here....");
+                                [[sharedCache sharedInstance] cacheImage:image forKey:url];
+                                message.attachment = image;
+                                
+                            }
+                            
+                            
+                            //NSData *data = [(PFFile *)messageObject[@"attachment"] getData];
+                        }
+
                     });
                 }
                 NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
@@ -329,8 +361,36 @@
         [_messagesArray addObject:message];
         if(message.hasAttachment) {
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
-                NSData *data = [(PFFile *)messageObject[@"attachment"] getData];
-                message.attachment = [UIImage imageWithData:data];
+               // NSData *data = [(PFFile *)messageObject[@"attachment"] getData];
+                //message.attachment = [UIImage imageWithData:data];
+                PFFile *attachImageUrl=messageObject[@"attachment"];
+                NSString *url=attachImageUrl.url;
+                NSLog(@"url to image fetchfrom localdatastore %@",url);
+                UIImage *image = [[sharedCache sharedInstance] getCachedImageForKey:url];
+                NSLog(@"%@ image",image);
+                if(image)
+                {
+                    NSLog(@"already cached");
+                    message.attachment = image;
+
+                    
+                }
+                else{
+                    NSLog(@"Caching here....");
+
+                    
+                    NSURL *imageURL = [NSURL URLWithString:url];
+                    UIImage *image = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:imageURL]];
+                    
+                    if(image)
+                    {
+                        [[sharedCache sharedInstance] cacheImage:image forKey:url];
+                        message.attachment = image;
+
+                    }
+                    
+                  }
+
             });
         }
         if(i<30)
@@ -370,8 +430,36 @@
                 [_messagesArray insertObject:message atIndex:0];
                 if(message.hasAttachment) {
                     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
-                        NSData *data = [(PFFile *)messageObj[@"attachment"] getData];
-                        message.attachment = [UIImage imageWithData:data];
+                        PFFile *attachImageUrl=messageObj[@"attachment"];
+                        NSString *url=attachImageUrl.url;
+                        NSLog(@"url to image insertlatestmessage %@",url);
+                        UIImage *image = [[sharedCache sharedInstance] getCachedImageForKey:url];
+                        if(image)
+                        {
+                            NSLog(@"already cached");
+                            message.attachment = image;
+                            
+                            
+                        }
+                        else{
+                            
+                            NSURL *imageURL = [NSURL URLWithString:url];
+                            NSData *data = [attachImageUrl getData];
+                            
+                            UIImage *image = [[UIImage alloc] initWithData:data];
+                            
+                            if(image)
+                            {
+                                NSLog(@"Caching here....");
+                                [[sharedCache sharedInstance] cacheImage:image forKey:url];
+                                message.attachment = image;
+                                
+                            }
+                            
+                            
+                            //NSData *data = [(PFFile *)messageObject[@"attachment"] getData];
+                        }
+
                     });
                 }
                 NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
@@ -432,8 +520,40 @@
                 [_messagesArray addObject:message];
                 if(message.hasAttachment) {
                     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
-                        NSData *data = [(PFFile *)msg[@"attachment"] getData];
-                        message.attachment = [UIImage imageWithData:data];
+                //        NSData *data = [(PFFile *)msg[@"attachment"] getData];
+                  //      message.attachment = [UIImage imageWithData:data];
+                        PFFile *attachImageUrl=msg[@"attachment"];
+                        NSString *url=attachImageUrl.url;
+                        NSLog(@"url to image fetcholdemssageondatadeletion %@",url);
+
+                        UIImage *image = [[sharedCache sharedInstance] getCachedImageForKey:url];
+                        if(image)
+                        {
+                            NSLog(@"already cached");
+                            message.attachment = image;
+                            
+                            
+                        }
+                        else{
+                            
+                            NSURL *imageURL = [NSURL URLWithString:url];
+                            NSData *data = [attachImageUrl getData];
+                            
+                            UIImage *image = [[UIImage alloc] initWithData:data];
+                            
+                            if(image)
+                            {
+                                NSLog(@"Caching here....");
+                                [[sharedCache sharedInstance] cacheImage:image forKey:url];
+                                message.attachment = image;
+                                
+                            }
+                            
+                            
+                            //NSData *data = [(PFFile *)messageObject[@"attachment"] getData];
+                        }
+
+
                     });
                 }
                 NSIndexPath *indexPath = [NSIndexPath indexPathForRow:(_messagesArray.count-1) inSection:0];
@@ -498,8 +618,39 @@
                 [tempArray addObject:message];
                 if(message.hasAttachment) {
                     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
-                        NSData *data = [(PFFile *)msg[@"attachment"] getData];
-                        message.attachment = [UIImage imageWithData:data];
+                        //NSData *data = [(PFFile *)msg[@"attachment"] getData];
+                        //message.attachment = [UIImage imageWithData:data];
+                        PFFile *attachImageUrl=msg[@"attachment"];
+                        NSString *url=attachImageUrl.url;
+                        NSLog(@"url to image fetchold message %@",url);
+                        UIImage *image = [[sharedCache sharedInstance] getCachedImageForKey:url];
+                        if(image)
+                        {
+                            NSLog(@"already cached");
+                            message.attachment = image;
+                            
+                            
+                        }
+                        else{
+                            
+                            NSURL *imageURL = [NSURL URLWithString:url];
+                            NSData *data = [attachImageUrl getData];
+                            
+                            UIImage *image = [[UIImage alloc] initWithData:data];
+                            
+                            if(image)
+                            {
+                                NSLog(@"Caching here....");
+                                [[sharedCache sharedInstance] cacheImage:image forKey:url];
+                                message.attachment = image;
+                                
+                            }
+                            
+                            
+                            //NSData *data = [(PFFile *)messageObject[@"attachment"] getData];
+                        }
+
+                    
                     });
                 }
             }

@@ -22,13 +22,17 @@ static sharedCache *sharedInstance;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         sharedInstance = [[sharedCache alloc] init];
+    
     });
-    return sharedInstance;
+  return sharedInstance;
 }
 - (instancetype)init {
     self = [super init];
+
     if (self) {
         self.imageCache = [[NSCache alloc] init];
+        [_imageCache setCountLimit:1000000];
+        [_imageCache setEvictsObjectsWithDiscardedContent:NO];
     }
     return self;
 }
