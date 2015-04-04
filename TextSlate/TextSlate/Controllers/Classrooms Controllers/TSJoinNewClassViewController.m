@@ -54,10 +54,10 @@
     for(NSArray *joinedClass in joinedClasses) {
         [joinedAndCreatedClassCodes addObject:[joinedClass objectAtIndex:0]];
     }
-    /*
+    
     for(NSArray *createdClass in createdClasses) {
         [joinedAndCreatedClassCodes addObject:[createdClass objectAtIndex:0]];
-    }*/
+    }
 
     NSString *installationObjectId = [[PFUser currentUser] objectForKey:@"installationObjectId"];
     NSLog(@"installationID user %@",installationObjectId);

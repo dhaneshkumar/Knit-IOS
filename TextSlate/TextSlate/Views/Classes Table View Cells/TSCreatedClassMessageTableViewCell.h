@@ -16,5 +16,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *confuseCount;
 @property (weak, nonatomic) IBOutlet UILabel *seenCount;
 @property (weak, nonatomic) IBOutlet UILabel *sentTime;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 
 @end
