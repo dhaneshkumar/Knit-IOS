@@ -2059,7 +2059,8 @@
                                                             <exclude reference="2Ht-39-BLg"/>
                                                         </mask>
                                                     </variation>
-                                                    <variation key="heightClass=regular-widthClass=compact">
+                                                    <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
+                                                        <rect key="frame" x="269" y="62" width="43" height="16"/>
                                                         <mask key="constraints">
                                                             <include reference="2Ht-39-BLg"/>
                                                         </mask>
@@ -2454,7 +2455,8 @@
                                                             <exclude reference="5Gm-75-8Tt"/>
                                                         </mask>
                                                     </variation>
-                                                    <variation key="heightClass=regular-widthClass=compact">
+                                                    <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
+                                                        <rect key="frame" x="269" y="268" width="43" height="16"/>
                                                         <mask key="constraints">
                                                             <include reference="5Gm-75-8Tt"/>
                                                         </mask>

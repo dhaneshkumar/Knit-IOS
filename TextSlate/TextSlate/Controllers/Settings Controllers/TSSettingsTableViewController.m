@@ -123,6 +123,7 @@ if(section==0)
         UIImage *image = [[sharedCache sharedInstance] getCachedImageForKey:url1];
         if(image)
         {
+            NSLog(@"settings cached");
             cell.imageView.image=image;
             
         }

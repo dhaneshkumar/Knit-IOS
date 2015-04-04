@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "TSMessage.h"
 
-@interface TSNewInboxViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+@interface TSNewInboxViewController : UIViewController <UITableViewDataSource, UITableViewDelegate,NSCacheDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *messagesTable;
 
