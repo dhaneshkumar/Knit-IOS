@@ -61,8 +61,8 @@
     [_section3Content addObject:@"Feedback"];
     [_section3Content addObject:@"Rate Our App"];
     self.navigationController.title=@"Settings";
-//    _settingsTableView.ScrollIndicatorInsets = UIEdgeInsets(64, 0, 0, 0);
     
+    // _settingsTableView.ScrollIndicatorInsets = UIEdgeInsets(64, 0, 0, 0);
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     

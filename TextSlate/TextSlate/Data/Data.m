@@ -217,10 +217,11 @@
 
 
 +(void)updateCountsLocally:(NSArray *)array successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
-    [PFCloud callFunctionInBackground:@"updateCount" withParameters:@{@"array":array} block:^(id object, NSError *error) {
+    [PFCloud callFunctionInBackground:@"updateCount2" withParameters:@{@"array":array} block:^(id object, NSError *error) {
         if (error) {
             errorBlock(error);
         } else {
+            NSLog(@"data.m called");
             successBlock(object);
         }
     }];
@@ -228,7 +229,7 @@
 
 
 +(void)updateLikeConfuseCountsGlobally:(NSArray *)array dict:(NSDictionary *)dict successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
-    [PFCloud callFunctionInBackground:@"updateLikeConfuseCountsGlobally" withParameters:@{@"array":array, @"input":dict} block:^(id object, NSError *error) {
+    [PFCloud callFunctionInBackground:@"updateLikeAndConfusionCount" withParameters:@{@"array":array, @"input":dict} block:^(id object, NSError *error) {
         if (error) {
             errorBlock(error);
         } else {
