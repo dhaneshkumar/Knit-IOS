@@ -17,6 +17,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *associatedPersonTextField;
 @property (weak, nonatomic) IBOutlet UIButton *joinButton;
 
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 @end
 
 @implementation TSJoinNewClassViewController
@@ -24,6 +25,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     _classCodeTextField.delegate=self;
+    _activityIndicator.hidden=YES;
     // Do any additional setup after loading the view.
 }
 
@@ -48,6 +50,8 @@
     //[indicator startAnimating];
     
     //[[PFUser currentUser] fetch];
+    _activityIndicator.hidden=NO;
+    [_activityIndicator startAnimating];
     NSArray *joinedClasses = [[PFUser currentUser] objectForKey:@"joined_groups"];
     NSArray *createdClasses = [[PFUser currentUser] objectForKey:@"Created_groups"];
     NSMutableArray *joinedAndCreatedClassCodes = [[NSMutableArray alloc]init];
@@ -93,15 +97,18 @@
         } errorBlock:^(NSError *error) {
             //[indicator stopAnimating];
             //[indicator removeFromSuperview];
+            
             UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error in joining Class. Please make sure you have the correct class code." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
             [errorAlertView show];
         }];
     }
     else
-    {
-        UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Voila" message:@"You have already joined this class! " delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+    {        UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Voila" message:@"You have already joined this class! " delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
         [errorAlertView show];
     }
+
+    [_activityIndicator stopAnimating];
+    _activityIndicator.hidden=YES;
 
 }
 

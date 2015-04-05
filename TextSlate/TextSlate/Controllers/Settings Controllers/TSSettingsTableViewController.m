@@ -30,6 +30,22 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+//    _settingsTableView.ScrollIndicatorInsets = UIEdgeInsets(64, 0, 0, 0);
+    
+    // Uncomment the following line to preserve selection between presentations.
+    // self.clearsSelectionOnViewWillAppear = NO;
+    
+    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
+    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+-(void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
     PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
     [lq fromLocalDatastore];
     [lq whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
@@ -48,11 +64,11 @@
     else {
         _isOld=false;
     }
-
+    
     _section2Content=[[NSMutableArray alloc]init];
     [_section2Content addObject:@""];
     if(_isOld==true){
-    [_section2Content addObject:@"Change Password"];
+        [_section2Content addObject:@"Change Password"];
     }
     [_section2Content addObject:@"Logout"];
     
@@ -61,21 +77,6 @@
     [_section3Content addObject:@"Feedback"];
     [_section3Content addObject:@"Rate Our App"];
     self.navigationController.title=@"Settings";
-    
-    // _settingsTableView.ScrollIndicatorInsets = UIEdgeInsets(64, 0, 0, 0);
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
--(void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
     self.navigationController.navigationBarHidden=YES;
 }
 

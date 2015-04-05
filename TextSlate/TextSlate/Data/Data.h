@@ -15,7 +15,7 @@ typedef void (^errorBlock)(NSError *error);
 
 @interface Data : NSObject
 
-+(void) createNewClassWithClassName:(NSString *)className standard:(NSString *)standard division:(NSString *)division school:(NSString *)school successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock ;
++(void) createNewClassWithClassName:(NSString *)className successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock ;
 
 +(void) getClassRooms:(successBlock)successBlock errorBlock:(errorBlock)errorBlock;
 
