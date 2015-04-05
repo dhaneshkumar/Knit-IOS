@@ -34,9 +34,7 @@
 
 
 -(IBAction)signIn:(id)sender{
-    
     [Data verifyOTPOldSignIn:_emailText.text password:_passwordText.text successBlock:^(id object) {
-        
         NSDictionary *tokenDict=[[NSDictionary alloc]init];
         tokenDict=object;
         NSString *flagValue=[tokenDict objectForKey:@"flag"];
@@ -56,21 +54,25 @@
                     NSString *devicetype=[currentInstallation objectForKey:@"deviceType"];
                     [Data saveInstallationId:installationId deviceType:devicetype successBlock:^(id object) {
                         NSLog(@"Successfully saved installationID");
-                        [self createLocalDatastore];
+                        PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
+                        [lq fromLocalDatastore];
+                        NSArray *lds = [lq findObjects];
+                        if(lds.count==1) {
+                            if([((PFObject*)lds[0])[@"iosUserID"] isEqualToString:[PFUser currentUser].objectId]) {
+                                //filhaal to kuch nhi
+                            }
+                            else {
+                                [self deleteAllLocalData];
+                                [self createLocalDatastore];
+                            }
+                        }
                         current[@"installationObjectId"]=object;
                         [current pinInBackground];
 
-                        UINavigationController *tab=[self.storyboard instantiateViewControllerWithIdentifier:@"tabBar"];
-                        TSTabBarViewController *mainTab=(TSTabBarViewController*) tab.topViewController;
-                        [self dismissViewControllerAnimated:YES completion:^{
-                            [self presentViewController:mainTab animated:NO completion:nil];
-                        }];
+                        [self dismissViewControllerAnimated:YES completion:nil];
                        
                         PFUser *current=[PFUser currentUser];
                         NSString * role=[current objectForKey:@"role"];
-                        NSArray *joinedClass=[current objectForKey:@"joined_groups"];
-                        
-                        NSArray *createdClass=[current objectForKey:@"Created_groups"];
                         if([role isEqualToString:@"parent"] || [role isEqualToString:@"teacher"])
                             
                         {
@@ -102,14 +104,9 @@
                 }
             }];
         }
-        
-        
-        
     } errorBlock:^(NSError *error) {
         NSLog(@"Error in Signing In...");
     }];
-    
-    //[self performSegueWithIdentifier:@"verification" sender:self];
 }
 
 
@@ -205,6 +202,33 @@
             NSLog(@"Unable to update server time : %@", [error description]);
         }];
     });
+}
+
+-(void)deleteAllLocalData {
+    PFQuery *query = [PFQuery queryWithClassName:@"Codegroup"];
+    [query fromLocalDatastore];
+    NSArray *array = [query findObjects];
+    [PFObject unpinAllInBackground:array];
+    
+    query = [PFQuery queryWithClassName:@"GroupDetails"];
+    [query fromLocalDatastore];
+    array = [query findObjects];
+    [PFObject unpinAllInBackground:array];
+    
+    query = [PFQuery queryWithClassName:@"GroupMembers"];
+    [query fromLocalDatastore];
+    array = [query findObjects];
+    [PFObject unpinAllInBackground:array];
+    
+    query = [PFQuery queryWithClassName:@"Messageneeders"];
+    [query fromLocalDatastore];
+    array = [query findObjects];
+    [PFObject unpinAllInBackground:array];
+    
+    query = [PFQuery queryWithClassName:@"defaultLocals"];
+    [query fromLocalDatastore];
+    array = [query findObjects];
+    [PFObject unpinAllInBackground:array];
 }
 
 - (IBAction)tappedOutside:(UITapGestureRecognizer *)sender {

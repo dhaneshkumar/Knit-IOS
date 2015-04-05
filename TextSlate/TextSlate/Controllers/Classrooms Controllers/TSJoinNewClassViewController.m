@@ -68,14 +68,17 @@
             NSMutableArray *lastFiveMessage=[objDict objectForKey:@"messages"];
             for(PFObject *msg in lastFiveMessage)
             {
-                msg[@"iosUserID"]=[PFUser currentUser].objectId;
-                //if(codeGroupForClass[@"senderPic"])
-                    //msg[@"senderPic"] = codeGroupForClass[@"senderPic"];
+                //msg[@"iosUserID"]=[PFUser currentUser].objectId;
                 msg[@"likeStatus"] = @"false";
                 msg[@"confuseStatus"] = @"false";
+                msg[@"likeStatusServer"] = @"false";
+                msg[@"confuseStatusServer"] = @"false";
+                msg[@"seenStatus"] = @"false";
+                msg[@"messageId"] = msg.objectId;
+                msg[@"createdTime"] = msg.createdAt;
                 [msg pinInBackground];
             }
-            codeGroupForClass[@"iosUserID"] = [PFUser currentUser].objectId;
+            //codeGroupForClass[@"iosUserID"] = [PFUser currentUser].objectId;
             [codeGroupForClass pinInBackground];
             //[indicator stopAnimating];
             //[indicator removeFromSuperview];

@@ -39,6 +39,7 @@
     [self.inviteParents addGestureRecognizer:inviteParentsTap];
     UITapGestureRecognizer *subscribersTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(subscribersTap:)];
     [self.subscribersList addGestureRecognizer:subscribersTap];
+    _activityIndicator.hidesWhenStopped = true;
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -98,7 +99,6 @@
         [lq whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
         NSArray *localOs = [lq findObjects];
         if(localOs[0][@"isOutboxDataConsistent"]==nil || [localOs[0][@"isOutboxDataConsistent"] isEqualToString:@"false"]) {
-            
             _isBottomRefreshCalled = true;
             [self fetchOldMessages];
         }
@@ -133,6 +133,7 @@
 
 
 -(void)displayMessages {
+    [_activityIndicator startAnimating];
     NSArray *array = [self fetchMessagesFromLocalDatastore];
     if(_messagesArray.count==0) {
         PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
@@ -150,6 +151,7 @@
         }
     }
     else {
+        [_activityIndicator stopAnimating];
         [self.messageTable reloadData];
         [self updateCountsLocally:array];
     }
@@ -210,7 +212,7 @@
 -(NSArray *)fetchMessagesFromLocalDatastore {
     PFQuery *query = [PFQuery queryWithClassName:@"GroupDetails"];
     [query fromLocalDatastore];
-    [query whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
+    //[query whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
     [query whereKey:@"code" equalTo:_classCode];
     [query orderByDescending:@"createdTime"];
     NSArray *messages = (NSArray *)[query findObjects];
@@ -260,12 +262,12 @@
 
 
 -(void)fetchOldMessagesOnDataDeletion {
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
-        [Data updateInboxLocalDatastore:@"c" successBlock:^(id object) {
+    [Data updateInboxLocalDatastore:@"c" successBlock:^(id object) {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
             NSArray *messages = (NSArray *)object;
             NSCharacterSet *characterset=[NSCharacterSet characterSetWithCharactersInString:@"\uFFFC\n "];
             for(PFObject *messageObject in messages) {
-                messageObject[@"iosUserID"] = [PFUser currentUser].objectId;
+                //messageObject[@"iosUserID"] = [PFUser currentUser].objectId;
                 messageObject[@"messageId"] = messageObject.objectId;
                 messageObject[@"createdTime"] = messageObject.createdAt;
                 [messageObject pinInBackground];
@@ -302,21 +304,25 @@
                                     
                                 }
                             }
+                            
                         });
                     }
                 }
             }
-            [self.messageTable reloadData];
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                [_activityIndicator stopAnimating];
+                [self.messageTable reloadData];
+            });
             PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
             [lq fromLocalDatastore];
             [lq whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
             NSArray *localOs = [lq findObjects];
             localOs[0][@"isOutboxDataConsistent"] = (messages.count < 20) ? @"true" : @"false";
             [localOs[0] pinInBackground];
-        } errorBlock:^(NSError *error) {
-            NSLog(@"Unable to fetch inbox messages while opening inbox tab: %@", [error description]);
-        }];
-    });
+        });
+    } errorBlock:^(NSError *error) {
+        NSLog(@"Unable to fetch inbox messages while opening inbox tab: %@", [error description]);
+    }];
 }
 
 
@@ -329,7 +335,7 @@
             NSCharacterSet *characterset=[NSCharacterSet characterSetWithCharactersInString:@"\uFFFC\n "];
             NSMutableArray *tempArray = [[NSMutableArray alloc] initWithArray:_messagesArray];
             for(PFObject *messageObject in messages) {
-                messageObject[@"iosUserID"] = [PFUser currentUser].objectId;
+                //messageObject[@"iosUserID"] = [PFUser currentUser].objectId;
                 messageObject[@"messageId"] = messageObject.objectId;
                 messageObject[@"createdTime"] = messageObject.createdAt;
                 [messageObject pinInBackground];
@@ -371,7 +377,9 @@
                 }
             }
             _messagesArray = tempArray;
-            [_messageTable reloadData];
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                [self.messageTable reloadData];
+            });
             PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
             [lq fromLocalDatastore];
             [lq whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
@@ -396,7 +404,7 @@
             for(NSString *messageObjectId in messageObjects) {
                 PFQuery *query = [PFQuery queryWithClassName:@"GroupDetails"];
                 [query fromLocalDatastore];
-                [query whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
+                //[query whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
                 [query whereKey:@"messageId" equalTo:messageObjectId];
                 NSArray *msgs = (NSArray *)[query findObjects];
                 PFObject *msg = (PFObject *)msgs[0];

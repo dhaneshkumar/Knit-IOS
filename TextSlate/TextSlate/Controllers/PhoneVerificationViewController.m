@@ -86,6 +86,7 @@
                             NSString *devicetype=[currentInstallation objectForKey:@"deviceType"];
                             [Data saveInstallationId:installationId deviceType:devicetype successBlock:^(id object) {
                                 NSLog(@"Successfully saved installationID");
+                                [self deleteAllLocalData];
                                 [self createLocalDatastore];
                                 
                                 //[((UINavigationController *)self.presentingViewController.presentingViewController.presentingViewController).topViewController dismissViewControllerAnimated:YES completion:^{}];
@@ -180,16 +181,23 @@
                             NSString *devicetype=[currentInstallation objectForKey:@"deviceType"];
                             [Data saveInstallationId:installationId deviceType:devicetype successBlock:^(id object) {
                                 NSLog(@"Successfully saved installationID");
-                                [self createLocalDatastore];
+                                PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
+                                [lq fromLocalDatastore];
+                                NSArray *lds = [lq findObjects];
+                                if(lds.count==1) {
+                                    if([((PFObject*)lds[0])[@"iosUserID"] isEqualToString:[PFUser currentUser].objectId]) {
+                                        //filhaal to kuch nhi
+                                    }
+                                    else {
+                                        [self deleteAllLocalData];
+                                        [self createLocalDatastore];
+                                    }
+                                }
 
                                 NSLog(@"current installation %@",object);
                                 current[@"installationObjectId"]=object;
                                 [current pinInBackground];
-                                UINavigationController *tab=[self.storyboard instantiateViewControllerWithIdentifier:@"tabBar"];
-                                TSTabBarViewController *mainTab=(TSTabBarViewController*) tab.topViewController;
-                                [self dismissViewControllerAnimated:YES completion:^{
-                                    [self presentViewController:mainTab animated:NO completion:nil];
-                                }];
+                                [self dismissViewControllerAnimated:YES completion:nil];
                                 
                                 PFUser *current=[PFUser currentUser];
                                 NSString * role=[current objectForKey:@"role"];
@@ -332,6 +340,35 @@
         }];
     });
 }
+
+
+-(void)deleteAllLocalData {
+    PFQuery *query = [PFQuery queryWithClassName:@"Codegroup"];
+    [query fromLocalDatastore];
+    NSArray *array = [query findObjects];
+    [PFObject unpinAllInBackground:array];
+    
+    query = [PFQuery queryWithClassName:@"GroupDetails"];
+    [query fromLocalDatastore];
+    array = [query findObjects];
+    [PFObject unpinAllInBackground:array];
+    
+    query = [PFQuery queryWithClassName:@"GroupMembers"];
+    [query fromLocalDatastore];
+    array = [query findObjects];
+    [PFObject unpinAllInBackground:array];
+    
+    query = [PFQuery queryWithClassName:@"Messageneeders"];
+    [query fromLocalDatastore];
+    array = [query findObjects];
+    [PFObject unpinAllInBackground:array];
+    
+    query = [PFQuery queryWithClassName:@"defaultLocals"];
+    [query fromLocalDatastore];
+    array = [query findObjects];
+    [PFObject unpinAllInBackground:array];
+}
+
 /*
  #pragma mark - Navigation
  

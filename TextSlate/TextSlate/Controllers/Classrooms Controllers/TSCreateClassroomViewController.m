@@ -73,7 +73,7 @@
     
     [Data createNewClassWithClassName:_classNameTextField.text standard:_selectedStandard division:_selectedDivision school:_selectedSchool successBlock:^(id object) {
          PFObject *codeGroupForClass = (PFObject *)object;
-        codeGroupForClass[@"iosUserID"] = [PFUser currentUser].objectId;
+        //codeGroupForClass[@"iosUserID"] = [PFUser currentUser].objectId;
         [codeGroupForClass pinInBackground];
         [[PFUser currentUser]fetch];
     
@@ -97,9 +97,6 @@
         UIAlertView *successAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:[NSString stringWithFormat:@"Successfully created Class: %@ Code : %@",codeGroupForClass[@"name"], codeGroupForClass[@"code"]] delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
         [self dismissViewControllerAnimated:YES completion:nil];
         [successAlertView show];
-
-        
-        
     } errorBlock:^(NSError *error) {
         UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error occured creating class. Please try again later" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
         [errorAlertView show];
@@ -159,7 +156,7 @@
     
     PFQuery *query = [PFQuery queryWithClassName:@"GroupDetails"];
     [query fromLocalDatastore];
-    [query whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
+    //[query whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
     [query whereKey:@"code" containedIn:createdClassCodes];
     NSArray *messages = (NSArray *)[query findObjects];
     if(messages.count<1)

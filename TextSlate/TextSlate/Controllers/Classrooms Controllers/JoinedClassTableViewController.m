@@ -191,7 +191,7 @@
 -(void)deleteAllLocalMessages:(NSString *)classCode {
     PFQuery *query = [PFQuery queryWithClassName:@"GroupDetails"];
     [query fromLocalDatastore];
-    [query whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
+    //[query whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
     [query whereKey:@"code" equalTo:classCode];
     NSArray *messages = [query findObjects];
     [PFObject unpinAllInBackground:messages];
@@ -202,7 +202,7 @@
 -(void)deleteLocalCodegroupEntry:(NSString *)classCode {
     PFQuery *query = [PFQuery queryWithClassName:@"Codegroup"];
     [query fromLocalDatastore];
-    [query whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
+    //[query whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
     [query whereKey:@"code" equalTo:classCode];
     NSArray *messages = [query findObjects];
     [PFObject unpinAllInBackground:messages];

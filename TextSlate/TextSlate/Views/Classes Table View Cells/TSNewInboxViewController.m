@@ -37,6 +37,7 @@
     [self.messagesTable addSubview:_refreshControl];
     [_refreshControl addTarget:self action:@selector(pullDownToRefresh) forControlEvents:UIControlEventValueChanged];
     _isBottomRefreshCalled = false;
+    _activityIndicator.hidesWhenStopped = true;
 
 }
 
@@ -231,7 +232,7 @@
             NSMutableArray *tempArray = [[NSMutableArray alloc] initWithArray:_messagesArray];
             for(id element in enumerator) {
                 PFObject *messageObj = (PFObject *)element;
-                messageObj[@"iosUserID"] = [PFUser currentUser].objectId;
+                //messageObj[@"iosUserID"] = [PFUser currentUser].objectId;
                 messageObj[@"likeStatus"] = @"false";
                 messageObj[@"confuseStatus"] = @"false";
                 messageObj[@"likeStatusServer"] = @"false";
@@ -262,7 +263,6 @@
                             message.attachment = image;
                         }
                         else{
-                            NSURL *imageURL = [NSURL URLWithString:url];
                             NSData *data = [attachImageUrl getData];
                             UIImage *image = [[UIImage alloc] initWithData:data];
                             if(image)
@@ -276,7 +276,9 @@
                 }
             }
             _messagesArray = tempArray;
-            [_messagesTable reloadData];
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                [self.messagesTable reloadData];
+            });
         });
     } errorBlock:^(NSError *error) {
         NSLog(@"Unable to fetch inbox messages while opening inbox tab: %@", [error description]);
@@ -287,6 +289,7 @@
 -(void)displayMessages {
     if([self noJoinedClasses])
         return;
+    [_activityIndicator startAnimating];
     NSArray *array = [self fetchMessagesFromLocalDatastore];
     if(_messagesArray.count==0) {
         PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
@@ -301,12 +304,14 @@
         if(localObjs[0][@"isInboxDataConsistent"] && [localObjs[0][@"isInboxDataConsistent"] isEqualToString:@"true"]) {
             _messageFlag=1;
             [self insertLatestMessages];
+            [_activityIndicator stopAnimating];
         }
         else {
             [self fetchOldMessagesOnDataDeletion];
         }
     }
     else {
+        [_activityIndicator stopAnimating];
         [self.messagesTable reloadData];
         [self insertLatestMessages];
         [self updateCountsLocally:array];
@@ -325,7 +330,7 @@
     PFQuery *query = [PFQuery queryWithClassName:@"GroupDetails"];
     [query fromLocalDatastore];
     [query orderByDescending:@"createdAt"];
-    [query whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
+    //[query whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
     [query whereKey:@"code" containedIn:joinedClassCodes];
     NSArray *messages = (NSArray *)[query findObjects];
     NSMutableArray *messageIds = [[NSMutableArray alloc] init];
@@ -384,7 +389,7 @@
             NSMutableArray *tempArray = [[NSMutableArray alloc] initWithArray:_messagesArray];
             for(id element in enumerator) {
                 PFObject *messageObj = (PFObject *)element;
-                messageObj[@"iosUserID"] = [PFUser currentUser].objectId;
+                //messageObj[@"iosUserID"] = [PFUser currentUser].objectId;
                 messageObj[@"likeStatus"] = @"false";
                 messageObj[@"confuseStatus"] = @"false";
                 messageObj[@"likeStatusServer"] = @"false";
@@ -415,9 +420,7 @@
                             message.attachment = image;
                         }
                         else{
-                            NSURL *imageURL = [NSURL URLWithString:url];
                             NSData *data = [attachImageUrl getData];
-                            
                             UIImage *image = [[UIImage alloc] initWithData:data];
                             
                             if(image)
@@ -435,7 +438,9 @@
                 }
             }
             _messagesArray = tempArray;
-            [_messagesTable reloadData];
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                [self.messagesTable reloadData];
+            });
         });
     } errorBlock:^(NSError *error) {
         NSLog(@"Unable to fetch inbox messages while opening inbox tab: %@", [error description]);
@@ -444,8 +449,8 @@
 
 
 -(void)fetchOldMessagesOnDataDeletion {
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
-        [Data updateInboxLocalDatastore:@"j" successBlock:^(id object) {
+    [Data updateInboxLocalDatastore:@"j" successBlock:^(id object) {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
             NSMutableDictionary *members = (NSMutableDictionary *) object;
             NSArray *messageObjects = (NSArray *)[members objectForKey:@"message"];
             NSArray *states = (NSArray *)[members objectForKey:@"states"];
@@ -456,7 +461,7 @@
             }
             NSCharacterSet *characterset=[NSCharacterSet characterSetWithCharactersInString:@"\uFFFC\n "];
             for (PFObject *msg in messageObjects) {
-                msg[@"iosUserID"] = [PFUser currentUser].objectId;
+                //msg[@"iosUserID"] = [PFUser currentUser].objectId;
                 msg[@"likeStatus"] = @"false";
                 msg[@"confuseStatus"] = @"false";
                 msg[@"likeStatusServer"] = @"false";
@@ -495,8 +500,6 @@
                             message.attachment = image;
                         }
                         else{
-                            
-                            NSURL *imageURL = [NSURL URLWithString:url];
                             NSData *data = [attachImageUrl getData];
                             
                             UIImage *image = [[UIImage alloc] initWithData:data];
@@ -512,17 +515,20 @@
                     });
                 }
             }
-            [self.messagesTable reloadData];
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                [_activityIndicator stopAnimating];
+                [self.messagesTable reloadData];
+            });
             PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
             [lq fromLocalDatastore];
             [lq whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
             NSArray *localOs = [lq findObjects];
             localOs[0][@"isInboxDataConsistent"] = (messageObjects.count < 20) ? @"true" : @"false";
             [localOs[0] pinInBackground];
-        } errorBlock:^(NSError *error) {
-            NSLog(@"Unable to fetch inbox messages while opening inbox tab: %@", [error description]);
-        }];
-    });
+        });
+    } errorBlock:^(NSError *error) {
+        NSLog(@"Unable to fetch inbox messages while opening inbox tab: %@", [error description]);
+    }];
 }
 
 
@@ -542,7 +548,7 @@
             NSCharacterSet *characterset=[NSCharacterSet characterSetWithCharactersInString:@"\uFFFC\n "];
             NSMutableArray *tempArray = [[NSMutableArray alloc] initWithArray:_messagesArray];
             for (PFObject *msg in messageObjects) {
-                msg[@"iosUserID"] = [PFUser currentUser].objectId;
+                //msg[@"iosUserID"] = [PFUser currentUser].objectId;
                 msg[@"likeStatus"] = @"false";
                 msg[@"confuseStatus"] = @"false";
                 msg[@"likeStatusServer"] = @"false";
@@ -596,7 +602,9 @@
                 }
             }
             _messagesArray = tempArray;
-            [_messagesTable reloadData];
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                [self.messagesTable reloadData];
+            });
             NSLog(@"new old messages : %d", _messagesArray.count);
             PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
             [lq fromLocalDatastore];
@@ -622,7 +630,7 @@
             for(NSString *messageObjectId in messageObjects) {
                 PFQuery *query = [PFQuery queryWithClassName:@"GroupDetails"];
                 [query fromLocalDatastore];
-                [query whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
+                //[query whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
                 [query whereKey:@"messageId" equalTo:messageObjectId];
                 NSArray *msgs = (NSArray *)[query findObjects];
                 PFObject *msg = (PFObject *)msgs[0];
@@ -640,77 +648,83 @@
 
 
 -(void)updateLikeCountStatusGlobally {
-    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
-    NSMutableArray *messageIds = [[NSMutableArray alloc] init];
-    for(int i=0; i<_messagesArray.count; i++) {
-        PFQuery *query = [PFQuery queryWithClassName:@"GroupDetails"];
-        [query fromLocalDatastore];
-        [query whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
-        [query whereKey:@"messageId" equalTo:((TSMessage *)_messagesArray[i]).messageId];
-        
-        PFObject *obj = ((NSArray *)[query findObjects])[0];
-        obj[@"likeStatus"] = ((TSMessage *)_messagesArray[i]).likeStatus;
-        obj[@"confuseStatus"] = ((TSMessage *)_messagesArray[i]).confuseStatus;
-        [obj pinInBackground];
-        if([obj[@"likeStatus"] isEqualToString:obj[@"likeStatusServer"]] && [obj[@"confuseStatus"] isEqualToString:obj[@"confuseStatusServer"]]) {}
-        else {
-            dict[((TSMessage *)_messagesArray[i]).messageId] = @[[NSNumber numberWithInt:[self adder:obj[@"likeStatusServer"] localStatus:obj[@"likeStatus"]]], [NSNumber numberWithInt:[self adder:obj[@"confuseStatusServer"] localStatus:obj[@"confuseStatus"]]]];
-            [messageIds addObject:((TSMessage *)_messagesArray[i]).messageId];
+    NSArray *tempArray = [[NSArray alloc] initWithArray:_messagesArray];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
+        NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+        NSMutableArray *messageIds = [[NSMutableArray alloc] init];
+        for(int i=0; i<tempArray.count; i++) {
+            PFQuery *query = [PFQuery queryWithClassName:@"GroupDetails"];
+            [query fromLocalDatastore];
+            //[query whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
+            [query whereKey:@"messageId" equalTo:((TSMessage *)tempArray[i]).messageId];
+            
+            PFObject *obj = ((NSArray *)[query findObjects])[0];
+            obj[@"likeStatus"] = ((TSMessage *)tempArray[i]).likeStatus;
+            obj[@"confuseStatus"] = ((TSMessage *)tempArray[i]).confuseStatus;
+            [obj pinInBackground];
+            if([obj[@"likeStatus"] isEqualToString:obj[@"likeStatusServer"]] && [obj[@"confuseStatus"] isEqualToString:obj[@"confuseStatusServer"]]) {}
+            else {
+                dict[((TSMessage *)tempArray[i]).messageId] = @[[NSNumber numberWithInt:[self adder:obj[@"likeStatusServer"] localStatus:obj[@"likeStatus"]]], [NSNumber numberWithInt:[self adder:obj[@"confuseStatusServer"] localStatus:obj[@"confuseStatus"]]]];
+                [messageIds addObject:((TSMessage *)tempArray[i]).messageId];
+            }
         }
-    }
-    
-    if(dict.count>0) {
-        [Data updateLikeConfuseCountsGlobally:messageIds dict:dict successBlock:^(id object) {
+        
+        if(dict.count>0) {
+            [Data updateLikeConfuseCountsGlobally:messageIds dict:dict successBlock:^(id object) {
+                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
+                    for(int i=0; i<messageIds.count; i++) {
+                        PFQuery *query = [PFQuery queryWithClassName:@"GroupDetails"];
+                        [query fromLocalDatastore];
+                        //[query whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
+                        [query whereKey:@"messageId" equalTo:messageIds[i]];
+                        
+                        PFObject *obj = ((NSArray *)[query findObjects])[0];
+                        obj[@"likeStatusServer"] = obj[@"likeStatus"];
+                        obj[@"confuseStatusServer"] = obj[@"confuseStatus"];
+                        [obj pinInBackground];
+                    }
+                });
+            } errorBlock:^(NSError *error) {
+                NSLog(@"Unable to fetch inbox messages when pulled up to refresh: %@", [error description]);
+            }];
+        }
+    });
+}
+
+
+-(void)updateSeenCountsGlobally {
+    NSArray *tempArray = [[NSArray alloc] initWithArray:_messagesArray];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
+        NSMutableArray *arr = [[NSMutableArray alloc] init];
+        for(int i=0; i<tempArray.count; i++) {
+            PFQuery *query = [PFQuery queryWithClassName:@"GroupDetails"];
+            [query fromLocalDatastore];
+            //[query whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
+            [query whereKey:@"messageId" equalTo:((TSMessage *)tempArray[i]).messageId];
+            PFObject *obj = ((NSArray *)[query findObjects])[0];
+            
+            if([obj[@"seenStatus"] isEqualToString:@"false"] && [((TSMessage *)tempArray[i]).seenStatus isEqualToString:@"true"])
+                [arr addObject:((TSMessage *)tempArray[i]).messageId];
+        }
+
+        [Data updateSeenCountsGlobally:arr successBlock:^(id object) {
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
-                for(int i=0; i<messageIds.count; i++) {
+                for(int i=0; i<arr.count; i++) {
                     PFQuery *query = [PFQuery queryWithClassName:@"GroupDetails"];
                     [query fromLocalDatastore];
-                    [query whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
-                    [query whereKey:@"messageId" equalTo:messageIds[i]];
+                    //[query whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
+                    [query whereKey:@"messageId" equalTo:arr[i]];
                     
                     PFObject *obj = ((NSArray *)[query findObjects])[0];
-                    obj[@"likeStatusServer"] = obj[@"likeStatus"];
-                    obj[@"confuseStatusServer"] = obj[@"confuseStatus"];
+                    obj[@"seenStatus"] = @"true";
                     [obj pinInBackground];
+                    NSLog(@"seen status updated");
                 }
             });
         } errorBlock:^(NSError *error) {
             NSLog(@"Unable to fetch inbox messages when pulled up to refresh: %@", [error description]);
         }];
-    }
-}
-
-
--(void)updateSeenCountsGlobally {
-    NSMutableArray *arr = [[NSMutableArray alloc] init];
-    for(int i=0; i<_messagesArray.count; i++) {
-        PFQuery *query = [PFQuery queryWithClassName:@"GroupDetails"];
-        [query fromLocalDatastore];
-        [query whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
-        [query whereKey:@"messageId" equalTo:((TSMessage *)_messagesArray[i]).messageId];
-        PFObject *obj = ((NSArray *)[query findObjects])[0];
-        
-        if([obj[@"seenStatus"] isEqualToString:@"false"] && [((TSMessage *)_messagesArray[i]).seenStatus isEqualToString:@"true"])
-            [arr addObject:((TSMessage *)_messagesArray[i]).messageId];
-    }
-
-    [Data updateSeenCountsGlobally:arr successBlock:^(id object) {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
-            for(int i=0; i<arr.count; i++) {
-                PFQuery *query = [PFQuery queryWithClassName:@"GroupDetails"];
-                [query fromLocalDatastore];
-                [query whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
-                [query whereKey:@"messageId" equalTo:arr[i]];
-                
-                PFObject *obj = ((NSArray *)[query findObjects])[0];
-                obj[@"seenStatus"] = @"true";
-                [obj pinInBackground];
-                NSLog(@"seen status updated");
-            }
-        });
-    } errorBlock:^(NSError *error) {
-        NSLog(@"Unable to fetch inbox messages when pulled up to refresh: %@", [error description]);
-    }];
+    });
 }
 
 

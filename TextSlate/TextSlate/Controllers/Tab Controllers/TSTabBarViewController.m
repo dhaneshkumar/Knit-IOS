@@ -27,10 +27,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    NSLog(@"TSTab View Controller");
-    //[self.navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:38.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0]];
-    //[self.navigationController.navigationBar setTranslucent:NO];
-    //self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName : [UIColor whiteColor]};
+    NSLog(@"TSTab View Controller View did load");
     ClassesViewController *classesVC = [self.storyboard instantiateViewControllerWithIdentifier:@"classrooms"];
     TSNewInboxViewController *inboxVC = [self.storyboard instantiateViewControllerWithIdentifier:@"inbox"];
     TSOutboxViewController *outboxVC = [self.storyboard instantiateViewControllerWithIdentifier:@"outbox"];
@@ -58,6 +55,7 @@
 
 -(void) viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
+    NSLog(@"TSTab View Controller View did appear");
     /*if(self.presentingViewController)
     {
         [self.presentingViewController dismissViewControllerAnimated:YES completion:Nil ];

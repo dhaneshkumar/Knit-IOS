@@ -12,6 +12,7 @@
 @interface TSNewInboxViewController : UIViewController <UITableViewDataSource, UITableViewDelegate,NSCacheDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *messagesTable;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 
 -(void)updateLikesDataFromCell:(int)row status:(NSString *)status;
 -(void)updateConfuseDataFromCell:(int)row status:(NSString *)status;

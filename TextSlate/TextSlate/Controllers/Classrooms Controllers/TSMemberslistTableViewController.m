@@ -87,7 +87,7 @@
                 NSLog(@"Successfully removed");
                 PFQuery *query = [PFQuery queryWithClassName:@"GroupMembers"];
                 [query fromLocalDatastore];
-                [query whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
+                //[query whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
                 [query whereKey:@"code" equalTo:_classCode];
                 [query whereKey:@"emailId" equalTo:toRemove.emailId];
                 NSArray *appMembers = [query findObjects];
@@ -106,7 +106,7 @@
                 NSLog(@"Successfully removed");
                 PFQuery *query = [PFQuery queryWithClassName:@"Messageneeders"];
                 [query fromLocalDatastore];
-                [query whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
+                //[query whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
                 [query whereKey:@"cod" equalTo:_classCode];
                 [query whereKey:@"number" equalTo:toRemove.phoneNum];
                 NSArray *phoneMembers = [query findObjects];
@@ -126,17 +126,17 @@
 
 
 -(void) insertNewMembers:(NSDate *)timeOflatestMember {
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [Data getMemberList:timeOflatestMember successBlock:^(id object) {
+    [Data getMemberList:timeOflatestMember successBlock:^(id object) {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             NSMutableDictionary *members = (NSMutableDictionary *) object;
             NSArray *appUser=(NSArray *)[members objectForKey:@"app"];
             NSArray *phoneUser=(NSArray *)[members objectForKey:@"sms"];
             for(PFObject * appUs in appUser) {
-                appUs[@"iosUserID"]=[PFUser currentUser].objectId;
+                //appUs[@"iosUserID"]=[PFUser currentUser].objectId;
                 [appUs pinInBackground];
             }
             for(PFObject * phoneUs in phoneUser) {
-                phoneUs[@"iosUserID"]=[PFUser currentUser].objectId;
+                //phoneUs[@"iosUserID"]=[PFUser currentUser].objectId;
                 [phoneUs pinInBackground];
             }
             
@@ -145,7 +145,7 @@
                 PFQuery *query=[PFQuery queryWithClassName:@"GroupMembers"];
                 [query fromLocalDatastore];
                 [query orderByDescending:@"updatedAt"];
-                [query whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
+                //[query whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
                 [query whereKey:@"code" equalTo:_classCode];
                 NSArray * appObjects = [query findObjects];
                 
@@ -170,7 +170,7 @@
                 query = [PFQuery queryWithClassName:@"Messageneeders"];
                 [query fromLocalDatastore];
                 [query orderByDescending:@"updatedAt"];
-                [query whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
+                //[query whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
                 [query whereKey:@"cod" equalTo:_classCode];
                 NSArray * phoneObjects = [query findObjects];
                 
@@ -191,14 +191,15 @@
                         [array addObject:member];
                     }
                 }
-                
                 _memberList = array;
-                [self.tableView reloadData];
+                dispatch_sync(dispatch_get_main_queue(), ^{
+                    [self.tableView reloadData];
+                });
             }
-        } errorBlock:^(NSError *error) {
-            NSLog(@"Error in fetching member list.");
-        }];
-    });
+        });
+    } errorBlock:^(NSError *error) {
+        NSLog(@"Error in fetching member list.");
+    }];
 }
 
 
@@ -206,7 +207,7 @@
     PFQuery *query=[PFQuery queryWithClassName:@"GroupMembers"];
     [query fromLocalDatastore];
     [query orderByDescending:@"updatedAt"];
-    [query whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
+    //[query whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
     [query whereKey:@"code" equalTo:_classCode];
     NSArray * objects = [query findObjects];
     
@@ -236,7 +237,7 @@
     query = [PFQuery queryWithClassName:@"Messageneeders"];
     [query fromLocalDatastore];
     [query orderByDescending:@"updatedAt"];
-    [query whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
+    //[query whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
     [query whereKey:@"cod" equalTo:_classCode];
     objects = [query findObjects];
     

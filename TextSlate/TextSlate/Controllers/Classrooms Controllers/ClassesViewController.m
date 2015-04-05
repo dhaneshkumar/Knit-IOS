@@ -142,17 +142,13 @@
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if([segue.identifier isEqualToString:@"joinedClasses"]) {
-        NSLog(@"Reaching prep for segue");
         int row = [[self.classesTable indexPathForSelectedRow] row];
-        //TSJoinedClass *selectedClass = (TSJoinedClass *)_classes[row];
         JoinedClassTableViewController *dvc = (JoinedClassTableViewController *)segue.destinationViewController;
         PFObject *codegroup = [_codegroups objectForKey:_joinedClasses[row-1][0]];
         dvc.className = codegroup[@"name"];
         dvc.classCode = codegroup[@"code"];
         dvc.teacherName = codegroup[@"Creator"];
-        NSLog(@"here");
         NSData *data = [(PFFile *)codegroup[@"senderPic"] getData];
-        NSLog(@"there");
         if(data)
             dvc.teacherPic = [UIImage imageWithData:data];
         else
@@ -177,7 +173,6 @@
 }
 
 -(void)fillDataModel {
-    //[[PFUser currentUser] fetch];
     NSMutableArray *joinedClassCodes = [[NSMutableArray alloc] init];
     _joinedClasses = (NSMutableArray *)[[PFUser currentUser] objectForKey:@"joined_groups"];
     _createdClasses = (NSMutableArray *)[[PFUser currentUser] objectForKey:@"Created_groups"];
@@ -193,7 +188,7 @@
     PFQuery *localQuery = [PFQuery queryWithClassName:@"Codegroup"];
     [localQuery fromLocalDatastore];
     [localQuery orderByAscending:@"createdAt"];
-    [localQuery whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
+    //[localQuery whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
     [localQuery whereKey:@"code" containedIn:joinedClassCodes];
     NSArray *localCodegroups = (NSArray *)[localQuery findObjects];
     for(PFObject *localCodegroup in localCodegroups)
@@ -204,7 +199,7 @@
             [Data getAllCodegroups:^(id object) {
                 NSArray *cgs = (NSArray *)object;
                 for(PFObject *cg in cgs) {
-                    cg[@"iosUserID"] = [PFUser currentUser].objectId;
+                    //cg[@"iosUserID"] = [PFUser currentUser].objectId;
                     [cg pinInBackground];
                     [_codegroups setObject:cg forKey:[cg objectForKey:@"code"]];
                 }
@@ -257,7 +252,7 @@
 -(void)deleteAllLocalMessages:(NSString *)classCode {
     PFQuery *query = [PFQuery queryWithClassName:@"GroupDetails"];
     [query fromLocalDatastore];
-    [query whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
+    //[query whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
     [query whereKey:@"code" equalTo:classCode];
     
     NSArray *messages = [query findObjects];
@@ -268,7 +263,7 @@
 -(void)deleteAllLocalClassMembers:(NSString *)classCode {
     PFQuery *query = [PFQuery queryWithClassName:@"GroupMembers"];
     [query fromLocalDatastore];
-    [query whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
+    //[query whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
     [query whereKey:@"code" equalTo:classCode];
     
     NSArray *appUsers = [query findObjects];
@@ -279,7 +274,7 @@
 -(void)deleteAllLocalMessageNeeders:(NSString *)classCode {
     PFQuery *query = [PFQuery queryWithClassName:@"Messageneeders"];
     [query fromLocalDatastore];
-    [query whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
+    //[query whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
     [query whereKey:@"cod" equalTo:classCode];
     
     NSArray *messageNeeders = [query findObjects];
@@ -290,7 +285,7 @@
 -(void)deleteLocalCodegroupEntry:(NSString *)classCode {
     PFQuery *query = [PFQuery queryWithClassName:@"Codegroup"];
     [query fromLocalDatastore];
-    [query whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
+    //[query whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
     [query whereKey:@"code" equalTo:classCode];
     
     NSArray *messages = [query findObjects];
