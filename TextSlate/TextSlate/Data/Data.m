@@ -14,8 +14,8 @@
 
 @implementation Data
 
-+(void) createNewClassWithClassName:(NSString *)className standard:(NSString *)standard division:(NSString *)division school:(NSString *)school successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
-    [PFCloud callFunctionInBackground:@"createClass" withParameters:@{@"classname":className, @"standard":standard, @"division":division, @"school":school} block:^(id object, NSError *error) {
++(void) createNewClassWithClassName:(NSString *)className successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
+    [PFCloud callFunctionInBackground:@"createClass" withParameters:@{@"classname":className} block:^(id object, NSError *error) {
         if (error) {
             NSLog(@"error : %@", [error localizedDescription]);
             errorBlock(error);

@@ -464,11 +464,7 @@
                 }
                 NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
                 [self.messagesTable insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationTop];
-                if(_messageFlag==1 && messageObjects.count>=1)
-                {
-                    UIAlertView *likeConfuseAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Hey! You can now confuse or like message and let teacher know." delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-                    [likeConfuseAlertView show];
-                }
+                
             }
         });
     } errorBlock:^(NSError *error) {
@@ -559,6 +555,11 @@
                 NSIndexPath *indexPath = [NSIndexPath indexPathForRow:(_messagesArray.count-1) inSection:0];
                 [indices addObject:indexPath];
                 i++;
+            }
+            if(_messageFlag==1 && messageObjects.count>=1)
+            {
+                UIAlertView *likeConfuseAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Hey! You can now confuse or like message and let teacher know." delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+                [likeConfuseAlertView show];
             }
             [self.messagesTable insertRowsAtIndexPaths:indices withRowAnimation:UITableViewRowAnimationBottom];
             PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];

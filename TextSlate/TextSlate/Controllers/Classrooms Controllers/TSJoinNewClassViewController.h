@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface TSJoinNewClassViewController : UIViewController
+@interface TSJoinNewClassViewController : UIViewController<UITextFieldDelegate>
 
 //@property (strong, nonatomic) IBOutlet UIView *activityIndicator;
 

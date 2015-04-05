@@ -13,6 +13,7 @@
 @interface TSCreateClassroomViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *classNameTextField;
 @property (weak, nonatomic) IBOutlet UITextField *schoolNameTextField;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property (nonatomic) bool flag;
 @property (weak, nonatomic) IBOutlet UIPickerView *standardAndDivisionPicker;
 @property (strong, nonatomic) NSArray *standardPickerData;
@@ -27,19 +28,10 @@
 @implementation TSCreateClassroomViewController
 
 - (void)viewDidLoad {
-    
+    _activityIndicator.hidden=YES;
     [super viewDidLoad];
     _isFirstClass=0;
     self.classNameTextField.delegate = self;
-    self.schoolNameTextField.delegate=self;
-    self.standardAndDivisionPicker.delegate = self;
-    self.standardAndDivisionPicker.dataSource = self;
-    
-    _standardPickerData = @[@"NA", @"1", @"2", @"3", @"4", @"5", @"6", @"7", @"8", @"9", @"10", @"11", @"12"];
-    _divisionPickerData = @[@"NA", @"A", @"B", @"C", @"D", @"E", @"F", @"G", @"H", @"I", @"J", @"K", @"L", @"M", @"N", @"O", @"P", @"Q", @"R", @"S", @"T", @"U", @"V", @"W", @"X", @"Y", @"Z"];
-    _selectedStandard = @"NA";
-    _selectedDivision = @"NA";
-    
     // Do any additional setup after loading the view.
 }
 
@@ -61,17 +53,12 @@
 
 
 - (IBAction)createNewClassClicked:(UIButton *)sender {
-    if([_schoolNameTextField.text isEqual:@""])
-    {
-        _selectedSchool=@"Others";
-    }
-    else {
-        _selectedSchool=_schoolNameTextField.text;
-    }
+    _activityIndicator.hidden=NO;
     
-   
+    [_activityIndicator startAnimating];
     
-    [Data createNewClassWithClassName:_classNameTextField.text standard:_selectedStandard division:_selectedDivision school:_selectedSchool successBlock:^(id object) {
+    [Data createNewClassWithClassName:_classNameTextField.text successBlock:^(id object) {
+        
          PFObject *codeGroupForClass = (PFObject *)object;
         codeGroupForClass[@"iosUserID"] = [PFUser currentUser].objectId;
         [codeGroupForClass pinInBackground];
@@ -94,16 +81,22 @@
             NSTimer* loop = [NSTimer scheduledTimerWithTimeInterval:60*60*24*3 target:self selector:@selector(checkOutbox) userInfo:nil repeats:NO];
             [[NSRunLoop currentRunLoop] addTimer:loop forMode:NSRunLoopCommonModes];
         }
+       
         UIAlertView *successAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:[NSString stringWithFormat:@"Successfully created Class: %@ Code : %@",codeGroupForClass[@"name"], codeGroupForClass[@"code"]] delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+
         [self dismissViewControllerAnimated:YES completion:nil];
         [successAlertView show];
-
-        
         
     } errorBlock:^(NSError *error) {
+        [_activityIndicator stopAnimating];
+        _activityIndicator.hidden=YES;
+        
         UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error occured creating class. Please try again later" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
         [errorAlertView show];
     }];
+    [_activityIndicator stopAnimating];
+    _activityIndicator.hidden=YES;
+
     
 }
 
