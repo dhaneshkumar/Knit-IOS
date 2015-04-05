@@ -9,6 +9,7 @@
 #import "PhoneVerificationViewController.h"
 #import "Data.h"
 #import "TSTabBarViewController.h"
+#import "AppDelegate.h"
 
 @interface PhoneVerificationViewController ()
 
@@ -93,13 +94,20 @@
                                 
                                 current[@"installationObjectId"]=object;
                                 [current pinInBackground];
-
+                                
+                                UINavigationController *rootNav = ((UINavigationController *)((AppDelegate *)[[UIApplication sharedApplication] delegate]).window.rootViewController);
+                                if([_role isEqualToString:@"parent"])
+                                    [(TSTabBarViewController *)rootNav.topViewController makeItParent];
+                                else
+                                    [(TSTabBarViewController *)rootNav.topViewController makeItTeacher];
+                                [((UINavigationController *)self.presentingViewController.presentingViewController.presentingViewController).topViewController dismissViewControllerAnimated:YES completion:nil];
+                                /*
                                 UINavigationController *tab=[self.storyboard instantiateViewControllerWithIdentifier:@"tabBar"];
                                 TSTabBarViewController *mainTab=(TSTabBarViewController*) tab.topViewController;
                                 [self dismissViewControllerAnimated:YES completion:^{
                                     [self presentViewController:mainTab animated:NO completion:nil];
                                 }];
-                                
+                                */
                                 
                                 if([_role isEqualToString:@"parent"]){
                                 UILocalNotification *localNotification = [[UILocalNotification alloc] init];
@@ -197,10 +205,15 @@
                                 NSLog(@"current installation %@",object);
                                 current[@"installationObjectId"]=object;
                                 [current pinInBackground];
-                                [self dismissViewControllerAnimated:YES completion:nil];
-                                
                                 PFUser *current=[PFUser currentUser];
                                 NSString * role=[current objectForKey:@"role"];
+                                UINavigationController *rootNav = ((UINavigationController *)((AppDelegate *)[[UIApplication sharedApplication] delegate]).window.rootViewController);
+                                if([role isEqualToString:@"parent"])
+                                    [(TSTabBarViewController *)rootNav.topViewController makeItParent];
+                                else
+                                    [(TSTabBarViewController *)rootNav.topViewController makeItTeacher];
+                                [self dismissViewControllerAnimated:YES completion:nil];
+                                
                                 if([role isEqualToString:@"parent"] || [role isEqualToString:@"teacher"])
  
                                 {

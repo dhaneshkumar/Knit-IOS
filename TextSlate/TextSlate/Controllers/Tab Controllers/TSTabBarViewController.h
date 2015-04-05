@@ -13,5 +13,7 @@
 
 -(void) logout;
 @property (weak, nonatomic) TSSignInViewController *pViewController;
+-(void)makeItParent;
+-(void)makeItTeacher;
 
 @end

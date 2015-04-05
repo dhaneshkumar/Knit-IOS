@@ -11,6 +11,7 @@
 #import "TSTabBarViewController.h"
 #import <Parse/Parse.h>
 #import "Data.h"
+#import "AppDelegate.h"
 
 @interface OldSignInViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *emailText;
@@ -68,11 +69,15 @@
                         }
                         current[@"installationObjectId"]=object;
                         [current pinInBackground];
-
-                        [self dismissViewControllerAnimated:YES completion:nil];
-                       
                         PFUser *current=[PFUser currentUser];
                         NSString * role=[current objectForKey:@"role"];
+                        UINavigationController *rootNav = ((UINavigationController *)((AppDelegate *)[[UIApplication sharedApplication] delegate]).window.rootViewController);
+                        if([role isEqualToString:@"parent"])
+                            [(TSTabBarViewController *)rootNav.topViewController makeItParent];
+                        else
+                            [(TSTabBarViewController *)rootNav.topViewController makeItTeacher];
+                        [self dismissViewControllerAnimated:YES completion:nil];
+                        
                         if([role isEqualToString:@"parent"] || [role isEqualToString:@"teacher"])
                             
                         {

@@ -9,9 +9,7 @@
 #import "ClassesViewController.h"
 #import "Parse/Parse.h"
 #import "TSSendClassMessageViewController.h"
-#import "TSJoinedClassMessagesViewController.h"
 #import "JoinedClassTableViewController.h"
-#import "TSSuggestion.h"
 #import "Data.h"
 
 @interface ClassesViewController ()
@@ -19,7 +17,6 @@
 @property (strong, nonatomic) NSMutableArray *joinedClasses;
 @property (strong, nonatomic) NSMutableArray *createdClasses;
 @property (strong, nonatomic) NSMutableDictionary *codegroups;
-@property (strong, nonatomic) UIActivityIndicatorView *activityView;
 
 @end
 
@@ -51,17 +48,6 @@
 }
 
 
-/*
-- (void)editButtonPressed {
-    if (self.classesTable.editing) {
-        self.tabBarController.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editButtonPressed)];
-        [self.classesTable setEditing:NO animated:YES];
-    } else {
-        self.tabBarController.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(editButtonPressed)];
-        [self.classesTable setEditing:YES animated:YES];
-    }
-}
-*/
 
 /*
 #pragma mark - Navigation
@@ -131,6 +117,11 @@
             [self performSegueWithIdentifier:@"createdClasses" sender:self];
         }
     }
+}
+
+
+-(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return UITableViewCellEditingStyleNone;
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {

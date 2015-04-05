@@ -131,6 +131,7 @@
 		FBA778F81ACEB84B00D247CC /* ParseCrashReporting.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FBA778F31ACEB84B00D247CC /* ParseCrashReporting.framework */; };
 		FBA778F91ACEB84B00D247CC /* ParseFacebookUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FBA778F41ACEB84B00D247CC /* ParseFacebookUtils.framework */; };
 		FBA778FA1ACEB84B00D247CC /* ParseUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FBA778F51ACEB84B00D247CC /* ParseUI.framework */; };
+		FBA778FD1AD12EC000D247CC /* ClassesParentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FBA778FC1AD12EC000D247CC /* ClassesParentViewController.m */; };
 		FBACC65C1A74298800DC1747 /* libstdc++.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = FBACC65B1A74298800DC1747 /* libstdc++.6.dylib */; };
 		FBACC65E1A7429A700DC1747 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = FBACC65D1A7429A700DC1747 /* libsqlite3.dylib */; };
 		FBBA459F1A94C4F40088CCBC /* TSMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = FBBA459D1A94C4F40088CCBC /* TSMessage.m */; };
@@ -378,6 +379,8 @@
 		FBA778F31ACEB84B00D247CC /* ParseCrashReporting.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseCrashReporting.framework; sourceTree = "<group>"; };
 		FBA778F41ACEB84B00D247CC /* ParseFacebookUtils.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseFacebookUtils.framework; sourceTree = "<group>"; };
 		FBA778F51ACEB84B00D247CC /* ParseUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseUI.framework; sourceTree = "<group>"; };
+		FBA778FB1AD12EC000D247CC /* ClassesParentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClassesParentViewController.h; sourceTree = "<group>"; };
+		FBA778FC1AD12EC000D247CC /* ClassesParentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClassesParentViewController.m; sourceTree = "<group>"; };
 		FBACC65B1A74298800DC1747 /* libstdc++.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.6.dylib"; path = "usr/lib/libstdc++.6.dylib"; sourceTree = SDKROOT; };
 		FBACC65D1A7429A700DC1747 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		FBBA459C1A94C4F40088CCBC /* TSMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSMessage.h; sourceTree = "<group>"; };
@@ -935,6 +938,8 @@
 				FBBA45D11A96962A0088CCBC /* TSOutboxViewController.m */,
 				FBC1BD041AB6CFF3004921CD /* JoinedClassTableViewController.h */,
 				FBC1BD051AB6CFF3004921CD /* JoinedClassTableViewController.m */,
+				FBA778FB1AD12EC000D247CC /* ClassesParentViewController.h */,
+				FBA778FC1AD12EC000D247CC /* ClassesParentViewController.m */,
 			);
 			path = "Classrooms Controllers";
 			sourceTree = "<group>";
@@ -1264,6 +1269,7 @@
 				9707C9831A5BADC50065D2BA /* MessageComposerView.m in Sources */,
 				9707C9F91A5BC3110065D2BA /* UIImage+JSQMessages.m in Sources */,
 				9707CA221A5BC3670065D2BA /* JSQSystemSoundPlayer.m in Sources */,
+				FBA778FD1AD12EC000D247CC /* ClassesParentViewController.m in Sources */,
 				973A4BD81A1F174D0039175A /* main.m in Sources */,
 				9707CA041A5BC3110065D2BA /* JSQMessagesCollectionViewFlowLayoutInvalidationContext.m in Sources */,
 				9707CA1C1A5BC3110065D2BA /* JSQMessagesTypingIndicatorFooterView.m in Sources */,

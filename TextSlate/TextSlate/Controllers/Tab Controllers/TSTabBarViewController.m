@@ -116,4 +116,35 @@
     [self setSelectedIndex:0];
 }
 
+-(void)makeItParent {
+    ClassesViewController *classesVC = [self.storyboard instantiateViewControllerWithIdentifier:@"classroomsParent"];
+    TSNewInboxViewController *inboxVC = [self.storyboard instantiateViewControllerWithIdentifier:@"inbox"];
+    TSSettingsTableViewController *settingVC = [self.storyboard instantiateViewControllerWithIdentifier:@"settingTab"];
+    classesVC.tabBarItem.title = @"Classrooms";
+    classesVC.tabBarItem.image = [UIImage imageNamed:@"ios icons-7.png"];
+    inboxVC.tabBarItem.title = @"Inbox";
+    inboxVC.tabBarItem.image = [UIImage imageNamed:@"ios icons-10.png"];
+    settingVC.tabBarItem.title = @"Settings";
+    settingVC.tabBarItem.image = [UIImage imageNamed:@"ios icons-8.png"];
+    self.viewControllers = @[classesVC, inboxVC, settingVC];
+    self.navigationItem.title = @"Knit";
+}
+
+-(void)makeItTeacher {
+    ClassesViewController *classesVC = [self.storyboard instantiateViewControllerWithIdentifier:@"classrooms"];
+    TSNewInboxViewController *inboxVC = [self.storyboard instantiateViewControllerWithIdentifier:@"inbox"];
+    TSOutboxViewController *outboxVC = [self.storyboard instantiateViewControllerWithIdentifier:@"outbox"];
+    TSSettingsTableViewController *settingVC = [self.storyboard instantiateViewControllerWithIdentifier:@"settingTab"];
+    classesVC.tabBarItem.title = @"Classrooms";
+    classesVC.tabBarItem.image = [UIImage imageNamed:@"ios icons-7.png"];
+    inboxVC.tabBarItem.title = @"Inbox";
+    inboxVC.tabBarItem.image = [UIImage imageNamed:@"ios icons-10.png"];
+    outboxVC.tabBarItem.title = @"Outbox";
+    outboxVC.tabBarItem.image = [UIImage imageNamed:@"ios icons-9.png"];
+    settingVC.tabBarItem.title = @"Settings";
+    settingVC.tabBarItem.image = [UIImage imageNamed:@"ios icons-8.png"];
+    self.viewControllers = @[classesVC, inboxVC, outboxVC, settingVC];
+    self.navigationItem.title = @"Knit";
+}
+
 @end
