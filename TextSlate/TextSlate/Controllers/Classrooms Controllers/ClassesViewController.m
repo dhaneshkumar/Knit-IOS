@@ -10,6 +10,7 @@
 #import "Parse/Parse.h"
 #import "TSSendClassMessageViewController.h"
 #import "JoinedClassTableViewController.h"
+#import "sharedCache.h"
 #import "Data.h"
 
 @interface ClassesViewController ()
@@ -139,11 +140,40 @@
         dvc.className = codegroup[@"name"];
         dvc.classCode = codegroup[@"code"];
         dvc.teacherName = codegroup[@"Creator"];
-        NSData *data = [(PFFile *)codegroup[@"senderPic"] getData];
-        if(data)
-            dvc.teacherPic = [UIImage imageWithData:data];
-        else
+        
+        PFFile *attachImageUrl = codegroup[@"senderPic"];
+        
+        if(attachImageUrl) {
+            NSString *url=attachImageUrl.url;
+            NSLog(@"url to image fetchold message %@",url);
+            UIImage *image = [[sharedCache sharedInstance] getCachedImageForKey:url];
+            if(image)
+            {
+                NSLog(@"already cached");
+                dvc.teacherPic = image;
+            }
+            else{
+                dvc.teacherPic = [UIImage imageNamed:@"defaultTeacher.png"];
+                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
+                    NSData *data = [attachImageUrl getData];
+                    UIImage *image = [[UIImage alloc] initWithData:data];
+                    
+                    if(image)
+                    {
+                        NSLog(@"Caching here....");
+                        [[sharedCache sharedInstance] cacheImage:image forKey:url];
+                        dvc.teacherPic = image;
+                        dispatch_sync(dispatch_get_main_queue(), ^{
+                            [dvc.tableView reloadData];
+                        });
+                        
+                    }
+                });
+            }
+        }
+        else {
             dvc.teacherPic = [UIImage imageNamed:@"defaultTeacher.png"];
+        }
         if(((NSArray *)_joinedClasses[row-1]).count==2)
             dvc.associatedName = [[PFUser currentUser] objectForKey:@"name"];
         else

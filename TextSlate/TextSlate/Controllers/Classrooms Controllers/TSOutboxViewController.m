@@ -274,6 +274,9 @@
                     {
                         [[sharedCache sharedInstance] cacheImage:image forKey:url];
                         message.attachment = image;
+                        dispatch_sync(dispatch_get_main_queue(), ^{
+                            [self.messagesTable reloadData];
+                        });
                     }
                 }
             });
@@ -326,6 +329,9 @@
                                 NSLog(@"Caching here....");
                                 [[sharedCache sharedInstance] cacheImage:image forKey:url];
                                 message.attachment = image;
+                                dispatch_sync(dispatch_get_main_queue(), ^{
+                                    [self.messagesTable reloadData];
+                                });
                                 
                             }
                         }
@@ -391,7 +397,9 @@
                                 NSLog(@"Caching here....");
                                 [[sharedCache sharedInstance] cacheImage:image forKey:url];
                                 message.attachment = image;
-                                
+                                dispatch_sync(dispatch_get_main_queue(), ^{
+                                    [self.messagesTable reloadData];
+                                });
                             }
                         }
                     });
