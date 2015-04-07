@@ -78,6 +78,7 @@
     [_section3Content addObject:@"Rate Our App"];
     self.navigationController.title=@"Settings";
     self.navigationController.navigationBarHidden=YES;
+    [self.settingsTableView reloadData];
 }
 
 #pragma mark - Table view data source
