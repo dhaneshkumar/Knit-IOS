@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		402A813E1AD45186002299C1 /* FindClassViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 402A813D1AD45186002299C1 /* FindClassViewController.m */; };
 		4038D4261AC6C62200E9009A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4038D4251AC6C62200E9009A /* Main.storyboard */; };
 		403C1AF91AAAED11003E7D81 /* OldSignInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 403C1AF81AAAED11003E7D81 /* OldSignInViewController.m */; };
 		403FFF0E1ABB0071008FB159 /* MessageComposerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 403FFF0D1ABB0071008FB159 /* MessageComposerViewController.m */; };
@@ -163,6 +164,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		402A813C1AD45186002299C1 /* FindClassViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FindClassViewController.h; sourceTree = "<group>"; };
+		402A813D1AD45186002299C1 /* FindClassViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FindClassViewController.m; sourceTree = "<group>"; };
 		4038D4251AC6C62200E9009A /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		403C1AF71AAAED11003E7D81 /* OldSignInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OldSignInViewController.h; sourceTree = "<group>"; };
 		403C1AF81AAAED11003E7D81 /* OldSignInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OldSignInViewController.m; sourceTree = "<group>"; };
@@ -451,6 +454,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		402A813B1AD45164002299C1 /* Find Class */ = {
+			isa = PBXGroup;
+			children = (
+				402A813C1AD45186002299C1 /* FindClassViewController.h */,
+				402A813D1AD45186002299C1 /* FindClassViewController.m */,
+			);
+			name = "Find Class";
+			sourceTree = "<group>";
+		};
 		403C1AF31AAAEC7D003E7D81 /* Old Sign In */ = {
 			isa = PBXGroup;
 			children = (
@@ -717,6 +729,7 @@
 		971687D71A1F1BCA00FE98FC /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				402A813B1AD45164002299C1 /* Find Class */,
 				40BB899D1AC49909002CFDFE /* Invite Teacher */,
 				FB6A04A91AC2CE1C009E9D9D /* Edit Associate Name */,
 				403FFF0F1ABB5BD3008FB159 /* Invite Parent */,
@@ -1274,6 +1287,7 @@
 				9707CA041A5BC3110065D2BA /* JSQMessagesCollectionViewFlowLayoutInvalidationContext.m in Sources */,
 				9707CA1C1A5BC3110065D2BA /* JSQMessagesTypingIndicatorFooterView.m in Sources */,
 				40CD58651A89455B000CB1AB /* FAQTableViewController.m in Sources */,
+				402A813E1AD45186002299C1 /* FindClassViewController.m in Sources */,
 				9707CA051A5BC3110065D2BA /* JSQMessagesCollectionViewLayoutAttributes.m in Sources */,
 				9707CA091A5BC3110065D2BA /* JSQMessagesAvatarImage.m in Sources */,
 				40CDDBB61A90E47E00922ADF /* TSMember.m in Sources */,
@@ -1432,7 +1446,7 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = TextSlate/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = Knit;
 				PROVISIONING_PROFILE = "";
@@ -1450,7 +1464,7 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = TextSlate/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = Knit;
 				PROVISIONING_PROFILE = "";

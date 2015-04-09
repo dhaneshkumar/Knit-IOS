@@ -21,6 +21,8 @@
 @property (strong,nonatomic) UIAlertView *getTitle;
 @property (strong ,nonatomic) NSString *sex;
 @property (strong,nonatomic) NSString *getOTP;
+@property (strong,nonatomic) NSMutableArray *classDetails;
+@property (weak, nonatomic) IBOutlet UIView *detailsView;
 
 
 @property (nonatomic) bool isParent;
@@ -32,12 +34,29 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    _classDetails=[[NSMutableArray alloc]init];
     _showAlertView = true;
     _displayName.delegate=self;
     _phoneNumberTextField.delegate=self;
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(getFindcode:)
+                                                 name:@"MODELVIEW DISMISS" object:nil];
+
     //self.OTP.hidden=YES;
-    // Do any additional setup after loading the view.
+    // Do any additional setup after loading the view
 }
+
+-(void)getFindcode:(NSNotification *)notice{
+    NSLog(@"%@ notice object",[notice object]);
+    _classDetails=[notice object];
+    NSLog(@"classdetails %@",_classDetails);
+    if(_classDetails.count>0)
+    {
+        _detailsView.hidden=NO;
+    }
+}
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -46,6 +65,7 @@
 
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+    _detailsView.hidden=YES;
     NSLog(@"Sign up alert view");
     if(_showAlertView) {
         _getRole = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Please select your profession" delegate:self cancelButtonTitle:@"CANCEL" otherButtonTitles:@"PARENT", @"TEACHER", nil];
@@ -53,11 +73,14 @@
         
         _showAlertView = false;
     }
+    
+    NSLog(@"code %@",_findCode);
 }
 
 -(IBAction)selectRole:(id)sender
 {
     _getTitle = [[UIAlertView alloc] initWithTitle:@"Knit - Role" message:@"Please select your profession" delegate:self cancelButtonTitle:@"CANCEL" otherButtonTitles:@"Miss", @"Mr.",@"Mrs", nil];
+    
     [_getTitle show];
 }
 
@@ -66,6 +89,8 @@
     if(alertView==_getRole){
         if (buttonIndex == 1) {
             _isParent = true;
+            UINavigationController *findclass=[self.storyboard instantiateViewControllerWithIdentifier:@"findClassNavigation"];
+            [self presentViewController:findclass animated:NO completion:nil];
         } else if (buttonIndex == 2) {
             _isParent = false;
         }

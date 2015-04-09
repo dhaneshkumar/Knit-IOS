@@ -30,6 +30,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [_settingsTableView reloadData]; 
     
 //    _settingsTableView.ScrollIndicatorInsets = UIEdgeInsets(64, 0, 0, 0);
     
@@ -78,6 +79,7 @@
     [_section3Content addObject:@"Rate Our App"];
     self.navigationController.title=@"Settings";
     self.navigationController.navigationBarHidden=YES;
+    [_settingsTableView reloadData];
 }
 
 #pragma mark - Table view data source
@@ -314,20 +316,20 @@ if(section==0)
          [alert show];
     }
     
-    if(indexPath.row==0 && indexPath.section==2)
-    {
-        [self performSegueWithIdentifier:@"showFAQ" sender:self ];
-        self.navigationController.navigationBarHidden=YES;
-        NSLog(@"segue");
-
-    }
     if(indexPath.row==0 && indexPath.section==0)
     {
-        [self performSegueWithIdentifier:@"profilePic" sender:self ];
-        
+        UINavigationController *profile=[self.storyboard instantiateViewControllerWithIdentifier:@"profilePictureNavigation"];
+        [self presentViewController:profile animated:NO completion:nil];
         
     }
-    
+    if(indexPath.row==0 && indexPath.section==2)
+    {
+            //faqNavigation
+        UINavigationController *faqNavigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"faqNavigation"];
+        [self presentViewController:faqNavigationController animated:YES completion:nil];
+
+        
+    }
    }
     else{
         if (indexPath.row == 1 && indexPath.section==1) {
@@ -358,20 +360,26 @@ if(section==0)
             [alert show];
         }
         
-        if(indexPath.row==0 && indexPath.section==2)
-        {
-            [self performSegueWithIdentifier:@"showFAQ" sender:self ];
-            self.navigationController.navigationBarHidden=YES;
-            NSLog(@"segue");
-            
-        }
+        
         if(indexPath.row==0 && indexPath.section==0)
         {
             [self performSegueWithIdentifier:@"profilePic" sender:self ];
+            UINavigationController *profile=[self.storyboard instantiateViewControllerWithIdentifier:@"profilePictureNavigation"];
+            [self presentViewController:profile animated:NO completion:nil];
+            
             
             
         }
         
+        if(indexPath.row==0 && indexPath.section==2)
+        {
+            //faqNavigation
+            UINavigationController *faqNavigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"faqNavigation"];
+            
+              [self presentViewController:faqNavigationController animated:YES completion:nil];
+            
+            
+        }
     }
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 
