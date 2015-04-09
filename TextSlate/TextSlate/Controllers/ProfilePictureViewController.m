@@ -123,7 +123,9 @@
     [picker dismissViewControllerAnimated:YES completion:NULL];
     
 }
-
+-(IBAction)cancelView:(id)sender{
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
 
 /*
 #pragma mark - Navigation

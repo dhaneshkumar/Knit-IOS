@@ -555,4 +555,17 @@
 
 }
 
++(void)findClassDetail:(NSString *)classCode successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock{
+    [PFCloud callFunctionInBackground:@"findClass" withParameters:@{@"code":classCode} block:^(id object, NSError *error) {
+        if(error)
+        {
+            NSLog(@"Error %@",error);
+        }
+        else{
+            successBlock(object);
+        }
+    }];
+}
+
+
 @end

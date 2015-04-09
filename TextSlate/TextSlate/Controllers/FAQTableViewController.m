@@ -21,13 +21,7 @@
 - (void)viewDidLoad {
     
     [super viewDidLoad];
-
-    _faq=[[NSMutableArray alloc]init];
-    _ques=[[NSMutableArray alloc]init];
-    _answer=[[NSMutableArray alloc]init];
-    [self getFaq];
-    
-    
+    [self.tableView reloadData];
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
@@ -36,9 +30,15 @@
 
 -(void) viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+    _faq=[[NSMutableArray alloc]init];
+    _ques=[[NSMutableArray alloc]init];
+    _answer=[[NSMutableArray alloc]init];
+    [self getFaq];
+    [self.tableView reloadData];
     
-    self.navigationController.navigationBarHidden=NO;
-    self.navigationItem.hidesBackButton=NO;
+    
+    //self.navigationController.navigationBarHidden=NO;
+    //self.navigationItem.hidesBackButton=NO;
     
 }
 -(void)getFaq{
@@ -124,7 +124,9 @@
     [message show];
 }
 
-
+-(IBAction)cancelView:(id)sender{
+    [self dismissViewControllerAnimated:YES completion:NO];
+}
 /*
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
