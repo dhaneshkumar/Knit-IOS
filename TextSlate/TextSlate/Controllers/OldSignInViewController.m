@@ -12,6 +12,7 @@
 #import <Parse/Parse.h>
 #import "Data.h"
 #import "AppDelegate.h"
+#import "TSNewInboxViewController.h"
 
 @interface OldSignInViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *emailText;
@@ -55,9 +56,13 @@
                     NSString *devicetype=[currentInstallation objectForKey:@"deviceType"];
                     [Data saveInstallationId:installationId deviceType:devicetype successBlock:^(id object) {
                         NSLog(@"Successfully saved installationID");
+                        current[@"installationObjectId"]=object;
+                        [current pinInBackground];
                         PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
                         [lq fromLocalDatastore];
                         NSArray *lds = [lq findObjects];
+                        NSString * role=[current objectForKey:@"role"];
+                        UINavigationController *rootNav = ((UINavigationController *)((AppDelegate *)[[UIApplication sharedApplication] delegate]).window.rootViewController);
                         if(lds.count==1) {
                             if([((PFObject*)lds[0])[@"iosUserID"] isEqualToString:[PFUser currentUser].objectId]) {
                                 //filhaal to kuch nhi
@@ -65,17 +70,20 @@
                             else {
                                 [self deleteAllLocalData];
                                 [self createLocalDatastore];
+                                if([role isEqualToString:@"parent"])
+                                    [(TSTabBarViewController *)rootNav.topViewController makeItParent];
+                                else
+                                    [(TSTabBarViewController *)rootNav.topViewController makeItTeacher];
                             }
                         }
-                        current[@"installationObjectId"]=object;
-                        [current pinInBackground];
-                        PFUser *current=[PFUser currentUser];
-                        NSString * role=[current objectForKey:@"role"];
-                        UINavigationController *rootNav = ((UINavigationController *)((AppDelegate *)[[UIApplication sharedApplication] delegate]).window.rootViewController);
-                        if([role isEqualToString:@"parent"])
-                            [(TSTabBarViewController *)rootNav.topViewController makeItParent];
-                        else
-                            [(TSTabBarViewController *)rootNav.topViewController makeItTeacher];
+                        else {
+                            [self createLocalDatastore];
+                            if([role isEqualToString:@"parent"])
+                                [(TSTabBarViewController *)rootNav.topViewController makeItParent];
+                            else
+                                [(TSTabBarViewController *)rootNav.topViewController makeItTeacher];
+                        }
+                        
                         [self dismissViewControllerAnimated:YES completion:nil];
                         
                         if([role isEqualToString:@"parent"] || [role isEqualToString:@"teacher"])
@@ -234,6 +242,10 @@
     [query fromLocalDatastore];
     array = [query findObjects];
     [PFObject unpinAllInBackground:array];
+    
+    /*
+    TSTabBarViewController *rootTab = (TSTabBarViewController *)((UINavigationController *)((AppDelegate *)[[UIApplication sharedApplication] delegate]).window.rootViewController).topViewController;
+    [(TSNewInboxViewController *)((NSArray *)rootTab.viewControllers[1]) deleteLocalData];*/
 }
 
 - (IBAction)tappedOutside:(UITapGestureRecognizer *)sender {

@@ -14,8 +14,7 @@
 
 @interface TSOutboxViewController ()
 
-@property (strong, nonatomic) NSMutableArray *messagesArray;
-@property (nonatomic, strong) NSMutableDictionary *mapCodeToObjects;
+
 @property (strong, nonatomic) NSDate * timeDiff;
 @property (nonatomic) BOOL isBottomRefreshCalled;
 
@@ -32,6 +31,11 @@
     self.messagesTable.delegate = self;
     _isBottomRefreshCalled = false;
     _activityIndicator.hidesWhenStopped = true;
+    _messagesArray = [[NSMutableArray alloc] init];
+    _mapCodeToObjects = [[NSMutableDictionary alloc] init];
+    _messageIds = [[NSMutableArray alloc] init];
+    _lastUpdateCalled = nil;
+    _shouldScrollUp = false;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -41,6 +45,11 @@
 
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+    if(_messagesArray.count>0 && _shouldScrollUp) {
+        NSIndexPath *rowIndexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+        [self.messagesTable scrollToRowAtIndexPath:rowIndexPath atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
+        _shouldScrollUp = false;
+    }
     [self getTimeDiffBetweenLocalAndServer];
     [self displayMessages];
     return;
@@ -53,11 +62,7 @@
         UIBarButtonItem *composeBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose  target:self action:@selector(composeMessage)];
         self.tabBarController.navigationItem.rightBarButtonItem = composeBarButtonItem;
     }
-    _messagesArray=nil;
-    _messagesArray=[[NSMutableArray alloc] init];
-    _mapCodeToObjects = nil;
-    _mapCodeToObjects = [[NSMutableDictionary alloc] init];
-
+    [_messagesTable reloadData];
 }
 
 
@@ -142,8 +147,8 @@
 -(void)displayMessages {
     if([self noCreatedClasses])
         return;
-    [_activityIndicator startAnimating];
-    NSArray *array = [self fetchMessagesFromLocalDatastore];
+    //[_activityIndicator startAnimating];
+    //NSArray *array = [self fetchMessagesFromLocalDatastore];
     if(_messagesArray.count==0) {
         PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
         [lq fromLocalDatastore];
@@ -160,9 +165,18 @@
         }
     }
     else {
-        [_activityIndicator stopAnimating];
-        [self.messagesTable reloadData];
-        [self updateCountsLocally:array];
+        //[_activityIndicator stopAnimating];
+        //[self.messagesTable reloadData];
+        if(_lastUpdateCalled) {
+            NSDate *date = [NSDate date];
+            NSTimeInterval ti = [date timeIntervalSinceDate:_lastUpdateCalled];
+            if(ti>180) {
+                [self updateCountsLocally];
+            }
+        }
+        else {
+            [self updateCountsLocally];
+        }
     }
     return;
 }
@@ -220,7 +234,6 @@
 
 
 -(BOOL)noCreatedClasses {
-    [[PFUser currentUser] fetch];
     NSArray *createdClasses = [[PFUser currentUser] objectForKey:@"Created_groups"];
     if(createdClasses.count == 0)
         return true;
@@ -253,11 +266,12 @@
         }
         _mapCodeToObjects[message.messageId] = message;
         [_messagesArray addObject:message];
+        [_messageIds addObject:message.messageId];
         if(message.hasAttachment) {
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
                 PFFile *attachImageUrl=messageObject[@"attachment"];
                 NSString *url=attachImageUrl.url;
-                NSLog(@"url to image fetchfrom localdatastore %@",url);
+                //NSLog(@"url to image fetchfrom localdatastore %@",url);
                 UIImage *image = [[sharedCache sharedInstance] getCachedImageForKey:url];
                 NSLog(@"%@ image",image);
                 if(image)
@@ -307,11 +321,12 @@
                 }
                 _mapCodeToObjects[message.messageId] = message;
                 [_messagesArray addObject:message];
+                [_messageIds addObject:message.messageId];
                 if(message.hasAttachment) {
                     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
                         PFFile *attachImageUrl=messageObject[@"attachment"];
                         NSString *url=attachImageUrl.url;
-                        NSLog(@"url to image fetcholdemssageondatadeletion %@",url);
+                        //NSLog(@"url to image fetcholdemssageondatadeletion %@",url);
                         
                         UIImage *image = [[sharedCache sharedInstance] getCachedImageForKey:url];
                         if(image)
@@ -339,7 +354,7 @@
                 }
             }
             dispatch_sync(dispatch_get_main_queue(), ^{
-                [_activityIndicator stopAnimating];
+                //[_activityIndicator stopAnimating];
                 [self.messagesTable reloadData];
             });
             PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
@@ -376,11 +391,12 @@
                 }
                 _mapCodeToObjects[message.messageId] = message;
                 [tempArray addObject:message];
+                [_messageIds addObject:message.messageId];
                 if(message.hasAttachment) {
                     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
                         PFFile *attachImageUrl=messageObject[@"attachment"];
                         NSString *url=attachImageUrl.url;
-                        NSLog(@"url to image fetchold message %@",url);
+                        //NSLog(@"url to image fetchold message %@",url);
                         UIImage *image = [[sharedCache sharedInstance] getCachedImageForKey:url];
                         if(image)
                         {
@@ -425,8 +441,10 @@
 }
 
 
--(void)updateCountsLocally:(NSArray *)array {
-    [Data updateCountsLocally:array successBlock:^(id object) {
+-(void)updateCountsLocally {
+    NSLog(@"updateCountsLocally outbox called");
+    _lastUpdateCalled = [NSDate date];
+    [Data updateCountsLocally:_messageIds successBlock:^(id object) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
             NSDictionary *messageObjects = (NSDictionary *)object;
             for(NSString *messageObjectId in messageObjects) {
@@ -473,6 +491,13 @@
     else {
         return @"few secs ago";
     }
+}
+
+-(void)deleteLocalData {
+    _messageIds = nil;
+    _messagesArray = nil;
+    _mapCodeToObjects = nil;
+    _lastUpdateCalled = nil;
 }
 
 

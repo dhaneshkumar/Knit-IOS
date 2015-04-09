@@ -15,12 +15,13 @@
 
 @interface TSNewInboxViewController ()
 
-@property (nonatomic, strong) NSMutableArray *messagesArray;
-@property (nonatomic, strong) NSMutableDictionary *mapCodeToObjects;
 @property (strong, nonatomic) NSDate * timeDiff;
 @property (strong, nonatomic) UIRefreshControl *refreshControl;
 @property (nonatomic) BOOL isBottomRefreshCalled;
 @property (assign) int messageFlag;
+@property (nonatomic) BOOL isDirty;
+@property (nonatomic) BOOL isUpdateSeenCountsCalled;
+
 @end
 
 @implementation TSNewInboxViewController
@@ -32,13 +33,17 @@
     self.messagesTable.dataSource = self;
     self.messagesTable.delegate = self;
     _refreshControl = [[UIRefreshControl alloc]init];
-    _refreshControl.tintColor = [UIColor redColor];
-    _refreshControl.backgroundColor = [UIColor purpleColor];
+    _refreshControl.tintColor = [UIColor whiteColor];
+    _refreshControl.backgroundColor = [UIColor colorWithRed:38.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
     [self.messagesTable addSubview:_refreshControl];
     [_refreshControl addTarget:self action:@selector(pullDownToRefresh) forControlEvents:UIControlEventValueChanged];
     _isBottomRefreshCalled = false;
     _activityIndicator.hidesWhenStopped = true;
-
+    _messagesArray = [[NSMutableArray alloc] init];
+    _mapCodeToObjects = [[NSMutableDictionary alloc] init];
+    _messageIds = [[NSMutableArray alloc] init];
+    _lastUpdateCalled = nil;
+    _isUpdateSeenCountsCalled = false;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -57,18 +62,18 @@
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    _messagesArray = nil;
-    _messagesArray = [[NSMutableArray alloc] init];
-    _mapCodeToObjects = nil;
-    _mapCodeToObjects = [[NSMutableDictionary alloc] init];
+    _isDirty = false;
+    [_messagesTable reloadData];
 }
 
 
 -(void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     NSLog(@"View will disappear");
-    [self updateLikeCountStatusGlobally];
-    [self updateSeenCountsGlobally];
+    if(_isDirty)
+        [self updateLikeCountStatusGlobally];
+    if(!_isUpdateSeenCountsCalled)
+        [self updateSeenCountsGlobally];
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -187,7 +192,6 @@
 
 
 -(BOOL)noJoinedClasses {
-    [[PFUser currentUser] fetch];
     NSArray *joinedClasses = [[PFUser currentUser] objectForKey:@"joined_groups"];
     if(joinedClasses.count == 0)
         return true;
@@ -251,6 +255,7 @@
                 }
                 _mapCodeToObjects[message.messageId] = message;
                 [tempArray insertObject:message atIndex:0];
+                [_messageIds insertObject:message.messageId atIndex:0];
                 if(message.hasAttachment) {
                     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
                         PFFile *attachImageUrl=messageObj[@"attachment"];
@@ -292,8 +297,8 @@
 -(void)displayMessages {
     if([self noJoinedClasses])
         return;
-    [_activityIndicator startAnimating];
-    NSArray *array = [self fetchMessagesFromLocalDatastore];
+    //[_activityIndicator startAnimating];
+    //NSArray *array = [self fetchMessagesFromLocalDatastore];
     if(_messagesArray.count==0) {
         PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
         [lq fromLocalDatastore];
@@ -307,17 +312,27 @@
         if(localObjs[0][@"isInboxDataConsistent"] && [localObjs[0][@"isInboxDataConsistent"] isEqualToString:@"true"]) {
             _messageFlag=1;
             [self insertLatestMessages];
-            [_activityIndicator stopAnimating];
+            //[_activityIndicator stopAnimating];
         }
         else {
             [self fetchOldMessagesOnDataDeletion];
         }
     }
     else {
-        [_activityIndicator stopAnimating];
-        [self.messagesTable reloadData];
-        [self insertLatestMessages];
-        [self updateCountsLocally:array];
+        //[_activityIndicator stopAnimating];
+        //[self.messagesTable reloadData];
+        if(_lastUpdateCalled) {
+            NSDate *date = [NSDate date];
+            NSTimeInterval ti = [date timeIntervalSinceDate:_lastUpdateCalled];
+            if(ti>180) {
+                [self updateCountsLocally];
+                [self insertLatestMessages];
+            }
+        }
+        else {
+            [self updateCountsLocally];
+            [self insertLatestMessages];
+        }
     }
     return;
 }
@@ -354,7 +369,7 @@
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
                 PFFile *attachImageUrl=messageObject[@"attachment"];
                 NSString *url=attachImageUrl.url;
-                NSLog(@"url to image fetchfrom localdatastore %@",url);
+                //NSLog(@"url to image fetchfrom localdatastore %@",url);
                 UIImage *image = [[sharedCache sharedInstance] getCachedImageForKey:url];
                 NSLog(@"%@ image",image);
                 if(image)
@@ -389,6 +404,7 @@
     NSDate *latestMessageTime = (_messagesArray.count==0)?[PFUser currentUser].createdAt:((TSMessage *)_messagesArray[0]).sentTime;
     [Data updateInboxLocalDatastoreWithTime:latestMessageTime successBlock:^(id object) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
+            _lastUpdateCalled = [NSDate date];
             NSArray *messageObjects = (NSArray *) object;
             NSEnumerator *enumerator = [messageObjects reverseObjectEnumerator];
             NSCharacterSet *characterset=[NSCharacterSet characterSetWithCharactersInString:@"\uFFFC\n "];
@@ -414,11 +430,12 @@
                 }
                 _mapCodeToObjects[message.messageId] = message;
                 [tempArray insertObject:message atIndex:0];
+                [_messageIds insertObject:message.messageId atIndex:0];
                 if(message.hasAttachment) {
                     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
                         PFFile *attachImageUrl=messageObj[@"attachment"];
                         NSString *url=attachImageUrl.url;
-                        NSLog(@"url to image insertlatestmessage %@",url);
+                        //NSLog(@"url to image insertlatestmessage %@",url);
                         UIImage *image = [[sharedCache sharedInstance] getCachedImageForKey:url];
                         if(image)
                         {
@@ -449,6 +466,10 @@
             _messagesArray = tempArray;
             dispatch_sync(dispatch_get_main_queue(), ^{
                 [self.messagesTable reloadData];
+                if(_messagesArray.count>0) {
+                    NSIndexPath *rowIndexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+                    [self.messagesTable scrollToRowAtIndexPath:rowIndexPath atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
+                }
             });
         });
     } errorBlock:^(NSError *error) {
@@ -496,11 +517,12 @@
                 }
                 _mapCodeToObjects[message.messageId] = message;
                 [_messagesArray addObject:message];
+                [_messageIds addObject:message.messageId];
                 if(message.hasAttachment) {
                     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
                         PFFile *attachImageUrl=msg[@"attachment"];
                         NSString *url=attachImageUrl.url;
-                        NSLog(@"url to image fetcholdemssageondatadeletion %@",url);
+                        //NSLog(@"url to image fetcholdemssageondatadeletion %@",url);
 
                         UIImage *image = [[sharedCache sharedInstance] getCachedImageForKey:url];
                         if(image)
@@ -527,7 +549,7 @@
                 }
             }
             dispatch_sync(dispatch_get_main_queue(), ^{
-                [_activityIndicator stopAnimating];
+                //[_activityIndicator stopAnimating];
                 [self.messagesTable reloadData];
             });
 
@@ -592,11 +614,12 @@
                 }
                 _mapCodeToObjects[message.messageId] = message;
                 [tempArray addObject:message];
+                [_messageIds addObject:message.messageId];
                 if(message.hasAttachment) {
                     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
                         PFFile *attachImageUrl=msg[@"attachment"];
                         NSString *url=attachImageUrl.url;
-                        NSLog(@"url to image fetchold message %@",url);
+                        //NSLog(@"url to image fetchold message %@",url);
                         UIImage *image = [[sharedCache sharedInstance] getCachedImageForKey:url];
                         if(image)
                         {
@@ -644,8 +667,11 @@
 }
 
 
--(void)updateCountsLocally:(NSArray *)array {
-    [Data updateCountsLocally:array successBlock:^(id object) {
+-(void)updateCountsLocally {
+    NSLog(@"updateCountsLocally called");
+    _lastUpdateCalled = [NSDate date];
+    NSArray *tempArray = [[NSArray alloc] initWithArray:_messageIds];
+    [Data updateCountsLocally:tempArray successBlock:^(id object) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
             NSDictionary *messageObjects = (NSDictionary *)object;
             for(NSString *messageObjectId in messageObjects) {
@@ -669,6 +695,7 @@
 
 
 -(void)updateLikeCountStatusGlobally {
+    NSLog(@"updateLikeConfuseCountsCalled");
     NSArray *tempArray = [[NSArray alloc] initWithArray:_messagesArray];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
         NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
@@ -714,6 +741,8 @@
 
 
 -(void)updateSeenCountsGlobally {
+    NSLog(@"updateSeenCountsCalled");
+    _isUpdateSeenCountsCalled = true;
     NSArray *tempArray = [[NSArray alloc] initWithArray:_messagesArray];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
         NSMutableArray *arr = [[NSMutableArray alloc] init];
@@ -741,6 +770,7 @@
                     [obj pinInBackground];
                     NSLog(@"seen status updated");
                 }
+                _isUpdateSeenCountsCalled = false;
             });
         } errorBlock:^(NSError *error) {
             NSLog(@"Unable to fetch inbox messages when pulled up to refresh: %@", [error description]);
@@ -750,6 +780,7 @@
 
 
 -(void)updateLikesDataFromCell:(int)row status:(NSString *)status {
+    _isDirty = true;
     TSMessage *message = (TSMessage *)_messagesArray[row];
     message.likeStatus = status;
     if([status isEqualToString:@"true"])
@@ -760,12 +791,21 @@
 
 
 -(void)updateConfuseDataFromCell:(int)row status:(NSString *)status {
+    _isDirty = true;
     TSMessage *message = (TSMessage *)_messagesArray[row];
     message.confuseStatus = status;
     if([status isEqualToString:@"true"])
         message.confuseCount++;
     else
         message.confuseCount--;
+}
+
+
+-(void)deleteLocalData {
+    _messageIds = nil;
+    _messagesArray = nil;
+    _mapCodeToObjects = nil;
+    _lastUpdateCalled = nil;
 }
 
 

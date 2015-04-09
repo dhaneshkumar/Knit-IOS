@@ -11,6 +11,11 @@
 #import <Parse/Parse.h>
 #import "TSClass.h"
 #import "TSTabBarViewController.h"
+#import "TSMessage.h"
+#import "AppDelegate.h"
+#import "TSNewInboxViewController.h"
+#import "sharedCache.h"
+
 @interface TSJoinNewClassViewController ()
 
 @property (weak, nonatomic) IBOutlet UITextField *classCodeTextField;
@@ -67,9 +72,14 @@
     NSLog(@"installationID user %@",installationObjectId);
     if (![joinedAndCreatedClassCodes containsObject:_classCodeTextField.text]) {
         [Data joinNewClass:_classCodeTextField.text childName:_associatedPersonTextField.text installationId:installationObjectId successBlock:^(id object) {
+            NSLog(@"cloud function returned");
             NSMutableDictionary *objDict=(NSMutableDictionary *)object;
             PFObject *codeGroupForClass = [objDict objectForKey:@"codegroup"];
             NSMutableArray *lastFiveMessage=[objDict objectForKey:@"messages"];
+            NSCharacterSet *characterset=[NSCharacterSet characterSetWithCharactersInString:@"\uFFFC\n "];
+            TSTabBarViewController *rootTab = (TSTabBarViewController *)((UINavigationController *)((AppDelegate *)[[UIApplication sharedApplication] delegate]).window.rootViewController).topViewController;
+            TSNewInboxViewController *newInbox = (TSNewInboxViewController *)(NSArray *)rootTab.viewControllers[1];
+            NSLog(@"message pinning start : %d", newInbox.messagesArray.count);
             for(PFObject *msg in lastFiveMessage)
             {
                 //msg[@"iosUserID"]=[PFUser currentUser].objectId;
@@ -81,7 +91,47 @@
                 msg[@"messageId"] = msg.objectId;
                 msg[@"createdTime"] = msg.createdAt;
                 [msg pinInBackground];
+                TSMessage *message = [[TSMessage alloc] initWithValues:msg[@"name"] classCode:msg[@"code"] message:[msg[@"title"] stringByTrimmingCharactersInSet:characterset] sender:msg[@"Creator"] sentTime:msg.createdAt senderPic:nil likeCount:[msg[@"like_count"] intValue] confuseCount:[msg[@"confused_count"] intValue] seenCount:0];
+                message.likeStatus = msg[@"likeStatus"];
+                message.confuseStatus = msg[@"confuseStatus"];
+                message.messageId = msg.objectId;
+                if(msg[@"attachment"]) {
+                    message.hasAttachment = true;
+                    message.attachment = [UIImage imageNamed:@"white.jpg"];
+                }
+                newInbox.mapCodeToObjects[message.messageId] = message;
+                [newInbox.messagesArray insertObject:message atIndex:0];
+                [newInbox.messageIds insertObject:message.messageId atIndex:0];
+                if(message.hasAttachment) {
+                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
+                        PFFile *attachImageUrl=msg[@"attachment"];
+                        NSString *url=attachImageUrl.url;
+                        NSLog(@"url to image insertlatestmessage %@",url);
+                        UIImage *image = [[sharedCache sharedInstance] getCachedImageForKey:url];
+                        if(image)
+                        {
+                            NSLog(@"already cached");
+                            message.attachment = image;
+                        }
+                        else{
+                            NSData *data = [attachImageUrl getData];
+                            UIImage *image = [[UIImage alloc] initWithData:data];
+                            if(image)
+                            {
+                                NSLog(@"Caching here....");
+                                [[sharedCache sharedInstance] cacheImage:image forKey:url];
+                                message.attachment = image;
+                            }
+                        }
+                    });
+                }
             }
+            NSLog(@"message pinning end : %d", newInbox.messagesArray.count);
+            NSMutableArray *sortedArray = (NSMutableArray *)[newInbox.messagesArray sortedArrayUsingComparator:^NSComparisonResult(TSMessage *m1, TSMessage *m2){
+                return [m2.sentTime compare:m1.sentTime];
+            }];
+            newInbox.messagesArray = sortedArray;
+            NSLog(@"sorting ended : %d", newInbox.messagesArray.count);
             //codeGroupForClass[@"iosUserID"] = [PFUser currentUser].objectId;
             [codeGroupForClass pinInBackground];
             //[indicator stopAnimating];
@@ -103,7 +153,8 @@
         }];
     }
     else
-    {        UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Voila" message:@"You have already joined this class! " delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+    {
+        UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Voila" message:@"You have already joined this class! " delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
         [errorAlertView show];
     }
 

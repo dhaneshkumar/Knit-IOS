@@ -10,6 +10,8 @@
 #import "Data.h"
 #import "TSTabBarViewController.h"
 #import "AppDelegate.h"
+#import "TSNewInboxViewController.h"
+#import "TSOutboxViewController.h"
 
 @interface PhoneVerificationViewController ()
 
@@ -189,9 +191,14 @@
                             NSString *devicetype=[currentInstallation objectForKey:@"deviceType"];
                             [Data saveInstallationId:installationId deviceType:devicetype successBlock:^(id object) {
                                 NSLog(@"Successfully saved installationID");
+                                NSLog(@"current installation %@",object);
+                                current[@"installationObjectId"]=object;
+                                [current pinInBackground];
+                                NSString * role=[current objectForKey:@"role"];
                                 PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
                                 [lq fromLocalDatastore];
                                 NSArray *lds = [lq findObjects];
+                                UINavigationController *rootNav = ((UINavigationController *)((AppDelegate *)[[UIApplication sharedApplication] delegate]).window.rootViewController);
                                 if(lds.count==1) {
                                     if([((PFObject*)lds[0])[@"iosUserID"] isEqualToString:[PFUser currentUser].objectId]) {
                                         //filhaal to kuch nhi
@@ -199,19 +206,20 @@
                                     else {
                                         [self deleteAllLocalData];
                                         [self createLocalDatastore];
+                                        if([role isEqualToString:@"parent"])
+                                            [(TSTabBarViewController *)rootNav.topViewController makeItParent];
+                                        else
+                                            [(TSTabBarViewController *)rootNav.topViewController makeItTeacher];
                                     }
                                 }
-
-                                NSLog(@"current installation %@",object);
-                                current[@"installationObjectId"]=object;
-                                [current pinInBackground];
-                                PFUser *current=[PFUser currentUser];
-                                NSString * role=[current objectForKey:@"role"];
-                                UINavigationController *rootNav = ((UINavigationController *)((AppDelegate *)[[UIApplication sharedApplication] delegate]).window.rootViewController);
-                                if([role isEqualToString:@"parent"])
-                                    [(TSTabBarViewController *)rootNav.topViewController makeItParent];
-                                else
-                                    [(TSTabBarViewController *)rootNav.topViewController makeItTeacher];
+                                else {
+                                    [self createLocalDatastore];
+                                    if([role isEqualToString:@"parent"])
+                                        [(TSTabBarViewController *)rootNav.topViewController makeItParent];
+                                    else
+                                        [(TSTabBarViewController *)rootNav.topViewController makeItTeacher];
+                                }
+                                
                                 [self dismissViewControllerAnimated:YES completion:nil];
                                 
                                 if([role isEqualToString:@"parent"] || [role isEqualToString:@"teacher"])
@@ -380,6 +388,12 @@
     [query fromLocalDatastore];
     array = [query findObjects];
     [PFObject unpinAllInBackground:array];
+    
+    /*
+    TSTabBarViewController *rootTab = (TSTabBarViewController *)((UINavigationController *)((AppDelegate *)[[UIApplication sharedApplication] delegate]).window.rootViewController).topViewController;
+    [(TSNewInboxViewController *)((NSArray *)rootTab.viewControllers[1]) deleteLocalData];
+    [(TSNewInboxViewController *)((NSArray *)rootTab.viewControllers[1]) deleteLocalData];
+    */
 }
 
 /*

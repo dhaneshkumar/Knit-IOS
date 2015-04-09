@@ -1432,7 +1432,7 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = TextSlate/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = Knit;
 				PROVISIONING_PROFILE = "";
@@ -1450,7 +1450,7 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = TextSlate/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = Knit;
 				PROVISIONING_PROFILE = "";

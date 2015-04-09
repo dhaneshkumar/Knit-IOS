@@ -26,31 +26,43 @@
 @synthesize classArray;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-   
+    
     // Enable crashing feedback.
     [ParseCrashReporting enable];
     
     // Enable local datastore.
     [Parse enableLocalDatastore];
     
-
+    
     // Override point for customization after application launch.
     [Parse setApplicationId:@"tTqAhR73SE4NWFhulYX4IjQSDH2TkuTblujAbvOK" clientKey:@"4LnlMXS6hFUunIZ6cS3F7IcLrWGuzOIkyLldkxQJ"];
     [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
     
     // Registering for the Push notifications
-    UIUserNotificationType userNotificationTypes = (UIUserNotificationTypeAlert |
-                                                    UIUserNotificationTypeBadge |
-                                                    UIUserNotificationTypeSound);
-    UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:userNotificationTypes
-                                                                             categories:nil];
-    [application registerUserNotificationSettings:settings];
-    [application registerForRemoteNotifications];
+    if ([application respondsToSelector:@selector(isRegisteredForRemoteNotifications)])
+    {
+        // iOS 8 Notifications
+        
+        UIUserNotificationType userNotificationTypes = (UIUserNotificationTypeAlert |
+                                                        UIUserNotificationTypeBadge |
+                                                        UIUserNotificationTypeSound);
+        UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:userNotificationTypes categories:nil];
+        [application registerUserNotificationSettings:settings];
+        
+    }
+    else
+    {
+        // iOS < 8 Notifications
+        [application registerForRemoteNotificationTypes:
+         (UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeSound)];
+    }
+    
+    //[application registerForRemoteNotifications];
     application.applicationIconBadgeNumber = 0;
     
     [[UINavigationBar appearance] setBarTintColor:[UIColor colorWithRed:38.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0]];
     [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
-    [[UINavigationBar appearance] setTranslucent:NO];
+    //[[UINavigationBar appearance] setTranslucent:NO];
     
     [[UITabBar appearance] setTintColor:[UIColor colorWithRed:38.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0]];
     [[UISegmentedControl appearance] setTintColor:[UIColor colorWithRed:38.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0]];
@@ -60,11 +72,11 @@
 
 -(void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     
-   // NSMutableArray *channel=[[NSMutableArray alloc]init];
+    // NSMutableArray *channel=[[NSMutableArray alloc]init];
     // Store the deviceToken in the current installation and save it to Parse.
     PFInstallation *currentInstallation = [PFInstallation currentInstallation];
     [currentInstallation setDeviceTokenFromData:deviceToken];
-  //  currentInstallation.channels = @[ @"global" ];
+    //  currentInstallation.channels = @[ @"global" ];
     [currentInstallation saveInBackground];
     
 }
@@ -74,13 +86,13 @@
     if (userInfo) {
         NSLog(@"%@",userInfo);
         NSString *notificationType=[userInfo objectForKey:@"type"];
-    
+        
         
         if([notificationType isEqualToString:@"UPDATE"])
         {
             NSString *iTunesLink = @"itms://itunes.apple.com/in/app/knit-messaging/id962112913?mt=8";
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:iTunesLink]];
-
+            
         }
         else{
             UIStoryboard *storyboard1 = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
@@ -90,11 +102,11 @@
             TSTabBarViewController *fcontroller = (TSTabBarViewController*)signUpController.topViewController;
             [fcontroller setSelectedIndex:1];
             self.window.rootViewController=signUpController;
-
+            
         }
         
         
-    //[PFPush handlePush:userInfo];
+        //[PFPush handlePush:userInfo];
     }
 }
 
@@ -108,16 +120,16 @@
                                                        delegate:self cancelButtonTitle:@"OK"
                                               otherButtonTitles:notification.alertAction,nil];
         [alert show];
-    
+        
         
     }
-
+    
     if(state==UIApplicationStateInactive)
     {
         if([notification.alertAction isEqualToString:@"Create"])
         {
             NSLog(@"App is in background but take user to classroom controller if selected");
-        
+            
             UIStoryboard *storyboard1 = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
             UINavigationController *tabbarNav = [storyboard1 instantiateViewControllerWithIdentifier:@"tabBar"];
             tabbarNav.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
@@ -135,7 +147,7 @@
             
             [tabbarNav presentViewController:createClassController animated:YES completion:nil];
             
-
+            
         }
         else if([notification.alertAction isEqualToString:@"Join"])
         {
@@ -146,14 +158,14 @@
             TSTabBarViewController *fcontroller = (TSTabBarViewController*)tabbarNav.topViewController;
             [fcontroller setSelectedIndex:0];
             self.window.rootViewController=tabbarNav;
-
+            
             UINavigationController *joinClassController = [storyboard1 instantiateViewControllerWithIdentifier:@"joinNewClassViewController"];
             joinClassController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
             
             TSJoinNewClassViewController *f1controller = (TSJoinNewClassViewController*)joinClassController.topViewController;
-                       [tabbarNav presentViewController:joinClassController animated:YES completion:nil];
+            [tabbarNav presentViewController:joinClassController animated:YES completion:nil];
         }
-    
+        
         else if([notification.alertAction isEqualToString:@"Invite Parent"]){
             UIStoryboard *storyboard1 = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
             UINavigationController *tabbarNav = [storyboard1 instantiateViewControllerWithIdentifier:@"tabBar"];
@@ -167,9 +179,9 @@
             inviteParentController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
             
             [tabbarNav presentViewController:inviteParentController animated:YES completion:nil];
-
+            
         }
-
+        
         else if([notification.alertAction isEqualToString:@"Invite Teacher"]){
             UIStoryboard *storyboard1 = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
             UINavigationController *tabbarNav = [storyboard1 instantiateViewControllerWithIdentifier:@"tabBar"];
@@ -209,18 +221,18 @@
             
             
         }
-
-
-    // Request to reload table view data
- //   [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadData" object:self];
-    
-    // Set icon badge number to zero
-        }
+        
+        
+        // Request to reload table view data
+        //   [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadData" object:self];
+        
+        // Set icon badge number to zero
+    }
     
     application.applicationIconBadgeNumber = 0;
 }
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-
+    
     NSString *title = [alertView buttonTitleAtIndex:buttonIndex];
     if([title isEqualToString:@"Create"])
     {
@@ -228,7 +240,7 @@
         
         UIStoryboard *storyboard1 = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
         UINavigationController *signUpController = [storyboard1 instantiateViewControllerWithIdentifier:@"tabBar"];
-       // signUpController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+        // signUpController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
         
         TSTabBarViewController *fcontroller = (TSTabBarViewController*)signUpController.topViewController;
         [fcontroller setSelectedIndex:0];
@@ -248,7 +260,7 @@
     {
         UIStoryboard *storyboard1 = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
         UINavigationController *signUpController = [storyboard1 instantiateViewControllerWithIdentifier:@"tabBar"];
-//        signUpController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+        //        signUpController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
         
         TSTabBarViewController *fcontroller = (TSTabBarViewController*)signUpController.topViewController;
         [fcontroller setSelectedIndex:0];
@@ -263,7 +275,7 @@
         
         [signUpController presentViewController:joinClassController animated:YES completion:nil];
         
-
+        
     }
     else if([title isEqualToString:@"Invite Parent"]){
         UIStoryboard *storyboard1 = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
@@ -278,10 +290,10 @@
         inviteParentController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
         
         [tabbarNav presentViewController:inviteParentController animated:YES completion:nil];
-
+        
         
     }
-
+    
     else if([title isEqualToString:@"Invite Teacher"]){
         UIStoryboard *storyboard1 = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
         UINavigationController *tabbarNav = [storyboard1 instantiateViewControllerWithIdentifier:@"tabBar"];
@@ -321,10 +333,10 @@
         
         
     }
-
     
-
-
+    
+    
+    
 }
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

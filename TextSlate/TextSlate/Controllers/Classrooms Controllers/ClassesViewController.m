@@ -77,7 +77,10 @@
             UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"joinedClassCell"];
             cell.textLabel.text = _joinedClasses[indexPath.row-1][1];
             PFObject *codegroup = [_codegroups objectForKey:_joinedClasses[indexPath.row-1][0]];
-            cell.detailTextLabel.text = [NSString stringWithFormat:@"by %@", codegroup[@"Creator"]];
+            //if(codegroup[@"Creator"])
+                cell.detailTextLabel.text = [NSString stringWithFormat:@"by %@", codegroup[@"Creator"]];
+            //else
+                //cell.detailTextLabel.text = @"";
             return cell;
         }
     }
@@ -216,19 +219,21 @@
         [_codegroups setObject:localCodegroup forKey:[localCodegroup objectForKey:@"code"]];
     if(localCodegroups.count != joinedClassCodes.count) {
         NSLog(@"Here in if");
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            [Data getAllCodegroups:^(id object) {
+        [Data getAllCodegroups:^(id object) {
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                 NSArray *cgs = (NSArray *)object;
                 for(PFObject *cg in cgs) {
                     //cg[@"iosUserID"] = [PFUser currentUser].objectId;
                     [cg pinInBackground];
                     [_codegroups setObject:cg forKey:[cg objectForKey:@"code"]];
                 }
-                [self.classesTable reloadData];
-            } errorBlock:^(NSError *error) {
-                NSLog(@"Unable to fetch classes1: %@", [error description]);
-            }];
-        });
+                dispatch_sync(dispatch_get_main_queue(), ^{
+                    [self.classesTable reloadData];
+                });
+            });
+        } errorBlock:^(NSError *error) {
+            NSLog(@"Unable to fetch classes1: %@", [error description]);
+        }];
     }
     else {
         NSLog(@"Here in else");
@@ -243,8 +248,8 @@
 
 -(void)leaveClass:(NSString *)classCode {
     [Data leaveClass:classCode successBlock:^(id object) {
-        [self deleteAllLocalMessages:classCode];
-        [self deleteLocalCodegroupEntry:classCode];
+        //[self deleteAllLocalMessages:classCode];
+        //[self deleteLocalCodegroupEntry:classCode];
         [[PFUser currentUser] fetch];
         //[self.classesTable reloadData];
         //[self.navigationController popViewControllerAnimated:YES];
@@ -257,10 +262,10 @@
 
 -(void)deleteClass:(NSString *)classCode {
     [Data deleteClass:classCode successBlock:^(id object) {
-        [self deleteAllLocalMessages:classCode];
-        [self deleteAllLocalClassMembers:classCode];
-        [self deleteAllLocalMessageNeeders:classCode];
-        [self deleteLocalCodegroupEntry:classCode];
+        //[self deleteAllLocalMessages:classCode];
+        //[self deleteAllLocalClassMembers:classCode];
+        //[self deleteAllLocalMessageNeeders:classCode];
+        //[self deleteLocalCodegroupEntry:classCode];
         [[PFUser currentUser] fetch];
         //[self.classesTable reloadData];
         //[self.navigationController popViewControllerAnimated:YES];

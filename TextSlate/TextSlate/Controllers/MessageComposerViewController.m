@@ -16,6 +16,9 @@
 #import "sharedCache.h"
 #import "TSMessage.h"
 #import "TSCreatedClassMessageTableViewCell.h"
+#import "TSTabBarViewController.h"
+#import "TSOutboxViewController.h"
+#import "AppDelegate.h"
 
 
 @interface MessageComposerViewController ()
@@ -249,6 +252,8 @@
     NSLog(@"message send pressed");
     NSString *attachmentName=_finalAttachment.name;
     NSString *messageText=_textMessage.text;
+    TSTabBarViewController *rootTab = (TSTabBarViewController *)((UINavigationController *)((AppDelegate *)[[UIApplication sharedApplication] delegate]).window.rootViewController).topViewController;
+    TSOutboxViewController *outbox = (TSOutboxViewController *)(NSArray *)rootTab.viewControllers[2];
     if(!_finalAttachment)
     {
         NSLog(@"classCode : %@", _classCode);
@@ -271,13 +276,17 @@
             [messageObject pinInBackground];
             
             TSMessage *newMessage=[[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:messageObject[@"title"] sender:messageObject[@"Creator"] sentTime:messageObject[@"createdTime"] senderPic:nil likeCount:[messageObject[@"like_count"] intValue] confuseCount:[messageObject[@"confused_count"] intValue] seenCount:[messageObject[@"seen_count"] intValue]];
-            [_messagesArray addObject:newMessage];
+            newMessage.messageId = messageObject[@"messageId"];
+            outbox.mapCodeToObjects[newMessage.messageId] = newMessage;
+            [outbox.messagesArray insertObject:newMessage atIndex:0];
+            [outbox.messageIds insertObject:newMessage.messageId atIndex:0];
+            outbox.shouldScrollUp = true;
+            //[_messagesArray addObject:newMessage];
             //[self.messageTable reloadData];
             UIAlertView *messageDialog = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Gaya bey!" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
             
             [messageDialog show];
             [self dismissViewControllerAnimated:YES completion:nil];
-
            // [self dismissKeyboard];
         } errorBlock:^(NSError *error) {
             UIAlertView *errorDialog = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Oye nhi gaya!" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
@@ -297,6 +306,7 @@
                     messageObject[@"Creator"] = [[PFUser currentUser] objectForKey:@"name"];
                     messageObject[@"code"] = _classCode;
                     messageObject[@"name"] = _className;
+                    messageObject[@"attachment"] = (PFFile *)_finalAttachment;
                     messageObject[@"title"] = messageText;
                     messageObject[@"createdTime"] = messageCreatedAt;
                     messageObject[@"messageId"] = messageObjectId;
@@ -306,13 +316,44 @@
                     [messageObject pinInBackground];
                     
                     TSMessage *newMessage=[[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:messageObject[@"title"] sender:messageObject[@"Creator"] sentTime:messageObject[@"createdTime"] senderPic:nil likeCount:[messageObject[@"like_count"] intValue] confuseCount:[messageObject[@"confused_count"] intValue] seenCount:[messageObject[@"seen_count"] intValue]];
-                    [_messagesArray addObject:newMessage];
-                 //   [self.messageTable reloadData];
+                    
+                    newMessage.messageId = messageObject[@"messageId"];
+                    newMessage.hasAttachment = true;
+                    newMessage.attachment = [UIImage imageNamed:@"white.jpg"];
+                    
+                    outbox.mapCodeToObjects[newMessage.messageId] = newMessage;
+                    [outbox.messagesArray insertObject:newMessage atIndex:0];
+                    [outbox.messageIds insertObject:newMessage.messageId atIndex:0];
+                    
+                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
+                        NSString *url = _finalAttachment.url;
+                        //NSLog(@"url to image fetcholdemssageondatadeletion %@",url);
+                        
+                        UIImage *image = [[sharedCache sharedInstance] getCachedImageForKey:url];
+                        if(image)
+                        {
+                            NSLog(@"already cached");
+                            newMessage.attachment = image;
+                        }
+                        else {
+                            NSData *data = [_finalAttachment getData];
+                            UIImage *image = [[UIImage alloc] initWithData:data];
+                            
+                            if(image)
+                            {
+                                NSLog(@"Caching here....");
+                                [[sharedCache sharedInstance] cacheImage:image forKey:url];
+                                newMessage.attachment = image;
+                            }
+                        }
+                    });
+                    
+                //  [_messagesArray addObject:newMessage];
+                //  [self.messageTable reloadData];
                     UIAlertView *messageDialog = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Gaya bey!" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
                     
                     [messageDialog show];
                     [self dismissViewControllerAnimated:YES completion:nil];
-
                     //[self dismissKeyboard];
                 } errorBlock:^(NSError *error) {
                     UIAlertView *errorDialog = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error occurred in sending the message" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
