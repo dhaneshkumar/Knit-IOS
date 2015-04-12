@@ -47,7 +47,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    self.navigationItem.title=@"Compose";
     _attachImage=[[UIImageView alloc]init];
     [_attachImage setFrame:CGRectMake(65,1, 60, 40 )];
     _attachImage.contentMode=UIViewContentModeScaleToFill;

@@ -95,7 +95,7 @@
         else{
             UIStoryboard *storyboard1 = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
             UINavigationController *signUpController = [storyboard1 instantiateViewControllerWithIdentifier:@"tabBar"];
-            signUpController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+            //signUpController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
             
             TSTabBarViewController *fcontroller = (TSTabBarViewController*)signUpController.topViewController;
             [fcontroller setSelectedIndex:1];

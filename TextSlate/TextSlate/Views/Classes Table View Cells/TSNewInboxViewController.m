@@ -460,7 +460,7 @@
                 }
                 
             }
-            if(_messageFlag==1 && messageObjects.count>=1) {
+            if(_messageFlag==1 && messageObjects.count==1) {
                 UIAlertView *likeConfuseAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Hey! You can now confuse or like message and let teacher know." delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil];
                 [likeConfuseAlertView show];
             }

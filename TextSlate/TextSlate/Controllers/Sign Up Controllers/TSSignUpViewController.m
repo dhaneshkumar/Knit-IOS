@@ -22,7 +22,6 @@
 @property (strong ,nonatomic) NSString *sex;
 @property (strong,nonatomic) NSString *getOTP;
 @property (strong,nonatomic) NSMutableArray *classDetails;
-@property (weak, nonatomic) IBOutlet UIView *detailsView;
 
 
 @property (nonatomic) bool isParent;
@@ -39,22 +38,8 @@
     _displayName.delegate=self;
     _phoneNumberTextField.delegate=self;
     
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(getFindcode:)
-                                                 name:@"MODELVIEW DISMISS" object:nil];
-
     //self.OTP.hidden=YES;
     // Do any additional setup after loading the view
-}
-
--(void)getFindcode:(NSNotification *)notice{
-    NSLog(@"%@ notice object",[notice object]);
-    _classDetails=[notice object];
-    NSLog(@"classdetails %@",_classDetails);
-    if(_classDetails.count>0)
-    {
-        _detailsView.hidden=NO;
-    }
 }
 
 
@@ -65,7 +50,6 @@
 
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    _detailsView.hidden=YES;
     NSLog(@"Sign up alert view");
     if(_showAlertView) {
         _getRole = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Please select your profession" delegate:self cancelButtonTitle:@"CANCEL" otherButtonTitles:@"PARENT", @"TEACHER", nil];
@@ -75,6 +59,10 @@
     }
     
     NSLog(@"code %@",_findCode);
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    
 }
 
 -(IBAction)selectRole:(id)sender

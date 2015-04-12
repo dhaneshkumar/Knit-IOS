@@ -21,6 +21,7 @@
 		4068825E1A8A307D00C055E1 /* ProfilePictureViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4068825D1A8A307D00C055E1 /* ProfilePictureViewController.m */; };
 		40A9FC831AC42C0900082555 /* attach_30x30.png in Resources */ = {isa = PBXBuildFile; fileRef = 40A9FC801AC42C0900082555 /* attach_30x30.png */; };
 		40A9FC841AC42C0900082555 /* attach_40x40.png in Resources */ = {isa = PBXBuildFile; fileRef = 40A9FC811AC42C0900082555 /* attach_40x40.png */; };
+		40AA7F971AD8447B0000255C /* FindClassSignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 40AA7F961AD8447B0000255C /* FindClassSignUpViewController.m */; };
 		40BB899B1AC431D3002CFDFE /* attachcancel.png in Resources */ = {isa = PBXBuildFile; fileRef = 40BB89991AC431D3002CFDFE /* attachcancel.png */; };
 		40BB899C1AC431D3002CFDFE /* attachcancel1.png in Resources */ = {isa = PBXBuildFile; fileRef = 40BB899A1AC431D3002CFDFE /* attachcancel1.png */; };
 		40BB89A01AC4992C002CFDFE /* InviteTeacherViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 40BB899F1AC4992C002CFDFE /* InviteTeacherViewController.m */; };
@@ -183,6 +184,8 @@
 		4068825D1A8A307D00C055E1 /* ProfilePictureViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfilePictureViewController.m; sourceTree = "<group>"; };
 		40A9FC801AC42C0900082555 /* attach_30x30.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = attach_30x30.png; sourceTree = "<group>"; };
 		40A9FC811AC42C0900082555 /* attach_40x40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = attach_40x40.png; sourceTree = "<group>"; };
+		40AA7F951AD8447A0000255C /* FindClassSignUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FindClassSignUpViewController.h; sourceTree = "<group>"; };
+		40AA7F961AD8447B0000255C /* FindClassSignUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FindClassSignUpViewController.m; sourceTree = "<group>"; };
 		40BB89991AC431D3002CFDFE /* attachcancel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = attachcancel.png; sourceTree = "<group>"; };
 		40BB899A1AC431D3002CFDFE /* attachcancel1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = attachcancel1.png; sourceTree = "<group>"; };
 		40BB899E1AC4992C002CFDFE /* InviteTeacherViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InviteTeacherViewController.h; sourceTree = "<group>"; };
@@ -499,6 +502,15 @@
 			name = "Profile Picture Controller";
 			sourceTree = "<group>";
 		};
+		40AA7F941AD8443D0000255C /* Find Class Sign Up */ = {
+			isa = PBXGroup;
+			children = (
+				40AA7F951AD8447A0000255C /* FindClassSignUpViewController.h */,
+				40AA7F961AD8447B0000255C /* FindClassSignUpViewController.m */,
+			);
+			name = "Find Class Sign Up";
+			sourceTree = "<group>";
+		};
 		40BB899D1AC49909002CFDFE /* Invite Teacher */ = {
 			isa = PBXGroup;
 			children = (
@@ -729,6 +741,7 @@
 		971687D71A1F1BCA00FE98FC /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				40AA7F941AD8443D0000255C /* Find Class Sign Up */,
 				402A813B1AD45164002299C1 /* Find Class */,
 				40BB899D1AC49909002CFDFE /* Invite Teacher */,
 				FB6A04A91AC2CE1C009E9D9D /* Edit Associate Name */,
@@ -1305,6 +1318,7 @@
 				4068825E1A8A307D00C055E1 /* ProfilePictureViewController.m in Sources */,
 				40C7B2D31A935F6E00C1BFC8 /* ClassesViewController.m in Sources */,
 				403FFF121ABB5BEC008FB159 /* InviteParentViewController.m in Sources */,
+				40AA7F971AD8447B0000255C /* FindClassSignUpViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

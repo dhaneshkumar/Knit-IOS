@@ -67,9 +67,8 @@
     }
     
     _section2Content=[[NSMutableArray alloc]init];
-    [_section2Content addObject:@""];
     if(_isOld==true){
-        [_section2Content addObject:@"Change Password"];
+        [_section2Content addObject:@"Reset Password"];
     }
     [_section2Content addObject:@"Logout"];
     
@@ -139,9 +138,12 @@ if(section==0)
             {
                 NSLog(@"Caching ....");
                 [[sharedCache sharedInstance] cacheImage:image forKey:url1];
+                cell.imageView.image=image;
+                
             }
-
-            cell.imageView.image=image;
+            else{
+                cell.imageView.image=[UIImage imageNamed:@"defaultTeacher.png"];
+            }
         }
             UIButton * btn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
             btn.frame = CGRectMake(120, 30, 100, 30);
@@ -152,16 +154,6 @@ if(section==0)
     else if(indexPath.section==1)
     {
         cell.textLabel.text=_section2Content[indexPath.row];
-        if(indexPath.row==0)
-        {
-            UITextField *txtField = [[UITextField alloc]initWithFrame:CGRectMake(15, 0, 250, 50)];
-            txtField.text=@"Phone";
-            txtField.textColor=[UIColor grayColor];
-            txtField.delegate=self;
-            [cell.contentView addSubview:txtField];
-            
-            NSLog(@"create textfield");
-        }
     }
     else if(indexPath.section==2)
     {
@@ -274,7 +266,7 @@ if(section==0)
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if(_isOld==true){
-    if (indexPath.row == 2 && indexPath.section==1) {
+    if (indexPath.row == 1 && indexPath.section==1) {
         // Log out.
      // [(TSTabBarViewController*)self.parentViewController.parentViewController logout];
         PFInstallation *currentInstallation=[PFInstallation currentInstallation];
@@ -290,7 +282,7 @@ if(section==0)
         }];
     }
     
-    if(indexPath.row==1 && indexPath.section==1)
+    if(indexPath.row==0 && indexPath.section==1)
     {
         NSString *email=[[PFUser currentUser] objectForKey:@"email"];
         [PFUser requestPasswordResetForEmail:email];
@@ -330,9 +322,15 @@ if(section==0)
 
         
     }
+    if(indexPath.row==2 && indexPath.section==2)
+    {
+        NSString *iTunesLink = @"itms://itunes.apple.com/in/app/knit-messaging/id962112913?mt=8";
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:iTunesLink]];
+        
+    }
    }
     else{
-        if (indexPath.row == 1 && indexPath.section==1) {
+        if (indexPath.row == 0 && indexPath.section==1) {
             // Log out.
             // [(TSTabBarViewController*)self.parentViewController.parentViewController logout];
             PFInstallation *currentInstallation=[PFInstallation currentInstallation];
@@ -363,7 +361,7 @@ if(section==0)
         
         if(indexPath.row==0 && indexPath.section==0)
         {
-            [self performSegueWithIdentifier:@"profilePic" sender:self ];
+            //[self performSegueWithIdentifier:@"profilePic" sender:self ];
             UINavigationController *profile=[self.storyboard instantiateViewControllerWithIdentifier:@"profilePictureNavigation"];
             [self presentViewController:profile animated:NO completion:nil];
             
@@ -378,6 +376,13 @@ if(section==0)
             
               [self presentViewController:faqNavigationController animated:YES completion:nil];
             
+            
+        }
+        
+        if(indexPath.row==2 && indexPath.section==2)
+        {
+            NSString *iTunesLink = @"itms://itunes.apple.com/in/app/knit-messaging/id962112913?mt=8";
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:iTunesLink]];
             
         }
     }

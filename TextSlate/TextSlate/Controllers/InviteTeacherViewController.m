@@ -26,6 +26,7 @@
     _phoneNum.delegate=self;
     _teacherName.delegate=self;
     _emailAddress.delegate=self;
+    self.navigationItem.title=@"Invite Teacher";
     // Do any additional setup after loading the view.
 }
 
@@ -40,6 +41,7 @@
         UIAlertView *messageDialog = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Voila! Your invitation has been sent." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
         
         [messageDialog show];
+        [self dismissViewControllerAnimated:YES completion:nil];
         
     } errorBlock:^(NSError *error) {
         UIAlertView *messageDialog = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Oops! There ocurred some error in sending the invitation." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
