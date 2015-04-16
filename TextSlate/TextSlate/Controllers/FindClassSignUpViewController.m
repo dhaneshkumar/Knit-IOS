@@ -86,8 +86,7 @@
 -(IBAction)cancel:(id)sender{
     
     UINavigationController *signUp=[self.storyboard instantiateViewControllerWithIdentifier:@"signInNavigationController"];
-    [self presentViewController:signUp animated:YES completion:^{[self dismissViewControllerAnimated:YES completion:nil];}
-     ];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 -(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {

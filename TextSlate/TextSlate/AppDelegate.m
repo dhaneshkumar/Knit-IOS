@@ -81,6 +81,7 @@
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
     
+    NSLog(@"we have a notification");
     if (userInfo) {
         NSLog(@"%@",userInfo);
         NSString *notificationType=[userInfo objectForKey:@"type"];
@@ -93,6 +94,7 @@
             
         }
         else{
+            
             UIStoryboard *storyboard1 = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
             UINavigationController *signUpController = [storyboard1 instantiateViewControllerWithIdentifier:@"tabBar"];
             //signUpController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
@@ -102,6 +104,7 @@
             self.window.rootViewController=signUpController;
             
         }
+        
         
         
         //[PFPush handlePush:userInfo];
