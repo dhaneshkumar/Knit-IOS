@@ -101,12 +101,13 @@
 
 
 -(void)showInviteParentNotification{
-    //NOT WORKING
     NSLog(@"here in show invite");
     PFUser *current=[PFUser currentUser];
     NSArray *createdClass=[current objectForKey:@"Created_groups"];
+    
     NSArray *firstIndex=[createdClass objectAtIndex:0];
     NSString *classCode=[firstIndex objectAtIndex:0];
+    NSString *className=[firstIndex objectAtIndex:1];
     [Data getMemberDetails:classCode successBlock:^(id object) {
         NSMutableArray *memberList=[[NSMutableArray alloc]init];
         for(PFObject *class in memberList)
@@ -124,17 +125,22 @@
         }
       if(memberList.count<1){
             NSLog(@"hi");
+          NSDictionary *classInfo=[[NSDictionary alloc]init];
+          [classInfo setValue:classCode forKey:@"classCode"];
+          [classInfo setValue:className forKey:@"className"];
             UILocalNotification *localNotification = [[UILocalNotification alloc] init];
             localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:1];
-            localNotification.alertBody = @"We see you have not joined any class.";
+            localNotification.alertBody = @"You know you can invite parents to join your class.";
+            localNotification.userInfo=classInfo;
             localNotification.timeZone = [NSTimeZone defaultTimeZone];
             localNotification.alertAction=@"Invite Parent";
             localNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication]     applicationIconBadgeNumber] + 1;
             [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
        }
     else{
+        
            NSLog(@"%@ member count ",memberList);
-    }
+        }
         
     } errorBlock:^(NSError *error) {
         NSLog(@"Could not get any members");

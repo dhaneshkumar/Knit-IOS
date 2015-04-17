@@ -89,9 +89,19 @@
         
         if([notificationType isEqualToString:@"UPDATE"])
         {
+            if(application.applicationState==UIApplicationStateInactive){
             NSString *iTunesLink = @"itms://itunes.apple.com/in/app/knit-messaging/id962112913?mt=8";
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:iTunesLink]];
-            
+            }
+        
+            else{
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Knit"
+                                                                message:@"A new update has been released .You can download it from appstore."
+                                                               delegate:self cancelButtonTitle:@"OK"
+                                                      otherButtonTitles:@"Update",nil];
+                [alert show];
+                
+            }
         }
         else{
             
@@ -334,7 +344,11 @@
         
         
     }
-    
+    if([title isEqualToString:@"Update"])
+    {
+        NSString *iTunesLink = @"itms://itunes.apple.com/in/app/knit-messaging/id962112913?mt=8";
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:iTunesLink]];
+    }
     
     
     
