@@ -12,6 +12,8 @@
 #import "AppDelegate.h"
 #import "TSNewInboxViewController.h"
 #import "TSOutboxViewController.h"
+#import "TSJoinNewClassViewController.h"
+#import "ClassesParentViewController.h"
 
 @interface PhoneVerificationViewController ()
 
@@ -96,19 +98,43 @@
                                 [self deleteAllLocalData];
                                 [self createLocalDatastore];
                                 
-                                //[((UINavigationController *)self.presentingViewController.presentingViewController.presentingViewController).topViewController dismissViewControllerAnimated:YES completion:^{}];
-                                
                                 current[@"installationObjectId"]=object;
                                 [current pinInBackground];
                                 
                                 UINavigationController *rootNav = ((UINavigationController *)((AppDelegate *)[[UIApplication sharedApplication] delegate]).window.rootViewController);
+                                
                                 if([_role isEqualToString:@"parent"])
                                     [(TSTabBarViewController *)rootNav.topViewController makeItParent];
                                 else
                                     [(TSTabBarViewController *)rootNav.topViewController makeItTeacher];
                                 
                                 [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
-                                [((UINavigationController *)self.presentingViewController.presentingViewController.presentingViewController).topViewController dismissViewControllerAnimated:YES completion:nil];
+                                
+                                if(_isFindClass) {
+                                    UINavigationController *nVC = (UINavigationController *)self.presentingViewController.presentingViewController.presentingViewController.presentingViewController;
+                                    TSTabBarViewController *tbVC = (TSTabBarViewController *)nVC.topViewController;
+                                    ClassesParentViewController *cpVC = tbVC.viewControllers[0];
+                                    [((UINavigationController *)self.presentingViewController.presentingViewController.presentingViewController.presentingViewController).topViewController dismissViewControllerAnimated:YES completion:^{
+                                        UINavigationController *joinNewClassNavigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"joinNewClassViewController"];
+                                        TSJoinNewClassViewController *jj = (TSJoinNewClassViewController *)joinNewClassNavigationController.topViewController;
+                                        jj.isfindClass = true;
+                                        jj.classCode = _foundClassCode;
+                                        [cpVC presentViewController:joinNewClassNavigationController animated:YES completion:nil];
+                                    }];
+                                    /*
+                                    TSTabBarViewController *rootTab = (TSTabBarViewController *)rootNav.topViewController;
+                                    ((AppDelegate *)[[UIApplication sharedApplication] delegate]).window.rootViewController = rootNav;
+                                    //self.window.rootViewController = _startNav;
+                                    UIStoryboard *storyboard1 = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
+                                    UINavigationController *joinNewClassNavigationController = [storyboard1 instantiateViewControllerWithIdentifier:@"joinNewClassViewController"];
+                                    TSJoinNewClassViewController *jj = (TSJoinNewClassViewController *)joinNewClassNavigationController.topViewController;
+                                    jj.isfindClass = true;
+                                    jj.classCode = _foundClassCode;
+                                    [rootTab presentViewController:joinNewClassNavigationController animated:YES completion:nil];*/
+                                }
+                                else {
+                                    [((UINavigationController *)self.presentingViewController.presentingViewController.presentingViewController).topViewController dismissViewControllerAnimated:YES completion:nil];
+                                }
                                 /*
                                 UINavigationController *tab=[self.storyboard instantiateViewControllerWithIdentifier:@"tabBar"];
                                 TSTabBarViewController *mainTab=(TSTabBarViewController*) tab.topViewController;

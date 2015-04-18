@@ -8,16 +8,21 @@
 
 #import "FindClassViewController.h"
 #import "TSSignUpViewController.h"
+#import "FindClassSignUpViewController.h"
 #import "Data.h"
 @interface FindClassViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *findClassCode;
 @property (strong,nonatomic) NSMutableArray *details;
+@property (strong,nonatomic) NSString *cName;
+@property (strong,nonatomic) NSString *tName;
+
 @end
 
 @implementation FindClassViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.navigationItem.title=@"Find Class";
     _findClassCode.delegate=self;
     _details=[[NSMutableArray alloc]init];
     // Do any additional setup after loading the view.
@@ -32,34 +37,76 @@
 
 -(IBAction)nextButton:(id)sender
 {
-    NSString *newString = [_findClassCode.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    NSString *classCodeTyped = [self trimmedString:_findClassCode.text];
     
-    [Data findClassDetail:newString successBlock:^(id object) {
+    if(classCodeTyped.length != 7) {
+        UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Please make sure that class code has 7 characters." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+        [errorAlertView show];
+        return;
+    }
+    
+    [self presentViewController:[self.storyboard instantiateViewControllerWithIdentifier:@"loadingVC"] animated:NO completion:nil];
+    
+    [Data findClassDetail:classCodeTyped successBlock:^(id object) {
         
         _details=(NSMutableArray *)object;
-        NSLog(@"%@ detais in findclass",_details);
-        [[NSNotificationCenter defaultCenter]
-         postNotificationName:@"MODELVIEW DISMISS"
-         object:_details];
-    } errorBlock:^(NSError *error) {
-        NSLog(@"error");
-    }];
-    
-    
-    
-    
-    [self dismissViewControllerAnimated:YES completion:nil];
-    
+        for(PFObject *a in _details){
+            _cName=[a objectForKey:@"name"];
+            _tName=[a objectForKey:@"Creator"];
+        }
+        
+        if(_details.count>0){
+            NSLog(@"here");
+            UINavigationController *findClassSignUp=[self.storyboard instantiateViewControllerWithIdentifier:@"SignUpFindClass"];
+            FindClassSignUpViewController  *dvc=(FindClassSignUpViewController*)findClassSignUp.topViewController;
+            dvc.nameClass=_cName;
+            dvc.teacher=_tName;
+            dvc.classCode = classCodeTyped;
+            [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
+            [self presentViewController:findClassSignUp animated:YES completion:nil];
+        }
+        
+        else{
+            NSLog(@"oopsie");
+            UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Class with this code does not exist." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+            [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
+            [errorAlertView show];
+        }
 
-    
+    } errorBlock:^(NSError *error) {
+        NSLog(@"oops");
+        UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error in joining Class. Please make sure you have the correct class code." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+        [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
+        [errorAlertView show];
+    }];
 
 }
 
--(BOOL) textFieldShouldReturn:(UITextField *)textField{
+-(IBAction)inviteTeacher:(id)sender{
+    UINavigationController *findclass=[self.storyboard instantiateViewControllerWithIdentifier:@"inviteTeacher"];
+    [self presentViewController:findclass animated:NO completion:nil];
     
+}
+
+-(IBAction)cancel:(id)sender{
+    [self.presentingViewController.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+}
+-(BOOL) textFieldShouldReturn:(UITextField *)textField{
     [textField resignFirstResponder];
     return YES;
 }
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    textField.text = [textField.text stringByReplacingCharactersInRange:range withString:[string uppercaseString]];
+    return NO;
+}
+
+-(NSString *)trimmedString:(NSString *)input {
+    NSArray* words = [input componentsSeparatedByCharactersInSet :[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    NSString* nospacestring = [words componentsJoinedByString:@""];
+    return nospacestring;
+}
+
 /*
 #pragma mark - Navigation
 

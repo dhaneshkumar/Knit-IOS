@@ -32,6 +32,7 @@
     _classDetails=[[NSMutableArray alloc]init];
     _name.delegate=self;
     _phoneNum.delegate=self;
+    _phoneNum.keyboardType = UIKeyboardTypeNumberPad;
     _className.text=_nameClass;
     _teacherName.text=[NSString stringWithFormat:@"by %@", _teacher];
     // Do any additional setup after loading the view.
@@ -73,21 +74,37 @@
 }
 
 - (IBAction)signUpClicked:(UIButton *)sender {
+    if([_titleTextField.text isEqualToString:@""]) {
+        UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Title field cannot be empty." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+        [errorAlertView show];
+        return;
+    }
+    NSString *name = [_name.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    if(name.length==0) {
+        UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Name field cannot be empty." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+        [errorAlertView show];
+        return;
+    }
+    if(_phoneNum.text.length<10) {
+        UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Please make sure that the phone number entered is 10 digits." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+        [errorAlertView show];
+        return;
+        
+    }
+    [self presentViewController:[self.storyboard instantiateViewControllerWithIdentifier:@"loadingVC"] animated:NO completion:nil];
     [Data generateOTP:_phoneNum.text successBlock:^(id object) {
+        [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
         [self performSegueWithIdentifier:@"signUpDetailFindClass" sender:self];
         NSLog(@"code %@",object);
-        
     } errorBlock:^(NSError *error) {
-        NSLog(@"Error");
-        
+        UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error in generating OTP. Try again later." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+        [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
+        [errorAlertView show];
     }];
 }
 
 -(IBAction)cancel:(id)sender{
-    
-    UINavigationController *signUp=[self.storyboard instantiateViewControllerWithIdentifier:@"signInNavigationController"];
-    [self presentViewController:signUp animated:YES completion:^{[self dismissViewControllerAnimated:YES completion:nil];}
-     ];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 -(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
@@ -102,6 +119,8 @@
         dvc.modal=deviceType;
         dvc.isSignUp=true;
         dvc.sex=_sex;
+        dvc.isFindClass = true;
+        dvc.foundClassCode = _classCode;
     }
 }
 
@@ -111,6 +130,26 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    
+    if([textField isEqual:_phoneNum]) {
+        // Prevent crashing undo bug – see note below.
+        if(range.length + range.location > textField.text.length) {
+            return NO;
+        }
+        
+        if ([string rangeOfCharacterFromSet:[[NSCharacterSet decimalDigitCharacterSet] invertedSet]].location != NSNotFound) {
+            return NO;
+        }
+        
+        NSUInteger newLength = [textField.text length] + [string length] - range.length;
+        return (newLength > 10) ? NO : YES;
+    }
+    return YES;
+}
+
 
 
 /*

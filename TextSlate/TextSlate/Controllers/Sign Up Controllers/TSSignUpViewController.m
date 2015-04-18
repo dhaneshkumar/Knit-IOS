@@ -37,7 +37,8 @@
     _showAlertView = true;
     _displayName.delegate=self;
     _phoneNumberTextField.delegate=self;
-    self.navigationItem.title = @"Knit";
+    _phoneNumberTextField.keyboardType = UIKeyboardTypeNumberPad;
+    self.navigationItem.title = @"Sign Up";
     //self.OTP.hidden=YES;
     // Do any additional setup after loading the view
 }
@@ -52,7 +53,7 @@
     [super viewDidAppear:animated];
     NSLog(@"Sign up alert view");
     if(_showAlertView) {
-        _getRole = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Please select your profession" delegate:self cancelButtonTitle:@"CANCEL" otherButtonTitles:@"PARENT", @"TEACHER", nil];
+        _getRole = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Please select your profession" delegate:self cancelButtonTitle:@"CANCEL" otherButtonTitles:@"PARENT", @"TEACHER", @"STUDENT", nil];
         [_getRole show];
         
         _showAlertView = false;
@@ -75,12 +76,20 @@
 
 -(void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if(alertView==_getRole){
-        if (buttonIndex == 1) {
+        if(buttonIndex == 0) {
+            [self dismissViewControllerAnimated:YES completion:nil];
+        }
+        else if (buttonIndex == 1) {
             _isParent = true;
             UINavigationController *findclass=[self.storyboard instantiateViewControllerWithIdentifier:@"findClassNavigation"];
             [self presentViewController:findclass animated:NO completion:nil];
         } else if (buttonIndex == 2) {
             _isParent = false;
+        }
+        else if (buttonIndex == 3) {
+            _isParent = true;
+            UINavigationController *findclass=[self.storyboard instantiateViewControllerWithIdentifier:@"findClassNavigation"];
+            [self presentViewController:findclass animated:NO completion:nil];
         }
     }
     if(alertView==_getTitle)
@@ -121,13 +130,32 @@
 
 
 - (IBAction)signUpClicked:(UIButton *)sender {
+    if([_titleTextField.text isEqualToString:@""]) {
+        UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Title field cannot be empty." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+        [errorAlertView show];
+        return;
+    }
+    NSString *name = [_displayName.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    if(name.length==0) {
+        UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Name field cannot be empty." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+        [errorAlertView show];
+        return;
+    }
+    if(_phoneNumberTextField.text.length<10) {
+        UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Please make sure that the phone number entered is 10 digits." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+        [errorAlertView show];
+        return;
+
+    }
+    [self presentViewController:[self.storyboard instantiateViewControllerWithIdentifier:@"loadingVC"] animated:NO completion:nil];
     [Data generateOTP:_phoneNumberTextField.text successBlock:^(id object) {
+        [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
         [self performSegueWithIdentifier:@"signUpDetail" sender:self];
         NSLog(@"code %@",object);
-    
     } errorBlock:^(NSError *error) {
-        NSLog(@"Error");
-    
+        UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error in generating OTP. Try again later." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+        [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
+        [errorAlertView show];
     }];
 
     /*
@@ -170,12 +198,13 @@
         PhoneVerificationViewController *dvc = (PhoneVerificationViewController *)nav.topViewController;
         NSString *deviceType = [UIDevice currentDevice].model;
         NSLog(@"device %@",deviceType);
-        dvc.nameText=_displayName.text;
+        dvc.nameText=[_displayName.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         dvc.phoneNumber=_phoneNumberTextField.text;
         dvc.parent= _isParent;
         dvc.modal=deviceType;
         dvc.isSignUp=true;
         dvc.sex=_sex;
+        dvc.isFindClass = false;
     }
 }
 
@@ -184,6 +213,25 @@
  //   [_nameTextField resignFirstResponder];
     [_displayName resignFirstResponder];
     [_phoneNumberTextField resignFirstResponder];
-   
 }
+
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    
+    if([textField isEqual:_phoneNumberTextField]) {
+        // Prevent crashing undo bug – see note below.
+        if(range.length + range.location > textField.text.length) {
+            return NO;
+        }
+        
+        if ([string rangeOfCharacterFromSet:[[NSCharacterSet decimalDigitCharacterSet] invertedSet]].location != NSNotFound) {
+            return NO;
+        }
+        
+        NSUInteger newLength = [textField.text length] + [string length] - range.length;
+        return (newLength > 10) ? NO : YES;
+    }
+    return YES;
+}
+
 @end

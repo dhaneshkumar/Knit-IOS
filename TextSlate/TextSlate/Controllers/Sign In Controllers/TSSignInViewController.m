@@ -29,7 +29,7 @@
     _phoneTextField.delegate = self;
     _phoneTextField.keyboardType = UIKeyboardTypeNumberPad;
     // Do any additional setup after loading the view, typically from a nib.
-    self.navigationItem.title = @"Knit";
+    self.navigationItem.title = @"New Sign In";
     [TSUtils applyRoundedCorners:_signInButton];
 }
 
@@ -74,6 +74,7 @@
         dvc.phoneNumber=_phoneTextField.text;
         dvc.password=_passwordTextField.text;
         dvc.isNewSignIn=true;
+        dvc.isFindClass = false;
     }
 }
 

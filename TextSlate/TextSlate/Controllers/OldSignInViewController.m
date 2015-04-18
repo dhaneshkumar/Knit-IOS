@@ -26,13 +26,7 @@
     [super viewDidLoad];
     _emailText.delegate=self;
     _passwordText.delegate=self;
-    self.navigationItem.title = @"Knit";
-    UIBarButtonItem *newBackButton =
-    [[UIBarButtonItem alloc] initWithTitle:@"Back"
-                                     style:UIBarButtonItemStyleBordered
-                                    target:nil
-                                    action:nil];
-    [[self navigationItem] setBackBarButtonItem:newBackButton];
+    self.navigationItem.title = @"Old Sign In";
     // Do any additional setup after loading the view.
 }
 

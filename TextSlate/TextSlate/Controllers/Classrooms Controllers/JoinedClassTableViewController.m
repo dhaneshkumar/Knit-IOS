@@ -176,13 +176,16 @@
 
 
 -(void)leaveClass {
+    [self presentViewController:[self.storyboard instantiateViewControllerWithIdentifier:@"loadingVC"] animated:NO completion:nil];
     [Data leaveClass:_classCode successBlock:^(id object) {
         //[self deleteAllLocalMessages:_classCode];
         //[self deleteLocalCodegroupEntry:_classCode];
         [[PFUser currentUser] fetch];
+        [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
         [self.navigationController popViewControllerAnimated:YES];
     } errorBlock:^(NSError *error) {
         UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error occured in leaving the class." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+        [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
         [errorAlertView show];
     }];
 }

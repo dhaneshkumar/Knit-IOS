@@ -142,9 +142,8 @@
 }
 
 -(IBAction)copyText:(id)sender{
-    
     UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
-    pasteboard.string = @"String to be copied";
+    pasteboard.string = _classCode;
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

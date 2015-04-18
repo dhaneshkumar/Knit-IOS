@@ -12,13 +12,15 @@
 #import "JoinedClassTableViewController.h"
 #import "Data.h"
 #import "sharedCache.h"
+#import "TSJoinNewClassViewController.h"
 
 @interface ClassesParentViewController ()
 
 @property (strong, nonatomic) NSMutableArray *joinedClasses;
 @property (strong, nonatomic) NSMutableDictionary *codegroups;
 @property (weak, nonatomic) IBOutlet UIButton *joinNewClass;
-@property (weak, nonatomic) IBOutlet UIButton *buttonTapped;
+- (IBAction)buttonTapped:(id)sender;
+
 
 @end
 
@@ -32,6 +34,7 @@
     self.classesTable.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     [TSUtils applyRoundedCorners:_joinNewClass];
     [[_joinNewClass layer] setBorderWidth:0.5f];
+    [[_joinNewClass layer] setBorderColor:[[UIColor colorWithRed:32.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0] CGColor]];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -44,10 +47,15 @@
     _joinedClasses = nil;
     _codegroups = nil;
     _codegroups = [[NSMutableDictionary alloc] init];
-    self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    self.tabBarController.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editButtonSelected:)];
     if([PFUser currentUser]){
         [self fillDataModel];
     }
+}
+
+
+-(void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
 }
 
 
@@ -77,6 +85,17 @@
     PFObject *codegroup = [_codegroups objectForKey:_joinedClasses[indexPath.row][0]];
     cell.detailTextLabel.text = [NSString stringWithFormat:@"by %@", codegroup[@"Creator"]];
     return cell;
+}
+
+- (void) editButtonSelected: (id) sender {
+    if (self.classesTable.editing) {
+        self.tabBarController.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editButtonSelected:)];
+        [self.classesTable setEditing:NO animated:YES];
+    } else {
+        self.tabBarController.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(editButtonSelected:)];
+        [self.classesTable setEditing:YES animated:YES];
+        
+    }
 }
 
     
@@ -199,8 +218,10 @@
         //[self deleteAllLocalMessages:classCode];
         //[self deleteLocalCodegroupEntry:classCode];
         [[PFUser currentUser] fetch];
+        [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
     } errorBlock:^(NSError *error) {
         UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error occured in leaving the class." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+        [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
         [errorAlertView show];
     }];
 }
@@ -261,4 +282,14 @@
     [self presentViewController:alert animated:YES completion:nil];
 }
 
+/*
+- (IBAction)buttonTapped:(id)sender {
+    UINavigationController *joinNewClassNavigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"joinNewClassViewController"];
+    [self presentViewController:joinNewClassNavigationController animated:YES completion:nil];
+}*/
+
+- (IBAction)buttonTapped:(id)sender {
+    UINavigationController *joinNewClassNavigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"joinNewClassViewController"];
+    [self presentViewController:joinNewClassNavigationController animated:YES completion:nil];
+}
 @end

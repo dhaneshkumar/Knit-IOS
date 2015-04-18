@@ -345,50 +345,32 @@
             }
         }
         else {
-            if(_newMessage) {
-                [self updateCountsLocally];
-                if(!_isILMCalled)
-                    [self insertLatestMessages];
-                _newMessage = false;
-                return;
-            }
+            if(!_isILMCalled)
+                [self insertLatestMessages];
             if(_lastUpdateCalled) {
                 NSDate *date = [NSDate date];
                 NSTimeInterval ti = [date timeIntervalSinceDate:_lastUpdateCalled];
                 if(ti>180) {
                     [self updateCountsLocally];
-                    if(!_isILMCalled)
-                        [self insertLatestMessages];
                 }
             }
             else {
                 [self updateCountsLocally];
-                if(!_isILMCalled)
-                    [self insertLatestMessages];
             }
         }
     }
     else {
-        if(_newMessage) {
-            [self updateCountsLocally];
-            if(!_isILMCalled)
-                [self insertLatestMessages];
-            _newMessage = false;
-            return;
-        }
+        if(!_isILMCalled)
+            [self insertLatestMessages];
         if(_lastUpdateCalled) {
             NSDate *date = [NSDate date];
             NSTimeInterval ti = [date timeIntervalSinceDate:_lastUpdateCalled];
             if(ti>180) {
                 [self updateCountsLocally];
-                if(!_isILMCalled)
-                    [self insertLatestMessages];
             }
         }
         else {
             [self updateCountsLocally];
-            if(!_isILMCalled)
-                [self insertLatestMessages];
         }
     }
     return;

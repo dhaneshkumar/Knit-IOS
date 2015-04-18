@@ -24,6 +24,8 @@
 @property (assign) bool isOldSignIn ;
 @property (assign) bool isNewSignIn ;
 @property (assign) bool isSignUp ;
+@property (assign) bool isFindClass ;
+@property (nonatomic, strong) NSString * foundClassCode;
 
 @end
 

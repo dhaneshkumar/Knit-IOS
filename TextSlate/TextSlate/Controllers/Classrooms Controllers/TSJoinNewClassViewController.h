@@ -11,5 +11,7 @@
 @interface TSJoinNewClassViewController : UIViewController<UITextFieldDelegate>
 
 //@property (strong, nonatomic) IBOutlet UIView *activityIndicator;
+@property (assign) bool isfindClass;
+@property (nonatomic, strong) NSString *classCode;
 
 @end

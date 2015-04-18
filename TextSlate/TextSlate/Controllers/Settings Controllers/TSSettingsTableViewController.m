@@ -336,13 +336,16 @@ if(section==0)
             PFInstallation *currentInstallation=[PFInstallation currentInstallation];
             NSString *objectID=currentInstallation.objectId;
             NSLog(@"Object ID is %@",objectID);
-            
+            [self presentViewController:[self.storyboard instantiateViewControllerWithIdentifier:@"loadingVC"] animated:NO completion:nil];
             [Data appLogout:objectID successBlock:^(id object) {
                 NSLog(@"Logging out...");
                 [[UIApplication sharedApplication] cancelAllLocalNotifications];
+                [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
                 [(TSTabBarViewController*)self.parentViewController.parentViewController logout];
             } errorBlock:^(NSError *error) {
-                NSLog(@"Some error has occured.Please try again later");
+                UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error occured on logging out. Try again later." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+                [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
+                [errorAlertView show];
             }];
         }
         

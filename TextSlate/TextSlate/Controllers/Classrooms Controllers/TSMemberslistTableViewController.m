@@ -74,6 +74,7 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"memberName"];
     TSMember *child = (TSMember *)_memberList[indexPath.row];
     cell.textLabel.text = child.childName;
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
 
@@ -90,6 +91,7 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
+        [self presentViewController:[self.storyboard instantiateViewControllerWithIdentifier:@"loadingVC"] animated:NO completion:nil];
         int row = indexPath.row;
         TSMember *toRemove = (TSMember *)_memberList[row];
         if([toRemove.userType isEqualToString:@"app"]) {
@@ -106,9 +108,12 @@
                 appMembers[0][@"status"] = @"REMOVED";
                 [appMembers[0] pinInBackground];
                 [_memberList removeObjectAtIndex:row];
+                [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
                 [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
             }errorBlock:^(NSError *error){
-                NSLog(@"Error in removing app member.");
+                UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error occured while removing member." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+                [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
+                [errorAlertView show];
             }];
         }
         else {
@@ -125,10 +130,12 @@
                 phoneMembers[0][@"status"] = @"REMOVED";
                 [phoneMembers[0] pinInBackground];
                 [_memberList removeObjectAtIndex:row];
+                [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
                 [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-
             }errorBlock:^(NSError *error){
-                NSLog(@"Error in removing phone member.");
+                UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error occured while removing member." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+                [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
+                [errorAlertView show];
             }];
         }
     }

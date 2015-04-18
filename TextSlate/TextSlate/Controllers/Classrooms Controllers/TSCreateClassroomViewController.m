@@ -106,6 +106,7 @@
     NSLog(@"here in show invite");
     PFUser *current=[PFUser currentUser];
     NSArray *createdClass=[current objectForKey:@"Created_groups"];
+    
     NSArray *firstIndex=[createdClass objectAtIndex:0];
     NSString *classCode=[firstIndex objectAtIndex:0];
     NSString *className=[firstIndex objectAtIndex:1];
@@ -130,6 +131,7 @@
             NSDictionary *classInfo=[[NSDictionary alloc]init];
             [classInfo setValue:classCode forKey:@"classCode"];
             [classInfo setValue:className forKey:@"className"];
+
             UILocalNotification *localNotification = [[UILocalNotification alloc] init];
             localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:1];
             localNotification.alertBody = @"You know you can invite parents to join your class.";

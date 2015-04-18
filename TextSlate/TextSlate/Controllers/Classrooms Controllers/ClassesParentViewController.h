@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface ClassesParentViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
+
 @property (weak, nonatomic) IBOutlet UITableView *classesTable;
 
 @end

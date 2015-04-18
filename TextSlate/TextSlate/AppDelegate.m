@@ -100,7 +100,8 @@
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
-    NSLog(@"remote notification");
+    
+    NSLog(@"we have a notification");
     if (userInfo) {
         NSLog(@"%@",userInfo);
         NSString *notificationType=[userInfo objectForKey:@"type"];
@@ -262,7 +263,13 @@
         UINavigationController *joinNewClassNavigationController = [storyboard1 instantiateViewControllerWithIdentifier:@"messageComposer"];
         [rootTab presentViewController:joinNewClassNavigationController animated:YES completion:nil];
     }
+    if([title isEqualToString:@"Update"])
+    {
+        NSString *iTunesLink = @"itms://itunes.apple.com/in/app/knit-messaging/id962112913?mt=8";
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:iTunesLink]];
+    }
 }
+
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
