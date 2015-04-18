@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface TSSignInViewController : UIViewController
+@interface TSSignInViewController : UIViewController<UITextFieldDelegate>
 
 -(void)loggedIn;
 

@@ -30,7 +30,7 @@
     self.messagesTable.dataSource = self;
     self.messagesTable.delegate = self;
     _isBottomRefreshCalled = false;
-    _activityIndicator.hidesWhenStopped = true;
+    _activityIndicator.hidden = YES;
     _messagesArray = [[NSMutableArray alloc] init];
     _mapCodeToObjects = [[NSMutableDictionary alloc] init];
     _messageIds = [[NSMutableArray alloc] init];
@@ -103,16 +103,20 @@
             [cell.activityIndicator stopAnimating];
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    if(!_isBottomRefreshCalled && (indexPath.row == _messagesArray.count-1)) {
-        PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
-        [lq fromLocalDatastore];
-        [lq whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
-        NSArray *localOs = [lq findObjects];
-        if(localOs[0][@"isOutboxDataConsistent"]==nil || [localOs[0][@"isOutboxDataConsistent"] isEqualToString:@"false"]) {
-            
-            _isBottomRefreshCalled = true;
-            [self fetchOldMessages];
-        }
+    if(indexPath.row == _messagesArray.count-1 && !_isBottomRefreshCalled) {
+        _isBottomRefreshCalled = true;
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
+            PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
+            [lq fromLocalDatastore];
+            [lq whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
+            NSArray *localOs = [lq findObjects];
+            if(localOs[0][@"isOutboxDataConsistent"]==nil || [localOs[0][@"isOutboxDataConsistent"] isEqualToString:@"false"]) {
+                [self fetchOldMessages];
+            }
+            else {
+                _isBottomRefreshCalled = false;
+            }
+        });
     }
     return cell;
 }
@@ -147,8 +151,6 @@
 -(void)displayMessages {
     if([self noCreatedClasses])
         return;
-    //[_activityIndicator startAnimating];
-    //NSArray *array = [self fetchMessagesFromLocalDatastore];
     if(_messagesArray.count==0) {
         PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
         [lq fromLocalDatastore];
@@ -160,13 +162,30 @@
             return;
         }
         
-        if(!localObjs[0][@"isOutboxDataConsistent"] || [localObjs[0][@"isOutboxDataConsistent"] isEqualToString:@"false"]) {
-            [self fetchOldMessagesOnDataDeletion];
+        _activityIndicator.hidden = NO;
+        [_activityIndicator startAnimating];
+        int localMessages = [self fetchMessagesFromLocalDatastore];
+        [_activityIndicator stopAnimating];
+        _activityIndicator.hidden = YES;
+        if(localMessages==0) {
+            if(!localObjs[0][@"isOutboxDataConsistent"] || [localObjs[0][@"isOutboxDataConsistent"] isEqualToString:@"false"]) {
+                [self fetchOldMessagesOnDataDeletion];
+            }
+        }
+        else {
+            if(_lastUpdateCalled) {
+                NSDate *date = [NSDate date];
+                NSTimeInterval ti = [date timeIntervalSinceDate:_lastUpdateCalled];
+                if(ti>180) {
+                    [self updateCountsLocally];
+                }
+            }
+            else {
+                [self updateCountsLocally];
+            }
         }
     }
     else {
-        //[_activityIndicator stopAnimating];
-        //[self.messagesTable reloadData];
         if(_lastUpdateCalled) {
             NSDate *date = [NSDate date];
             NSTimeInterval ti = [date timeIntervalSinceDate:_lastUpdateCalled];
@@ -241,7 +260,7 @@
 }
 
 
--(NSArray *)fetchMessagesFromLocalDatastore {
+-(int)fetchMessagesFromLocalDatastore {
     NSArray *createdClasses = [[PFUser currentUser] objectForKey:@"Created_groups"];
     NSMutableArray *createdClassCodes = [[NSMutableArray alloc] init];
     for(NSArray *cls in createdClasses) {
@@ -250,12 +269,9 @@
     
     PFQuery *query = [PFQuery queryWithClassName:@"GroupDetails"];
     [query fromLocalDatastore];
-    //[query whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
     [query whereKey:@"code" containedIn:createdClassCodes];
     [query orderByDescending:@"createdTime"];
     NSArray *messages = (NSArray *)[query findObjects];
-    NSMutableArray *messageIds = [[NSMutableArray alloc] init];
-    int i=0;
     NSCharacterSet *characterset=[NSCharacterSet characterSetWithCharactersInString:@"\uFFFC\n "];
     for (PFObject * messageObject in messages) {
         TSMessage *message = [[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:[messageObject[@"title"] stringByTrimmingCharactersInSet:characterset] sender:messageObject[@"Creator"] sentTime:messageObject[@"createdTime"] senderPic:messageObject[@"senderPic"] likeCount:[messageObject[@"like_count"] intValue] confuseCount:[messageObject[@"confused_count"] intValue] seenCount:[messageObject[@"seen_count"] intValue]];
@@ -295,15 +311,15 @@
                 }
             });
         }
-        if(i<30)
-            [messageIds addObject:messageObject[@"messageId"]];
-        i++;
     }
-    return messageIds;
+    [_messagesTable reloadData];
+    return messages.count;
 }
 
 
 -(void)fetchOldMessagesOnDataDeletion {
+    _activityIndicator.hidden = NO;
+    [_activityIndicator startAnimating];
     [Data updateInboxLocalDatastore:@"c" successBlock:^(id object) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
             NSArray *messages = (NSArray *)object;
@@ -354,7 +370,8 @@
                 }
             }
             dispatch_sync(dispatch_get_main_queue(), ^{
-                //[_activityIndicator stopAnimating];
+                [_activityIndicator stopAnimating];
+                _activityIndicator.hidden = YES;
                 [self.messagesTable reloadData];
             });
             PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
@@ -444,7 +461,8 @@
 -(void)updateCountsLocally {
     NSLog(@"updateCountsLocally outbox called");
     _lastUpdateCalled = [NSDate date];
-    [Data updateCountsLocally:_messageIds successBlock:^(id object) {
+    NSArray *tempArray = [[NSArray alloc] initWithArray:_messageIds];
+    [Data updateCountsLocally:tempArray successBlock:^(id object) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
             NSDictionary *messageObjects = (NSDictionary *)object;
             for(NSString *messageObjectId in messageObjects) {

@@ -40,6 +40,7 @@
 @property (strong,nonatomic) NSString *classCode;
 @property (strong,nonatomic) NSString *className;
 @property (strong ,nonatomic) NSTimer *timer;
+@property (nonatomic) BOOL hasTypedMessage;
 
 @end
 
@@ -79,6 +80,7 @@
     _textMessage.layer.cornerRadius = 5;
     _textMessage.clipsToBounds = YES;
     [_textMessage.layer setBackgroundColor: [[UIColor whiteColor] CGColor]];
+    _hasTypedMessage = false;
    // [_textMessage.layer setBorderColor: [[UIColor colorWithRed:38.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0] CGColor]];
     [_textMessage.layer setBorderColor:[[UIColor lightGrayColor] CGColor]];
     [_textMessage.layer setBorderWidth: 1.0];
@@ -131,11 +133,13 @@
 - (void)textViewDidBeginEditing:(UITextView *)textView
 {
     [textView becomeFirstResponder];
-    if ([textView.text isEqualToString:@"Type Message here..."]) {
+    //if ([textView.text isEqualToString:@"Type Message here..."]) {
+    if (!_hasTypedMessage) {
         textView.text = @"";
         textView.textColor = [UIColor blackColor]; //optional
-        
     }
+    _hasTypedMessage = true;
+    
     if([textView.text isEqualToString:@"Classroom"])
     {
         self.testView.hidden=NO;
@@ -147,9 +151,10 @@
 
 - (void)textViewDidEndEditing:(UITextView *)textView
 {
-    if ([textView.text isEqualToString:@""] && textView==_textMessage) {
+    if ([[self trimmedString:textView.text] isEqualToString:@""] && textView==_textMessage) {
         textView.text = @"Type Message here...";
         textView.textColor = [UIColor lightGrayColor]; //optional
+        _hasTypedMessage = false;
     }
     
     if([textView.text isEqualToString:@""] && textView==_recipient )
@@ -166,7 +171,6 @@
         self.testView.hidden=NO;
         self.recipientTable.hidden=NO;
         [self.testView addSubview:_recipientTable];
-
 }
 
 
@@ -198,7 +202,7 @@
         UITableViewCell *selectedCell = [tableView cellForRowAtIndexPath:indexPath];
 
         _recipient.text=selectedCell.textLabel.text;
-    _recipient.textColor=[UIColor colorWithRed:38.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
+        _recipient.textColor=[UIColor colorWithRed:32.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
         _className=_recipient.text;
         int index=(int) indexPath;
         NSLog(@" class code %@ %i",[_createdclassCode objectAtIndex:1],index);
@@ -212,6 +216,8 @@
 {
     [_textMessage becomeFirstResponder];
 }
+
+
 -(void) liftMainViewWhenKeybordAppears:(NSNotification*)aNotification
 {
         NSDictionary* userInfo = [aNotification userInfo];
@@ -250,14 +256,25 @@
 
 -(IBAction)sendMessage:(id)sender  {
     NSLog(@"message send pressed");
-    NSString *attachmentName=_finalAttachment.name;
-    NSString *messageText=_textMessage.text;
+    if([_recipient.text isEqualToString:@"Classroom"]) {
+        UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Select a recipient class." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+        [errorAlertView show];
+        return;
+    }
+    if(!_hasTypedMessage || [self trimmedString:_textMessage.text].length==0) {
+        if(!_finalAttachment) {
+            UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Message without body or attachment cannot be sent." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+            [errorAlertView show];
+            return;
+        }
+    }
+    
+    NSString *messageText = (_hasTypedMessage)?[self trimmedString:_textMessage.text]:@"";
     TSTabBarViewController *rootTab = (TSTabBarViewController *)((UINavigationController *)((AppDelegate *)[[UIApplication sharedApplication] delegate]).window.rootViewController).topViewController;
     TSOutboxViewController *outbox = (TSOutboxViewController *)(NSArray *)rootTab.viewControllers[2];
     if(!_finalAttachment)
     {
-        NSLog(@"classCode : %@", _classCode);
-        NSLog(@"className : %@", _className);
+        [self presentViewController:[self.storyboard instantiateViewControllerWithIdentifier:@"loadingVC"] animated:NO completion:nil];
         [Data sendTextMessage:_classCode classname:_className message:messageText successBlock:^(id object) {
             NSMutableDictionary *dict = (NSMutableDictionary *) object;
             NSString *messageObjectId = (NSString *)[dict objectForKey:@"messageId"];
@@ -281,23 +298,22 @@
             [outbox.messagesArray insertObject:newMessage atIndex:0];
             [outbox.messageIds insertObject:newMessage.messageId atIndex:0];
             outbox.shouldScrollUp = true;
-            //[_messagesArray addObject:newMessage];
-            //[self.messageTable reloadData];
-            UIAlertView *messageDialog = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Gaya bey!" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
             
-            [messageDialog show];
+            UIAlertView *messageDialog = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Gaya bey!" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+            [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
             [self dismissViewControllerAnimated:YES completion:nil];
-           // [self dismissKeyboard];
+            [messageDialog show];
         } errorBlock:^(NSError *error) {
-            UIAlertView *errorDialog = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Oye nhi gaya!" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+            UIAlertView *errorDialog = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error occurred in sending the message. Try again later." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+            [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
             [errorDialog show];
         }];
     }
     else if(_finalAttachment)
     {
+        [self presentViewController:[self.storyboard instantiateViewControllerWithIdentifier:@"loadingVC"] animated:NO completion:nil];
         [_finalAttachment saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
             if (succeeded) {
-                // The object has been saved.
                 [Data sendTextMessagewithAttachment:_classCode classname:_className message:messageText attachment:(PFFile*) _finalAttachment filename:_finalAttachment.name successBlock:^(id object) {
                     NSMutableDictionary *dict = (NSMutableDictionary *) object;
                     NSString *messageObjectId = (NSString *)[dict objectForKey:@"messageId"];
@@ -327,8 +343,6 @@
                     
                     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
                         NSString *url = _finalAttachment.url;
-                        //NSLog(@"url to image fetcholdemssageondatadeletion %@",url);
-                        
                         UIImage *image = [[sharedCache sharedInstance] getCachedImageForKey:url];
                         if(image)
                         {
@@ -347,21 +361,20 @@
                             }
                         }
                     });
-                    
-                //  [_messagesArray addObject:newMessage];
-                //  [self.messageTable reloadData];
                     UIAlertView *messageDialog = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Gaya bey!" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-                    
-                    [messageDialog show];
+                    [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
                     [self dismissViewControllerAnimated:YES completion:nil];
-                    //[self dismissKeyboard];
+                    [messageDialog show];
                 } errorBlock:^(NSError *error) {
-                    UIAlertView *errorDialog = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error occurred in sending the message" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+                    UIAlertView *errorDialog = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error occurred in sending the message. Try again later." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+                    [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
                     [errorDialog show];
                 }];
             }
             else {
-                NSLog(@"url to file error");
+                UIAlertView *errorDialog = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error occurred in sending the message. Try again later." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+                [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
+                [errorDialog show];
             }
         }];
     }
@@ -373,8 +386,6 @@
     UIAlertView * alert = [[UIAlertView alloc]initWithTitle:@"Knit" message:@"" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Choose from Photos", @"Open Camera", nil];
     
     [alert show];
-    
-    
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
@@ -405,7 +416,7 @@
     self.cancelAttachment.hidden=NO;
     _attachmentImage = info[UIImagePickerControllerOriginalImage];
     NSData *imageData = UIImageJPEGRepresentation(_attachmentImage, 0);
-    _finalAttachment= [PFFile fileWithName:@"Profileimage.jpeg" data:imageData];
+    _finalAttachment= [PFFile fileWithName:@"attachedImage.jpeg" data:imageData];
 
     _timer = [NSTimer scheduledTimerWithTimeInterval: 1.0f
                                              target: self
@@ -413,15 +424,10 @@
                                            userInfo: nil
                                             repeats: YES];
     _attachImage.image=_attachmentImage;
-   // NSTextAttachment *textAttachment = [[NSTextAttachment alloc] init];
-   // textAttachment.bounds=CGRectMake(0, 0, 40, 40);
-  //  textAttachment.image = _attachmentImage;
-   // NSAttributedString *attrStringWithImage = [NSAttributedString attributedStringWithAttachment:textAttachment];
-    //_textMessage.attributedText=attrStringWithImage;
     [picker dismissViewControllerAnimated:YES completion:NULL];
-    
-    
 }
+
+
 - (void)updateTimer
 {
     [UIView animateWithDuration:1 animations:^{
@@ -445,6 +451,12 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+-(NSString *)trimmedString:(NSString *)input {
+    NSString *trimmedString = [input stringByTrimmingCharactersInSet:
+                               [NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    return trimmedString;
 }
 
 /*

@@ -47,20 +47,44 @@
 
 -(IBAction)doneButton:(id)sender{
     NSLog(@"Text field : %@", _assocNameTextField.text);
-    [Data changeName:_classCode newName:_assocNameTextField.text successBlock:^(id object){
+    NSString *trimmedString = [_assocNameTextField.text stringByTrimmingCharactersInSet:
+                               [NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    if(trimmedString.length==0) {
+        UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Associate name field cannot be left blank." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+        [errorAlertView show];
+        _assocNameTextField.text = _assocName;
+        [_assocNameTextField becomeFirstResponder];
+        return;
+    }
+    if([trimmedString isEqualToString:_assocName]) {
+        [self dismissViewControllerAnimated:YES completion:nil];
+        return;
+    }
+    [self presentViewController:[self.storyboard instantiateViewControllerWithIdentifier:@"loadingVC"] animated:NO completion:nil];
+    [Data changeName:_classCode newName:trimmedString successBlock:^(id object){
         [[PFUser currentUser] fetch];
         NSLog(@"hey : %@", ((UINavigationController *)self.presentingViewController).viewControllers);
         NSLog(@"hey : %@", ((UINavigationController *)self.parentViewController).viewControllers);
         NSLog(@"hey : %@", self.parentViewController);
         JoinedClassTableViewController *joinedClassTVC = (JoinedClassTableViewController *)((UINavigationController *)((UINavigationController*)self.presentingViewController).viewControllers[1]);
-        [joinedClassTVC updateAssociatedName:_assocNameTextField.text];
+        [joinedClassTVC updateAssociatedName:trimmedString];
+        [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
         [self dismissViewControllerAnimated:YES completion:nil];
     }
     errorBlock:^(NSError *error){
-        NSLog(@"Error in changing associate name.");
+        UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error in changing associate name. Try again later." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+        [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
+        [errorAlertView show];
+        return;
     }];
 }
 
+
+-(NSString *)trimmedString:(NSString *)input {
+    NSString *trimmedString = [input stringByTrimmingCharactersInSet:
+                                                         [NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    return trimmedString;
+}
 
 /*
 #pragma mark - Navigation

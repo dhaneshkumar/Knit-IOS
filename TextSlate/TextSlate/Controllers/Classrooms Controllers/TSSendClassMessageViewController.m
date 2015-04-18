@@ -34,18 +34,19 @@
     self.messageTable.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     self.messageTable.dataSource = self;
     self.messageTable.delegate = self;
+    self.navigationItem.title = _className;
     _isBottomRefreshCalled = false;
     UITapGestureRecognizer *inviteParentsTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(inviteParentsTap:)];
     [self.inviteParents addGestureRecognizer:inviteParentsTap];
     UITapGestureRecognizer *subscribersTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(subscribersTap:)];
     [self.subscribersList addGestureRecognizer:subscribersTap];
-    _activityIndicator.hidesWhenStopped = true;
+    _activityIndicator.hidden = YES;
 }
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     UIBarButtonItem *composeBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose  target:self action:@selector(composeMessage)];
-    self.tabBarController.navigationItem.rightBarButtonItem = composeBarButtonItem;
+    self.navigationItem.rightBarButtonItem = composeBarButtonItem;
     _messagesArray=nil;
     _messagesArray=[[NSMutableArray alloc] init];
     _mapCodeToObjects = nil;
@@ -61,7 +62,7 @@
 
 -(void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    self.tabBarController.navigationItem.rightBarButtonItem = nil;
+    self.navigationItem.rightBarButtonItem = nil;
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -93,15 +94,20 @@
             [cell.activityIndicator stopAnimating];
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    if(!_isBottomRefreshCalled && (indexPath.row == _messagesArray.count-1)) {
-        PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
-        [lq fromLocalDatastore];
-        [lq whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
-        NSArray *localOs = [lq findObjects];
-        if(localOs[0][@"isOutboxDataConsistent"]==nil || [localOs[0][@"isOutboxDataConsistent"] isEqualToString:@"false"]) {
-            _isBottomRefreshCalled = true;
-            [self fetchOldMessages];
-        }
+    if(indexPath.row == _messagesArray.count-1 && !_isBottomRefreshCalled) {
+        _isBottomRefreshCalled = true;
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
+            PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
+            [lq fromLocalDatastore];
+            [lq whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
+            NSArray *localOs = [lq findObjects];
+            if(localOs[0][@"isOutboxDataConsistent"]==nil || [localOs[0][@"isOutboxDataConsistent"] isEqualToString:@"false"]) {
+                [self fetchOldMessages];
+            }
+            else {
+                _isBottomRefreshCalled = false;
+            }
+        });
     }
     return cell;
 }
@@ -133,8 +139,11 @@
 
 
 -(void)displayMessages {
+    _activityIndicator.hidden = NO;
     [_activityIndicator startAnimating];
     NSArray *array = [self fetchMessagesFromLocalDatastore];
+    [_activityIndicator stopAnimating];
+    _activityIndicator.hidden = YES;
     if(_messagesArray.count==0) {
         PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
         [lq fromLocalDatastore];
@@ -151,7 +160,6 @@
         }
     }
     else {
-        [_activityIndicator stopAnimating];
         [self.messageTable reloadData];
         [self updateCountsLocally:array];
     }
@@ -265,6 +273,8 @@
 
 
 -(void)fetchOldMessagesOnDataDeletion {
+    _activityIndicator.hidden = NO;
+    [_activityIndicator startAnimating];
     [Data updateInboxLocalDatastore:@"c" successBlock:^(id object) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
             NSArray *messages = (NSArray *)object;
@@ -316,6 +326,7 @@
             }
             dispatch_sync(dispatch_get_main_queue(), ^{
                 [_activityIndicator stopAnimating];
+                _activityIndicator.hidden = YES;
                 [self.messageTable reloadData];
             });
             PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];

@@ -37,7 +37,7 @@
     _showAlertView = true;
     _displayName.delegate=self;
     _phoneNumberTextField.delegate=self;
-    
+    self.navigationItem.title = @"Knit";
     //self.OTP.hidden=YES;
     // Do any additional setup after loading the view
 }

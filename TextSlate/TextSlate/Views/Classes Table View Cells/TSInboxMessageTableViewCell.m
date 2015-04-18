@@ -43,23 +43,26 @@
     UITabBarController *cont = (UITabBarController *)controller.topViewController;
     TSNewInboxViewController *inboxController = (TSNewInboxViewController *)cont.viewControllers[1];
     
-    if(self.likesView.backgroundColor == [UIColor whiteColor]) {
+    if([self.likesImage.image isEqual:[UIImage imageNamed:@"ios icons-18.png"] ]) {
         [inboxController updateLikesDataFromCell:indexPath.row status:@"true"];
-        self.likesView.backgroundColor = [UIColor colorWithRed:38.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
+        self.likesImage.image = [UIImage imageNamed:@"ios icons-32.png"];
         int intval = [self.likesCount.text intValue];
         self.likesCount.text = [NSString stringWithFormat:@"%d", intval+1];
-        if(self.confuseView.backgroundColor != [UIColor whiteColor]) {
+        self.likesCount.textColor = [UIColor colorWithRed:57.0f/255.0f green:181.0f/255.0f blue:74.0f/255.0f alpha:1.0];
+        if([self.confuseImage.image isEqual:[UIImage imageNamed:@"ios icons-30.png"] ]) {
             [inboxController updateConfuseDataFromCell:indexPath.row status:@"false"];
-            self.confuseView.backgroundColor = [UIColor whiteColor];
+            self.confuseImage.image = [UIImage imageNamed:@"ios icons-19.png"];
             int intval = [self.confuseCount.text intValue];
             self.confuseCount.text = [NSString stringWithFormat:@"%d", intval-1];
+            self.confuseCount.textColor = [UIColor darkGrayColor];
         }
     }
     else {
         [inboxController updateLikesDataFromCell:indexPath.row status:@"false"];
-        self.likesView.backgroundColor = [UIColor whiteColor];
+        self.likesImage.image = [UIImage imageNamed:@"ios icons-18.png"];
         int intval = [self.likesCount.text intValue];
         self.likesCount.text = [NSString stringWithFormat:@"%d", intval-1];
+        self.likesCount.textColor = [UIColor darkGrayColor];
     }
 }
 
@@ -77,24 +80,28 @@
     UITabBarController *cont = (UITabBarController *)controller.topViewController;
     TSNewInboxViewController *inboxController = (TSNewInboxViewController *)cont.viewControllers[1];
     
-    if(self.confuseView.backgroundColor == [UIColor whiteColor]) {
-        [inboxController updateConfuseDataFromCell:indexPath.row status:@"true"];
-        self.confuseView.backgroundColor = [UIColor colorWithRed:38.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
+    if([self.confuseImage.image isEqual:[UIImage imageNamed:@"ios icons-19.png"] ]) {
+        [inboxController updateLikesDataFromCell:indexPath.row status:@"true"];
+        self.confuseImage.image = [UIImage imageNamed:@"ios icons-30.png"];
         int intval = [self.confuseCount.text intValue];
         self.confuseCount.text = [NSString stringWithFormat:@"%d", intval+1];
-        if(self.likesView.backgroundColor != [UIColor whiteColor]) {
+        self.confuseCount.textColor = [UIColor colorWithRed:255.0f/255.0f green:147.0f/255.0f blue:30.0f/255.0f alpha:1.0];
+        if([self.likesImage.image isEqual:[UIImage imageNamed:@"ios icons-32.png"] ]) {
             [inboxController updateLikesDataFromCell:indexPath.row status:@"false"];
-            self.likesView.backgroundColor = [UIColor whiteColor];
+            self.likesImage.image = [UIImage imageNamed:@"ios icons-18.png"];
             int intval = [self.likesCount.text intValue];
             self.likesCount.text = [NSString stringWithFormat:@"%d", intval-1];
+            self.likesCount.textColor = [UIColor darkGrayColor];
         }
     }
     else {
         [inboxController updateConfuseDataFromCell:indexPath.row status:@"false"];
-        self.confuseView.backgroundColor = [UIColor whiteColor];
+        self.confuseImage.image = [UIImage imageNamed:@"ios icons-19.png"];
         int intval = [self.confuseCount.text intValue];
         self.confuseCount.text = [NSString stringWithFormat:@"%d", intval-1];
+        self.confuseCount.textColor = [UIColor darkGrayColor];
     }
+
 }
 
 

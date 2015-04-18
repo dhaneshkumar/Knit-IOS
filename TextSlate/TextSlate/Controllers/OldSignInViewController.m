@@ -26,6 +26,13 @@
     [super viewDidLoad];
     _emailText.delegate=self;
     _passwordText.delegate=self;
+    self.navigationItem.title = @"Knit";
+    UIBarButtonItem *newBackButton =
+    [[UIBarButtonItem alloc] initWithTitle:@"Back"
+                                     style:UIBarButtonItemStyleBordered
+                                    target:nil
+                                    action:nil];
+    [[self navigationItem] setBackBarButtonItem:newBackButton];
     // Do any additional setup after loading the view.
 }
 
@@ -36,7 +43,14 @@
 
 
 -(IBAction)signIn:(id)sender{
-    [Data verifyOTPOldSignIn:_emailText.text password:_passwordText.text successBlock:^(id object) {
+    NSString *userNameTyped = [_emailText.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    if(userNameTyped.length==0) {
+        UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Email field cannot be left blank." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+        [errorAlertView show];
+        return;
+    }
+    [self presentViewController:[self.storyboard instantiateViewControllerWithIdentifier:@"loadingVC"] animated:NO completion:nil];
+    [Data verifyOTPOldSignIn:userNameTyped password:_passwordText.text successBlock:^(id object) {
         NSDictionary *tokenDict=[[NSDictionary alloc]init];
         tokenDict=object;
         NSString *flagValue=[tokenDict objectForKey:@"flag"];
@@ -47,6 +61,10 @@
             [PFUser becomeInBackground:token block:^(PFUser *user, NSError *error) {
                 if (error) {
                     NSLog(@"Session token could not be validated");
+                    UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error in signing in. Try again later." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+                    [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
+                    [errorAlertView show];
+                    return;
                 } else {
                     NSLog(@"Successfully Validated ");
                     PFUser *current=[PFUser currentUser];
@@ -84,6 +102,7 @@
                                 [(TSTabBarViewController *)rootNav.topViewController makeItTeacher];
                         }
                         
+                        [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
                         [self dismissViewControllerAnimated:YES completion:nil];
                         
                         if([role isEqualToString:@"parent"] || [role isEqualToString:@"teacher"])
@@ -109,16 +128,25 @@
                             
                             
                         }
-                    
+
                     } errorBlock:^(NSError *error) {
-                        return ;
+                        UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error in signing in. Try again later." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+                        [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
+                        [errorAlertView show];
+                        return;
                     }];
-                    
                 }
             }];
         }
+        else {
+            UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error in signing in. Try again later." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+            [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
+            [errorAlertView show];
+        }
     } errorBlock:^(NSError *error) {
-        NSLog(@"Error in Signing In...");
+        UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error in signing in. Try again later." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+        [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
+        [errorAlertView show];
     }];
 }
 

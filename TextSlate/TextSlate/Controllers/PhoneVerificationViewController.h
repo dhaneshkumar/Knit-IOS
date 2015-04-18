@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "TSSignInViewController.h"
-@interface PhoneVerificationViewController : UIViewController
+@interface PhoneVerificationViewController : UIViewController<UITextFieldDelegate>
 @property (weak, nonatomic) TSSignInViewController *pViewController;
 
 @property (strong, nonatomic) NSString *nameText;

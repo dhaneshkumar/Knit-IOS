@@ -19,8 +19,8 @@
 @implementation FAQTableViewController
 
 - (void)viewDidLoad {
-    
     [super viewDidLoad];
+    self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     [self.tableView reloadData];
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;

@@ -7,6 +7,7 @@
 //
 
 #import "ClassesParentViewController.h"
+#import "TSUtils.h"
 #import "Parse/Parse.h"
 #import "JoinedClassTableViewController.h"
 #import "Data.h"
@@ -16,6 +17,8 @@
 
 @property (strong, nonatomic) NSMutableArray *joinedClasses;
 @property (strong, nonatomic) NSMutableDictionary *codegroups;
+@property (weak, nonatomic) IBOutlet UIButton *joinNewClass;
+@property (weak, nonatomic) IBOutlet UIButton *buttonTapped;
 
 @end
 
@@ -27,6 +30,8 @@
     self.classesTable.delegate = self;
     self.classesTable.dataSource = self;
     self.classesTable.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+    [TSUtils applyRoundedCorners:_joinNewClass];
+    [[_joinNewClass layer] setBorderWidth:0.5f];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -39,9 +44,16 @@
     _joinedClasses = nil;
     _codegroups = nil;
     _codegroups = [[NSMutableDictionary alloc] init];
+    self.navigationItem.rightBarButtonItem = self.editButtonItem;
     if([PFUser currentUser]){
         [self fillDataModel];
     }
+}
+
+
+-(void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    self.navigationItem.rightBarButtonItem = nil;
 }
 
 /*
@@ -56,38 +68,27 @@
 
 
 -(NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return _joinedClasses.count+1;
+    return _joinedClasses.count;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if(indexPath.row==0) {
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"joinNewClassParentCell"];
-        return cell;
-    }
-    else {
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"joinedClassParentCell"];
-        cell.textLabel.text = _joinedClasses[indexPath.row-1][1];
-        PFObject *codegroup = [_codegroups objectForKey:_joinedClasses[indexPath.row-1][0]];
-        cell.detailTextLabel.text = [NSString stringWithFormat:@"by %@", codegroup[@"Creator"]];
-        return cell;
-    }
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"joinedClassParentCell"];
+    cell.textLabel.text = _joinedClasses[indexPath.row][1];
+    PFObject *codegroup = [_codegroups objectForKey:_joinedClasses[indexPath.row][0]];
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"by %@", codegroup[@"Creator"]];
+    return cell;
 }
 
     
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if(indexPath.row==0) {
-        UINavigationController *joinNewClassNavigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"joinNewClassViewController"];
-        [self presentViewController:joinNewClassNavigationController animated:YES completion:nil];
-    }
-    else {
-    }
+    
 }
 
-
+/*
 -(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
     return UITableViewCellEditingStyleNone;
 }
-
+*/
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
@@ -100,7 +101,7 @@
     if([segue.identifier isEqualToString:@"joinedClassesParent"]) {
         int row = [[self.classesTable indexPathForSelectedRow] row];
         JoinedClassTableViewController *dvc = (JoinedClassTableViewController *)segue.destinationViewController;
-        PFObject *codegroup = [_codegroups objectForKey:_joinedClasses[row-1][0]];
+        PFObject *codegroup = [_codegroups objectForKey:_joinedClasses[row][0]];
         dvc.className = codegroup[@"name"];
         dvc.classCode = codegroup[@"code"];
         dvc.teacherName = codegroup[@"Creator"];
@@ -137,10 +138,10 @@
         else {
             dvc.teacherPic = [UIImage imageNamed:@"defaultTeacher.png"];
         }
-        if(((NSArray *)_joinedClasses[row-1]).count==2)
+        if(((NSArray *)_joinedClasses[row]).count==2)
             dvc.associatedName = [[PFUser currentUser] objectForKey:@"name"];
         else
-            dvc.associatedName = _joinedClasses[row-1][2];
+            dvc.associatedName = _joinedClasses[row][2];
     }
     [self.classesTable deselectRowAtIndexPath:[self.classesTable indexPathForSelectedRow] animated:YES];
     return;
@@ -168,19 +169,21 @@
         [_codegroups setObject:localCodegroup forKey:[localCodegroup objectForKey:@"code"]];
     if(localCodegroups.count != joinedClassCodes.count) {
         NSLog(@"Here in if");
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            [Data getAllCodegroups:^(id object) {
+        [Data getAllCodegroups:^(id object) {
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                 NSArray *cgs = (NSArray *)object;
                 for(PFObject *cg in cgs) {
                     //cg[@"iosUserID"] = [PFUser currentUser].objectId;
                     [cg pinInBackground];
                     [_codegroups setObject:cg forKey:[cg objectForKey:@"code"]];
                 }
-                [self.classesTable reloadData];
-            } errorBlock:^(NSError *error) {
-                NSLog(@"Unable to fetch classes1: %@", [error description]);
-            }];
-        });
+                dispatch_sync(dispatch_get_main_queue(), ^{
+                    [self.classesTable reloadData];
+                });
+            });
+        } errorBlock:^(NSError *error) {
+            NSLog(@"Unable to fetch classes1: %@", [error description]);
+        }];
     }
     else {
         NSLog(@"Here in else");
@@ -191,9 +194,10 @@
 
 
 -(void)leaveClass:(NSString *)classCode {
+    [self presentViewController:[self.storyboard instantiateViewControllerWithIdentifier:@"loadingVC"] animated:NO completion:nil];
     [Data leaveClass:classCode successBlock:^(id object) {
-        [self deleteAllLocalMessages:classCode];
-        [self deleteLocalCodegroupEntry:classCode];
+        //[self deleteAllLocalMessages:classCode];
+        //[self deleteLocalCodegroupEntry:classCode];
         [[PFUser currentUser] fetch];
     } errorBlock:^(NSError *error) {
         UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error occured in leaving the class." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
@@ -237,8 +241,8 @@
                           style:UIAlertActionStyleDefault
                           handler:^(UIAlertAction * action)
                           {
-                              NSString *classCode=_joinedClasses[indexPath.row-1][0];
-                              [_joinedClasses removeObjectAtIndex:indexPath.row-1];
+                              NSString *classCode=_joinedClasses[indexPath.row][0];
+                              [_joinedClasses removeObjectAtIndex:indexPath.row];
                               [self leaveClass:classCode];
                               [self.classesTable deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
                               NSLog(@"Leave Joined classes");

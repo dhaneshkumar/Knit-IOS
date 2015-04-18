@@ -134,6 +134,10 @@
 		FBA778F91ACEB84B00D247CC /* ParseFacebookUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FBA778F41ACEB84B00D247CC /* ParseFacebookUtils.framework */; };
 		FBA778FA1ACEB84B00D247CC /* ParseUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FBA778F51ACEB84B00D247CC /* ParseUI.framework */; };
 		FBA778FD1AD12EC000D247CC /* ClassesParentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FBA778FC1AD12EC000D247CC /* ClassesParentViewController.m */; };
+		FBAA81331AE0D8B40056E168 /* ios icons-29.png in Resources */ = {isa = PBXBuildFile; fileRef = FBAA81301AE0D8B40056E168 /* ios icons-29.png */; };
+		FBAA81341AE0D8B40056E168 /* ios icons-30.png in Resources */ = {isa = PBXBuildFile; fileRef = FBAA81311AE0D8B40056E168 /* ios icons-30.png */; };
+		FBAA81351AE0D8B40056E168 /* ios icons-31.png in Resources */ = {isa = PBXBuildFile; fileRef = FBAA81321AE0D8B40056E168 /* ios icons-31.png */; };
+		FBAA81371AE110C10056E168 /* ios icons-32.png in Resources */ = {isa = PBXBuildFile; fileRef = FBAA81361AE110C10056E168 /* ios icons-32.png */; };
 		FBACC65C1A74298800DC1747 /* libstdc++.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = FBACC65B1A74298800DC1747 /* libstdc++.6.dylib */; };
 		FBACC65E1A7429A700DC1747 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = FBACC65D1A7429A700DC1747 /* libsqlite3.dylib */; };
 		FBBA459F1A94C4F40088CCBC /* TSMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = FBBA459D1A94C4F40088CCBC /* TSMessage.m */; };
@@ -387,6 +391,10 @@
 		FBA778F51ACEB84B00D247CC /* ParseUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseUI.framework; sourceTree = "<group>"; };
 		FBA778FB1AD12EC000D247CC /* ClassesParentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClassesParentViewController.h; sourceTree = "<group>"; };
 		FBA778FC1AD12EC000D247CC /* ClassesParentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClassesParentViewController.m; sourceTree = "<group>"; };
+		FBAA81301AE0D8B40056E168 /* ios icons-29.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ios icons-29.png"; sourceTree = "<group>"; };
+		FBAA81311AE0D8B40056E168 /* ios icons-30.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ios icons-30.png"; sourceTree = "<group>"; };
+		FBAA81321AE0D8B40056E168 /* ios icons-31.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ios icons-31.png"; sourceTree = "<group>"; };
+		FBAA81361AE110C10056E168 /* ios icons-32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ios icons-32.png"; sourceTree = "<group>"; };
 		FBACC65B1A74298800DC1747 /* libstdc++.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.6.dylib"; path = "usr/lib/libstdc++.6.dylib"; sourceTree = SDKROOT; };
 		FBACC65D1A7429A700DC1747 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		FBBA459C1A94C4F40088CCBC /* TSMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSMessage.h; sourceTree = "<group>"; };
@@ -789,6 +797,10 @@
 		971687DB1A1F1BCA00FE98FC /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				FBAA81361AE110C10056E168 /* ios icons-32.png */,
+				FBAA81301AE0D8B40056E168 /* ios icons-29.png */,
+				FBAA81311AE0D8B40056E168 /* ios icons-30.png */,
+				FBAA81321AE0D8B40056E168 /* ios icons-31.png */,
 				FB89E2931ACAB443008A0F8E /* white.jpg */,
 				FB69558D1AC94FB200E7729E /* ios icons-7.png */,
 				FB69558E1AC94FB200E7729E /* ios icons-8.png */,
@@ -1168,9 +1180,12 @@
 				FBBA45D71A9DE4400088CCBC /* defaultTeacher.png in Resources */,
 				FB6955941AC94FB200E7729E /* ios icons-10.png in Resources */,
 				FB6955911AC94FB200E7729E /* ios icons-7.png in Resources */,
+				FBAA81351AE0D8B40056E168 /* ios icons-31.png in Resources */,
 				FB6955931AC94FB200E7729E /* ios icons-9.png in Resources */,
+				FBAA81341AE0D8B40056E168 /* ios icons-30.png in Resources */,
 				4038D4261AC6C62200E9009A /* Main.storyboard in Resources */,
 				9707C9FD1A5BC3110065D2BA /* JSQMessagesViewController.xib in Resources */,
+				FBAA81331AE0D8B40056E168 /* ios icons-29.png in Resources */,
 				404C9E191AC02176001CF571 /* ios icons-26.png in Resources */,
 				40EBADA81A7E60B6003FB0B1 /* LaunchScreen.xib in Resources */,
 				40C7415B1AC6A970007AA844 /* ios icons-21.png in Resources */,
@@ -1190,6 +1205,7 @@
 				40A9FC831AC42C0900082555 /* attach_30x30.png in Resources */,
 				40EBADB41A7E6150003FB0B1 /* classroom.png in Resources */,
 				FB1F47BA1A7589AE0093350B /* 60x60.png in Resources */,
+				FBAA81371AE110C10056E168 /* ios icons-32.png in Resources */,
 				404C9E1C1AC0260C001CF571 /* phone.png in Resources */,
 				40A9FC841AC42C0900082555 /* attach_40x40.png in Resources */,
 				FB1F47BD1A7589AE0093350B /* 180x180.png in Resources */,

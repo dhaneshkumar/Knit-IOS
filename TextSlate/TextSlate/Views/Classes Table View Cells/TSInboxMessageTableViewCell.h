@@ -20,6 +20,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *confuseCount;
 @property (weak, nonatomic) IBOutlet UILabel *likesCount;
 @property (weak, nonatomic) IBOutlet UIImageView *attachedImage;
+@property (weak, nonatomic) IBOutlet UIImageView *confuseImage;
+@property (weak, nonatomic) IBOutlet UIImageView *likesImage;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 
 @end

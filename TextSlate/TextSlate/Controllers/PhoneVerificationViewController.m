@@ -24,17 +24,17 @@
 @implementation PhoneVerificationViewController
 
 - (void)viewDidLoad {
-    self.navigationController.navigationBar.hidden=NO;
     [super viewDidLoad];
+    self.navigationController.navigationBar.hidden=NO;
     float version=[[[UIDevice currentDevice] systemVersion] floatValue];
     _osVersion=[[NSNumber numberWithFloat:version] stringValue];
-    
+    _codeText.delegate = self;
+    _codeText.keyboardType = UIKeyboardTypeNumberPad;
+    self.navigationItem.title = @"Knit";
     // Do any additional setup after loading the view.
 }
 
 -(void) viewDidAppear:(BOOL)animated{
-
-    _codeText.delegate=self;
     self.navigationController.navigationBar.hidden=NO;
     
 }
@@ -46,16 +46,16 @@
 
 - (IBAction)verifyCode:(UIButton *)sender {
     [_codeText resignFirstResponder];
-    if([_codeText.text length]<3)
-    {
-        //ADD UI alert
+    if([_codeText.text length]<4) {
+        UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"OTP should be 4 digit long." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+        [errorAlertView show];
         return;
     }
-    
     else
     {
         if(_isSignUp==true)
         {
+            [self presentViewController:[self.storyboard instantiateViewControllerWithIdentifier:@"loadingVC"] animated:NO completion:nil];
             if(_parent==true)
             {
                 _role=@"parent";
@@ -79,6 +79,10 @@
                     [PFUser becomeInBackground:token block:^(PFUser *user, NSError *error) {
                         if (error) {
                             NSLog(@"Session token could not be validated");
+                            UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error in signing up. Try again later." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+                            [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
+                            [errorAlertView show];
+                            return;
                         } else {
                             NSLog(@"Successfully Validated ");
                             PFUser *current=[PFUser currentUser];
@@ -102,6 +106,8 @@
                                     [(TSTabBarViewController *)rootNav.topViewController makeItParent];
                                 else
                                     [(TSTabBarViewController *)rootNav.topViewController makeItTeacher];
+                                
+                                [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
                                 [((UINavigationController *)self.presentingViewController.presentingViewController.presentingViewController).topViewController dismissViewControllerAnimated:YES completion:nil];
                                 /*
                                 UINavigationController *tab=[self.storyboard instantiateViewControllerWithIdentifier:@"tabBar"];
@@ -150,23 +156,35 @@
                                 }
 
                             } errorBlock:^(NSError *error) {
-                                return ;
+                                UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error in signing up. Try again later." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+                                [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
+                                [errorAlertView show];
+                                return;
                             }];
                         }
                     }];
                 }
+                else {
+                    UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error in signing up. Try again later." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+                    [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
+                    [errorAlertView show];
+                    return;
+                }
             } errorBlock:^(NSError *error) {
-                NSLog(@"Error in verification");
+                UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error in verifying OTP. Try again later." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+                [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
+                [errorAlertView show];
+                return;
+
             }];
         }
 
         else if(_isNewSignIn==true)
         {
+            [self presentViewController:[self.storyboard instantiateViewControllerWithIdentifier:@"loadingVC"] animated:NO completion:nil];
             NSInteger verificationCode=[_codeText.text integerValue];
             NSLog(@"phone number %@",_phoneNumber);
             NSString *number=_phoneNumber;
-            
-            
             [Data  newSignInVerification:number code:verificationCode successBlock:^(id object) {
                 NSLog(@"Verified");
                 NSDictionary *tokenDict=[[NSDictionary alloc]init];
@@ -180,7 +198,10 @@
                 {
                     [PFUser becomeInBackground:token block:^(PFUser *user, NSError *error) {
                         if (error) {
-                            NSLog(@"Session token could not be validated");
+                            UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error in signing in. Try again later." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+                            [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
+                            [errorAlertView show];
+                            return;
                         } else {
 
                             NSLog(@"Successfully Validated ");
@@ -220,6 +241,7 @@
                                         [(TSTabBarViewController *)rootNav.topViewController makeItTeacher];
                                 }
                                 
+                                [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
                                 [self dismissViewControllerAnimated:YES completion:nil];
                                 
                                 if([role isEqualToString:@"parent"] || [role isEqualToString:@"teacher"])
@@ -246,17 +268,27 @@
                             }
                                 
                             } errorBlock:^(NSError *error) {
-                                return ;
+                                UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error in signing in. Try again later." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+                                [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
+                                [errorAlertView show];
+                                return;
                             }];
                         }
                     }];
                 }
+                else {
+                    UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error in signing in. Try again later." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+                    [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
+                    [errorAlertView show];
+                    return;
+                }
             } errorBlock:^(NSError *error) {
-                NSLog(@"Error in verification");
+                UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error in verifying OTP. Try again later." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+                [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
+                [errorAlertView show];
+                return;
             }];
         }
-        
-        
     }
 }
 
@@ -405,5 +437,21 @@
  // Pass the selected object to the new view controller.
  }
  */
+
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    // Prevent crashing undo bug – see note below.
+    if(range.length + range.location > textField.text.length) {
+        return NO;
+    }
+    
+    if ([string rangeOfCharacterFromSet:[[NSCharacterSet decimalDigitCharacterSet] invertedSet]].location != NSNotFound) {
+        return NO;
+    }
+    
+    NSUInteger newLength = [textField.text length] + [string length] - range.length;
+    return (newLength > 4) ? NO : YES;
+}
+
 
 @end

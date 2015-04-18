@@ -7,6 +7,7 @@
 //
 
 #import "ClassesViewController.h"
+#import "TSUtils.h"
 #import "Parse/Parse.h"
 #import "TSSendClassMessageViewController.h"
 #import "JoinedClassTableViewController.h"
@@ -18,6 +19,8 @@
 @property (strong, nonatomic) NSMutableArray *joinedClasses;
 @property (strong, nonatomic) NSMutableArray *createdClasses;
 @property (strong, nonatomic) NSMutableDictionary *codegroups;
+@property (weak, nonatomic) IBOutlet UIButton *createOrJoinButton;
+- (IBAction)buttonTapped:(id)sender;
 
 @end
 
@@ -29,6 +32,8 @@
     self.classesTable.delegate = self;
     self.classesTable.dataSource = self;
     self.classesTable.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+    [TSUtils applyRoundedCorners:_createOrJoinButton];
+    [[_createOrJoinButton layer] setBorderWidth:0.5f];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -43,12 +48,20 @@
     _createdClasses = nil;
     _codegroups = nil;
     _codegroups = [[NSMutableDictionary alloc] init];
+    self.tabBarController.navigationItem.rightBarButtonItem = self.editButtonItem;
+    if(self.segmentedControl.selectedSegmentIndex==0)
+        [_createOrJoinButton setTitle:@"+  Create Class" forState:UIControlStateNormal];
+    else
+        [_createOrJoinButton setTitle:@"+  Join Class" forState:UIControlStateNormal];
     if([PFUser currentUser]){
         [self fillDataModel];
     }
 }
 
-
+-(void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    self.tabBarController.navigationItem.rightBarButtonItem = nil;
+}
 
 /*
 #pragma mark - Navigation
@@ -62,38 +75,23 @@
 
 -(NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if(self.segmentedControl.selectedSegmentIndex==0)
-        return _joinedClasses.count+1;
+        return _createdClasses.count;
     else
-        return _createdClasses.count+1;
+        return _joinedClasses.count;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if(self.segmentedControl.selectedSegmentIndex==0) {
-        if(indexPath.row==0) {
-            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"joinNewClassCell"];
-            return cell;
-        }
-        else {
-            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"joinedClassCell"];
-            cell.textLabel.text = _joinedClasses[indexPath.row-1][1];
-            PFObject *codegroup = [_codegroups objectForKey:_joinedClasses[indexPath.row-1][0]];
-            //if(codegroup[@"Creator"])
-                cell.detailTextLabel.text = [NSString stringWithFormat:@"by %@", codegroup[@"Creator"]];
-            //else
-                //cell.detailTextLabel.text = @"";
-            return cell;
-        }
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"createdClassCell"];
+        cell.textLabel.text = _createdClasses[indexPath.row][1];
+        return cell;
     }
     else {
-        if(indexPath.row==0) {
-            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"createNewClassCell"];
-            return cell;
-        }
-        else {
-            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"createdClassCell"];
-            cell.textLabel.text = _createdClasses[indexPath.row-1][1];
-            return cell;
-        }
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"joinedClassCell"];
+        cell.textLabel.text = _joinedClasses[indexPath.row][1];
+        PFObject *codegroup = [_codegroups objectForKey:_joinedClasses[indexPath.row][0]];
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"by %@ ", codegroup[@"Creator"]];
+        return cell;
     }
 }
 
@@ -103,30 +101,18 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if(self.segmentedControl.selectedSegmentIndex==0) {
-        if(indexPath.row==0) {
-            UINavigationController *joinNewClassNavigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"joinNewClassViewController"];
-            [self presentViewController:joinNewClassNavigationController animated:YES completion:nil];
-        }
-        else {
-            
-        }
+        [self performSegueWithIdentifier:@"createdClasses" sender:self];
     }
     else {
-        if(indexPath.row==0) {
-            UINavigationController *createClassroomNavigationViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"createNewClassNavigationController"];
-            [self presentViewController:createClassroomNavigationViewController animated:YES completion:nil];
-        }
-        else {
-            NSLog(@"index selected : %d", indexPath.row);
-            [self performSegueWithIdentifier:@"createdClasses" sender:self];
-        }
+        
     }
 }
 
-
+/*
 -(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
     return UITableViewCellEditingStyleNone;
 }
+ */
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
@@ -139,7 +125,7 @@
     if([segue.identifier isEqualToString:@"joinedClasses"]) {
         int row = [[self.classesTable indexPathForSelectedRow] row];
         JoinedClassTableViewController *dvc = (JoinedClassTableViewController *)segue.destinationViewController;
-        PFObject *codegroup = [_codegroups objectForKey:_joinedClasses[row-1][0]];
+        PFObject *codegroup = [_codegroups objectForKey:_joinedClasses[row][0]];
         dvc.className = codegroup[@"name"];
         dvc.classCode = codegroup[@"code"];
         dvc.teacherName = codegroup[@"Creator"];
@@ -177,22 +163,26 @@
         else {
             dvc.teacherPic = [UIImage imageNamed:@"defaultTeacher.png"];
         }
-        if(((NSArray *)_joinedClasses[row-1]).count==2)
+        if(((NSArray *)_joinedClasses[row]).count==2)
             dvc.associatedName = [[PFUser currentUser] objectForKey:@"name"];
         else
-            dvc.associatedName = _joinedClasses[row-1][2];
+            dvc.associatedName = _joinedClasses[row][2];
     }
     else  if([segue.identifier isEqualToString:@"createdClasses"]){
         TSSendClassMessageViewController *dvc = (TSSendClassMessageViewController*)segue.destinationViewController;
         int row = [[self.classesTable indexPathForSelectedRow] row];
-        dvc.className = _createdClasses[row-1][1];
-        dvc.classCode = _createdClasses[row-1][0];
+        dvc.className = _createdClasses[row][1];
+        dvc.classCode = _createdClasses[row][0];
     }
     [self.classesTable deselectRowAtIndexPath:[self.classesTable indexPathForSelectedRow] animated:YES];
     return;
 }
 
 - (IBAction)segmentChanged:(id)sender {
+    if(self.segmentedControl.selectedSegmentIndex==0)
+        [_createOrJoinButton setTitle:@"+ Create Class" forState:UIControlStateNormal];
+    else
+        [_createOrJoinButton setTitle:@"+ Join Class" forState:UIControlStateNormal];
     [self.classesTable reloadData];
 }
 
@@ -200,9 +190,6 @@
     NSMutableArray *joinedClassCodes = [[NSMutableArray alloc] init];
     _joinedClasses = (NSMutableArray *)[[PFUser currentUser] objectForKey:@"joined_groups"];
     _createdClasses = (NSMutableArray *)[[PFUser currentUser] objectForKey:@"Created_groups"];
-    
-    NSLog(@"joined class length : %d", _joinedClasses.count);
-    NSLog(@"created class length : %d", _createdClasses.count);
     
     for(NSArray *joinedcl in _joinedClasses)
         [joinedClassCodes addObject:joinedcl[0]];
@@ -247,30 +234,36 @@
 //Change it to leave there in table cell
 
 -(void)leaveClass:(NSString *)classCode {
+    [self presentViewController:[self.storyboard instantiateViewControllerWithIdentifier:@"loadingVC"] animated:NO completion:nil];
     [Data leaveClass:classCode successBlock:^(id object) {
         //[self deleteAllLocalMessages:classCode];
         //[self deleteLocalCodegroupEntry:classCode];
         [[PFUser currentUser] fetch];
+        [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
         //[self.classesTable reloadData];
         //[self.navigationController popViewControllerAnimated:YES];
     } errorBlock:^(NSError *error) {
         UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error occured in leaving the class." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+        [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
         [errorAlertView show];
     }];
 }
 
 
 -(void)deleteClass:(NSString *)classCode {
+    [self presentViewController:[self.storyboard instantiateViewControllerWithIdentifier:@"loadingVC"] animated:NO completion:nil];
     [Data deleteClass:classCode successBlock:^(id object) {
         //[self deleteAllLocalMessages:classCode];
         //[self deleteAllLocalClassMembers:classCode];
         //[self deleteAllLocalMessageNeeders:classCode];
         //[self deleteLocalCodegroupEntry:classCode];
         [[PFUser currentUser] fetch];
+        [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
         //[self.classesTable reloadData];
         //[self.navigationController popViewControllerAnimated:YES];
     } errorBlock:^(NSError *error) {
         UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error occured in deleting the class." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+        [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
         [errorAlertView show];
     }];
 }
@@ -331,18 +324,18 @@
                           handler:^(UIAlertAction * action)
                           {
                               if(segment == 0) {
-                                  NSString *classCode=_joinedClasses[indexPath.row-1][0];
-                                  [_joinedClasses removeObjectAtIndex:indexPath.row-1];
-                                  [self leaveClass:classCode];
-                                  [self.classesTable deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-                                  NSLog(@"Leave Joined classes");
-                              }
-                              else {
-                                  NSString *classCode=_createdClasses[indexPath.row-1][0];
-                                  [_createdClasses removeObjectAtIndex:indexPath.row-1];
+                                  NSString *classCode=_createdClasses[indexPath.row][0];
+                                  [_createdClasses removeObjectAtIndex:indexPath.row];
                                   [self deleteClass:classCode];
                                   [self.classesTable deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
                                   NSLog(@"Delete Created classes");
+                              }
+                              else {
+                                  NSString *classCode=_joinedClasses[indexPath.row][0];
+                                  [_joinedClasses removeObjectAtIndex:indexPath.row];
+                                  [self leaveClass:classCode];
+                                  [self.classesTable deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+                                  NSLog(@"Leave Joined classes");
                               }
                           }];
     UIAlertAction* no = [UIAlertAction
@@ -389,4 +382,15 @@
 }
 
 */
+- (IBAction)buttonTapped:(id)sender {
+    if(self.segmentedControl.selectedSegmentIndex==0) {
+        UINavigationController *createClassroomNavigationViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"createNewClassNavigationController"];
+        [self presentViewController:createClassroomNavigationViewController animated:YES completion:nil];
+    }
+    else {
+        UINavigationController *joinNewClassNavigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"joinNewClassViewController"];
+        [self presentViewController:joinNewClassNavigationController animated:YES completion:nil];
+    }
+    
+}
 @end

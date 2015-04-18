@@ -28,6 +28,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     NSLog(@"TSTab View Controller View did load");
+    /*
     ClassesViewController *classesVC = [self.storyboard instantiateViewControllerWithIdentifier:@"classrooms"];
     TSNewInboxViewController *inboxVC = [self.storyboard instantiateViewControllerWithIdentifier:@"inbox"];
     TSOutboxViewController *outboxVC = [self.storyboard instantiateViewControllerWithIdentifier:@"outbox"];
@@ -42,14 +43,19 @@
     settingVC.tabBarItem.image = [UIImage imageNamed:@"ios icons-8.png"];
     self.viewControllers = @[classesVC, inboxVC, outboxVC, settingVC];
     self.navigationItem.title = @"Knit";
+    */
+    
     if (![PFUser currentUser]) {
         NSLog(@"Tab bar controller");
+        [self makeItTeacher];
         TSSignInViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"signInNavigationController"];
         [self presentViewController:vc animated:NO completion:nil];
     } else {
-        
+        if([[[PFUser currentUser] objectForKey:@"role"] isEqualToString:@"parent"])
+            [self makeItParent];
+        else
+            [self makeItTeacher];
     }
-    
 }
 
 

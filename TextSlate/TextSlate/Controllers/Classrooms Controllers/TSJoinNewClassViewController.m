@@ -22,7 +22,6 @@
 @property (weak, nonatomic) IBOutlet UITextField *associatedPersonTextField;
 @property (weak, nonatomic) IBOutlet UIButton *joinButton;
 
-@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 @end
 
 @implementation TSJoinNewClassViewController
@@ -30,7 +29,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     _classCodeTextField.delegate=self;
-    _activityIndicator.hidden=YES;
+    //_activityIndicator.hidden=YES;
+    self.navigationItem.title = @"Knit";
     // Do any additional setup after loading the view.
 }
 
@@ -50,47 +50,66 @@
 */
 
 - (IBAction)joinNewClassClicked:(UIButton *)sender {
-    //UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    //indicator.center = self.view.center;
-    //[indicator startAnimating];
+    NSString *classCodeTyped = [self trimmedString:_classCodeTextField.text];
+    NSString *assocNameTyped = [_associatedPersonTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    if(classCodeTyped.length != 7) {
+        UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Please make sure that class code has 7 characters." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+        [errorAlertView show];
+        return;
+    }
+    if(assocNameTyped.length == 0) {
+        UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"The associate name field cannot be left blank." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+        [errorAlertView show];
+        return;
+    }
     
-    //[[PFUser currentUser] fetch];
-    _activityIndicator.hidden=NO;
-    [_activityIndicator startAnimating];
+    [self presentViewController:[self.storyboard instantiateViewControllerWithIdentifier:@"loadingVC"] animated:NO completion:nil];
     NSArray *joinedClasses = [[PFUser currentUser] objectForKey:@"joined_groups"];
     NSArray *createdClasses = [[PFUser currentUser] objectForKey:@"Created_groups"];
     NSMutableArray *joinedAndCreatedClassCodes = [[NSMutableArray alloc]init];
     for(NSArray *joinedClass in joinedClasses) {
         [joinedAndCreatedClassCodes addObject:[joinedClass objectAtIndex:0]];
     }
+    if ([joinedAndCreatedClassCodes containsObject:classCodeTyped]) {
+        UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"You have already joined this class." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+        [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
+        [errorAlertView show];
+        return;
+    }
     
     for(NSArray *createdClass in createdClasses) {
         [joinedAndCreatedClassCodes addObject:[createdClass objectAtIndex:0]];
     }
-
+    if ([joinedAndCreatedClassCodes containsObject:classCodeTyped]) {
+        UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"You cannot join a class created by you." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+        [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
+        [errorAlertView show];
+        return;
+    }
+    
     NSString *installationObjectId = [[PFUser currentUser] objectForKey:@"installationObjectId"];
+    
     NSLog(@"installationID user %@",installationObjectId);
-    if (![joinedAndCreatedClassCodes containsObject:_classCodeTextField.text]) {
-        [Data joinNewClass:_classCodeTextField.text childName:_associatedPersonTextField.text installationId:installationObjectId successBlock:^(id object) {
-            NSLog(@"cloud function returned");
-            NSMutableDictionary *objDict=(NSMutableDictionary *)object;
-            PFObject *codeGroupForClass = [objDict objectForKey:@"codegroup"];
-            NSMutableArray *lastFiveMessage=[objDict objectForKey:@"messages"];
-            NSCharacterSet *characterset=[NSCharacterSet characterSetWithCharactersInString:@"\uFFFC\n "];
-            TSTabBarViewController *rootTab = (TSTabBarViewController *)((UINavigationController *)((AppDelegate *)[[UIApplication sharedApplication] delegate]).window.rootViewController).topViewController;
-            TSNewInboxViewController *newInbox = (TSNewInboxViewController *)(NSArray *)rootTab.viewControllers[1];
-            NSLog(@"message pinning start : %d", newInbox.messagesArray.count);
-            for(PFObject *msg in lastFiveMessage)
-            {
-                //msg[@"iosUserID"]=[PFUser currentUser].objectId;
-                msg[@"likeStatus"] = @"false";
-                msg[@"confuseStatus"] = @"false";
-                msg[@"likeStatusServer"] = @"false";
-                msg[@"confuseStatusServer"] = @"false";
-                msg[@"seenStatus"] = @"false";
-                msg[@"messageId"] = msg.objectId;
-                msg[@"createdTime"] = msg.createdAt;
-                [msg pinInBackground];
+    [Data joinNewClass:classCodeTyped childName:assocNameTyped installationId:installationObjectId successBlock:^(id object) {
+        NSLog(@"cloud function returned");
+        NSMutableDictionary *objDict=(NSMutableDictionary *)object;
+        PFObject *codeGroupForClass = [objDict objectForKey:@"codegroup"];
+        NSMutableArray *lastFiveMessage=[objDict objectForKey:@"messages"];
+        NSCharacterSet *characterset=[NSCharacterSet characterSetWithCharactersInString:@"\uFFFC\n "];
+        TSTabBarViewController *rootTab = (TSTabBarViewController *)((UINavigationController *)((AppDelegate *)[[UIApplication sharedApplication] delegate]).window.rootViewController).topViewController;
+        TSNewInboxViewController *newInbox = (TSNewInboxViewController *)(NSArray *)rootTab.viewControllers[1];
+        NSLog(@"message pinning start : %d", newInbox.messagesArray.count);
+        for(PFObject *msg in lastFiveMessage)
+        {
+            msg[@"likeStatus"] = @"false";
+            msg[@"confuseStatus"] = @"false";
+            msg[@"likeStatusServer"] = @"false";
+            msg[@"confuseStatusServer"] = @"false";
+            msg[@"seenStatus"] = @"false";
+            msg[@"messageId"] = msg.objectId;
+            msg[@"createdTime"] = msg.createdAt;
+            [msg pinInBackground];
+            if(newInbox.messagesArray.count>0) {
                 TSMessage *message = [[TSMessage alloc] initWithValues:msg[@"name"] classCode:msg[@"code"] message:[msg[@"title"] stringByTrimmingCharactersInSet:characterset] sender:msg[@"Creator"] sentTime:msg.createdAt senderPic:nil likeCount:[msg[@"like_count"] intValue] confuseCount:[msg[@"confused_count"] intValue] seenCount:0];
                 message.likeStatus = msg[@"likeStatus"];
                 message.confuseStatus = msg[@"confuseStatus"];
@@ -126,48 +145,33 @@
                     });
                 }
             }
-            NSLog(@"message pinning end : %d", newInbox.messagesArray.count);
+        }
+        NSLog(@"message pinning end : %d", newInbox.messagesArray.count);
+        if(newInbox.messagesArray.count>0 && lastFiveMessage.count>0) {
             NSMutableArray *sortedArray = (NSMutableArray *)[newInbox.messagesArray sortedArrayUsingComparator:^NSComparisonResult(TSMessage *m1, TSMessage *m2){
                 return [m2.sentTime compare:m1.sentTime];
             }];
             newInbox.messagesArray = sortedArray;
-            NSLog(@"sorting ended : %d", newInbox.messagesArray.count);
-            //codeGroupForClass[@"iosUserID"] = [PFUser currentUser].objectId;
-            [codeGroupForClass pinInBackground];
-            //[indicator stopAnimating];
-            //[indicator removeFromSuperview];
-            [[PFUser currentUser] fetch];
-            UIAlertView *successAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:[NSString stringWithFormat:@"Successfully joined Class: %@ Creator : %@",codeGroupForClass[@"name"], codeGroupForClass[@"Creator"]] delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-            /*
-            if (self.presentingViewController) {
-                [self dismissViewControllerAnimated:YES completion:nil];
-            }*/
-            [self dismissViewControllerAnimated:YES completion:nil];
-            [successAlertView show];
-        } errorBlock:^(NSError *error) {
-            //[indicator stopAnimating];
-            //[indicator removeFromSuperview];
-            
-            UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error in joining Class. Please make sure you have the correct class code." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-            [errorAlertView show];
-        }];
-    }
-    else
-    {
-        UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Voila" message:@"You have already joined this class! " delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+        }
+        NSLog(@"sorting ended : %d", newInbox.messagesArray.count);
+        
+        [codeGroupForClass pinInBackground];
+        [[PFUser currentUser] fetch];
+        UIAlertView *successAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:[NSString stringWithFormat:@"Successfully joined Class: %@ Creator : %@",codeGroupForClass[@"name"], codeGroupForClass[@"Creator"]] delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+        
+        [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
+        [self dismissViewControllerAnimated:YES completion:nil];
+        [successAlertView show];
+    } errorBlock:^(NSError *error) {
+        UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error in joining Class. Please make sure you have the correct class code." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+        [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
         [errorAlertView show];
-    }
-
-    [_activityIndicator stopAnimating];
-    _activityIndicator.hidden=YES;
-
+    }];
 }
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
-        textField.text = [textField.text stringByReplacingCharactersInRange:range withString:[string uppercaseString]];
-        return NO;
-    
-    return YES;
+    textField.text = [textField.text stringByReplacingCharactersInRange:range withString:[string uppercaseString]];
+    return NO;
 }
 
 - (IBAction)cancelPressed:(UIBarButtonItem *)sender {
@@ -181,6 +185,12 @@
         [self presentViewController:mainTab animated:NO completion:nil];
     }];
 */
+}
+
+-(NSString *)trimmedString:(NSString *)input {
+    NSArray* words = [input componentsSeparatedByCharactersInSet :[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    NSString* nospacestring = [words componentsJoinedByString:@""];
+    return nospacestring;
 }
 
 @end

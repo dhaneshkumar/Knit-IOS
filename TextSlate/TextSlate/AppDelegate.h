@@ -11,7 +11,8 @@
 @interface AppDelegate : UIResponder <UIApplicationDelegate,UIAlertViewDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
-
 @property(strong,nonatomic) NSMutableArray *classArray;
+@property (strong, nonatomic) UINavigationController *startNav;
+
 @end
 

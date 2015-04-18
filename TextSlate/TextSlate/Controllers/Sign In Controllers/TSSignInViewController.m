@@ -26,7 +26,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    _phoneTextField.delegate = self;
+    _phoneTextField.keyboardType = UIKeyboardTypeNumberPad;
     // Do any additional setup after loading the view, typically from a nib.
+    self.navigationItem.title = @"Knit";
     [TSUtils applyRoundedCorners:_signInButton];
 }
 
@@ -45,64 +48,20 @@
 }
 
 - (IBAction)signInClicked:(UIButton *)sender {
-    
+    if(_phoneTextField.text.length<10) {
+        UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Please make sure that the phone number entered is 10 digits." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+        [errorAlertView show];
+        return;
+    }
+    [self presentViewController:[self.storyboard instantiateViewControllerWithIdentifier:@"loadingVC"] animated:NO completion:nil];
     [Data generateOTP:_phoneTextField.text successBlock:^(id object) {
+        [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
         [self performSegueWithIdentifier:@"verification" sender:self];
     } errorBlock:^(NSError *error) {
-        NSLog(@"Couldn't generate OTP");
+        UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error in generating OTP. Try again later." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+        [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
+        [errorAlertView show];
     }];
-    
-    /*
-    [PFUser logInWithUsernameInBackground:_emailTextField.text password:_passwordTextField.text block:^(PFUser *user, NSError *error) {
-        if (!error) {
-            NSMutableArray *channel=[[NSMutableArray alloc]init];
-            PFInstallation *currentInstallation = [PFInstallation currentInstallation];
-
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-          //  currentInstallation.currentInstallation
-                
-                
-            [Data getClassRooms:^(id object) {
-                _classArray = (NSMutableArray*) object;
-                NSLog(@"sign in classroom %@",_classArray);
-               for(TSClass *a in _classArray){
-                   if(a.class_type == JOINED_BY_ME){
-
-                    NSString *strChannel = [NSString stringWithFormat:@"%@", a.code];
-                    [channel addObject:strChannel];
-                                       }
-                }
-            
-                [currentInstallation setChannels:channel];
-                [currentInstallation saveInBackground];
-                NSLog(@"list of channels %@",channel);
-                
-                PFObject *currentTable=[PFInstallation currentInstallation];
-                currentTable[@"username"]=[PFUser currentUser].username;
-                [currentTable saveInBackground];
-                
-            } errorBlock:^(NSError *error) {
-                NSLog(@"Unable to fetch classes: %@", [error description]);
-            }];
-             });
-                if (self.presentingViewController) {
-                [self dismissViewControllerAnimated:YES completion:nil];
-
-            }
-            NSLog(@"Succesfully Logged in");
-            UILocalNotification *localNotification = [[UILocalNotification alloc] init];
-            localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:5];
-            localNotification.alertBody = @"Local Notification – Ongraph.com";
-            localNotification.timeZone = [NSTimeZone defaultTimeZone];
-            localNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication]     applicationIconBadgeNumber] + 1;
-            
-            [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
-     
-            
-        } else {
-            NSLog(@"got error %@",[error localizedDescription]);
-        }
-    }];*/
 }
 
 -(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
@@ -134,4 +93,20 @@
     [_phoneTextField resignFirstResponder];
     [_passwordTextField resignFirstResponder];
 }
+
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    // Prevent crashing undo bug – see note below.
+    if(range.length + range.location > textField.text.length) {
+        return NO;
+    }
+    
+    if ([string rangeOfCharacterFromSet:[[NSCharacterSet decimalDigitCharacterSet] invertedSet]].location != NSNotFound) {
+            return NO;
+    }
+    
+    NSUInteger newLength = [textField.text length] + [string length] - range.length;
+    return (newLength > 10) ? NO : YES;
+}
+
 @end

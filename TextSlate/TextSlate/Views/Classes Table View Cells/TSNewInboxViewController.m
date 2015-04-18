@@ -21,6 +21,7 @@
 @property (assign) int messageFlag;
 @property (nonatomic) BOOL isDirty;
 @property (nonatomic) BOOL isUpdateSeenCountsCalled;
+@property (nonatomic) BOOL isILMCalled;
 
 @end
 
@@ -34,16 +35,18 @@
     self.messagesTable.delegate = self;
     _refreshControl = [[UIRefreshControl alloc]init];
     _refreshControl.tintColor = [UIColor whiteColor];
-    _refreshControl.backgroundColor = [UIColor colorWithRed:38.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
+    _refreshControl.backgroundColor = [UIColor colorWithRed:32.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
     [self.messagesTable addSubview:_refreshControl];
     [_refreshControl addTarget:self action:@selector(pullDownToRefresh) forControlEvents:UIControlEventValueChanged];
     _isBottomRefreshCalled = false;
-    _activityIndicator.hidesWhenStopped = true;
+    _activityIndicator.hidden = YES;
     _messagesArray = [[NSMutableArray alloc] init];
     _mapCodeToObjects = [[NSMutableDictionary alloc] init];
     _messageIds = [[NSMutableArray alloc] init];
     _lastUpdateCalled = nil;
     _isUpdateSeenCountsCalled = false;
+    _isILMCalled = false;
+    //_shouldScrollUp = false;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -54,7 +57,12 @@
 
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    NSLog(@"Inbox viewDidAppear");
+    NSLog(@"Inbox viewDidAppear : %d", _messagesArray.count);
+    if(_messagesArray.count>0 && _shouldScrollUp) {
+        NSIndexPath *rowIndexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+        [self.messagesTable scrollToRowAtIndexPath:rowIndexPath atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
+        _shouldScrollUp = false;
+    }
     [self getTimeDiffBetweenLocalAndServer];
     [self displayMessages];
 }
@@ -96,8 +104,11 @@
     cell.sentTime.text = [self sentTimeDisplayText:mti];
     cell.confuseCount.text = [NSString stringWithFormat:@"%d", message.confuseCount];
     cell.likesCount.text = [NSString stringWithFormat:@"%d", message.likeCount];
-    cell.confuseView.backgroundColor = ([message.confuseStatus isEqualToString:@"true"])?[UIColor colorWithRed:38.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0]:[UIColor whiteColor];
-    cell.likesView.backgroundColor = ([message.likeStatus isEqualToString:@"true"])?[UIColor colorWithRed:38.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0]:[UIColor whiteColor];
+    cell.confuseImage.image = ([message.confuseStatus isEqualToString:@"true"])?[UIImage imageNamed:@"ios icons-30.png"]:[UIImage imageNamed:@"ios icons-19.png"];
+    cell.confuseCount.textColor = ([message.confuseStatus isEqualToString:@"true"])?[UIColor colorWithRed:255.0f/255.0f green:147.0f/255.0f blue:30.0f/255.0f alpha:1.0]:[UIColor darkGrayColor];
+    cell.likesImage.image = ([message.likeStatus isEqualToString:@"true"])?[UIImage imageNamed:@"ios icons-32.png"]:[UIImage imageNamed:@"ios icons-18.png"];
+    cell.likesCount.textColor = ([message.likeStatus isEqualToString:@"true"])?[UIColor colorWithRed:57.0f/255.0f green:181.0f/255.0f blue:74.0f/255.0f alpha:1.0]:[UIColor darkGrayColor];
+    
     if(message.hasAttachment) {
         cell.attachedImage.image = message.attachment;
         cell.activityIndicator.hidesWhenStopped = true;
@@ -110,14 +121,19 @@
     message.seenStatus = @"true";
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     if(indexPath.row == _messagesArray.count-1 && !_isBottomRefreshCalled) {
-        PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
-        [lq fromLocalDatastore];
-        [lq whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
-        NSArray *localOs = [lq findObjects];
-        if(localOs[0][@"isInboxDataConsistent"]==nil || [localOs[0][@"isInboxDataConsistent"] isEqualToString:@"false"]) {
-            _isBottomRefreshCalled = true;
-            [self fetchOldMessages];
-        }
+        _isBottomRefreshCalled = true;
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
+            PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
+            [lq fromLocalDatastore];
+            [lq whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
+            NSArray *localOs = [lq findObjects];
+            if(localOs[0][@"isInboxDataConsistent"]==nil || [localOs[0][@"isInboxDataConsistent"] isEqualToString:@"false"]) {
+                [self fetchOldMessages];
+            }
+            else {
+                _isBottomRefreshCalled = false;
+            }
+        });
     }
     return cell;
 }
@@ -226,6 +242,11 @@
 
 
 -(void)pullDownToRefresh {
+    if(_isILMCalled) {
+        [_refreshControl endRefreshing];
+        return;
+    }
+    _isILMCalled = YES;
     NSDate *latestMessageTime = (_messagesArray.count==0)?[PFUser currentUser].createdAt:((TSMessage *)_messagesArray[0]).sentTime;
     [Data updateInboxLocalDatastoreWithTime:latestMessageTime successBlock:^(id object) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
@@ -287,6 +308,7 @@
             dispatch_sync(dispatch_get_main_queue(), ^{
                 [self.messagesTable reloadData];
             });
+            _isILMCalled = NO;
         });
     } errorBlock:^(NSError *error) {
         NSLog(@"Unable to fetch inbox messages while opening inbox tab: %@", [error description]);
@@ -297,8 +319,6 @@
 -(void)displayMessages {
     if([self noJoinedClasses])
         return;
-    //[_activityIndicator startAnimating];
-    //NSArray *array = [self fetchMessagesFromLocalDatastore];
     if(_messagesArray.count==0) {
         PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
         [lq fromLocalDatastore];
@@ -309,36 +329,73 @@
             NSLog(@"Pain hai bhai life me.");
             return;
         }
-        if(localObjs[0][@"isInboxDataConsistent"] && [localObjs[0][@"isInboxDataConsistent"] isEqualToString:@"true"]) {
-            _messageFlag=1;
-            [self insertLatestMessages];
-            //[_activityIndicator stopAnimating];
+        _activityIndicator.hidden = NO;
+        [_activityIndicator startAnimating];
+        int localMessages = [self fetchMessagesFromLocalDatastore];
+        [_activityIndicator stopAnimating];
+        _activityIndicator.hidden = YES;
+        if(localMessages==0) {
+            if(localObjs[0][@"isInboxDataConsistent"] && [localObjs[0][@"isInboxDataConsistent"] isEqualToString:@"true"]) {
+                _messageFlag=1;
+                if(!_isILMCalled)
+                    [self insertLatestMessages];
+            }
+            else {
+                [self fetchOldMessagesOnDataDeletion];
+            }
         }
         else {
-            [self fetchOldMessagesOnDataDeletion];
+            if(_newMessage) {
+                [self updateCountsLocally];
+                if(!_isILMCalled)
+                    [self insertLatestMessages];
+                _newMessage = false;
+                return;
+            }
+            if(_lastUpdateCalled) {
+                NSDate *date = [NSDate date];
+                NSTimeInterval ti = [date timeIntervalSinceDate:_lastUpdateCalled];
+                if(ti>180) {
+                    [self updateCountsLocally];
+                    if(!_isILMCalled)
+                        [self insertLatestMessages];
+                }
+            }
+            else {
+                [self updateCountsLocally];
+                if(!_isILMCalled)
+                    [self insertLatestMessages];
+            }
         }
     }
     else {
-        //[_activityIndicator stopAnimating];
-        //[self.messagesTable reloadData];
+        if(_newMessage) {
+            [self updateCountsLocally];
+            if(!_isILMCalled)
+                [self insertLatestMessages];
+            _newMessage = false;
+            return;
+        }
         if(_lastUpdateCalled) {
             NSDate *date = [NSDate date];
             NSTimeInterval ti = [date timeIntervalSinceDate:_lastUpdateCalled];
             if(ti>180) {
                 [self updateCountsLocally];
-                [self insertLatestMessages];
+                if(!_isILMCalled)
+                    [self insertLatestMessages];
             }
         }
         else {
             [self updateCountsLocally];
-            [self insertLatestMessages];
+            if(!_isILMCalled)
+                [self insertLatestMessages];
         }
     }
     return;
 }
 
 
--(NSArray *)fetchMessagesFromLocalDatastore {
+-(int)fetchMessagesFromLocalDatastore {
     NSArray *joinedClasses = [[PFUser currentUser] objectForKey:@"joined_groups"];
     NSMutableArray *joinedClassCodes = [[NSMutableArray alloc] init];
     for(NSArray *cls in joinedClasses) {
@@ -351,8 +408,6 @@
     //[query whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
     [query whereKey:@"code" containedIn:joinedClassCodes];
     NSArray *messages = (NSArray *)[query findObjects];
-    NSMutableArray *messageIds = [[NSMutableArray alloc] init];
-    int i=0;
     NSCharacterSet *characterset=[NSCharacterSet characterSetWithCharactersInString:@"\uFFFC\n "];
     for (PFObject * messageObject in messages) {
         TSMessage *message = [[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:[messageObject[@"title"] stringByTrimmingCharactersInSet:characterset] sender:messageObject[@"Creator"] sentTime:messageObject.createdAt senderPic:messageObject[@"senderPic"] likeCount:([messageObject[@"like_count"] intValue]+[self adder:messageObject[@"likeStatusServer"] localStatus:messageObject[@"likeStatus"]]) confuseCount:([messageObject[@"confused_count"] intValue] + [self adder:messageObject[@"confuseStatusServer"] localStatus:messageObject[@"confuseStatus"]]) seenCount:0];
@@ -365,6 +420,7 @@
         }
         _mapCodeToObjects[message.messageId] = message;
         [_messagesArray addObject:message];
+        [_messageIds addObject:message.messageId];
         if(message.hasAttachment) {
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
                 PFFile *attachImageUrl=messageObject[@"attachment"];
@@ -393,14 +449,13 @@
                   }
             });
         }
-        if(i<30)
-            [messageIds addObject:messageObject[@"messageId"]];
-        i++;
     }
-    return messageIds;
+    [_messagesTable reloadData];
+    return messages.count;
 }
 
 -(void)insertLatestMessages {
+    _isILMCalled = YES;
     NSDate *latestMessageTime = (_messagesArray.count==0)?[PFUser currentUser].createdAt:((TSMessage *)_messagesArray[0]).sentTime;
     [Data updateInboxLocalDatastoreWithTime:latestMessageTime successBlock:^(id object) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
@@ -458,7 +513,6 @@
                         }
                     });
                 }
-                
             }
             if(_messageFlag==1 && messageObjects.count==1) {
                 UIAlertView *likeConfuseAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Hey! You can now confuse or like message and let teacher know." delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil];
@@ -467,11 +521,12 @@
             _messagesArray = tempArray;
             dispatch_sync(dispatch_get_main_queue(), ^{
                 [self.messagesTable reloadData];
-                if(_messagesArray.count>0) {
+                if(messageObjects.count>0) {
                     NSIndexPath *rowIndexPath = [NSIndexPath indexPathForRow:0 inSection:0];
                     [self.messagesTable scrollToRowAtIndexPath:rowIndexPath atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
                 }
             });
+            _isILMCalled = NO;
         });
     } errorBlock:^(NSError *error) {
         NSLog(@"Unable to fetch inbox messages while opening inbox tab: %@", [error description]);
@@ -480,6 +535,8 @@
 
 
 -(void)fetchOldMessagesOnDataDeletion {
+    _activityIndicator.hidden = NO;
+    [_activityIndicator startAnimating];
     [Data updateInboxLocalDatastore:@"j" successBlock:^(id object) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
             NSMutableDictionary *members = (NSMutableDictionary *) object;
@@ -550,7 +607,8 @@
                 }
             }
             dispatch_sync(dispatch_get_main_queue(), ^{
-                //[_activityIndicator stopAnimating];
+                [_activityIndicator stopAnimating];
+                _activityIndicator.hidden = YES;
                 [self.messagesTable reloadData];
             });
 
