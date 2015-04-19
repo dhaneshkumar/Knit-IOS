@@ -104,27 +104,33 @@
 
 -(void)showInviteParentNotification{
     NSLog(@"here in show invite");
-    PFUser *current=[PFUser currentUser];
-    NSArray *createdClass=[current objectForKey:@"Created_groups"];
-    
-    NSArray *firstIndex=[createdClass objectAtIndex:0];
-    NSString *classCode=[firstIndex objectAtIndex:0];
-    NSString *className=[firstIndex objectAtIndex:1];
-    [Data getMemberDetails:classCode successBlock:^(id object) {
-        NSMutableArray *memberList=[[NSMutableArray alloc]init];
-        for(PFObject *class in memberList)
+    PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
+    [lq fromLocalDatastore];
+    NSArray *lds = [lq findObjects];
+    if(lds.count==1) {
+        if([((PFObject*)lds[0])[@"iosUserID"] isEqualToString:[PFUser currentUser].objectId])
         {
-            NSString *codeFromObject=[class objectForKey:@"code"];
-            if([codeFromObject isEqualToString:classCode])
+
+            PFUser *current=[PFUser currentUser];
+            NSArray *createdClass=[current objectForKey:@"Created_groups"];
+            NSArray *firstIndex=[createdClass objectAtIndex:0];
+            NSString *classCode=[firstIndex objectAtIndex:0];
+            NSString *className=[firstIndex objectAtIndex:1];
+            [Data getMemberDetails:classCode successBlock:^(id object) {
+            NSMutableArray *memberList=[[NSMutableArray alloc]init];
+            for(PFObject *class in memberList)
             {
-                NSString *name=[class objectForKey:@"name"];
-                if(name.length>0)
+                NSString *codeFromObject=[class objectForKey:@"code"];
+                if([codeFromObject isEqualToString:classCode])
                 {
-                    [memberList addObject:name];
-                    NSLog(@"%@ memberlist",memberList);
+                    NSString *name=[class objectForKey:@"name"];
+                    if(name.length>0)
+                    {
+                        [memberList addObject:name];
+                        NSLog(@"%@ memberlist",memberList);
+                    }
                 }
             }
-        }
         
         if(memberList.count<1){
             NSLog(@"hi");
@@ -147,6 +153,8 @@
     } errorBlock:^(NSError *error) {
         NSLog(@"Could not get any members");
     }];
+        }
+    }
 }
 
 -(void)checkOutbox{

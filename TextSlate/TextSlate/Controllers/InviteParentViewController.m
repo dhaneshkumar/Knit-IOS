@@ -73,7 +73,7 @@
 -(IBAction)openWhatsApp:(id)sender{
 
     //Add appstore link to message
-    NSString *sendCode=[NSString stringWithFormat:@"Hello! I have started using a great communication tool,Knit Messaging and I will be using it to send out reminders and announcement.To join my classroon you can use my classcode %@.\n\n To download the app go to app store and download Knit Messaging.\n\n Link: http://www.knitapp.co.in/user.html?/%@", _classCode, _classCode];
+    NSString *sendCode=[NSString stringWithFormat:@"Hello! I have started using a great communication tool,Knit Messaging and I will be using it to send out reminders and announcement.To join my classroom you can use my classcode %@.\n\n To download the app go to app store and download Knit Messaging.\n\n Link: http://www.knitapp.co.in/user.html?/%@", _classCode, _classCode];
     NSString* strSharingText = [sendCode stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     
     //This is whatsApp url working only when you having app in your Apple device
@@ -87,7 +87,7 @@
         if([MFMessageComposeViewController canSendText]) {
             MFMessageComposeViewController *controller = [[MFMessageComposeViewController alloc] init];
             
-            NSString *sendCode=[NSString stringWithFormat:@"Hello! I have started using a great communication tool,Knit Messaging and I will be using it to send out reminders and announcement.To join my classroon you can use my classcode %@.\n\n Download ios app at http://itunes.apple.com/in/app/knit-messaging/id962112913?mt=8 .\n\n Link: http://www.knitapp.co.in/user.html?/%@", _classCode, _classCode];
+            NSString *sendCode=[NSString stringWithFormat:@"Hello! I have started using a great communication tool,Knit Messaging and I will be using it to send out reminders and announcement.To join my classroom you can use my classcode %@.\n\n Download ios app at http://itunes.apple.com/in/app/knit-messaging/id962112913?mt=8 .\n\n Link: http://www.knitapp.co.in/user.html?/%@", _classCode, _classCode];
             controller.body = sendCode;
             controller.recipients = [NSArray arrayWithObjects:@"", nil];
             controller.messageComposeDelegate = self;

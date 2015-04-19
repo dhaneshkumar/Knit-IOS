@@ -146,55 +146,75 @@
 
 
 -(void)showCreateClassNotification{
-    NSLog(@"Show notification");
-    PFUser *current=[PFUser currentUser];
-    NSArray *createdClass=[current objectForKey:@"Created_groups"];
+    PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
+    [lq fromLocalDatastore];
+    NSArray *lds = [lq findObjects];
+    if(lds.count==1) {
+        if([((PFObject*)lds[0])[@"iosUserID"] isEqualToString:[PFUser currentUser].objectId])
+            {
+                NSLog(@"Show notification");
+                PFUser *current=[PFUser currentUser];
+                NSArray *createdClass=[current objectForKey:@"Created_groups"];
     
-    if(createdClass.count<1 )
+                if(createdClass.count<1 )
+                    
+            {
+                UILocalNotification *localNotification = [[UILocalNotification alloc] init];
+                localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:5];
+                localNotification.alertBody = @"We see you have not created any class.";
+                localNotification.timeZone = [NSTimeZone defaultTimeZone];
+                localNotification.alertAction=@"Create";
+                localNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication]     applicationIconBadgeNumber] + 1;
+                [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
         
-    {
-        UILocalNotification *localNotification = [[UILocalNotification alloc] init];
-        localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:5];
-        localNotification.alertBody = @"We see you have not created any class.";
-        localNotification.timeZone = [NSTimeZone defaultTimeZone];
-        localNotification.alertAction=@"Create";
-        localNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication]     applicationIconBadgeNumber] + 1;
-        [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
-        
+            }
+    
+        }
+
     }
-    
 }
-
-
 -(void)showJoinClassNotification{
-    
-    
-    PFUser *current=[PFUser currentUser];
-    NSArray *joinedClass=[current objectForKey:@"joined_groups"];
-    if(joinedClass.count<1){
+    PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
+    [lq fromLocalDatastore];
+    NSArray *lds = [lq findObjects];
+    if(lds.count==1) {
+        if([((PFObject*)lds[0])[@"iosUserID"] isEqualToString:[PFUser currentUser].objectId])
+        {
+            PFUser *current=[PFUser currentUser];
+            NSArray *joinedClass=[current objectForKey:@"joined_groups"];
+            if(joinedClass.count<1){
         
-        UILocalNotification *localNotification = [[UILocalNotification alloc] init];
-        localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:5];
-        localNotification.alertBody = @"We see you have not joined any class.";
-        localNotification.timeZone = [NSTimeZone defaultTimeZone];
-        localNotification.alertAction=@"Join";
-        localNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication]     applicationIconBadgeNumber] + 1;
-        [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
+                UILocalNotification *localNotification = [[UILocalNotification alloc] init];
+                localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:5];
+                localNotification.alertBody = @"We see you have not joined any class.";
+                localNotification.timeZone = [NSTimeZone defaultTimeZone];
+                localNotification.alertAction=@"Join";
+                localNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication]     applicationIconBadgeNumber] + 1;
+                [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
+            }
+        }
     }
 }
 
 -(void)showInviteTeacherNotification{
-    PFUser *current=[PFUser currentUser];
-    NSArray *joinedClass=[current objectForKey:@"joined_groups"];
-    if(joinedClass.count<1){
-        UILocalNotification *localNotification = [[UILocalNotification alloc] init];
-        localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:5];
-        localNotification.alertBody = @"You know you can invite teachers and join their classese! ";
-        localNotification.timeZone = [NSTimeZone defaultTimeZone];
-        localNotification.alertAction=@"Invite Teacher";
-        localNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication]     applicationIconBadgeNumber] + 1;
-        [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
-        
+    PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
+    [lq fromLocalDatastore];
+    NSArray *lds = [lq findObjects];
+    if(lds.count==1) {
+        if([((PFObject*)lds[0])[@"iosUserID"] isEqualToString:[PFUser currentUser].objectId])
+        {
+            PFUser *current=[PFUser currentUser];
+            NSArray *joinedClass=[current objectForKey:@"joined_groups"];
+            if(joinedClass.count<1){
+                UILocalNotification *localNotification = [[UILocalNotification alloc] init];
+                localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:5];
+                localNotification.alertBody = @"You know you can invite teachers and join their classese! ";
+                localNotification.timeZone = [NSTimeZone defaultTimeZone];
+                localNotification.alertAction=@"Invite Teacher";
+                localNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication]     applicationIconBadgeNumber] + 1;
+                [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
+            }
+        }
     }
 }
 
