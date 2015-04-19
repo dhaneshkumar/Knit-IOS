@@ -268,9 +268,16 @@
             return;
         }
     }
-    
     NSString *messageText = (_hasTypedMessage)?[self trimmedString:_textMessage.text]:@"";
-    TSTabBarViewController *rootTab = (TSTabBarViewController *)((UINavigationController *)((AppDelegate *)[[UIApplication sharedApplication] delegate]).window.rootViewController).topViewController;
+    AppDelegate *apd = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    TSTabBarViewController *rootTab = (TSTabBarViewController *)((UINavigationController *)apd.startNav).topViewController;
+    NSArray *vcs = (NSArray *)((UINavigationController *)apd.startNav).viewControllers;
+    for(id vc in vcs) {
+        if([vc isKindOfClass:[TSTabBarViewController class]]) {
+            rootTab = (TSTabBarViewController *)vc;
+            break;
+        }
+    }
     TSOutboxViewController *outbox = (TSOutboxViewController *)(NSArray *)rootTab.viewControllers[2];
     if(!_finalAttachment)
     {
