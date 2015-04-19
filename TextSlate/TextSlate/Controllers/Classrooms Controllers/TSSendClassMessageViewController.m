@@ -122,7 +122,7 @@
     
     CGSize expectSize = [gettingSizeLabel sizeThatFits:maximumLabelSize];
     if(((TSMessage *)_messagesArray[indexPath.row]).attachment)
-        return expectSize.height+247;
+        return expectSize.height+347;
     else
         return expectSize.height+41;
 }
