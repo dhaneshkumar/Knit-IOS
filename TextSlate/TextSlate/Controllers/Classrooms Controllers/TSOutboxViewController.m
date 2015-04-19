@@ -45,6 +45,8 @@
 
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+    UIBarButtonItem *composeBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose  target:self action:@selector(composeMessage)];
+    self.tabBarController.navigationItem.rightBarButtonItem = composeBarButtonItem;
     if(_messagesArray.count>0 && _shouldScrollUp) {
         NSIndexPath *rowIndexPath = [NSIndexPath indexPathForRow:0 inSection:0];
         [self.messagesTable scrollToRowAtIndexPath:rowIndexPath atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
@@ -57,11 +59,11 @@
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    NSString *role=[[PFUser currentUser] objectForKey:@"role"];
-    if([role isEqualToString:@"teacher"]) {
+    //NSString *role=[[PFUser currentUser] objectForKey:@"role"];
+    //if([role isEqualToString:@"teacher"]) {
         UIBarButtonItem *composeBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose  target:self action:@selector(composeMessage)];
         self.tabBarController.navigationItem.rightBarButtonItem = composeBarButtonItem;
-    }
+    //}
     [_messagesTable reloadData];
 }
 
@@ -237,9 +239,14 @@
 }
 
 -(void)composeMessage {
-    UINavigationController *joinNewClassNavigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"messageComposer"];
-    [self presentViewController:joinNewClassNavigationController animated:YES completion:nil];
-
+    if([self noCreatedClasses]) {
+        UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"You cannot send messages as you have not created any class." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+        [errorAlertView show];
+    }
+    else {
+        UINavigationController *joinNewClassNavigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"messageComposer"];
+        [self presentViewController:joinNewClassNavigationController animated:YES completion:nil];
+    }
 }
 /*
 #pragma mark - Navigation

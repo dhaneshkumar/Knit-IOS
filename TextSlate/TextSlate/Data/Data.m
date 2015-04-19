@@ -475,6 +475,7 @@
         if(error)
         {
             NSLog(@"Could not verify the code");
+            errorBlock(error);
         }
         else
         {
@@ -490,6 +491,7 @@
         if(error)
         {
             NSLog(@"Could not save installationID");
+            errorBlock(error);
         }
         else{
             successBlock(object);
@@ -504,6 +506,7 @@
     [PFCloud callFunctionInBackground:@"appLogout" withParameters:@{@"installationObjectId":objectId} block:^(id object, NSError *error) {
         if(error){
             NSLog(@"Could not logout the user...");
+            errorBlock(error);
         }
         else{
            successBlock(object);
@@ -532,6 +535,7 @@
         if(error)
         {
             NSLog(@"Could not send the instruction");
+            errorBlock(error);
         }
         else{
             successBlock(object);
@@ -546,6 +550,7 @@
         if(error)
         {
             NSLog(@"Could not send invitation");
+            errorBlock(error);
         }
         else{
             successBlock(object);
@@ -560,7 +565,9 @@
         if(error)
         {
             NSLog(@"Error %@",error);
+            errorBlock(error);
         }
+        
         else{
             successBlock(object);
         }

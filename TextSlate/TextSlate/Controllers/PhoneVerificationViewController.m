@@ -197,7 +197,19 @@
                     return;
                 }
             } errorBlock:^(NSError *error) {
-                UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error in verifying OTP. Try again later." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+                NSLog(@"error : %@", error);
+                if([[((NSDictionary *)error.userInfo) objectForKey:@"error"] isEqualToString:@"USER_ALREADY_EXISTS"]) {
+                    [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
+                    if(_isFindClass)
+                        [self.navigationController popViewControllerAnimated:YES];
+                    else
+                        [self dismissViewControllerAnimated:YES completion:nil];
+                        
+                    UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"User already exists." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+                    [errorAlertView show];
+                    return;
+                }
+                UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Incorrect OTP." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
                 [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
                 [errorAlertView show];
                 return;
@@ -309,7 +321,15 @@
                     return;
                 }
             } errorBlock:^(NSError *error) {
-                UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error in verifying OTP. Try again later." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+                NSLog(@"error : %@", error);
+                if([[((NSDictionary *)error.userInfo) objectForKey:@"error"] isEqualToString:@"USER_DOESNOT_EXISTS"]) {
+                    [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
+                    [self.navigationController popViewControllerAnimated:YES];
+                    UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"User does not exist." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+                    [errorAlertView show];
+                    return;
+                }
+                UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Incorrect OTP." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
                 [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
                 [errorAlertView show];
                 return;
