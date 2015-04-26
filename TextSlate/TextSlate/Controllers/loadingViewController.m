@@ -16,7 +16,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    CGAffineTransform transform = CGAffineTransformMakeScale(2.0f, 2.0f);
+    CGAffineTransform transform = CGAffineTransformMakeScale(1.5f, 1.5f);
     _activityIndicator.transform = transform;
     //self.modalPresentationStyle = UIModalPresentationCurrentContext;
     //self.view.backgroundColor = [UIColor clearColor];

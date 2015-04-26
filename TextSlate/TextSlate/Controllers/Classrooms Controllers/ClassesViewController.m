@@ -206,8 +206,13 @@
 
 -(void)fillDataModel {
     NSMutableArray *joinedClassCodes = [[NSMutableArray alloc] init];
-    _joinedClasses = (NSMutableArray *)[[PFUser currentUser] objectForKey:@"joined_groups"];
-    _createdClasses = (NSMutableArray *)[[PFUser currentUser] objectForKey:@"Created_groups"];
+    NSArray *joinedClassesArray = (NSArray *) [[PFUser currentUser] objectForKey:@"joined_groups"];
+    NSArray *createdClassesArray = (NSArray *) [[PFUser currentUser] objectForKey:@"Created_groups"];
+    _joinedClasses = [NSMutableArray arrayWithArray:[[joinedClassesArray reverseObjectEnumerator] allObjects]];
+    _createdClasses = [NSMutableArray arrayWithArray:[[createdClassesArray reverseObjectEnumerator] allObjects]];
+    
+    NSLog(@"joined classes : %d", joinedClassesArray.count);
+    NSLog(@"created classes : %d", createdClassesArray.count);
     
     for(NSArray *joinedcl in _joinedClasses)
         [joinedClassCodes addObject:joinedcl[0]];

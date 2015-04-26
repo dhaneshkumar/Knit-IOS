@@ -15,6 +15,7 @@
 #import "AppDelegate.h"
 #import "TSNewInboxViewController.h"
 #import "sharedCache.h"
+#import "Reachability.h"
 
 @interface TSJoinNewClassViewController ()
 
@@ -68,6 +69,16 @@
         [errorAlertView show];
         return;
     }
+    
+    /*
+    Reachability *networkReachability = [Reachability reachabilityForInternetConnection];
+    NetworkStatus networkStatus = [networkReachability currentReachabilityStatus];
+    if (networkStatus == NotReachable) {
+        NSLog(@"There IS NO internet connection");
+    } else {
+        NSLog(@"There IS internet connection");
+    }
+    */
     
     [self presentViewController:[self.storyboard instantiateViewControllerWithIdentifier:@"loadingVC"] animated:NO completion:nil];
     NSArray *joinedClasses = [[PFUser currentUser] objectForKey:@"joined_groups"];

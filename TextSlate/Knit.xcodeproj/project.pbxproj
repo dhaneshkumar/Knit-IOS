@@ -128,6 +128,7 @@
 		FB6A04A81AC29770009E9D9D /* ios icons-15.png in Resources */ = {isa = PBXBuildFile; fileRef = FB6A04A71AC2976F009E9D9D /* ios icons-15.png */; };
 		FB6A04AF1AC2DE7B009E9D9D /* EditAsscoNameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FB6A04AE1AC2DE7B009E9D9D /* EditAsscoNameViewController.m */; };
 		FB89E2941ACAB443008A0F8E /* white.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FB89E2931ACAB443008A0F8E /* white.jpg */; };
+		FB93500A1AEA1075001BE394 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = FB9350091AEA1075001BE394 /* Reachability.m */; };
 		FBA778F61ACEB84B00D247CC /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FBA778F11ACEB84B00D247CC /* Bolts.framework */; };
 		FBA778F71ACEB84B00D247CC /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FBA778F21ACEB84B00D247CC /* Parse.framework */; };
 		FBA778F81ACEB84B00D247CC /* ParseCrashReporting.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FBA778F31ACEB84B00D247CC /* ParseCrashReporting.framework */; };
@@ -387,6 +388,8 @@
 		FB6A04AD1AC2DE7B009E9D9D /* EditAsscoNameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditAsscoNameViewController.h; sourceTree = "<group>"; };
 		FB6A04AE1AC2DE7B009E9D9D /* EditAsscoNameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditAsscoNameViewController.m; sourceTree = "<group>"; };
 		FB89E2931ACAB443008A0F8E /* white.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = white.jpg; sourceTree = "<group>"; };
+		FB9350081AEA1075001BE394 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
+		FB9350091AEA1075001BE394 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		FBA778F11ACEB84B00D247CC /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 		FBA778F21ACEB84B00D247CC /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		FBA778F31ACEB84B00D247CC /* ParseCrashReporting.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseCrashReporting.framework; sourceTree = "<group>"; };
@@ -756,6 +759,7 @@
 		971687D71A1F1BCA00FE98FC /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				FB9350071AEA105C001BE394 /* Reachability */,
 				FBAA816A1AE2C0870056E168 /* Loader */,
 				40AA7F941AD8443D0000255C /* Find Class Sign Up */,
 				402A813B1AD45164002299C1 /* Find Class */,
@@ -1086,6 +1090,15 @@
 			name = "Edit Associate Name";
 			sourceTree = "<group>";
 		};
+		FB9350071AEA105C001BE394 /* Reachability */ = {
+			isa = PBXGroup;
+			children = (
+				FB9350081AEA1075001BE394 /* Reachability.h */,
+				FB9350091AEA1075001BE394 /* Reachability.m */,
+			);
+			name = Reachability;
+			sourceTree = "<group>";
+		};
 		FBAA816A1AE2C0870056E168 /* Loader */ = {
 			isa = PBXGroup;
 			children = (
@@ -1353,6 +1366,7 @@
 				9707CA101A5BC3110065D2BA /* JSQMessagesCollectionViewCellIncoming.m in Sources */,
 				9786AE4C1A473E2B00801838 /* TSJoinNewClassViewController.m in Sources */,
 				9707CA1A1A5BC3110065D2BA /* JSQMessagesToolbarContentView.m in Sources */,
+				FB93500A1AEA1075001BE394 /* Reachability.m in Sources */,
 				4068825E1A8A307D00C055E1 /* ProfilePictureViewController.m in Sources */,
 				40C7B2D31A935F6E00C1BFC8 /* ClassesViewController.m in Sources */,
 				403FFF121ABB5BEC008FB159 /* InviteParentViewController.m in Sources */,

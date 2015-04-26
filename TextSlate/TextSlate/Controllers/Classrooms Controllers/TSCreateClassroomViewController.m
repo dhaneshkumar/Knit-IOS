@@ -72,7 +72,7 @@
         PFObject *codeGroupForClass = (PFObject *)object;
         [codeGroupForClass pinInBackground];
         [[PFUser currentUser]fetch];
-    
+        
         NSArray *createdClass=[[PFUser currentUser] objectForKey:@"Created_groups"];
         if(createdClass.count==1)
         {
