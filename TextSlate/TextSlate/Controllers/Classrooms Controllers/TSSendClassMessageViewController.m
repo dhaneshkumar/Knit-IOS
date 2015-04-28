@@ -14,6 +14,7 @@
 #import "TSMessage.h"
 #import "TSCreatedClassMessageTableViewCell.h"
 #import "InviteParentViewController.h"
+#import "MessageComposerViewController.h"
 
 
 @interface TSSendClassMessageViewController ()
@@ -204,6 +205,9 @@
 
 -(void) composeMessage{
     UINavigationController *joinNewClassNavigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"messageComposer"];
+    MessageComposerViewController *messageComposer=(MessageComposerViewController *)joinNewClassNavigationController.topViewController;
+    messageComposer.isClass=true;
+    messageComposer.classcode=_classCode;
     [self presentViewController:joinNewClassNavigationController animated:YES completion:nil];
 }
 /*

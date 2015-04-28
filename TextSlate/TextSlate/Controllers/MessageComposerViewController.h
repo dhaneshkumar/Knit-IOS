@@ -9,5 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface MessageComposerViewController : UIViewController<UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITextFieldDelegate,UITextViewDelegate,UITableViewDelegate,UITableViewDataSource>
+@property bool isClass;
+@property (strong,nonatomic) NSString *classcode;
 
 @end

@@ -27,6 +27,7 @@
 @property (strong, nonatomic) NSMutableArray *messagesArray;
 @property (strong,nonatomic) UIImage *attachmentImage;
 @property (strong, nonatomic) UIImagePickerController *imagePicker;
+@property (strong,nonatomic) UILabel *wordCount;
 @property (strong,nonatomic) NSDate *lastEntry;
 @property (strong,nonatomic) PFFile *finalAttachment;
 @property (strong,nonatomic) UITableView *recipientTable;
@@ -58,24 +59,35 @@
     [_attachImage.layer setMasksToBounds:YES];
     
     _progressBar = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleDefault];
-    [_progressBar setFrame:CGRectMake(130, 20, 100, 150)];
+    [_progressBar setFrame:CGRectMake(130, 20, 70, 100)];
     _progressBar.tintColor=[UIColor darkGrayColor];
     self.progressBar.hidden=YES;
 
     _cancelAttachment=[[UIButton alloc]init];
-    [_cancelAttachment setFrame:CGRectMake(250, 1, 40, 40)];
+    [_cancelAttachment setFrame:CGRectMake(205, 1, 25, 45)];
     [_cancelAttachment setImage:[UIImage imageNamed:@"attachcancel.png"] forState:UIControlStateNormal];
     _cancelAttachment.hidden=YES;
-   [ _cancelAttachment addTarget:self action:@selector(removeAttachment) forControlEvents:UIControlEventTouchUpInside];
+    
+    [ _cancelAttachment addTarget:self action:@selector(removeAttachment) forControlEvents:UIControlEventTouchUpInside];
+    
+    
+    _wordCount=[[UILabel alloc]init];
+    [_wordCount setFrame:CGRectMake(260, 2,30, 40)];
+    _wordCount.textColor=[UIColor grayColor];
+    _wordCount.font=[UIFont systemFontOfSize:13];
+    _wordCount.text=@"300";
+    
     [self.navigationController.toolbar addSubview:_progressBar];
     [self.navigationController.toolbar addSubview:_attachImage];
     [self.navigationController.toolbar addSubview:_cancelAttachment];
+    [self.navigationController.toolbar addSubview:_wordCount];
+ 
     self.navigationItem.title=@"New Message";
     _createdClasses=[[NSMutableArray alloc]init];
     _createdclassName=[[NSMutableArray alloc]init];
     _createdclassCode=[[NSMutableArray alloc]init];
     _textMessage.delegate = self;
-    _textMessage.text = @"Type Message here...";
+    _textMessage.text = @"  Type Message here...";
     _textMessage.textColor = [UIColor lightGrayColor];
     _textMessage.layer.cornerRadius = 5;
     _textMessage.clipsToBounds = YES;
@@ -88,8 +100,9 @@
     [_textMessage.layer setMasksToBounds:YES];
 //    _textMessage.layer.borderColor=[[UIColor colorWithRed:38.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0] CGColor];
     _recipient.delegate=self;
-    _recipient.text=@"Classroom";
+    _recipient.text=@"Tap to select Classroom";
     _recipient.textColor=[UIColor lightGrayColor];
+    _recipient.font=[UIFont systemFontOfSize:14];
     _recipientTable = [[UITableView alloc] initWithFrame:CGRectMake(0, 3, 320, 160) style:UITableViewStylePlain];
     _recipientTable.delegate = self;
     _recipientTable.dataSource = self;
@@ -119,6 +132,12 @@
     // [_textMessage becomeFirstResponder];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(liftMainViewWhenKeybordAppears:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(liftMainViewWhenKeybordHide:) name:UIKeyboardDidHideNotification object:nil];
+    if(_isClass==true)
+    {
+        
+        _recipient.text=_classcode;
+        _recipient.textColor=[UIColor colorWithRed:32.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
+    }
 
 }
 
@@ -140,7 +159,7 @@
     }
     _hasTypedMessage = true;
     
-    if([textView.text isEqualToString:@"Classroom"])
+    if([textView.text isEqualToString:@"Tap to select Classroom"])
     {
         self.testView.hidden=NO;
         self.recipientTable.hidden=NO;
@@ -152,16 +171,42 @@
 - (void)textViewDidEndEditing:(UITextView *)textView
 {
     if ([[self trimmedString:textView.text] isEqualToString:@""] && textView==_textMessage) {
-        textView.text = @"Type Message here...";
+        textView.text = @"  Type Message here...";
         textView.textColor = [UIColor lightGrayColor]; //optional
         _hasTypedMessage = false;
     }
     
     if([textView.text isEqualToString:@""] && textView==_recipient )
     {
-        textView.text=@"Classroom";
+        textView.text=@"Tap to select Classroom";
         textView.textColor=[UIColor lightGrayColor];
     }
+}
+
+-(void)textViewDidChange:(UITextView *)textView
+{
+    int len = (int) 300-textView.text.length;
+//    _textMessage.text=[NSString stringWithFormat:@"%i",140-len];
+    NSLog(@"text length %i",len);
+    NSString* count = [@(len) stringValue];
+
+    _wordCount.text=count;
+}
+
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
+{
+    if([text length] == 0)
+    {
+        if([textView.text length] != 0)
+        {
+            return YES;
+        }
+    }
+    else if([[textView text] length] > 299)
+    {
+        return NO;
+    }
+    return YES;
 }
 
 -(IBAction)recipientButton:(id)sender
@@ -368,7 +413,7 @@
                             }
                         }
                     });
-                    UIAlertView *messageDialog = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Gaya bey!" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+                    UIAlertView *messageDialog = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Your message has been sent!" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
                     [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
                     [self dismissViewControllerAnimated:YES completion:nil];
                     [messageDialog show];
