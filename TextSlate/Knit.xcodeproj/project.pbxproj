@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2A64CE101386DA8DF13DFEDA /* libPods-Knit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 92F296F2593AFC26685698B2 /* libPods-Knit.a */; };
 		401FDF4A1AE49A7D00DF6B41 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 401FDF491AE49A7D00DF6B41 /* Default-568h@2x.png */; };
 		402A813E1AD45186002299C1 /* FindClassViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 402A813D1AD45186002299C1 /* FindClassViewController.m */; };
 		4038D4261AC6C62200E9009A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4038D4251AC6C62200E9009A /* Main.storyboard */; };
@@ -20,6 +21,8 @@
 		404C9E1C1AC0260C001CF571 /* phone.png in Resources */ = {isa = PBXBuildFile; fileRef = 404C9E1B1AC0260C001CF571 /* phone.png */; };
 		404C9E1E1AC0263C001CF571 /* iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = 404C9E1D1AC0263C001CF571 /* iphone.png */; };
 		4068825E1A8A307D00C055E1 /* ProfilePictureViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4068825D1A8A307D00C055E1 /* ProfilePictureViewController.m */; };
+		408863721AF0272400DCF61B /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 408863711AF0272400DCF61B /* Social.framework */; };
+		408863741AF0273B00DCF61B /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 408863731AF0273B00DCF61B /* Accounts.framework */; };
 		40A9FC831AC42C0900082555 /* attach_30x30.png in Resources */ = {isa = PBXBuildFile; fileRef = 40A9FC801AC42C0900082555 /* attach_30x30.png */; };
 		40A9FC841AC42C0900082555 /* attach_40x40.png in Resources */ = {isa = PBXBuildFile; fileRef = 40A9FC811AC42C0900082555 /* attach_40x40.png */; };
 		40AA7F971AD8447B0000255C /* FindClassSignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 40AA7F961AD8447B0000255C /* FindClassSignUpViewController.m */; };
@@ -132,7 +135,6 @@
 		FBA778F61ACEB84B00D247CC /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FBA778F11ACEB84B00D247CC /* Bolts.framework */; };
 		FBA778F71ACEB84B00D247CC /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FBA778F21ACEB84B00D247CC /* Parse.framework */; };
 		FBA778F81ACEB84B00D247CC /* ParseCrashReporting.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FBA778F31ACEB84B00D247CC /* ParseCrashReporting.framework */; };
-		FBA778F91ACEB84B00D247CC /* ParseFacebookUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FBA778F41ACEB84B00D247CC /* ParseFacebookUtils.framework */; };
 		FBA778FA1ACEB84B00D247CC /* ParseUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FBA778F51ACEB84B00D247CC /* ParseUI.framework */; };
 		FBA778FD1AD12EC000D247CC /* ClassesParentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FBA778FC1AD12EC000D247CC /* ClassesParentViewController.m */; };
 		FBAA81331AE0D8B40056E168 /* ios icons-29.png in Resources */ = {isa = PBXBuildFile; fileRef = FBAA81301AE0D8B40056E168 /* ios icons-29.png */; };
@@ -191,6 +193,8 @@
 		404C9E1D1AC0263C001CF571 /* iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iphone.png; sourceTree = "<group>"; };
 		4068825C1A8A307D00C055E1 /* ProfilePictureViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfilePictureViewController.h; sourceTree = "<group>"; };
 		4068825D1A8A307D00C055E1 /* ProfilePictureViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfilePictureViewController.m; sourceTree = "<group>"; };
+		408863711AF0272400DCF61B /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
+		408863731AF0273B00DCF61B /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		40A9FC801AC42C0900082555 /* attach_30x30.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = attach_30x30.png; sourceTree = "<group>"; };
 		40A9FC811AC42C0900082555 /* attach_40x40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = attach_40x40.png; sourceTree = "<group>"; };
 		40AA7F951AD8447A0000255C /* FindClassSignUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FindClassSignUpViewController.h; sourceTree = "<group>"; };
@@ -224,6 +228,7 @@
 		40EBADB11A7E6150003FB0B1 /* classroom.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = classroom.png; sourceTree = "<group>"; };
 		40EBADB21A7E6150003FB0B1 /* inbox_grey.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = inbox_grey.png; sourceTree = "<group>"; };
 		40EBADB31A7E6150003FB0B1 /* settings_32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = settings_32.png; sourceTree = "<group>"; };
+		92F296F2593AFC26685698B2 /* libPods-Knit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Knit.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9707C97D1A5BAC5D0065D2BA /* KeyboardBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeyboardBar.h; sourceTree = "<group>"; };
 		9707C97E1A5BAC5D0065D2BA /* KeyboardBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeyboardBar.m; sourceTree = "<group>"; };
 		9707C9811A5BADC50065D2BA /* MessageComposerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageComposerView.h; sourceTree = "<group>"; };
@@ -377,6 +382,8 @@
 		976F04441A4B6EA0003E9604 /* TSSendClassMessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSSendClassMessageViewController.m; sourceTree = "<group>"; };
 		9786AE4A1A473E2B00801838 /* TSJoinNewClassViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSJoinNewClassViewController.h; sourceTree = "<group>"; };
 		9786AE4B1A473E2B00801838 /* TSJoinNewClassViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSJoinNewClassViewController.m; sourceTree = "<group>"; };
+		A0D6BA3FFCBC392BC09140C0 /* Pods-Knit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Knit.release.xcconfig"; path = "Pods/Target Support Files/Pods-Knit/Pods-Knit.release.xcconfig"; sourceTree = "<group>"; };
+		BDFF5D9E42405E99CF3323E3 /* Pods-Knit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Knit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Knit/Pods-Knit.debug.xcconfig"; sourceTree = "<group>"; };
 		FB1F47B61A7589AE0093350B /* 60x60.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 60x60.png; sourceTree = "<group>"; };
 		FB1F47B71A7589AE0093350B /* 120x120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 120x120.png; sourceTree = "<group>"; };
 		FB1F47B81A7589AE0093350B /* 152x152.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 152x152.png; sourceTree = "<group>"; };
@@ -444,6 +451,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				408863741AF0273B00DCF61B /* Accounts.framework in Frameworks */,
+				408863721AF0272400DCF61B /* Social.framework in Frameworks */,
 				FBACC65E1A7429A700DC1747 /* libsqlite3.dylib in Frameworks */,
 				FBA778F81ACEB84B00D247CC /* ParseCrashReporting.framework in Frameworks */,
 				971688171A20656100FE98FC /* libz.dylib in Frameworks */,
@@ -459,8 +468,8 @@
 				FBA778F71ACEB84B00D247CC /* Parse.framework in Frameworks */,
 				971688151A20656100FE98FC /* CoreGraphics.framework in Frameworks */,
 				971688141A20656100FE98FC /* CFNetwork.framework in Frameworks */,
-				FBA778F91ACEB84B00D247CC /* ParseFacebookUtils.framework in Frameworks */,
 				971688131A20656100FE98FC /* AudioToolbox.framework in Frameworks */,
+				2A64CE101386DA8DF13DFEDA /* libPods-Knit.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -877,6 +886,7 @@
 				973A4BD41A1F174D0039175A /* TextSlate */,
 				973A4BEE1A1F174D0039175A /* TextSlateTests */,
 				973A4BD31A1F174D0039175A /* Products */,
+				AA177BA4BCE6015731BE97FB /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1059,6 +1069,8 @@
 		9786AE491A3F47E300801838 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				408863731AF0273B00DCF61B /* Accounts.framework */,
+				408863711AF0272400DCF61B /* Social.framework */,
 				FBA778F11ACEB84B00D247CC /* Bolts.framework */,
 				FBA778F21ACEB84B00D247CC /* Parse.framework */,
 				FBA778F31ACEB84B00D247CC /* ParseCrashReporting.framework */,
@@ -1076,8 +1088,18 @@
 				971688101A20656100FE98FC /* Security.framework */,
 				971688111A20656100FE98FC /* StoreKit.framework */,
 				971688121A20656100FE98FC /* SystemConfiguration.framework */,
+				92F296F2593AFC26685698B2 /* libPods-Knit.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		AA177BA4BCE6015731BE97FB /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				BDFF5D9E42405E99CF3323E3 /* Pods-Knit.debug.xcconfig */,
+				A0D6BA3FFCBC392BC09140C0 /* Pods-Knit.release.xcconfig */,
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 		FB6A04A91AC2CE1C009E9D9D /* Edit Associate Name */ = {
@@ -1105,10 +1127,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 973A4BF51A1F174D0039175A /* Build configuration list for PBXNativeTarget "Knit" */;
 			buildPhases = (
+				67B9D08DBD01AE140908B58D /* Check Pods Manifest.lock */,
 				973A4BCE1A1F174D0039175A /* Sources */,
 				973A4BCF1A1F174D0039175A /* Frameworks */,
 				973A4BD01A1F174D0039175A /* Resources */,
 				FBACC6731A74316700DC1747 /* ShellScript */,
+				E5CA3E13DD1FBC0048F4057A /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1255,6 +1279,36 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		67B9D08DBD01AE140908B58D /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		E5CA3E13DD1FBC0048F4057A /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Knit/Pods-Knit-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		FBACC6731A74316700DC1747 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1493,6 +1547,7 @@
 		};
 		973A4BF61A1F174D0039175A /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BDFF5D9E42405E99CF3323E3 /* Pods-Knit.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -1511,6 +1566,7 @@
 		};
 		973A4BF71A1F174D0039175A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A0D6BA3FFCBC392BC09140C0 /* Pods-Knit.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
