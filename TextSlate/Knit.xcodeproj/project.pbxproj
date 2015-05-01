@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		2A64CE101386DA8DF13DFEDA /* libPods-Knit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 92F296F2593AFC26685698B2 /* libPods-Knit.a */; };
-		401FDF4A1AE49A7D00DF6B41 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 401FDF491AE49A7D00DF6B41 /* Default-568h@2x.png */; };
 		402A813E1AD45186002299C1 /* FindClassViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 402A813D1AD45186002299C1 /* FindClassViewController.m */; };
 		4038D4261AC6C62200E9009A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4038D4251AC6C62200E9009A /* Main.storyboard */; };
 		403C1AF91AAAED11003E7D81 /* OldSignInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 403C1AF81AAAED11003E7D81 /* OldSignInViewController.m */; };
@@ -147,6 +146,13 @@
 		FBAA81751AE3AB170056E168 /* newIcon2.png in Resources */ = {isa = PBXBuildFile; fileRef = FBAA81731AE3AB170056E168 /* newIcon2.png */; };
 		FBACC65C1A74298800DC1747 /* libstdc++.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = FBACC65B1A74298800DC1747 /* libstdc++.6.dylib */; };
 		FBACC65E1A7429A700DC1747 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = FBACC65D1A7429A700DC1747 /* libsqlite3.dylib */; };
+		FBB860B21AF350920005474A /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FBB860B11AF350920005474A /* Default-568h@2x.png */; };
+		FBB860C01AF3595F0005474A /* JTSAnimatedGIFUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = FBB860B51AF3595F0005474A /* JTSAnimatedGIFUtility.m */; };
+		FBB860C11AF3595F0005474A /* JTSImageInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = FBB860B71AF3595F0005474A /* JTSImageInfo.m */; };
+		FBB860C21AF3595F0005474A /* JTSImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FBB860B91AF3595F0005474A /* JTSImageViewController.m */; };
+		FBB860C31AF3595F0005474A /* JTSSimpleImageDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = FBB860BB1AF3595F0005474A /* JTSSimpleImageDownloader.m */; };
+		FBB860C41AF3595F0005474A /* UIApplication+JTSImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FBB860BD1AF3595F0005474A /* UIApplication+JTSImageViewController.m */; };
+		FBB860C51AF3595F0005474A /* UIImage+JTSImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = FBB860BF1AF3595F0005474A /* UIImage+JTSImageEffects.m */; };
 		FBBA459F1A94C4F40088CCBC /* TSMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = FBBA459D1A94C4F40088CCBC /* TSMessage.m */; };
 		FBBA45A71A94C5130088CCBC /* TSJoinedClassMessageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FBBA45A31A94C5130088CCBC /* TSJoinedClassMessageTableViewCell.m */; };
 		FBBA45C91A94D2330088CCBC /* TSNewInboxViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FBBA45C81A94D2330088CCBC /* TSNewInboxViewController.m */; };
@@ -176,7 +182,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		401FDF491AE49A7D00DF6B41 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../../../../../Pictures/Default-568h@2x.png"; sourceTree = "<group>"; };
 		402A813C1AD45186002299C1 /* FindClassViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FindClassViewController.h; sourceTree = "<group>"; };
 		402A813D1AD45186002299C1 /* FindClassViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FindClassViewController.m; sourceTree = "<group>"; };
 		4038D4251AC6C62200E9009A /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
@@ -416,6 +421,19 @@
 		FBAA81731AE3AB170056E168 /* newIcon2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = newIcon2.png; sourceTree = "<group>"; };
 		FBACC65B1A74298800DC1747 /* libstdc++.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.6.dylib"; path = "usr/lib/libstdc++.6.dylib"; sourceTree = SDKROOT; };
 		FBACC65D1A7429A700DC1747 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		FBB860B11AF350920005474A /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		FBB860B41AF3595F0005474A /* JTSAnimatedGIFUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JTSAnimatedGIFUtility.h; sourceTree = "<group>"; };
+		FBB860B51AF3595F0005474A /* JTSAnimatedGIFUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JTSAnimatedGIFUtility.m; sourceTree = "<group>"; };
+		FBB860B61AF3595F0005474A /* JTSImageInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JTSImageInfo.h; sourceTree = "<group>"; };
+		FBB860B71AF3595F0005474A /* JTSImageInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JTSImageInfo.m; sourceTree = "<group>"; };
+		FBB860B81AF3595F0005474A /* JTSImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JTSImageViewController.h; sourceTree = "<group>"; };
+		FBB860B91AF3595F0005474A /* JTSImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JTSImageViewController.m; sourceTree = "<group>"; };
+		FBB860BA1AF3595F0005474A /* JTSSimpleImageDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JTSSimpleImageDownloader.h; sourceTree = "<group>"; };
+		FBB860BB1AF3595F0005474A /* JTSSimpleImageDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JTSSimpleImageDownloader.m; sourceTree = "<group>"; };
+		FBB860BC1AF3595F0005474A /* UIApplication+JTSImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIApplication+JTSImageViewController.h"; sourceTree = "<group>"; };
+		FBB860BD1AF3595F0005474A /* UIApplication+JTSImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIApplication+JTSImageViewController.m"; sourceTree = "<group>"; };
+		FBB860BE1AF3595F0005474A /* UIImage+JTSImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+JTSImageEffects.h"; sourceTree = "<group>"; };
+		FBB860BF1AF3595F0005474A /* UIImage+JTSImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+JTSImageEffects.m"; sourceTree = "<group>"; };
 		FBBA459C1A94C4F40088CCBC /* TSMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSMessage.h; sourceTree = "<group>"; };
 		FBBA459D1A94C4F40088CCBC /* TSMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSMessage.m; sourceTree = "<group>"; };
 		FBBA45A21A94C5130088CCBC /* TSJoinedClassMessageTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSJoinedClassMessageTableViewCell.h; sourceTree = "<group>"; };
@@ -820,7 +838,7 @@
 		971687DB1A1F1BCA00FE98FC /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				401FDF491AE49A7D00DF6B41 /* Default-568h@2x.png */,
+				FBB860B11AF350920005474A /* Default-568h@2x.png */,
 				FBAA81721AE3AB170056E168 /* newIcon1.png */,
 				FBAA81731AE3AB170056E168 /* newIcon2.png */,
 				FBAA81361AE110C10056E168 /* ios icons-32.png */,
@@ -1064,6 +1082,7 @@
 		976F04461A4DE4A3003E9604 /* External Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				FBB860B31AF3595F0005474A /* JTSImageViewController */,
 				9707CA1E1A5BC3670065D2BA /* JSQSystemSoundPlayer */,
 				9707C9861A5BC3110065D2BA /* JSQMessagesViewController */,
 			);
@@ -1131,6 +1150,25 @@
 				FBAA816C1AE2C0BA0056E168 /* loadingViewController.m */,
 			);
 			name = Loader;
+			sourceTree = "<group>";
+		};
+		FBB860B31AF3595F0005474A /* JTSImageViewController */ = {
+			isa = PBXGroup;
+			children = (
+				FBB860B41AF3595F0005474A /* JTSAnimatedGIFUtility.h */,
+				FBB860B51AF3595F0005474A /* JTSAnimatedGIFUtility.m */,
+				FBB860B61AF3595F0005474A /* JTSImageInfo.h */,
+				FBB860B71AF3595F0005474A /* JTSImageInfo.m */,
+				FBB860B81AF3595F0005474A /* JTSImageViewController.h */,
+				FBB860B91AF3595F0005474A /* JTSImageViewController.m */,
+				FBB860BA1AF3595F0005474A /* JTSSimpleImageDownloader.h */,
+				FBB860BB1AF3595F0005474A /* JTSSimpleImageDownloader.m */,
+				FBB860BC1AF3595F0005474A /* UIApplication+JTSImageViewController.h */,
+				FBB860BD1AF3595F0005474A /* UIApplication+JTSImageViewController.m */,
+				FBB860BE1AF3595F0005474A /* UIImage+JTSImageEffects.h */,
+				FBB860BF1AF3595F0005474A /* UIImage+JTSImageEffects.m */,
+			);
+			path = JTSImageViewController;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1256,7 +1294,7 @@
 				404C9E171AC02176001CF571 /* ios icons-24.png in Resources */,
 				FB1F47BB1A7589AE0093350B /* 120x120.png in Resources */,
 				40EBADB01A7E6142003FB0B1 /* 640 x 1136.png in Resources */,
-				401FDF4A1AE49A7D00DF6B41 /* Default-568h@2x.png in Resources */,
+				FBB860B21AF350920005474A /* Default-568h@2x.png in Resources */,
 				40BB899B1AC431D3002CFDFE /* attachcancel.png in Resources */,
 				404C9E1A1AC02176001CF571 /* ios icons-27.png in Resources */,
 				40C7415A1AC6A970007AA844 /* ios icons-20.png in Resources */,
@@ -1350,6 +1388,8 @@
 				975B1E981A2133C10028BE25 /* Data.m in Sources */,
 				973A4BDB1A1F174D0039175A /* AppDelegate.m in Sources */,
 				9707CA0E1A5BC3110065D2BA /* JSQMessagesCollectionView.m in Sources */,
+				FBB860C51AF3595F0005474A /* UIImage+JTSImageEffects.m in Sources */,
+				FBB860C31AF3595F0005474A /* JTSSimpleImageDownloader.m in Sources */,
 				FBC1BD061AB6CFF3004921CD /* JoinedClassTableViewController.m in Sources */,
 				FBFAAB831ABA08A2006A203D /* TSClassTableViewCell.m in Sources */,
 				403C1AF91AAAED11003E7D81 /* OldSignInViewController.m in Sources */,
@@ -1382,6 +1422,7 @@
 				FBC1BD0F1AB7004F004921CD /* associatedNameTableViewCell.m in Sources */,
 				971687E31A1F1C3900FE98FC /* TSParent.m in Sources */,
 				9707CA011A5BC3110065D2BA /* JSQMessagesTimestampFormatter.m in Sources */,
+				FBB860C41AF3595F0005474A /* UIApplication+JTSImageViewController.m in Sources */,
 				40BB89A01AC4992C002CFDFE /* InviteTeacherViewController.m in Sources */,
 				40C7B2E91A965AFF00C1BFC8 /* TSSuggestion.m in Sources */,
 				FBC1BD031AB60CE4004921CD /* TSJoinedClass.m in Sources */,
@@ -1410,13 +1451,16 @@
 				9707CA1C1A5BC3110065D2BA /* JSQMessagesTypingIndicatorFooterView.m in Sources */,
 				40CD58651A89455B000CB1AB /* FAQTableViewController.m in Sources */,
 				402A813E1AD45186002299C1 /* FindClassViewController.m in Sources */,
+				FBB860C21AF3595F0005474A /* JTSImageViewController.m in Sources */,
 				9707CA051A5BC3110065D2BA /* JSQMessagesCollectionViewLayoutAttributes.m in Sources */,
 				9707CA091A5BC3110065D2BA /* JSQMessagesAvatarImage.m in Sources */,
 				40CDDBB61A90E47E00922ADF /* TSMember.m in Sources */,
 				9707C9FE1A5BC3110065D2BA /* JSQMessagesAvatarImageFactory.m in Sources */,
+				FBB860C01AF3595F0005474A /* JTSAnimatedGIFUtility.m in Sources */,
 				FBBA45CC1A94D3170088CCBC /* TSInboxMessageTableViewCell.m in Sources */,
 				9707C9FB1A5BC3110065D2BA /* JSQMessagesKeyboardController.m in Sources */,
 				97655AC61A5D915C004A2884 /* TSSettingsTableViewController.m in Sources */,
+				FBB860C11AF3595F0005474A /* JTSImageInfo.m in Sources */,
 				9707C9F71A5BC3110065D2BA /* UIColor+JSQMessages.m in Sources */,
 				9707CA0B1A5BC3110065D2BA /* JSQPhotoMediaItem.m in Sources */,
 				975B1E861A20F7C50028BE25 /* TSClassroomTableViewController.m in Sources */,

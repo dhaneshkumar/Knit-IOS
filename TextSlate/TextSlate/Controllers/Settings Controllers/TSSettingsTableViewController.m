@@ -14,6 +14,7 @@
 #import "ProfilePictureViewController.h"
 #import "sharedCache.h"
 #import "Data.h"
+#import "MBProgressHUD.h"
 
 
 @interface TSSettingsTableViewController ()
@@ -336,15 +337,18 @@ if(section==0)
             PFInstallation *currentInstallation=[PFInstallation currentInstallation];
             NSString *objectID=currentInstallation.objectId;
             NSLog(@"Object ID is %@",objectID);
-            [self presentViewController:[self.storyboard instantiateViewControllerWithIdentifier:@"loadingVC"] animated:NO completion:nil];
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            hud.color = [UIColor colorWithRed:32.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
+            hud.labelText = @"Loading";
+
             [Data appLogout:objectID successBlock:^(id object) {
                 NSLog(@"Logging out...");
                 [[UIApplication sharedApplication] cancelAllLocalNotifications];
-                [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
+                [hud hide:YES];
                 [(TSTabBarViewController*)self.parentViewController.parentViewController logout];
             } errorBlock:^(NSError *error) {
                 UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error occured on logging out. Try again later." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-                [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
+                [hud hide:YES];
                 [errorAlertView show];
             }];
         }

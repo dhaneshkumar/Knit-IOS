@@ -13,6 +13,8 @@
 #import "Data.h"
 #import "AppDelegate.h"
 #import "TSNewInboxViewController.h"
+#import "MBProgressHUD.h"
+#import "RKDropdownAlert.h"
 
 @interface OldSignInViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *emailText;
@@ -39,11 +41,15 @@
 -(IBAction)signIn:(id)sender{
     NSString *userNameTyped = [_emailText.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     if(userNameTyped.length==0) {
-        UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Email field cannot be left blank." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-        [errorAlertView show];
+        [RKDropdownAlert title:@"Login failed" message:@"please enter a valid email id" time:2];
+        //UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Email field cannot be left blank." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+        //[errorAlertView show];
         return;
     }
-    [self presentViewController:[self.storyboard instantiateViewControllerWithIdentifier:@"loadingVC"] animated:NO completion:nil];
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hud.color = [UIColor colorWithRed:32.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
+    hud.labelText = @"Loading";
+
     [Data verifyOTPOldSignIn:userNameTyped password:_passwordText.text successBlock:^(id object) {
         NSDictionary *tokenDict=[[NSDictionary alloc]init];
         tokenDict=object;
@@ -56,7 +62,7 @@
                 if (error) {
                     NSLog(@"Session token could not be validated");
                     UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error in signing in. Try again later." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-                    [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
+                    [hud hide:YES];
                     [errorAlertView show];
                     return;
                 } else {
@@ -96,7 +102,7 @@
                                 [(TSTabBarViewController *)rootNav.topViewController makeItTeacher];
                         }
                         
-                        [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
+                        [hud hide:YES];
                         [self dismissViewControllerAnimated:YES completion:nil];
                         
                         if([role isEqualToString:@"parent"] || [role isEqualToString:@"teacher"])
@@ -125,7 +131,7 @@
 
                     } errorBlock:^(NSError *error) {
                         UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error in signing in. Try again later." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-                        [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
+                        [hud hide:YES];
                         [errorAlertView show];
                         return;
                     }];
@@ -134,12 +140,12 @@
         }
         else {
             UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error in signing in. Try again later." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-            [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
+            [hud hide:YES];
             [errorAlertView show];
         }
     } errorBlock:^(NSError *error) {
         UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error in signing in. Try again later." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-        [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
+        [hud hide:YES];
         [errorAlertView show];
     }];
 }

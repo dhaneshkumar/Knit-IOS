@@ -8,6 +8,8 @@
 
 #import "TSInboxMessageTableViewCell.h"
 #import "TSNewInboxViewController.h"
+#import "JTSImageInfo.h"
+#import "JTSImageViewController.h"
 
 
 @implementation TSInboxMessageTableViewCell
@@ -19,6 +21,9 @@
     [self.likesView addGestureRecognizer:likesViewTap];
     UITapGestureRecognizer *confuseViewTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(confuseViewTap:)];
     [self.confuseView addGestureRecognizer:confuseViewTap];
+    UITapGestureRecognizer *imageTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imageViewTap:)];
+    [_attachedImage setUserInteractionEnabled:YES];
+    [_attachedImage addGestureRecognizer:imageTap];
 }
 
 
@@ -101,7 +106,19 @@
         self.confuseCount.text = [NSString stringWithFormat:@"%d", intval-1];
         self.confuseCount.textColor = [UIColor darkGrayColor];
     }
+}
 
+
+- (void)imageViewTap:(UITapGestureRecognizer *)recognizer {
+    // Create image info
+    NSLog(@"yaha to aaya");
+    JTSImageInfo *imageInfo = [[JTSImageInfo alloc] init];
+    imageInfo.image = _attachedImage.image;
+    imageInfo.referenceRect = _attachedImage.frame;
+    UINavigationController *controller = (UINavigationController *)[UIApplication sharedApplication].keyWindow.rootViewController;
+    UITabBarController *cont = (UITabBarController *)controller.topViewController;
+    TSNewInboxViewController *inboxController = (TSNewInboxViewController *)cont.viewControllers[1];
+    [inboxController attachedImageTapped:imageInfo];
 }
 
 

@@ -16,6 +16,7 @@
 #import "TSNewInboxViewController.h"
 #import "sharedCache.h"
 #import "Reachability.h"
+#import "MBProgressHUD.h"
 
 @interface TSJoinNewClassViewController ()
 
@@ -80,7 +81,10 @@
     }
     */
     
-    [self presentViewController:[self.storyboard instantiateViewControllerWithIdentifier:@"loadingVC"] animated:NO completion:nil];
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hud.color = [UIColor colorWithRed:32.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
+    hud.labelText = @"Loading";
+
     NSArray *joinedClasses = [[PFUser currentUser] objectForKey:@"joined_groups"];
     NSArray *createdClasses = [[PFUser currentUser] objectForKey:@"Created_groups"];
     NSMutableArray *joinedAndCreatedClassCodes = [[NSMutableArray alloc]init];
@@ -89,7 +93,7 @@
     }
     if ([joinedAndCreatedClassCodes containsObject:classCodeTyped]) {
         UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"You have already joined this class." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-        [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
+        [hud hide:YES];
         [errorAlertView show];
         return;
     }
@@ -99,7 +103,7 @@
     }
     if ([joinedAndCreatedClassCodes containsObject:classCodeTyped]) {
         UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"You cannot join a class created by you." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-        [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
+        [hud hide:YES];
         [errorAlertView show];
         return;
     }
@@ -176,12 +180,12 @@
         [[PFUser currentUser] fetch];
         UIAlertView *successAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:[NSString stringWithFormat:@"Successfully joined Class: %@ Creator : %@",codeGroupForClass[@"name"], codeGroupForClass[@"Creator"]] delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
         
-        [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
+        [hud hide:YES];
         [self dismissViewControllerAnimated:YES completion:nil];
         [successAlertView show];
     } errorBlock:^(NSError *error) {
         UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error in joining Class. Please make sure you have the correct class code." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-        [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
+        [hud hide:YES];
         [errorAlertView show];
     }];
 }

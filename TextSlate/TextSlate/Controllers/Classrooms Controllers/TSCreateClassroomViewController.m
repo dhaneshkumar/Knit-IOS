@@ -9,6 +9,7 @@
 #import "TSCreateClassroomViewController.h"
 #import "Data.h"
 #import <Parse/Parse.h>
+#import "MBProgressHUD.h"
 
 @interface TSCreateClassroomViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *classNameTextField;
@@ -53,7 +54,10 @@
         return;
     }
     
-    [self presentViewController:[self.storyboard instantiateViewControllerWithIdentifier:@"loadingVC"] animated:NO completion:nil];
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hud.color = [UIColor colorWithRed:32.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
+    hud.labelText = @"Loading";
+
     
     NSArray *createdClasses = [[PFUser currentUser] objectForKey:@"Created_groups"];
     NSMutableArray *createdClassNames = [[NSMutableArray alloc]init];
@@ -63,7 +67,7 @@
     }
     if ([createdClassNames containsObject:classNameTyped]) {
         UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"You have already created a class with the same name." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-        [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
+        [hud hide:YES];
         [errorAlertView show];
         return;
     }
@@ -91,12 +95,12 @@
        
         UIAlertView *successAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:[NSString stringWithFormat:@"Successfully created Class: %@ Code : %@",codeGroupForClass[@"name"], codeGroupForClass[@"code"]] delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
         
-        [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
+        [hud hide:YES];
         [self dismissViewControllerAnimated:YES completion:nil];
         [successAlertView show];
     } errorBlock:^(NSError *error) {
         UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error occured creating class. Please try again later." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-        [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
+        [hud hide:YES];
         [errorAlertView show];
     }];
 }

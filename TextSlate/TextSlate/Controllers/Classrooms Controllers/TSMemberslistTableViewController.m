@@ -10,6 +10,7 @@
 #import "Data.h"
 #import <Parse/Parse.h>
 #import "TSMember.h"
+#import "MBProgressHUD.h"
 
 @interface TSMemberslistTableViewController ()
 
@@ -91,7 +92,10 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        [self presentViewController:[self.storyboard instantiateViewControllerWithIdentifier:@"loadingVC"] animated:NO completion:nil];
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        hud.color = [UIColor colorWithRed:32.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
+        hud.labelText = @"Loading";
+
         int row = indexPath.row;
         TSMember *toRemove = (TSMember *)_memberList[row];
         if([toRemove.userType isEqualToString:@"app"]) {
@@ -108,11 +112,11 @@
                 appMembers[0][@"status"] = @"REMOVED";
                 [appMembers[0] pinInBackground];
                 [_memberList removeObjectAtIndex:row];
-                [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
+                [hud hide:YES];
                 [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
             }errorBlock:^(NSError *error){
                 UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error occured while removing member." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-                [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
+                [hud hide:YES];
                 [errorAlertView show];
             }];
         }
@@ -130,11 +134,11 @@
                 phoneMembers[0][@"status"] = @"REMOVED";
                 [phoneMembers[0] pinInBackground];
                 [_memberList removeObjectAtIndex:row];
-                [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
+                [hud hide:YES];
                 [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
             }errorBlock:^(NSError *error){
                 UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error occured while removing member." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-                [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
+                [hud hide:YES];
                 [errorAlertView show];
             }];
         }

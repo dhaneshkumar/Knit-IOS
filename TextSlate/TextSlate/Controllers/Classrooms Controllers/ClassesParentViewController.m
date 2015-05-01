@@ -13,6 +13,7 @@
 #import "Data.h"
 #import "sharedCache.h"
 #import "TSJoinNewClassViewController.h"
+#import "MBProgressHUD.h"
 
 @interface ClassesParentViewController ()
 
@@ -213,15 +214,18 @@
 
 
 -(void)leaveClass:(NSString *)classCode {
-    [self presentViewController:[self.storyboard instantiateViewControllerWithIdentifier:@"loadingVC"] animated:NO completion:nil];
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hud.color = [UIColor colorWithRed:32.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
+    hud.labelText = @"Loading";
+    
     [Data leaveClass:classCode successBlock:^(id object) {
         //[self deleteAllLocalMessages:classCode];
         //[self deleteLocalCodegroupEntry:classCode];
         [[PFUser currentUser] fetch];
-        [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
+        [hud hide:YES];
     } errorBlock:^(NSError *error) {
         UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error occured in leaving the class." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-        [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
+        [hud hide:YES];
         [errorAlertView show];
     }];
 }

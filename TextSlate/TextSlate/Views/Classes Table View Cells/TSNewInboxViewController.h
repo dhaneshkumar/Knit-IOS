@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "TSMessage.h"
+#import "JTSImageInfo.h"
+#import "JTSImageViewController.h"
 
 @interface TSNewInboxViewController : UIViewController <UITableViewDataSource, UITableViewDelegate,NSCacheDelegate>
 
@@ -22,6 +24,7 @@
 
 -(void)updateLikesDataFromCell:(int)row status:(NSString *)status;
 -(void)updateConfuseDataFromCell:(int)row status:(NSString *)status;
+-(void)attachedImageTapped:(JTSImageInfo *)imageInfo;
 -(void)deleteLocalData;
 
 @end

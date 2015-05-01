@@ -14,6 +14,7 @@
 #import "TSOutboxViewController.h"
 #import "TSJoinNewClassViewController.h"
 #import "ClassesParentViewController.h"
+#import "MBProgressHUD.h"
 
 @interface PhoneVerificationViewController ()
 
@@ -57,7 +58,10 @@
     {
         if(_isSignUp==true)
         {
-            [self presentViewController:[self.storyboard instantiateViewControllerWithIdentifier:@"loadingVC"] animated:NO completion:nil];
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            hud.color = [UIColor colorWithRed:32.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
+            hud.labelText = @"Loading";
+
             if(_parent==true)
             {
                 _role=@"parent";
@@ -82,7 +86,7 @@
                         if (error) {
                             NSLog(@"Session token could not be validated");
                             UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error in signing up. Try again later." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-                            [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
+                            [hud hide:YES];
                             [errorAlertView show];
                             return;
                         } else {
@@ -108,7 +112,7 @@
                                 else
                                     [(TSTabBarViewController *)rootNav.topViewController makeItTeacher];
                                 
-                                [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
+                                [hud hide:YES];
                                 
                                 if(_isFindClass) {
                                     UINavigationController *nVC = (UINavigationController *)self.presentingViewController.presentingViewController.presentingViewController.presentingViewController;
@@ -183,7 +187,7 @@
 
                             } errorBlock:^(NSError *error) {
                                 UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error in signing up. Try again later." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-                                [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
+                                [hud hide:YES];
                                 [errorAlertView show];
                                 return;
                             }];
@@ -192,14 +196,14 @@
                 }
                 else {
                     UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error in signing up. Try again later." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-                    [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
+                    [hud hide:YES];
                     [errorAlertView show];
                     return;
                 }
             } errorBlock:^(NSError *error) {
                 NSLog(@"error : %@", error);
                 if([[((NSDictionary *)error.userInfo) objectForKey:@"error"] isEqualToString:@"USER_ALREADY_EXISTS"]) {
-                    [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
+                    [hud hide:YES];
                     if(_isFindClass)
                         [self.navigationController popViewControllerAnimated:YES];
                     else
@@ -210,7 +214,7 @@
                     return;
                 }
                 UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Incorrect OTP." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-                [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
+                [hud hide:YES];
                 [errorAlertView show];
                 return;
 
@@ -219,7 +223,10 @@
 
         else if(_isNewSignIn==true)
         {
-            [self presentViewController:[self.storyboard instantiateViewControllerWithIdentifier:@"loadingVC"] animated:NO completion:nil];
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            hud.color = [UIColor colorWithRed:32.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
+            hud.labelText = @"Loading";
+
             NSInteger verificationCode=[_codeText.text integerValue];
             NSLog(@"phone number %@",_phoneNumber);
             NSString *number=_phoneNumber;
@@ -237,7 +244,7 @@
                     [PFUser becomeInBackground:token block:^(PFUser *user, NSError *error) {
                         if (error) {
                             UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error in signing in. Try again later." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-                            [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
+                            [hud hide:YES];
                             [errorAlertView show];
                             return;
                         } else {
@@ -279,7 +286,7 @@
                                         [(TSTabBarViewController *)rootNav.topViewController makeItTeacher];
                                 }
                                 
-                                [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
+                                [hud hide:YES];
                                 [self dismissViewControllerAnimated:YES completion:nil];
                                 
                                 if([role isEqualToString:@"parent"] || [role isEqualToString:@"teacher"])
@@ -300,14 +307,10 @@
                                 [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:nil];
                                     NSTimer* loop = [NSTimer scheduledTimerWithTimeInterval:60*60*24*2 target:self selector:@selector(showCreateClassNotification) userInfo:nil repeats:NO];
                                     [[NSRunLoop currentRunLoop] addTimer:loop forMode:NSRunLoopCommonModes];
-                                    
-                                    
-                                    
-                            }
-                                
+                                }
                             } errorBlock:^(NSError *error) {
                                 UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error in signing in. Try again later." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-                                [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
+                                [hud hide:YES];
                                 [errorAlertView show];
                                 return;
                             }];
@@ -316,21 +319,21 @@
                 }
                 else {
                     UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error in signing in. Try again later." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-                    [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
+                    [hud hide:YES];
                     [errorAlertView show];
                     return;
                 }
             } errorBlock:^(NSError *error) {
                 NSLog(@"error : %@", error);
                 if([[((NSDictionary *)error.userInfo) objectForKey:@"error"] isEqualToString:@"USER_DOESNOT_EXISTS"]) {
-                    [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
+                    [hud hide:YES];
                     [self.navigationController popViewControllerAnimated:YES];
                     UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"User does not exist." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
                     [errorAlertView show];
                     return;
                 }
                 UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Incorrect OTP." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-                [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
+                [hud hide:YES];
                 [errorAlertView show];
                 return;
             }];
