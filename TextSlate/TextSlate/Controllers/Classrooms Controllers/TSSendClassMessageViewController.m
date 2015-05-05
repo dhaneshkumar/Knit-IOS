@@ -15,7 +15,7 @@
 #import "TSCreatedClassMessageTableViewCell.h"
 #import "InviteParentViewController.h"
 #import "MessageComposerViewController.h"
-
+#import "RKDropdownAlert.h"
 
 @interface TSSendClassMessageViewController ()
 
@@ -502,9 +502,13 @@
          successBlock:^(id object) {
              [self.navigationController popViewControllerAnimated:YES];
          } errorBlock:^(NSError *error) {
-             UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error occured in deleting the class." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+            /* UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error occured in deleting the class." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
              [errorAlertView show];
-         }];
+             */
+             
+             [RKDropdownAlert title:@"Knit" message:@"Error occured in deleting the class."  time:2];
+
+        }];
 }
 
 /*

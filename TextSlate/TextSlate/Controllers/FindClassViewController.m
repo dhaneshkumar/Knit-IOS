@@ -10,6 +10,9 @@
 #import "TSSignUpViewController.h"
 #import "FindClassSignUpViewController.h"
 #import "Data.h"
+#import "MBProgressHUD.h"
+#import "RKDropdownAlert.h"
+
 @interface FindClassViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *findClassCode;
 @property (strong,nonatomic) NSMutableArray *details;
@@ -40,12 +43,16 @@
     NSString *classCodeTyped = [self trimmedString:_findClassCode.text];
     
     if(classCodeTyped.length != 7) {
-        UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Please make sure that class code has 7 characters." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-        [errorAlertView show];
+      //  UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Please make sure that class code has 7 characters." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+       // [errorAlertView show];
+        
+        [RKDropdownAlert title:@"Knit" message:@"Please make sure that class code has 7 characters." time:2];
         return;
     }
     
-    [self presentViewController:[self.storyboard instantiateViewControllerWithIdentifier:@"loadingVC"] animated:NO completion:nil];
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hud.color = [UIColor colorWithRed:32.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
+    hud.labelText = @"Loading";
     
     [Data findClassDetail:classCodeTyped successBlock:^(id object) {
         
@@ -62,22 +69,25 @@
             dvc.nameClass=_cName;
             dvc.teacher=_tName;
             dvc.classCode = classCodeTyped;
-            [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
+            [hud hide:YES];
             [self presentViewController:findClassSignUp animated:YES completion:nil];
         }
         
         else{
             NSLog(@"oopsie");
-            UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Class with this code does not exist." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-            [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
-            [errorAlertView show];
+          //  UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Class with this code does not exist." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+            [hud hide:YES];
+           // [errorAlertView show];
+       [RKDropdownAlert title:@"Knit" message:@"Class with the given code doesn't exist." time:2];
         }
 
     } errorBlock:^(NSError *error) {
         NSLog(@"oops");
-        UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error in joining Class. Please make sure you have the correct class code." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-        [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
-        [errorAlertView show];
+       // UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error in joining Class. Please make sure you have the correct class code." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+        [hud hide:YES];
+   //    [errorAlertView show]
+        [RKDropdownAlert title:@"Knit" message:@"Error in joining Class. Please make sure you have the correct class code." time:2];
+    
     }];
 
 }

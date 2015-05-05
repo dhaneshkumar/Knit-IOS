@@ -10,7 +10,7 @@
 #import "InviteParentViewController.h"
 #import <MessageUI/MessageUI.h>
 #import <UIKit/UIKit.h>
-
+#import "RKDropdownAlert.h"
 @interface InviteParentViewController ()
 
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segmentControl;
@@ -99,13 +99,16 @@
     
     NSString *email=[[PFUser currentUser] objectForKey:@"email"];
     [Data emailInstruction:email code:_classCode className:_className successBlock:^(id object) {
-        UIAlertView *messageDialog = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Voila! Instruction has been sent to you email." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+     //   UIAlertView *messageDialog = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Voila! Instruction has been sent to you email." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
         
-        [messageDialog show];
+      //  [messageDialog show];
+        
+        [RKDropdownAlert title:@"Knit" message:@"Voila!Instructions have been sent to you via email." time:2];
     } errorBlock:^(NSError *error) {
-            UIAlertView *messageDialog = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Oops! Seems like a problem occured while sending instruction." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+            //UIAlertView *messageDialog = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Oops! Seems like a problem occured while sending instruction." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
             
-            [messageDialog show];
+            //[messageDialog show];
+         [RKDropdownAlert title:@"Knit" message:@"Oops! Seems like a problem occured while sending instruction." time:2];
         }];
     
 }
@@ -128,10 +131,11 @@
     }
     else{
 
-        UIAlertView *messageDialog = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Oops! Seems like you haven't configured you mail." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+       // UIAlertView *messageDialog = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Oops! Seems like you haven't configured you mail." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
         
-        [messageDialog show];
-    
+       // [messageDialog show];
+        [RKDropdownAlert title:@"Knit" message:@"Oops! Seems like you haven't configured your email."  time:2];
+        
     }
 }
 

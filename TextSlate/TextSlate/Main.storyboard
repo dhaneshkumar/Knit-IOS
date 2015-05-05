@@ -2829,8 +2829,7 @@
                                                             <exclude reference="5Gm-75-8Tt"/>
                                                         </mask>
                                                     </variation>
-                                                    <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
-                                                        <rect key="frame" x="269" y="368" width="43" height="16"/>
+                                                    <variation key="heightClass=regular-widthClass=compact">
                                                         <mask key="constraints">
                                                             <include reference="5Gm-75-8Tt"/>
                                                         </mask>
@@ -3719,8 +3718,7 @@
                                                             <exclude reference="Xdk-gE-OId"/>
                                                         </mask>
                                                     </variation>
-                                                    <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
-                                                        <rect key="frame" x="269" y="343" width="43" height="16"/>
+                                                    <variation key="heightClass=regular-widthClass=compact">
                                                         <mask key="constraints">
                                                             <include reference="Xdk-gE-OId"/>
                                                         </mask>
@@ -4235,20 +4233,21 @@
         <!--Loading View Controller-->
         <scene sceneID="5Gz-Im-Y09">
             <objects>
-                <viewController storyboardIdentifier="loadingVC" id="kU4-ay-Vm2" customClass="loadingViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="loadingVCC" id="kU4-ay-Vm2" customClass="loadingViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="4PO-mB-xPV"/>
                         <viewControllerLayoutGuide type="bottom" id="BsS-j7-wIK"/>
                     </layoutGuides>
-                    <view key="view" opaque="NO" alpha="0.24999999999999967" contentMode="scaleToFill" id="dOw-CB-XHs">
+                    <view key="view" opaque="NO" contentMode="scaleToFill" id="dOw-CB-XHs">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="Lba-vH-b5E">
                                 <rect key="frame" x="-10" y="-10" width="20" height="20"/>
-                                <color key="backgroundColor" red="0.12549019607843137" green="0.71372549019607845" blue="0.96470588235294119" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="color" red="0.12549019610000001" green="0.71372549019999998" blue="0.96470588239999999" alpha="1" colorSpace="calibratedRGB"/>
                             </activityIndicatorView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loading" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DLK-JF-9zr">
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loading" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DLK-JF-9zr">
                                 <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <color key="textColor" red="0.12549019607843137" green="0.71372549019607845" blue="0.96470588235294119" alpha="1" colorSpace="calibratedRGB"/>
@@ -4260,7 +4259,7 @@
                         <constraints>
                             <constraint firstAttribute="centerY" secondItem="DLK-JF-9zr" secondAttribute="centerY" id="JvJ-ng-KN3"/>
                             <constraint firstAttribute="centerX" secondItem="DLK-JF-9zr" secondAttribute="centerX" id="La1-ZK-1W9"/>
-                            <constraint firstItem="DLK-JF-9zr" firstAttribute="top" secondItem="Lba-vH-b5E" secondAttribute="bottom" constant="33" id="bty-Lc-Tqy"/>
+                            <constraint firstItem="DLK-JF-9zr" firstAttribute="top" secondItem="Lba-vH-b5E" secondAttribute="bottom" constant="5" id="bty-Lc-Tqy"/>
                             <constraint firstAttribute="centerX" secondItem="Lba-vH-b5E" secondAttribute="centerX" id="yTc-aq-UzK"/>
                         </constraints>
                         <variation key="default">
@@ -4288,6 +4287,7 @@
                             </mask>
                         </variation>
                     </view>
+                    <navigationItem key="navigationItem" id="Ph9-GQ-qPM"/>
                     <connections>
                         <outlet property="activityIndicator" destination="Lba-vH-b5E" id="aOs-Cx-foP"/>
                         <outlet property="loadingLabel" destination="DLK-JF-9zr" id="DoA-Pz-MDR"/>
@@ -4295,7 +4295,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HdA-Hm-5od" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1305" y="2269.5"/>
+            <point key="canvasLocation" x="2223" y="2269.5"/>
         </scene>
         <!--New inbox-->
         <scene sceneID="Bfn-Gq-1nV">
@@ -4804,8 +4804,7 @@
                                                             <exclude reference="9yV-Db-wON"/>
                                                         </mask>
                                                     </variation>
-                                                    <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
-                                                        <rect key="frame" x="269" y="369" width="43" height="16"/>
+                                                    <variation key="heightClass=regular-widthClass=compact">
                                                         <mask key="constraints">
                                                             <include reference="9yV-Db-wON"/>
                                                         </mask>
@@ -6403,7 +6402,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SXs-sY-Gqt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="8733" y="2505.75"/>
+            <point key="canvasLocation" x="9651" y="2505.75"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="mXg-bj-MAZ">
@@ -6579,7 +6578,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8fN-f3-ZCk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4468.5" y="2200.5"/>
+            <point key="canvasLocation" x="5386.5" y="2200.5"/>
         </scene>
         <!--inviteParentNav-->
         <scene sceneID="ig2-Ri-Fwy">
@@ -6654,7 +6653,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Qkp-db-vex" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="7905" y="2505.75"/>
+            <point key="canvasLocation" x="8823" y="2505.75"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="ts9-2S-lQ3">
@@ -6708,7 +6707,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="anL-Cu-fMq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3550.5" y="2200.5"/>
+            <point key="canvasLocation" x="4468.5" y="2200.5"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="9fg-l8-NCi">
@@ -6727,6 +6726,25 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zFZ-RH-Zgq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-2211" y="-129"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="WtS-pC-cCi">
+            <objects>
+                <navigationController storyboardIdentifier="loadingVC" automaticallyAdjustsScrollViewInsets="NO" id="oeJ-O3-GH9" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="G8n-fW-XED">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="barTintColor" red="0.12549019610000001" green="0.71372549019999998" blue="0.96470588239999999" alpha="1" colorSpace="calibratedRGB"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="kU4-ay-Vm2" kind="relationship" relationship="rootViewController" id="nKI-nO-xNu"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="hLq-gu-wH7" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1305" y="2269.5"/>
         </scene>
     </scenes>
     <resources>

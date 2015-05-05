@@ -8,6 +8,9 @@
 
 #import "InviteTeacherViewController.h"
 #import "Data.h"
+#import "RKDropdownAlert.h"
+
+
 @interface InviteTeacherViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *teacherName;
 
@@ -38,16 +41,18 @@
 -(IBAction)sendInvitation:(id)sender{
     [Data inviteTeacher:@"" schoolName:_schoolName.text teacherName:_teacherName.text childName:_childName.text email:_emailAddress.text phoneNum:_phoneNum.text successBlock:^(id object) {
         
-        UIAlertView *messageDialog = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Voila! Your invitation has been sent." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+        //UIAlertView *messageDialog = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Voila! Your invitation has been sent." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
         
-        [messageDialog show];
+        //[messageDialog show];
+        [RKDropdownAlert title:@"Knit" message:@"Voila! Your invitation has been sent."  time:2];
         [self dismissViewControllerAnimated:YES completion:nil];
         
     } errorBlock:^(NSError *error) {
-        UIAlertView *messageDialog = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Oops! There ocurred some error in sending the invitation." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+       // UIAlertView *messageDialog = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Oops! There ocurred some error in sending the invitation." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
         
-        [messageDialog show];
+       // [messageDialog show];
 
+          [RKDropdownAlert title:@"Knit" message:@"Oops! There ocurred some error in sending the invitation." time:2];
     }];
     
 }

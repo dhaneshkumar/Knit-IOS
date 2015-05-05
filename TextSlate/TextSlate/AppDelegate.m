@@ -42,7 +42,7 @@
     
     
     // Override point for customization after application launch.
-    [Parse setApplicationId:@"tTqAhR73SE4NWFhulYX4IjQSDH2TkuTblujAbvOK" clientKey:@"4LnlMXS6hFUunIZ6cS3F7IcLrWGuzOIkyLldkxQJ"];
+    [Parse setApplicationId:@"jrumkUT2jzvbFn7czsC5fQmFG5JIYSE4P7GJrlOG" clientKey:@"nfSgzcWi39af825uQ0Fhj2L7L2YJca9ibBgR9wtQa"];
     [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
     
     // Registering for the Push notifications

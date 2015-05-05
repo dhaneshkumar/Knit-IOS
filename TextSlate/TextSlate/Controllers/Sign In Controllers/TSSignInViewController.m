@@ -13,6 +13,8 @@
 #import "PhoneVerificationViewController.h"
 #import "TSClass.h"
 #import "Data.h"
+#import "MBProgressHUD.h"
+#import "RKDropdownAlert.h"
 
 @interface TSSignInViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *phoneTextField;
@@ -49,18 +51,24 @@
 
 - (IBAction)signInClicked:(UIButton *)sender {
     if(_phoneTextField.text.length<10) {
-        UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Please make sure that the phone number entered is 10 digits." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-        [errorAlertView show];
+       // UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Please make sure that the phone number entered is 10 digits." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+        //[errorAlertView show];
+         [RKDropdownAlert title:@"Knit" message:@"Please make sure that the phone number entered is 10 digits."  time:2];
         return;
     }
-    [self presentViewController:[self.storyboard instantiateViewControllerWithIdentifier:@"loadingVC"] animated:NO completion:nil];
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hud.color = [UIColor colorWithRed:32.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
+    hud.labelText = @"Loading";
+
     [Data generateOTP:_phoneTextField.text successBlock:^(id object) {
-        [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
+        [hud hide:YES];
         [self performSegueWithIdentifier:@"verification" sender:self];
     } errorBlock:^(NSError *error) {
-        UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error in generating OTP. Try again later." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-        [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
-        [errorAlertView show];
+      //  UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error in generating OTP. Try again later." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+        [hud hide:YES];
+        //[errorAlertView show];
+        
+         [RKDropdownAlert title:@"Knit" message:@"Error in generating OTP.Try again later."  time:2];
     }];
 }
 

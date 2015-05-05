@@ -9,7 +9,8 @@
 #import "EditAsscoNameViewController.h"
 #import "JoinedClassTableViewController.h"
 #import "Data.h"
-
+#import "MBProgressHUD.h"
+#import "RKDropdownAlert.h"
 @interface EditAsscoNameViewController ()
 
 @end
@@ -50,8 +51,11 @@
     NSString *trimmedString = [_assocNameTextField.text stringByTrimmingCharactersInSet:
                                [NSCharacterSet whitespaceAndNewlineCharacterSet]];
     if(trimmedString.length==0) {
-        UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Associate name field cannot be left blank." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-        [errorAlertView show];
+       // UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Associate name field cannot be left blank." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+        //[errorAlertView show];
+        [RKDropdownAlert title:@"Knit" message:@"Associate name field cannot be left blank." time:2];
+
+        
         _assocNameTextField.text = _assocName;
         [_assocNameTextField becomeFirstResponder];
         return;
@@ -60,7 +64,10 @@
         [self dismissViewControllerAnimated:YES completion:nil];
         return;
     }
-    [self presentViewController:[self.storyboard instantiateViewControllerWithIdentifier:@"loadingVC"] animated:NO completion:nil];
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hud.color = [UIColor colorWithRed:32.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
+    hud.labelText = @"Loading";
+
     [Data changeName:_classCode newName:trimmedString successBlock:^(id object){
         [[PFUser currentUser] fetch];
         NSLog(@"hey : %@", ((UINavigationController *)self.presentingViewController).viewControllers);
@@ -68,13 +75,14 @@
         NSLog(@"hey : %@", self.parentViewController);
         JoinedClassTableViewController *joinedClassTVC = (JoinedClassTableViewController *)((UINavigationController *)((UINavigationController*)self.presentingViewController).viewControllers[1]);
         [joinedClassTVC updateAssociatedName:trimmedString];
-        [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
+        [hud hide:YES];
         [self dismissViewControllerAnimated:YES completion:nil];
     }
     errorBlock:^(NSError *error){
-        UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error in changing associate name. Try again later." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-        [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
-        [errorAlertView show];
+        //UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error in changing associate name. Try again later." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+        [hud hide:YES];
+        //[errorAlertView show];
+        [RKDropdownAlert title:@"Knit" message:@"Error in changing associate name. Try again later." time:2];
         return;
     }];
 }

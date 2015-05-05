@@ -19,7 +19,8 @@
 #import "TSTabBarViewController.h"
 #import "TSOutboxViewController.h"
 #import "AppDelegate.h"
-
+#import "MBProgressHUD.h"
+#import "RKDropdownAlert.h"
 
 @interface MessageComposerViewController ()
 @property (weak, nonatomic) IBOutlet UITextView *recipient;
@@ -135,8 +136,9 @@
     if(_isClass==true)
     {
         
-        _recipient.text=_classcode;
+        _recipient.text=_className;
         _recipient.textColor=[UIColor colorWithRed:32.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
+        _classCode=_classcode;
     }
 
 }
@@ -211,11 +213,18 @@
 
 -(IBAction)recipientButton:(id)sender
 {
+    if(_isClass==true)
+    {
+        
+    }
+    
+    else{
     [_recipient becomeFirstResponder];
 //    [_textMessage resignFirstResponder];
         self.testView.hidden=NO;
         self.recipientTable.hidden=NO;
         [self.testView addSubview:_recipientTable];
+    }
 }
 
 
@@ -302,14 +311,16 @@
 -(IBAction)sendMessage:(id)sender  {
     NSLog(@"message send pressed");
     if([_recipient.text isEqualToString:@"Classroom"]) {
-        UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Select a recipient class." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-        [errorAlertView show];
+       // UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Select a recipient class." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+        //[errorAlertView show];
+          [RKDropdownAlert title:@"Knit" message:@"Select a recipient class." time:2];
         return;
     }
     if(!_hasTypedMessage || [self trimmedString:_textMessage.text].length==0) {
         if(!_finalAttachment) {
-            UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Message without body or attachment cannot be sent." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-            [errorAlertView show];
+           // UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Message without body or attachment cannot be sent." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+           // [errorAlertView show];
+            [RKDropdownAlert title:@"Knit" message:@"Message without body or attachment cannot be sent."  time:2];
             return;
         }
     }
@@ -326,7 +337,10 @@
     TSOutboxViewController *outbox = (TSOutboxViewController *)(NSArray *)rootTab.viewControllers[2];
     if(!_finalAttachment)
     {
-        [self presentViewController:[self.storyboard instantiateViewControllerWithIdentifier:@"loadingVC"] animated:NO completion:nil];
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        hud.color = [UIColor colorWithRed:32.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
+        hud.labelText = @"Loading";
+
         [Data sendTextMessage:_classCode classname:_className message:messageText successBlock:^(id object) {
             NSMutableDictionary *dict = (NSMutableDictionary *) object;
             NSString *messageObjectId = (NSString *)[dict objectForKey:@"messageId"];
@@ -351,19 +365,27 @@
             [outbox.messageIds insertObject:newMessage.messageId atIndex:0];
             outbox.shouldScrollUp = true;
             
-            UIAlertView *messageDialog = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Gaya bey!" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-            [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
+            //UIAlertView *messageDialog = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Gaya bey!" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+            [hud hide:YES];
             [self dismissViewControllerAnimated:YES completion:nil];
-            [messageDialog show];
+           // [messageDialog show];
+            [RKDropdownAlert title:@"Knit" message:@"Message has been sent successfully."  time:2];
+
+            
         } errorBlock:^(NSError *error) {
-            UIAlertView *errorDialog = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error occurred in sending the message. Try again later." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-            [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
-            [errorDialog show];
+           // UIAlertView *errorDialog = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error occurred in sending the message. Try again later." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+            [hud hide:YES];
+            [RKDropdownAlert title:@"Knit" message:@"Error occureed while sending message.Try again later."  time:2];
+
+            //[errorDialog show];
         }];
     }
     else if(_finalAttachment)
     {
-        [self presentViewController:[self.storyboard instantiateViewControllerWithIdentifier:@"loadingVC"] animated:NO completion:nil];
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        hud.color = [UIColor colorWithRed:32.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
+        hud.labelText = @"Loading";
+
         [_finalAttachment saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
             if (succeeded) {
                 [Data sendTextMessagewithAttachment:_classCode classname:_className message:messageText attachment:(PFFile*) _finalAttachment filename:_finalAttachment.name successBlock:^(id object) {
@@ -413,20 +435,25 @@
                             }
                         }
                     });
-                    UIAlertView *messageDialog = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Your message has been sent!" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-                    [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
+                    //UIAlertView *messageDialog = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Your message has been sent!" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+                    [hud hide:YES];
                     [self dismissViewControllerAnimated:YES completion:nil];
-                    [messageDialog show];
+                    //[messageDialog show];
+                    [RKDropdownAlert title:@"Knit" message:@"Your message has been sent!"  time:2];
+
                 } errorBlock:^(NSError *error) {
-                    UIAlertView *errorDialog = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error occurred in sending the message. Try again later." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-                    [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
-                    [errorDialog show];
+                   // UIAlertView *errorDialog = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error occurred in sending the message. Try again later." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+                    [hud hide:YES];
+                  //  [errorDialog show];
+                     [RKDropdownAlert title:@"Knit" message:@"Error occurred in sending the message. Try again later."  time:2];
+                    
                 }];
             }
             else {
-                UIAlertView *errorDialog = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error occurred in sending the message. Try again later." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-                [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
-                [errorDialog show];
+                //UIAlertView *errorDialog = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error occurred in sending the message. Try again later." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+                [hud hide:YES];
+                //[errorDialog show];
+                [RKDropdownAlert title:@"Knit" message:@"Error occurred in sending the message. Try again later." time:2];
             }
         }];
     }

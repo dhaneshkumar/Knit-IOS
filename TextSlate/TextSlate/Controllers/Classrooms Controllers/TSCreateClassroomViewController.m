@@ -9,6 +9,8 @@
 #import "TSCreateClassroomViewController.h"
 #import "Data.h"
 #import <Parse/Parse.h>
+#import "MBProgressHUD.h"
+#import "RKDropdownAlert.h"
 
 @interface TSCreateClassroomViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *classNameTextField;
@@ -48,12 +50,18 @@
 - (IBAction)createNewClassClicked:(UIButton *)sender {
     NSString *classNameTyped = [self trimmedString:_classNameTextField.text];
     if(classNameTyped.length == 0) {
-        UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"The class name cannot be left blank." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-        [errorAlertView show];
+        //UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"The class name cannot be left blank." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+        //[errorAlertView show];
+        [RKDropdownAlert title:@"Knit" message:@"The class name cannot be left blank."  time:2];
+
+        
         return;
     }
     
-    [self presentViewController:[self.storyboard instantiateViewControllerWithIdentifier:@"loadingVC"] animated:NO completion:nil];
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hud.color = [UIColor colorWithRed:32.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
+    hud.labelText = @"Loading";
+
     
     NSArray *createdClasses = [[PFUser currentUser] objectForKey:@"Created_groups"];
     NSMutableArray *createdClassNames = [[NSMutableArray alloc]init];
@@ -62,9 +70,10 @@
         [createdClassNames addObject:[createdClass objectAtIndex:1]];
     }
     if ([createdClassNames containsObject:classNameTyped]) {
-        UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"You have already created a class with the same name." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-        [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
-        [errorAlertView show];
+    //    UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"You have already created a class with the same name." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+        [hud hide:YES];
+     //   [errorAlertView show];
+        [RKDropdownAlert title:@"Knit" message:@"You have already created a class with the same name."  time:2];
         return;
     }
     
@@ -72,7 +81,7 @@
         PFObject *codeGroupForClass = (PFObject *)object;
         [codeGroupForClass pinInBackground];
         [[PFUser currentUser]fetch];
-    
+        
         NSArray *createdClass=[[PFUser currentUser] objectForKey:@"Created_groups"];
         if(createdClass.count==1)
         {
@@ -88,16 +97,20 @@
             NSTimer* loop = [NSTimer scheduledTimerWithTimeInterval:60*60*24*3 target:self selector:@selector(checkOutbox) userInfo:nil repeats:NO];
             [[NSRunLoop currentRunLoop] addTimer:loop forMode:NSRunLoopCommonModes];
         }
-       
-        UIAlertView *successAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:[NSString stringWithFormat:@"Successfully created Class: %@ Code : %@",codeGroupForClass[@"name"], codeGroupForClass[@"code"]] delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+    
+    //    UIAlertView *successAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:[NSString stringWithFormat:@"Successfully created Class: %@ Code : %@",codeGroupForClass[@"name"], codeGroupForClass[@"code"]] delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
         
-        [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
+        [hud hide:YES];
         [self dismissViewControllerAnimated:YES completion:nil];
-        [successAlertView show];
+      //  [successAlertView show];
+    
+        [RKDropdownAlert title:@"Knit" message:[NSString stringWithFormat:@"Successfully created Class: %@ Code : %@",codeGroupForClass[@"name"], codeGroupForClass[@"code"]]   time:2];
+    
     } errorBlock:^(NSError *error) {
-        UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error occured creating class. Please try again later." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-        [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
-        [errorAlertView show];
+       // UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error occured creating class. Please try again later." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+        [hud hide:YES];
+        //[errorAlertView show];
+         [RKDropdownAlert title:@"Knit" message:@"Error occured creating class. Please try again later."  time:2];
     }];
 }
 

@@ -11,7 +11,7 @@
 #import "Data.h"
 #import "sharedCache.h"
 #import "TSInboxMessageTableViewCell.h"
-
+#import "RKDropDownAlert.h"
 
 @interface TSNewInboxViewController ()
 
@@ -497,8 +497,7 @@
                 }
             }
             if(_messageFlag==1 && messageObjects.count==1) {
-                UIAlertView *likeConfuseAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Hey! You can now confuse or like message and let teacher know." delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-                [likeConfuseAlertView show];
+                [RKDropdownAlert title:@"Knit" message:@"You know what? You can like/confuse message and let teacher know." time:2];
             }
             _messagesArray = tempArray;
             dispatch_sync(dispatch_get_main_queue(), ^{
@@ -594,10 +593,9 @@
                 [self.messagesTable reloadData];
             });
 
-            if(_messageFlag==1 && messageObjects.count>=1)
+            if(_messageFlag==1 && messageObjects.count==1)
             {
-                UIAlertView *likeConfuseAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Hey! You can now confuse or like message and let teacher know." delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-                [likeConfuseAlertView show];
+                 [RKDropdownAlert title:@"Knit" message:@"You know what? You can like/confuse message and let teacher know."  time:2];
             }
 
             PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
@@ -847,6 +845,20 @@
     _messagesArray = nil;
     _mapCodeToObjects = nil;
     _lastUpdateCalled = nil;
+}
+
+
+-(void)attachedImageTapped:(JTSImageInfo *)imageInfo {
+    NSLog(@"aaya kya yaha");
+    imageInfo.referenceView = self.view;
+    // Setup view controller
+    JTSImageViewController *imageViewer = [[JTSImageViewController alloc]
+                                           initWithImageInfo:imageInfo
+                                           mode:JTSImageViewControllerMode_Image
+                                           backgroundStyle:JTSImageViewControllerBackgroundOption_Blurred];
+    
+    // Present the view controller.
+    [imageViewer showFromViewController:self transition:JTSImageViewControllerTransition_FromOffscreen];
 }
 
 

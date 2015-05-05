@@ -11,6 +11,7 @@
 #import "TSOutboxMessageTableViewCell.h"
 #import "sharedCache.h"
 #import <Parse/Parse.h>
+#import "RKDropdownAlert.h"
 
 @interface TSOutboxViewController ()
 
@@ -240,8 +241,9 @@
 
 -(void)composeMessage {
     if([self noCreatedClasses]) {
-        UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"You cannot send messages as you have not created any class." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-        [errorAlertView show];
+     //   UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"You cannot send messages as you have not created any class." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+       // [errorAlertView show];
+         [RKDropdownAlert title:@"Knit" message:@"You cannot send message as you have not created any class."  time:2];
     }
     else {
         UINavigationController *joinNewClassNavigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"messageComposer"];

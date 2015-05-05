@@ -9,7 +9,8 @@
 #import "FindClassSignUpViewController.h"
 #import "PhoneVerificationViewController.h"
 #import "Data.h"
-
+#import "MBProgressHUD.h"
+#import "RKDropdownAlert.h"
 
 @interface FindClassSignUpViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *className;
@@ -75,31 +76,40 @@
 
 - (IBAction)signUpClicked:(UIButton *)sender {
     if([_titleTextField.text isEqualToString:@""]) {
-        UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Title field cannot be empty." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-        [errorAlertView show];
+      //  UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Title field cannot be empty." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+        //[errorAlertView show];
+        [RKDropdownAlert title:@"Knit" message:@"Title field cannot be empty."  time:2];
+        
         return;
     }
     NSString *name = [_name.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     if(name.length==0) {
-        UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Name field cannot be empty." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-        [errorAlertView show];
+       // UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Name field cannot be empty." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+        //[errorAlertView show];
+        [RKDropdownAlert title:@"Knit" message:@"Name field cannot be empty." time:2];
         return;
     }
     if(_phoneNum.text.length<10) {
-        UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Please make sure that the phone number entered is 10 digits." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-        [errorAlertView show];
+       // UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Please make sure that the phone number entered is 10 digits." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+        //[errorAlertView show];
+            [RKDropdownAlert title:@"Knit" message:@"Please make sure that the phone number entered is 10 digits." time:2];
         return;
         
     }
-    [self presentViewController:[self.storyboard instantiateViewControllerWithIdentifier:@"loadingVC"] animated:NO completion:nil];
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hud.color = [UIColor colorWithRed:32.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
+    hud.labelText = @"Loading";
+
     [Data generateOTP:_phoneNum.text successBlock:^(id object) {
-        [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
+        [hud hide:YES];
         [self performSegueWithIdentifier:@"signUpDetailFindClass" sender:self];
         NSLog(@"code %@",object);
     } errorBlock:^(NSError *error) {
-        UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error in generating OTP. Try again later." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-        [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
-        [errorAlertView show];
+       // UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error in generating OTP. Try again later." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+        [hud hide:YES];
+       // [errorAlertView show];
+        [RKDropdownAlert title:@"Knit" message:@"Error in generating OTP. Try again later."  time:2];
+        
     }];
 }
 
