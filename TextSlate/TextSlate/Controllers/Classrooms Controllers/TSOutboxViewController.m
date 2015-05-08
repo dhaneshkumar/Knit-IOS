@@ -46,8 +46,9 @@
 
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    UIBarButtonItem *composeBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose  target:self action:@selector(composeMessage)];
-    self.tabBarController.navigationItem.rightBarButtonItem = composeBarButtonItem;
+    //UIBarButtonItem *composeBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose  target:self action:@selector(composeMessage)];
+    //self.tabBarController.navigationItem.rightBarButtonItem = composeBarButtonItem;
+    NSLog(@"vda : %@", self.tabBarController.navigationItem.rightBarButtonItem);
     if(_messagesArray.count>0 && _shouldScrollUp) {
         NSIndexPath *rowIndexPath = [NSIndexPath indexPathForRow:0 inSection:0];
         [self.messagesTable scrollToRowAtIndexPath:rowIndexPath atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
@@ -62,9 +63,11 @@
     [super viewWillAppear:animated];
     //NSString *role=[[PFUser currentUser] objectForKey:@"role"];
     //if([role isEqualToString:@"teacher"]) {
+    NSLog(@"vwa : %@", self.tabBarController.navigationItem.rightBarButtonItem);
         UIBarButtonItem *composeBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose  target:self action:@selector(composeMessage)];
         self.tabBarController.navigationItem.rightBarButtonItem = composeBarButtonItem;
     //}
+    NSLog(@"vwa ended : %@", self.tabBarController.navigationItem.rightBarButtonItem);
     [_messagesTable reloadData];
 }
 
@@ -302,6 +305,8 @@
                 if(image)
                 {
                     NSLog(@"already cached");
+                    NSLog(@"height : %f", image.size.height);
+                    NSLog(@"width : %f", image.size.width);
                     message.attachment = image;
                 }
                 else{
@@ -313,6 +318,8 @@
                     {
                         [[sharedCache sharedInstance] cacheImage:image forKey:url];
                         message.attachment = image;
+                        NSLog(@"height : %f", image.size.height);
+                        NSLog(@"width : %f", image.size.width);
                         dispatch_sync(dispatch_get_main_queue(), ^{
                             [self.messagesTable reloadData];
                         });
@@ -321,7 +328,9 @@
             });
         }
     }
+    NSLog(@"right bar button : %@", self.tabBarController.navigationItem.rightBarButtonItem);
     [_messagesTable reloadData];
+    NSLog(@"right bar button : %@", self.tabBarController.navigationItem.rightBarButtonItem);
     return messages.count;
 }
 
@@ -357,6 +366,8 @@
                         if(image)
                         {
                             NSLog(@"already cached");
+                            NSLog(@"height : %f", image.size.height);
+                            NSLog(@"width : %f", image.size.width);
                             message.attachment = image;
                         }
                         else {
@@ -369,6 +380,8 @@
                                 NSLog(@"Caching here....");
                                 [[sharedCache sharedInstance] cacheImage:image forKey:url];
                                 message.attachment = image;
+                                NSLog(@"height : %f", image.size.height);
+                                NSLog(@"width : %f", image.size.width);
                                 dispatch_sync(dispatch_get_main_queue(), ^{
                                     [self.messagesTable reloadData];
                                 });

@@ -86,7 +86,7 @@
     TSNewInboxViewController *inboxController = (TSNewInboxViewController *)cont.viewControllers[1];
     
     if([self.confuseImage.image isEqual:[UIImage imageNamed:@"ios icons-19.png"] ]) {
-        [inboxController updateLikesDataFromCell:indexPath.row status:@"true"];
+        [inboxController updateConfuseDataFromCell:indexPath.row status:@"true"];
         self.confuseImage.image = [UIImage imageNamed:@"ios icons-30.png"];
         int intval = [self.confuseCount.text intValue];
         self.confuseCount.text = [NSString stringWithFormat:@"%d", intval+1];

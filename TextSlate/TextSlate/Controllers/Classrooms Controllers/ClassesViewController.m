@@ -50,13 +50,14 @@
     _createdClasses = nil;
     _codegroups = nil;
     _codegroups = [[NSMutableDictionary alloc] init];
-    if (!self.classesTable.editing) {
-        self.tabBarController.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editButtonSelected:)];
+    self.tabBarController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editButtonSelected:)];
+    [self.classesTable setEditing:NO animated:NO];
+    /*if (!self.classesTable.editing) {
+        self.tabBarController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editButtonSelected:)];
     }
     else {
-        self.tabBarController.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(editButtonSelected:)];
-    }
-    //self.tabBarController.navigationItem.rightBarButtonItem = self.editButtonItem;
+        self.tabBarController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(editButtonSelected:)];
+    }*/
     if(self.segmentedControl.selectedSegmentIndex==0)
         [_createOrJoinButton setTitle:@"+  Create Class" forState:UIControlStateNormal];
     else
@@ -66,19 +67,18 @@
     }
 }
 
--(void)viewDidDisappear:(BOOL)animated {
-    [super viewDidDisappear:animated];
-    self.tabBarController.navigationItem.rightBarButtonItem = nil;
+-(void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    self.tabBarController.navigationItem.leftBarButtonItem = nil;
 }
 
 - (void) editButtonSelected: (id) sender {
     if (self.classesTable.editing) {
-        self.tabBarController.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editButtonSelected:)];
+        self.tabBarController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editButtonSelected:)];
         [self.classesTable setEditing:NO animated:YES];
     } else {
-        self.tabBarController.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(editButtonSelected:)];
+        self.tabBarController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(editButtonSelected:)];
         [self.classesTable setEditing:YES animated:YES];
-        
     }
 }
 

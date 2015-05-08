@@ -29,7 +29,6 @@
 
 @implementation AppDelegate
 
-
 @synthesize classArray;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
@@ -40,9 +39,9 @@
     // Enable local datastore.
     [Parse enableLocalDatastore];
     
-    
     // Override point for customization after application launch.
-    [Parse setApplicationId:@"jrumkUT2jzvbFn7czsC5fQmFG5JIYSE4P7GJrlOG" clientKey:@"nfSgzcWi39af825uQ0Fhj2L7L2YJca9ibBgR9wtQa"];
+    [self setKeysForDevelopmentKnit];
+    
     [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
     
     // Registering for the Push notifications
@@ -87,6 +86,19 @@
     }
     return YES;
 }
+
+
+-(void)setKeysForDevelopmentKnit {
+    [Parse setApplicationId:@"tTqAhR73SE4NWFhulYX4IjQSDH2TkuTblujAbvOK" clientKey:@"4LnlMXS6hFUunIZ6cS3F7IcLrWGuzOIkyLldkxQJ"];
+    return;
+}
+
+
+-(void)setKeysForKnit {
+    [Parse setApplicationId:@"jrumkUT2jzvbFn7czsC5fQmFG5JIYSE4P7GJrlOG" clientKey:@"nfSgzcWi39af825uQ0Fhj2L7L2YJca9ibBgR9wtQ"];
+    return;
+}
+
 
 -(void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     
