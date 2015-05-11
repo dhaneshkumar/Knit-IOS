@@ -111,7 +111,8 @@
 
 - (void)imageViewTap:(UITapGestureRecognizer *)recognizer {
     // Create image info
-    NSLog(@"yaha to aaya");
+    if([_attachedImage.image isEqual:[UIImage imageNamed:@"white.jpg"]])
+        return;
     JTSImageInfo *imageInfo = [[JTSImageInfo alloc] init];
     imageInfo.image = _attachedImage.image;
     imageInfo.referenceRect = _attachedImage.frame;

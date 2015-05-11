@@ -2922,25 +2922,19 @@
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="buM-LY-gAS">
                                                     <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="200" id="2v0-AR-qqw"/>
-                                                        <constraint firstAttribute="height" constant="300" id="ELZ-dm-0o1"/>
+                                                        <constraint firstAttribute="height" constant="300" id="28h-7h-zk9"/>
                                                         <constraint firstAttribute="width" constant="300" id="bck-yV-Jg9"/>
-                                                        <constraint firstAttribute="width" constant="200" id="vQo-Cx-Xmr"/>
                                                     </constraints>
                                                     <variation key="default">
                                                         <mask key="constraints">
-                                                            <exclude reference="2v0-AR-qqw"/>
-                                                            <exclude reference="ELZ-dm-0o1"/>
+                                                            <exclude reference="28h-7h-zk9"/>
                                                             <exclude reference="bck-yV-Jg9"/>
-                                                            <exclude reference="vQo-Cx-Xmr"/>
                                                         </mask>
                                                     </variation>
                                                     <variation key="heightClass=regular-widthClass=compact">
                                                         <mask key="constraints">
-                                                            <exclude reference="2v0-AR-qqw"/>
-                                                            <include reference="ELZ-dm-0o1"/>
+                                                            <include reference="28h-7h-zk9"/>
                                                             <include reference="bck-yV-Jg9"/>
-                                                            <exclude reference="vQo-Cx-Xmr"/>
                                                         </mask>
                                                     </variation>
                                                 </imageView>
@@ -3060,6 +3054,8 @@
                                             <outlet property="attachedImage" destination="buM-LY-gAS" id="QEc-ja-VPG"/>
                                             <outlet property="className" destination="e18-Zl-oT5" id="Wfx-Fq-RRa"/>
                                             <outlet property="confuseCount" destination="mdl-lO-WwX" id="cyO-Vd-xE1"/>
+                                            <outlet property="imageHeight" destination="28h-7h-zk9" id="Imu-2n-sUM"/>
+                                            <outlet property="imageWidth" destination="bck-yV-Jg9" id="gNL-j3-tbB"/>
                                             <outlet property="likesCount" destination="5Z0-vQ-v3E" id="zz0-Up-Gnt"/>
                                             <outlet property="message" destination="jme-vO-y8f" id="yg7-cJ-Wnx"/>
                                             <outlet property="seenCount" destination="HWh-08-Cbr" id="Xxd-va-MzS"/>
@@ -3814,23 +3810,17 @@
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="300" id="1CO-Xt-5Fb"/>
                                                         <constraint firstAttribute="width" constant="300" id="5Ko-6N-QYo"/>
-                                                        <constraint firstAttribute="height" constant="200" id="DMc-mv-dm7"/>
-                                                        <constraint firstAttribute="width" constant="200" id="L2X-He-dNL"/>
                                                     </constraints>
                                                     <variation key="default">
                                                         <mask key="constraints">
                                                             <exclude reference="1CO-Xt-5Fb"/>
                                                             <exclude reference="5Ko-6N-QYo"/>
-                                                            <exclude reference="DMc-mv-dm7"/>
-                                                            <exclude reference="L2X-He-dNL"/>
                                                         </mask>
                                                     </variation>
                                                     <variation key="heightClass=regular-widthClass=compact">
                                                         <mask key="constraints">
                                                             <include reference="1CO-Xt-5Fb"/>
                                                             <include reference="5Ko-6N-QYo"/>
-                                                            <exclude reference="DMc-mv-dm7"/>
-                                                            <exclude reference="L2X-He-dNL"/>
                                                         </mask>
                                                     </variation>
                                                 </imageView>
@@ -3935,6 +3925,8 @@
                                             <outlet property="activityIndicator" destination="Fpg-L9-mGg" id="dFa-JZ-B6R"/>
                                             <outlet property="attachedImage" destination="BD1-bt-pJB" id="aEr-YU-K7o"/>
                                             <outlet property="confuseCount" destination="fhU-yW-DgZ" id="vwb-Ep-xUq"/>
+                                            <outlet property="imageHeight" destination="1CO-Xt-5Fb" id="WPO-VD-hvR"/>
+                                            <outlet property="imageWidth" destination="5Ko-6N-QYo" id="6O5-Dy-5kj"/>
                                             <outlet property="likesCount" destination="sTI-wb-MKR" id="xFv-Ke-wAv"/>
                                             <outlet property="message" destination="ttk-l7-Xvg" id="0YZ-wg-Q8X"/>
                                             <outlet property="seenCount" destination="4We-zj-lF7" id="hBQ-k1-Qdu"/>
@@ -4806,7 +4798,8 @@
                                                             <exclude reference="9yV-Db-wON"/>
                                                         </mask>
                                                     </variation>
-                                                    <variation key="heightClass=regular-widthClass=compact">
+                                                    <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
+                                                        <rect key="frame" x="269" y="369" width="43" height="16"/>
                                                         <mask key="constraints">
                                                             <include reference="9yV-Db-wON"/>
                                                         </mask>
@@ -4899,27 +4892,18 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="300" id="I0j-uP-w7I"/>
-                                                        <constraint firstAttribute="width" constant="200" id="SnH-qj-Mqc"/>
-                                                        <constraint firstAttribute="height" constant="200" id="hzT-cs-FZk"/>
                                                         <constraint firstAttribute="height" constant="300" id="qB1-d0-357"/>
-                                                        <constraint firstAttribute="height" constant="200" id="r9A-LH-fnx"/>
                                                     </constraints>
                                                     <variation key="default">
                                                         <mask key="constraints">
                                                             <exclude reference="I0j-uP-w7I"/>
-                                                            <exclude reference="SnH-qj-Mqc"/>
-                                                            <exclude reference="hzT-cs-FZk"/>
                                                             <exclude reference="qB1-d0-357"/>
-                                                            <exclude reference="r9A-LH-fnx"/>
                                                         </mask>
                                                     </variation>
                                                     <variation key="heightClass=regular-widthClass=compact">
                                                         <mask key="constraints">
                                                             <include reference="I0j-uP-w7I"/>
-                                                            <exclude reference="SnH-qj-Mqc"/>
-                                                            <exclude reference="hzT-cs-FZk"/>
                                                             <include reference="qB1-d0-357"/>
-                                                            <exclude reference="r9A-LH-fnx"/>
                                                         </mask>
                                                     </variation>
                                                 </imageView>
@@ -5038,6 +5022,8 @@
                                             <outlet property="confuseCount" destination="Wig-UB-LGt" id="U9d-qp-G0j"/>
                                             <outlet property="confuseImage" destination="UHE-ms-HNn" id="jcY-8C-ZVJ"/>
                                             <outlet property="confuseView" destination="Wsk-pV-OjS" id="g8w-eV-cKm"/>
+                                            <outlet property="imageHeight" destination="qB1-d0-357" id="hmn-0Q-csi"/>
+                                            <outlet property="imageWidth" destination="I0j-uP-w7I" id="Hfp-aT-2J3"/>
                                             <outlet property="likesCount" destination="ry9-dV-FV2" id="cD9-fO-5VK"/>
                                             <outlet property="likesImage" destination="zu9-Kj-qKh" id="0Ck-Fb-gfm"/>
                                             <outlet property="likesView" destination="8i6-Ah-Uyi" id="fg8-CL-XOb"/>

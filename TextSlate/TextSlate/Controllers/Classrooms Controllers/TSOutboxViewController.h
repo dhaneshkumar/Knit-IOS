@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "TSMessage.h"
+#import "JTSImageInfo.h"
+#import "JTSImageViewController.h"
 
 @interface TSOutboxViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
@@ -20,5 +22,6 @@
 @property (nonatomic) BOOL shouldScrollUp;
 
 -(void)deleteLocalData;
+-(void)attachedImageTapped:(JTSImageInfo *)imageInfo;
 
 @end

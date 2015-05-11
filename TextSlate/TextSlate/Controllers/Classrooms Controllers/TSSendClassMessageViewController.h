@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "JSQMessagesViewController.h"
 #import "TSClass.h"
+#import "JTSImageInfo.h"
+#import "JTSImageViewController.h"
 
 @interface TSSendClassMessageViewController : UIViewController <UITableViewDataSource,UITableViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 
@@ -18,5 +20,7 @@
 @property (strong, nonatomic) TSClass *classObject;
 @property(strong,nonatomic) NSString *className;
 @property(strong,nonatomic) NSString *classCode;
+
+-(void)attachedImageTapped:(JTSImageInfo *)imageInfo;
 
 @end

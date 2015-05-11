@@ -111,45 +111,44 @@ if(section==0)
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"settingsCellIdentifier" forIndexPath:indexPath];
     if(indexPath.section==0)
     {
-
-           // UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
-            //imgView.contentMode = UIViewContentModeScaleAspectFill;
-        
+        // UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
+        //imgView.contentMode = UIViewContentModeScaleAspectFill;
         CALayer * l = [cell.imageView layer];
-            [l setMasksToBounds:YES];
-            [l setCornerRadius:20.0];
-            PFFile *imageUrl = [[PFUser currentUser] objectForKey:@"pid"];
+        [l setMasksToBounds:YES];
+        [l setCornerRadius:20.0];
+        PFFile *imageUrl = [[PFUser currentUser] objectForKey:@"pid"];
         
-        
-            NSString *url1=imageUrl.url;
+        NSString *url1=imageUrl.url;
         NSLog(@"%@ is url to the image",url1);
         UIImage *image = [[sharedCache sharedInstance] getCachedImageForKey:url1];
-        if(image)
-        {
+        if(image) {
             NSLog(@"settings cached");
             cell.imageView.image=image;
-            
         }
         else{
-            
-            NSURL *imageURL = [NSURL URLWithString:url1];
-            UIImage *image = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:imageURL]];
-            
-            if(image)
-            {
-                NSLog(@"Caching ....");
-                [[sharedCache sharedInstance] cacheImage:image forKey:url1];
-                cell.imageView.image=image;
+            cell.imageView.image=[UIImage imageNamed:@"defaultTeacher.png"];
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
+                NSURL *imageURL = [NSURL URLWithString:url1];
+                UIImage *image = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:imageURL]];
                 
-            }
-            else{
-                cell.imageView.image=[UIImage imageNamed:@"defaultTeacher.png"];
-            }
+                if(image)
+                {
+                    NSLog(@"Caching ....");
+                    [[sharedCache sharedInstance] cacheImage:image forKey:url1];
+                    cell.imageView.image=image;
+                    dispatch_sync(dispatch_get_main_queue(), ^{
+                        [_settingsTableView reloadData];
+                    });
+                }
+                //else{
+                    //cell.imageView.image=[UIImage imageNamed:@"defaultTeacher.png"];
+                //}
+            });
         }
-            UIButton * btn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-            btn.frame = CGRectMake(120, 30, 100, 200);
-            [btn setTitle:@"Edit Picture" forState:UIControlStateNormal];
-            [cell.contentView addSubview:btn];
+        UIButton * btn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        btn.frame = CGRectMake(120, 30, 100, 200);
+        [btn setTitle:@"Edit Picture" forState:UIControlStateNormal];
+        [cell.contentView addSubview:btn];
     }
     
     else if(indexPath.section==1)

@@ -46,9 +46,6 @@
 
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    //UIBarButtonItem *composeBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose  target:self action:@selector(composeMessage)];
-    //self.tabBarController.navigationItem.rightBarButtonItem = composeBarButtonItem;
-    NSLog(@"vda : %@", self.tabBarController.navigationItem.rightBarButtonItem);
     if(_messagesArray.count>0 && _shouldScrollUp) {
         NSIndexPath *rowIndexPath = [NSIndexPath indexPathForRow:0 inSection:0];
         [self.messagesTable scrollToRowAtIndexPath:rowIndexPath atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
@@ -61,12 +58,8 @@
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    //NSString *role=[[PFUser currentUser] objectForKey:@"role"];
-    //if([role isEqualToString:@"teacher"]) {
-    NSLog(@"vwa : %@", self.tabBarController.navigationItem.rightBarButtonItem);
-        UIBarButtonItem *composeBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose  target:self action:@selector(composeMessage)];
+    UIBarButtonItem *composeBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose  target:self action:@selector(composeMessage)];
         self.tabBarController.navigationItem.rightBarButtonItem = composeBarButtonItem;
-    //}
     NSLog(@"vwa ended : %@", self.tabBarController.navigationItem.rightBarButtonItem);
     [_messagesTable reloadData];
 }
@@ -101,6 +94,20 @@
     cell.seenCount.text = [NSString stringWithFormat:@"%d", message.seenCount];
     if(message.hasAttachment) {
         cell.attachedImage.image = message.attachment;
+        //cell.attachedImage.contentMode = UIViewContentModeScaleAspectFill;
+        UIImage *img = message.attachment;
+        float height = img.size.height;
+        float width = img.size.width;
+        if(height>width) {
+            float changedWidth = 300.0*width/height;
+            cell.imageWidth.constant = changedWidth;
+            cell.imageHeight.constant = 300.0;
+        }
+        else {
+            float changedHeight = 300.0*height/width;
+            cell.imageHeight.constant = changedHeight;
+            cell.imageWidth.constant = 300.0;
+        }
         cell.activityIndicator.hidesWhenStopped = true;
         if([message.attachment isEqual:[UIImage imageNamed:@"white.jpg"]]) {
             [cell.activityIndicator startAnimating];
@@ -137,10 +144,19 @@
     
     CGSize expectSize = [gettingSizeLabel sizeThatFits:maximumLabelSize];
     //NSLog(@"height : %f", expectSize.height);
-    if(((TSMessage *)_messagesArray[indexPath.row]).attachment)
-        return expectSize.height+372;
-    else
+    
+    if(((TSMessage *)_messagesArray[indexPath.row]).attachment) {
+        UIImage *img = ((TSMessage *)_messagesArray[indexPath.row]).attachment;
+        float height = img.size.height;
+        float width = img.size.width;
+        float changedHeight = 300.0;
+        if(height<=width)
+            changedHeight = 300.0*height/width;
+        return expectSize.height+72+changedHeight;
+    }
+    else {
         return expectSize.height+66;
+    }
 }
 
 
@@ -538,6 +554,18 @@
     _messagesArray = nil;
     _mapCodeToObjects = nil;
     _lastUpdateCalled = nil;
+}
+
+-(void)attachedImageTapped:(JTSImageInfo *)imageInfo {
+    imageInfo.referenceView = self.view;
+    //Setup view controller
+    JTSImageViewController *imageViewer = [[JTSImageViewController alloc]
+                                           initWithImageInfo:imageInfo
+                                           mode:JTSImageViewControllerMode_Image
+                                           backgroundStyle:JTSImageViewControllerBackgroundOption_Blurred];
+    
+    //Present the view controller.
+    [imageViewer showFromViewController:self transition:JTSImageViewControllerTransition_FromOffscreen];
 }
 
 

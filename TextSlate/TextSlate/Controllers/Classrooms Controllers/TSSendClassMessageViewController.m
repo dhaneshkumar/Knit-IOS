@@ -87,6 +87,19 @@
     cell.seenCount.text = [NSString stringWithFormat:@"%d", message.seenCount];
     if(message.hasAttachment) {
         cell.attachedImage.image = message.attachment;
+        UIImage *img = message.attachment;
+        float height = img.size.height;
+        float width = img.size.width;
+        if(height>width) {
+            float changedWidth = 300.0*width/height;
+            cell.imageWidth.constant = changedWidth;
+            cell.imageHeight.constant = 300.0;
+        }
+        else {
+            float changedHeight = 300.0*height/width;
+            cell.imageHeight.constant = changedHeight;
+            cell.imageWidth.constant = 300.0;
+        }
         cell.activityIndicator.hidesWhenStopped = true;
         if([message.attachment isEqual:[UIImage imageNamed:@"white.jpg"]]) {
             [cell.activityIndicator startAnimating];
@@ -122,10 +135,18 @@
     CGSize maximumLabelSize = CGSizeMake(300, 9999);
     
     CGSize expectSize = [gettingSizeLabel sizeThatFits:maximumLabelSize];
-    if(((TSMessage *)_messagesArray[indexPath.row]).attachment)
-        return expectSize.height+347;
-    else
+    if(((TSMessage *)_messagesArray[indexPath.row]).attachment) {
+        UIImage *img = ((TSMessage *)_messagesArray[indexPath.row]).attachment;
+        float height = img.size.height;
+        float width = img.size.width;
+        float changedHeight = 300.0;
+        if(height<=width)
+            changedHeight = 300.0*height/width;
+        return expectSize.height+47+changedHeight;
+    }
+    else {
         return expectSize.height+41;
+    }
 }
 
 
@@ -510,6 +531,20 @@
 
         }];
 }
+
+
+-(void)attachedImageTapped:(JTSImageInfo *)imageInfo {
+    imageInfo.referenceView = self.view;
+    // Setup view controller
+    JTSImageViewController *imageViewer = [[JTSImageViewController alloc]
+                                           initWithImageInfo:imageInfo
+                                           mode:JTSImageViewControllerMode_Image
+                                           backgroundStyle:JTSImageViewControllerBackgroundOption_Blurred];
+    
+    // Present the view controller.
+    [imageViewer showFromViewController:self transition:JTSImageViewControllerTransition_FromOffscreen];
+}
+
 
 /*
 -(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {

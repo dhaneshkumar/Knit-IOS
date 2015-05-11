@@ -111,6 +111,20 @@
     
     if(message.hasAttachment) {
         cell.attachedImage.image = message.attachment;
+        UIImage *img = message.attachment;
+        float height = img.size.height;
+        float width = img.size.width;
+        if(height>width) {
+            float changedWidth = 300.0*width/height;
+            cell.imageWidth.constant = changedWidth;
+            cell.imageHeight.constant = 300.0;
+        }
+        else {
+            float changedHeight = 300.0*height/width;
+            cell.imageHeight.constant = changedHeight;
+            cell.imageWidth.constant = 300.0;
+        }
+        cell.attachedImage.contentMode = UIViewContentModeScaleToFill;
         cell.activityIndicator.hidesWhenStopped = true;
         if([message.attachment isEqual:[UIImage imageNamed:@"white.jpg"]]) {
             [cell.activityIndicator startAnimating];
@@ -148,7 +162,14 @@
     
     CGSize expectSize = [gettingSizeLabel sizeThatFits:maximumLabelSize];
     if(((TSMessage *)_messagesArray[indexPath.row]).attachment) {
-        return expectSize.height+372;
+        UIImage *img = ((TSMessage *)_messagesArray[indexPath.row]).attachment;
+        float height = img.size.height;
+        float width = img.size.width;
+        float changedHeight = 300.0;
+        if(height<=width)
+            changedHeight = 300.0*height/width;
+        //NSLog(@"changed height : %f", changedHeight);
+        return expectSize.height+72+changedHeight;
     }
     else {
         return expectSize.height+66;
