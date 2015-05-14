@@ -101,6 +101,7 @@
     cell.className.text = message.className;
     cell.teacherName.text = [NSString stringWithFormat:@"by %@", message.sender];
     cell.message.text = message.message;
+    cell.messageWidth.constant = [self getScreenWidth] - 20.0;
     NSTimeInterval mti = [self getMessageTimeDiff:message.sentTime];
     cell.sentTime.text = [self sentTimeDisplayText:mti];
     cell.confuseCount.text = [NSString stringWithFormat:@"%d", message.confuseCount];
@@ -159,7 +160,7 @@
     gettingSizeLabel.text = ((TSMessage *)_messagesArray[indexPath.row]).message;
     gettingSizeLabel.numberOfLines = 0;
     gettingSizeLabel.lineBreakMode = NSLineBreakByWordWrapping;
-    CGSize maximumLabelSize = CGSizeMake(300, 9999);
+    CGSize maximumLabelSize = CGSizeMake([self getScreenWidth] - 20.0, 9999);
     
     CGSize expectSize = [gettingSizeLabel sizeThatFits:maximumLabelSize];
     if(((TSMessage *)_messagesArray[indexPath.row]).attachment) {
@@ -889,6 +890,13 @@
     
     // Present the view controller.
     [imageViewer showFromViewController:self transition:JTSImageViewControllerTransition_FromOffscreen];
+}
+
+-(CGFloat) getScreenWidth {
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    CGFloat screenWidth = screenRect.size.width;
+    NSLog(@"screen width : %f", screenWidth);
+    return screenWidth;
 }
 
 
