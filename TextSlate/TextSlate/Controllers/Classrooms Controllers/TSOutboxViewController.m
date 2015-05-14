@@ -11,6 +11,7 @@
 #import "TSOutboxMessageTableViewCell.h"
 #import "sharedCache.h"
 #import <Parse/Parse.h>
+#import "MBProgressHUD.h"
 #import "RKDropdownAlert.h"
 
 @interface TSOutboxViewController ()
@@ -18,6 +19,7 @@
 
 @property (strong, nonatomic) NSDate * timeDiff;
 @property (nonatomic) BOOL isBottomRefreshCalled;
+@property (strong, nonatomic) MBProgressHUD *hud;
 
 @end
 
@@ -31,7 +33,6 @@
     self.messagesTable.dataSource = self;
     self.messagesTable.delegate = self;
     _isBottomRefreshCalled = false;
-    _activityIndicator.hidden = YES;
     _messagesArray = [[NSMutableArray alloc] init];
     _mapCodeToObjects = [[NSMutableDictionary alloc] init];
     _messageIds = [[NSMutableArray alloc] init];
@@ -174,6 +175,9 @@
     if([self noCreatedClasses])
         return;
     if(_messagesArray.count==0) {
+        _hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        _hud.color = [UIColor colorWithRed:32.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
+        _hud.labelText = @"Loading messages";
         PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
         [lq fromLocalDatastore];
         [lq whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
@@ -184,13 +188,11 @@
             return;
         }
         
-        _activityIndicator.hidden = NO;
-        [_activityIndicator startAnimating];
         int localMessages = [self fetchMessagesFromLocalDatastore];
-        [_activityIndicator stopAnimating];
-        _activityIndicator.hidden = YES;
+        NSLog(@"hoye");
         if(localMessages==0) {
             if(!localObjs[0][@"isOutboxDataConsistent"] || [localObjs[0][@"isOutboxDataConsistent"] isEqualToString:@"false"]) {
+                NSLog(@"oye hoye");
                 [self fetchOldMessagesOnDataDeletion];
             }
         }
@@ -300,6 +302,7 @@
     [query whereKey:@"code" containedIn:createdClassCodes];
     [query orderByDescending:@"createdTime"];
     NSArray *messages = (NSArray *)[query findObjects];
+    [_hud hide:YES];
     NSCharacterSet *characterset=[NSCharacterSet characterSetWithCharactersInString:@"\uFFFC\n "];
     for (PFObject * messageObject in messages) {
         TSMessage *message = [[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:[messageObject[@"title"] stringByTrimmingCharactersInSet:characterset] sender:messageObject[@"Creator"] sentTime:messageObject[@"createdTime"] senderPic:messageObject[@"senderPic"] likeCount:[messageObject[@"like_count"] intValue] confuseCount:[messageObject[@"confused_count"] intValue] seenCount:[messageObject[@"seen_count"] intValue]];
@@ -321,8 +324,6 @@
                 if(image)
                 {
                     NSLog(@"already cached");
-                    NSLog(@"height : %f", image.size.height);
-                    NSLog(@"width : %f", image.size.width);
                     message.attachment = image;
                 }
                 else{
@@ -334,8 +335,6 @@
                     {
                         [[sharedCache sharedInstance] cacheImage:image forKey:url];
                         message.attachment = image;
-                        NSLog(@"height : %f", image.size.height);
-                        NSLog(@"width : %f", image.size.width);
                         dispatch_sync(dispatch_get_main_queue(), ^{
                             [self.messagesTable reloadData];
                         });
@@ -344,22 +343,23 @@
             });
         }
     }
-    NSLog(@"right bar button : %@", self.tabBarController.navigationItem.rightBarButtonItem);
     [_messagesTable reloadData];
-    NSLog(@"right bar button : %@", self.tabBarController.navigationItem.rightBarButtonItem);
     return messages.count;
 }
 
 
 -(void)fetchOldMessagesOnDataDeletion {
-    _activityIndicator.hidden = NO;
-    [_activityIndicator startAnimating];
+    _hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    _hud.color = [UIColor colorWithRed:32.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
+    _hud.labelText = @"Loading messages";
     [Data updateInboxLocalDatastore:@"c" successBlock:^(id object) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
             NSArray *messages = (NSArray *)object;
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                [_hud hide:YES];
+            });
             NSCharacterSet *characterset=[NSCharacterSet characterSetWithCharactersInString:@"\uFFFC\n "];
             for(PFObject *messageObject in messages) {
-                //messageObject[@"iosUserID"] = [PFUser currentUser].objectId;
                 messageObject[@"messageId"] = messageObject.objectId;
                 messageObject[@"createdTime"] = messageObject.createdAt;
                 [messageObject pinInBackground];
@@ -376,14 +376,10 @@
                     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
                         PFFile *attachImageUrl=messageObject[@"attachment"];
                         NSString *url=attachImageUrl.url;
-                        //NSLog(@"url to image fetcholdemssageondatadeletion %@",url);
                         
                         UIImage *image = [[sharedCache sharedInstance] getCachedImageForKey:url];
                         if(image)
                         {
-                            NSLog(@"already cached");
-                            NSLog(@"height : %f", image.size.height);
-                            NSLog(@"width : %f", image.size.width);
                             message.attachment = image;
                         }
                         else {
@@ -396,8 +392,6 @@
                                 NSLog(@"Caching here....");
                                 [[sharedCache sharedInstance] cacheImage:image forKey:url];
                                 message.attachment = image;
-                                NSLog(@"height : %f", image.size.height);
-                                NSLog(@"width : %f", image.size.width);
                                 dispatch_sync(dispatch_get_main_queue(), ^{
                                     [self.messagesTable reloadData];
                                 });
@@ -408,8 +402,6 @@
                 }
             }
             dispatch_sync(dispatch_get_main_queue(), ^{
-                [_activityIndicator stopAnimating];
-                _activityIndicator.hidden = YES;
                 [self.messagesTable reloadData];
             });
             PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
@@ -421,6 +413,7 @@
         });
     } errorBlock:^(NSError *error) {
         NSLog(@"Unable to fetch inbox messages while opening inbox tab: %@", [error description]);
+        [_hud hide:YES];
     }];
 }
 

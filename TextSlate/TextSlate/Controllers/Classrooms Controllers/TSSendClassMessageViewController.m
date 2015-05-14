@@ -16,6 +16,7 @@
 #import "InviteParentViewController.h"
 #import "MessageComposerViewController.h"
 #import "RKDropdownAlert.h"
+#import "MBProgressHUD.h"
 
 @interface TSSendClassMessageViewController ()
 
@@ -25,6 +26,7 @@
 @property (nonatomic, strong) NSMutableDictionary *mapCodeToObjects;
 @property (strong, nonatomic) NSDate * timeDiff;
 @property (nonatomic) BOOL isBottomRefreshCalled;
+@property (strong, nonatomic) MBProgressHUD *hud;
 
 @end
 
@@ -41,17 +43,16 @@
     [self.inviteParents addGestureRecognizer:inviteParentsTap];
     UITapGestureRecognizer *subscribersTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(subscribersTap:)];
     [self.subscribersList addGestureRecognizer:subscribersTap];
-    _activityIndicator.hidden = YES;
+    _messagesArray = [[NSMutableArray alloc] init];
+    _mapCodeToObjects = [[NSMutableDictionary alloc] init];
+    _memListVC = nil;
 }
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     UIBarButtonItem *composeBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose  target:self action:@selector(composeMessage)];
     self.navigationItem.rightBarButtonItem = composeBarButtonItem;
-    _messagesArray=nil;
-    _messagesArray=[[NSMutableArray alloc] init];
-    _mapCodeToObjects = nil;
-    _mapCodeToObjects = [[NSMutableDictionary alloc] init];
+    [_messageTable reloadData];
 }
 
 -(void)viewDidAppear:(BOOL)animated {
@@ -161,12 +162,10 @@
 
 
 -(void)displayMessages {
-    _activityIndicator.hidden = NO;
-    [_activityIndicator startAnimating];
-    NSArray *array = [self fetchMessagesFromLocalDatastore];
-    [_activityIndicator stopAnimating];
-    _activityIndicator.hidden = YES;
     if(_messagesArray.count==0) {
+        _hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        _hud.color = [UIColor colorWithRed:32.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
+        _hud.labelText = @"Loading messages";
         PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
         [lq fromLocalDatastore];
         [lq whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
@@ -177,15 +176,14 @@
             return;
         }
         
-        if(!localObjs[0][@"isOutboxDataConsistent"] || [localObjs[0][@"isOutboxDataConsistent"] isEqualToString:@"false"]) {
-            [self fetchOldMessagesOnDataDeletion];
+        int localMessages = [self fetchMessagesFromLocalDatastore];
+        
+        if(localMessages==0) {
+            if(!localObjs[0][@"isOutboxDataConsistent"] || [localObjs[0][@"isOutboxDataConsistent"] isEqualToString:@"false"]) {
+                [self fetchOldMessagesOnDataDeletion];
+            }
         }
     }
-    else {
-        [self.messageTable reloadData];
-        [self updateCountsLocally:array];
-    }
-    return;
 }
 
 
@@ -242,15 +240,14 @@
  */
 
 
--(NSArray *)fetchMessagesFromLocalDatastore {
+-(int)fetchMessagesFromLocalDatastore {
     PFQuery *query = [PFQuery queryWithClassName:@"GroupDetails"];
     [query fromLocalDatastore];
     //[query whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
     [query whereKey:@"code" equalTo:_classCode];
     [query orderByDescending:@"createdTime"];
     NSArray *messages = (NSArray *)[query findObjects];
-    NSMutableArray *messageIds = [[NSMutableArray alloc] init];
-    int i=0;
+    [_hud hide:YES];
     NSCharacterSet *characterset=[NSCharacterSet characterSetWithCharactersInString:@"\uFFFC\n "];
     for (PFObject * messageObject in messages) {
         TSMessage *message = [[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:[messageObject[@"title"] stringByTrimmingCharactersInSet:characterset] sender:messageObject[@"Creator"] sentTime:messageObject[@"createdTime"] senderPic:messageObject[@"senderPic"] likeCount:[messageObject[@"like_count"] intValue] confuseCount:[messageObject[@"confused_count"] intValue] seenCount:[messageObject[@"seen_count"] intValue]];
@@ -289,23 +286,24 @@
                 }
             });
         }
-        if(i<30)
-            [messageIds addObject:messageObject[@"messageId"]];
-        i++;
     }
-    return messageIds;
+    [self.messageTable reloadData];
+    return messages.count;
 }
 
 
 -(void)fetchOldMessagesOnDataDeletion {
-    _activityIndicator.hidden = NO;
-    [_activityIndicator startAnimating];
+    _hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    _hud.color = [UIColor colorWithRed:32.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
+    _hud.labelText = @"Loading messages";
     [Data updateInboxLocalDatastore:@"c" successBlock:^(id object) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
             NSArray *messages = (NSArray *)object;
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                [_hud hide:YES];
+            });
             NSCharacterSet *characterset=[NSCharacterSet characterSetWithCharactersInString:@"\uFFFC\n "];
             for(PFObject *messageObject in messages) {
-                //messageObject[@"iosUserID"] = [PFUser currentUser].objectId;
                 messageObject[@"messageId"] = messageObject.objectId;
                 messageObject[@"createdTime"] = messageObject.createdAt;
                 [messageObject pinInBackground];
@@ -350,8 +348,6 @@
                 }
             }
             dispatch_sync(dispatch_get_main_queue(), ^{
-                [_activityIndicator stopAnimating];
-                _activityIndicator.hidden = YES;
                 [self.messageTable reloadData];
             });
             PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
@@ -363,6 +359,7 @@
         });
     } errorBlock:^(NSError *error) {
         NSLog(@"Unable to fetch inbox messages while opening inbox tab: %@", [error description]);
+        [_hud hide:YES];
     }];
 }
 
@@ -505,11 +502,16 @@
 - (void)subscribersTap:(UITapGestureRecognizer *)recognizer {
     CGPoint location = [recognizer locationInView:[recognizer.view superview]];
     NSLog(@"subscribers tapped!!");
-    UINavigationController *memberListNavigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"memberListNav"];
-    TSMemberslistTableViewController *memberListController = (TSMemberslistTableViewController *)memberListNavigationController.topViewController;
-    memberListController.classCode = _classCode;
-    memberListController.className = _className;
-    [self presentViewController:memberListNavigationController animated:YES completion:nil];
+    if(_memListVC) {
+        [self.navigationController pushViewController:_memListVC animated:YES];
+    }
+    else {
+        TSMemberslistTableViewController *memberListController = [self.storyboard instantiateViewControllerWithIdentifier:@"memberListVC"];
+        memberListController.classCode = _classCode;
+        memberListController.className = _className;
+        _memListVC = memberListController;
+        [self.navigationController pushViewController:memberListController animated:YES];
+    }
 }
 
 /*

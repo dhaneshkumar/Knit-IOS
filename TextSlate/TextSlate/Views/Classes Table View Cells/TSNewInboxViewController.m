@@ -12,6 +12,7 @@
 #import "sharedCache.h"
 #import "TSInboxMessageTableViewCell.h"
 #import "RKDropDownAlert.h"
+#import "MBProgressHUD.h"
 
 @interface TSNewInboxViewController ()
 
@@ -22,6 +23,7 @@
 @property (nonatomic) BOOL isDirty;
 @property (nonatomic) BOOL isUpdateSeenCountsCalled;
 @property (nonatomic) BOOL isILMCalled;
+@property (nonatomic, strong) MBProgressHUD *hud;
 
 @end
 
@@ -39,7 +41,6 @@
     [self.messagesTable addSubview:_refreshControl];
     [_refreshControl addTarget:self action:@selector(pullDownToRefresh) forControlEvents:UIControlEventValueChanged];
     _isBottomRefreshCalled = false;
-    _activityIndicator.hidden = YES;
     _messagesArray = [[NSMutableArray alloc] init];
     _mapCodeToObjects = [[NSMutableDictionary alloc] init];
     _messageIds = [[NSMutableArray alloc] init];
@@ -333,6 +334,7 @@
         });
     } errorBlock:^(NSError *error) {
         NSLog(@"Unable to fetch inbox messages while opening inbox tab: %@", [error description]);
+        _isILMCalled = NO;
     }];
 }
 
@@ -341,6 +343,9 @@
     if([self noJoinedClasses])
         return;
     if(_messagesArray.count==0) {
+        _hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        _hud.color = [UIColor colorWithRed:32.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
+        _hud.labelText = @"Loading messages";
         PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
         [lq fromLocalDatastore];
         [lq whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
@@ -350,11 +355,9 @@
             NSLog(@"Pain hai bhai life me.");
             return;
         }
-        _activityIndicator.hidden = NO;
-        [_activityIndicator startAnimating];
+        
         int localMessages = [self fetchMessagesFromLocalDatastore];
-        [_activityIndicator stopAnimating];
-        _activityIndicator.hidden = YES;
+        
         if(localMessages==0) {
             if(localObjs[0][@"isInboxDataConsistent"] && [localObjs[0][@"isInboxDataConsistent"] isEqualToString:@"true"]) {
                 _messageFlag=1;
@@ -411,6 +414,7 @@
     //[query whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
     [query whereKey:@"code" containedIn:joinedClassCodes];
     NSArray *messages = (NSArray *)[query findObjects];
+    [_hud hide:YES];
     NSCharacterSet *characterset=[NSCharacterSet characterSetWithCharactersInString:@"\uFFFC\n "];
     for (PFObject * messageObject in messages) {
         TSMessage *message = [[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:[messageObject[@"title"] stringByTrimmingCharactersInSet:characterset] sender:messageObject[@"Creator"] sentTime:messageObject.createdAt senderPic:messageObject[@"senderPic"] likeCount:([messageObject[@"like_count"] intValue]+[self adder:messageObject[@"likeStatusServer"] localStatus:messageObject[@"likeStatus"]]) confuseCount:([messageObject[@"confused_count"] intValue] + [self adder:messageObject[@"confuseStatusServer"] localStatus:messageObject[@"confuseStatus"]]) seenCount:0];
@@ -532,13 +536,16 @@
         });
     } errorBlock:^(NSError *error) {
         NSLog(@"Unable to fetch inbox messages while opening inbox tab: %@", [error description]);
+        _isILMCalled = NO;
+
     }];
 }
 
 
 -(void)fetchOldMessagesOnDataDeletion {
-    _activityIndicator.hidden = NO;
-    [_activityIndicator startAnimating];
+    _hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    _hud.color = [UIColor colorWithRed:32.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
+    _hud.labelText = @"Loading messages";
     [Data updateInboxLocalDatastore:@"j" successBlock:^(id object) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
             NSMutableDictionary *members = (NSMutableDictionary *) object;
@@ -549,6 +556,9 @@
             for(PFObject *state in states) {
                 [statesForMessageID setObject:state forKey:state[@"message_id"]];
             }
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                [_hud hide:YES];
+            });
             NSCharacterSet *characterset=[NSCharacterSet characterSetWithCharactersInString:@"\uFFFC\n "];
             for (PFObject *msg in messageObjects) {
                 //msg[@"iosUserID"] = [PFUser currentUser].objectId;
@@ -609,8 +619,6 @@
                 }
             }
             dispatch_sync(dispatch_get_main_queue(), ^{
-                [_activityIndicator stopAnimating];
-                _activityIndicator.hidden = YES;
                 [self.messagesTable reloadData];
             });
 
@@ -628,6 +636,7 @@
         });
     } errorBlock:^(NSError *error) {
         NSLog(@"Unable to fetch inbox messages while opening inbox tab: %@", [error description]);
+        [_hud hide:YES];
     }];
 }
 
