@@ -375,7 +375,7 @@
             if(_lastUpdateCalled) {
                 NSDate *date = [NSDate date];
                 NSTimeInterval ti = [date timeIntervalSinceDate:_lastUpdateCalled];
-                if(ti>180) {
+                if(ti>300) {
                     [self updateCountsLocally];
                 }
             }
@@ -390,7 +390,7 @@
         if(_lastUpdateCalled) {
             NSDate *date = [NSDate date];
             NSTimeInterval ti = [date timeIntervalSinceDate:_lastUpdateCalled];
-            if(ti>180) {
+            if(ti>300) {
                 [self updateCountsLocally];
             }
         }

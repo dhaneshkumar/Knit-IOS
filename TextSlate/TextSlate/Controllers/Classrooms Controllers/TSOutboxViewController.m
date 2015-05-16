@@ -190,10 +190,9 @@
         }
         
         int localMessages = [self fetchMessagesFromLocalDatastore];
-        NSLog(@"hoye");
+        
         if(localMessages==0) {
             if(!localObjs[0][@"isOutboxDataConsistent"] || [localObjs[0][@"isOutboxDataConsistent"] isEqualToString:@"false"]) {
-                NSLog(@"oye hoye");
                 [self fetchOldMessagesOnDataDeletion];
             }
         }
@@ -201,7 +200,7 @@
             if(_lastUpdateCalled) {
                 NSDate *date = [NSDate date];
                 NSTimeInterval ti = [date timeIntervalSinceDate:_lastUpdateCalled];
-                if(ti>180) {
+                if(ti>300) {
                     [self updateCountsLocally];
                 }
             }
@@ -214,7 +213,7 @@
         if(_lastUpdateCalled) {
             NSDate *date = [NSDate date];
             NSTimeInterval ti = [date timeIntervalSinceDate:_lastUpdateCalled];
-            if(ti>180) {
+            if(ti>300) {
                 [self updateCountsLocally];
             }
         }
