@@ -18,6 +18,8 @@
     UITapGestureRecognizer *imageTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imageViewTap:)];
     [_attachedImage setUserInteractionEnabled:YES];
     [_attachedImage addGestureRecognizer:imageTap];
+    _attachedImage.layer.borderColor = [[UIColor colorWithRed:32.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0] CGColor];
+    _attachedImage.layer.borderWidth = 1.0;
 }
 
 

@@ -38,6 +38,12 @@
     self.navigationItem.rightBarButtonItem = self.editButtonItem;
     _memberList = [[NSMutableArray alloc] init];
     _isRefreshCalled = false;
+    UIBarButtonItem *bb = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"back"] style:UIBarButtonItemStylePlain target:self action:@selector(backButtonTapped:)];
+    [self.navigationItem setLeftBarButtonItem:bb];
+}
+
+-(IBAction)backButtonTapped:(id)sender {
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 
@@ -62,8 +68,22 @@
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    // Return the number of sections.
-    return 1;
+    if(_memberList.count>0) {
+        return 1;
+    }
+    else {
+        UILabel *messageLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
+        
+        messageLabel.text = @"No members.";
+        messageLabel.textColor = [UIColor blackColor];
+        messageLabel.numberOfLines = 0;
+        messageLabel.textAlignment = NSTextAlignmentCenter;
+        messageLabel.font = [UIFont fontWithName:@"Palatino-Italic" size:20];
+        [messageLabel sizeToFit];
+        
+        self.tableView.backgroundView = messageLabel;
+        return 0;
+    }
 }
 
 
@@ -388,6 +408,8 @@
                 _memberList = array;
                 dispatch_sync(dispatch_get_main_queue(), ^{
                     [_hud hide:YES];
+                });
+                dispatch_sync(dispatch_get_main_queue(), ^{
                     [self.tableView reloadData];
                 });
                 _isRefreshCalled = false;
