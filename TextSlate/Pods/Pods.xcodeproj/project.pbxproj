@@ -7,254 +7,313 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		19BF44DE0A014E2EECA30824 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0826A7A9A2D5E3611E883B8E /* CoreGraphics.framework */; };
-		1B3847768BB648DB35A42525 /* Pods-Knit-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 7468E2330C56DA6B980093D8 /* Pods-Knit-dummy.m */; };
-		27B9E2C4A19F8623ACBECBD6 /* RKDropdownAlert.h in Headers */ = {isa = PBXBuildFile; fileRef = 33911886D9ED7E6330CC8AD3 /* RKDropdownAlert.h */; };
-		284E13B9E5E954801217D368 /* RKDropdownAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = B09930AB83F923050154F470 /* RKDropdownAlert.m */; };
-		37D1E0B0054AB3E783289E36 /* Pods-Knit-MBProgressHUD-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = E5BCC3AA345EF466802C22F0 /* Pods-Knit-MBProgressHUD-dummy.m */; };
-		62DE2C974D506A2D47735E01 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 51AE1E8103206D4FEDDE6197 /* MBProgressHUD.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
-		73B627016BAEC21BE6162B17 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 323A4D75DCE447132FDF2CD5 /* Foundation.framework */; };
-		8118D3AEF2DBA79F6A1A4290 /* MBProgressHUD.h in Headers */ = {isa = PBXBuildFile; fileRef = A97D405AC87C096B917897E2 /* MBProgressHUD.h */; };
-		BC0312D484877F968AA5965D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 323A4D75DCE447132FDF2CD5 /* Foundation.framework */; };
-		DA1E419F6B8ABCD023858885 /* Pods-Knit-RKDropdownAlert-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 55AF02D29953CC504DAB46A2 /* Pods-Knit-RKDropdownAlert-dummy.m */; };
-		E645E04115BD48D9AF802A25 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 323A4D75DCE447132FDF2CD5 /* Foundation.framework */; };
+		12F9A7B2A763E2CBDDEA17AD /* Pods-Knit-RKDropdownAlert-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 22F67B106D9B4A695A3B608F /* Pods-Knit-RKDropdownAlert-dummy.m */; };
+		37D4D23B3026195FEA1FECAA /* UIFloatLabelTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C280D613368E31C5B8C431C /* UIFloatLabelTextField.m */; };
+		3823D3877EAFB91798205068 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EEB7087B5DD0619CF656EAD7 /* CoreGraphics.framework */; };
+		38B3D5C50C35D6CC2C747AE6 /* Pods-Knit-UIFloatLabelTextField-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 3626C0C2C494EEFB209EDFA4 /* Pods-Knit-UIFloatLabelTextField-dummy.m */; };
+		438253529A5E1FF1E6F1A38E /* RKDropdownAlert.h in Headers */ = {isa = PBXBuildFile; fileRef = FA0FD5482EFEC6ADF227C2EC /* RKDropdownAlert.h */; };
+		6D5F8BE463D44CE22502226B /* Pods-Knit-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 29938F7F4885868750268949 /* Pods-Knit-dummy.m */; };
+		8FD9DAA4C6E3DB7695BA3742 /* MBProgressHUD.h in Headers */ = {isa = PBXBuildFile; fileRef = 7DD87972AD9BD3093043152D /* MBProgressHUD.h */; };
+		99D442642AB8A03896018B9C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 628B48065E431B01AF0E93BD /* Foundation.framework */; };
+		A25D6046CDE845C89D2E4434 /* Pods-Knit-MBProgressHUD-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = CB4A685F6CE95A3B53BF3461 /* Pods-Knit-MBProgressHUD-dummy.m */; };
+		B7D8B008E005455C455E563C /* UIFloatLabelTextField.h in Headers */ = {isa = PBXBuildFile; fileRef = 87D0A9ABD067E9F44433995C /* UIFloatLabelTextField.h */; };
+		CBB9C54AF04E2E1F07A9886B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 628B48065E431B01AF0E93BD /* Foundation.framework */; };
+		D66B79C7190DF6C4DB6DB863 /* RKDropdownAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = E0633F8C8C86C86BBA6C994B /* RKDropdownAlert.m */; };
+		D9E30BEDAF95DBD405FD7D54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 628B48065E431B01AF0E93BD /* Foundation.framework */; };
+		E730ADDD5E2E83388320D91A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 628B48065E431B01AF0E93BD /* Foundation.framework */; };
+		FDA8D5933DBA6BDD66C0E250 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 38D42764EF2413895494A4D7 /* MBProgressHUD.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		B875CB75BFD2EEAC195649CA /* PBXContainerItemProxy */ = {
+		9BE23FF9B7B1D3980A2B84D8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 1D2FBE82DC32DE813C476ABE /* Project object */;
+			containerPortal = 651DF8BAFA91B173DE168CB4 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 51F900C377A0AFF18E36FF76;
-			remoteInfo = "Pods-Knit-RKDropdownAlert";
-		};
-		BCEEFA8152380EB7FF596DC0 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 1D2FBE82DC32DE813C476ABE /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 796CF824397B796FF8B38B3C;
+			remoteGlobalIDString = 8673298F9FA858DCB04DC371;
 			remoteInfo = "Pods-Knit-MBProgressHUD";
+		};
+		CBCEA8AC9244761B0013D3BC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 651DF8BAFA91B173DE168CB4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F8BA816936FBE3BFFE9B7B7D;
+			remoteInfo = "Pods-Knit-UIFloatLabelTextField";
+		};
+		F576F555B7F592A655EF33DF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 651DF8BAFA91B173DE168CB4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 69E25E86F906B382375CFB9E;
+			remoteInfo = "Pods-Knit-RKDropdownAlert";
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		02ACAF3E6DD4B02477191756 /* libPods-Knit-RKDropdownAlert.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Knit-RKDropdownAlert.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		04524FD93697053453019909 /* Pods-Knit-MBProgressHUD-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Knit-MBProgressHUD-prefix.pch"; sourceTree = "<group>"; };
-		0826A7A9A2D5E3611E883B8E /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/System/Library/Frameworks/CoreGraphics.framework; sourceTree = DEVELOPER_DIR; };
-		155271213236FF74414B1892 /* libPods-Knit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Knit.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		17550C5A066DF9123E6A30FB /* Pods-Knit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Knit.debug.xcconfig"; sourceTree = "<group>"; };
-		323A4D75DCE447132FDF2CD5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
-		33911886D9ED7E6330CC8AD3 /* RKDropdownAlert.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RKDropdownAlert.h; path = SlingshotDropdownAlert/RKDropdownAlert.h; sourceTree = "<group>"; };
-		366061761AFC3823FC55FFA5 /* Pods-Knit-MBProgressHUD.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Knit-MBProgressHUD.xcconfig"; sourceTree = "<group>"; };
-		36F47548634159E46E9209F1 /* Pods-Knit-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-Knit-acknowledgements.plist"; sourceTree = "<group>"; };
-		460DFC9ECF0DAF3A4F21DD55 /* Pods-Knit-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-Knit-acknowledgements.markdown"; sourceTree = "<group>"; };
-		51AE1E8103206D4FEDDE6197 /* MBProgressHUD.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
-		51EE3438A9AEC1DCE8A64765 /* Pods-Knit-RKDropdownAlert.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Knit-RKDropdownAlert.xcconfig"; sourceTree = "<group>"; };
-		55AF02D29953CC504DAB46A2 /* Pods-Knit-RKDropdownAlert-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Knit-RKDropdownAlert-dummy.m"; sourceTree = "<group>"; };
-		69B368780216380519D98F7A /* Pods-Knit-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Knit-resources.sh"; sourceTree = "<group>"; };
-		7468E2330C56DA6B980093D8 /* Pods-Knit-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Knit-dummy.m"; sourceTree = "<group>"; };
-		7DC90EC174F5FA82B6055E21 /* Podfile */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		80EE23BFC0303E51F77DBECE /* Pods-Knit-environment.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Knit-environment.h"; sourceTree = "<group>"; };
-		981A6127729F7CE024BF1B01 /* Pods-Knit-RKDropdownAlert-Private.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Knit-RKDropdownAlert-Private.xcconfig"; sourceTree = "<group>"; };
-		99143D1BA64ED7CDE6C04301 /* Pods-Knit-RKDropdownAlert-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Knit-RKDropdownAlert-prefix.pch"; sourceTree = "<group>"; };
-		A97D405AC87C096B917897E2 /* MBProgressHUD.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
-		B09930AB83F923050154F470 /* RKDropdownAlert.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = RKDropdownAlert.m; path = SlingshotDropdownAlert/RKDropdownAlert.m; sourceTree = "<group>"; };
-		CC134FCB181D1375757DC614 /* Pods-Knit-MBProgressHUD-Private.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Knit-MBProgressHUD-Private.xcconfig"; sourceTree = "<group>"; };
-		E07A24D57DEB42A997348DA9 /* Pods-Knit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Knit.release.xcconfig"; sourceTree = "<group>"; };
-		E5BCC3AA345EF466802C22F0 /* Pods-Knit-MBProgressHUD-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Knit-MBProgressHUD-dummy.m"; sourceTree = "<group>"; };
-		E604F523D798775B9E2E28D1 /* libPods-Knit-MBProgressHUD.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Knit-MBProgressHUD.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		014F90CE0B8214A87988BEA7 /* Pods-Knit-UIFloatLabelTextField-Private.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Knit-UIFloatLabelTextField-Private.xcconfig"; sourceTree = "<group>"; };
+		20675C8B5269655DD1A288F7 /* Pods-Knit-UIFloatLabelTextField-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Knit-UIFloatLabelTextField-prefix.pch"; sourceTree = "<group>"; };
+		22F67B106D9B4A695A3B608F /* Pods-Knit-RKDropdownAlert-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Knit-RKDropdownAlert-dummy.m"; sourceTree = "<group>"; };
+		29938F7F4885868750268949 /* Pods-Knit-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Knit-dummy.m"; sourceTree = "<group>"; };
+		2C280D613368E31C5B8C431C /* UIFloatLabelTextField.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = UIFloatLabelTextField.m; path = UIFloatLabelTextField/UIFloatLabelTextField.m; sourceTree = "<group>"; };
+		3626C0C2C494EEFB209EDFA4 /* Pods-Knit-UIFloatLabelTextField-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Knit-UIFloatLabelTextField-dummy.m"; sourceTree = "<group>"; };
+		38D42764EF2413895494A4D7 /* MBProgressHUD.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
+		4DEECBAD304552E7EBBD2D1A /* Pods-Knit-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-Knit-acknowledgements.markdown"; sourceTree = "<group>"; };
+		628B48065E431B01AF0E93BD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		6AA10E3C316B308C8F22CFC5 /* Pods-Knit-MBProgressHUD-Private.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Knit-MBProgressHUD-Private.xcconfig"; sourceTree = "<group>"; };
+		71CA0D20A355CA978FCE5163 /* Pods-Knit-RKDropdownAlert-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Knit-RKDropdownAlert-prefix.pch"; sourceTree = "<group>"; };
+		7DD87972AD9BD3093043152D /* MBProgressHUD.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
+		87D0A9ABD067E9F44433995C /* UIFloatLabelTextField.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = UIFloatLabelTextField.h; path = UIFloatLabelTextField/UIFloatLabelTextField.h; sourceTree = "<group>"; };
+		8AA7CC1FBDBDC0F24E28A022 /* Pods-Knit-MBProgressHUD.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Knit-MBProgressHUD.xcconfig"; sourceTree = "<group>"; };
+		91BF5D7E554DA8F97AA4A786 /* Pods-Knit-RKDropdownAlert-Private.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Knit-RKDropdownAlert-Private.xcconfig"; sourceTree = "<group>"; };
+		9E39A306A0786A26ABCBE881 /* Pods-Knit-environment.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Knit-environment.h"; sourceTree = "<group>"; };
+		A6B42AB0CB8F1B5650819D17 /* Pods-Knit-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Knit-resources.sh"; sourceTree = "<group>"; };
+		A8931961D1B0B77B02D906C5 /* libPods-Knit-MBProgressHUD.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Knit-MBProgressHUD.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		B2514CFBE56B14E3A06FA466 /* Pods-Knit-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-Knit-acknowledgements.plist"; sourceTree = "<group>"; };
+		BBD733170039131A757C5BAE /* Pods-Knit-RKDropdownAlert.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Knit-RKDropdownAlert.xcconfig"; sourceTree = "<group>"; };
+		C5E176613EAFC00AAE413E33 /* libPods-Knit-RKDropdownAlert.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Knit-RKDropdownAlert.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C758D35EF394AF4DA9AB923F /* Pods-Knit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Knit.release.xcconfig"; sourceTree = "<group>"; };
+		C8A5044898F8ADE91CDAF980 /* Pods-Knit-UIFloatLabelTextField.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Knit-UIFloatLabelTextField.xcconfig"; sourceTree = "<group>"; };
+		CB02C6CF5C449C82393E283A /* libPods-Knit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Knit.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		CB4A685F6CE95A3B53BF3461 /* Pods-Knit-MBProgressHUD-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Knit-MBProgressHUD-dummy.m"; sourceTree = "<group>"; };
+		CC6706846839384F4C278E11 /* Pods-Knit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Knit.debug.xcconfig"; sourceTree = "<group>"; };
+		E0633F8C8C86C86BBA6C994B /* RKDropdownAlert.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = RKDropdownAlert.m; path = SlingshotDropdownAlert/RKDropdownAlert.m; sourceTree = "<group>"; };
+		E316C78ECD5CD028DD12D43F /* Pods-Knit-MBProgressHUD-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Knit-MBProgressHUD-prefix.pch"; sourceTree = "<group>"; };
+		E7C204097F26F58AC8D07E0A /* Podfile */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		EA5B87C9871D6225737C639A /* libPods-Knit-UIFloatLabelTextField.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Knit-UIFloatLabelTextField.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		EEB7087B5DD0619CF656EAD7 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/System/Library/Frameworks/CoreGraphics.framework; sourceTree = DEVELOPER_DIR; };
+		FA0FD5482EFEC6ADF227C2EC /* RKDropdownAlert.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RKDropdownAlert.h; path = SlingshotDropdownAlert/RKDropdownAlert.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		46E9DEF1700DFF529C6AC6E5 /* Frameworks */ = {
+		889E47D345C140D626137020 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				73B627016BAEC21BE6162B17 /* Foundation.framework in Frameworks */,
+				D9E30BEDAF95DBD405FD7D54 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		ABEA152E1690476AA205997B /* Frameworks */ = {
+		BE2D5633A9073F6984C6A8BE /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				19BF44DE0A014E2EECA30824 /* CoreGraphics.framework in Frameworks */,
-				E645E04115BD48D9AF802A25 /* Foundation.framework in Frameworks */,
+				CBB9C54AF04E2E1F07A9886B /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		C6ED10E11F7124B1611FED04 /* Frameworks */ = {
+		E1A0933866E9D6328C12CBBE /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BC0312D484877F968AA5965D /* Foundation.framework in Frameworks */,
+				E730ADDD5E2E83388320D91A /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F577AE6F4CA539BFC9543877 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3823D3877EAFB91798205068 /* CoreGraphics.framework in Frameworks */,
+				99D442642AB8A03896018B9C /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0A4FFC6A6C21A61E545A9D38 = {
+		012013B0286050DC44514FC1 = {
 			isa = PBXGroup;
 			children = (
-				7DC90EC174F5FA82B6055E21 /* Podfile */,
-				581D35202DBD92D7FB81225C /* Frameworks */,
-				9D240343FFAE13C5E35CA52F /* Pods */,
-				DAD341D0C479EE1937CFA3A6 /* Products */,
-				A4A669EBB73829710E83C8BD /* Targets Support Files */,
+				E7C204097F26F58AC8D07E0A /* Podfile */,
+				E6D1C7FB510A19E5A7C9B702 /* Frameworks */,
+				3015CCEBBC33CAC437C21A1E /* Pods */,
+				AF4F8DA994EF8DA8FFDFD5AE /* Products */,
+				A01A4A32389F870677EB1260 /* Targets Support Files */,
 			);
 			sourceTree = "<group>";
 		};
-		5388B5BE2C56E4BFED041C37 /* Support Files */ = {
+		082DDD587CEBC82CEF2CB8E4 /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				51EE3438A9AEC1DCE8A64765 /* Pods-Knit-RKDropdownAlert.xcconfig */,
-				981A6127729F7CE024BF1B01 /* Pods-Knit-RKDropdownAlert-Private.xcconfig */,
-				55AF02D29953CC504DAB46A2 /* Pods-Knit-RKDropdownAlert-dummy.m */,
-				99143D1BA64ED7CDE6C04301 /* Pods-Knit-RKDropdownAlert-prefix.pch */,
+				C8A5044898F8ADE91CDAF980 /* Pods-Knit-UIFloatLabelTextField.xcconfig */,
+				014F90CE0B8214A87988BEA7 /* Pods-Knit-UIFloatLabelTextField-Private.xcconfig */,
+				3626C0C2C494EEFB209EDFA4 /* Pods-Knit-UIFloatLabelTextField-dummy.m */,
+				20675C8B5269655DD1A288F7 /* Pods-Knit-UIFloatLabelTextField-prefix.pch */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/Pods-Knit-UIFloatLabelTextField";
+			sourceTree = "<group>";
+		};
+		15C84B4BD7CEFD881A22E471 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				BBD733170039131A757C5BAE /* Pods-Knit-RKDropdownAlert.xcconfig */,
+				91BF5D7E554DA8F97AA4A786 /* Pods-Knit-RKDropdownAlert-Private.xcconfig */,
+				22F67B106D9B4A695A3B608F /* Pods-Knit-RKDropdownAlert-dummy.m */,
+				71CA0D20A355CA978FCE5163 /* Pods-Knit-RKDropdownAlert-prefix.pch */,
 			);
 			name = "Support Files";
 			path = "../Target Support Files/Pods-Knit-RKDropdownAlert";
 			sourceTree = "<group>";
 		};
-		581D35202DBD92D7FB81225C /* Frameworks */ = {
+		25C859D80C948EC3E40E4F0C /* Pods-Knit */ = {
 			isa = PBXGroup;
 			children = (
-				ADBA4469837BFB1DE6D567D2 /* iOS */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		638773FB488843D5694A3629 /* Pods-Knit */ = {
-			isa = PBXGroup;
-			children = (
-				460DFC9ECF0DAF3A4F21DD55 /* Pods-Knit-acknowledgements.markdown */,
-				36F47548634159E46E9209F1 /* Pods-Knit-acknowledgements.plist */,
-				7468E2330C56DA6B980093D8 /* Pods-Knit-dummy.m */,
-				80EE23BFC0303E51F77DBECE /* Pods-Knit-environment.h */,
-				69B368780216380519D98F7A /* Pods-Knit-resources.sh */,
-				17550C5A066DF9123E6A30FB /* Pods-Knit.debug.xcconfig */,
-				E07A24D57DEB42A997348DA9 /* Pods-Knit.release.xcconfig */,
+				4DEECBAD304552E7EBBD2D1A /* Pods-Knit-acknowledgements.markdown */,
+				B2514CFBE56B14E3A06FA466 /* Pods-Knit-acknowledgements.plist */,
+				29938F7F4885868750268949 /* Pods-Knit-dummy.m */,
+				9E39A306A0786A26ABCBE881 /* Pods-Knit-environment.h */,
+				A6B42AB0CB8F1B5650819D17 /* Pods-Knit-resources.sh */,
+				CC6706846839384F4C278E11 /* Pods-Knit.debug.xcconfig */,
+				C758D35EF394AF4DA9AB923F /* Pods-Knit.release.xcconfig */,
 			);
 			name = "Pods-Knit";
 			path = "Target Support Files/Pods-Knit";
 			sourceTree = "<group>";
 		};
-		9D240343FFAE13C5E35CA52F /* Pods */ = {
+		273F2FBDA10F6FF582C938C8 /* iOS */ = {
 			isa = PBXGroup;
 			children = (
-				C85D09635D5391AE5C2D8D34 /* MBProgressHUD */,
-				A44310A34EE642F3F72BA365 /* RKDropdownAlert */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
-		A44310A34EE642F3F72BA365 /* RKDropdownAlert */ = {
-			isa = PBXGroup;
-			children = (
-				33911886D9ED7E6330CC8AD3 /* RKDropdownAlert.h */,
-				B09930AB83F923050154F470 /* RKDropdownAlert.m */,
-				5388B5BE2C56E4BFED041C37 /* Support Files */,
-			);
-			path = RKDropdownAlert;
-			sourceTree = "<group>";
-		};
-		A4A669EBB73829710E83C8BD /* Targets Support Files */ = {
-			isa = PBXGroup;
-			children = (
-				638773FB488843D5694A3629 /* Pods-Knit */,
-			);
-			name = "Targets Support Files";
-			sourceTree = "<group>";
-		};
-		ADBA4469837BFB1DE6D567D2 /* iOS */ = {
-			isa = PBXGroup;
-			children = (
-				0826A7A9A2D5E3611E883B8E /* CoreGraphics.framework */,
-				323A4D75DCE447132FDF2CD5 /* Foundation.framework */,
+				EEB7087B5DD0619CF656EAD7 /* CoreGraphics.framework */,
+				628B48065E431B01AF0E93BD /* Foundation.framework */,
 			);
 			name = iOS;
 			sourceTree = "<group>";
 		};
-		C85D09635D5391AE5C2D8D34 /* MBProgressHUD */ = {
+		3015CCEBBC33CAC437C21A1E /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				A97D405AC87C096B917897E2 /* MBProgressHUD.h */,
-				51AE1E8103206D4FEDDE6197 /* MBProgressHUD.m */,
-				F24EB0632A95CC6BB9F8AEC6 /* Support Files */,
+				A93D1837E789C5D0DBBF7D14 /* MBProgressHUD */,
+				51FFBC72627EBEDCBC419A10 /* RKDropdownAlert */,
+				4F44BFF2F438BD7729F788BA /* UIFloatLabelTextField */,
 			);
-			path = MBProgressHUD;
+			name = Pods;
 			sourceTree = "<group>";
 		};
-		DAD341D0C479EE1937CFA3A6 /* Products */ = {
+		4F44BFF2F438BD7729F788BA /* UIFloatLabelTextField */ = {
 			isa = PBXGroup;
 			children = (
-				155271213236FF74414B1892 /* libPods-Knit.a */,
-				E604F523D798775B9E2E28D1 /* libPods-Knit-MBProgressHUD.a */,
-				02ACAF3E6DD4B02477191756 /* libPods-Knit-RKDropdownAlert.a */,
+				87D0A9ABD067E9F44433995C /* UIFloatLabelTextField.h */,
+				2C280D613368E31C5B8C431C /* UIFloatLabelTextField.m */,
+				082DDD587CEBC82CEF2CB8E4 /* Support Files */,
 			);
-			name = Products;
+			path = UIFloatLabelTextField;
 			sourceTree = "<group>";
 		};
-		F24EB0632A95CC6BB9F8AEC6 /* Support Files */ = {
+		51FFBC72627EBEDCBC419A10 /* RKDropdownAlert */ = {
 			isa = PBXGroup;
 			children = (
-				366061761AFC3823FC55FFA5 /* Pods-Knit-MBProgressHUD.xcconfig */,
-				CC134FCB181D1375757DC614 /* Pods-Knit-MBProgressHUD-Private.xcconfig */,
-				E5BCC3AA345EF466802C22F0 /* Pods-Knit-MBProgressHUD-dummy.m */,
-				04524FD93697053453019909 /* Pods-Knit-MBProgressHUD-prefix.pch */,
+				FA0FD5482EFEC6ADF227C2EC /* RKDropdownAlert.h */,
+				E0633F8C8C86C86BBA6C994B /* RKDropdownAlert.m */,
+				15C84B4BD7CEFD881A22E471 /* Support Files */,
+			);
+			path = RKDropdownAlert;
+			sourceTree = "<group>";
+		};
+		99514BC2BF86382F1FF8F153 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				8AA7CC1FBDBDC0F24E28A022 /* Pods-Knit-MBProgressHUD.xcconfig */,
+				6AA10E3C316B308C8F22CFC5 /* Pods-Knit-MBProgressHUD-Private.xcconfig */,
+				CB4A685F6CE95A3B53BF3461 /* Pods-Knit-MBProgressHUD-dummy.m */,
+				E316C78ECD5CD028DD12D43F /* Pods-Knit-MBProgressHUD-prefix.pch */,
 			);
 			name = "Support Files";
 			path = "../Target Support Files/Pods-Knit-MBProgressHUD";
 			sourceTree = "<group>";
 		};
+		A01A4A32389F870677EB1260 /* Targets Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				25C859D80C948EC3E40E4F0C /* Pods-Knit */,
+			);
+			name = "Targets Support Files";
+			sourceTree = "<group>";
+		};
+		A93D1837E789C5D0DBBF7D14 /* MBProgressHUD */ = {
+			isa = PBXGroup;
+			children = (
+				7DD87972AD9BD3093043152D /* MBProgressHUD.h */,
+				38D42764EF2413895494A4D7 /* MBProgressHUD.m */,
+				99514BC2BF86382F1FF8F153 /* Support Files */,
+			);
+			path = MBProgressHUD;
+			sourceTree = "<group>";
+		};
+		AF4F8DA994EF8DA8FFDFD5AE /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				CB02C6CF5C449C82393E283A /* libPods-Knit.a */,
+				A8931961D1B0B77B02D906C5 /* libPods-Knit-MBProgressHUD.a */,
+				C5E176613EAFC00AAE413E33 /* libPods-Knit-RKDropdownAlert.a */,
+				EA5B87C9871D6225737C639A /* libPods-Knit-UIFloatLabelTextField.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E6D1C7FB510A19E5A7C9B702 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				273F2FBDA10F6FF582C938C8 /* iOS */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		596850977F683DA95AC9B15C /* Headers */ = {
+		F2788013A684F7B93981B1C6 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8118D3AEF2DBA79F6A1A4290 /* MBProgressHUD.h in Headers */,
+				438253529A5E1FF1E6F1A38E /* RKDropdownAlert.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		F93072B75DBBC8E2EBAF39FD /* Headers */ = {
+		F2CE98F4CF7B6D3BE1A85AEE /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				27B9E2C4A19F8623ACBECBD6 /* RKDropdownAlert.h in Headers */,
+				B7D8B008E005455C455E563C /* UIFloatLabelTextField.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F799A2B753EA68AB3C194DF7 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8FD9DAA4C6E3DB7695BA3742 /* MBProgressHUD.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		4B4220838B93E2C672BBD758 /* Pods-Knit */ = {
+		1736F740B2F3B63F424A3CD0 /* Pods-Knit */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C764256C3969BEBDD684893D /* Build configuration list for PBXNativeTarget "Pods-Knit" */;
+			buildConfigurationList = 0ECD237168C5B90C566EBD98 /* Build configuration list for PBXNativeTarget "Pods-Knit" */;
 			buildPhases = (
-				2CD5BF9C11613E5682B6905A /* Sources */,
-				46E9DEF1700DFF529C6AC6E5 /* Frameworks */,
+				2019D39425E6ADA558A9960B /* Sources */,
+				889E47D345C140D626137020 /* Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				9E6351411011929617967B31 /* PBXTargetDependency */,
-				D291F0123A614E30DC4E2F70 /* PBXTargetDependency */,
+				1E1302C2C34979098955ABAD /* PBXTargetDependency */,
+				35CCBF657261A9839770B231 /* PBXTargetDependency */,
+				172D240E4A7D1C7E1C3190AD /* PBXTargetDependency */,
 			);
 			name = "Pods-Knit";
 			productName = "Pods-Knit";
-			productReference = 155271213236FF74414B1892 /* libPods-Knit.a */;
+			productReference = CB02C6CF5C449C82393E283A /* libPods-Knit.a */;
 			productType = "com.apple.product-type.library.static";
 		};
-		51F900C377A0AFF18E36FF76 /* Pods-Knit-RKDropdownAlert */ = {
+		69E25E86F906B382375CFB9E /* Pods-Knit-RKDropdownAlert */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 41BBDE5CFBEEE4991ACD7C9F /* Build configuration list for PBXNativeTarget "Pods-Knit-RKDropdownAlert" */;
+			buildConfigurationList = A55129A92F7A3806638DBCAD /* Build configuration list for PBXNativeTarget "Pods-Knit-RKDropdownAlert" */;
 			buildPhases = (
-				216A9CF980140190C0461300 /* Sources */,
-				C6ED10E11F7124B1611FED04 /* Frameworks */,
-				F93072B75DBBC8E2EBAF39FD /* Headers */,
+				434831EF6CE1D8C6003E75AD /* Sources */,
+				BE2D5633A9073F6984C6A8BE /* Frameworks */,
+				F2788013A684F7B93981B1C6 /* Headers */,
 			);
 			buildRules = (
 			);
@@ -262,16 +321,16 @@
 			);
 			name = "Pods-Knit-RKDropdownAlert";
 			productName = "Pods-Knit-RKDropdownAlert";
-			productReference = 02ACAF3E6DD4B02477191756 /* libPods-Knit-RKDropdownAlert.a */;
+			productReference = C5E176613EAFC00AAE413E33 /* libPods-Knit-RKDropdownAlert.a */;
 			productType = "com.apple.product-type.library.static";
 		};
-		796CF824397B796FF8B38B3C /* Pods-Knit-MBProgressHUD */ = {
+		8673298F9FA858DCB04DC371 /* Pods-Knit-MBProgressHUD */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = A20202326F548288FB6EB6AE /* Build configuration list for PBXNativeTarget "Pods-Knit-MBProgressHUD" */;
+			buildConfigurationList = 251A0AB73E1246FBE266F314 /* Build configuration list for PBXNativeTarget "Pods-Knit-MBProgressHUD" */;
 			buildPhases = (
-				645DFC13E86B72D87BB24574 /* Sources */,
-				ABEA152E1690476AA205997B /* Frameworks */,
-				596850977F683DA95AC9B15C /* Headers */,
+				7C0FC0AC53E9751E9A858BB3 /* Sources */,
+				F577AE6F4CA539BFC9543877 /* Frameworks */,
+				F799A2B753EA68AB3C194DF7 /* Headers */,
 			);
 			buildRules = (
 			);
@@ -279,87 +338,120 @@
 			);
 			name = "Pods-Knit-MBProgressHUD";
 			productName = "Pods-Knit-MBProgressHUD";
-			productReference = E604F523D798775B9E2E28D1 /* libPods-Knit-MBProgressHUD.a */;
+			productReference = A8931961D1B0B77B02D906C5 /* libPods-Knit-MBProgressHUD.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		F8BA816936FBE3BFFE9B7B7D /* Pods-Knit-UIFloatLabelTextField */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EAD64C42341425B50AC565C1 /* Build configuration list for PBXNativeTarget "Pods-Knit-UIFloatLabelTextField" */;
+			buildPhases = (
+				338E24D7B2A13DAE7806F354 /* Sources */,
+				E1A0933866E9D6328C12CBBE /* Frameworks */,
+				F2CE98F4CF7B6D3BE1A85AEE /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Pods-Knit-UIFloatLabelTextField";
+			productName = "Pods-Knit-UIFloatLabelTextField";
+			productReference = EA5B87C9871D6225737C639A /* libPods-Knit-UIFloatLabelTextField.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		1D2FBE82DC32DE813C476ABE /* Project object */ = {
+		651DF8BAFA91B173DE168CB4 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0510;
 			};
-			buildConfigurationList = A0C3438326232C917789D047 /* Build configuration list for PBXProject "Pods" */;
+			buildConfigurationList = 1CD3BF1208B80064CBEB0731 /* Build configuration list for PBXProject "Pods" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 			);
-			mainGroup = 0A4FFC6A6C21A61E545A9D38;
-			productRefGroup = DAD341D0C479EE1937CFA3A6 /* Products */;
+			mainGroup = 012013B0286050DC44514FC1;
+			productRefGroup = AF4F8DA994EF8DA8FFDFD5AE /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				4B4220838B93E2C672BBD758 /* Pods-Knit */,
-				796CF824397B796FF8B38B3C /* Pods-Knit-MBProgressHUD */,
-				51F900C377A0AFF18E36FF76 /* Pods-Knit-RKDropdownAlert */,
+				1736F740B2F3B63F424A3CD0 /* Pods-Knit */,
+				8673298F9FA858DCB04DC371 /* Pods-Knit-MBProgressHUD */,
+				69E25E86F906B382375CFB9E /* Pods-Knit-RKDropdownAlert */,
+				F8BA816936FBE3BFFE9B7B7D /* Pods-Knit-UIFloatLabelTextField */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
-		216A9CF980140190C0461300 /* Sources */ = {
+		2019D39425E6ADA558A9960B /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DA1E419F6B8ABCD023858885 /* Pods-Knit-RKDropdownAlert-dummy.m in Sources */,
-				284E13B9E5E954801217D368 /* RKDropdownAlert.m in Sources */,
+				6D5F8BE463D44CE22502226B /* Pods-Knit-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		2CD5BF9C11613E5682B6905A /* Sources */ = {
+		338E24D7B2A13DAE7806F354 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1B3847768BB648DB35A42525 /* Pods-Knit-dummy.m in Sources */,
+				38B3D5C50C35D6CC2C747AE6 /* Pods-Knit-UIFloatLabelTextField-dummy.m in Sources */,
+				37D4D23B3026195FEA1FECAA /* UIFloatLabelTextField.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		645DFC13E86B72D87BB24574 /* Sources */ = {
+		434831EF6CE1D8C6003E75AD /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				62DE2C974D506A2D47735E01 /* MBProgressHUD.m in Sources */,
-				37D1E0B0054AB3E783289E36 /* Pods-Knit-MBProgressHUD-dummy.m in Sources */,
+				12F9A7B2A763E2CBDDEA17AD /* Pods-Knit-RKDropdownAlert-dummy.m in Sources */,
+				D66B79C7190DF6C4DB6DB863 /* RKDropdownAlert.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7C0FC0AC53E9751E9A858BB3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FDA8D5933DBA6BDD66C0E250 /* MBProgressHUD.m in Sources */,
+				A25D6046CDE845C89D2E4434 /* Pods-Knit-MBProgressHUD-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		9E6351411011929617967B31 /* PBXTargetDependency */ = {
+		172D240E4A7D1C7E1C3190AD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Pods-Knit-UIFloatLabelTextField";
+			target = F8BA816936FBE3BFFE9B7B7D /* Pods-Knit-UIFloatLabelTextField */;
+			targetProxy = CBCEA8AC9244761B0013D3BC /* PBXContainerItemProxy */;
+		};
+		1E1302C2C34979098955ABAD /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = "Pods-Knit-MBProgressHUD";
-			target = 796CF824397B796FF8B38B3C /* Pods-Knit-MBProgressHUD */;
-			targetProxy = BCEEFA8152380EB7FF596DC0 /* PBXContainerItemProxy */;
+			target = 8673298F9FA858DCB04DC371 /* Pods-Knit-MBProgressHUD */;
+			targetProxy = 9BE23FF9B7B1D3980A2B84D8 /* PBXContainerItemProxy */;
 		};
-		D291F0123A614E30DC4E2F70 /* PBXTargetDependency */ = {
+		35CCBF657261A9839770B231 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = "Pods-Knit-RKDropdownAlert";
-			target = 51F900C377A0AFF18E36FF76 /* Pods-Knit-RKDropdownAlert */;
-			targetProxy = B875CB75BFD2EEAC195649CA /* PBXContainerItemProxy */;
+			target = 69E25E86F906B382375CFB9E /* Pods-Knit-RKDropdownAlert */;
+			targetProxy = F576F555B7F592A655EF33DF /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		53B81C1BF5438F36A7898B3A /* Debug */ = {
+		0E8AA962496E9E8BB22D20BB /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 981A6127729F7CE024BF1B01 /* Pods-Knit-RKDropdownAlert-Private.xcconfig */;
+			baseConfigurationReference = 014F90CE0B8214A87988BEA7 /* Pods-Knit-UIFloatLabelTextField-Private.xcconfig */;
 			buildSettings = {
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/Pods-Knit-RKDropdownAlert/Pods-Knit-RKDropdownAlert-prefix.pch";
+				GCC_PREFIX_HEADER = "Target Support Files/Pods-Knit-UIFloatLabelTextField/Pods-Knit-UIFloatLabelTextField-prefix.pch";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				OTHER_LDFLAGS = "";
@@ -370,7 +462,7 @@
 			};
 			name = Debug;
 		};
-		63D655E5175CEE5B24981E5A /* Release */ = {
+		2AFC7CB7759EDCCF2F46A342 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -404,7 +496,119 @@
 			};
 			name = Release;
 		};
-		69B2BEBE4BD979A263FC251F /* Debug */ = {
+		4EEAB69C43E9A4E9CBF287C5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 014F90CE0B8214A87988BEA7 /* Pods-Knit-UIFloatLabelTextField-Private.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/Pods-Knit-UIFloatLabelTextField/Pods-Knit-UIFloatLabelTextField-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		7B7B156D0C27C9828963A837 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 91BF5D7E554DA8F97AA4A786 /* Pods-Knit-RKDropdownAlert-Private.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/Pods-Knit-RKDropdownAlert/Pods-Knit-RKDropdownAlert-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		93A5E894B72C35231836B6B6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = CC6706846839384F4C278E11 /* Pods-Knit.debug.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		B77A8E5DF66693F6E7006805 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6AA10E3C316B308C8F22CFC5 /* Pods-Knit-MBProgressHUD-Private.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/Pods-Knit-MBProgressHUD/Pods-Knit-MBProgressHUD-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		C4C293B184A1DCCA3245692F /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 91BF5D7E554DA8F97AA4A786 /* Pods-Knit-RKDropdownAlert-Private.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/Pods-Knit-RKDropdownAlert/Pods-Knit-RKDropdownAlert-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		E76293D3A0F8D1899E6CE138 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6AA10E3C316B308C8F22CFC5 /* Pods-Knit-MBProgressHUD-Private.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/Pods-Knit-MBProgressHUD/Pods-Knit-MBProgressHUD-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		F0C58FCEFA55F4708144EF89 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = C758D35EF394AF4DA9AB923F /* Pods-Knit.release.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		F136A81FE841567DDBABC6FA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -443,126 +647,55 @@
 			};
 			name = Debug;
 		};
-		89D94708519F5B1D736DE573 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 17550C5A066DF9123E6A30FB /* Pods-Knit.debug.xcconfig */;
-			buildSettings = {
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				MTL_ENABLE_DEBUG_INFO = YES;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-			};
-			name = Debug;
-		};
-		B46E0794BDD83A3718053EF2 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = CC134FCB181D1375757DC614 /* Pods-Knit-MBProgressHUD-Private.xcconfig */;
-			buildSettings = {
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/Pods-Knit-MBProgressHUD/Pods-Knit-MBProgressHUD-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				MTL_ENABLE_DEBUG_INFO = YES;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-			};
-			name = Debug;
-		};
-		DB1A1DF05F67909ABFE3FEA0 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 981A6127729F7CE024BF1B01 /* Pods-Knit-RKDropdownAlert-Private.xcconfig */;
-			buildSettings = {
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/Pods-Knit-RKDropdownAlert/Pods-Knit-RKDropdownAlert-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				MTL_ENABLE_DEBUG_INFO = NO;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-			};
-			name = Release;
-		};
-		ED4F1CE8DC6ACCDAF08CECB6 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = E07A24D57DEB42A997348DA9 /* Pods-Knit.release.xcconfig */;
-			buildSettings = {
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				MTL_ENABLE_DEBUG_INFO = NO;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-			};
-			name = Release;
-		};
-		FB8BEC45F026654C9BF9C91F /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = CC134FCB181D1375757DC614 /* Pods-Knit-MBProgressHUD-Private.xcconfig */;
-			buildSettings = {
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/Pods-Knit-MBProgressHUD/Pods-Knit-MBProgressHUD-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				MTL_ENABLE_DEBUG_INFO = NO;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		41BBDE5CFBEEE4991ACD7C9F /* Build configuration list for PBXNativeTarget "Pods-Knit-RKDropdownAlert" */ = {
+		0ECD237168C5B90C566EBD98 /* Build configuration list for PBXNativeTarget "Pods-Knit" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				53B81C1BF5438F36A7898B3A /* Debug */,
-				DB1A1DF05F67909ABFE3FEA0 /* Release */,
+				93A5E894B72C35231836B6B6 /* Debug */,
+				F0C58FCEFA55F4708144EF89 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		A0C3438326232C917789D047 /* Build configuration list for PBXProject "Pods" */ = {
+		1CD3BF1208B80064CBEB0731 /* Build configuration list for PBXProject "Pods" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				69B2BEBE4BD979A263FC251F /* Debug */,
-				63D655E5175CEE5B24981E5A /* Release */,
+				F136A81FE841567DDBABC6FA /* Debug */,
+				2AFC7CB7759EDCCF2F46A342 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		A20202326F548288FB6EB6AE /* Build configuration list for PBXNativeTarget "Pods-Knit-MBProgressHUD" */ = {
+		251A0AB73E1246FBE266F314 /* Build configuration list for PBXNativeTarget "Pods-Knit-MBProgressHUD" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				B46E0794BDD83A3718053EF2 /* Debug */,
-				FB8BEC45F026654C9BF9C91F /* Release */,
+				B77A8E5DF66693F6E7006805 /* Debug */,
+				E76293D3A0F8D1899E6CE138 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C764256C3969BEBDD684893D /* Build configuration list for PBXNativeTarget "Pods-Knit" */ = {
+		A55129A92F7A3806638DBCAD /* Build configuration list for PBXNativeTarget "Pods-Knit-RKDropdownAlert" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				89D94708519F5B1D736DE573 /* Debug */,
-				ED4F1CE8DC6ACCDAF08CECB6 /* Release */,
+				7B7B156D0C27C9828963A837 /* Debug */,
+				C4C293B184A1DCCA3245692F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EAD64C42341425B50AC565C1 /* Build configuration list for PBXNativeTarget "Pods-Knit-UIFloatLabelTextField" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0E8AA962496E9E8BB22D20BB /* Debug */,
+				4EEAB69C43E9A4E9CBF287C5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = 1D2FBE82DC32DE813C476ABE /* Project object */;
+	rootObject = 651DF8BAFA91B173DE168CB4 /* Project object */;
 }

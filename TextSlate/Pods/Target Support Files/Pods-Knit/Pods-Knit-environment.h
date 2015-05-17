@@ -18,3 +18,9 @@
 #define COCOAPODS_VERSION_MINOR_RKDropdownAlert 3
 #define COCOAPODS_VERSION_PATCH_RKDropdownAlert 0
 
+// UIFloatLabelTextField
+#define COCOAPODS_POD_AVAILABLE_UIFloatLabelTextField
+#define COCOAPODS_VERSION_MAJOR_UIFloatLabelTextField 1
+#define COCOAPODS_VERSION_MINOR_UIFloatLabelTextField 1
+#define COCOAPODS_VERSION_PATCH_UIFloatLabelTextField 2
+

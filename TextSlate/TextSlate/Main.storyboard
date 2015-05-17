@@ -2829,7 +2829,8 @@
                                                             <exclude reference="5Gm-75-8Tt"/>
                                                         </mask>
                                                     </variation>
-                                                    <variation key="heightClass=regular-widthClass=compact">
+                                                    <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
+                                                        <rect key="frame" x="269" y="368" width="43" height="16"/>
                                                         <mask key="constraints">
                                                             <include reference="5Gm-75-8Tt"/>
                                                         </mask>
@@ -3718,7 +3719,8 @@
                                                             <exclude reference="Xdk-gE-OId"/>
                                                         </mask>
                                                     </variation>
-                                                    <variation key="heightClass=regular-widthClass=compact">
+                                                    <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
+                                                        <rect key="frame" x="269" y="343" width="43" height="16"/>
                                                         <mask key="constraints">
                                                             <include reference="Xdk-gE-OId"/>
                                                         </mask>
@@ -4804,7 +4806,8 @@
                                                             <exclude reference="9yV-Db-wON"/>
                                                         </mask>
                                                     </variation>
-                                                    <variation key="heightClass=regular-widthClass=compact">
+                                                    <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
+                                                        <rect key="frame" x="269" y="369" width="43" height="16"/>
                                                         <mask key="constraints">
                                                             <include reference="9yV-Db-wON"/>
                                                         </mask>

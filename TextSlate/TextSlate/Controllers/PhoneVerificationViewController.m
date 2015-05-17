@@ -322,7 +322,7 @@
                                     
                                 {
                                 [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:nil];
-                                    NSTimer* loop = [NSTimer scheduledTimerWithTimeInterval:60*60*24*2 target:self selector:@selector(showCreateClassNotification) userInfo:nil repeats:NO];
+                                    NSTimer* loop = [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(showCreateClassNotification) userInfo:nil repeats:NO];
                                     [[NSRunLoop currentRunLoop] addTimer:loop forMode:NSRunLoopCommonModes];
                                 }
                             } errorBlock:^(NSError *error) {
