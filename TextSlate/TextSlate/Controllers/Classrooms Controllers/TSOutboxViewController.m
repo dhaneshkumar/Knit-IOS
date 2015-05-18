@@ -74,6 +74,7 @@
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     if(_messagesArray.count>0) {
+        self.messagesTable.backgroundView = nil;
         return 1;
     }
     else {

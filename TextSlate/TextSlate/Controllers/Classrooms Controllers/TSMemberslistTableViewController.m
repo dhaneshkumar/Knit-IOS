@@ -69,6 +69,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     if(_memberList.count>0) {
+        self.tableView.backgroundView = nil;
         return 1;
     }
     else {

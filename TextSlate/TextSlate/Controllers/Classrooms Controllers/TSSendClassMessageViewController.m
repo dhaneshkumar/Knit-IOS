@@ -37,7 +37,6 @@
     self.messageTable.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     self.messageTable.dataSource = self;
     self.messageTable.delegate = self;
-    self.navigationItem.title = _className;
     _isBottomRefreshCalled = false;
     UITapGestureRecognizer *inviteParentsTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(inviteParentsTap:)];
     [self.inviteParents addGestureRecognizer:inviteParentsTap];
@@ -48,6 +47,28 @@
     _memListVC = nil;
     UIBarButtonItem *bb = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"back"] style:UIBarButtonItemStylePlain target:self action:@selector(backButtonTapped:)];
     [self.navigationItem setLeftBarButtonItem:bb];
+    CGFloat navBarHeight = self.navigationController.navigationBar.frame.size.height;
+    CGFloat navBarWidth = [self getScreenWidth];
+    UIView *titleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, navBarWidth, navBarHeight)];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 4, navBarWidth - 2*navBarHeight, 18)];
+    label.backgroundColor = [UIColor clearColor];
+    label.font = [UIFont boldSystemFontOfSize: 18.0f];
+    label.textAlignment = NSTextAlignmentCenter;
+    label.textColor = [UIColor whiteColor];
+    label.text = _className;
+    [titleView addSubview:label];
+    
+    label = [[UILabel alloc] initWithFrame:CGRectMake(0, 26, navBarWidth - 2*navBarHeight, 14)];
+    label.backgroundColor = [UIColor clearColor];
+    label.font = [UIFont boldSystemFontOfSize: 12.0f];
+    label.textAlignment = NSTextAlignmentCenter;
+    label.textColor = [UIColor whiteColor];
+    label.text = _classCode;
+    [titleView addSubview:label];
+    self.navigationItem.titleView = titleView;
+    CGRect frame = [[self.navigationItem.leftBarButtonItem valueForKey:@"view"] frame];
+    NSLog(@"width : %f", frame.size.width);
+    NSLog(@"height : %f", frame.size.height);
 }
 
 -(IBAction)backButtonTapped:(id)sender {
@@ -75,6 +96,7 @@
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     if(_messagesArray.count>0) {
+        self.messageTable.backgroundView = nil;
         return 1;
     }
     else {

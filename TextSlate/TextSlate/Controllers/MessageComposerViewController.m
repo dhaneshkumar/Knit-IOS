@@ -144,9 +144,11 @@
 }
 
 
+
 -(void)viewWillAppear:(BOOL)animated{
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(liftMainViewWhenKeybordAppears:) name:UIKeyboardWillShowNotification object:nil];
-//    [_textMessage becomeFirstResponder];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(liftMainViewWhenKeybordHide:) name:UIKeyboardDidHideNotification object:nil];
+    [_recipient becomeFirstResponder];
 
 }
 
@@ -219,13 +221,51 @@
     }
     
     else{
-    [_recipient becomeFirstResponder];
+    //[_recipient becomeFirstResponder];
 //    [_textMessage resignFirstResponder];
-        self.testView.hidden=NO;
-        self.recipientTable.hidden=NO;
-        [self.testView addSubview:_recipientTable];
+        NSArray *array = [[NSArray alloc] initWithObjects:
+                          @"1st Button",
+                          @"2nd Button",
+                          @"3rd Button",
+                          @"4th Button",
+                          nil];
+        
+        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Title Here"
+                                                                 delegate:self
+                                                        cancelButtonTitle:nil
+                                                   destructiveButtonTitle:nil
+                                                        otherButtonTitles:nil];
+        
+        // ObjC Fast Enumeration
+        for (NSString *title in _createdclassName) {
+            [actionSheet addButtonWithTitle:title];
+        }
+        
+        
+        actionSheet.cancelButtonIndex = [actionSheet addButtonWithTitle:@"Cancel"];
+        
+        [actionSheet showInView:self.view];
+     //   self.testView.hidden=NO;
+       // self.recipientTable.hidden=NO;
+        //[self.testView addSubview:_recipientTable];
     }
 }
+
+- (void) actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Cancel"]){
+        NSLog(@"No class selected");
+    }
+    _recipient.text=[actionSheet buttonTitleAtIndex:buttonIndex];
+    _recipient.textColor=[UIColor colorWithRed:32.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
+    _className=_recipient.text;
+    int index=(int) buttonIndex;
+    NSLog(@" class code %@ %i",[_createdclassCode objectAtIndex:1],index);
+    _classCode=[_createdclassCode objectAtIndex:index];
+    NSLog(@"class code and name here is %@ %@",_classCode,_className);
+
+
+}
+
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger) section {

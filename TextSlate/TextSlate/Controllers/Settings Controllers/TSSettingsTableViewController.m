@@ -146,7 +146,7 @@ if(section==0)
             });
         }
         UIButton * btn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        btn.frame = CGRectMake(120, 30, 100, 200);
+        btn.frame = CGRectMake(120, 30, 100, 50);
         [btn setTitle:@"Edit Picture" forState:UIControlStateNormal];
         [cell.contentView addSubview:btn];
     }

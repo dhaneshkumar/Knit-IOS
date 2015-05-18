@@ -15,6 +15,8 @@
 #import "Data.h"
 #import "MBProgressHUD.h"
 #import "RKDropdownAlert.h"
+#import "UIFloatLabelTextField.h"
+
 
 @interface TSSignInViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *phoneTextField;
@@ -32,7 +34,17 @@
     _phoneTextField.keyboardType = UIKeyboardTypeNumberPad;
     // Do any additional setup after loading the view, typically from a nib.
     self.navigationItem.title = @"New Sign In";
+    UIFloatLabelTextField *firstNameTextField = [UIFloatLabelTextField new];
+    
+    [firstNameTextField setTranslatesAutoresizingMaskIntoConstraints:NO];
+    firstNameTextField.floatLabelActiveColor = [UIColor orangeColor];
+    firstNameTextField.placeholder = @"First Name";
+    firstNameTextField.text = @"Arthur";
+    firstNameTextField.delegate = self;
+    [self.view addSubview:firstNameTextField];
+    
     [TSUtils applyRoundedCorners:_signInButton];
+    
 }
 
 -(void) loggedIn {

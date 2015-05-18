@@ -41,7 +41,6 @@
     
     // Override point for customization after application launch.
     [self setKeysForDevelopmentKnit];
-    
     [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
     
     // Registering for the Push notifications
