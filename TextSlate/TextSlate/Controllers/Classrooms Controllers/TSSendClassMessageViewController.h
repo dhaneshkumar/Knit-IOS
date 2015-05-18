@@ -17,11 +17,15 @@
 
 @property(weak,nonatomic) IBOutlet UITableView *messageTable;
 //@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
+@property (strong, nonatomic) NSMutableArray *messagesArray;
+@property (nonatomic, strong) NSMutableDictionary *mapCodeToObjects;
 
 @property (strong, nonatomic) TSClass *classObject;
 @property (strong,nonatomic) NSString *className;
 @property (strong,nonatomic) NSString *classCode;
 @property (strong, nonatomic) TSMemberslistTableViewController *memListVC;
+@property (nonatomic) BOOL shouldScrollUp;
+
 
 -(void)attachedImageTapped:(JTSImageInfo *)imageInfo;
 

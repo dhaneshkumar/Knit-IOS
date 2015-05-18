@@ -22,8 +22,7 @@
 
 @property (weak, nonatomic) IBOutlet UIView *inviteParents;
 @property (weak, nonatomic) IBOutlet UIView *subscribersList;
-@property (strong, nonatomic) NSMutableArray *messagesArray;
-@property (nonatomic, strong) NSMutableDictionary *mapCodeToObjects;
+
 @property (strong, nonatomic) NSDate * timeDiff;
 @property (nonatomic) BOOL isBottomRefreshCalled;
 @property (strong, nonatomic) MBProgressHUD *hud;
@@ -47,6 +46,7 @@
     _memListVC = nil;
     UIBarButtonItem *bb = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"back"] style:UIBarButtonItemStylePlain target:self action:@selector(backButtonTapped:)];
     [self.navigationItem setLeftBarButtonItem:bb];
+    _shouldScrollUp = false;
     CGFloat navBarHeight = self.navigationController.navigationBar.frame.size.height;
     CGFloat navBarWidth = [self getScreenWidth];
     UIView *titleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, navBarWidth, navBarHeight)];
@@ -84,6 +84,11 @@
 
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+    if(_messagesArray.count>0 && _shouldScrollUp) {
+        NSIndexPath *rowIndexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+        [self.messageTable scrollToRowAtIndexPath:rowIndexPath atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
+        _shouldScrollUp = false;
+    }
     [self getTimeDiffBetweenLocalAndServer];
     [self displayMessages];
 }
@@ -271,6 +276,7 @@
     MessageComposerViewController *messageComposer=(MessageComposerViewController *)joinNewClassNavigationController.topViewController;
     messageComposer.isClass=true;
     messageComposer.classcode=_classCode;
+    messageComposer.classname=_className;
     [self presentViewController:joinNewClassNavigationController animated:YES completion:nil];
 }
 /*
@@ -294,7 +300,7 @@
     [_hud hide:YES];
     NSCharacterSet *characterset=[NSCharacterSet characterSetWithCharactersInString:@"\uFFFC\n "];
     for (PFObject * messageObject in messages) {
-        TSMessage *message = [[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:[messageObject[@"title"] stringByTrimmingCharactersInSet:characterset] sender:messageObject[@"Creator"] sentTime:messageObject[@"createdTime"] senderPic:messageObject[@"senderPic"] likeCount:[messageObject[@"like_count"] intValue] confuseCount:[messageObject[@"confused_count"] intValue] seenCount:[messageObject[@"seen_count"] intValue]];
+        TSMessage *message = [[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:[messageObject[@"title"] stringByTrimmingCharactersInSet:characterset] sender:messageObject[@"Creator"] sentTime:messageObject[@"createdTime"] senderPic:nil likeCount:[messageObject[@"like_count"] intValue] confuseCount:[messageObject[@"confused_count"] intValue] seenCount:[messageObject[@"seen_count"] intValue]];
         message.messageId = messageObject[@"messageId"];
         if(messageObject[@"attachment"]) {
             message.hasAttachment = true;
@@ -352,7 +358,7 @@
                 messageObject[@"createdTime"] = messageObject.createdAt;
                 [messageObject pinInBackground];
                 if([messageObject[@"code"] isEqualToString:_classCode]) {
-                    TSMessage *message = [[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:[messageObject[@"title"] stringByTrimmingCharactersInSet:characterset] sender:messageObject[@"Creator"] sentTime:messageObject[@"createdTime"] senderPic:messageObject[@"senderPic"] likeCount:[messageObject[@"like_count"] intValue] confuseCount:[messageObject[@"confused_count"] intValue] seenCount:[messageObject[@"seen_count"] intValue]];
+                    TSMessage *message = [[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:[messageObject[@"title"] stringByTrimmingCharactersInSet:characterset] sender:messageObject[@"Creator"] sentTime:messageObject[@"createdTime"] senderPic:nil likeCount:[messageObject[@"like_count"] intValue] confuseCount:[messageObject[@"confused_count"] intValue] seenCount:[messageObject[@"seen_count"] intValue]];
                     message.messageId = messageObject[@"messageId"];
                     if(messageObject[@"attachment"]) {
                         message.hasAttachment = true;
@@ -422,7 +428,7 @@
                 messageObject[@"createdTime"] = messageObject.createdAt;
                 [messageObject pinInBackground];
                 if([messageObject[@"code"] isEqualToString:_classCode]) {
-                    TSMessage *message = [[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:[messageObject[@"title"] stringByTrimmingCharactersInSet:characterset] sender:messageObject[@"Creator"] sentTime:messageObject[@"createdTime"] senderPic:messageObject[@"senderPic"] likeCount:[messageObject[@"like_count"] intValue] confuseCount:[messageObject[@"confused_count"] intValue] seenCount:[messageObject[@"seen_count"] intValue]];
+                    TSMessage *message = [[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:[messageObject[@"title"] stringByTrimmingCharactersInSet:characterset] sender:messageObject[@"Creator"] sentTime:messageObject[@"createdTime"] senderPic:nil likeCount:[messageObject[@"like_count"] intValue] confuseCount:[messageObject[@"confused_count"] intValue] seenCount:[messageObject[@"seen_count"] intValue]];
                     message.messageId = messageObject[@"messageId"];
                     if(messageObject[@"attachment"]) {
                         message.hasAttachment = true;
