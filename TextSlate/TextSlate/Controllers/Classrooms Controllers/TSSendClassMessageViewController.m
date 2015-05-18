@@ -208,6 +208,7 @@
     MessageComposerViewController *messageComposer=(MessageComposerViewController *)joinNewClassNavigationController.topViewController;
     messageComposer.isClass=true;
     messageComposer.classcode=_classCode;
+    messageComposer.classname=_className;
     [self presentViewController:joinNewClassNavigationController animated:YES completion:nil];
 }
 /*

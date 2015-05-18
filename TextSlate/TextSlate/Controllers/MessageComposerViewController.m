@@ -135,8 +135,9 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(liftMainViewWhenKeybordHide:) name:UIKeyboardDidHideNotification object:nil];
     if(_isClass==true)
     {
-        
-        _recipient.text=_className;
+        NSLog(@"Here in true class");
+        NSLog(@"classcode %@",_className);
+        _recipient.text=_classname;
         _recipient.textColor=[UIColor colorWithRed:32.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
         _classCode=_classcode;
     }
@@ -221,40 +222,43 @@
     }
     
     else{
+   
+        if(_createdclassName.count<1)
+        {
+            [RKDropdownAlert title:@"Knit" message:@"Oops! It seems you have not created any class.Please try again later." time:2];
+        }
+        else{
     //[_recipient becomeFirstResponder];
 //    [_textMessage resignFirstResponder];
-        NSArray *array = [[NSArray alloc] initWithObjects:
-                          @"1st Button",
-                          @"2nd Button",
-                          @"3rd Button",
-                          @"4th Button",
-                          nil];
         
-        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Title Here"
+            UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Choose class from here"
                                                                  delegate:self
                                                         cancelButtonTitle:nil
                                                    destructiveButtonTitle:nil
                                                         otherButtonTitles:nil];
         
         // ObjC Fast Enumeration
-        for (NSString *title in _createdclassName) {
+        
+            for (NSString *title in _createdclassName) {
             [actionSheet addButtonWithTitle:title];
-        }
+            }
         
         
-        actionSheet.cancelButtonIndex = [actionSheet addButtonWithTitle:@"Cancel"];
+            actionSheet.cancelButtonIndex = [actionSheet addButtonWithTitle:@"Cancel"];
         
-        [actionSheet showInView:self.view];
+            [actionSheet showInView:self.view];
      //   self.testView.hidden=NO;
        // self.recipientTable.hidden=NO;
         //[self.testView addSubview:_recipientTable];
+        }
+
     }
 }
-
 - (void) actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
     if([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Cancel"]){
         NSLog(@"No class selected");
     }
+    else{
     _recipient.text=[actionSheet buttonTitleAtIndex:buttonIndex];
     _recipient.textColor=[UIColor colorWithRed:32.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
     _className=_recipient.text;
@@ -263,7 +267,7 @@
     _classCode=[_createdclassCode objectAtIndex:index];
     NSLog(@"class code and name here is %@ %@",_classCode,_className);
 
-
+    }
 }
 
 
@@ -351,7 +355,7 @@
 -(IBAction)sendMessage:(id)sender  {
     NSLog(@"message send pressed");
     if([_recipient.text isEqualToString:@"Classroom"]) {
-       // UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Select a recipient class." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+       // View *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Select a recipient class." delegaUIAlertte:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
         //[errorAlertView show];
           [RKDropdownAlert title:@"Knit" message:@"Select a recipient class." time:2];
         return;
