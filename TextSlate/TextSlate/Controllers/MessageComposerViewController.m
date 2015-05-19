@@ -355,15 +355,13 @@
 }
 
 -(IBAction)sendMessage:(id)sender  {
-    //NSLog(@"message send pressed");
-    NSLog(@"text : %@", _recipient.text);
+    NSLog(@"message send pressed");
     if([_recipient.text isEqualToString:@"Tap to select Classroom"]) {
        // View *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Select a recipient class." delegaUIAlertte:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
         //[errorAlertView show];
           [RKDropdownAlert title:@"Knit" message:@"Select a recipient class." time:2];
         return;
     }
-    NSLog(@"Yo1");
     if(!_hasTypedMessage || [self trimmedString:_textMessage.text].length==0) {
         if(!_finalAttachment) {
            // UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Message without body or attachment cannot be sent." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
@@ -372,12 +370,10 @@
             return;
         }
     }
-    NSLog(@"Yo2");
     NSString *messageText = (_hasTypedMessage)?[self trimmedString:_textMessage.text]:@"";
     AppDelegate *apd = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    TSTabBarViewController *rootTab = (TSTabBarViewController *)((UINavigationController *)apd.startNav).topViewController;
     NSArray *vcs = (NSArray *)((UINavigationController *)apd.startNav).viewControllers;
-    NSLog(@"Yo3");
+    TSTabBarViewController *rootTab = (TSTabBarViewController *)((UINavigationController *)apd.startNav).topViewController;
     for(id vc in vcs) {
         if([vc isKindOfClass:[TSTabBarViewController class]]) {
             rootTab = (TSTabBarViewController *)vc;

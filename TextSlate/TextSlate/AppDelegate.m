@@ -40,7 +40,7 @@
     [Parse enableLocalDatastore];
     
     // Override point for customization after application launch.
-    [self setKeysForDevelopmentKnit];
+    [self setKeysForKnit];
     [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
     
     // Registering for the Push notifications
@@ -69,6 +69,7 @@
     [[UISegmentedControl appearance] setTintColor:[UIColor colorWithRed:32.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0]];
     [[UIBarButtonItem appearanceWhenContainedIn:[UINavigationBar class], nil] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], NSForegroundColorAttributeName,nil] forState:UIControlStateNormal];
     [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
+    //[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     _startNav = (UINavigationController *)_window.rootViewController;
     TSTabBarViewController *rootTab = (TSTabBarViewController *)_startNav.topViewController;
     if([PFUser currentUser]) {

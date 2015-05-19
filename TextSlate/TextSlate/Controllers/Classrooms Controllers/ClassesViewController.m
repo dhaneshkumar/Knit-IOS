@@ -427,6 +427,8 @@
 */
 - (IBAction)buttonTapped:(id)sender {
     if(self.segmentedControl.selectedSegmentIndex==0) {
+        /*UINavigationController *createClassroomNavigationViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"startPageNavVC"];
+        [self presentViewController:createClassroomNavigationViewController animated:YES completion:nil];*/
         UINavigationController *createClassroomNavigationViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"createNewClassNavigationController"];
         [self presentViewController:createClassroomNavigationViewController animated:YES completion:nil];
     }
