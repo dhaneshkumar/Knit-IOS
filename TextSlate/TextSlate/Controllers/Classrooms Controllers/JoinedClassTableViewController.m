@@ -97,8 +97,8 @@
             cell.classNameOutlet.text = _className;
             [cell.codeButton setTitle:_classCode forState:UIControlStateNormal];
             [[cell.codeButton layer] setBorderWidth:2.0f];
-            [[cell.codeButton layer] setBorderColor:[[UIColor colorWithRed:32.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0] CGColor]];
-            [cell.codeButton setBackgroundColor:[UIColor colorWithRed:32.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0]];
+            [[cell.codeButton layer] setBorderColor:[[UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0] CGColor]];
+            [cell.codeButton setBackgroundColor:[UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0]];
             [cell.codeButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             return cell;
@@ -185,7 +185,7 @@
 
 -(void)leaveClass {
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    hud.color = [UIColor colorWithRed:32.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
+    hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
     hud.labelText = @"Loading";
 
     [Data leaveClass:_classCode successBlock:^(id object) {

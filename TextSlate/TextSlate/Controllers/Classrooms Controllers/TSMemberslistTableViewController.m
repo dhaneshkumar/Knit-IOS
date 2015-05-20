@@ -31,7 +31,7 @@
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     self.refreshControl = [[UIRefreshControl alloc]init];
     self.refreshControl.tintColor = [UIColor whiteColor];
-    self.refreshControl.backgroundColor = [UIColor colorWithRed:32.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
+    self.refreshControl.backgroundColor = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
     [self.tableView addSubview:self.refreshControl];
     [self.refreshControl addTarget:self action:@selector(pullDownToRefresh) forControlEvents:UIControlEventValueChanged];
     self.navigationItem.title = _className;
@@ -116,7 +116,7 @@
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        hud.color = [UIColor colorWithRed:32.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
+        hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
         hud.labelText = @"Loading";
 
         int row = indexPath.row;
@@ -483,7 +483,7 @@
 -(void)displayMembers {
     if(_memberList.count==0) {
         _hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        _hud.color = [UIColor colorWithRed:32.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
+        _hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
         _hud.labelText = @"Loading members";
         [self fetchMembersFromLocalDatastore];
         if(_memberList.count==0) {

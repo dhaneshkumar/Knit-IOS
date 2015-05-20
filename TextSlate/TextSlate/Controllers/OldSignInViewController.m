@@ -48,7 +48,7 @@
         return;
     }
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    hud.color = [UIColor colorWithRed:32.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
+    hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
     hud.labelText = @"Loading";
 
     [Data verifyOTPOldSignIn:userNameTyped password:_passwordText.text successBlock:^(id object) {

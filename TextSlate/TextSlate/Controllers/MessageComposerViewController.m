@@ -139,7 +139,7 @@
         NSLog(@"Here in true class");
         NSLog(@"classcode %@",_className);
         _recipient.text=_classname;
-        _recipient.textColor=[UIColor colorWithRed:32.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
+        _recipient.textColor=[UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
         _classCode = _classcode;
         _className = _classname;
     }
@@ -262,7 +262,7 @@
     }
     else{
     _recipient.text=[actionSheet buttonTitleAtIndex:buttonIndex];
-    _recipient.textColor=[UIColor colorWithRed:32.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
+    _recipient.textColor=[UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
     _className=_recipient.text;
     int index=(int) buttonIndex;
     NSLog(@" class code %@ %i",[_createdclassCode objectAtIndex:1],index);
@@ -302,7 +302,7 @@
         UITableViewCell *selectedCell = [tableView cellForRowAtIndexPath:indexPath];
 
         _recipient.text=selectedCell.textLabel.text;
-        _recipient.textColor=[UIColor colorWithRed:32.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
+        _recipient.textColor=[UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
         _className=_recipient.text;
         int index=(int) indexPath;
         NSLog(@" class code %@ %i",[_createdclassCode objectAtIndex:1],index);
@@ -387,7 +387,7 @@
     if(!_finalAttachment)
     {
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        hud.color = [UIColor colorWithRed:32.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
+        hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
         hud.labelText = @"Loading";
         NSLog(@"Yo4");
         [Data sendTextMessage:_classCode classname:_className message:messageText successBlock:^(id object) {
@@ -441,7 +441,7 @@
     else if(_finalAttachment)
     {
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        hud.color = [UIColor colorWithRed:32.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
+        hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
         hud.labelText = @"Loading";
 
         [_finalAttachment saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {

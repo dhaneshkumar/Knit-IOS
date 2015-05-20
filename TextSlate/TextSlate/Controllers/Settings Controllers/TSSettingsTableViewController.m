@@ -337,7 +337,7 @@ if(section==0)
             NSString *objectID=currentInstallation.objectId;
             NSLog(@"Object ID is %@",objectID);
             MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-            hud.color = [UIColor colorWithRed:32.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
+            hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
             hud.labelText = @"Loading";
 
             [Data appLogout:objectID successBlock:^(id object) {

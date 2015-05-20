@@ -34,7 +34,7 @@
     self.classesTable.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     [TSUtils applyRoundedCorners:_joinNewClass];
     [[_joinNewClass layer] setBorderWidth:0.5f];
-    [[_joinNewClass layer] setBorderColor:[[UIColor colorWithRed:32.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0] CGColor]];
+    [[_joinNewClass layer] setBorderColor:[[UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0] CGColor]];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -214,7 +214,7 @@
 
 -(void)leaveClass:(NSString *)classCode {
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    hud.color = [UIColor colorWithRed:32.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
+    hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
     hud.labelText = @"Loading";
     
     [Data leaveClass:classCode successBlock:^(id object) {

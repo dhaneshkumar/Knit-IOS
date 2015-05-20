@@ -34,6 +34,7 @@
     _classCodeTextField.delegate=self;
     //_activityIndicator.hidden=YES;
     self.navigationItem.title = @"Knit";
+    self.navigationController.navigationBar.translucent = false;
     // Do any additional setup after loading the view.
 }
 
@@ -87,7 +88,7 @@
     */
     
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    hud.color = [UIColor colorWithRed:32.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
+    hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
     hud.labelText = @"Loading";
 
     NSArray *joinedClasses = [[PFUser currentUser] objectForKey:@"joined_groups"];

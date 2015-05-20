@@ -37,7 +37,7 @@
     self.messagesTable.delegate = self;
     _refreshControl = [[UIRefreshControl alloc]init];
     _refreshControl.tintColor = [UIColor whiteColor];
-    _refreshControl.backgroundColor = [UIColor colorWithRed:32.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
+    _refreshControl.backgroundColor = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
     [self.messagesTable addSubview:_refreshControl];
     [_refreshControl addTarget:self action:@selector(pullDownToRefresh) forControlEvents:UIControlEventValueChanged];
     _isBottomRefreshCalled = false;
@@ -361,7 +361,7 @@
         return;
     if(_messagesArray.count==0) {
         _hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        _hud.color = [UIColor colorWithRed:32.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
+        _hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
         _hud.labelText = @"Loading messages";
         PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
         [lq fromLocalDatastore];
@@ -561,7 +561,7 @@
 
 -(void)fetchOldMessagesOnDataDeletion {
     _hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    _hud.color = [UIColor colorWithRed:32.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
+    _hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
     _hud.labelText = @"Loading messages";
     [Data updateInboxLocalDatastore:@"j" successBlock:^(id object) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {

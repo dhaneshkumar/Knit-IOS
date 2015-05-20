@@ -35,7 +35,7 @@
     self.classesTable.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     [TSUtils applyRoundedCorners:_createOrJoinButton];
     [[_createOrJoinButton layer] setBorderWidth:0.5f];
-    [[_createOrJoinButton layer] setBorderColor:[[UIColor colorWithRed:32.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0] CGColor]];
+    [[_createOrJoinButton layer] setBorderColor:[[UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0] CGColor]];
     _createdClassesVCs = [[NSMutableDictionary alloc] init];
 }
 
@@ -272,7 +272,7 @@
 
 -(void)leaveClass:(NSString *)classCode {
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    hud.color = [UIColor colorWithRed:32.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
+    hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
     hud.labelText = @"Loading";
 
     [Data leaveClass:classCode successBlock:^(id object) {
@@ -292,7 +292,7 @@
 
 -(void)deleteClass:(NSString *)classCode {
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    hud.color = [UIColor colorWithRed:32.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
+    hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
     hud.labelText = @"Loading";
 
     [Data deleteClass:classCode successBlock:^(id object) {
@@ -427,10 +427,10 @@
 */
 - (IBAction)buttonTapped:(id)sender {
     if(self.segmentedControl.selectedSegmentIndex==0) {
-        /*UINavigationController *createClassroomNavigationViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"startPageNavVC"];
-        [self presentViewController:createClassroomNavigationViewController animated:YES completion:nil];*/
-        UINavigationController *createClassroomNavigationViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"createNewClassNavigationController"];
+        UINavigationController *createClassroomNavigationViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"startPageNavVC"];
         [self presentViewController:createClassroomNavigationViewController animated:YES completion:nil];
+        /*UINavigationController *createClassroomNavigationViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"createNewClassNavigationController"];
+        [self presentViewController:createClassroomNavigationViewController animated:YES completion:nil];*/
     }
     else {
         UINavigationController *joinNewClassNavigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"joinNewClassViewController"];
