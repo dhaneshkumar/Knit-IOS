@@ -16,15 +16,16 @@
 #import "InviteParentViewController.h"
 #import "MessageComposerViewController.h"
 #import "RKDropdownAlert.h"
+#import "MBProgressHUD.h"
 
 @interface TSSendClassMessageViewController ()
 
 @property (weak, nonatomic) IBOutlet UIView *inviteParents;
 @property (weak, nonatomic) IBOutlet UIView *subscribersList;
-@property (strong, nonatomic) NSMutableArray *messagesArray;
-@property (nonatomic, strong) NSMutableDictionary *mapCodeToObjects;
+
 @property (strong, nonatomic) NSDate * timeDiff;
 @property (nonatomic) BOOL isBottomRefreshCalled;
+@property (strong, nonatomic) MBProgressHUD *hud;
 
 @end
 
@@ -35,27 +36,59 @@
     self.messageTable.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     self.messageTable.dataSource = self;
     self.messageTable.delegate = self;
-    self.navigationItem.title = _className;
     _isBottomRefreshCalled = false;
     UITapGestureRecognizer *inviteParentsTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(inviteParentsTap:)];
     [self.inviteParents addGestureRecognizer:inviteParentsTap];
     UITapGestureRecognizer *subscribersTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(subscribersTap:)];
     [self.subscribersList addGestureRecognizer:subscribersTap];
-    _activityIndicator.hidden = YES;
+    _messagesArray = [[NSMutableArray alloc] init];
+    _mapCodeToObjects = [[NSMutableDictionary alloc] init];
+    _memListVC = nil;
+    UIBarButtonItem *bb = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"back"] style:UIBarButtonItemStylePlain target:self action:@selector(backButtonTapped:)];
+    [self.navigationItem setLeftBarButtonItem:bb];
+    UIBarButtonItem *composeBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose  target:self action:@selector(composeMessage)];
+    self.navigationItem.rightBarButtonItem = composeBarButtonItem;
+    _shouldScrollUp = false;
+    CGFloat navBarHeight = self.navigationController.navigationBar.frame.size.height;
+    CGFloat navBarWidth = [self getScreenWidth] * 0.9;
+    UIView *titleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, navBarWidth, navBarHeight)];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 4, navBarWidth - 2*navBarHeight, 18)];
+    label.backgroundColor = [UIColor clearColor];
+    label.font = [UIFont boldSystemFontOfSize: 18.0f];
+    label.textAlignment = NSTextAlignmentCenter;
+    label.textColor = [UIColor whiteColor];
+    label.text = _className;
+    [titleView addSubview:label];
+    
+    label = [[UILabel alloc] initWithFrame:CGRectMake(0, 26, navBarWidth - 2*navBarHeight, 14)];
+    label.backgroundColor = [UIColor clearColor];
+    label.font = [UIFont boldSystemFontOfSize: 12.0f];
+    label.textAlignment = NSTextAlignmentCenter;
+    label.textColor = [UIColor whiteColor];
+    label.text = _classCode;
+    [titleView addSubview:label];
+    self.navigationItem.titleView = titleView;
+    CGRect frame = [[self.navigationItem.leftBarButtonItem valueForKey:@"view"] frame];
+    NSLog(@"width : %f", frame.size.width);
+    NSLog(@"height : %f", frame.size.height);
+}
+
+-(IBAction)backButtonTapped:(id)sender {
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    UIBarButtonItem *composeBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose  target:self action:@selector(composeMessage)];
-    self.navigationItem.rightBarButtonItem = composeBarButtonItem;
-    _messagesArray=nil;
-    _messagesArray=[[NSMutableArray alloc] init];
-    _mapCodeToObjects = nil;
-    _mapCodeToObjects = [[NSMutableDictionary alloc] init];
+    [_messageTable reloadData];
 }
 
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+    if(_messagesArray.count>0 && _shouldScrollUp) {
+        NSIndexPath *rowIndexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+        [self.messageTable scrollToRowAtIndexPath:rowIndexPath atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
+        _shouldScrollUp = false;
+    }
     [self getTimeDiffBetweenLocalAndServer];
     [self displayMessages];
 }
@@ -67,7 +100,23 @@
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
+    if(_messagesArray.count>0) {
+        self.messageTable.backgroundView = nil;
+        return 1;
+    }
+    else {
+        UILabel *messageLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
+        
+        messageLabel.text = @"No messages.";
+        messageLabel.textColor = [UIColor blackColor];
+        messageLabel.numberOfLines = 0;
+        messageLabel.textAlignment = NSTextAlignmentCenter;
+        messageLabel.font = [UIFont fontWithName:@"Palatino-Italic" size:20];
+        [messageLabel sizeToFit];
+        
+        self.messageTable.backgroundView = messageLabel;
+        return 0;
+    }
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -80,6 +129,7 @@
     NSString *cellIdentifier = (message.hasAttachment)?@"createdClassAttachmentMessageCell":@"createdClassMessageCell";
     TSCreatedClassMessageTableViewCell *cell = (TSCreatedClassMessageTableViewCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     cell.message.text = message.message;
+    cell.messageWidth.constant = [self getScreenWidth] - 20.0;
     NSTimeInterval mti = [self getMessageTimeDiff:message.sentTime];
     cell.sentTime.text = [self sentTimeDisplayText:mti];
     cell.likesCount.text = [NSString stringWithFormat:@"%d", message.likeCount];
@@ -87,6 +137,19 @@
     cell.seenCount.text = [NSString stringWithFormat:@"%d", message.seenCount];
     if(message.hasAttachment) {
         cell.attachedImage.image = message.attachment;
+        UIImage *img = message.attachment;
+        float height = img.size.height;
+        float width = img.size.width;
+        if(height>width) {
+            float changedWidth = 300.0*width/height;
+            cell.imageWidth.constant = changedWidth;
+            cell.imageHeight.constant = 300.0;
+        }
+        else {
+            float changedHeight = 300.0*height/width;
+            cell.imageHeight.constant = changedHeight;
+            cell.imageWidth.constant = 300.0;
+        }
         cell.activityIndicator.hidesWhenStopped = true;
         if([message.attachment isEqual:[UIImage imageNamed:@"white.jpg"]]) {
             [cell.activityIndicator startAnimating];
@@ -119,13 +182,21 @@
     gettingSizeLabel.text = ((TSMessage *)_messagesArray[indexPath.row]).message;
     gettingSizeLabel.numberOfLines = 0;
     gettingSizeLabel.lineBreakMode = NSLineBreakByWordWrapping;
-    CGSize maximumLabelSize = CGSizeMake(300, 9999);
+    CGSize maximumLabelSize = CGSizeMake([self getScreenWidth] - 20.0, 9999);
     
     CGSize expectSize = [gettingSizeLabel sizeThatFits:maximumLabelSize];
-    if(((TSMessage *)_messagesArray[indexPath.row]).attachment)
-        return expectSize.height+347;
-    else
+    if(((TSMessage *)_messagesArray[indexPath.row]).attachment) {
+        UIImage *img = ((TSMessage *)_messagesArray[indexPath.row]).attachment;
+        float height = img.size.height;
+        float width = img.size.width;
+        float changedHeight = 300.0;
+        if(height<=width)
+            changedHeight = 300.0*height/width;
+        return expectSize.height+47+changedHeight;
+    }
+    else {
         return expectSize.height+41;
+    }
 }
 
 
@@ -140,12 +211,10 @@
 
 
 -(void)displayMessages {
-    _activityIndicator.hidden = NO;
-    [_activityIndicator startAnimating];
-    NSArray *array = [self fetchMessagesFromLocalDatastore];
-    [_activityIndicator stopAnimating];
-    _activityIndicator.hidden = YES;
     if(_messagesArray.count==0) {
+        _hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        _hud.color = [UIColor colorWithRed:32.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
+        _hud.labelText = @"Loading messages";
         PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
         [lq fromLocalDatastore];
         [lq whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
@@ -156,15 +225,14 @@
             return;
         }
         
-        if(!localObjs[0][@"isOutboxDataConsistent"] || [localObjs[0][@"isOutboxDataConsistent"] isEqualToString:@"false"]) {
-            [self fetchOldMessagesOnDataDeletion];
+        int localMessages = [self fetchMessagesFromLocalDatastore];
+        
+        if(localMessages==0) {
+            if(!localObjs[0][@"isOutboxDataConsistent"] || [localObjs[0][@"isOutboxDataConsistent"] isEqualToString:@"false"]) {
+                [self fetchOldMessagesOnDataDeletion];
+            }
         }
     }
-    else {
-        [self.messageTable reloadData];
-        [self updateCountsLocally:array];
-    }
-    return;
 }
 
 
@@ -222,18 +290,17 @@
  */
 
 
--(NSArray *)fetchMessagesFromLocalDatastore {
+-(int)fetchMessagesFromLocalDatastore {
     PFQuery *query = [PFQuery queryWithClassName:@"GroupDetails"];
     [query fromLocalDatastore];
     //[query whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
     [query whereKey:@"code" equalTo:_classCode];
     [query orderByDescending:@"createdTime"];
     NSArray *messages = (NSArray *)[query findObjects];
-    NSMutableArray *messageIds = [[NSMutableArray alloc] init];
-    int i=0;
+    [_hud hide:YES];
     NSCharacterSet *characterset=[NSCharacterSet characterSetWithCharactersInString:@"\uFFFC\n "];
     for (PFObject * messageObject in messages) {
-        TSMessage *message = [[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:[messageObject[@"title"] stringByTrimmingCharactersInSet:characterset] sender:messageObject[@"Creator"] sentTime:messageObject[@"createdTime"] senderPic:messageObject[@"senderPic"] likeCount:[messageObject[@"like_count"] intValue] confuseCount:[messageObject[@"confused_count"] intValue] seenCount:[messageObject[@"seen_count"] intValue]];
+        TSMessage *message = [[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:[messageObject[@"title"] stringByTrimmingCharactersInSet:characterset] sender:messageObject[@"Creator"] sentTime:messageObject[@"createdTime"] senderPic:nil likeCount:[messageObject[@"like_count"] intValue] confuseCount:[messageObject[@"confused_count"] intValue] seenCount:[messageObject[@"seen_count"] intValue]];
         message.messageId = messageObject[@"messageId"];
         if(messageObject[@"attachment"]) {
             message.hasAttachment = true;
@@ -269,28 +336,29 @@
                 }
             });
         }
-        if(i<30)
-            [messageIds addObject:messageObject[@"messageId"]];
-        i++;
     }
-    return messageIds;
+    [self.messageTable reloadData];
+    return messages.count;
 }
 
 
 -(void)fetchOldMessagesOnDataDeletion {
-    _activityIndicator.hidden = NO;
-    [_activityIndicator startAnimating];
+    _hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    _hud.color = [UIColor colorWithRed:32.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
+    _hud.labelText = @"Loading messages";
     [Data updateInboxLocalDatastore:@"c" successBlock:^(id object) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
             NSArray *messages = (NSArray *)object;
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                [_hud hide:YES];
+            });
             NSCharacterSet *characterset=[NSCharacterSet characterSetWithCharactersInString:@"\uFFFC\n "];
             for(PFObject *messageObject in messages) {
-                //messageObject[@"iosUserID"] = [PFUser currentUser].objectId;
                 messageObject[@"messageId"] = messageObject.objectId;
                 messageObject[@"createdTime"] = messageObject.createdAt;
                 [messageObject pinInBackground];
                 if([messageObject[@"code"] isEqualToString:_classCode]) {
-                    TSMessage *message = [[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:[messageObject[@"title"] stringByTrimmingCharactersInSet:characterset] sender:messageObject[@"Creator"] sentTime:messageObject[@"createdTime"] senderPic:messageObject[@"senderPic"] likeCount:[messageObject[@"like_count"] intValue] confuseCount:[messageObject[@"confused_count"] intValue] seenCount:[messageObject[@"seen_count"] intValue]];
+                    TSMessage *message = [[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:[messageObject[@"title"] stringByTrimmingCharactersInSet:characterset] sender:messageObject[@"Creator"] sentTime:messageObject[@"createdTime"] senderPic:nil likeCount:[messageObject[@"like_count"] intValue] confuseCount:[messageObject[@"confused_count"] intValue] seenCount:[messageObject[@"seen_count"] intValue]];
                     message.messageId = messageObject[@"messageId"];
                     if(messageObject[@"attachment"]) {
                         message.hasAttachment = true;
@@ -330,8 +398,6 @@
                 }
             }
             dispatch_sync(dispatch_get_main_queue(), ^{
-                [_activityIndicator stopAnimating];
-                _activityIndicator.hidden = YES;
                 [self.messageTable reloadData];
             });
             PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
@@ -343,6 +409,7 @@
         });
     } errorBlock:^(NSError *error) {
         NSLog(@"Unable to fetch inbox messages while opening inbox tab: %@", [error description]);
+        [_hud hide:YES];
     }];
 }
 
@@ -361,7 +428,7 @@
                 messageObject[@"createdTime"] = messageObject.createdAt;
                 [messageObject pinInBackground];
                 if([messageObject[@"code"] isEqualToString:_classCode]) {
-                    TSMessage *message = [[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:[messageObject[@"title"] stringByTrimmingCharactersInSet:characterset] sender:messageObject[@"Creator"] sentTime:messageObject[@"createdTime"] senderPic:messageObject[@"senderPic"] likeCount:[messageObject[@"like_count"] intValue] confuseCount:[messageObject[@"confused_count"] intValue] seenCount:[messageObject[@"seen_count"] intValue]];
+                    TSMessage *message = [[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:[messageObject[@"title"] stringByTrimmingCharactersInSet:characterset] sender:messageObject[@"Creator"] sentTime:messageObject[@"createdTime"] senderPic:nil likeCount:[messageObject[@"like_count"] intValue] confuseCount:[messageObject[@"confused_count"] intValue] seenCount:[messageObject[@"seen_count"] intValue]];
                     message.messageId = messageObject[@"messageId"];
                     if(messageObject[@"attachment"]) {
                         message.hasAttachment = true;
@@ -485,11 +552,16 @@
 - (void)subscribersTap:(UITapGestureRecognizer *)recognizer {
     CGPoint location = [recognizer locationInView:[recognizer.view superview]];
     NSLog(@"subscribers tapped!!");
-    UINavigationController *memberListNavigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"memberListNav"];
-    TSMemberslistTableViewController *memberListController = (TSMemberslistTableViewController *)memberListNavigationController.topViewController;
-    memberListController.classCode = _classCode;
-    memberListController.className = _className;
-    [self presentViewController:memberListNavigationController animated:YES completion:nil];
+    if(_memListVC) {
+        [self.navigationController pushViewController:_memListVC animated:YES];
+    }
+    else {
+        TSMemberslistTableViewController *memberListController = [self.storyboard instantiateViewControllerWithIdentifier:@"memberListVC"];
+        memberListController.classCode = _classCode;
+        memberListController.className = _className;
+        _memListVC = memberListController;
+        [self.navigationController pushViewController:memberListController animated:YES];
+    }
 }
 
 /*
@@ -511,6 +583,27 @@
 
         }];
 }
+
+
+-(void)attachedImageTapped:(JTSImageInfo *)imageInfo {
+    imageInfo.referenceView = self.view;
+    // Setup view controller
+    JTSImageViewController *imageViewer = [[JTSImageViewController alloc]
+                                           initWithImageInfo:imageInfo
+                                           mode:JTSImageViewControllerMode_Image
+                                           backgroundStyle:JTSImageViewControllerBackgroundOption_Blurred];
+    
+    // Present the view controller.
+    [imageViewer showFromViewController:self transition:JTSImageViewControllerTransition_FromOffscreen];
+}
+
+
+-(CGFloat) getScreenWidth {
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    CGFloat screenWidth = screenRect.size.width;
+    return screenWidth;
+}
+
 
 /*
 -(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {

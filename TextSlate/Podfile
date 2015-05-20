@@ -6,7 +6,6 @@ target 'Knit' do
     pod 'RKDropdownAlert'
     pod 'UIFloatLabelTextField'
 
-
 end
 
 

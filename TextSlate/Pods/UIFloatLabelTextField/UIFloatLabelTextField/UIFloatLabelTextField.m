@@ -8,14 +8,12 @@
 
 #import "UIFloatLabelTextField.h"
 
-
-
 @interface UIFloatLabelTextField ()
 
 @property (nonatomic, copy) NSString *storedText;
 @property (nonatomic, strong) UIButton *clearTextFieldButton;
 @property (nonatomic, assign) CGFloat xOrigin;
-@property (nonatomic, assign) CGFloat horizontalPadding;
+
 
 @end
 
@@ -47,6 +45,7 @@
     self = [super initWithCoder:aDecoder];
     if (self) {
         [self setup];
+
     }
     
     return self;
@@ -208,6 +207,8 @@
                             _horizontalPadding,
                             0.0f,
                             _horizontalPadding);
+    CGFloat top = [self.text length] ? 5.0f : 0.0f;
+    return UIEdgeInsetsMake(top, _horizontalPadding, 0.0f, _horizontalPadding);
 }
 
 - (void)textDidChange:(NSNotification *)notification
@@ -280,7 +281,7 @@
 {
     [super setPlaceholder:placeholder];
     
-    
+
     if ([placeholder length]) {
         _floatLabel.text = placeholder;
     }
@@ -334,6 +335,7 @@
         [self toggleFloatLabelProperties:UIFloatLabelAnimationTypeHide];
     } else if ([self.text length]) {
        [self toggleFloatLabelProperties:UIFloatLabelAnimationTypeShow];
+
     }
 }
 
@@ -346,7 +348,7 @@
      verticalPadding must be manually set if textField was initialized
      using NSAutoLayout constraints
      */
- 
+
     _floatLabel.textColor = _floatLabelActiveColor;
     _storedText = [self text];
     

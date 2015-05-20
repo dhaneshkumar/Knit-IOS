@@ -12,6 +12,7 @@
 #import "sharedCache.h"
 #import "TSInboxMessageTableViewCell.h"
 #import "RKDropDownAlert.h"
+#import "MBProgressHUD.h"
 
 @interface TSNewInboxViewController ()
 
@@ -22,6 +23,7 @@
 @property (nonatomic) BOOL isDirty;
 @property (nonatomic) BOOL isUpdateSeenCountsCalled;
 @property (nonatomic) BOOL isILMCalled;
+@property (nonatomic, strong) MBProgressHUD *hud;
 
 @end
 
@@ -39,7 +41,6 @@
     [self.messagesTable addSubview:_refreshControl];
     [_refreshControl addTarget:self action:@selector(pullDownToRefresh) forControlEvents:UIControlEventValueChanged];
     _isBottomRefreshCalled = false;
-    _activityIndicator.hidden = YES;
     _messagesArray = [[NSMutableArray alloc] init];
     _mapCodeToObjects = [[NSMutableDictionary alloc] init];
     _messageIds = [[NSMutableArray alloc] init];
@@ -85,7 +86,23 @@
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
+    if(_messagesArray.count>0) {
+        self.messagesTable.backgroundView = nil;
+        return 1;
+    }
+    else {
+        UILabel *messageLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
+        
+        messageLabel.text = @"No messages.";
+        messageLabel.textColor = [UIColor blackColor];
+        messageLabel.numberOfLines = 0;
+        messageLabel.textAlignment = NSTextAlignmentCenter;
+        messageLabel.font = [UIFont fontWithName:@"Palatino-Italic" size:20];
+        [messageLabel sizeToFit];
+        
+        self.messagesTable.backgroundView = messageLabel;
+        return 0;
+    }
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -100,6 +117,7 @@
     cell.className.text = message.className;
     cell.teacherName.text = [NSString stringWithFormat:@"by %@", message.sender];
     cell.message.text = message.message;
+    cell.messageWidth.constant = [self getScreenWidth] - 20.0;
     NSTimeInterval mti = [self getMessageTimeDiff:message.sentTime];
     cell.sentTime.text = [self sentTimeDisplayText:mti];
     cell.confuseCount.text = [NSString stringWithFormat:@"%d", message.confuseCount];
@@ -111,6 +129,20 @@
     
     if(message.hasAttachment) {
         cell.attachedImage.image = message.attachment;
+        UIImage *img = message.attachment;
+        float height = img.size.height;
+        float width = img.size.width;
+        if(height>width) {
+            float changedWidth = 300.0*width/height;
+            cell.imageWidth.constant = changedWidth;
+            cell.imageHeight.constant = 300.0;
+        }
+        else {
+            float changedHeight = 300.0*height/width;
+            cell.imageHeight.constant = changedHeight;
+            cell.imageWidth.constant = 300.0;
+        }
+        cell.attachedImage.contentMode = UIViewContentModeScaleToFill;
         cell.activityIndicator.hidesWhenStopped = true;
         if([message.attachment isEqual:[UIImage imageNamed:@"white.jpg"]]) {
             [cell.activityIndicator startAnimating];
@@ -144,11 +176,18 @@
     gettingSizeLabel.text = ((TSMessage *)_messagesArray[indexPath.row]).message;
     gettingSizeLabel.numberOfLines = 0;
     gettingSizeLabel.lineBreakMode = NSLineBreakByWordWrapping;
-    CGSize maximumLabelSize = CGSizeMake(300, 9999);
+    CGSize maximumLabelSize = CGSizeMake([self getScreenWidth] - 20.0, 9999);
     
     CGSize expectSize = [gettingSizeLabel sizeThatFits:maximumLabelSize];
     if(((TSMessage *)_messagesArray[indexPath.row]).attachment) {
-        return expectSize.height+372;
+        UIImage *img = ((TSMessage *)_messagesArray[indexPath.row]).attachment;
+        float height = img.size.height;
+        float width = img.size.width;
+        float changedHeight = 300.0;
+        if(height<=width)
+            changedHeight = 300.0*height/width;
+        //NSLog(@"changed height : %f", changedHeight);
+        return expectSize.height+72+changedHeight;
     }
     else {
         return expectSize.height+66;
@@ -312,6 +351,7 @@
         });
     } errorBlock:^(NSError *error) {
         NSLog(@"Unable to fetch inbox messages while opening inbox tab: %@", [error description]);
+        _isILMCalled = NO;
     }];
 }
 
@@ -320,6 +360,9 @@
     if([self noJoinedClasses])
         return;
     if(_messagesArray.count==0) {
+        _hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        _hud.color = [UIColor colorWithRed:32.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
+        _hud.labelText = @"Loading messages";
         PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
         [lq fromLocalDatastore];
         [lq whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
@@ -329,11 +372,9 @@
             NSLog(@"Pain hai bhai life me.");
             return;
         }
-        _activityIndicator.hidden = NO;
-        [_activityIndicator startAnimating];
+        
         int localMessages = [self fetchMessagesFromLocalDatastore];
-        [_activityIndicator stopAnimating];
-        _activityIndicator.hidden = YES;
+        
         if(localMessages==0) {
             if(localObjs[0][@"isInboxDataConsistent"] && [localObjs[0][@"isInboxDataConsistent"] isEqualToString:@"true"]) {
                 _messageFlag=1;
@@ -350,7 +391,7 @@
             if(_lastUpdateCalled) {
                 NSDate *date = [NSDate date];
                 NSTimeInterval ti = [date timeIntervalSinceDate:_lastUpdateCalled];
-                if(ti>180) {
+                if(ti>300) {
                     [self updateCountsLocally];
                 }
             }
@@ -365,7 +406,7 @@
         if(_lastUpdateCalled) {
             NSDate *date = [NSDate date];
             NSTimeInterval ti = [date timeIntervalSinceDate:_lastUpdateCalled];
-            if(ti>180) {
+            if(ti>300) {
                 [self updateCountsLocally];
             }
         }
@@ -390,6 +431,7 @@
     //[query whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
     [query whereKey:@"code" containedIn:joinedClassCodes];
     NSArray *messages = (NSArray *)[query findObjects];
+    [_hud hide:YES];
     NSCharacterSet *characterset=[NSCharacterSet characterSetWithCharactersInString:@"\uFFFC\n "];
     for (PFObject * messageObject in messages) {
         TSMessage *message = [[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:[messageObject[@"title"] stringByTrimmingCharactersInSet:characterset] sender:messageObject[@"Creator"] sentTime:messageObject.createdAt senderPic:messageObject[@"senderPic"] likeCount:([messageObject[@"like_count"] intValue]+[self adder:messageObject[@"likeStatusServer"] localStatus:messageObject[@"likeStatus"]]) confuseCount:([messageObject[@"confused_count"] intValue] + [self adder:messageObject[@"confuseStatusServer"] localStatus:messageObject[@"confuseStatus"]]) seenCount:0];
@@ -511,13 +553,16 @@
         });
     } errorBlock:^(NSError *error) {
         NSLog(@"Unable to fetch inbox messages while opening inbox tab: %@", [error description]);
+        _isILMCalled = NO;
+
     }];
 }
 
 
 -(void)fetchOldMessagesOnDataDeletion {
-    _activityIndicator.hidden = NO;
-    [_activityIndicator startAnimating];
+    _hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    _hud.color = [UIColor colorWithRed:32.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
+    _hud.labelText = @"Loading messages";
     [Data updateInboxLocalDatastore:@"j" successBlock:^(id object) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
             NSMutableDictionary *members = (NSMutableDictionary *) object;
@@ -528,6 +573,9 @@
             for(PFObject *state in states) {
                 [statesForMessageID setObject:state forKey:state[@"message_id"]];
             }
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                [_hud hide:YES];
+            });
             NSCharacterSet *characterset=[NSCharacterSet characterSetWithCharactersInString:@"\uFFFC\n "];
             for (PFObject *msg in messageObjects) {
                 //msg[@"iosUserID"] = [PFUser currentUser].objectId;
@@ -588,8 +636,6 @@
                 }
             }
             dispatch_sync(dispatch_get_main_queue(), ^{
-                [_activityIndicator stopAnimating];
-                _activityIndicator.hidden = YES;
                 [self.messagesTable reloadData];
             });
 
@@ -607,6 +653,7 @@
         });
     } errorBlock:^(NSError *error) {
         NSLog(@"Unable to fetch inbox messages while opening inbox tab: %@", [error description]);
+        [_hud hide:YES];
     }];
 }
 
@@ -859,6 +906,13 @@
     
     // Present the view controller.
     [imageViewer showFromViewController:self transition:JTSImageViewControllerTransition_FromOffscreen];
+}
+
+-(CGFloat) getScreenWidth {
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    CGFloat screenWidth = screenRect.size.width;
+    NSLog(@"screen width : %f", screenWidth);
+    return screenWidth;
 }
 
 

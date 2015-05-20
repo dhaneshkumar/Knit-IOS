@@ -21,6 +21,6 @@
 // UIFloatLabelTextField
 #define COCOAPODS_POD_AVAILABLE_UIFloatLabelTextField
 #define COCOAPODS_VERSION_MAJOR_UIFloatLabelTextField 1
-#define COCOAPODS_VERSION_MINOR_UIFloatLabelTextField 1
-#define COCOAPODS_VERSION_PATCH_UIFloatLabelTextField 2
+#define COCOAPODS_VERSION_MINOR_UIFloatLabelTextField 2
+#define COCOAPODS_VERSION_PATCH_UIFloatLabelTextField 1
 

@@ -54,8 +54,7 @@
        // UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Associate name field cannot be left blank." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
         //[errorAlertView show];
         [RKDropdownAlert title:@"Knit" message:@"Associate name field cannot be left blank." time:2];
-
-        
+        //[RKDropdownAlert title:@"Knit" message:@"Associate name field cannot be left blank." backgroundColor:[UIColor colorWithRed:233.0f/255.0f green:30.0f/255.0f blue:99.0f/255.0f alpha:1.0] textColor:[UIColor whiteColor] time:2];
         _assocNameTextField.text = _assocName;
         [_assocNameTextField becomeFirstResponder];
         return;

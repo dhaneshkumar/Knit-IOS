@@ -24,6 +24,8 @@
     UITapGestureRecognizer *imageTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imageViewTap:)];
     [_attachedImage setUserInteractionEnabled:YES];
     [_attachedImage addGestureRecognizer:imageTap];
+    _attachedImage.layer.borderColor = [[UIColor colorWithRed:32.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0] CGColor];
+    _attachedImage.layer.borderWidth = 1.0;
 }
 
 
@@ -86,7 +88,7 @@
     TSNewInboxViewController *inboxController = (TSNewInboxViewController *)cont.viewControllers[1];
     
     if([self.confuseImage.image isEqual:[UIImage imageNamed:@"ios icons-19.png"] ]) {
-        [inboxController updateLikesDataFromCell:indexPath.row status:@"true"];
+        [inboxController updateConfuseDataFromCell:indexPath.row status:@"true"];
         self.confuseImage.image = [UIImage imageNamed:@"ios icons-30.png"];
         int intval = [self.confuseCount.text intValue];
         self.confuseCount.text = [NSString stringWithFormat:@"%d", intval+1];
@@ -111,7 +113,8 @@
 
 - (void)imageViewTap:(UITapGestureRecognizer *)recognizer {
     // Create image info
-    NSLog(@"yaha to aaya");
+    if([_attachedImage.image isEqual:[UIImage imageNamed:@"white.jpg"]])
+        return;
     JTSImageInfo *imageInfo = [[JTSImageInfo alloc] init];
     imageInfo.image = _attachedImage.image;
     imageInfo.referenceRect = _attachedImage.frame;

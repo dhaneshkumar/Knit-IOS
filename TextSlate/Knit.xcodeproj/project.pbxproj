@@ -133,6 +133,22 @@
 		FB6A04AF1AC2DE7B009E9D9D /* EditAsscoNameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FB6A04AE1AC2DE7B009E9D9D /* EditAsscoNameViewController.m */; };
 		FB89E2941ACAB443008A0F8E /* white.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FB89E2931ACAB443008A0F8E /* white.jpg */; };
 		FB93500A1AEA1075001BE394 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = FB9350091AEA1075001BE394 /* Reachability.m */; };
+		FBA236491B0750250001D8E3 /* classroom@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = FBA2363D1B0750250001D8E3 /* classroom@1x.png */; };
+		FBA2364A1B0750250001D8E3 /* classroom@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FBA2363E1B0750250001D8E3 /* classroom@2x.png */; };
+		FBA2364B1B0750250001D8E3 /* classroom@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = FBA2363F1B0750250001D8E3 /* classroom@3x.png */; };
+		FBA2364C1B0750250001D8E3 /* received@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = FBA236401B0750250001D8E3 /* received@1x.png */; };
+		FBA2364D1B0750250001D8E3 /* received@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FBA236411B0750250001D8E3 /* received@2x.png */; };
+		FBA2364E1B0750250001D8E3 /* received@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = FBA236421B0750250001D8E3 /* received@3x.png */; };
+		FBA2364F1B0750250001D8E3 /* sent@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = FBA236431B0750250001D8E3 /* sent@1x.png */; };
+		FBA236501B0750250001D8E3 /* sent@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FBA236441B0750250001D8E3 /* sent@2x.png */; };
+		FBA236511B0750250001D8E3 /* sent@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = FBA236451B0750250001D8E3 /* sent@3x.png */; };
+		FBA236521B0750250001D8E3 /* settings@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = FBA236461B0750250001D8E3 /* settings@1x.png */; };
+		FBA236531B0750250001D8E3 /* settings@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FBA236471B0750250001D8E3 /* settings@2x.png */; };
+		FBA236541B0750250001D8E3 /* settings@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = FBA236481B0750250001D8E3 /* settings@3x.png */; };
+		FBA236591B08BA1A0001D8E3 /* back@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = FBA236571B08BA1A0001D8E3 /* back@1x.png */; };
+		FBA2365A1B08BA1A0001D8E3 /* back@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FBA236581B08BA1A0001D8E3 /* back@2x.png */; };
+		FBA236901B0A475E0001D8E3 /* TSStartPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FBA2368F1B0A475E0001D8E3 /* TSStartPageViewController.m */; };
+		FBA236921B0B0AEE0001D8E3 /* knit@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = FBA236911B0B0AEE0001D8E3 /* knit@1x.png */; };
 		FBA778F61ACEB84B00D247CC /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FBA778F11ACEB84B00D247CC /* Bolts.framework */; };
 		FBA778F71ACEB84B00D247CC /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FBA778F21ACEB84B00D247CC /* Parse.framework */; };
 		FBA778F81ACEB84B00D247CC /* ParseCrashReporting.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FBA778F31ACEB84B00D247CC /* ParseCrashReporting.framework */; };
@@ -406,6 +422,23 @@
 		FB89E2931ACAB443008A0F8E /* white.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = white.jpg; sourceTree = "<group>"; };
 		FB9350081AEA1075001BE394 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		FB9350091AEA1075001BE394 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
+		FBA2363D1B0750250001D8E3 /* classroom@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "classroom@1x.png"; sourceTree = "<group>"; };
+		FBA2363E1B0750250001D8E3 /* classroom@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "classroom@2x.png"; sourceTree = "<group>"; };
+		FBA2363F1B0750250001D8E3 /* classroom@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "classroom@3x.png"; sourceTree = "<group>"; };
+		FBA236401B0750250001D8E3 /* received@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "received@1x.png"; sourceTree = "<group>"; };
+		FBA236411B0750250001D8E3 /* received@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "received@2x.png"; sourceTree = "<group>"; };
+		FBA236421B0750250001D8E3 /* received@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "received@3x.png"; sourceTree = "<group>"; };
+		FBA236431B0750250001D8E3 /* sent@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sent@1x.png"; sourceTree = "<group>"; };
+		FBA236441B0750250001D8E3 /* sent@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sent@2x.png"; sourceTree = "<group>"; };
+		FBA236451B0750250001D8E3 /* sent@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sent@3x.png"; sourceTree = "<group>"; };
+		FBA236461B0750250001D8E3 /* settings@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settings@1x.png"; sourceTree = "<group>"; };
+		FBA236471B0750250001D8E3 /* settings@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settings@2x.png"; sourceTree = "<group>"; };
+		FBA236481B0750250001D8E3 /* settings@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settings@3x.png"; sourceTree = "<group>"; };
+		FBA236571B08BA1A0001D8E3 /* back@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "back@1x.png"; sourceTree = "<group>"; };
+		FBA236581B08BA1A0001D8E3 /* back@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "back@2x.png"; sourceTree = "<group>"; };
+		FBA2368E1B0A475E0001D8E3 /* TSStartPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSStartPageViewController.h; sourceTree = "<group>"; };
+		FBA2368F1B0A475E0001D8E3 /* TSStartPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSStartPageViewController.m; sourceTree = "<group>"; };
+		FBA236911B0B0AEE0001D8E3 /* knit@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "knit@1x.png"; sourceTree = "<group>"; };
 		FBA778F11ACEB84B00D247CC /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 		FBA778F21ACEB84B00D247CC /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		FBA778F31ACEB84B00D247CC /* ParseCrashReporting.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseCrashReporting.framework; sourceTree = "<group>"; };
@@ -791,6 +824,7 @@
 		971687D71A1F1BCA00FE98FC /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				FBA2368D1B0A472D0001D8E3 /* Start Page */,
 				FB9350071AEA105C001BE394 /* Reachability */,
 				FBAA816A1AE2C0870056E168 /* Loader */,
 				40AA7F941AD8443D0000255C /* Find Class Sign Up */,
@@ -841,6 +875,21 @@
 		971687DB1A1F1BCA00FE98FC /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				FBA236911B0B0AEE0001D8E3 /* knit@1x.png */,
+				FBA236571B08BA1A0001D8E3 /* back@1x.png */,
+				FBA236581B08BA1A0001D8E3 /* back@2x.png */,
+				FBA2363D1B0750250001D8E3 /* classroom@1x.png */,
+				FBA2363E1B0750250001D8E3 /* classroom@2x.png */,
+				FBA2363F1B0750250001D8E3 /* classroom@3x.png */,
+				FBA236401B0750250001D8E3 /* received@1x.png */,
+				FBA236411B0750250001D8E3 /* received@2x.png */,
+				FBA236421B0750250001D8E3 /* received@3x.png */,
+				FBA236431B0750250001D8E3 /* sent@1x.png */,
+				FBA236441B0750250001D8E3 /* sent@2x.png */,
+				FBA236451B0750250001D8E3 /* sent@3x.png */,
+				FBA236461B0750250001D8E3 /* settings@1x.png */,
+				FBA236471B0750250001D8E3 /* settings@2x.png */,
+				FBA236481B0750250001D8E3 /* settings@3x.png */,
 				FBB860B11AF350920005474A /* Default-568h@2x.png */,
 				FBAA81721AE3AB170056E168 /* newIcon1.png */,
 				FBAA81731AE3AB170056E168 /* newIcon2.png */,
@@ -1147,6 +1196,15 @@
 			name = Reachability;
 			sourceTree = "<group>";
 		};
+		FBA2368D1B0A472D0001D8E3 /* Start Page */ = {
+			isa = PBXGroup;
+			children = (
+				FBA2368E1B0A475E0001D8E3 /* TSStartPageViewController.h */,
+				FBA2368F1B0A475E0001D8E3 /* TSStartPageViewController.m */,
+			);
+			name = "Start Page";
+			sourceTree = "<group>";
+		};
 		FBAA816A1AE2C0870056E168 /* Loader */ = {
 			isa = PBXGroup;
 			children = (
@@ -1273,16 +1331,21 @@
 			buildActionMask = 2147483647;
 			files = (
 				FB6A04A81AC29770009E9D9D /* ios icons-15.png in Resources */,
+				FBA2364F1B0750250001D8E3 /* sent@1x.png in Resources */,
 				9707C9F41A5BC3110065D2BA /* JSQMessages.strings in Resources */,
 				9707CA181A5BC3110065D2BA /* JSQMessagesLoadEarlierHeaderView.xib in Resources */,
 				40BB899C1AC431D3002CFDFE /* attachcancel1.png in Resources */,
 				FBAA81751AE3AB170056E168 /* newIcon2.png in Resources */,
+				FBA236521B0750250001D8E3 /* settings@1x.png in Resources */,
 				FB6955921AC94FB200E7729E /* ios icons-8.png in Resources */,
 				FB89E2941ACAB443008A0F8E /* white.jpg in Resources */,
+				FBA2364D1B0750250001D8E3 /* received@2x.png in Resources */,
 				FBBA45D71A9DE4400088CCBC /* defaultTeacher.png in Resources */,
+				FBA236501B0750250001D8E3 /* sent@2x.png in Resources */,
 				FB6955941AC94FB200E7729E /* ios icons-10.png in Resources */,
 				FB6955911AC94FB200E7729E /* ios icons-7.png in Resources */,
 				FBAA81351AE0D8B40056E168 /* ios icons-31.png in Resources */,
+				FBA2364C1B0750250001D8E3 /* received@1x.png in Resources */,
 				FB6955931AC94FB200E7729E /* ios icons-9.png in Resources */,
 				FBAA81341AE0D8B40056E168 /* ios icons-30.png in Resources */,
 				4038D4261AC6C62200E9009A /* Main.storyboard in Resources */,
@@ -1292,22 +1355,30 @@
 				40EBADA81A7E60B6003FB0B1 /* LaunchScreen.xib in Resources */,
 				FBAA81741AE3AB170056E168 /* newIcon1.png in Resources */,
 				40C7415B1AC6A970007AA844 /* ios icons-21.png in Resources */,
+				FBA236531B0750250001D8E3 /* settings@2x.png in Resources */,
 				404C9E181AC02176001CF571 /* ios icons-25.png in Resources */,
 				404C9E1E1AC0263C001CF571 /* iphone.png in Resources */,
+				FBA236591B08BA1A0001D8E3 /* back@1x.png in Resources */,
+				FBA236921B0B0AEE0001D8E3 /* knit@1x.png in Resources */,
 				9707C9F31A5BC3110065D2BA /* JSQMessagesAssets.bundle in Resources */,
 				404C9E171AC02176001CF571 /* ios icons-24.png in Resources */,
 				FB1F47BB1A7589AE0093350B /* 120x120.png in Resources */,
 				40EBADB01A7E6142003FB0B1 /* 640 x 1136.png in Resources */,
 				FBB860B21AF350920005474A /* Default-568h@2x.png in Resources */,
+				FBA236491B0750250001D8E3 /* classroom@1x.png in Resources */,
 				40BB899B1AC431D3002CFDFE /* attachcancel.png in Resources */,
 				404C9E1A1AC02176001CF571 /* ios icons-27.png in Resources */,
 				40C7415A1AC6A970007AA844 /* ios icons-20.png in Resources */,
 				40EBADB51A7E6150003FB0B1 /* inbox_grey.png in Resources */,
 				40EBADB61A7E6150003FB0B1 /* settings_32.png in Resources */,
+				FBA2364A1B0750250001D8E3 /* classroom@2x.png in Resources */,
 				9707CA131A5BC3110065D2BA /* JSQMessagesCollectionViewCellOutgoing.xib in Resources */,
 				40C741591AC6A970007AA844 /* ios icons-19.png in Resources */,
 				40A9FC831AC42C0900082555 /* attach_30x30.png in Resources */,
+				FBA2364E1B0750250001D8E3 /* received@3x.png in Resources */,
+				FBA2364B1B0750250001D8E3 /* classroom@3x.png in Resources */,
 				40EBADB41A7E6150003FB0B1 /* classroom.png in Resources */,
+				FBA236541B0750250001D8E3 /* settings@3x.png in Resources */,
 				FB1F47BA1A7589AE0093350B /* 60x60.png in Resources */,
 				FBAA81371AE110C10056E168 /* ios icons-32.png in Resources */,
 				404C9E1C1AC0260C001CF571 /* phone.png in Resources */,
@@ -1315,9 +1386,11 @@
 				FB1F47BD1A7589AE0093350B /* 180x180.png in Resources */,
 				40EBADAC1A7E611F003FB0B1 /* 05-xxhdpi.png in Resources */,
 				FB1F47BC1A7589AE0093350B /* 152x152.png in Resources */,
+				FBA236511B0750250001D8E3 /* sent@3x.png in Resources */,
 				9707C9851A5BB94E0065D2BA /* avatar@2x.png in Resources */,
 				40C741581AC6A970007AA844 /* ios icons-18.png in Resources */,
 				9707CA1D1A5BC3110065D2BA /* JSQMessagesTypingIndicatorFooterView.xib in Resources */,
+				FBA2365A1B08BA1A0001D8E3 /* back@2x.png in Resources */,
 				973A4BE31A1F174D0039175A /* Images.xcassets in Resources */,
 				9707CA111A5BC3110065D2BA /* JSQMessagesCollectionViewCellIncoming.xib in Resources */,
 				9707CA1B1A5BC3110065D2BA /* JSQMessagesToolbarContentView.xib in Resources */,
@@ -1467,6 +1540,7 @@
 				FBB860C11AF3595F0005474A /* JTSImageInfo.m in Sources */,
 				9707C9F71A5BC3110065D2BA /* UIColor+JSQMessages.m in Sources */,
 				9707CA0B1A5BC3110065D2BA /* JSQPhotoMediaItem.m in Sources */,
+				FBA236901B0A475E0001D8E3 /* TSStartPageViewController.m in Sources */,
 				975B1E861A20F7C50028BE25 /* TSClassroomTableViewController.m in Sources */,
 				9707CA071A5BC3110065D2BA /* JSQMediaItem.m in Sources */,
 				9707CA101A5BC3110065D2BA /* JSQMessagesCollectionViewCellIncoming.m in Sources */,

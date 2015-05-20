@@ -36,6 +36,7 @@
     [TSUtils applyRoundedCorners:_createOrJoinButton];
     [[_createOrJoinButton layer] setBorderWidth:0.5f];
     [[_createOrJoinButton layer] setBorderColor:[[UIColor colorWithRed:32.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0] CGColor]];
+    _createdClassesVCs = [[NSMutableDictionary alloc] init];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -50,13 +51,14 @@
     _createdClasses = nil;
     _codegroups = nil;
     _codegroups = [[NSMutableDictionary alloc] init];
-    if (!self.classesTable.editing) {
-        self.tabBarController.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editButtonSelected:)];
+    self.tabBarController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editButtonSelected:)];
+    [self.classesTable setEditing:NO animated:NO];
+    /*if (!self.classesTable.editing) {
+        self.tabBarController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editButtonSelected:)];
     }
     else {
-        self.tabBarController.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(editButtonSelected:)];
-    }
-    //self.tabBarController.navigationItem.rightBarButtonItem = self.editButtonItem;
+        self.tabBarController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(editButtonSelected:)];
+    }*/
     if(self.segmentedControl.selectedSegmentIndex==0)
         [_createOrJoinButton setTitle:@"+  Create Class" forState:UIControlStateNormal];
     else
@@ -66,19 +68,18 @@
     }
 }
 
--(void)viewDidDisappear:(BOOL)animated {
-    [super viewDidDisappear:animated];
-    self.tabBarController.navigationItem.rightBarButtonItem = nil;
+-(void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    self.tabBarController.navigationItem.leftBarButtonItem = nil;
 }
 
 - (void) editButtonSelected: (id) sender {
     if (self.classesTable.editing) {
-        self.tabBarController.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editButtonSelected:)];
+        self.tabBarController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editButtonSelected:)];
         [self.classesTable setEditing:NO animated:YES];
     } else {
-        self.tabBarController.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(editButtonSelected:)];
+        self.tabBarController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(editButtonSelected:)];
         [self.classesTable setEditing:YES animated:YES];
-        
     }
 }
 
@@ -120,7 +121,19 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if(self.segmentedControl.selectedSegmentIndex==0) {
-        [self performSegueWithIdentifier:@"createdClasses" sender:self];
+        //[self performSegueWithIdentifier:@"createdClasses" sender:self];
+        int row = [indexPath row];
+        if([_createdClassesVCs objectForKey:_createdClasses[row][0]]) {
+            TSSendClassMessageViewController *dvc = (TSSendClassMessageViewController *)[_createdClassesVCs objectForKey:_createdClasses[row][0]];
+            [self.navigationController pushViewController:dvc animated:YES];
+        }
+        else {
+            TSSendClassMessageViewController *dvc = (TSSendClassMessageViewController*)[self.storyboard instantiateViewControllerWithIdentifier:@"createdClassVC"];
+            dvc.className = _createdClasses[row][1];
+            dvc.classCode = _createdClasses[row][0];
+            [_createdClassesVCs setObject:dvc forKey:_createdClasses[row][0]];
+            [self.navigationController pushViewController:dvc animated:YES];
+        }
     }
     else {
         
@@ -414,6 +427,8 @@
 */
 - (IBAction)buttonTapped:(id)sender {
     if(self.segmentedControl.selectedSegmentIndex==0) {
+        /*UINavigationController *createClassroomNavigationViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"startPageNavVC"];
+        [self presentViewController:createClassroomNavigationViewController animated:YES completion:nil];*/
         UINavigationController *createClassroomNavigationViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"createNewClassNavigationController"];
         [self presentViewController:createClassroomNavigationViewController animated:YES completion:nil];
     }

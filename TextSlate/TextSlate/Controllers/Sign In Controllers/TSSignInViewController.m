@@ -63,9 +63,10 @@
 
 - (IBAction)signInClicked:(UIButton *)sender {
     if(_phoneTextField.text.length<10) {
-       // UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Please make sure that the phone number entered is 10 digits." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+        //UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Please make sure that the phone number entered is 10 digits." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
         //[errorAlertView show];
-         [RKDropdownAlert title:@"Knit" message:@"Please make sure that the phone number entered is 10 digits."  time:2];
+        [RKDropdownAlert title:@"Knit" message:@"Please make sure that the phone number entered is 10 digits."  time:2];
+        //[RKDropdownAlert title:@"Knit" message:@"Associate name field cannot be left blank." backgroundColor:[UIColor colorWithRed:255.0f/255.0f green:193.0f/255.0f blue:7.0f/255.0f alpha:1.0] textColor:[UIColor whiteColor] time:2];
         return;
     }
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];

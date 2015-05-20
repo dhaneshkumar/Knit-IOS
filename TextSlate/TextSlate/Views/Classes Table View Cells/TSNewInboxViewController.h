@@ -14,7 +14,7 @@
 @interface TSNewInboxViewController : UIViewController <UITableViewDataSource, UITableViewDelegate,NSCacheDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *messagesTable;
-@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
+//@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property (nonatomic, strong) NSMutableArray *messagesArray;
 @property (nonatomic, strong) NSMutableDictionary *mapCodeToObjects;
 @property (nonatomic, strong) NSMutableArray *messageIds;

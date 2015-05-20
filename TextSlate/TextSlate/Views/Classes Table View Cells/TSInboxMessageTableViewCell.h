@@ -23,5 +23,8 @@
 @property (weak, nonatomic) IBOutlet UIImageView *confuseImage;
 @property (weak, nonatomic) IBOutlet UIImageView *likesImage;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *imageWidth;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *imageHeight;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *messageWidth;
 
 @end

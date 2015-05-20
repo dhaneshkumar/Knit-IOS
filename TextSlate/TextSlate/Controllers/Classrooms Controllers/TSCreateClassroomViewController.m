@@ -11,6 +11,7 @@
 #import <Parse/Parse.h>
 #import "MBProgressHUD.h"
 #import "RKDropdownAlert.h"
+#import "AppDelegate.h"
 
 @interface TSCreateClassroomViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *classNameTextField;
