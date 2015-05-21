@@ -25,10 +25,6 @@
 @property (strong,nonatomic) NSString *getOTP;
 @property (strong,nonatomic) NSMutableArray *classDetails;
 
-
-@property (nonatomic) bool isParent;
-@property (nonatomic) BOOL showAlertView;
-
 @end
 
 @implementation TSSignUpViewController
@@ -36,13 +32,18 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     _classDetails=[[NSMutableArray alloc]init];
-    _showAlertView = true;
     _displayName.delegate=self;
     _phoneNumberTextField.delegate=self;
     _phoneNumberTextField.keyboardType = UIKeyboardTypeNumberPad;
     self.navigationItem.title = @"Sign Up";
+    UIBarButtonItem *bb = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"back"] style:UIBarButtonItemStylePlain target:self action:@selector(backButtonTapped:)];
+    [self.navigationItem setLeftBarButtonItem:bb];
     //self.OTP.hidden=YES;
     // Do any additional setup after loading the view
+}
+
+-(IBAction)backButtonTapped:(id)sender {
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 
@@ -51,49 +52,14 @@
     // Dispose of any resources that can be recreated.
 }
 
--(void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    NSLog(@"Sign up alert view");
-    if(_showAlertView) {
-        _getRole = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Please select your profession" delegate:self cancelButtonTitle:@"CANCEL" otherButtonTitles:@"PARENT", @"TEACHER", @"STUDENT", nil];
-        [_getRole show];
-        
-        _showAlertView = false;
-    }
-    
-    NSLog(@"code %@",_findCode);
-}
 
--(void)viewWillAppear:(BOOL)animated{
-    
-}
-
--(IBAction)selectRole:(id)sender
-{
-    _getTitle = [[UIAlertView alloc] initWithTitle:@"Knit - Role" message:@"Please select your profession" delegate:self cancelButtonTitle:@"CANCEL" otherButtonTitles:@"Miss", @"Mr.",@"Mrs", nil];
-    
+-(IBAction)selectRole:(id)sender {
+    _getTitle = [[UIAlertView alloc] initWithTitle:@"Knit - Role" message:@"Please select your profession" delegate:self cancelButtonTitle:@"CANCEL" otherButtonTitles:@"Miss", @"Mr.",@"Mrs.", nil];
     [_getTitle show];
 }
 
 
 -(void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if(alertView==_getRole){
-        if(buttonIndex == 0) {
-            [self dismissViewControllerAnimated:YES completion:nil];
-        }
-        else if (buttonIndex == 1) {
-            _isParent = true;
-            UINavigationController *findclass=[self.storyboard instantiateViewControllerWithIdentifier:@"findClassNavigation"];
-            [self presentViewController:findclass animated:NO completion:nil];
-        } else if (buttonIndex == 2) {
-            _isParent = false;
-        }
-        else if (buttonIndex == 3) {
-            _isParent = true;
-            UINavigationController *findclass=[self.storyboard instantiateViewControllerWithIdentifier:@"findClassNavigation"];
-            [self presentViewController:findclass animated:NO completion:nil];
-        }
-    }
     if(alertView==_getTitle)
     {
         if(buttonIndex==1)
@@ -108,13 +74,12 @@
         }
         else if(buttonIndex==3)
         {
-            _titleTextField.text=@"Mrs";
+            _titleTextField.text=@"Mrs.";
             _sex=@"female";
         }
     }
-    
-    
 }
+
 
 /*
 #pragma mark - Navigation
@@ -126,31 +91,20 @@
 }
 */
 
-- (IBAction)singInClicked:(UIButton *)sender {
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
-
 
 - (IBAction)signUpClicked:(UIButton *)sender {
     if([_titleTextField.text isEqualToString:@""]) {
-       // UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Title field cannot be empty." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-      //  [errorAlertView show];
-         [RKDropdownAlert title:@"Knit" message:@"Title field cannot be left empty."  time:2];
+        [RKDropdownAlert title:@"Knit" message:@"Title field cannot be left empty."  time:2];
         return;
     }
     NSString *name = [_displayName.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     if(name.length==0) {
-        //UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Name field cannot be empty." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-        //[errorAlertView show];
-          [RKDropdownAlert title:@"Knit" message:@"Name field cannot be left empty."  time:2];
+        [RKDropdownAlert title:@"Knit" message:@"Name field cannot be left empty."  time:2];
         return;
     }
     if(_phoneNumberTextField.text.length<10) {
-      //  UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Please make sure that the phone number entered is 10 digits." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-       // [errorAlertView show];
          [RKDropdownAlert title:@"Knit" message:@"Please make sure that the phone number entered is 10 digits."  time:2];
         return;
-
     }
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
@@ -158,68 +112,26 @@
 
     [Data generateOTP:_phoneNumberTextField.text successBlock:^(id object) {
         [hud hide:YES];
-        [self performSegueWithIdentifier:@"signUpDetail" sender:self];
-        NSLog(@"code %@",object);
-    } errorBlock:^(NSError *error) {
-        //UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error in generating OTP. Try again later." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-        [hud hide:YES];
-         [RKDropdownAlert title:@"Knit" message:@"Error in generating OTP.Try again later."  time:2];
-        //[errorAlertView show];
-    }];
-
-    /*
-    PFUser *user = [PFUser user];
-    user.username = _emailTextField.text;
-    user.password = _passwordTextField.text;
-    user.email = _emailTextField.text;
-    
-    [user setObject:_phoneNumberTextField.text forKey:@"phone"];
-    [user setObject:_nameTextField.text forKey:@"name"];
-    [user setObject:_isParent ? @"parent" : @"teacher" forKey:@"role"];
-    
-    [user signUpInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-        if (!error) {
-            NSLog(@"Sign up successfull");
-            PFObject *currentTable=[PFInstallation currentInstallation];
-            currentTable[@"username"]=[PFUser currentUser].username;
-            [currentTable saveInBackground];
-            if(_isParent==false){
-            [self performSegueWithIdentifier:@"schoolDetail" sender:self];
-            }
-            else {
-                
-                if (self.presentingViewController) {
-                    [[(UINavigationController*)self.pViewController.presentingViewController topViewController] dismissViewControllerAnimated:YES completion:nil];
-                }
-            }
-        } else {
-            NSLog(@"Error is: %@", [error localizedDescription]);
-        }
-    }];*/
-}
-
--(IBAction)cancelView:(id)sender{
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
--(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([segue.identifier isEqualToString:@"signUpDetail"]) {
-        UINavigationController *nav = [segue destinationViewController];
-        PhoneVerificationViewController *dvc = (PhoneVerificationViewController *)nav.topViewController;
+        PhoneVerificationViewController *dvc = [self.storyboard instantiateViewControllerWithIdentifier:@"phoneVerificationVC"];
         NSString *deviceType = [UIDevice currentDevice].model;
         NSLog(@"device %@",deviceType);
         dvc.nameText=[_displayName.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-        dvc.phoneNumber=_phoneNumberTextField.text;
-        dvc.parent= _isParent;
-        dvc.modal=deviceType;
-        dvc.isSignUp=true;
-        dvc.sex=_sex;
+        dvc.phoneNumber = _phoneNumberTextField.text;
+        dvc.parent = false;
+        dvc.modal = deviceType;
+        dvc.isSignUp = true;
+        dvc.sex = _sex;
         dvc.isFindClass = false;
-    }
+        [self.navigationController pushViewController:dvc animated:YES];
+    } errorBlock:^(NSError *error) {
+        [hud hide:YES];
+         [RKDropdownAlert title:@"Knit" message:@"Error in generating OTP.Try again later."  time:2];
+    }];
 }
 
 
 - (IBAction)tappedOutside:(UITapGestureRecognizer *)sender {
- //   [_nameTextField resignFirstResponder];
+
     [_displayName resignFirstResponder];
     [_phoneNumberTextField resignFirstResponder];
 }

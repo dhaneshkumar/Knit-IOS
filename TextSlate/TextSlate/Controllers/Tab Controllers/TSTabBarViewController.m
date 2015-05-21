@@ -32,8 +32,8 @@
     if (![PFUser currentUser]) {
         NSLog(@"Tab bar controller");
         [self makeItTeacher];
-        TSSignInViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"signInNavigationController"];
-        [self presentViewController:vc animated:NO completion:nil];
+        UINavigationController *startPage = [self.storyboard instantiateViewControllerWithIdentifier:@"startPageNavVC"];
+        [self presentViewController:startPage animated:NO completion:nil];
     } else {
         if([[[PFUser currentUser] objectForKey:@"role"] isEqualToString:@"parent"])
             [self makeItParent];
@@ -101,8 +101,8 @@
     //[[PFInstallation currentInstallation] removeObjectForKey:@"channels"];
     //[[PFInstallation currentInstallation] saveInBackground];
     [PFUser logOut];
-    TSSignInViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"signInNavigationController"];
-    [self presentViewController:vc animated:NO completion:nil];
+    UINavigationController *startPage = [self.storyboard instantiateViewControllerWithIdentifier:@"startPageNavVC"];
+    [self presentViewController:startPage animated:NO completion:nil];
     [self setSelectedIndex:0];
 }
 

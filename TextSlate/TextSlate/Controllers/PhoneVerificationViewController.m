@@ -35,8 +35,16 @@
     _codeText.delegate = self;
     _codeText.keyboardType = UIKeyboardTypeNumberPad;
     self.navigationItem.title = @"Knit";
+    UIBarButtonItem *bb = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"back"] style:UIBarButtonItemStylePlain target:self action:@selector(backButtonTapped:)];
+    [self.navigationItem setLeftBarButtonItem:bb];
     // Do any additional setup after loading the view.
 }
+
+
+-(IBAction)backButtonTapped:(id)sender {
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 
 -(void) viewDidAppear:(BOOL)animated{
     self.navigationController.navigationBar.hidden=NO;
@@ -51,14 +59,10 @@
 - (IBAction)verifyCode:(UIButton *)sender {
     [_codeText resignFirstResponder];
     if([_codeText.text length]<4) {
-     //   UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"OTP should be 4 digit long." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-       // [errorAlertView show];
-        
         [RKDropdownAlert title:@"Knit" message:@"OTP should be 4 digit long."  time:2];
         return;
     }
-    else
-    {
+    else {
         if(_isSignUp==true)
         {
             MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -73,46 +77,36 @@
                 _role=@"teacher";
             }
             
-            NSInteger verificationCode=[_codeText.text integerValue];
-            NSLog(@"code text %@",_codeText.text);
+            NSInteger verificationCode = [_codeText.text integerValue];
             [Data verifyOTPSignUp:_phoneNumber code:verificationCode modal:_modal os:_osVersion name:_nameText role:_role sex:_sex successBlock:^(id object){
-                
                 NSDictionary *tokenDict=[[NSDictionary alloc]init];
                 tokenDict=object;
                 NSString *flagString=[tokenDict objectForKey:@"flag"];
                 int flagValue = [flagString integerValue];
                 NSString *token=[tokenDict objectForKey:@"sessionToken"];
-                NSLog(@"Flag %i and session token %@",flagValue,token);
                 
                 if(flagValue==1){
                     [PFUser becomeInBackground:token block:^(PFUser *user, NSError *error) {
                         if (error) {
-                            NSLog(@"Session token could not be validated");
-                           // UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error in signing up. Try again later." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
                             [hud hide:YES];
-                            //[errorAlertView show];
-                            
                             [RKDropdownAlert title:@"Knit" message:@"Error in signing up. Try again later."  time:2];
-                            
                             return;
                         } else {
-                            NSLog(@"Successfully Validated ");
                             PFUser *current=[PFUser currentUser];
-                            NSLog(@"%@ current user",current.objectId);
                             PFInstallation *currentInstallation = [PFInstallation currentInstallation];
-                            NSLog(@"installation Id : %@", currentInstallation.objectId);
                             NSString *installationId=[currentInstallation objectForKey:@"installationId"];
                             NSString *devicetype=[currentInstallation objectForKey:@"deviceType"];
                             [Data saveInstallationId:installationId deviceType:devicetype successBlock:^(id object) {
-                                NSLog(@"Successfully saved installationID");
                                 [self deleteAllLocalData];
                                 [self createLocalDatastore];
                                 
                                 current[@"installationObjectId"]=object;
                                 [current pinInBackground];
                                 
-                                UINavigationController *rootNav = ((UINavigationController *)((AppDelegate *)[[UIApplication sharedApplication] delegate]).window.rootViewController);
-                                
+                                AppDelegate *apd = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+                                UINavigationController *rootNav = (UINavigationController *)apd.startNav;
+                                TSTabBarViewController *rootTab = (TSTabBarViewController *)rootNav.topViewController;
+
                                 if([_role isEqualToString:@"parent"])
                                     [(TSTabBarViewController *)rootNav.topViewController makeItParent];
                                 else
@@ -121,46 +115,27 @@
                                 [hud hide:YES];
                                 
                                 if(_isFindClass) {
-                                    UINavigationController *nVC = (UINavigationController *)self.presentingViewController.presentingViewController.presentingViewController.presentingViewController;
-                                    TSTabBarViewController *tbVC = (TSTabBarViewController *)nVC.topViewController;
-                                    ClassesParentViewController *cpVC = tbVC.viewControllers[0];
-                                    [((UINavigationController *)self.presentingViewController.presentingViewController.presentingViewController.presentingViewController).topViewController dismissViewControllerAnimated:YES completion:^{
+                                    ClassesParentViewController *cpVC = (ClassesParentViewController *)rootTab.viewControllers[0];
+                                    [self dismissViewControllerAnimated:YES completion:^{
                                         UINavigationController *joinNewClassNavigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"joinNewClassViewController"];
                                         TSJoinNewClassViewController *jj = (TSJoinNewClassViewController *)joinNewClassNavigationController.topViewController;
                                         jj.isfindClass = true;
                                         jj.classCode = _foundClassCode;
                                         [cpVC presentViewController:joinNewClassNavigationController animated:YES completion:nil];
                                     }];
-                                    /*
-                                    TSTabBarViewController *rootTab = (TSTabBarViewController *)rootNav.topViewController;
-                                    ((AppDelegate *)[[UIApplication sharedApplication] delegate]).window.rootViewController = rootNav;
-                                    //self.window.rootViewController = _startNav;
-                                    UIStoryboard *storyboard1 = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
-                                    UINavigationController *joinNewClassNavigationController = [storyboard1 instantiateViewControllerWithIdentifier:@"joinNewClassViewController"];
-                                    TSJoinNewClassViewController *jj = (TSJoinNewClassViewController *)joinNewClassNavigationController.topViewController;
-                                    jj.isfindClass = true;
-                                    jj.classCode = _foundClassCode;
-                                    [rootTab presentViewController:joinNewClassNavigationController animated:YES completion:nil];*/
                                 }
                                 else {
-                                    [((UINavigationController *)self.presentingViewController.presentingViewController.presentingViewController).topViewController dismissViewControllerAnimated:YES completion:nil];
+                                    [self dismissViewControllerAnimated:YES completion:nil];
                                 }
-                                /*
-                                UINavigationController *tab=[self.storyboard instantiateViewControllerWithIdentifier:@"tabBar"];
-                                TSTabBarViewController *mainTab=(TSTabBarViewController*) tab.topViewController;
-                                [self dismissViewControllerAnimated:YES completion:^{
-                                    [self presentViewController:mainTab animated:NO completion:nil];
-                                }];
-                                */
                                 
                                 if([_role isEqualToString:@"parent"]){
-                                UILocalNotification *localNotification = [[UILocalNotification alloc] init];
-                                localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:10];
-                                localNotification.alertBody = @"Welcome to Knit! You can join classes here!";
-                                localNotification.timeZone = [NSTimeZone defaultTimeZone];
-                                localNotification.alertAction=@"Join";
-                                localNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication]     applicationIconBadgeNumber] + 1;
-                                [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
+                                    UILocalNotification *localNotification = [[UILocalNotification alloc] init];
+                                    localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:10];
+                                    localNotification.alertBody = @"Welcome to Knit! You can join classes here!";
+                                    localNotification.timeZone = [NSTimeZone defaultTimeZone];
+                                    localNotification.alertAction=@"Join";
+                                    localNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication]     applicationIconBadgeNumber] + 1;
+                                    [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
                                 }
                                 
                                 if([_role isEqualToString:@"teacher"]){
@@ -188,26 +163,18 @@
                                     //// Invite Teacher here not parent
                                     NSTimer* loop1 = [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(showInviteTeacherNotification) userInfo:nil repeats:NO];
                                     [[NSRunLoop currentRunLoop] addTimer:loop1 forMode:NSRunLoopCommonModes];
-                                    
                                 }
-
                             } errorBlock:^(NSError *error) {
-                                //UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error in signing up. Try again later." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
                                 [hud hide:YES];
-                                
                                 [RKDropdownAlert title:@"Knit" message:@"Error in signing up. Try again later."  time:2];
-                                //[errorAlertView show];
                                 return;
                             }];
                         }
                     }];
                 }
                 else {
-                    //UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error in signing up. Try again later." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
                     [hud hide:YES];
-                    
                     [RKDropdownAlert title:@"Knit" message:@"Error in signing up.Try again later."  time:2];
-                    // [errorAlertView show];
                     return;
                 }
             } errorBlock:^(NSError *error) {
@@ -218,21 +185,12 @@
                         [self.navigationController popViewControllerAnimated:YES];
                     else
                         [self dismissViewControllerAnimated:YES completion:nil];
-                        
-                    //UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"User already exists." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-                    //[errorAlertView show];
-                    
                     [RKDropdownAlert title:@"Knit" message:@"User already exists."  time:2];
-                    
                     return;
                 }
-                //UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Incorrect OTP." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
                 [hud hide:YES];
-                //[errorAlertView show];
-                
                 [RKDropdownAlert title:@"Knit" message:@"Incorrect OTP."  time:2];
                 return;
-
             }];
         }
 
@@ -258,11 +216,8 @@
                 {
                     [PFUser becomeInBackground:token block:^(PFUser *user, NSError *error) {
                         if (error) {
-                         //   UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error in signing in. Try again later." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
                             [hud hide:YES];
-                           // [errorAlertView show];
                             [RKDropdownAlert title:@"Knit" message:@"Error in signing in.Try again later." time:2];
-                            
                             return;
                         } else {
 
@@ -281,7 +236,11 @@
                                 PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
                                 [lq fromLocalDatastore];
                                 NSArray *lds = [lq findObjects];
-                                UINavigationController *rootNav = ((UINavigationController *)((AppDelegate *)[[UIApplication sharedApplication] delegate]).window.rootViewController);
+                                
+                                AppDelegate *apd = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+                                UINavigationController *rootNav = (UINavigationController *)apd.startNav;
+                                TSTabBarViewController *rootTab = (TSTabBarViewController *)rootNav.topViewController;
+                                
                                 if(lds.count==1) {
                                     if([((PFObject*)lds[0])[@"iosUserID"] isEqualToString:[PFUser currentUser].objectId]) {
                                         //filhaal to kuch nhi
@@ -290,17 +249,17 @@
                                         [self deleteAllLocalData];
                                         [self createLocalDatastore];
                                         if([role isEqualToString:@"parent"])
-                                            [(TSTabBarViewController *)rootNav.topViewController makeItParent];
+                                            [rootTab makeItParent];
                                         else
-                                            [(TSTabBarViewController *)rootNav.topViewController makeItTeacher];
+                                            [rootTab makeItTeacher];
                                     }
                                 }
                                 else {
                                     [self createLocalDatastore];
                                     if([role isEqualToString:@"parent"])
-                                        [(TSTabBarViewController *)rootNav.topViewController makeItParent];
+                                        [rootTab makeItParent];
                                     else
-                                        [(TSTabBarViewController *)rootNav.topViewController makeItTeacher];
+                                        [rootTab makeItTeacher];
                                 }
                                 
                                 [hud hide:YES];
@@ -326,19 +285,15 @@
                                     [[NSRunLoop currentRunLoop] addTimer:loop forMode:NSRunLoopCommonModes];
                                 }
                             } errorBlock:^(NSError *error) {
-                             //   UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error in signing in. Try again later." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
                                 [hud hide:YES];
                                 [RKDropdownAlert title:@"Knit" message:@"Error in signing in.Try again later." time:2];
-                                // [errorAlertView show];
                                 return;
                             }];
                         }
                     }];
                 }
                 else {
-                  //  UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error in signing in. Try again later." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
                     [hud hide:YES];
-                    //[errorAlertView show];
                     [RKDropdownAlert title:@"Knit" message:@"Error in signing in.Try again later." time:2];
                     return;
                 }
@@ -347,16 +302,11 @@
                 if([[((NSDictionary *)error.userInfo) objectForKey:@"error"] isEqualToString:@"USER_DOESNOT_EXISTS"]) {
                     [hud hide:YES];
                     [self.navigationController popViewControllerAnimated:YES];
-                   // UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"User does not exist." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-                    //[errorAlertView show];
                     [RKDropdownAlert title:@"Knit" message:@"User doesn't exist." time:2];
                     return;
                 }
-              //  UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Incorrect OTP." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
                 [hud hide:YES];
-                //[errorAlertView show];
                 [RKDropdownAlert title:@"Knit" message:@"Incorrect OTP."  time:2];
-                
                 return;
             }];
         }
@@ -510,12 +460,6 @@
     [query fromLocalDatastore];
     array = [query findObjects];
     [PFObject unpinAllInBackground:array];
-    
-    /*
-    TSTabBarViewController *rootTab = (TSTabBarViewController *)((UINavigationController *)((AppDelegate *)[[UIApplication sharedApplication] delegate]).window.rootViewController).topViewController;
-    [(TSNewInboxViewController *)((NSArray *)rootTab.viewControllers[1]) deleteLocalData];
-    [(TSNewInboxViewController *)((NSArray *)rootTab.viewControllers[1]) deleteLocalData];
-    */
 }
 
 /*

@@ -331,8 +331,6 @@ if(section==0)
    }
     else{
         if (indexPath.row == 0 && indexPath.section==1) {
-            // Log out.
-            // [(TSTabBarViewController*)self.parentViewController.parentViewController logout];
             PFInstallation *currentInstallation=[PFInstallation currentInstallation];
             NSString *objectID=currentInstallation.objectId;
             NSLog(@"Object ID is %@",objectID);
@@ -344,20 +342,17 @@ if(section==0)
                 NSLog(@"Logging out...");
                 [[UIApplication sharedApplication] cancelAllLocalNotifications];
                 [hud hide:YES];
-                [(TSTabBarViewController*)self.parentViewController.parentViewController logout];
+                NSLog(@"print kar 1 : %@", self);
+                NSLog(@"print kar 2 : %@", self.parentViewController);
+                NSLog(@"print kar 3 : %@", self.parentViewController.parentViewController);
+                [(TSTabBarViewController*)self.tabBarController logout];
             } errorBlock:^(NSError *error) {
-              //  UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error occured on logging out. Try again later." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
                 [hud hide:YES];
-                //[errorAlertView show];
                 [RKDropdownAlert title:@"Knit" message:@"Error occured on logging out. Try again later."  time:2];
-
-            
             }];
         }
         
-        
-        if(indexPath.row==1 && indexPath.section==2)
-        {
+        if(indexPath.row==1 && indexPath.section==2) {
             UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Ok", nil];
             alert.frame=CGRectMake(0,0,500,500);
             alert.alertViewStyle = UIAlertViewStylePlainTextInput;
@@ -368,37 +363,22 @@ if(section==0)
         }
         
         
-        if(indexPath.row==0 && indexPath.section==0)
-        {
-            //[self performSegueWithIdentifier:@"profilePic" sender:self ];
+        if(indexPath.row==0 && indexPath.section==0) {
             UINavigationController *profile=[self.storyboard instantiateViewControllerWithIdentifier:@"profilePictureNavigation"];
             [self presentViewController:profile animated:NO completion:nil];
-            
-            
-            
         }
         
-        if(indexPath.row==0 && indexPath.section==2)
-        {
-            //faqNavigation
+        if(indexPath.row==0 && indexPath.section==2) {
             UINavigationController *faqNavigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"faqNavigation"];
-            
-              [self presentViewController:faqNavigationController animated:YES completion:nil];
-            
-            
+            [self presentViewController:faqNavigationController animated:YES completion:nil];
         }
         
-        if(indexPath.row==2 && indexPath.section==2)
-        {
+        if(indexPath.row==2 && indexPath.section==2) {
             NSString *iTunesLink = @"itms://itunes.apple.com/in/app/knit-messaging/id962112913?mt=8";
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:iTunesLink]];
-            
         }
     }
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-
-    
-
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue  {

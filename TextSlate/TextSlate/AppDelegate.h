@@ -14,7 +14,5 @@
 @property(strong,nonatomic) NSMutableArray *classArray;
 @property (strong, nonatomic) UINavigationController *startNav;
 
--(void)someFunc;
-
 @end
 

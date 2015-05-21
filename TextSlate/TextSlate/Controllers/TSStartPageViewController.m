@@ -7,6 +7,9 @@
 //
 
 #import "TSStartPageViewController.h"
+#import "TSSignUpViewController.h"
+#import "FindClassViewController.h"
+#import "SignInViewController.h"
 
 @interface TSStartPageViewController ()
 
@@ -73,22 +76,26 @@
 }
 
 -(void)loginTap:(UITapGestureRecognizer *)recognizer {
-    NSLog(@"login tapped");
+    SignInViewController *signUpVC = [self.storyboard instantiateViewControllerWithIdentifier:@"dualSignInVC"];
+    [self.navigationController pushViewController:signUpVC animated:YES];
 }
 
 
 -(void)teacherTap:(UITapGestureRecognizer *)recognizer {
-    NSLog(@"teacher tapped");
+    TSSignUpViewController *signUpVC = [self.storyboard instantiateViewControllerWithIdentifier:@"signUpVC"];
+    [self.navigationController pushViewController:signUpVC animated:YES];
 }
 
 
 -(void)studentTap:(UITapGestureRecognizer *)recognizer {
-    NSLog(@"student tapped");
+    FindClassViewController *findClass = [self.storyboard instantiateViewControllerWithIdentifier:@"findClassVC"];
+    [self.navigationController pushViewController:findClass animated:YES];
 }
 
 
 -(void)parentTap:(UITapGestureRecognizer *)recognizer {
-    NSLog(@"parent tapped");
+    FindClassViewController *findClass = [self.storyboard instantiateViewControllerWithIdentifier:@"findClassVC"];
+    [self.navigationController pushViewController:findClass animated:YES];
 }
 
 

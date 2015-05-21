@@ -53,12 +53,6 @@
     _codegroups = [[NSMutableDictionary alloc] init];
     self.tabBarController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editButtonSelected:)];
     [self.classesTable setEditing:NO animated:NO];
-    /*if (!self.classesTable.editing) {
-        self.tabBarController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editButtonSelected:)];
-    }
-    else {
-        self.tabBarController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(editButtonSelected:)];
-    }*/
     if(self.segmentedControl.selectedSegmentIndex==0)
         [_createOrJoinButton setTitle:@"+  Create Class" forState:UIControlStateNormal];
     else
@@ -140,11 +134,6 @@
     }
 }
 
-/*
--(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return UITableViewCellEditingStyleNone;
-}
- */
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
@@ -314,7 +303,6 @@
 -(void)deleteAllLocalMessages:(NSString *)classCode {
     PFQuery *query = [PFQuery queryWithClassName:@"GroupDetails"];
     [query fromLocalDatastore];
-    //[query whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
     [query whereKey:@"code" equalTo:classCode];
     
     NSArray *messages = [query findObjects];
@@ -325,7 +313,6 @@
 -(void)deleteAllLocalClassMembers:(NSString *)classCode {
     PFQuery *query = [PFQuery queryWithClassName:@"GroupMembers"];
     [query fromLocalDatastore];
-    //[query whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
     [query whereKey:@"code" equalTo:classCode];
     
     NSArray *appUsers = [query findObjects];
@@ -336,7 +323,6 @@
 -(void)deleteAllLocalMessageNeeders:(NSString *)classCode {
     PFQuery *query = [PFQuery queryWithClassName:@"Messageneeders"];
     [query fromLocalDatastore];
-    //[query whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
     [query whereKey:@"cod" equalTo:classCode];
     
     NSArray *messageNeeders = [query findObjects];
@@ -427,10 +413,10 @@
 */
 - (IBAction)buttonTapped:(id)sender {
     if(self.segmentedControl.selectedSegmentIndex==0) {
-        UINavigationController *createClassroomNavigationViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"startPageNavVC"];
-        [self presentViewController:createClassroomNavigationViewController animated:YES completion:nil];
-        /*UINavigationController *createClassroomNavigationViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"createNewClassNavigationController"];
+        /*UINavigationController *createClassroomNavigationViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"startPageNavVC"];
         [self presentViewController:createClassroomNavigationViewController animated:YES completion:nil];*/
+        UINavigationController *createClassroomNavigationViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"createNewClassNavigationController"];
+        [self presentViewController:createClassroomNavigationViewController animated:YES completion:nil];
     }
     else {
         UINavigationController *joinNewClassNavigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"joinNewClassViewController"];
