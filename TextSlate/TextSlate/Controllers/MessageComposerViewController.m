@@ -32,14 +32,12 @@
 @property (strong,nonatomic) UILabel *wordCount;
 @property (strong,nonatomic) NSDate *lastEntry;
 @property (strong,nonatomic) PFFile *finalAttachment;
-@property (strong,nonatomic) UITableView *recipientTable;
 @property (strong,nonatomic) NSMutableArray *createdClasses;
 @property (strong,nonatomic) NSMutableArray *createdclassName;
 @property (strong,nonatomic) NSMutableArray *createdclassCode;
 @property (strong,nonatomic) UIProgressView *progressBar;
 @property (strong,nonatomic) UIImageView *attachImage;
 @property (strong,nonatomic) UIButton *cancelAttachment;
-@property (weak, nonatomic) IBOutlet UIView *testView;
 @property (strong,nonatomic) NSString *classCode;
 @property (strong,nonatomic) NSString *className;
 @property (strong ,nonatomic) NSTimer *timer;
@@ -95,22 +93,14 @@
     _textMessage.clipsToBounds = YES;
     [_textMessage.layer setBackgroundColor: [[UIColor whiteColor] CGColor]];
     _hasTypedMessage = false;
-   // [_textMessage.layer setBorderColor: [[UIColor colorWithRed:38.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0] CGColor]];
     [_textMessage.layer setBorderColor:[[UIColor lightGrayColor] CGColor]];
     [_textMessage.layer setBorderWidth: 1.0];
     [_textMessage.layer setCornerRadius:0.0f];
     [_textMessage.layer setMasksToBounds:YES];
-//    _textMessage.layer.borderColor=[[UIColor colorWithRed:38.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0] CGColor];
     _recipient.delegate=self;
     _recipient.text=@"Tap to select Classroom";
     _recipient.textColor=[UIColor lightGrayColor];
     _recipient.font=[UIFont systemFontOfSize:14];
-    _recipientTable = [[UITableView alloc] initWithFrame:CGRectMake(0, 3, 320, 160) style:UITableViewStylePlain];
-    _recipientTable.delegate = self;
-    _recipientTable.dataSource = self;
-    _recipientTable.scrollEnabled = YES;
-    _recipientTable.hidden = YES;
-    self.testView.hidden=YES;
 
     _createdClasses=[[PFUser currentUser] objectForKey:@"Created_groups"];
     NSLog(@"object return %@",[_createdClasses objectAtIndex:0]);
@@ -149,17 +139,14 @@
 
 
 -(void)viewWillAppear:(BOOL)animated{
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(liftMainViewWhenKeybordAppears:) name:UIKeyboardWillShowNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(liftMainViewWhenKeybordHide:) name:UIKeyboardDidHideNotification object:nil];
-    [_recipient becomeFirstResponder];
 
+    
 }
 
 
 - (void)textViewDidBeginEditing:(UITextView *)textView
 {
     [textView becomeFirstResponder];
-    //if ([textView.text isEqualToString:@"Type Message here..."]) {
     if (!_hasTypedMessage) {
         textView.text = @"";
         textView.textColor = [UIColor blackColor]; //optional
@@ -168,9 +155,7 @@
     
     if([textView.text isEqualToString:@"Tap to select Classroom"])
     {
-        self.testView.hidden=NO;
-        self.recipientTable.hidden=NO;
-        [self.testView addSubview:_recipientTable];
+    
     }
     [textView becomeFirstResponder];
 }
@@ -230,9 +215,7 @@
             [RKDropdownAlert title:@"Knit" message:@"Oops! It seems you have not created any class.Please try again later." time:2];
         }
         else{
-    //[_recipient becomeFirstResponder];
-//    [_textMessage resignFirstResponder];
-        
+ 
             UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Choose class from here"
                                                                  delegate:self
                                                         cancelButtonTitle:nil
@@ -249,9 +232,7 @@
             actionSheet.cancelButtonIndex = [actionSheet addButtonWithTitle:@"Cancel"];
         
             [actionSheet showInView:self.view];
-     //   self.testView.hidden=NO;
-       // self.recipientTable.hidden=NO;
-        //[self.testView addSubview:_recipientTable];
+     
         }
 
     }
@@ -309,7 +290,6 @@
         _classCode=[_createdclassCode objectAtIndex:indexPath.row];
         NSLog(@"class code and name here is %@ %@",_classCode,_className);
     
-        self.testView.hidden=YES;
     }
 
 -(void)liftMainViewWhenKeybordHide:(NSNotification *)aNotification
