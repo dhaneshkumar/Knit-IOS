@@ -7,11 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "TSSignInViewController.h"
 
 @interface TSSignUpViewController : UIViewController<UITextFieldDelegate>
 
-@property (weak, nonatomic) TSSignInViewController *pViewController;
 @property (strong,nonatomic) NSString *findCode;
 
 @end

@@ -51,7 +51,7 @@
     _createdClasses = nil;
     _codegroups = nil;
     _codegroups = [[NSMutableDictionary alloc] init];
-    self.tabBarController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editButtonSelected:)];
+    //self.tabBarController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editButtonSelected:)];
     [self.classesTable setEditing:NO animated:NO];
     if(self.segmentedControl.selectedSegmentIndex==0)
         [_createOrJoinButton setTitle:@"+  Create Class" forState:UIControlStateNormal];

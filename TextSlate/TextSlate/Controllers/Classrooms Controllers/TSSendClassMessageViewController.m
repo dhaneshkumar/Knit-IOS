@@ -46,8 +46,6 @@
     _memListVC = nil;
     UIBarButtonItem *bb = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"back"] style:UIBarButtonItemStylePlain target:self action:@selector(backButtonTapped:)];
     [self.navigationItem setLeftBarButtonItem:bb];
-    UIBarButtonItem *composeBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose  target:self action:@selector(composeMessage)];
-    self.navigationItem.rightBarButtonItem = composeBarButtonItem;
     _shouldScrollUp = false;
     CGFloat navBarHeight = self.navigationController.navigationBar.frame.size.height;
     CGFloat navBarWidth = [self getScreenWidth] * 0.9;
@@ -79,6 +77,8 @@
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    UIBarButtonItem *composeBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose  target:self action:@selector(composeMessage)];
+    [self.navigationItem setRightBarButtonItem:composeBarButtonItem];
     [_messageTable reloadData];
 }
 

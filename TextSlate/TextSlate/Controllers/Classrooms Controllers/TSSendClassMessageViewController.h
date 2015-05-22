@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "JSQMessagesViewController.h"
 #import "TSClass.h"
 #import "JTSImageInfo.h"
 #import "JTSImageViewController.h"

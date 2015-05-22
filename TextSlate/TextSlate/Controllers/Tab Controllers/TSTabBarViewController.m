@@ -8,7 +8,6 @@
 
 #import "TSTabBarViewController.h"
 #import "TSCreateClassroomViewController.h"
-#import "TSSignInViewController.h"
 #import "ClassesViewController.h"
 #import "TSNewInboxViewController.h"
 #import "TSOutboxViewController.h"
