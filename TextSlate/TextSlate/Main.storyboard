@@ -768,7 +768,9 @@
                                     <constraint firstAttribute="height" constant="312" id="U89-S8-az0">
                                         <variation key="heightClass=regular-widthClass=compact" constant="155"/>
                                     </constraint>
-                                    <constraint firstAttribute="width" constant="400" id="gDM-0B-EVp"/>
+                                    <constraint firstAttribute="width" constant="400" id="gDM-0B-EVp">
+                                        <variation key="heightClass=regular-widthClass=compact" constant="400"/>
+                                    </constraint>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -845,6 +847,9 @@
                             <constraint firstItem="SfB-yg-zjd" firstAttribute="top" secondItem="lfo-vb-sIj" secondAttribute="top" id="aww-Rk-09L">
                                 <variation key="heightClass=regular-widthClass=compact" constant="8"/>
                             </constraint>
+                            <constraint firstAttribute="trailingMargin" secondItem="4xf-cd-a97" secondAttribute="trailing" constant="-9" id="dnp-tr-nWv">
+                                <variation key="heightClass=regular-widthClass=compact" constant="-16"/>
+                            </constraint>
                             <constraint firstAttribute="trailingMargin" secondItem="SfB-yg-zjd" secondAttribute="trailing" constant="-21" id="g1l-xb-t75">
                                 <variation key="heightClass=regular-widthClass=compact" constant="41"/>
                             </constraint>
@@ -877,21 +882,22 @@
                                 <exclude reference="Ffg-Cs-NDM"/>
                             </mask>
                             <mask key="constraints">
+                                <exclude reference="JAC-rg-Rcx"/>
                                 <exclude reference="3k4-ra-9yK"/>
                                 <exclude reference="jBp-Ak-RTq"/>
+                                <exclude reference="6x4-sj-4di"/>
+                                <exclude reference="aww-Rk-09L"/>
+                                <exclude reference="g1l-xb-t75"/>
+                                <exclude reference="nhC-w9-AQf"/>
                                 <exclude reference="0gx-nT-ZYj"/>
                                 <exclude reference="oNH-MJ-lad"/>
                                 <exclude reference="tnZ-6Q-f4y"/>
                                 <exclude reference="6Cw-vr-NW5"/>
                                 <exclude reference="Hha-yn-znr"/>
+                                <exclude reference="dnp-tr-nWv"/>
                                 <exclude reference="h3k-53-ip6"/>
                                 <exclude reference="hkg-Ac-Jwd"/>
                                 <exclude reference="x0Y-fy-kTx"/>
-                                <exclude reference="6x4-sj-4di"/>
-                                <exclude reference="aww-Rk-09L"/>
-                                <exclude reference="g1l-xb-t75"/>
-                                <exclude reference="nhC-w9-AQf"/>
-                                <exclude reference="JAC-rg-Rcx"/>
                             </mask>
                         </variation>
                         <variation key="widthClass=compact">
@@ -907,21 +913,22 @@
                                 <include reference="Ffg-Cs-NDM"/>
                             </mask>
                             <mask key="constraints">
+                                <include reference="JAC-rg-Rcx"/>
                                 <include reference="3k4-ra-9yK"/>
                                 <include reference="jBp-Ak-RTq"/>
+                                <include reference="6x4-sj-4di"/>
+                                <include reference="aww-Rk-09L"/>
+                                <include reference="g1l-xb-t75"/>
+                                <include reference="nhC-w9-AQf"/>
                                 <include reference="0gx-nT-ZYj"/>
                                 <include reference="oNH-MJ-lad"/>
                                 <include reference="tnZ-6Q-f4y"/>
                                 <include reference="6Cw-vr-NW5"/>
                                 <include reference="Hha-yn-znr"/>
+                                <include reference="dnp-tr-nWv"/>
                                 <include reference="h3k-53-ip6"/>
                                 <include reference="hkg-Ac-Jwd"/>
                                 <include reference="x0Y-fy-kTx"/>
-                                <include reference="6x4-sj-4di"/>
-                                <include reference="aww-Rk-09L"/>
-                                <include reference="g1l-xb-t75"/>
-                                <include reference="nhC-w9-AQf"/>
-                                <include reference="JAC-rg-Rcx"/>
                             </mask>
                         </variation>
                     </view>
