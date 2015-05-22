@@ -47,7 +47,6 @@
     _lastUpdateCalled = nil;
     _isUpdateSeenCountsCalled = false;
     _isILMCalled = false;
-    //_shouldScrollUp = false;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -83,6 +82,13 @@
         [self updateLikeCountStatusGlobally];
     if(!_isUpdateSeenCountsCalled)
         [self updateSeenCountsGlobally];
+}
+
+
+-(void)updateLikeConfuseCountsWhenAppGoesIntoBackground {
+    if(_isDirty)
+        [self updateLikeCountStatusGlobally];
+    return;
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {

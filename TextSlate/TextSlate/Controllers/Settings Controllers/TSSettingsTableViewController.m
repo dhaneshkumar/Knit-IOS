@@ -193,14 +193,10 @@ if(section==0)
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     
-        NSString *phoneNum=textField.text;
-        PFObject *current=[PFUser currentUser];
-        [current setObject:phoneNum forKey:@"phone"];
-        [current saveInBackground];
-        
-    
-    
-   
+    NSString *phoneNum=textField.text;
+    PFObject *current=[PFUser currentUser];
+    [current setObject:phoneNum forKey:@"phone"];
+    [current saveInBackground];
     [textField resignFirstResponder];
     return YES;
 }
@@ -330,9 +326,6 @@ if(section==0)
                 NSLog(@"Logging out...");
                 [[UIApplication sharedApplication] cancelAllLocalNotifications];
                 [hud hide:YES];
-                NSLog(@"print kar 1 : %@", self);
-                NSLog(@"print kar 2 : %@", self.parentViewController);
-                NSLog(@"print kar 3 : %@", self.parentViewController.parentViewController);
                 [(TSTabBarViewController*)self.tabBarController logout];
             } errorBlock:^(NSError *error) {
                 [hud hide:YES];

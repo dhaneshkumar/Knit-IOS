@@ -18,6 +18,7 @@
 #import "InviteParentViewController.h"
 #import "TSNewInboxViewController.h"
 #import "InviteParentViewController.h"
+#import "TSTabBarViewController.h"
 
 
 @interface AppDelegate ()
@@ -289,6 +290,18 @@
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
     NSLog(@"Application entered in background");
+    if([PFUser currentUser]) {
+        NSArray *vcs = _startNav.viewControllers;
+        TSTabBarViewController *tabBarVC;
+        for(id vc in vcs) {
+            if([vc isKindOfClass:[TSTabBarViewController class]]) {
+                tabBarVC = vc;
+                if(tabBarVC.selectedIndex == 1) {
+                
+                }
+            }
+        }
+    }
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
 }
