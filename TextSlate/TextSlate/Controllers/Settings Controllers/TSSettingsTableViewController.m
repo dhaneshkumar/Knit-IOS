@@ -32,14 +32,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [_settingsTableView reloadData]; 
-    
-//    _settingsTableView.ScrollIndicatorInsets = UIEdgeInsets(64, 0, 0, 0);
-    
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -111,8 +103,6 @@ if(section==0)
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"settingsCellIdentifier" forIndexPath:indexPath];
     if(indexPath.section==0)
     {
-        // UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
-        //imgView.contentMode = UIViewContentModeScaleAspectFill;
         CALayer * l = [cell.imageView layer];
         [l setMasksToBounds:YES];
         [l setCornerRadius:20.0];
@@ -140,9 +130,7 @@ if(section==0)
                         [_settingsTableView reloadData];
                     });
                 }
-                //else{
-                    //cell.imageView.image=[UIImage imageNamed:@"defaultTeacher.png"];
-                //}
+                
             });
         }
         UIButton * btn = [UIButton buttonWithType:UIButtonTypeRoundedRect];

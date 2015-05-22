@@ -42,9 +42,6 @@
     NSString *userNameTyped = [_emailText.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     if(userNameTyped.length==0) {
         [RKDropdownAlert title:@"Knit" message:@"Email field cannot be left blank."  time:2];
-        //UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Email field cannot be left blank." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-        //[errorAlertView show];
-        //[RKDropdownAlert title:@"Knit" message:@"Associate name field cannot be left blank." backgroundColor:[UIColor colorWithRed:255.0f/255.0f green:193.0f/255.0f blue:7.0f/255.0f alpha:1.0] textColor:[UIColor whiteColor] time:2];
         return;
     }
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -291,9 +288,7 @@
     array = [query findObjects];
     [PFObject unpinAllInBackground:array];
     
-    /*
-    TSTabBarViewController *rootTab = (TSTabBarViewController *)((UINavigationController *)((AppDelegate *)[[UIApplication sharedApplication] delegate]).window.rootViewController).topViewController;
-    [(TSNewInboxViewController *)((NSArray *)rootTab.viewControllers[1]) deleteLocalData];*/
+   
 }
 
 - (IBAction)tappedOutside:(UITapGestureRecognizer *)sender {

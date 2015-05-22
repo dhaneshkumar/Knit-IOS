@@ -115,13 +115,9 @@
 
     
     
-    //_textMessage.layer.borderColor=[[UIColor colorWithRed:38.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0] CGColor];
     
-    // Do any additional setup after loading the view.
-     
 }
 -(void)viewDidAppear:(BOOL)animated{
-    // [_textMessage becomeFirstResponder];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(liftMainViewWhenKeybordAppears:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(liftMainViewWhenKeybordHide:) name:UIKeyboardDidHideNotification object:nil];
     if(_isClass==true)
@@ -178,8 +174,6 @@
 -(void)textViewDidChange:(UITextView *)textView
 {
     int len = (int) 300-textView.text.length;
-//    _textMessage.text=[NSString stringWithFormat:@"%i",140-len];
-    NSLog(@"text length %i",len);
     NSString* count = [@(len) stringValue];
 
     _wordCount.text=count;
@@ -337,15 +331,11 @@
 -(IBAction)sendMessage:(id)sender  {
     NSLog(@"message send pressed");
     if([_recipient.text isEqualToString:@"Tap to select Classroom"]) {
-       // View *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Select a recipient class." delegaUIAlertte:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-        //[errorAlertView show];
           [RKDropdownAlert title:@"Knit" message:@"Select a recipient class." time:2];
         return;
     }
     if(!_hasTypedMessage || [self trimmedString:_textMessage.text].length==0) {
         if(!_finalAttachment) {
-           // UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Message without body or attachment cannot be sent." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-           // [errorAlertView show];
             [RKDropdownAlert title:@"Knit" message:@"Message without body or attachment cannot be sent."  time:2];
             return;
         }
@@ -403,19 +393,17 @@
                     classPage.shouldScrollUp = true;
                 }
             }
-            //UIAlertView *messageDialog = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Gaya bey!" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+            
             [hud hide:YES];
             [self dismissViewControllerAnimated:YES completion:nil];
-           // [messageDialog show];
             [RKDropdownAlert title:@"Knit" message:@"Message has been sent successfully."  time:2];
 
             
         } errorBlock:^(NSError *error) {
-           // UIAlertView *errorDialog = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error occurred in sending the message. Try again later." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+           
             [hud hide:YES];
             [RKDropdownAlert title:@"Knit" message:@"Error occureed while sending message.Try again later."  time:2];
 
-            //[errorDialog show];
         }];
     }
     else if(_finalAttachment)
@@ -488,24 +476,19 @@
                             }
                         }
                     });
-                    //UIAlertView *messageDialog = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Your message has been sent!" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+                    
                     [hud hide:YES];
                     [self dismissViewControllerAnimated:YES completion:nil];
-                    //[messageDialog show];
                     [RKDropdownAlert title:@"Knit" message:@"Your message has been sent!"  time:2];
 
                 } errorBlock:^(NSError *error) {
-                   // UIAlertView *errorDialog = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error occurred in sending the message. Try again later." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
                     [hud hide:YES];
-                  //  [errorDialog show];
                      [RKDropdownAlert title:@"Knit" message:@"Error occurred in sending the message. Try again later."  time:2];
                     
                 }];
             }
             else {
-                //UIAlertView *errorDialog = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error occurred in sending the message. Try again later." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
                 [hud hide:YES];
-                //[errorDialog show];
                 [RKDropdownAlert title:@"Knit" message:@"Error occurred in sending the message. Try again later." time:2];
             }
         }];

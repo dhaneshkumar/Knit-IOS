@@ -21,8 +21,7 @@
     [super viewDidLoad];
     self.navigationItem.title = @"Knit";
     self.navigationController.navigationBar.translucent = false;
-    //_assocNameTextField.delegate = self;
-    // Do any additional setup after loading the view.
+    
 }
 
 -(void)viewWillAppear:(BOOL)animated {

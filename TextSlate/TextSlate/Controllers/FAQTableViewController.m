@@ -22,10 +22,7 @@
     [super viewDidLoad];
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     [self.tableView reloadData];
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
     
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
 }
 
 -(void) viewDidAppear:(BOOL)animated {
@@ -35,10 +32,6 @@
     _answer=[[NSMutableArray alloc]init];
     [self getFaq];
     [self.tableView reloadData];
-    
-    
-    //self.navigationController.navigationBarHidden=NO;
-    //self.navigationItem.hidesBackButton=NO;
     
 }
 -(void)getFaq{
