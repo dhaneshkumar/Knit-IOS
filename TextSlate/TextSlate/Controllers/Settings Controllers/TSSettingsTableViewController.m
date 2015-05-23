@@ -70,7 +70,7 @@
     [_section3Content addObject:@"Feedback"];
     [_section3Content addObject:@"Rate Our App"];
     self.navigationController.title=@"Settings";
-    self.navigationController.navigationBarHidden=YES;
+    //self.navigationController.navigationBarHidden=NO;
     [_settingsTableView reloadData];
 }
 
