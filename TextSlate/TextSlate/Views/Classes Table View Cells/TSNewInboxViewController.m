@@ -20,10 +20,10 @@
 @property (strong, nonatomic) UIRefreshControl *refreshControl;
 @property (nonatomic) BOOL isBottomRefreshCalled;
 @property (assign) int messageFlag;
-@property (nonatomic) BOOL isDirty;
 @property (nonatomic) BOOL isUpdateSeenCountsCalled;
 @property (nonatomic) BOOL isILMCalled;
 @property (nonatomic, strong) MBProgressHUD *hud;
+
 
 @end
 
@@ -57,7 +57,6 @@
 
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    NSLog(@"Inbox viewDidAppear : %d", _messagesArray.count);
     if(_messagesArray.count>0 && _shouldScrollUp) {
         NSIndexPath *rowIndexPath = [NSIndexPath indexPathForRow:0 inSection:0];
         [self.messagesTable scrollToRowAtIndexPath:rowIndexPath atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
@@ -70,26 +69,18 @@
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    _isDirty = false;
     [_messagesTable reloadData];
 }
 
 
 -(void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    NSLog(@"View will disappear");
-    if(_isDirty)
+    if(![self isUpdateCountsGloballyCalled])
         [self updateLikeCountStatusGlobally];
     if(!_isUpdateSeenCountsCalled)
         [self updateSeenCountsGlobally];
 }
 
-
--(void)updateLikeConfuseCountsWhenAppGoesIntoBackground {
-    if(_isDirty)
-        [self updateLikeCountStatusGlobally];
-    return;
-}
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     if(_messagesArray.count>0) {
@@ -98,7 +89,6 @@
     }
     else {
         UILabel *messageLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
-        
         messageLabel.text = @"No messages.";
         messageLabel.textColor = [UIColor blackColor];
         messageLabel.numberOfLines = 0;
@@ -112,7 +102,6 @@
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    NSLog(@"Messages : %d", _messagesArray.count);
     return _messagesArray.count;
 }
 
@@ -192,7 +181,6 @@
         float changedHeight = 300.0;
         if(height<=width)
             changedHeight = 300.0*height/width;
-        //NSLog(@"changed height : %f", changedHeight);
         return expectSize.height+72+changedHeight;
     }
     else {
@@ -252,6 +240,31 @@
 }
 
 
+-(BOOL)isUpdateCountsGloballyCalled {
+    PFQuery *localQuery = [PFQuery queryWithClassName:@"defaultLocals"];
+    [localQuery fromLocalDatastore];
+    [localQuery whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
+    NSArray *objs = [localQuery findObjects];
+    if(objs[0][@"isUpdateCountsGloballyCalled"]) {
+        return [objs[0][@"isUpdateCountsGloballyCalled"] isEqualToString:@"true"] ? true: false;
+    }
+    else {
+        return false;
+    }
+}
+
+
+-(void)setUpdateCountsGloballyCalled:(NSString *)boolValue {
+    PFQuery *localQuery = [PFQuery queryWithClassName:@"defaultLocals"];
+    [localQuery fromLocalDatastore];
+    [localQuery whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
+    NSArray *objs = [localQuery findObjects];
+    objs[0][@"isUpdateCountsGloballyCalled"] = boolValue;
+    [objs[0] pin];
+    return;
+}
+
+
 -(BOOL)noJoinedClasses {
     NSArray *joinedClasses = [[PFUser currentUser] objectForKey:@"joined_groups"];
     if(joinedClasses.count == 0)
@@ -302,7 +315,6 @@
             NSMutableArray *tempArray = [[NSMutableArray alloc] initWithArray:_messagesArray];
             for(id element in enumerator) {
                 PFObject *messageObj = (PFObject *)element;
-                //messageObj[@"iosUserID"] = [PFUser currentUser].objectId;
                 messageObj[@"likeStatus"] = @"false";
                 messageObj[@"confuseStatus"] = @"false";
                 messageObj[@"likeStatusServer"] = @"false";
@@ -397,7 +409,7 @@
             if(_lastUpdateCalled) {
                 NSDate *date = [NSDate date];
                 NSTimeInterval ti = [date timeIntervalSinceDate:_lastUpdateCalled];
-                if(ti>300) {
+                if(ti>900) {
                     [self updateCountsLocally];
                 }
             }
@@ -412,7 +424,7 @@
         if(_lastUpdateCalled) {
             NSDate *date = [NSDate date];
             NSTimeInterval ti = [date timeIntervalSinceDate:_lastUpdateCalled];
-            if(ti>300) {
+            if(ti>900) {
                 [self updateCountsLocally];
             }
         }
@@ -440,7 +452,7 @@
     [_hud hide:YES];
     NSCharacterSet *characterset=[NSCharacterSet characterSetWithCharactersInString:@"\uFFFC\n "];
     for (PFObject * messageObject in messages) {
-        TSMessage *message = [[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:[messageObject[@"title"] stringByTrimmingCharactersInSet:characterset] sender:messageObject[@"Creator"] sentTime:messageObject.createdAt senderPic:messageObject[@"senderPic"] likeCount:([messageObject[@"like_count"] intValue]+[self adder:messageObject[@"likeStatusServer"] localStatus:messageObject[@"likeStatus"]]) confuseCount:([messageObject[@"confused_count"] intValue] + [self adder:messageObject[@"confuseStatusServer"] localStatus:messageObject[@"confuseStatus"]]) seenCount:0];
+        TSMessage *message = [[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:[messageObject[@"title"] stringByTrimmingCharactersInSet:characterset] sender:messageObject[@"Creator"] sentTime:messageObject.createdAt senderPic:messageObject[@"senderPic"] likeCount:([messageObject[@"like_count"] intValue]+[self adder:messageObject[@"likeStatusServer"] localStatus:messageObject[@"likeStatus"]]) confuseCount:([messageObject[@"confused_count"] intValue]+[self adder:messageObject[@"confuseStatusServer"] localStatus:messageObject[@"confuseStatus"]]) seenCount:0];
         message.likeStatus = messageObject[@"likeStatus"];
         message.confuseStatus = messageObject[@"confuseStatus"];
         message.messageId = messageObject[@"messageId"];
@@ -741,7 +753,7 @@
             dispatch_sync(dispatch_get_main_queue(), ^{
                 [self.messagesTable reloadData];
             });
-            NSLog(@"new old messages : %d", _messagesArray.count);
+            NSLog(@"new old messages : %lu", (unsigned long)_messagesArray.count);
             PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
             [lq fromLocalDatastore];
             [lq whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
@@ -769,15 +781,14 @@
             for(NSString *messageObjectId in messageObjects) {
                 PFQuery *query = [PFQuery queryWithClassName:@"GroupDetails"];
                 [query fromLocalDatastore];
-                //[query whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
                 [query whereKey:@"messageId" equalTo:messageObjectId];
                 NSArray *msgs = (NSArray *)[query findObjects];
                 PFObject *msg = (PFObject *)msgs[0];
                 msg[@"like_count"] = ((NSArray *)messageObjects[messageObjectId])[1];
                 msg[@"confused_count"] = ((NSArray *)messageObjects[messageObjectId])[2];
                 [msg pinInBackground];
-                ((TSMessage *)_mapCodeToObjects[messageObjectId]).likeCount = [msg[@"like_count"] intValue];
-                ((TSMessage *)_mapCodeToObjects[messageObjectId]).confuseCount = [msg[@"confused_count"] intValue];
+                ((TSMessage *)_mapCodeToObjects[messageObjectId]).likeCount = [msg[@"like_count"] intValue]+[self adder:msg[@"likeStatusServer"] localStatus:msg[@"likeStatus"]];
+                ((TSMessage *)_mapCodeToObjects[messageObjectId]).confuseCount = [msg[@"confused_count"] intValue]+[self adder:msg[@"confuseStatusServer"] localStatus:msg[@"confuseStatus"]];
             }
         });
     } errorBlock:^(NSError *error) {
@@ -785,7 +796,7 @@
     }];
 }
 
-
+/*
 -(void)updateLikeCountStatusGlobally {
     NSLog(@"updateLikeConfuseCountsCalled");
     NSArray *tempArray = [[NSArray alloc] initWithArray:_messagesArray];
@@ -830,6 +841,68 @@
         }
     });
 }
+*/
+
+
+
+-(void)updateLikeCountStatusGlobally {
+    [self setUpdateCountsGloballyCalled:@"true"];
+    NSArray *tempArray = [[NSArray alloc] initWithArray:_messageIds];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
+        NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+        NSMutableArray *messageIds = [[NSMutableArray alloc] init];
+        for(int i=0; i<tempArray.count; i++) {
+            PFQuery *query = [PFQuery queryWithClassName:@"GroupDetails"];
+            [query fromLocalDatastore];
+            [query whereKey:@"messageId" equalTo:tempArray[i]];
+            PFObject *obj = ((NSArray *)[query findObjects])[0];
+            
+            if([obj[@"likeStatus"] isEqualToString:obj[@"likeStatusServer"]] && [obj[@"confuseStatus"] isEqualToString:obj[@"confuseStatusServer"]]) {
+            }
+            else {
+                int like_sts = [self adder:obj[@"likeStatusServer"] localStatus:obj[@"likeStatus"]];
+                int confuse_sts = [self adder:obj[@"confuseStatusServer"] localStatus:obj[@"confuseStatus"]];
+                if(like_sts!=0 || confuse_sts!=0) {
+                    dict[tempArray[i]] = @[[NSNumber numberWithInt:like_sts], [NSNumber numberWithInt:confuse_sts]];
+                    [messageIds addObject:tempArray[i]];
+                }
+            }
+        }
+        
+        if(dict.count>0) {
+            [Data updateLikeConfuseCountsGlobally:messageIds dict:dict successBlock:^(id object) {
+                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
+                    for(int i=0; i<messageIds.count; i++) {
+                        PFQuery *query = [PFQuery queryWithClassName:@"GroupDetails"];
+                        [query fromLocalDatastore];
+                        [query whereKey:@"messageId" equalTo:messageIds[i]];
+                        PFObject *obj = ((NSArray *)[query findObjects])[0];
+                        if([((NSArray*)dict[messageIds[i]])[0] intValue] == 1) {
+                            obj[@"likeStatusServer"] = @"true";
+                        }
+                        else if([((NSArray*)dict[messageIds[i]])[0] intValue] == -1) {
+                            obj[@"likeStatusServer"] = @"false";
+                        }
+                        if([((NSArray*)dict[messageIds[i]])[1] intValue] == 1) {
+                            obj[@"confuseStatusServer"] = @"true";
+                        }
+                        else if([((NSArray*)dict[messageIds[i]])[1] intValue] == -1) {
+                            obj[@"confuseStatusServer"] = @"false";
+                        }
+                        [obj pinInBackground];
+                    }
+                    [self setUpdateCountsGloballyCalled:@"false"];
+                });
+            } errorBlock:^(NSError *error) {
+                NSLog(@"Unable to fetch inbox messages when pulled up to refresh: %@", [error description]);
+                [self setUpdateCountsGloballyCalled:@"false"];
+            }];
+        }
+        else {
+            [self setUpdateCountsGloballyCalled:@"false"];
+        }
+    });
+}
 
 
 -(void)updateSeenCountsGlobally {
@@ -841,7 +914,6 @@
         for(int i=0; i<tempArray.count; i++) {
             PFQuery *query = [PFQuery queryWithClassName:@"GroupDetails"];
             [query fromLocalDatastore];
-            //[query whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
             [query whereKey:@"messageId" equalTo:((TSMessage *)tempArray[i]).messageId];
             PFObject *obj = ((NSArray *)[query findObjects])[0];
             
@@ -872,24 +944,38 @@
 
 
 -(void)updateLikesDataFromCell:(int)row status:(NSString *)status {
-    _isDirty = true;
     TSMessage *message = (TSMessage *)_messagesArray[row];
     message.likeStatus = status;
     if([status isEqualToString:@"true"])
         message.likeCount++;
     else
         message.likeCount--;
+    PFQuery *query = [PFQuery queryWithClassName:@"GroupDetails"];
+    [query fromLocalDatastore];
+    [query whereKey:@"messageId" equalTo:message.messageId];
+    
+    PFObject *obj = ((NSArray *)[query findObjects])[0];
+    obj[@"likeStatus"] = message.likeStatus;
+    obj[@"confuseStatus"] = message.confuseStatus;
+    [obj pinInBackground];
 }
 
 
 -(void)updateConfuseDataFromCell:(int)row status:(NSString *)status {
-    _isDirty = true;
     TSMessage *message = (TSMessage *)_messagesArray[row];
     message.confuseStatus = status;
     if([status isEqualToString:@"true"])
         message.confuseCount++;
     else
         message.confuseCount--;
+    PFQuery *query = [PFQuery queryWithClassName:@"GroupDetails"];
+    [query fromLocalDatastore];
+    [query whereKey:@"messageId" equalTo:message.messageId];
+    
+    PFObject *obj = ((NSArray *)[query findObjects])[0];
+    obj[@"likeStatus"] = message.likeStatus;
+    obj[@"confuseStatus"] = message.confuseStatus;
+    [obj pinInBackground];
 }
 
 
@@ -902,7 +988,6 @@
 
 
 -(void)attachedImageTapped:(JTSImageInfo *)imageInfo {
-    NSLog(@"aaya kya yaha");
     imageInfo.referenceView = self.view;
     // Setup view controller
     JTSImageViewController *imageViewer = [[JTSImageViewController alloc]
@@ -917,7 +1002,6 @@
 -(CGFloat) getScreenWidth {
     CGRect screenRect = [[UIScreen mainScreen] bounds];
     CGFloat screenWidth = screenRect.size.width;
-    NSLog(@"screen width : %f", screenWidth);
     return screenWidth;
 }
 

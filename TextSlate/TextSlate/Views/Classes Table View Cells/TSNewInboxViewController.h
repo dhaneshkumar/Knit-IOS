@@ -23,7 +23,7 @@
 @property (nonatomic) BOOL newMessage;
 
 
--(void)updateLikeConfuseCountsWhenAppGoesIntoBackground;
+//-(void)updateLikeConfuseCountsWhenAppGoesIntoBackground;
 -(void)updateLikesDataFromCell:(int)row status:(NSString *)status;
 -(void)updateConfuseDataFromCell:(int)row status:(NSString *)status;
 -(void)attachedImageTapped:(JTSImageInfo *)imageInfo;

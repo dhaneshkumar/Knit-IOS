@@ -35,6 +35,7 @@
     [TSUtils applyRoundedCorners:_joinNewClass];
     [[_joinNewClass layer] setBorderWidth:0.5f];
     [[_joinNewClass layer] setBorderColor:[[UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0] CGColor]];
+    _joinedClassVCs = [[NSMutableDictionary alloc] init];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -100,30 +101,19 @@
 
     
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-}
-
-/*
--(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return UITableViewCellEditingStyleNone;
-}
-*/
-
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        [self showAreYouSureAlertView:indexPath];
+    int row = indexPath.row;
+    if([_joinedClassVCs objectForKey:_joinedClasses[row][0]]) {
+        JoinedClassTableViewController *dvc = (JoinedClassTableViewController *)[_joinedClassVCs objectForKey:_joinedClasses[row][0]];
+        [self.navigationController pushViewController:dvc animated:YES];
     }
-}
-
-
--(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if([segue.identifier isEqualToString:@"joinedClassesParent"]) {
-        int row = [[self.classesTable indexPathForSelectedRow] row];
-        JoinedClassTableViewController *dvc = (JoinedClassTableViewController *)segue.destinationViewController;
+    else {
+        JoinedClassTableViewController *dvc = (JoinedClassTableViewController *)[self.storyboard instantiateViewControllerWithIdentifier:@"joinedClassVC"];
+        [_joinedClassVCs setObject:dvc forKey:_joinedClasses[row][0]];
         PFObject *codegroup = [_codegroups objectForKey:_joinedClasses[row][0]];
         dvc.className = codegroup[@"name"];
         dvc.classCode = codegroup[@"code"];
         dvc.teacherName = codegroup[@"Creator"];
+        
         PFFile *attachImageUrl = codegroup[@"senderPic"];
         
         if(attachImageUrl) {
@@ -161,17 +151,26 @@
             dvc.associatedName = [[PFUser currentUser] objectForKey:@"name"];
         else
             dvc.associatedName = _joinedClasses[row][2];
+        [self.navigationController pushViewController:dvc animated:YES];
     }
-    [self.classesTable deselectRowAtIndexPath:[self.classesTable indexPathForSelectedRow] animated:YES];
-    return;
+}
+
+/*
+-(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return UITableViewCellEditingStyleNone;
+}
+*/
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        [self showAreYouSureAlertView:indexPath];
+    }
 }
 
 
 -(void)fillDataModel {
     NSMutableArray *joinedClassCodes = [[NSMutableArray alloc] init];
     _joinedClasses = (NSMutableArray *)[[PFUser currentUser] objectForKey:@"joined_groups"];
-    
-    NSLog(@"joined class length : %d", _joinedClasses.count);
     
     for(NSArray *joinedcl in _joinedClasses)
         [joinedClassCodes addObject:joinedcl[0]];
