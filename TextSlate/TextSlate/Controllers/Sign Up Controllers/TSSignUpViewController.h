@@ -10,6 +10,6 @@
 
 @interface TSSignUpViewController : UIViewController<UITextFieldDelegate>
 
-@property (strong,nonatomic) NSString *findCode;
+@property (strong,nonatomic) NSString *role;
 
 @end

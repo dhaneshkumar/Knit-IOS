@@ -73,7 +73,7 @@
     if(assocNameTyped.length == 0) {
 //        UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"The associate name field cannot be left blank." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
 //        [errorAlertView show];
-        [RKDropdownAlert title:@"Knit" message:@"The associate name field cannot be left empty." time:2];
+        [RKDropdownAlert title:@"Knit" message:@"The student's name field cannot be left empty." time:2];
         return;
     }
     

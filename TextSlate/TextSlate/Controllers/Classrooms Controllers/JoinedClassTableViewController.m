@@ -9,8 +9,8 @@
 #import "JoinedClassTableViewController.h"
 #import "teacherDetailsTableViewCell.h"
 #import "classDetailsTableViewCell.h"
-#import "associatedNameTableViewCell.h"
-#import "EditAsscoNameViewController.h"
+#import "studentNameTableViewCell.h"
+#import "EditStudentNameViewController.h"
 #import "Data.h"
 #import "MBProgressHUD.h"
 #import "RKDropdownAlert.h"
@@ -46,7 +46,6 @@
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    //NSLog(@"VWA : %@", _associatedName);
 }
 
 #pragma mark - Table view data source
@@ -104,8 +103,8 @@
             return cell;
         }
         else if(indexPath.row==1) {
-            associatedNameTableViewCell *cell = (associatedNameTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"associatedName"];
-            cell.associatedNameOutlet.text = [NSString stringWithFormat:@"Associated Name: %@", _associatedName];
+            studentNameTableViewCell *cell = (studentNameTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"studentName"];
+            cell.studentNameOutlet.text = [NSString stringWithFormat:@"Student's Name: %@", _studentName];
             return cell;
         }
         else {
@@ -124,11 +123,11 @@
     }
     else if(indexPath.section==1) {
         if(indexPath.row==1) {
-            UINavigationController *editAssocNameNavigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"editAssocNameNav"];
-            EditAsscoNameViewController *editAssocName = (EditAsscoNameViewController *)editAssocNameNavigationController.topViewController;
-            editAssocName.assocName = _associatedName;
-            editAssocName.classCode = _classCode;
-            [self presentViewController:editAssocNameNavigationController animated:YES completion:nil];
+            UINavigationController *editStudentNameNavigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"editStudentNameNav"];
+            EditStudentNameViewController *editStudentName = (EditStudentNameViewController *)editStudentNameNavigationController.topViewController;
+            editStudentName.studentName = _studentName;
+            editStudentName.classCode = _classCode;
+            [self presentViewController:editStudentNameNavigationController animated:YES completion:nil];
         }
         else if(indexPath.row==2) {
             [self showAreYouSureAlertView];
@@ -175,11 +174,11 @@
 }
 
 
--(void)updateAssociatedName:(NSString *)assocName {
-    _associatedName = assocName;
+-(void)updateStudentName:(NSString *)studentName {
+    _studentName = studentName;
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:1 inSection:1];
-    associatedNameTableViewCell *cell = (associatedNameTableViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
-    cell.associatedNameOutlet.text = [NSString stringWithFormat:@"Associated Name: %@", _associatedName];;
+    studentNameTableViewCell *cell = (studentNameTableViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+    cell.studentNameOutlet.text = [NSString stringWithFormat:@"Student's Name: %@", _studentName];
 }
 
 

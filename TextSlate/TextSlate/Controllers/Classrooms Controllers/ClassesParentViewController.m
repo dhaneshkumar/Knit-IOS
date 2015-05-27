@@ -48,7 +48,6 @@
     _joinedClasses = nil;
     _codegroups = nil;
     _codegroups = [[NSMutableDictionary alloc] init];
-    self.tabBarController.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editButtonSelected:)];
     if([PFUser currentUser]){
         [self fillDataModel];
     }
@@ -86,17 +85,6 @@
     PFObject *codegroup = [_codegroups objectForKey:_joinedClasses[indexPath.row][0]];
     cell.detailTextLabel.text = [NSString stringWithFormat:@"by %@", codegroup[@"Creator"]];
     return cell;
-}
-
-- (void) editButtonSelected: (id) sender {
-    if (self.classesTable.editing) {
-        self.tabBarController.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editButtonSelected:)];
-        [self.classesTable setEditing:NO animated:YES];
-    } else {
-        self.tabBarController.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(editButtonSelected:)];
-        [self.classesTable setEditing:YES animated:YES];
-        
-    }
 }
 
     
@@ -148,9 +136,9 @@
             dvc.teacherPic = [UIImage imageNamed:@"defaultTeacher.png"];
         }
         if(((NSArray *)_joinedClasses[row]).count==2)
-            dvc.associatedName = [[PFUser currentUser] objectForKey:@"name"];
+            dvc.studentName = [[PFUser currentUser] objectForKey:@"name"];
         else
-            dvc.associatedName = _joinedClasses[row][2];
+            dvc.studentName = _joinedClasses[row][2];
         [self.navigationController pushViewController:dvc animated:YES];
     }
 }
@@ -160,12 +148,6 @@
     return UITableViewCellEditingStyleNone;
 }
 */
-
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        [self showAreYouSureAlertView:indexPath];
-    }
-}
 
 
 -(void)fillDataModel {
@@ -210,79 +192,6 @@
     return;
 }
 
-
--(void)leaveClass:(NSString *)classCode {
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
-    hud.labelText = @"Loading";
-    
-    [Data leaveClass:classCode successBlock:^(id object) {
-        //[self deleteAllLocalMessages:classCode];
-        //[self deleteLocalCodegroupEntry:classCode];
-        [[PFUser currentUser] fetch];
-        [hud hide:YES];
-    } errorBlock:^(NSError *error) {
-        UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error occured in leaving the class." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-        [hud hide:YES];
-        [errorAlertView show];
-    }];
-}
-
-
--(void)deleteAllLocalMessages:(NSString *)classCode {
-    PFQuery *query = [PFQuery queryWithClassName:@"GroupDetails"];
-    [query fromLocalDatastore];
-    //[query whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
-    [query whereKey:@"code" equalTo:classCode];
-    
-    NSArray *messages = [query findObjects];
-    [PFObject unpinAllInBackground:messages];
-    return;
-}
-
-
--(void)deleteLocalCodegroupEntry:(NSString *)classCode {
-    PFQuery *query = [PFQuery queryWithClassName:@"Codegroup"];
-    [query fromLocalDatastore];
-    //[query whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
-    [query whereKey:@"code" equalTo:classCode];
-    
-    NSArray *messages = [query findObjects];
-    [PFObject unpinAllInBackground:messages];
-    return;
-}
-
-
--(void)showAreYouSureAlertView:(NSIndexPath *)indexPath {
-    UIAlertController * alert =   [UIAlertController
-                                   alertControllerWithTitle:@"Knit"
-                                   message:@"Are you sure?"
-                                   preferredStyle:UIAlertControllerStyleAlert];
-    
-    UIAlertAction* yes = [UIAlertAction
-                          actionWithTitle:@"YES"
-                          style:UIAlertActionStyleDefault
-                          handler:^(UIAlertAction * action)
-                          {
-                              NSString *classCode=_joinedClasses[indexPath.row][0];
-                              [_joinedClasses removeObjectAtIndex:indexPath.row];
-                              [self leaveClass:classCode];
-                              [self.classesTable deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-                              NSLog(@"Leave Joined classes");
-                              
-                          }];
-    UIAlertAction* no = [UIAlertAction
-                         actionWithTitle:@"NO"
-                         style:UIAlertActionStyleDefault
-                         handler:^(UIAlertAction * action)
-                         {
-                             
-                         }];
-    
-    [alert addAction:yes];
-    [alert addAction:no];
-    [self presentViewController:alert animated:YES completion:nil];
-}
 
 /*
 - (IBAction)buttonTapped:(id)sender {

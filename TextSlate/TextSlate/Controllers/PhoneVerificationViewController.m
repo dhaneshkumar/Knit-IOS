@@ -69,16 +69,8 @@
             hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
             hud.labelText = @"Loading";
 
-            if(_parent==true)
-            {
-                _role=@"parent";
-            }
-            else{
-                _role=@"teacher";
-            }
-            
             NSInteger verificationCode = [_codeText.text integerValue];
-            [Data verifyOTPSignUp:_phoneNumber code:verificationCode modal:_modal os:_osVersion name:_nameText role:_role sex:_sex successBlock:^(id object){
+            [Data verifyOTPSignUp:_phoneNumber code:verificationCode modal:_modal os:_osVersion name:_nameText role:_role sex:@"damor" successBlock:^(id object){
                 NSDictionary *tokenDict=[[NSDictionary alloc]init];
                 tokenDict=object;
                 NSString *flagString=[tokenDict objectForKey:@"flag"];
@@ -108,25 +100,13 @@
                                 TSTabBarViewController *rootTab = (TSTabBarViewController *)rootNav.topViewController;
 
                                 if([_role isEqualToString:@"parent"])
-                                    [(TSTabBarViewController *)rootNav.topViewController makeItParent];
+                                    [rootTab makeItParent];
                                 else
-                                    [(TSTabBarViewController *)rootNav.topViewController makeItTeacher];
+                                    [rootTab makeItTeacher];
                                 
                                 [hud hide:YES];
                                 
-                                if(_isFindClass) {
-                                    ClassesParentViewController *cpVC = (ClassesParentViewController *)rootTab.viewControllers[0];
-                                    [self dismissViewControllerAnimated:YES completion:^{
-                                        UINavigationController *joinNewClassNavigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"joinNewClassViewController"];
-                                        TSJoinNewClassViewController *jj = (TSJoinNewClassViewController *)joinNewClassNavigationController.topViewController;
-                                        jj.isfindClass = true;
-                                        jj.classCode = _foundClassCode;
-                                        [cpVC presentViewController:joinNewClassNavigationController animated:YES completion:nil];
-                                    }];
-                                }
-                                else {
-                                    [self dismissViewControllerAnimated:YES completion:nil];
-                                }
+                                [self dismissViewControllerAnimated:YES completion:nil];
                                 
                                 if([_role isEqualToString:@"parent"]){
                                     UILocalNotification *localNotification = [[UILocalNotification alloc] init];
@@ -181,10 +161,7 @@
                 NSLog(@"error : %@", error);
                 if([[((NSDictionary *)error.userInfo) objectForKey:@"error"] isEqualToString:@"USER_ALREADY_EXISTS"]) {
                     [hud hide:YES];
-                    if(_isFindClass)
-                        [self.navigationController popViewControllerAnimated:YES];
-                    else
-                        [self dismissViewControllerAnimated:YES completion:nil];
+                    [self dismissViewControllerAnimated:YES completion:nil];
                     [RKDropdownAlert title:@"Knit" message:@"User already exists."  time:2];
                     return;
                 }
@@ -400,15 +377,6 @@
     return YES;
 }
 
--(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    
-    if ([segue.identifier isEqualToString:@"tabBar"]) {
-        NSLog(@"Performing Segue");
-        UINavigationController *nav = [segue destinationViewController];
-        TSTabBarViewController *dvc = (TSTabBarViewController*)nav.topViewController;
-    }
-    
-}
 
 -(void)createLocalDatastore {
     PFObject *locals = [[PFObject alloc] initWithClassName:@"defaultLocals"];

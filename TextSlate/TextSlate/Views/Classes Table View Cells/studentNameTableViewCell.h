@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface associatedNameTableViewCell : UITableViewCell
+@interface studentNameTableViewCell : UITableViewCell
 
-@property (weak, nonatomic) IBOutlet UILabel *associatedNameOutlet;
+@property (weak, nonatomic) IBOutlet UILabel *studentNameOutlet;
 @end

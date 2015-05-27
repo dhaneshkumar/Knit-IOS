@@ -176,18 +176,11 @@
                 dvc.teacherPic = [UIImage imageNamed:@"defaultTeacher.png"];
             }
             if(((NSArray *)_joinedClasses[row]).count==2)
-                dvc.associatedName = [[PFUser currentUser] objectForKey:@"name"];
+                dvc.studentName = [[PFUser currentUser] objectForKey:@"name"];
             else
-                dvc.associatedName = _joinedClasses[row][2];
+                dvc.studentName = _joinedClasses[row][2];
             [self.navigationController pushViewController:dvc animated:YES];
         }
-    }
-}
-
-
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        [self showAreYouSureAlertView:self.segmentedControl.selectedSegmentIndex indexPath:indexPath];
     }
 }
 
@@ -251,128 +244,6 @@
 
 //Add parameters here rather than in data.m
 //Change it to leave there in table cell
-
--(void)leaveClass:(NSString *)classCode {
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
-    hud.labelText = @"Loading";
-
-    [Data leaveClass:classCode successBlock:^(id object) {
-        //[self deleteAllLocalMessages:classCode];
-        //[self deleteLocalCodegroupEntry:classCode];
-        [[PFUser currentUser] fetch];
-        [hud hide:YES];
-        //[self.classesTable reloadData];
-        //[self.navigationController popViewControllerAnimated:YES];
-    } errorBlock:^(NSError *error) {
-        UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error occured in leaving the class." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-        [hud hide:YES];
-        [errorAlertView show];
-    }];
-}
-
-
--(void)deleteClass:(NSString *)classCode {
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
-    hud.labelText = @"Loading";
-
-    [Data deleteClass:classCode successBlock:^(id object) {
-        //[self deleteAllLocalMessages:classCode];
-        //[self deleteAllLocalClassMembers:classCode];
-        //[self deleteAllLocalMessageNeeders:classCode];
-        //[self deleteLocalCodegroupEntry:classCode];
-        [[PFUser currentUser] fetch];
-        [hud hide:YES];
-        //[self.classesTable reloadData];
-        //[self.navigationController popViewControllerAnimated:YES];
-    } errorBlock:^(NSError *error) {
-        UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error occured in deleting the class." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-        [hud hide:YES];
-        [errorAlertView show];
-    }];
-}
-
--(void)deleteAllLocalMessages:(NSString *)classCode {
-    PFQuery *query = [PFQuery queryWithClassName:@"GroupDetails"];
-    [query fromLocalDatastore];
-    [query whereKey:@"code" equalTo:classCode];
-    
-    NSArray *messages = [query findObjects];
-    [PFObject unpinAllInBackground:messages];
-    return;
-}
-
--(void)deleteAllLocalClassMembers:(NSString *)classCode {
-    PFQuery *query = [PFQuery queryWithClassName:@"GroupMembers"];
-    [query fromLocalDatastore];
-    [query whereKey:@"code" equalTo:classCode];
-    
-    NSArray *appUsers = [query findObjects];
-    [PFObject unpinAllInBackground:appUsers];
-    return;
-}
-
--(void)deleteAllLocalMessageNeeders:(NSString *)classCode {
-    PFQuery *query = [PFQuery queryWithClassName:@"Messageneeders"];
-    [query fromLocalDatastore];
-    [query whereKey:@"cod" equalTo:classCode];
-    
-    NSArray *messageNeeders = [query findObjects];
-    [PFObject unpinAllInBackground:messageNeeders];
-    return;
-}
-
--(void)deleteLocalCodegroupEntry:(NSString *)classCode {
-    PFQuery *query = [PFQuery queryWithClassName:@"Codegroup"];
-    [query fromLocalDatastore];
-    //[query whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
-    [query whereKey:@"code" equalTo:classCode];
-    
-    NSArray *messages = [query findObjects];
-    [PFObject unpinAllInBackground:messages];
-    return;
-}
-
--(void)showAreYouSureAlertView:(int)segment indexPath:(NSIndexPath *)indexPath {
-    UIAlertController * alert =   [UIAlertController
-                                   alertControllerWithTitle:@"Knit"
-                                   message:@"Are you sure?"
-                                   preferredStyle:UIAlertControllerStyleAlert];
-    
-    UIAlertAction* yes = [UIAlertAction
-                          actionWithTitle:@"YES"
-                          style:UIAlertActionStyleDefault
-                          handler:^(UIAlertAction * action)
-                          {
-                              if(segment == 0) {
-                                  NSString *classCode=_createdClasses[indexPath.row][0];
-                                  [_createdClasses removeObjectAtIndex:indexPath.row];
-                                  [self deleteClass:classCode];
-                                  [self.classesTable deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-                                  NSLog(@"Delete Created classes");
-                              }
-                              else {
-                                  NSString *classCode=_joinedClasses[indexPath.row][0];
-                                  [_joinedClasses removeObjectAtIndex:indexPath.row];
-                                  [self leaveClass:classCode];
-                                  [self.classesTable deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-                                  NSLog(@"Leave Joined classes");
-                              }
-                          }];
-    UIAlertAction* no = [UIAlertAction
-                         actionWithTitle:@"NO"
-                         style:UIAlertActionStyleDefault
-                         handler:^(UIAlertAction * action)
-                         {
-                             
-                         }];
-    
-    [alert addAction:yes];
-    [alert addAction:no];
-    [self presentViewController:alert animated:YES completion:nil];
-}
-
 
 /*
 -(void)deleteFunction {

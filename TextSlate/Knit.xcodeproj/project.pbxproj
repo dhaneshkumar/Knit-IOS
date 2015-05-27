@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		2A64CE101386DA8DF13DFEDA /* libPods-Knit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 92F296F2593AFC26685698B2 /* libPods-Knit.a */; };
-		402A813E1AD45186002299C1 /* FindClassViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 402A813D1AD45186002299C1 /* FindClassViewController.m */; };
 		4038D4261AC6C62200E9009A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4038D4251AC6C62200E9009A /* Main.storyboard */; };
 		403FFF0E1ABB0071008FB159 /* MessageComposerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 403FFF0D1ABB0071008FB159 /* MessageComposerViewController.m */; };
 		403FFF121ABB5BEC008FB159 /* InviteParentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 403FFF111ABB5BEC008FB159 /* InviteParentViewController.m */; };
@@ -22,7 +21,6 @@
 		408863721AF0272400DCF61B /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 408863711AF0272400DCF61B /* Social.framework */; };
 		408863741AF0273B00DCF61B /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 408863731AF0273B00DCF61B /* Accounts.framework */; };
 		40A9FC831AC42C0900082555 /* attach_30x30.png in Resources */ = {isa = PBXBuildFile; fileRef = 40A9FC801AC42C0900082555 /* attach_30x30.png */; };
-		40AA7F971AD8447B0000255C /* FindClassSignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 40AA7F961AD8447B0000255C /* FindClassSignUpViewController.m */; };
 		40BB899B1AC431D3002CFDFE /* attachcancel.png in Resources */ = {isa = PBXBuildFile; fileRef = 40BB89991AC431D3002CFDFE /* attachcancel.png */; };
 		40BB89A01AC4992C002CFDFE /* InviteTeacherViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 40BB899F1AC4992C002CFDFE /* InviteTeacherViewController.m */; };
 		40C741581AC6A970007AA844 /* ios icons-18.png in Resources */ = {isa = PBXBuildFile; fileRef = 40C7414C1AC6A970007AA844 /* ios icons-18.png */; };
@@ -67,7 +65,7 @@
 		FB1F47BB1A7589AE0093350B /* 120x120.png in Resources */ = {isa = PBXBuildFile; fileRef = FB1F47B71A7589AE0093350B /* 120x120.png */; };
 		FB1F47BD1A7589AE0093350B /* 180x180.png in Resources */ = {isa = PBXBuildFile; fileRef = FB1F47B91A7589AE0093350B /* 180x180.png */; };
 		FB6A04A81AC29770009E9D9D /* ios icons-15.png in Resources */ = {isa = PBXBuildFile; fileRef = FB6A04A71AC2976F009E9D9D /* ios icons-15.png */; };
-		FB6A04AF1AC2DE7B009E9D9D /* EditAsscoNameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FB6A04AE1AC2DE7B009E9D9D /* EditAsscoNameViewController.m */; };
+		FB6A04AF1AC2DE7B009E9D9D /* EditStudentNameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FB6A04AE1AC2DE7B009E9D9D /* EditStudentNameViewController.m */; };
 		FB89E2941ACAB443008A0F8E /* white.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FB89E2931ACAB443008A0F8E /* white.jpg */; };
 		FB93500A1AEA1075001BE394 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = FB9350091AEA1075001BE394 /* Reachability.m */; };
 		FBA236491B0750250001D8E3 /* classroom@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = FBA2363D1B0750250001D8E3 /* classroom@1x.png */; };
@@ -132,7 +130,7 @@
 		FBC1BD061AB6CFF3004921CD /* JoinedClassTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FBC1BD051AB6CFF3004921CD /* JoinedClassTableViewController.m */; };
 		FBC1BD091AB7000B004921CD /* teacherDetailsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FBC1BD081AB7000B004921CD /* teacherDetailsTableViewCell.m */; };
 		FBC1BD0C1AB70037004921CD /* classDetailsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FBC1BD0B1AB70037004921CD /* classDetailsTableViewCell.m */; };
-		FBC1BD0F1AB7004F004921CD /* associatedNameTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FBC1BD0E1AB7004F004921CD /* associatedNameTableViewCell.m */; };
+		FBC1BD0F1AB7004F004921CD /* studentNameTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FBC1BD0E1AB7004F004921CD /* studentNameTableViewCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -146,8 +144,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		402A813C1AD45186002299C1 /* FindClassViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FindClassViewController.h; sourceTree = "<group>"; };
-		402A813D1AD45186002299C1 /* FindClassViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FindClassViewController.m; sourceTree = "<group>"; };
 		4038D4251AC6C62200E9009A /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		403FFF0C1ABB0071008FB159 /* MessageComposerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageComposerViewController.h; sourceTree = "<group>"; };
 		403FFF0D1ABB0071008FB159 /* MessageComposerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageComposerViewController.m; sourceTree = "<group>"; };
@@ -164,8 +160,6 @@
 		408863711AF0272400DCF61B /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		408863731AF0273B00DCF61B /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		40A9FC801AC42C0900082555 /* attach_30x30.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = attach_30x30.png; sourceTree = "<group>"; };
-		40AA7F951AD8447A0000255C /* FindClassSignUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FindClassSignUpViewController.h; sourceTree = "<group>"; };
-		40AA7F961AD8447B0000255C /* FindClassSignUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FindClassSignUpViewController.m; sourceTree = "<group>"; };
 		40BB89991AC431D3002CFDFE /* attachcancel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = attachcancel.png; sourceTree = "<group>"; };
 		40BB899E1AC4992C002CFDFE /* InviteTeacherViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InviteTeacherViewController.h; sourceTree = "<group>"; };
 		40BB899F1AC4992C002CFDFE /* InviteTeacherViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InviteTeacherViewController.m; sourceTree = "<group>"; };
@@ -236,8 +230,8 @@
 		FB1F47B71A7589AE0093350B /* 120x120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 120x120.png; sourceTree = "<group>"; };
 		FB1F47B91A7589AE0093350B /* 180x180.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 180x180.png; sourceTree = "<group>"; };
 		FB6A04A71AC2976F009E9D9D /* ios icons-15.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ios icons-15.png"; sourceTree = "<group>"; };
-		FB6A04AD1AC2DE7B009E9D9D /* EditAsscoNameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditAsscoNameViewController.h; sourceTree = "<group>"; };
-		FB6A04AE1AC2DE7B009E9D9D /* EditAsscoNameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditAsscoNameViewController.m; sourceTree = "<group>"; };
+		FB6A04AD1AC2DE7B009E9D9D /* EditStudentNameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditStudentNameViewController.h; sourceTree = "<group>"; };
+		FB6A04AE1AC2DE7B009E9D9D /* EditStudentNameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditStudentNameViewController.m; sourceTree = "<group>"; };
 		FB89E2931ACAB443008A0F8E /* white.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = white.jpg; sourceTree = "<group>"; };
 		FB9350081AEA1075001BE394 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		FB9350091AEA1075001BE394 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
@@ -325,8 +319,8 @@
 		FBC1BD081AB7000B004921CD /* teacherDetailsTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = teacherDetailsTableViewCell.m; sourceTree = "<group>"; };
 		FBC1BD0A1AB70037004921CD /* classDetailsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = classDetailsTableViewCell.h; sourceTree = "<group>"; };
 		FBC1BD0B1AB70037004921CD /* classDetailsTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = classDetailsTableViewCell.m; sourceTree = "<group>"; };
-		FBC1BD0D1AB7004F004921CD /* associatedNameTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = associatedNameTableViewCell.h; sourceTree = "<group>"; };
-		FBC1BD0E1AB7004F004921CD /* associatedNameTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = associatedNameTableViewCell.m; sourceTree = "<group>"; };
+		FBC1BD0D1AB7004F004921CD /* studentNameTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = studentNameTableViewCell.h; sourceTree = "<group>"; };
+		FBC1BD0E1AB7004F004921CD /* studentNameTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = studentNameTableViewCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -367,15 +361,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		402A813B1AD45164002299C1 /* Find Class */ = {
-			isa = PBXGroup;
-			children = (
-				402A813C1AD45186002299C1 /* FindClassViewController.h */,
-				402A813D1AD45186002299C1 /* FindClassViewController.m */,
-			);
-			name = "Find Class";
-			sourceTree = "<group>";
-		};
 		403FFF0B1ABB0044008FB159 /* Message Composer */ = {
 			isa = PBXGroup;
 			children = (
@@ -401,15 +386,6 @@
 				4068825D1A8A307D00C055E1 /* ProfilePictureViewController.m */,
 			);
 			name = "Profile Picture Controller";
-			sourceTree = "<group>";
-		};
-		40AA7F941AD8443D0000255C /* Find Class Sign Up */ = {
-			isa = PBXGroup;
-			children = (
-				40AA7F951AD8447A0000255C /* FindClassSignUpViewController.h */,
-				40AA7F961AD8447B0000255C /* FindClassSignUpViewController.m */,
-			);
-			name = "Find Class Sign Up";
 			sourceTree = "<group>";
 		};
 		40BB899D1AC49909002CFDFE /* Invite Teacher */ = {
@@ -445,10 +421,8 @@
 				FBA236DD1B0CBADD0001D8E3 /* Sign In For Both */,
 				FBA2368D1B0A472D0001D8E3 /* Start Page */,
 				FB9350071AEA105C001BE394 /* Reachability */,
-				40AA7F941AD8443D0000255C /* Find Class Sign Up */,
-				402A813B1AD45164002299C1 /* Find Class */,
 				40BB899D1AC49909002CFDFE /* Invite Teacher */,
-				FB6A04A91AC2CE1C009E9D9D /* Edit Associate Name */,
+				FB6A04A91AC2CE1C009E9D9D /* Edit Student Name */,
 				403FFF0F1ABB5BD3008FB159 /* Invite Parent */,
 				403FFF0B1ABB0044008FB159 /* Message Composer */,
 				40D986181A9B91F500D8BB0C /* Phone Verification Controller */,
@@ -675,8 +649,8 @@
 				FBC1BD081AB7000B004921CD /* teacherDetailsTableViewCell.m */,
 				FBC1BD0A1AB70037004921CD /* classDetailsTableViewCell.h */,
 				FBC1BD0B1AB70037004921CD /* classDetailsTableViewCell.m */,
-				FBC1BD0D1AB7004F004921CD /* associatedNameTableViewCell.h */,
-				FBC1BD0E1AB7004F004921CD /* associatedNameTableViewCell.m */,
+				FBC1BD0D1AB7004F004921CD /* studentNameTableViewCell.h */,
+				FBC1BD0E1AB7004F004921CD /* studentNameTableViewCell.m */,
 			);
 			path = "Classes Table View Cells";
 			sourceTree = "<group>";
@@ -755,13 +729,13 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
-		FB6A04A91AC2CE1C009E9D9D /* Edit Associate Name */ = {
+		FB6A04A91AC2CE1C009E9D9D /* Edit Student Name */ = {
 			isa = PBXGroup;
 			children = (
-				FB6A04AD1AC2DE7B009E9D9D /* EditAsscoNameViewController.h */,
-				FB6A04AE1AC2DE7B009E9D9D /* EditAsscoNameViewController.m */,
+				FB6A04AD1AC2DE7B009E9D9D /* EditStudentNameViewController.h */,
+				FB6A04AE1AC2DE7B009E9D9D /* EditStudentNameViewController.m */,
 			);
-			name = "Edit Associate Name";
+			name = "Edit Student Name";
 			sourceTree = "<group>";
 		};
 		FB9350071AEA105C001BE394 /* Reachability */ = {
@@ -1041,11 +1015,11 @@
 				FBBA45CF1A9673AC0088CCBC /* TSCreatedClassMessageTableViewCell.m in Sources */,
 				971687E01A1F1C2B00FE98FC /* TSTeacher.m in Sources */,
 				40D9861B1A9B921100D8BB0C /* PhoneVerificationViewController.m in Sources */,
-				FB6A04AF1AC2DE7B009E9D9D /* EditAsscoNameViewController.m in Sources */,
+				FB6A04AF1AC2DE7B009E9D9D /* EditStudentNameViewController.m in Sources */,
 				FBC1BD021AB60CE4004921CD /* TSCreatedClass.m in Sources */,
 				FBC1BD091AB7000B004921CD /* teacherDetailsTableViewCell.m in Sources */,
 				975B1E9B1A213A130028BE25 /* TSCreateClassroomViewController.m in Sources */,
-				FBC1BD0F1AB7004F004921CD /* associatedNameTableViewCell.m in Sources */,
+				FBC1BD0F1AB7004F004921CD /* studentNameTableViewCell.m in Sources */,
 				971687E31A1F1C3900FE98FC /* TSParent.m in Sources */,
 				FBB860C41AF3595F0005474A /* UIApplication+JTSImageViewController.m in Sources */,
 				40BB89A01AC4992C002CFDFE /* InviteTeacherViewController.m in Sources */,
@@ -1061,7 +1035,6 @@
 				FBA778FD1AD12EC000D247CC /* ClassesParentViewController.m in Sources */,
 				973A4BD81A1F174D0039175A /* main.m in Sources */,
 				40CD58651A89455B000CB1AB /* FAQTableViewController.m in Sources */,
-				402A813E1AD45186002299C1 /* FindClassViewController.m in Sources */,
 				FBB860C21AF3595F0005474A /* JTSImageViewController.m in Sources */,
 				40CDDBB61A90E47E00922ADF /* TSMember.m in Sources */,
 				FBB860C01AF3595F0005474A /* JTSAnimatedGIFUtility.m in Sources */,
@@ -1074,7 +1047,6 @@
 				4068825E1A8A307D00C055E1 /* ProfilePictureViewController.m in Sources */,
 				40C7B2D31A935F6E00C1BFC8 /* ClassesViewController.m in Sources */,
 				403FFF121ABB5BEC008FB159 /* InviteParentViewController.m in Sources */,
-				40AA7F971AD8447B0000255C /* FindClassSignUpViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

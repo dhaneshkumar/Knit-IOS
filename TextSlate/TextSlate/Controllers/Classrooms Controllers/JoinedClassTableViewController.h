@@ -14,8 +14,8 @@
 @property (strong, nonatomic) NSString *teacherName;
 @property (strong, nonatomic) NSString *classCode;
 @property (strong, nonatomic) UIImage *teacherPic;
-@property (strong, nonatomic) NSString *associatedName;
+@property (strong, nonatomic) NSString *studentName;
 
--(void)updateAssociatedName:(NSString*)assocName;
+-(void)updateStudentName:(NSString*)studentName;
 
 @end

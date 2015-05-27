@@ -6,9 +6,9 @@
 //  Copyright (c) 2015 Trumplab Edusolutions Pvt. Ltd. All rights reserved.
 //
 
-#import "associatedNameTableViewCell.h"
+#import "studentNameTableViewCell.h"
 
-@implementation associatedNameTableViewCell
+@implementation studentNameTableViewCell
 
 - (void)awakeFromNib {
     // Initialization code

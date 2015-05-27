@@ -141,7 +141,6 @@
         dvc.phoneNumber=_mobilTextField.text;
         dvc.password=_passwordTextField.text;
         dvc.isNewSignIn=true;
-        dvc.isFindClass = false;
         [self.navigationController pushViewController:dvc animated:YES];
     } errorBlock:^(NSError *error) {
         [hud hide:YES];

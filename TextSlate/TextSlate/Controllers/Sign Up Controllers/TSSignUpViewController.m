@@ -16,11 +16,7 @@
 
 @interface TSSignUpViewController () <UIAlertViewDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *displayName;
-@property (weak, nonatomic) IBOutlet UITextField *titleTextField;
 @property (weak, nonatomic) IBOutlet UITextField *phoneNumberTextField;
-@property (strong,nonatomic) UIAlertView *getRole;
-@property (strong,nonatomic) UIAlertView *getTitle;
-@property (strong ,nonatomic) NSString *sex;
 @property (strong,nonatomic) NSString *getOTP;
 @property (strong,nonatomic) NSMutableArray *classDetails;
 
@@ -37,8 +33,6 @@
     self.navigationItem.title = @"Sign Up";
     UIBarButtonItem *bb = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"back"] style:UIBarButtonItemStylePlain target:self action:@selector(backButtonTapped:)];
     [self.navigationItem setLeftBarButtonItem:bb];
-    //self.OTP.hidden=YES;
-    // Do any additional setup after loading the view
 }
 
 -(IBAction)backButtonTapped:(id)sender {
@@ -50,35 +44,6 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-
--(IBAction)selectRole:(id)sender {
-    _getTitle = [[UIAlertView alloc] initWithTitle:@"Knit - Role" message:@"Please select your profession" delegate:self cancelButtonTitle:@"CANCEL" otherButtonTitles:@"Miss", @"Mr.",@"Mrs.", nil];
-    [_getTitle show];
-}
-
-
--(void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if(alertView==_getTitle)
-    {
-        if(buttonIndex==1)
-        {
-            _titleTextField.text=@"Miss";
-            _sex=@"female";
-        }
-    
-        else if(buttonIndex==2){
-            _titleTextField.text=@"Mr.";
-            _sex=@"male";
-        }
-        else if(buttonIndex==3)
-        {
-            _titleTextField.text=@"Mrs.";
-            _sex=@"female";
-        }
-    }
-}
-
 
 /*
 #pragma mark - Navigation
@@ -92,10 +57,6 @@
 
 
 - (IBAction)signUpClicked:(UIButton *)sender {
-    if([_titleTextField.text isEqualToString:@""]) {
-        [RKDropdownAlert title:@"Knit" message:@"Title field cannot be left empty."  time:2];
-        return;
-    }
     NSString *name = [_displayName.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     if(name.length==0) {
         [RKDropdownAlert title:@"Knit" message:@"Name field cannot be left empty."  time:2];
@@ -116,11 +77,9 @@
         NSLog(@"device %@",deviceType);
         dvc.nameText=[_displayName.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         dvc.phoneNumber = _phoneNumberTextField.text;
-        dvc.parent = false;
         dvc.modal = deviceType;
         dvc.isSignUp = true;
-        dvc.sex = _sex;
-        dvc.isFindClass = false;
+        dvc.role = _role;
         [self.navigationController pushViewController:dvc animated:YES];
     } errorBlock:^(NSError *error) {
         [hud hide:YES];

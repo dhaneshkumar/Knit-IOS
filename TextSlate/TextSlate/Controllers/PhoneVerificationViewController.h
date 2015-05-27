@@ -17,14 +17,9 @@
 @property (strong, nonatomic) NSString *confirmPassword;
 @property (strong,nonatomic) NSString *otpCode;
 @property (strong, nonatomic) NSString *modal;
-@property (strong, nonatomic) NSString *sex;
 @property (strong, nonatomic) NSString *role;
-@property (assign) bool parent ;
-@property (assign) bool isOldSignIn ;
 @property (assign) bool isNewSignIn ;
 @property (assign) bool isSignUp ;
-@property (assign) bool isFindClass ;
-@property (nonatomic, strong) NSString * foundClassCode;
 
 @end
 

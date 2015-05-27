@@ -6,16 +6,17 @@
 //  Copyright (c) 2015 Trumplab Edusolutions Pvt. Ltd. All rights reserved.
 //
 
-#import "EditAsscoNameViewController.h"
+#import "EditStudentNameViewController.h"
 #import "JoinedClassTableViewController.h"
 #import "Data.h"
 #import "MBProgressHUD.h"
 #import "RKDropdownAlert.h"
-@interface EditAsscoNameViewController ()
+
+@interface EditStudentNameViewController ()
 
 @end
 
-@implementation EditAsscoNameViewController
+@implementation EditStudentNameViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -26,14 +27,14 @@
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    _assocNameTextField.text = _assocName;
-    [_assocNameTextField becomeFirstResponder];
+    _studentNameTextField.text = _studentName;
+    [_studentNameTextField becomeFirstResponder];
 }
 
 
 -(void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    [_assocNameTextField resignFirstResponder];
+    [_studentNameTextField resignFirstResponder];
 }
 
 
@@ -47,16 +48,15 @@
 }
 
 -(IBAction)doneButton:(id)sender{
-    NSLog(@"Text field : %@", _assocNameTextField.text);
-    NSString *trimmedString = [_assocNameTextField.text stringByTrimmingCharactersInSet:
+    NSString *trimmedString = [_studentNameTextField.text stringByTrimmingCharactersInSet:
                                [NSCharacterSet whitespaceAndNewlineCharacterSet]];
     if(trimmedString.length==0) {
-        [RKDropdownAlert title:@"Knit" message:@"Associate name field cannot be left blank." time:2];
-        _assocNameTextField.text = _assocName;
-        [_assocNameTextField becomeFirstResponder];
+        [RKDropdownAlert title:@"Knit" message:@"Student's name field cannot be left blank." time:2];
+        _studentNameTextField.text = _studentName;
+        [_studentNameTextField becomeFirstResponder];
         return;
     }
-    if([trimmedString isEqualToString:_assocName]) {
+    if([trimmedString isEqualToString:_studentName]) {
         [self dismissViewControllerAnimated:YES completion:nil];
         return;
     }
@@ -67,13 +67,13 @@
     [Data changeName:_classCode newName:trimmedString successBlock:^(id object){
         [[PFUser currentUser] fetch];
         JoinedClassTableViewController *joinedClassTVC = (JoinedClassTableViewController *)((UINavigationController *)((UINavigationController*)self.presentingViewController).viewControllers[1]);
-        [joinedClassTVC updateAssociatedName:trimmedString];
+        [joinedClassTVC updateStudentName:trimmedString];
         [hud hide:YES];
         [self dismissViewControllerAnimated:YES completion:nil];
     }
     errorBlock:^(NSError *error){
         [hud hide:YES];
-        [RKDropdownAlert title:@"Knit" message:@"Error in changing associate name. Try again later." time:2];
+        [RKDropdownAlert title:@"Knit" message:@"Error in changing student's name. Try again later." time:2];
         return;
     }];
 }

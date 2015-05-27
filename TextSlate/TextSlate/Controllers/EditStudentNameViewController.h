@@ -8,10 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@interface EditAsscoNameViewController : UIViewController
+@interface EditStudentNameViewController : UIViewController
 
-@property (weak, nonatomic) IBOutlet UITextField *assocNameTextField;
+@property (weak, nonatomic) IBOutlet UITextField *studentNameTextField;
 @property (strong, nonatomic) NSString *classCode;
-@property (strong, nonatomic) NSString *assocName;
+@property (strong, nonatomic) NSString *studentName;
 
 @end
