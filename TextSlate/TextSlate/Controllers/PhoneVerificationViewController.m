@@ -68,9 +68,9 @@
             MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
             hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
             hud.labelText = @"Loading";
-
+            NSLog(@"lat: %f, long: %f, osVersion: %@", _latitude, _longitude, _osVersion);
             NSInteger verificationCode = [_codeText.text integerValue];
-            [Data verifyOTPSignUp:_phoneNumber code:verificationCode modal:_modal os:_osVersion name:_nameText role:_role sex:@"damor" successBlock:^(id object){
+            [Data verifyOTPSignUp:_phoneNumber code:verificationCode modal:_modal os:[NSString stringWithFormat:@"iOS %@", _osVersion] name:_nameText role:_role sex:@"damor" latitude:_latitude longitude:_longitude haveCoordinates:_areCoordinatesUpdated successBlock:^(id object){
                 NSDictionary *tokenDict=[[NSDictionary alloc]init];
                 tokenDict=object;
                 NSString *flagString=[tokenDict objectForKey:@"flag"];
@@ -81,7 +81,7 @@
                     [PFUser becomeInBackground:token block:^(PFUser *user, NSError *error) {
                         if (error) {
                             [hud hide:YES];
-                            [RKDropdownAlert title:@"Knit" message:@"Error in signing up. Try again later."  time:2];
+                            [RKDropdownAlert title:@"Knit" message:@"Error in signing up. Try again."  time:2];
                             return;
                         } else {
                             PFUser *current=[PFUser currentUser];
@@ -146,7 +146,7 @@
                                 }
                             } errorBlock:^(NSError *error) {
                                 [hud hide:YES];
-                                [RKDropdownAlert title:@"Knit" message:@"Error in signing up. Try again later."  time:2];
+                                [RKDropdownAlert title:@"Knit" message:@"Error in signing up. Try again."  time:2];
                                 return;
                             }];
                         }
@@ -154,7 +154,7 @@
                 }
                 else {
                     [hud hide:YES];
-                    [RKDropdownAlert title:@"Knit" message:@"Error in signing up.Try again later."  time:2];
+                    [RKDropdownAlert title:@"Knit" message:@"Error in signing up. Try again."  time:2];
                     return;
                 }
             } errorBlock:^(NSError *error) {
@@ -194,7 +194,7 @@
                     [PFUser becomeInBackground:token block:^(PFUser *user, NSError *error) {
                         if (error) {
                             [hud hide:YES];
-                            [RKDropdownAlert title:@"Knit" message:@"Error in signing in.Try again later." time:2];
+                            [RKDropdownAlert title:@"Knit" message:@"Error in signing in.Try again." time:2];
                             return;
                         } else {
 
@@ -263,7 +263,7 @@
                                 }
                             } errorBlock:^(NSError *error) {
                                 [hud hide:YES];
-                                [RKDropdownAlert title:@"Knit" message:@"Error in signing in.Try again later." time:2];
+                                [RKDropdownAlert title:@"Knit" message:@"Error in signing in.Try again." time:2];
                                 return;
                             }];
                         }
@@ -271,7 +271,7 @@
                 }
                 else {
                     [hud hide:YES];
-                    [RKDropdownAlert title:@"Knit" message:@"Error in signing in.Try again later." time:2];
+                    [RKDropdownAlert title:@"Knit" message:@"Error in signing in.Try again." time:2];
                     return;
                 }
             } errorBlock:^(NSError *error) {

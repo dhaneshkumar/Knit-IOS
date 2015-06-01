@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <CoreLocation/CoreLocation.h>
 
-@interface TSSignUpViewController : UIViewController<UITextFieldDelegate>
+@interface TSSignUpViewController : UIViewController<UITextFieldDelegate, CLLocationManagerDelegate>
 
 @property (strong,nonatomic) NSString *role;
 

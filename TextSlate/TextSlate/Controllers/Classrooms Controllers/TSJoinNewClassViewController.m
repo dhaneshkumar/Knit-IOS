@@ -24,6 +24,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *classCodeTextField;
 @property (weak, nonatomic) IBOutlet UITextField *associatedPersonTextField;
 @property (weak, nonatomic) IBOutlet UIButton *joinButton;
+- (IBAction)inviteTeacherTapped:(id)sender;
 
 @end
 
@@ -73,7 +74,7 @@
     if(assocNameTyped.length == 0) {
 //        UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"The associate name field cannot be left blank." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
 //        [errorAlertView show];
-        [RKDropdownAlert title:@"Knit" message:@"The student's name field cannot be left empty." time:2];
+        [RKDropdownAlert title:@"Knit" message:@"The associate name field cannot be left empty." time:2];
         return;
     }
     
@@ -189,7 +190,7 @@
         [hud hide:YES];
         [self dismissViewControllerAnimated:YES completion:nil];
         //[successAlertView show];
-        [RKDropdownAlert title:@"Knit" message:[NSString stringWithFormat:@"Successfully joined Class: %@ Creator : %@",codeGroupForClass[@"name"]] time:2];
+        [RKDropdownAlert title:@"Knit" message:[NSString stringWithFormat:@"Successfully joined Class: %@ Creator : %@",codeGroupForClass[@"name"], codeGroupForClass[@"Creator"]] time:2];
 
     } errorBlock:^(NSError *error) {
        // UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error in joining Class. Please make sure you have the correct class code." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
@@ -224,4 +225,8 @@
     return nospacestring;
 }
 
+- (IBAction)inviteTeacherTapped:(id)sender {
+    UINavigationController *inviteParentNav = [self.storyboard instantiateViewControllerWithIdentifier:@"inviteParentNavVC"];
+    [self presentViewController:inviteParentNav animated:YES completion:nil];
+}
 @end

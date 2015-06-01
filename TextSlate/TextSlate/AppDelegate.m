@@ -43,7 +43,10 @@
     // Override point for customization after application launch.
     [self setKeysForDevelopmentKnit];
     [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
-    
+    /*
+    NSDictionary *dimensions = @{@"OS" : @"iOS"};
+    [PFAnalytics trackEvent:@"customeAppOpens" dimensions:dimensions];
+    */
     // Registering for the Push notifications
     if ([application respondsToSelector:@selector(isRegisteredForRemoteNotifications)])
     {

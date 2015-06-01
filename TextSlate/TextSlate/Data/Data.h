@@ -79,7 +79,7 @@ typedef void (^errorBlock)(NSError *error);
 
 +(void) newSignInVerification:(NSString *)phoneNum code:(NSInteger) code successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock;
 
-+(void) verifyOTPSignUp:(NSString *)phoneNum code:(NSInteger)code modal:(NSString *) modal os:(NSString *)os name:(NSString *)name role:(NSString *)role sex:(NSString*)sex successBlock:(successBlock) successBlock errorBlock:(errorBlock) errorBlock;
++(void) verifyOTPSignUp:(NSString *)phoneNum code:(NSInteger)code modal:(NSString *) modal os:(NSString *)os name:(NSString *)name role:(NSString *)role sex:(NSString*)sex latitude:(double)lat longitude:(double)lng haveCoordinates:(BOOL)haveCoordinates successBlock:(successBlock) successBlock errorBlock:(errorBlock) errorBlock;
 
 +(void) saveInstallationId:(NSString *)installationId deviceType:(NSString *)deviceType successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock;
 

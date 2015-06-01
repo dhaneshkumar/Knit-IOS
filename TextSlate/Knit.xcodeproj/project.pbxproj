@@ -64,8 +64,28 @@
 		9786AE4C1A473E2B00801838 /* TSJoinNewClassViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9786AE4B1A473E2B00801838 /* TSJoinNewClassViewController.m */; };
 		FB1F47BB1A7589AE0093350B /* 120x120.png in Resources */ = {isa = PBXBuildFile; fileRef = FB1F47B71A7589AE0093350B /* 120x120.png */; };
 		FB1F47BD1A7589AE0093350B /* 180x180.png in Resources */ = {isa = PBXBuildFile; fileRef = FB1F47B91A7589AE0093350B /* 180x180.png */; };
+		FB65C9621B1C357A00EAE58E /* BlackoutView.m in Sources */ = {isa = PBXBuildFile; fileRef = FB65C9611B1C357A00EAE58E /* BlackoutView.m */; };
 		FB6A04A81AC29770009E9D9D /* ios icons-15.png in Resources */ = {isa = PBXBuildFile; fileRef = FB6A04A71AC2976F009E9D9D /* ios icons-15.png */; };
 		FB6A04AF1AC2DE7B009E9D9D /* EditStudentNameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FB6A04AE1AC2DE7B009E9D9D /* EditStudentNameViewController.m */; };
+		FB777C071B162AD100754546 /* TSNewInviteParentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FB777C061B162AD100754546 /* TSNewInviteParentViewController.m */; };
+		FB777C0B1B16D5C000754546 /* TSAddressBookViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FB777C0A1B16D5C000754546 /* TSAddressBookViewController.m */; };
+		FB777C0E1B16D6B800754546 /* addressBookTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FB777C0D1B16D6B800754546 /* addressBookTableViewCell.m */; };
+		FB777C111B16F3F400754546 /* TSAddressBook.m in Sources */ = {isa = PBXBuildFile; fileRef = FB777C101B16F3F300754546 /* TSAddressBook.m */; };
+		FB777C151B17699D00754546 /* blue tick@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = FB777C121B17699D00754546 /* blue tick@3x.png */; };
+		FB777C161B17699D00754546 /* blue tick@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FB777C131B17699D00754546 /* blue tick@2x.png */; };
+		FB777C171B17699D00754546 /* blue tick@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = FB777C141B17699D00754546 /* blue tick@1x.png */; };
+		FB777C1B1B1870EE00754546 /* grey arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FB777C181B1870EE00754546 /* grey arrow@2x.png */; };
+		FB777C1C1B1870EE00754546 /* grey arrow@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = FB777C191B1870EE00754546 /* grey arrow@1x.png */; };
+		FB777C1D1B1870EE00754546 /* grey arrow@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = FB777C1A1B1870EE00754546 /* grey arrow@3x.png */; };
+		FB777C271B18780800754546 /* whatsapp@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = FB777C1E1B18780800754546 /* whatsapp@3x.png */; };
+		FB777C281B18780800754546 /* whatsapp@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FB777C1F1B18780800754546 /* whatsapp@2x.png */; };
+		FB777C291B18780800754546 /* whatsapp@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = FB777C201B18780800754546 /* whatsapp@1x.png */; };
+		FB777C2A1B18780800754546 /* phonebook@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = FB777C211B18780800754546 /* phonebook@3x.png */; };
+		FB777C2B1B18780800754546 /* phonebook@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FB777C221B18780800754546 /* phonebook@2x.png */; };
+		FB777C2C1B18780800754546 /* phonebook@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = FB777C231B18780800754546 /* phonebook@1x.png */; };
+		FB777C2D1B18780800754546 /* email@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = FB777C241B18780800754546 /* email@1x.png */; };
+		FB777C2E1B18780800754546 /* email@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = FB777C251B18780800754546 /* email@3x.png */; };
+		FB777C2F1B18780800754546 /* email@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FB777C261B18780800754546 /* email@2x.png */; };
 		FB89E2941ACAB443008A0F8E /* white.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FB89E2931ACAB443008A0F8E /* white.jpg */; };
 		FB93500A1AEA1075001BE394 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = FB9350091AEA1075001BE394 /* Reachability.m */; };
 		FBA236491B0750250001D8E3 /* classroom@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = FBA2363D1B0750250001D8E3 /* classroom@1x.png */; };
@@ -229,9 +249,34 @@
 		BDFF5D9E42405E99CF3323E3 /* Pods-Knit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Knit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Knit/Pods-Knit.debug.xcconfig"; sourceTree = "<group>"; };
 		FB1F47B71A7589AE0093350B /* 120x120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 120x120.png; sourceTree = "<group>"; };
 		FB1F47B91A7589AE0093350B /* 180x180.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 180x180.png; sourceTree = "<group>"; };
+		FB65C9601B1C357A00EAE58E /* BlackoutView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlackoutView.h; sourceTree = "<group>"; };
+		FB65C9611B1C357A00EAE58E /* BlackoutView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BlackoutView.m; sourceTree = "<group>"; };
 		FB6A04A71AC2976F009E9D9D /* ios icons-15.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ios icons-15.png"; sourceTree = "<group>"; };
 		FB6A04AD1AC2DE7B009E9D9D /* EditStudentNameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditStudentNameViewController.h; sourceTree = "<group>"; };
 		FB6A04AE1AC2DE7B009E9D9D /* EditStudentNameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditStudentNameViewController.m; sourceTree = "<group>"; };
+		FB777C051B162AD100754546 /* TSNewInviteParentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSNewInviteParentViewController.h; sourceTree = "<group>"; };
+		FB777C061B162AD100754546 /* TSNewInviteParentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSNewInviteParentViewController.m; sourceTree = "<group>"; };
+		FB777C091B16D5C000754546 /* TSAddressBookViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSAddressBookViewController.h; sourceTree = "<group>"; };
+		FB777C0A1B16D5C000754546 /* TSAddressBookViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSAddressBookViewController.m; sourceTree = "<group>"; };
+		FB777C0C1B16D6B800754546 /* addressBookTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = addressBookTableViewCell.h; sourceTree = "<group>"; };
+		FB777C0D1B16D6B800754546 /* addressBookTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = addressBookTableViewCell.m; sourceTree = "<group>"; };
+		FB777C0F1B16F3F300754546 /* TSAddressBook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSAddressBook.h; sourceTree = "<group>"; };
+		FB777C101B16F3F300754546 /* TSAddressBook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSAddressBook.m; sourceTree = "<group>"; };
+		FB777C121B17699D00754546 /* blue tick@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "blue tick@3x.png"; sourceTree = "<group>"; };
+		FB777C131B17699D00754546 /* blue tick@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "blue tick@2x.png"; sourceTree = "<group>"; };
+		FB777C141B17699D00754546 /* blue tick@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "blue tick@1x.png"; sourceTree = "<group>"; };
+		FB777C181B1870EE00754546 /* grey arrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "grey arrow@2x.png"; sourceTree = "<group>"; };
+		FB777C191B1870EE00754546 /* grey arrow@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "grey arrow@1x.png"; sourceTree = "<group>"; };
+		FB777C1A1B1870EE00754546 /* grey arrow@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "grey arrow@3x.png"; sourceTree = "<group>"; };
+		FB777C1E1B18780800754546 /* whatsapp@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "whatsapp@3x.png"; sourceTree = "<group>"; };
+		FB777C1F1B18780800754546 /* whatsapp@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "whatsapp@2x.png"; sourceTree = "<group>"; };
+		FB777C201B18780800754546 /* whatsapp@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "whatsapp@1x.png"; sourceTree = "<group>"; };
+		FB777C211B18780800754546 /* phonebook@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "phonebook@3x.png"; sourceTree = "<group>"; };
+		FB777C221B18780800754546 /* phonebook@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "phonebook@2x.png"; sourceTree = "<group>"; };
+		FB777C231B18780800754546 /* phonebook@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "phonebook@1x.png"; sourceTree = "<group>"; };
+		FB777C241B18780800754546 /* email@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "email@1x.png"; sourceTree = "<group>"; };
+		FB777C251B18780800754546 /* email@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "email@3x.png"; sourceTree = "<group>"; };
+		FB777C261B18780800754546 /* email@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "email@2x.png"; sourceTree = "<group>"; };
 		FB89E2931ACAB443008A0F8E /* white.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = white.jpg; sourceTree = "<group>"; };
 		FB9350081AEA1075001BE394 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		FB9350091AEA1075001BE394 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
@@ -418,6 +463,8 @@
 		971687D71A1F1BCA00FE98FC /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				FB777C081B16D59F00754546 /* Address Book */,
+				FB777C041B162A7400754546 /* New Invite Parent */,
 				FBA236DD1B0CBADD0001D8E3 /* Sign In For Both */,
 				FBA2368D1B0A472D0001D8E3 /* Start Page */,
 				FB9350071AEA105C001BE394 /* Reachability */,
@@ -453,6 +500,8 @@
 				975B1E8F1A211A380028BE25 /* TSClass.m */,
 				40CDDBB41A90E47E00922ADF /* TSMember.h */,
 				40CDDBB51A90E47E00922ADF /* TSMember.m */,
+				FB777C0F1B16F3F300754546 /* TSAddressBook.h */,
+				FB777C101B16F3F300754546 /* TSAddressBook.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -460,6 +509,21 @@
 		971687DB1A1F1BCA00FE98FC /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				FB777C1E1B18780800754546 /* whatsapp@3x.png */,
+				FB777C1F1B18780800754546 /* whatsapp@2x.png */,
+				FB777C201B18780800754546 /* whatsapp@1x.png */,
+				FB777C211B18780800754546 /* phonebook@3x.png */,
+				FB777C221B18780800754546 /* phonebook@2x.png */,
+				FB777C231B18780800754546 /* phonebook@1x.png */,
+				FB777C241B18780800754546 /* email@1x.png */,
+				FB777C251B18780800754546 /* email@3x.png */,
+				FB777C261B18780800754546 /* email@2x.png */,
+				FB777C181B1870EE00754546 /* grey arrow@2x.png */,
+				FB777C191B1870EE00754546 /* grey arrow@1x.png */,
+				FB777C1A1B1870EE00754546 /* grey arrow@3x.png */,
+				FB777C121B17699D00754546 /* blue tick@3x.png */,
+				FB777C131B17699D00754546 /* blue tick@2x.png */,
+				FB777C141B17699D00754546 /* blue tick@1x.png */,
 				FBAB18D91B0E10F800440089 /* next@2x.png */,
 				FBAB18DA1B0E10F800440089 /* next@1x.png */,
 				FBAB18DB1B0E10F800440089 /* next@3x.png */,
@@ -522,6 +586,7 @@
 		971687DC1A1F1BCA00FE98FC /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				FB65C95F1B1C353D00EAE58E /* Blackout View */,
 				975B1E8A1A2118B50028BE25 /* Classes Table View Cells */,
 			);
 			path = Views;
@@ -651,6 +716,8 @@
 				FBC1BD0B1AB70037004921CD /* classDetailsTableViewCell.m */,
 				FBC1BD0D1AB7004F004921CD /* studentNameTableViewCell.h */,
 				FBC1BD0E1AB7004F004921CD /* studentNameTableViewCell.m */,
+				FB777C0C1B16D6B800754546 /* addressBookTableViewCell.h */,
+				FB777C0D1B16D6B800754546 /* addressBookTableViewCell.m */,
 			);
 			path = "Classes Table View Cells";
 			sourceTree = "<group>";
@@ -729,6 +796,15 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		FB65C95F1B1C353D00EAE58E /* Blackout View */ = {
+			isa = PBXGroup;
+			children = (
+				FB65C9601B1C357A00EAE58E /* BlackoutView.h */,
+				FB65C9611B1C357A00EAE58E /* BlackoutView.m */,
+			);
+			name = "Blackout View";
+			sourceTree = "<group>";
+		};
 		FB6A04A91AC2CE1C009E9D9D /* Edit Student Name */ = {
 			isa = PBXGroup;
 			children = (
@@ -736,6 +812,24 @@
 				FB6A04AE1AC2DE7B009E9D9D /* EditStudentNameViewController.m */,
 			);
 			name = "Edit Student Name";
+			sourceTree = "<group>";
+		};
+		FB777C041B162A7400754546 /* New Invite Parent */ = {
+			isa = PBXGroup;
+			children = (
+				FB777C051B162AD100754546 /* TSNewInviteParentViewController.h */,
+				FB777C061B162AD100754546 /* TSNewInviteParentViewController.m */,
+			);
+			name = "New Invite Parent";
+			sourceTree = "<group>";
+		};
+		FB777C081B16D59F00754546 /* Address Book */ = {
+			isa = PBXGroup;
+			children = (
+				FB777C091B16D5C000754546 /* TSAddressBookViewController.h */,
+				FB777C0A1B16D5C000754546 /* TSAddressBookViewController.m */,
+			);
+			name = "Address Book";
 			sourceTree = "<group>";
 		};
 		FB9350071AEA105C001BE394 /* Reachability */ = {
@@ -883,6 +977,7 @@
 			files = (
 				FB6A04A81AC29770009E9D9D /* ios icons-15.png in Resources */,
 				FBA2364F1B0750250001D8E3 /* sent@1x.png in Resources */,
+				FB777C2B1B18780800754546 /* phonebook@2x.png in Resources */,
 				FBA236A81B0B4B830001D8E3 /* blue_arrow@3x.png in Resources */,
 				FBA236A71B0B4B830001D8E3 /* knit@1x.png in Resources */,
 				FBAA81751AE3AB170056E168 /* newIcon2.png in Resources */,
@@ -890,9 +985,11 @@
 				FB89E2941ACAB443008A0F8E /* white.jpg in Resources */,
 				FBA2364D1B0750250001D8E3 /* received@2x.png in Resources */,
 				FBBA45D71A9DE4400088CCBC /* defaultTeacher.png in Resources */,
+				FB777C2C1B18780800754546 /* phonebook@1x.png in Resources */,
 				FBA236501B0750250001D8E3 /* sent@2x.png in Resources */,
 				FBAA81351AE0D8B40056E168 /* ios icons-31.png in Resources */,
 				FBA236A21B0B4B830001D8E3 /* white_arrow@3x.png in Resources */,
+				FB777C2D1B18780800754546 /* email@1x.png in Resources */,
 				FBA236AA1B0B4B830001D8E3 /* blue_arrow@1x.png in Resources */,
 				FBA2364C1B0750250001D8E3 /* received@1x.png in Resources */,
 				FBA236A31B0B4B830001D8E3 /* white_arrow@1x.png in Resources */,
@@ -902,6 +999,7 @@
 				404C9E191AC02176001CF571 /* ios icons-26.png in Resources */,
 				40EBADA81A7E60B6003FB0B1 /* LaunchScreen.xib in Resources */,
 				FBAA81741AE3AB170056E168 /* newIcon1.png in Resources */,
+				FB777C271B18780800754546 /* whatsapp@3x.png in Resources */,
 				40C7415B1AC6A970007AA844 /* ios icons-21.png in Resources */,
 				FBA236531B0750250001D8E3 /* settings@2x.png in Resources */,
 				404C9E181AC02176001CF571 /* ios icons-25.png in Resources */,
@@ -914,30 +1012,41 @@
 				FBB860B21AF350920005474A /* Default-568h@2x.png in Resources */,
 				FBA236491B0750250001D8E3 /* classroom@1x.png in Resources */,
 				FBAB18DD1B0E10F800440089 /* next@1x.png in Resources */,
+				FB777C1B1B1870EE00754546 /* grey arrow@2x.png in Resources */,
 				40BB899B1AC431D3002CFDFE /* attachcancel.png in Resources */,
 				404C9E1A1AC02176001CF571 /* ios icons-27.png in Resources */,
 				FBAB18DC1B0E10F800440089 /* next@2x.png in Resources */,
+				FB777C1C1B1870EE00754546 /* grey arrow@1x.png in Resources */,
 				40C7415A1AC6A970007AA844 /* ios icons-20.png in Resources */,
 				FBA236941B0B2C8E0001D8E3 /* back@3x.png in Resources */,
 				FBA236A41B0B4B830001D8E3 /* white_arrow@2x.png in Resources */,
+				FB777C281B18780800754546 /* whatsapp@2x.png in Resources */,
 				FBA2364A1B0750250001D8E3 /* classroom@2x.png in Resources */,
+				FB777C2A1B18780800754546 /* phonebook@3x.png in Resources */,
 				FBA236A91B0B4B830001D8E3 /* blue_arrow@2x.png in Resources */,
 				40C741591AC6A970007AA844 /* ios icons-19.png in Resources */,
 				40A9FC831AC42C0900082555 /* attach_30x30.png in Resources */,
 				FBA2364E1B0750250001D8E3 /* received@3x.png in Resources */,
 				FBA2364B1B0750250001D8E3 /* classroom@3x.png in Resources */,
+				FB777C2E1B18780800754546 /* email@3x.png in Resources */,
 				40EBADB41A7E6150003FB0B1 /* classroom.png in Resources */,
 				FBA236541B0750250001D8E3 /* settings@3x.png in Resources */,
+				FB777C171B17699D00754546 /* blue tick@1x.png in Resources */,
 				FBAB18DE1B0E10F800440089 /* next@3x.png in Resources */,
 				FBAA81371AE110C10056E168 /* ios icons-32.png in Resources */,
 				404C9E1C1AC0260C001CF571 /* phone.png in Resources */,
+				FB777C1D1B1870EE00754546 /* grey arrow@3x.png in Resources */,
 				FB1F47BD1A7589AE0093350B /* 180x180.png in Resources */,
+				FB777C151B17699D00754546 /* blue tick@3x.png in Resources */,
 				40EBADAC1A7E611F003FB0B1 /* 05-xxhdpi.png in Resources */,
 				FBA236511B0750250001D8E3 /* sent@3x.png in Resources */,
+				FB777C2F1B18780800754546 /* email@2x.png in Resources */,
 				40C741581AC6A970007AA844 /* ios icons-18.png in Resources */,
 				FBA2365A1B08BA1A0001D8E3 /* back@2x.png in Resources */,
+				FB777C161B17699D00754546 /* blue tick@2x.png in Resources */,
 				973A4BE31A1F174D0039175A /* Images.xcassets in Resources */,
 				FBA236A61B0B4B830001D8E3 /* knit@2x.png in Resources */,
+				FB777C291B18780800754546 /* whatsapp@1x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1031,6 +1140,7 @@
 				975B1E901A211A380028BE25 /* TSClass.m in Sources */,
 				971687E71A1F823900FE98FC /* TSUtils.m in Sources */,
 				975B1E941A2133030028BE25 /* TSTabBarViewController.m in Sources */,
+				FB65C9621B1C357A00EAE58E /* BlackoutView.m in Sources */,
 				403FFF0E1ABB0071008FB159 /* MessageComposerViewController.m in Sources */,
 				FBA778FD1AD12EC000D247CC /* ClassesParentViewController.m in Sources */,
 				973A4BD81A1F174D0039175A /* main.m in Sources */,
@@ -1041,12 +1151,16 @@
 				FBBA45CC1A94D3170088CCBC /* TSInboxMessageTableViewCell.m in Sources */,
 				97655AC61A5D915C004A2884 /* TSSettingsTableViewController.m in Sources */,
 				FBB860C11AF3595F0005474A /* JTSImageInfo.m in Sources */,
+				FB777C0E1B16D6B800754546 /* addressBookTableViewCell.m in Sources */,
+				FB777C071B162AD100754546 /* TSNewInviteParentViewController.m in Sources */,
 				FBA236901B0A475E0001D8E3 /* TSStartPageViewController.m in Sources */,
 				9786AE4C1A473E2B00801838 /* TSJoinNewClassViewController.m in Sources */,
+				FB777C111B16F3F400754546 /* TSAddressBook.m in Sources */,
 				FB93500A1AEA1075001BE394 /* Reachability.m in Sources */,
 				4068825E1A8A307D00C055E1 /* ProfilePictureViewController.m in Sources */,
 				40C7B2D31A935F6E00C1BFC8 /* ClassesViewController.m in Sources */,
 				403FFF121ABB5BEC008FB159 /* InviteParentViewController.m in Sources */,
+				FB777C0B1B16D5C000754546 /* TSAddressBookViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -449,21 +449,30 @@
 }
 */
 
-+(void) verifyOTPSignUp:(NSString *)phoneNum code:(NSInteger)code modal:(NSString *) modal os:(NSString *)os name:(NSString *)name role:(NSString *)role sex:(NSString*)sex successBlock:(successBlock) successBlock errorBlock:(errorBlock) errorBlock{
++(void) verifyOTPSignUp:(NSString *)phoneNum code:(NSInteger)code modal:(NSString *) modal os:(NSString *)os name:(NSString *)name role:(NSString *)role sex:(NSString*)sex latitude:(double)lat longitude:(double)lng haveCoordinates:(BOOL)haveCoordinates successBlock:(successBlock) successBlock errorBlock:(errorBlock) errorBlock{
     NSNumber *codeNum = [NSNumber numberWithInteger:code];
-
-    [PFCloud callFunctionInBackground:@"verifyCode" withParameters:@{@"number":phoneNum ,@"code":codeNum, @"modal":modal, @"os":os ,@"name":name, @"role":role ,@"sex":sex} block:^(id object, NSError *error) {
-        if (error) {
-            NSLog(@"Error");
-            
-            errorBlock(error);
-        } else {
-            NSLog(@"Success");
-            
-            successBlock(object);
-        }
-    }];
-    
+    if(haveCoordinates) {
+        [PFCloud callFunctionInBackground:@"verifyCode" withParameters:@{@"number":phoneNum ,@"code":codeNum, @"model":modal, @"os":os ,@"name":name, @"role":role, @"sex":sex, @"lat":[NSNumber numberWithDouble:lat], @"long":[NSNumber numberWithDouble:lng]} block:^(id object, NSError *error) {
+            if (error) {
+                NSLog(@"Error");
+                errorBlock(error);
+            } else {
+                NSLog(@"Success");
+                successBlock(object);
+            }
+        }];
+    }
+    else {
+        [PFCloud callFunctionInBackground:@"verifyCode" withParameters:@{@"number":phoneNum ,@"code":codeNum, @"model":modal, @"os":os ,@"name":name, @"role":role, @"sex":sex} block:^(id object, NSError *error) {
+            if (error) {
+                NSLog(@"Error");
+                errorBlock(error);
+            } else {
+                NSLog(@"Success");
+                successBlock(object);
+            }
+        }];
+    }
 }
 
 
@@ -487,7 +496,7 @@
 }
 
 +(void) saveInstallationId:(NSString *)installationId deviceType:(NSString *)deviceType successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock{
-    [PFCloud callFunctionInBackground:@"appInstallation" withParameters:@{@"installationId":installationId,@"deviceType":deviceType }block:^(id object, NSError *error) {
+    [PFCloud callFunctionInBackground:@"appInstallation" withParameters:@{@"installationId":installationId, @"deviceType":deviceType }block:^(id object, NSError *error) {
         if(error)
         {
             NSLog(@"Could not save installationID");

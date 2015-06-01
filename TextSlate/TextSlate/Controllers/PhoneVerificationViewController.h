@@ -18,6 +18,9 @@
 @property (strong,nonatomic) NSString *otpCode;
 @property (strong, nonatomic) NSString *modal;
 @property (strong, nonatomic) NSString *role;
+@property (nonatomic) double latitude;
+@property (nonatomic) double longitude;
+@property (nonatomic) BOOL areCoordinatesUpdated;
 @property (assign) bool isNewSignIn ;
 @property (assign) bool isSignUp ;
 
