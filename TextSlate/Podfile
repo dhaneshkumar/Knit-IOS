@@ -5,7 +5,8 @@ target 'Knit' do
     pod 'MBProgressHUD', '~> 0.9.1'
     pod 'RKDropdownAlert'
     pod 'UIFloatLabelTextField'
-
+	pod 'YLGIFImage'
+    pod 'PulsingHalo'
 end
 
 

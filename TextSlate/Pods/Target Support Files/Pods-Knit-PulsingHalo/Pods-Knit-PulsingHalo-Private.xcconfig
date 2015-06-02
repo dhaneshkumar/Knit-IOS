@@ -1,0 +1,6 @@
+#include "Pods-Knit-PulsingHalo.xcconfig"
+GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
+HEADER_SEARCH_PATHS = "${PODS_ROOT}/Headers/Private" "${PODS_ROOT}/Headers/Private/PulsingHalo" "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/MBProgressHUD" "${PODS_ROOT}/Headers/Public/PulsingHalo" "${PODS_ROOT}/Headers/Public/RKDropdownAlert" "${PODS_ROOT}/Headers/Public/UIFloatLabelTextField" "${PODS_ROOT}/Headers/Public/YLGIFImage"
+OTHER_LDFLAGS = ${PODS_KNIT_PULSINGHALO_OTHER_LDFLAGS} -ObjC
+PODS_ROOT = ${SRCROOT}
+SKIP_INSTALL = YES

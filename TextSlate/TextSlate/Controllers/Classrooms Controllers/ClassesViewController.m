@@ -14,12 +14,15 @@
 #import "sharedCache.h"
 #import "Data.h"
 #import "MBProgressHUD.h"
+#import "PulsingHaloLayer.h"
 
 @interface ClassesViewController ()
 
 @property (strong, nonatomic) NSMutableArray *joinedClasses;
 @property (strong, nonatomic) NSMutableArray *createdClasses;
 @property (strong, nonatomic) NSMutableDictionary *codegroups;
+@property (nonatomic) BOOL isHaloLayerAlreadyAdded;
+
 @property (weak, nonatomic) IBOutlet UIButton *createOrJoinButton;
 - (IBAction)buttonTapped:(id)sender;
 
@@ -38,6 +41,7 @@
     [[_createOrJoinButton layer] setBorderColor:[[UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0] CGColor]];
     _createdClassesVCs = [[NSMutableDictionary alloc] init];
     _joinedClassVCs = [[NSMutableDictionary alloc] init];
+    _isHaloLayerAlreadyAdded = false;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -186,10 +190,63 @@
 
 
 - (IBAction)segmentChanged:(id)sender {
-    if(self.segmentedControl.selectedSegmentIndex==0)
+    if(self.segmentedControl.selectedSegmentIndex==0) {
         [_createOrJoinButton setTitle:@"+ Create Class" forState:UIControlStateNormal];
-    else
+        if(_createdClasses.count==0 && !_isHaloLayerAlreadyAdded) {
+            PulsingHaloLayer *halo1 = [PulsingHaloLayer layer];
+            halo1.position = _createOrJoinButton.center;
+            halo1.radius = 30.0;
+            halo1.animationDuration = 1.2;
+            PulsingHaloLayer *halo2 = [PulsingHaloLayer layer];
+            halo2.position = _createOrJoinButton.center;
+            halo2.radius = 20.0;
+            halo2.animationDuration = 1.0;
+            [self.view.layer addSublayer:halo1];
+            [self.view.layer addSublayer:halo2];
+            _isHaloLayerAlreadyAdded = true;
+        }
+        else if(_createdClasses.count>0 && _isHaloLayerAlreadyAdded) {
+            NSMutableArray *arr = [[NSMutableArray alloc] init];
+            for (CALayer *layer in self.view.layer.sublayers) {
+                if([layer isKindOfClass:[PulsingHaloLayer class]]) {
+                    [arr addObject:layer];
+                }
+            }
+            for(CALayer *layer in arr) {
+                [layer removeFromSuperlayer];
+            }
+            _isHaloLayerAlreadyAdded = false;
+        }
+    }
+    else {
         [_createOrJoinButton setTitle:@"+ Join Class" forState:UIControlStateNormal];
+        if(_joinedClasses.count==0 && !_isHaloLayerAlreadyAdded) {
+            PulsingHaloLayer *halo1 = [PulsingHaloLayer layer];
+            halo1.position = _createOrJoinButton.center;
+            halo1.radius = 30.0;
+            halo1.animationDuration = 1.2;
+            PulsingHaloLayer *halo2 = [PulsingHaloLayer layer];
+            halo2.position = _createOrJoinButton.center;
+            halo2.radius = 20.0;
+            halo2.animationDuration = 1.0;
+            [self.view.layer addSublayer:halo1];
+            [self.view.layer addSublayer:halo2];
+            _isHaloLayerAlreadyAdded = true;
+        }
+        else if(_joinedClasses.count>0 && _isHaloLayerAlreadyAdded) {
+            NSMutableArray *arr = [[NSMutableArray alloc] init];
+            for (CALayer *layer in self.view.layer.sublayers) {
+                if([layer isKindOfClass:[PulsingHaloLayer class]]) {
+                    [arr addObject:layer];
+                }
+            }
+            for(CALayer *layer in arr) {
+                [layer removeFromSuperlayer];
+            }
+
+            _isHaloLayerAlreadyAdded = false;
+        }
+    }
     [self.classesTable reloadData];
 }
 
@@ -205,8 +262,65 @@
     
     for(NSArray *joinedcl in _joinedClasses)
         [joinedClassCodes addObject:joinedcl[0]];
-    if(_joinedClasses.count==0 && _createdClasses.count==0)
+    if(self.segmentedControl.selectedSegmentIndex == 0) {
+        if(_createdClasses.count==0 && !_isHaloLayerAlreadyAdded) {
+            PulsingHaloLayer *halo1 = [PulsingHaloLayer layer];
+            halo1.position = _createOrJoinButton.center;
+            halo1.radius = 30.0;
+            halo1.animationDuration = 1.2;
+            PulsingHaloLayer *halo2 = [PulsingHaloLayer layer];
+            halo2.position = _createOrJoinButton.center;
+            halo2.radius = 20.0;
+            halo2.animationDuration = 1.0;
+            [self.view.layer addSublayer:halo1];
+            [self.view.layer addSublayer:halo2];
+            _isHaloLayerAlreadyAdded = true;
+        }
+        else if(_createdClasses.count>0 && _isHaloLayerAlreadyAdded) {
+            NSMutableArray *arr = [[NSMutableArray alloc] init];
+            for (CALayer *layer in self.view.layer.sublayers) {
+                if([layer isKindOfClass:[PulsingHaloLayer class]]) {
+                    [arr addObject:layer];
+                }
+            }
+            for(CALayer *layer in arr) {
+                [layer removeFromSuperlayer];
+            }
+            _isHaloLayerAlreadyAdded = false;
+        }
+    }
+    else {
+        if(_joinedClasses.count==0 && !_isHaloLayerAlreadyAdded) {
+            PulsingHaloLayer *halo1 = [PulsingHaloLayer layer];
+            halo1.position = _createOrJoinButton.center;
+            halo1.radius = 30.0;
+            halo1.animationDuration = 1.2;
+            PulsingHaloLayer *halo2 = [PulsingHaloLayer layer];
+            halo2.position = _createOrJoinButton.center;
+            halo2.radius = 20.0;
+            halo2.animationDuration = 1.0;
+            [self.view.layer addSublayer:halo1];
+            [self.view.layer addSublayer:halo2];
+            _isHaloLayerAlreadyAdded = true;
+        }
+        else if(_joinedClasses.count>0 && _isHaloLayerAlreadyAdded) {
+            NSMutableArray *arr = [[NSMutableArray alloc] init];
+            for (CALayer *layer in self.view.layer.sublayers) {
+                if([layer isKindOfClass:[PulsingHaloLayer class]]) {
+                    [arr addObject:layer];
+                }
+            }
+            for(CALayer *layer in arr) {
+                [layer removeFromSuperlayer];
+            }
+            _isHaloLayerAlreadyAdded = false;
+        }
+    }
+    
+    if(_joinedClasses.count==0 && _createdClasses.count==0) {
         return;
+    }
+
     
     PFQuery *localQuery = [PFQuery queryWithClassName:@"Codegroup"];
     [localQuery fromLocalDatastore];
@@ -277,8 +391,6 @@
 */
 - (IBAction)buttonTapped:(id)sender {
     if(self.segmentedControl.selectedSegmentIndex==0) {
-        /*UINavigationController *createClassroomNavigationViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"startPageNavVC"];
-        [self presentViewController:createClassroomNavigationViewController animated:YES completion:nil];*/
         UINavigationController *createClassroomNavigationViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"createNewClassNavigationController"];
         [self presentViewController:createClassroomNavigationViewController animated:YES completion:nil];
     }

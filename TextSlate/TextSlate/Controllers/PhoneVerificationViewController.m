@@ -300,9 +300,7 @@
             PFUser *current=[PFUser currentUser];
             NSArray *createdClass=[current objectForKey:@"Created_groups"];
     
-            if(createdClass.count<1 )
-        
-            {
+            if(createdClass.count<1 ) {
                 UILocalNotification *localNotification = [[UILocalNotification alloc] init];
                 localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:5];
                 localNotification.alertBody = @"We see you have not created any class.";

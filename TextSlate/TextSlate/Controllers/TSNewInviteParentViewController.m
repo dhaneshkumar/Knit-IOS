@@ -10,6 +10,7 @@
 #import "TSAddressBookViewController.h"
 #import <AddressBook/AddressBook.h>
 #import "RKDropdownAlert.h"
+#import "TSGifViewerViewController.h"
 
 @interface TSNewInviteParentViewController ()
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *verticalSpace1;
@@ -34,7 +35,7 @@
     
     float screenHeight = [self getScreenHeight];
     float unit = screenHeight/13.0;
-    
+    NSLog(@"self.view.height : %f", self.view.frame.size.height);
     _view1Height.constant = 1.4*unit;
     _view2Height.constant = 2*unit;
     _view3Height.constant = 2*unit;
@@ -48,6 +49,13 @@
     [_view2 addGestureRecognizer:view2Tap];
     [_view3 addGestureRecognizer:view3Tap];
     [_view4 addGestureRecognizer:view4Tap];
+    
+    UITapGestureRecognizer *label1Tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(label1Tapped:)];
+    UITapGestureRecognizer *label2Tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(label2Tapped:)];
+    [_label1 addGestureRecognizer:label1Tap];
+    [_label2 addGestureRecognizer:label2Tap];
+    _label1.userInteractionEnabled = YES;
+    _label2.userInteractionEnabled = YES;
     
     CALayer *border = [CALayer layer];
     border.frame = CGRectMake(0.0f, 1.4*unit-1.0f, _view1.frame.size.width, 1.0f);
@@ -137,6 +145,17 @@
     }
 }
 
+-(void)label1Tapped:(UITapGestureRecognizer *)recognizer {
+    TSGifViewerViewController *gifViewerVC = [self.storyboard instantiateViewControllerWithIdentifier:@"gifViewerVC"];
+    gifViewerVC.showAppGif = true;
+    [self.navigationController pushViewController:gifViewerVC animated:YES];
+}
+
+-(void)label2Tapped:(UITapGestureRecognizer *)recognizer {
+    TSGifViewerViewController *gifViewerVC = [self.storyboard instantiateViewControllerWithIdentifier:@"gifViewerVC"];
+    gifViewerVC.showAppGif = false;
+    [self.navigationController pushViewController:gifViewerVC animated:YES];
+}
 
 /*
 #pragma mark - Navigation
