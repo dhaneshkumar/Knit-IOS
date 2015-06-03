@@ -15,6 +15,12 @@
 @interface TSNewInviteParentViewController ()
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *verticalSpace1;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *verticalSpace2;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *verticalSpace3;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *verticalSpace4;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *horizontalSpace1;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *horizontalSpace2;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *button1Width;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *button2Width;
 @property (weak, nonatomic) IBOutlet UIView *view1;
 @property (weak, nonatomic) IBOutlet UIView *view2;
 @property (weak, nonatomic) IBOutlet UIView *view3;
@@ -26,6 +32,12 @@
 @property (weak, nonatomic) IBOutlet UILabel *label1;
 @property (weak, nonatomic) IBOutlet UILabel *label2;
 
+@property (weak, nonatomic) IBOutlet UIButton *smsButton;
+@property (weak, nonatomic) IBOutlet UIButton *appButton;
+
+- (IBAction)smsTapped:(id)sender;
+- (IBAction)appTapped:(id)sender;
+
 @end
 
 @implementation TSNewInviteParentViewController
@@ -34,15 +46,25 @@
     [super viewDidLoad];
     
     float screenHeight = [self getScreenHeight];
-    float unit = screenHeight/13.0;
+    float unit = (screenHeight - 64.0)/12.0;
     NSLog(@"self.view.height : %f", self.view.frame.size.height);
     _view1Height.constant = 1.4*unit;
     _view2Height.constant = 2*unit;
     _view3Height.constant = 2*unit;
     _view4Height.constant = 2*unit;
-    _verticalSpace1.constant = 1.5*unit;
-    _verticalSpace2.constant = 0.5*unit;
-    
+    _verticalSpace1.constant = 0.5*unit;
+    _verticalSpace2.constant = 1.5*unit;
+    _verticalSpace3.constant = _verticalSpace4.constant = 0.5*unit;
+    _horizontalSpace1.constant = _horizontalSpace2.constant = 24.0;
+    _button1Width.constant = _button2Width.constant = ([self getScreenWidth] - 3*24.0 - 2*16.0)/2.0;
+    [_smsButton.layer setBorderWidth:0.5];
+    [_smsButton.layer setShadowOffset:CGSizeMake(0.5, 0.5)];
+    [_smsButton.layer setShadowColor:[[UIColor blackColor] CGColor]];
+    [_smsButton.layer setShadowOpacity:0.5];
+    [_appButton.layer setBorderWidth:0.5];
+    [_appButton.layer setShadowOffset:CGSizeMake(0.5, 0.5)];
+    [_appButton.layer setShadowColor:[[UIColor blackColor] CGColor]];
+    [_appButton.layer setShadowOpacity:0.5];
     UITapGestureRecognizer *view2Tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(view2Tapped:)];
     UITapGestureRecognizer *view3Tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(view3Tapped:)];
     UITapGestureRecognizer *view4Tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(view4Tapped:)];
@@ -51,26 +73,23 @@
     [_view4 addGestureRecognizer:view4Tap];
     
     UITapGestureRecognizer *label1Tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(label1Tapped:)];
-    UITapGestureRecognizer *label2Tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(label2Tapped:)];
     [_label1 addGestureRecognizer:label1Tap];
-    [_label2 addGestureRecognizer:label2Tap];
     _label1.userInteractionEnabled = YES;
-    _label2.userInteractionEnabled = YES;
     
     CALayer *border = [CALayer layer];
-    border.frame = CGRectMake(0.0f, 1.4*unit-1.0f, _view1.frame.size.width, 1.0f);
+    border.frame = CGRectMake(21.0f, 1.4*unit-1.0f, _view1.frame.size.width, 1.0f);
     border.backgroundColor = [UIColor colorWithRed:130.0f/255.0f green:130.0f/255.0f blue:130.0f/255.0f alpha:0.8f].CGColor;
     [_view1.layer addSublayer:border];
     border = [CALayer layer];
-    border.frame = CGRectMake(0.0f, 2*unit-1.0f, _view2.frame.size.width, 1.0f);
+    border.frame = CGRectMake(21.0f, 2*unit-1.0f, _view2.frame.size.width, 1.0f);
     border.backgroundColor = [UIColor colorWithRed:130.0f/255.0f green:130.0f/255.0f blue:130.0f/255.0f alpha:0.8f].CGColor;
     [_view2.layer addSublayer:border];
     border = [CALayer layer];
-    border.frame = CGRectMake(0.0f, 2*unit-1.0f, _view3.frame.size.width, 1.0f);
+    border.frame = CGRectMake(21.0f, 2*unit-1.0f, _view3.frame.size.width, 1.0f);
     border.backgroundColor = [UIColor colorWithRed:130.0f/255.0f green:130.0f/255.0f blue:130.0f/255.0f alpha:0.8f].CGColor;
     [_view3.layer addSublayer:border];
     border = [CALayer layer];
-    border.frame = CGRectMake(0.0f, 2*unit-1.0f, _view4.frame.size.width, 1.0f);
+    border.frame = CGRectMake(21.0f, 2*unit-1.0f, _view4.frame.size.width, 1.0f);
     border.backgroundColor = [UIColor colorWithRed:130.0f/255.0f green:130.0f/255.0f blue:130.0f/255.0f alpha:0.8f].CGColor;
     [_view4.layer addSublayer:border];
     
@@ -94,6 +113,13 @@
     CGFloat screenHeight = screenRect.size.height;
     return screenHeight;
 }
+
+-(CGFloat) getScreenWidth {
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    CGFloat screenWidth = screenRect.size.width;
+    return screenWidth;
+}
+
 
 -(void)view2Tapped:(UITapGestureRecognizer *)recognizer {
     NSLog(@"yaha");
@@ -145,16 +171,9 @@
     }
 }
 
--(void)label1Tapped:(UITapGestureRecognizer *)recognizer {
-    TSGifViewerViewController *gifViewerVC = [self.storyboard instantiateViewControllerWithIdentifier:@"gifViewerVC"];
-    gifViewerVC.showAppGif = true;
-    [self.navigationController pushViewController:gifViewerVC animated:YES];
-}
 
--(void)label2Tapped:(UITapGestureRecognizer *)recognizer {
-    TSGifViewerViewController *gifViewerVC = [self.storyboard instantiateViewControllerWithIdentifier:@"gifViewerVC"];
-    gifViewerVC.showAppGif = false;
-    [self.navigationController pushViewController:gifViewerVC animated:YES];
+-(void)label1Tapped:(id)sender {
+    
 }
 
 /*
@@ -167,4 +186,15 @@
 }
 */
 
+- (IBAction)smsTapped:(id)sender {
+    TSGifViewerViewController *gifViewerVC = [self.storyboard instantiateViewControllerWithIdentifier:@"gifViewerVC"];
+    gifViewerVC.showAppGif = false;
+    [self.navigationController pushViewController:gifViewerVC animated:YES];
+}
+
+- (IBAction)appTapped:(id)sender {
+    TSGifViewerViewController *gifViewerVC = [self.storyboard instantiateViewControllerWithIdentifier:@"gifViewerVC"];
+    gifViewerVC.showAppGif = true;
+    [self.navigationController pushViewController:gifViewerVC animated:YES];
+}
 @end

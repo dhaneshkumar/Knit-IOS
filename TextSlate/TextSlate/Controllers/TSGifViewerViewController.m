@@ -39,7 +39,7 @@
     CGRect screenRect = [[UIScreen mainScreen] bounds];
     CGFloat screenHeight = screenRect.size.height - 64.0;
     CGFloat screenWidth = screenRect.size.width;
-    float heightUnit = screenHeight/5.0;
+    float heightUnit = screenHeight/6.0;
     float widthUnit = screenWidth/7.0;
     
     YLImageView* imageView = [[YLImageView alloc] initWithFrame:CGRectMake(widthUnit, heightUnit, 5*widthUnit, 3*heightUnit)];

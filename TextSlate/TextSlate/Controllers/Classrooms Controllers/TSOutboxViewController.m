@@ -60,7 +60,7 @@
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     UIBarButtonItem *composeBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose  target:self action:@selector(composeMessage)];
-        self.tabBarController.navigationItem.rightBarButtonItem = composeBarButtonItem;
+    self.tabBarController.navigationItem.rightBarButtonItem = composeBarButtonItem;
     NSLog(@"vwa ended : %@", self.tabBarController.navigationItem.rightBarButtonItem);
     [_messagesTable reloadData];
 }
@@ -278,9 +278,7 @@
 
 -(void)composeMessage {
     if([self noCreatedClasses]) {
-     //   UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"You cannot send messages as you have not created any class." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-       // [errorAlertView show];
-         [RKDropdownAlert title:@"Knit" message:@"You cannot send message as you have not created any class."  time:2];
+        [RKDropdownAlert title:@"Knit" message:@"You cannot send message as you have not created any class."  time:2];
     }
     else {
         UINavigationController *joinNewClassNavigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"messageComposer"];

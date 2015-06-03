@@ -387,6 +387,24 @@
     }
 }
 
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    
+    if([textField isEqual:_mobilTextField]) {
+        // Prevent crashing undo bug – see note below.
+        if(range.length + range.location > textField.text.length) {
+            return NO;
+        }
+        
+        if ([string rangeOfCharacterFromSet:[[NSCharacterSet decimalDigitCharacterSet] invertedSet]].location != NSNotFound) {
+            return NO;
+        }
+        
+        NSUInteger newLength = [textField.text length] + [string length] - range.length;
+        return (newLength > 10) ? NO : YES;
+    }
+    return YES;
+}
+
 
 
 /*

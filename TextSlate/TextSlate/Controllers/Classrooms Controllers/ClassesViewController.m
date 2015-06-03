@@ -26,6 +26,12 @@
 @property (weak, nonatomic) IBOutlet UIButton *createOrJoinButton;
 - (IBAction)buttonTapped:(id)sender;
 
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *segmentedControlHeight;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *segmentedControlWidth;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *buttonHeight;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *buttonWidth;
+@property (weak, nonatomic) IBOutlet UIView *createdClassUpperView;
+@property (weak, nonatomic) IBOutlet UIView *joinedClassUpperView;
 @end
 
 @implementation ClassesViewController
@@ -36,12 +42,25 @@
     self.classesTable.delegate = self;
     self.classesTable.dataSource = self;
     self.classesTable.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
-    [TSUtils applyRoundedCorners:_createOrJoinButton];
-    [[_createOrJoinButton layer] setBorderWidth:0.5f];
+    //[TSUtils applyRoundedCorners:_createOrJoinButton];
+    [[_createOrJoinButton layer] setBorderWidth:0.3f];
     [[_createOrJoinButton layer] setBorderColor:[[UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0] CGColor]];
+    [_createOrJoinButton.layer setShadowOffset:CGSizeMake(0.3, 0.3)];
+    [_createOrJoinButton.layer setShadowColor:[[UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0] CGColor]];
+    [_createOrJoinButton.layer setShadowOpacity:0.3];
+    
     _createdClassesVCs = [[NSMutableDictionary alloc] init];
     _joinedClassVCs = [[NSMutableDictionary alloc] init];
     _isHaloLayerAlreadyAdded = false;
+    CGFloat screenWidth = [TSUtils getScreenWidth];
+    _segmentedControlHeight.constant = 36.0;
+    _segmentedControlWidth.constant = screenWidth - 50.0;
+    _buttonHeight.constant = 60.0;
+    _buttonWidth.constant = screenWidth - 12.0;
+    UITapGestureRecognizer *view1Tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(view1Tapped:)];
+    UITapGestureRecognizer *view2Tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(view2Tapped:)];
+    [_createdClassUpperView addGestureRecognizer:view1Tap];
+    [_joinedClassUpperView addGestureRecognizer:view2Tap];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -59,9 +78,9 @@
     //self.tabBarController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editButtonSelected:)];
     [self.classesTable setEditing:NO animated:NO];
     if(self.segmentedControl.selectedSegmentIndex==0)
-        [_createOrJoinButton setTitle:@"+  Create Class" forState:UIControlStateNormal];
+        [_createOrJoinButton setTitle:@"+  Create New Class" forState:UIControlStateNormal];
     else
-        [_createOrJoinButton setTitle:@"+  Join Class" forState:UIControlStateNormal];
+        [_createOrJoinButton setTitle:@"+  Join New Class" forState:UIControlStateNormal];
     if([PFUser currentUser]){
         [self fillDataModel];
     }
@@ -191,7 +210,7 @@
 
 - (IBAction)segmentChanged:(id)sender {
     if(self.segmentedControl.selectedSegmentIndex==0) {
-        [_createOrJoinButton setTitle:@"+ Create Class" forState:UIControlStateNormal];
+        [_createOrJoinButton setTitle:@"+ Create New Class" forState:UIControlStateNormal];
         if(_createdClasses.count==0 && !_isHaloLayerAlreadyAdded) {
             PulsingHaloLayer *halo1 = [PulsingHaloLayer layer];
             halo1.position = _createOrJoinButton.center;
@@ -219,7 +238,7 @@
         }
     }
     else {
-        [_createOrJoinButton setTitle:@"+ Join Class" forState:UIControlStateNormal];
+        [_createOrJoinButton setTitle:@"+ Join New Class" forState:UIControlStateNormal];
         if(_joinedClasses.count==0 && !_isHaloLayerAlreadyAdded) {
             PulsingHaloLayer *halo1 = [PulsingHaloLayer layer];
             halo1.position = _createOrJoinButton.center;
@@ -398,6 +417,76 @@
         UINavigationController *joinNewClassNavigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"joinNewClassViewController"];
         [self presentViewController:joinNewClassNavigationController animated:YES completion:nil];
     }
-    
 }
+
+
+-(void)view1Tapped:(UITapGestureRecognizer *)recognizer {
+    if(self.segmentedControl.selectedSegmentIndex==1) {
+        [self.segmentedControl setSelectedSegmentIndex:0];
+        [_createOrJoinButton setTitle:@"+ Create New Class" forState:UIControlStateNormal];
+        if(_createdClasses.count==0 && !_isHaloLayerAlreadyAdded) {
+            PulsingHaloLayer *halo1 = [PulsingHaloLayer layer];
+            halo1.position = _createOrJoinButton.center;
+            halo1.radius = 30.0;
+            halo1.animationDuration = 1.2;
+            PulsingHaloLayer *halo2 = [PulsingHaloLayer layer];
+            halo2.position = _createOrJoinButton.center;
+            halo2.radius = 20.0;
+            halo2.animationDuration = 1.0;
+            [self.view.layer addSublayer:halo1];
+            [self.view.layer addSublayer:halo2];
+            _isHaloLayerAlreadyAdded = true;
+        }
+        else if(_createdClasses.count>0 && _isHaloLayerAlreadyAdded) {
+            NSMutableArray *arr = [[NSMutableArray alloc] init];
+            for (CALayer *layer in self.view.layer.sublayers) {
+                if([layer isKindOfClass:[PulsingHaloLayer class]]) {
+                    [arr addObject:layer];
+                }
+            }
+            for(CALayer *layer in arr) {
+                [layer removeFromSuperlayer];
+            }
+            _isHaloLayerAlreadyAdded = false;
+        }
+    }
+    [self.classesTable reloadData];
+}
+
+
+-(void)view2Tapped:(UITapGestureRecognizer *)recognizer {
+    if(self.segmentedControl.selectedSegmentIndex==0) {
+        [self.segmentedControl setSelectedSegmentIndex:1];
+        [_createOrJoinButton setTitle:@"+ Join New Class" forState:UIControlStateNormal];
+        if(_joinedClasses.count==0 && !_isHaloLayerAlreadyAdded) {
+            PulsingHaloLayer *halo1 = [PulsingHaloLayer layer];
+            halo1.position = _createOrJoinButton.center;
+            halo1.radius = 30.0;
+            halo1.animationDuration = 1.2;
+            PulsingHaloLayer *halo2 = [PulsingHaloLayer layer];
+            halo2.position = _createOrJoinButton.center;
+            halo2.radius = 20.0;
+            halo2.animationDuration = 1.0;
+            [self.view.layer addSublayer:halo1];
+            [self.view.layer addSublayer:halo2];
+            _isHaloLayerAlreadyAdded = true;
+        }
+        else if(_joinedClasses.count>0 && _isHaloLayerAlreadyAdded) {
+            NSMutableArray *arr = [[NSMutableArray alloc] init];
+            for (CALayer *layer in self.view.layer.sublayers) {
+                if([layer isKindOfClass:[PulsingHaloLayer class]]) {
+                    [arr addObject:layer];
+                }
+            }
+            for(CALayer *layer in arr) {
+                [layer removeFromSuperlayer];
+            }
+            
+            _isHaloLayerAlreadyAdded = false;
+        }
+    }
+    [self.classesTable reloadData];
+}
+
+
 @end

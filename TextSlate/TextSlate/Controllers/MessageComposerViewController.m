@@ -50,6 +50,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationItem.title=@"Compose";
+    UIBarButtonItem *cancelBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemStop  target:self action:@selector(closeWindow)];
+    self.navigationItem.leftBarButtonItem = cancelBarButtonItem;
     _attachImage=[[UIImageView alloc]init];
     [_attachImage setFrame:CGRectMake(65,1, 60, 40 )];
     _attachImage.contentMode=UIViewContentModeScaleToFill;
@@ -101,22 +103,23 @@
     _recipient.text=@"Tap to select Classroom";
     _recipient.textColor=[UIColor lightGrayColor];
     _recipient.font=[UIFont systemFontOfSize:14];
-
+    
     _createdClasses=[[PFUser currentUser] objectForKey:@"Created_groups"];
     NSLog(@"object return %@",[_createdClasses objectAtIndex:0]);
-    for(NSArray *a in _createdClasses)
-    {
+    for(NSArray *a in _createdClasses) {
         [_createdclassCode addObject:[a objectAtIndex:0]];
         [_createdclassName addObject:[a objectAtIndex:1]];
-        
     }
     NSLog(@"created class name %@",_createdclassName);
     NSLog(@"created class code %@",_createdclassCode);
-
-    
-    
-    
 }
+
+
+-(void)closeWindow {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+
 -(void)viewDidAppear:(BOOL)animated{
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(liftMainViewWhenKeybordAppears:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(liftMainViewWhenKeybordHide:) name:UIKeyboardDidHideNotification object:nil];
@@ -552,9 +555,7 @@
 }
 
 
--(IBAction)cancelButton:(id)sender{
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
+
 -(void)removeAttachment{
     _finalAttachment=nil;
     self.progressBar.hidden=YES;

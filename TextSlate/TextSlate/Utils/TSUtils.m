@@ -30,4 +30,16 @@
     return 0;
 }
 
++(CGFloat)getScreenHeight {
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    CGFloat screenHeight = screenRect.size.height;
+    return screenHeight;
+}
+
++(CGFloat)getScreenWidth {
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    CGFloat screenWidth = screenRect.size.width;
+    return screenWidth;
+}
+
 @end
