@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MessageComposerViewController : UIViewController<UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITextFieldDelegate,UITextViewDelegate,UITableViewDelegate,UITableViewDataSource,UIActionSheetDelegate>
+@interface MessageComposerViewController : UIViewController<UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITextFieldDelegate,UITextViewDelegate,UIActionSheetDelegate>
 @property bool isClass;
 @property (strong,nonatomic) NSString *classcode;
 @property (strong,nonatomic) NSString *classname;

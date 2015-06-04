@@ -10,6 +10,7 @@
 #import "TSAddressBook.h"
 #import "addressBookTableViewCell.h"
 #import <AddressBook/AddressBook.h>
+#import <Parse/Parse.h>
 
 @interface TSAddressBookViewController ()
 
@@ -119,6 +120,7 @@
     TSAddressBook *addressBookEntry = [_addressBook objectAtIndex:indexPath.row];
     if(!addressBookEntry.invited) {
         addressBookEntry.invited = true;
+        PFObject *member = [[PFObject alloc] initWithClassName:@"invitedMembers"];
         NSIndexPath* rowToReload = [NSIndexPath indexPathForRow:indexPath.row inSection:0];
         NSArray* rowsToReload = [NSArray arrayWithObjects:rowToReload, nil];
         [self.tableView reloadRowsAtIndexPaths:rowsToReload withRowAnimation:UITableViewRowAnimationNone];

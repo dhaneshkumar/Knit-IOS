@@ -11,5 +11,7 @@
 @interface TSAddressBookViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic) BOOL isAddressBook;
+@property (nonatomic) int type;
+@property (strong, nonatomic) NSString *classCode;
 
 @end
