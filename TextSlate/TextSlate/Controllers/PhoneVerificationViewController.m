@@ -88,6 +88,7 @@
                         if (error) {
                             [hud hide:YES];
                             [RKDropdownAlert title:@"Knit" message:@"Error in signing up. Try again."  time:2];
+                            NSLog(@"PFUser in background sign up ka pain");
                             return;
                         } else {
                             PFUser *current=[PFUser currentUser];
@@ -153,6 +154,7 @@
                             } errorBlock:^(NSError *error) {
                                 [hud hide:YES];
                                 [RKDropdownAlert title:@"Knit" message:@"Error in signing up. Try again."  time:2];
+                                NSLog(@" in background sign up ka pain");
                                 return;
                             }];
                         }
@@ -160,7 +162,7 @@
                 }
                 else {
                     [hud hide:YES];
-                    [RKDropdownAlert title:@"Knit" message:@"Error in signing up. Try again."  time:2];
+                    [RKDropdownAlert title:@"Knit" message:@"Incorrect OTP. Try again."  time:2];
                     return;
                 }
             } errorBlock:^(NSError *error) {
@@ -172,7 +174,7 @@
                     return;
                 }
                 [hud hide:YES];
-                [RKDropdownAlert title:@"Knit" message:@"Incorrect OTP."  time:2];
+                [RKDropdownAlert title:@"Knit" message:@"Error in signing up. Try again."  time:2];
                 return;
             }];
         }
@@ -199,6 +201,7 @@
                         if (error) {
                             [hud hide:YES];
                             [RKDropdownAlert title:@"Knit" message:@"Error in signing in.Try again." time:2];
+                            NSLog(@"user become in bg ka pain on new login");
                             return;
                         } else {
                             NSLog(@"Successfully Validated ");
@@ -267,6 +270,7 @@
                             } errorBlock:^(NSError *error) {
                                 [hud hide:YES];
                                 [RKDropdownAlert title:@"Knit" message:@"Error in signing in.Try again." time:2];
+                                NSLog(@"save installation id ka pain in new login");
                                 return;
                             }];
                         }

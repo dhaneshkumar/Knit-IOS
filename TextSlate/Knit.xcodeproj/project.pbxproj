@@ -66,8 +66,8 @@
 		FB1F47BD1A7589AE0093350B /* 180x180.png in Resources */ = {isa = PBXBuildFile; fileRef = FB1F47B91A7589AE0093350B /* 180x180.png */; };
 		FB65C9621B1C357A00EAE58E /* BlackoutView.m in Sources */ = {isa = PBXBuildFile; fileRef = FB65C9611B1C357A00EAE58E /* BlackoutView.m */; };
 		FB65C9651B1D808F00EAE58E /* inviteParentsViaApp.gif in Resources */ = {isa = PBXBuildFile; fileRef = FB65C9631B1D808F00EAE58E /* inviteParentsViaApp.gif */; };
-		FB65C9661B1D808F00EAE58E /* inviteParentsViaSMS.gif in Resources */ = {isa = PBXBuildFile; fileRef = FB65C9641B1D808F00EAE58E /* inviteParentsViaSMS.gif */; };
 		FB65C96A1B1D80CA00EAE58E /* TSGifViewerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FB65C9691B1D80CA00EAE58E /* TSGifViewerViewController.m */; };
+		FB65C96C1B2175A700EAE58E /* inviteParentsViaSMS.gif in Resources */ = {isa = PBXBuildFile; fileRef = FB65C96B1B2175A700EAE58E /* inviteParentsViaSMS.gif */; };
 		FB6A04A81AC29770009E9D9D /* ios icons-15.png in Resources */ = {isa = PBXBuildFile; fileRef = FB6A04A71AC2976F009E9D9D /* ios icons-15.png */; };
 		FB6A04AF1AC2DE7B009E9D9D /* EditStudentNameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FB6A04AE1AC2DE7B009E9D9D /* EditStudentNameViewController.m */; };
 		FB777C071B162AD100754546 /* TSNewInviteParentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FB777C061B162AD100754546 /* TSNewInviteParentViewController.m */; };
@@ -255,9 +255,9 @@
 		FB65C9601B1C357A00EAE58E /* BlackoutView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlackoutView.h; sourceTree = "<group>"; };
 		FB65C9611B1C357A00EAE58E /* BlackoutView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BlackoutView.m; sourceTree = "<group>"; };
 		FB65C9631B1D808F00EAE58E /* inviteParentsViaApp.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = inviteParentsViaApp.gif; sourceTree = "<group>"; };
-		FB65C9641B1D808F00EAE58E /* inviteParentsViaSMS.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = inviteParentsViaSMS.gif; sourceTree = "<group>"; };
 		FB65C9681B1D80CA00EAE58E /* TSGifViewerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSGifViewerViewController.h; sourceTree = "<group>"; };
 		FB65C9691B1D80CA00EAE58E /* TSGifViewerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSGifViewerViewController.m; sourceTree = "<group>"; };
+		FB65C96B1B2175A700EAE58E /* inviteParentsViaSMS.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = inviteParentsViaSMS.gif; sourceTree = "<group>"; };
 		FB6A04A71AC2976F009E9D9D /* ios icons-15.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ios icons-15.png"; sourceTree = "<group>"; };
 		FB6A04AD1AC2DE7B009E9D9D /* EditStudentNameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditStudentNameViewController.h; sourceTree = "<group>"; };
 		FB6A04AE1AC2DE7B009E9D9D /* EditStudentNameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditStudentNameViewController.m; sourceTree = "<group>"; };
@@ -517,8 +517,8 @@
 		971687DB1A1F1BCA00FE98FC /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				FB65C96B1B2175A700EAE58E /* inviteParentsViaSMS.gif */,
 				FB65C9631B1D808F00EAE58E /* inviteParentsViaApp.gif */,
-				FB65C9641B1D808F00EAE58E /* inviteParentsViaSMS.gif */,
 				FB777C1E1B18780800754546 /* whatsapp@3x.png */,
 				FB777C1F1B18780800754546 /* whatsapp@2x.png */,
 				FB777C201B18780800754546 /* whatsapp@1x.png */,
@@ -1036,7 +1036,7 @@
 				40BB899B1AC431D3002CFDFE /* attachcancel.png in Resources */,
 				404C9E1A1AC02176001CF571 /* ios icons-27.png in Resources */,
 				FBAB18DC1B0E10F800440089 /* next@2x.png in Resources */,
-				FB65C9661B1D808F00EAE58E /* inviteParentsViaSMS.gif in Resources */,
+				FB65C96C1B2175A700EAE58E /* inviteParentsViaSMS.gif in Resources */,
 				FB777C1C1B1870EE00754546 /* grey arrow@1x.png in Resources */,
 				40C7415A1AC6A970007AA844 /* ios icons-20.png in Resources */,
 				FBA236941B0B2C8E0001D8E3 /* back@3x.png in Resources */,
