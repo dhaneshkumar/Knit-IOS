@@ -18,6 +18,7 @@
 @property (nonatomic) bool flag;
 @property (strong, nonatomic) NSString *selectedSchool;
 @property (assign) int isFirstClass;
+@property (weak, nonatomic) IBOutlet UIButton *createButton;
 
 @end
 
@@ -29,6 +30,9 @@
     self.classNameTextField.delegate = self;
     self.navigationItem.title = @"Knit";
     // Do any additional setup after loading the view.
+    [_createButton.layer setShadowOffset:CGSizeMake(0.5, 0.5)];
+    [_createButton.layer setShadowColor:[[UIColor blackColor] CGColor]];
+    [_createButton.layer setShadowOpacity:0.5];
 }
 
 - (void)didReceiveMemoryWarning {

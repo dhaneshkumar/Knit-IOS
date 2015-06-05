@@ -18,6 +18,7 @@
 #import "Reachability.h"
 #import "MBProgressHUD.h"
 #import "RKDropdownAlert.h"
+#import "TSNewInviteParentViewController.h"
 
 @interface TSJoinNewClassViewController ()
 
@@ -26,6 +27,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *joinButton;
 - (IBAction)inviteTeacherTapped:(id)sender;
 
+@property (weak, nonatomic) IBOutlet UIButton *inviteTeacherButton;
 @end
 
 @implementation TSJoinNewClassViewController
@@ -33,10 +35,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     _classCodeTextField.delegate=self;
-    //_activityIndicator.hidden=YES;
     self.navigationItem.title = @"Knit";
     self.navigationController.navigationBar.translucent = false;
-    // Do any additional setup after loading the view.
+    [_joinButton.layer setShadowOffset:CGSizeMake(0.5, 0.5)];
+    [_joinButton.layer setShadowColor:[[UIColor blackColor] CGColor]];
+    [_joinButton.layer setShadowOpacity:0.5];
+    [_inviteTeacherButton.layer setShadowOffset:CGSizeMake(0.5, 0.5)];
+    [_inviteTeacherButton.layer setShadowColor:[[UIColor blackColor] CGColor]];
+    [_inviteTeacherButton.layer setShadowOpacity:0.5];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -64,16 +70,10 @@
     NSString *classCodeTyped = [self trimmedString:_classCodeTextField.text];
     NSString *assocNameTyped = [_associatedPersonTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     if(classCodeTyped.length != 7) {
-//        UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Please make sure that class code has 7 characters." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-  //      [errorAlertView show];
-
         [RKDropdownAlert title:@"Knit" message:@"Please make sure class code has 7 characters." time:2];
-
         return;
     }
     if(assocNameTyped.length == 0) {
-//        UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"The associate name field cannot be left blank." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-//        [errorAlertView show];
         [RKDropdownAlert title:@"Knit" message:@"The associate name field cannot be left empty." time:2];
         return;
     }
@@ -99,7 +99,6 @@
         [joinedAndCreatedClassCodes addObject:[joinedClass objectAtIndex:0]];
     }
     if ([joinedAndCreatedClassCodes containsObject:classCodeTyped]) {
-        //UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"You have already joined this class." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
         [hud hide:YES];
         [RKDropdownAlert title:@"Knit" message:@"You have already joined this class!"  time:2];
         return;
@@ -109,7 +108,6 @@
         [joinedAndCreatedClassCodes addObject:[createdClass objectAtIndex:0]];
     }
     if ([joinedAndCreatedClassCodes containsObject:classCodeTyped]) {
-       // UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"You cannot join a class created by you." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
         [RKDropdownAlert title:@"Knit" message:@"Hey! You cannot join a class created by you."  time:2];
         [hud hide:YES];
          return;
@@ -185,19 +183,13 @@
         
         [codeGroupForClass pinInBackground];
         [[PFUser currentUser] fetch];
-       // UIAlertView *successAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:[NSString stringWithFormat:@"Successfully joined Class: %@ Creator : %@",codeGroupForClass[@"name"], codeGroupForClass[@"Creator"]] delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-        
         [hud hide:YES];
         [self dismissViewControllerAnimated:YES completion:nil];
-        //[successAlertView show];
         [RKDropdownAlert title:@"Knit" message:[NSString stringWithFormat:@"Successfully joined Class: %@ Creator : %@",codeGroupForClass[@"name"], codeGroupForClass[@"Creator"]] time:2];
 
     } errorBlock:^(NSError *error) {
-       // UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error in joining Class. Please make sure you have the correct class code." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
         [hud hide:YES];
-         [RKDropdownAlert title:@"Knit" message:@"Error in joining Class. Please make sure you have the correct class code."  time:2];
-        //[errorAlertView show];
-        
+        [RKDropdownAlert title:@"Knit" message:@"Error in joining Class. Please make sure you have the correct class code."  time:2];
     }];
 }
 
@@ -226,7 +218,13 @@
 }
 
 - (IBAction)inviteTeacherTapped:(id)sender {
-    UINavigationController *inviteParentNav = [self.storyboard instantiateViewControllerWithIdentifier:@"inviteParentNavVC"];
-    [self presentViewController:inviteParentNav animated:YES completion:nil];
+    UINavigationController *inviteTeacherNav = [self.storyboard instantiateViewControllerWithIdentifier:@"inviteParentNavVC"];
+    TSNewInviteParentViewController *inviteTeacher = (TSNewInviteParentViewController *)inviteTeacherNav.topViewController;
+    inviteTeacher.classCode = @"";
+    inviteTeacher.className = @"";
+    inviteTeacher.teacherName = @"";
+    inviteTeacher.fromInApp = true;
+    inviteTeacher.type = 1;
+    [self presentViewController:inviteTeacherNav animated:YES completion:nil];
 }
 @end

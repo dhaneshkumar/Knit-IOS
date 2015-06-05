@@ -11,6 +11,7 @@
 #import "addressBookTableViewCell.h"
 #import <AddressBook/AddressBook.h>
 #import <Parse/Parse.h>
+#import "Data.h"
 
 @interface TSAddressBookViewController ()
 
@@ -28,19 +29,93 @@
     _tableView.delegate = self;
     _tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     _addressBook = [[NSMutableArray alloc] init];
-    self.navigationItem.title = @"Phone Book";
+    self.navigationItem.title = _isAddressBook?@"Phone Numbers":@"Email Ids";
     UIBarButtonItem *bb = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"back"] style:UIBarButtonItemStylePlain target:self action:@selector(backButtonTapped:)];
     [self.navigationItem setLeftBarButtonItem:bb];
     if ([_tableView respondsToSelector:@selector(setSeparatorInset:)]) {
         [_tableView setSeparatorInset:UIEdgeInsetsZero];
     }
+    /*
+    NSDictionary *dimensions = @{@"Invite Type" : [NSString stringWithFormat:@"type%d", _type], @"Invite Mode":(_isAddressBook?@"phone":@"email")};
+    [PFAnalytics trackEvent:@"inviteMode" dimensions:dimensions];*/
 }
 
 -(IBAction)backButtonTapped:(id)sender {
     //Write function to send the data.
+    //if([self canCallInviteFunction])
+        //[self callInviteFunction];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+-(BOOL)canCallInviteFunction {
+    PFQuery *query = [PFQuery queryWithClassName:@"canInvite"];
+    [query fromLocalDatastore];
+    [query whereKey:@"isAddress" equalTo:(_isAddressBook)?@"true":@"false"];
+    [query whereKey:@"classCode" equalTo:_classCode];
+    [query whereKey:@"type" equalTo:[NSNumber numberWithInt:_type]];
+    NSArray *objs = [query findObjects];
+    if(objs.count==0) {
+        PFObject *stats = [[PFObject alloc] initWithClassName:@"canInvite"];
+        stats[@"isAddress"] = (_isAddressBook)?@"true":@"false";
+        stats[@"classCode"] = _classCode;
+        stats[@"type"] = [NSNumber numberWithInt:_type];
+        stats[@"ongoing"] = @"true";
+        [stats pinInBackground];
+        return true;
+    }
+    else {
+        PFObject *obj = objs[0];
+        if([obj[@"ongoing"] isEqualToString:@"true"]) {
+            return false;
+        }
+        else {
+            obj[@"ongoing"] = @"true";
+            [obj pinInBackground];
+            return true;
+        }
+    }
+}
+
+
+-(void)callInviteFunction {
+    NSMutableArray *objectIds = [[NSMutableArray alloc] init];
+    NSMutableArray *functionArgument = [[NSMutableArray alloc] init];
+    PFQuery *query = [PFQuery queryWithClassName:@"invitedMembers"];
+    [query fromLocalDatastore];
+    [query whereKey:@"isAddress" equalTo:_isAddressBook?@"true":@"false"];
+    [query whereKey:@"classCode" equalTo:_classCode];
+    [query whereKey:@"type" equalTo:[NSNumber numberWithInt:_type]];
+    [query whereKey:@"status" equalTo:@"pending"];
+    NSArray *invites = [query findObjects];
+    for(PFObject *invite in invites) {
+        [objectIds addObject:invite.objectId];
+        NSDictionary *tempDict = @{@"name":invite[@"name"], (_addressBook?@"phone":@"email"):invite[@"info"]};
+        [functionArgument addObject:tempDict];
+    }
+    [Data inviteUsers:_isAddressBook?@"phone":@"email" code:_classCode data:functionArgument type:_type successBlock:^(id object){
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^() {
+            PFQuery *query = [PFQuery queryWithClassName:@"invitedMembers"];
+            [query fromLocalDatastore];
+            [query whereKey:@"objectId" containedIn:objectIds];
+            NSArray *objs = [query findObjects];
+            for(PFObject *obj in objs) {
+                obj[@"status"] = @"notPending";
+                [obj pinInBackground];
+            }
+            query = [PFQuery queryWithClassName:@"canInvite"];
+            [query fromLocalDatastore];
+            [query whereKey:@"isAddress" equalTo:(_isAddressBook)?@"true":@"false"];
+            [query whereKey:@"classCode" equalTo:_classCode];
+            [query whereKey:@"type" equalTo:[NSNumber numberWithInt:_type]];
+            objs = [query findObjects];
+            PFObject *obj = objs[0];
+            obj[@"ongoing"] = @"false";
+            [obj pinInBackground];
+        });
+    } errorBlock:^(NSError *error){
+    
+    }];
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -48,8 +123,8 @@
 }
 
 
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
     CFErrorRef *error = nil;
     ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(NULL, error);
     CFArrayRef allPeople = ABAddressBookCopyArrayOfAllPeople( addressBook );
@@ -98,7 +173,22 @@
 
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
+    if(_addressBook.count>0) {
+        self.tableView.backgroundView = nil;
+        return 1;
+    }
+    else {
+        UILabel *messageLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
+        messageLabel.text = [NSString stringWithFormat:@"No %@ in your contacts", _isAddressBook?@"phone numbers":@"emails"];
+        messageLabel.textColor = [UIColor darkGrayColor];
+        messageLabel.numberOfLines = 0;
+        messageLabel.textAlignment = NSTextAlignmentCenter;
+        messageLabel.font = [UIFont fontWithName:@"Palatino-Italic" size:18];
+        [messageLabel sizeToFit];
+        self.tableView.backgroundView = messageLabel;
+        return 0;
+    }
+
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -121,6 +211,18 @@
     if(!addressBookEntry.invited) {
         addressBookEntry.invited = true;
         PFObject *member = [[PFObject alloc] initWithClassName:@"invitedMembers"];
+        member[@"name"] = addressBookEntry.name;
+        member[@"info"] = addressBookEntry.info;
+        member[@"isAddress"] = _isAddressBook?@"true":@"false";
+        member[@"classCode"] = _classCode;
+        member[@"type"] = [NSNumber numberWithInt:_type];
+        member[@"status"] = @"pending";
+        [member pinInBackground];
+        
+        /*
+        NSDictionary *dimensions = @{@"Invite Type" : [NSString stringWithFormat:@"type%d", _type], @"Invite Mode":(_isAddressBook?@"phone":@"email")};
+        [PFAnalytics trackEvent:@"invitedUsersCount" dimensions:dimensions];*/
+        
         NSIndexPath* rowToReload = [NSIndexPath indexPathForRow:indexPath.row inSection:0];
         NSArray* rowsToReload = [NSArray arrayWithObjects:rowToReload, nil];
         [self.tableView reloadRowsAtIndexPaths:rowsToReload withRowAnimation:UITableViewRowAnimationNone];

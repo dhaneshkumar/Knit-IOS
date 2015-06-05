@@ -14,7 +14,6 @@
 @interface TSOutboxViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *messagesTable;
-//@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property (strong, nonatomic) NSMutableArray *messagesArray;
 @property (nonatomic, strong) NSMutableDictionary *mapCodeToObjects;
 @property (nonatomic, strong) NSMutableArray *messageIds;

@@ -23,13 +23,16 @@
 @property (weak, nonatomic) IBOutlet UITextField *codeText;
 @property (strong,nonatomic) NSString *osVersion;
 
+@property (weak, nonatomic) IBOutlet UILabel *phoneNumberLabel;
+@property (weak, nonatomic) IBOutlet UIButton *verifyButton;
+
 @end
 
 @implementation PhoneVerificationViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.navigationController.navigationBar.hidden=NO;
+    //self.navigationController.navigationBar.hidden=NO;
     float version=[[[UIDevice currentDevice] systemVersion] floatValue];
     _osVersion=[[NSNumber numberWithFloat:version] stringValue];
     _codeText.delegate = self;
@@ -37,7 +40,10 @@
     self.navigationItem.title = @"Knit";
     UIBarButtonItem *bb = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"back"] style:UIBarButtonItemStylePlain target:self action:@selector(backButtonTapped:)];
     [self.navigationItem setLeftBarButtonItem:bb];
-    // Do any additional setup after loading the view.
+    [_verifyButton.layer setShadowOffset:CGSizeMake(0.5, 0.5)];
+    [_verifyButton.layer setShadowColor:[[UIColor blackColor] CGColor]];
+    [_verifyButton.layer setShadowOpacity:0.5];
+    _phoneNumberLabel.text = _phoneNumber;
 }
 
 
@@ -178,7 +184,6 @@
             hud.labelText = @"Loading";
 
             NSInteger verificationCode=[_codeText.text integerValue];
-            NSLog(@"phone number %@",_phoneNumber);
             NSString *number=_phoneNumber;
             [Data  newSignInVerification:number code:verificationCode successBlock:^(id object) {
                 NSLog(@"Verified");
@@ -187,7 +192,6 @@
                 NSString *flagString=[tokenDict objectForKey:@"flag"];
                 int flagValue=[flagString integerValue];
                 NSString *token=[tokenDict objectForKey:@"sessionToken"];
-                NSLog(@"Flag %i and session token %@",flagValue,token);
                 
                 if(flagValue==1)
                 {
@@ -197,7 +201,6 @@
                             [RKDropdownAlert title:@"Knit" message:@"Error in signing in.Try again." time:2];
                             return;
                         } else {
-
                             NSLog(@"Successfully Validated ");
                             PFUser *current=[PFUser currentUser];
                             NSLog(@"%@ current user",current.objectId);
@@ -271,7 +274,7 @@
                 }
                 else {
                     [hud hide:YES];
-                    [RKDropdownAlert title:@"Knit" message:@"Error in signing in.Try again." time:2];
+                    [RKDropdownAlert title:@"Knit" message:@"Incorrect OTP. Try again." time:2];
                     return;
                 }
             } errorBlock:^(NSError *error) {
@@ -283,7 +286,7 @@
                     return;
                 }
                 [hud hide:YES];
-                [RKDropdownAlert title:@"Knit" message:@"Incorrect OTP."  time:2];
+                [RKDropdownAlert title:@"Knit" message:@"Error in signing in.Try again."  time:2];
                 return;
             }];
         }

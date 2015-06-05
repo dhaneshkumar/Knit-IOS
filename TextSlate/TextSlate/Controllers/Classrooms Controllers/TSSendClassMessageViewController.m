@@ -17,6 +17,7 @@
 #import "MessageComposerViewController.h"
 #import "RKDropdownAlert.h"
 #import "MBProgressHUD.h"
+#import "TSNewInviteParentViewController.h"
 
 @interface TSSendClassMessageViewController ()
 
@@ -270,6 +271,7 @@
         }];
     });
 }
+
 
 -(void) composeMessage{
     UINavigationController *joinNewClassNavigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"messageComposer"];
@@ -539,18 +541,23 @@
 
 
 - (void)inviteParentsTap:(UITapGestureRecognizer *)recognizer {
-    CGPoint location = [recognizer locationInView:[recognizer.view superview]];
     NSLog(@"invite parents tapped!!");
-    UINavigationController *inviteParentNavigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"inviteParentNav"];
-    InviteParentViewController *inviteParentController = (InviteParentViewController *)inviteParentNavigationController.topViewController;
-    inviteParentController.classCode = _classCode;
-    inviteParentController.className=_className;
-    [self presentViewController:inviteParentNavigationController animated:YES completion:nil];
+    UINavigationController *inviteParentNav = [self.storyboard instantiateViewControllerWithIdentifier:@"inviteParentNavVC"];
+    TSNewInviteParentViewController *inviteParent = (TSNewInviteParentViewController *)inviteParentNav.topViewController;
+    PFQuery *localQuery = [PFQuery queryWithClassName:@"Codegroup"];
+    [localQuery fromLocalDatastore];
+    [localQuery whereKey:@"code" equalTo:_classCode];
+    NSArray *objs = [localQuery findObjects];
+    inviteParent.classCode = _classCode;
+    inviteParent.className = _className;
+    inviteParent.teacherName = ((PFObject *)objs[0])[@"Creator"];
+    inviteParent.fromInApp = true;
+    inviteParent.type = 2;
+    [self presentViewController:inviteParentNav animated:YES completion:nil];
 }
 
 
 - (void)subscribersTap:(UITapGestureRecognizer *)recognizer {
-    CGPoint location = [recognizer locationInView:[recognizer.view superview]];
     NSLog(@"subscribers tapped!!");
     if(_memListVC) {
         [self.navigationController pushViewController:_memListVC animated:YES];

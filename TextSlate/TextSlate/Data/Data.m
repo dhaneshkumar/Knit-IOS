@@ -495,6 +495,29 @@
 
 }
 
++(void) inviteUsers:(NSString *)mode code:(NSString *)classCode data:(NSArray *)data type:(int)type successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock{
+    if([classCode isEqualToString:@""]) {
+        [PFCloud callFunctionInBackground:@"inviteUsers" withParameters:@{@"type":[NSNumber numberWithInt:type], @"mode":mode, @"data":data} block:^(id object, NSError *error) {
+            if(error) {
+                errorBlock(error);
+            }
+            else {
+                successBlock(object);
+            }
+        }];
+    }
+    else {
+        [PFCloud callFunctionInBackground:@"inviteUsers" withParameters:@{@"type":[NSNumber numberWithInt:type], @"classCode":classCode, @"mode":mode, @"data":data} block:^(id object, NSError *error) {
+            if(error) {
+                errorBlock(error);
+            }
+            else {
+                successBlock(object);
+            }
+        }];
+    }
+}
+
 +(void) saveInstallationId:(NSString *)installationId deviceType:(NSString *)deviceType successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock{
     [PFCloud callFunctionInBackground:@"appInstallation" withParameters:@{@"installationId":installationId, @"deviceType":deviceType }block:^(id object, NSError *error) {
         if(error)

@@ -14,6 +14,7 @@
 #import "Data.h"
 #import "MBProgressHUD.h"
 #import "RKDropdownAlert.h"
+#import "TSNewInviteParentViewController.h"
 
 @interface JoinedClassTableViewController ()
 
@@ -134,14 +135,14 @@
         }
     }
     else {
-        NSString *sendCode=[NSString stringWithFormat:@"I have just joined %@ classroom of %@ on Knit Messaging. You can also join this class using the code %@.\n Link: http://www.knitapp.co.in/user.html?/%@", _className, _teacherName, _classCode, _classCode];
-        NSString* strSharingText = [sendCode stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-        
-        //This is whatsApp url working only when you having app in your Apple device
-        NSURL *whatsappURL = [NSURL URLWithString:[NSString stringWithFormat:@"whatsapp://send?text=%@",strSharingText]];
-        if ([[UIApplication sharedApplication] canOpenURL: whatsappURL]) {
-            [[UIApplication sharedApplication] openURL: whatsappURL];
-        }
+        UINavigationController *inviteParentNav = [self.storyboard instantiateViewControllerWithIdentifier:@"inviteParentNavVC"];
+        TSNewInviteParentViewController *inviteParent = (TSNewInviteParentViewController *)inviteParentNav.topViewController;
+        inviteParent.classCode = _classCode;
+        inviteParent.className = _className;
+        inviteParent.teacherName = _teacherName;
+        inviteParent.fromInApp = true;
+        inviteParent.type = 3;
+        [self presentViewController:inviteParentNav animated:YES completion:nil];
     }
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
     return;

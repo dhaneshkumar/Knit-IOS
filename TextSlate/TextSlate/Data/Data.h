@@ -77,19 +77,19 @@ typedef void (^errorBlock)(NSError *error);
 
 +(void) verifyOTPOldSignIn:(NSString *)email password:(NSString *)password successBlock:(successBlock) successBlock errorBlock:(errorBlock) errorBlock;
 
++(void) inviteUsers:(NSString *)mode code:(NSString *)classCode data:(NSArray *)data type:(int)type successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock;
+
 +(void) newSignInVerification:(NSString *)phoneNum code:(NSInteger) code successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock;
 
 +(void) verifyOTPSignUp:(NSString *)phoneNum code:(NSInteger)code modal:(NSString *) modal os:(NSString *)os name:(NSString *)name role:(NSString *)role sex:(NSString*)sex latitude:(double)lat longitude:(double)lng haveCoordinates:(BOOL)haveCoordinates successBlock:(successBlock) successBlock errorBlock:(errorBlock) errorBlock;
 
 +(void) saveInstallationId:(NSString *)installationId deviceType:(NSString *)deviceType successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock;
 
-+(void)appLogout:(NSString *)objectId successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock;
++(void) appLogout:(NSString *)objectId successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock;
 
 +(void) emailInstruction:(NSString *)email code:(NSString *)code className:(NSString*)className successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock;
 
-
 +(void) inviteTeacher:(NSString *)senderId schoolName:(NSString *)schoolName teacherName:(NSString*) teacherName childName:(NSString *)childName email:(NSString *)email phoneNum:(NSString *)phoneNum successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock;
-
 
 +(void)findClassDetail:(NSString *)classCode successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock;
 

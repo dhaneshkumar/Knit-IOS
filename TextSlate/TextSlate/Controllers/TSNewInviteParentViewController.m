@@ -11,6 +11,8 @@
 #import <AddressBook/AddressBook.h>
 #import "RKDropdownAlert.h"
 #import "TSGifViewerViewController.h"
+#import <Parse/Parse.h>
+#import "Data.h"
 
 @interface TSNewInviteParentViewController ()
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *verticalSpace1;
@@ -95,9 +97,24 @@
     [_view4.layer addSublayer:border];
     
     self.navigationController.navigationBar.translucent = false;
-    self.navigationItem.title = @"Invite Parent";
+    self.navigationItem.title =  @"Invite Users";
+    if(_type==1)
+        self.navigationItem.title =  @"Invite Teacher";
+    else if(_type==2)
+        self.navigationItem.title =  @"Invite Parents";
     UIBarButtonItem *bb = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"back"] style:UIBarButtonItemStylePlain target:self action:@selector(backButtonTapped:)];
     [self.navigationItem setLeftBarButtonItem:bb];
+    
+    if(_type!=2) {
+        _label1.hidden = true;
+        _label2.hidden = true;
+        _appButton.hidden = true;
+        _smsButton.hidden = true;
+    }
+    
+    /*
+    NSDictionary *dimensions = @{@"Invite Type" : [NSString stringWithFormat:@"type%d", _type], @"Source":_fromInApp?@"app":@"notification"};
+    [PFAnalytics trackEvent:@"invitePageOpenings" dimensions:dimensions];*/
 }
 
 -(IBAction)backButtonTapped:(id)sender {
@@ -123,25 +140,27 @@
 
 
 -(void)view2Tapped:(UITapGestureRecognizer *)recognizer {
-    NSLog(@"yaha");
     if (ABAddressBookGetAuthorizationStatus() == kABAuthorizationStatusDenied ||
         ABAddressBookGetAuthorizationStatus() == kABAuthorizationStatusRestricted){
-        NSLog(@"yaha1");
-        [RKDropdownAlert title:@"Knit" message:@"Not authorized to open phone book."  time:2];
+        [RKDropdownAlert title:@"Knit" message:@"Not able to access phone book. Provide access by going to Settings -> Knit -> Contacts."  time:4];
     } else if (ABAddressBookGetAuthorizationStatus() == kABAuthorizationStatusAuthorized){
-        NSLog(@"yaha2");
         TSAddressBookViewController *addressBookVC = [self.storyboard instantiateViewControllerWithIdentifier:@"addressBookVC"];
         addressBookVC.isAddressBook = true;
+        addressBookVC.type = _type;
+        addressBookVC.classCode = _classCode;
+        addressBookVC.fromInApp = _fromInApp;
         [self.navigationController pushViewController:addressBookVC animated:YES];
     } else{
-        NSLog(@"yaha3");
         ABAddressBookRequestAccessWithCompletion(ABAddressBookCreateWithOptions(NULL, nil), ^(bool granted, CFErrorRef error) {
             if (!granted){
-                [RKDropdownAlert title:@"Knit" message:@"Not authorized to open phone book."  time:2];
+                [RKDropdownAlert title:@"Knit" message:@"Knit is not able to access your Contacts."  time:2];
                 return;
             }
             TSAddressBookViewController *addressBookVC = [self.storyboard instantiateViewControllerWithIdentifier:@"addressBookVC"];
             addressBookVC.isAddressBook = true;
+            addressBookVC.type = _type;
+            addressBookVC.classCode = _classCode;
+            addressBookVC.fromInApp = _fromInApp;
             [self.navigationController pushViewController:addressBookVC animated:YES];
         });
     }
@@ -149,24 +168,54 @@
 
 -(void)view3Tapped:(UITapGestureRecognizer *)recognizer {
     NSLog(@"view3Tapped");
+    NSString *sendCode = @"";
+    if(_type==1) {
+        sendCode=[NSString stringWithFormat:@"I found a really cool app to improve communication between teachers and parents/students. Its name is Knit Messaging. Lets start using it."];
+    }
+    else if(_type==2) {
+        sendCode=[NSString stringWithFormat:@"I will be using Knit Messaging app for contacting parents/students from now on. Download the app and join the class using the code %@.\n Link: http://www.knitapp.co.in/user.html?/%@", _classCode, _classCode];
+    }
+    else if(_type==3) {
+        sendCode=[NSString stringWithFormat:@"I have just joined %@ classroom of %@ on Knit Messaging app. Download the app and join the class using the code %@.\n Link: http://www.knitapp.co.in/user.html?/%@", _className, _teacherName, _classCode, _classCode];
+    }
+    else {
+        sendCode=[NSString stringWithFormat:@"I found a really cool app to improve communication between teachers and parents/students. Its name is Knit Messaging. Check it out and start using it."];
+    }
+    
+    NSString* strSharingText = [sendCode stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSURL *whatsappURL = [NSURL URLWithString:[NSString stringWithFormat:@"whatsapp://send?text=%@",strSharingText]];
+    if ([[UIApplication sharedApplication] canOpenURL: whatsappURL]) {
+        /*NSDictionary *dimensions = @{@"Invite Type" : [NSString stringWithFormat:@"type%d", _type], @"Invite Mode":@"whatsapp"};
+        [PFAnalytics trackEvent:@"inviteMode" dimensions:dimensions];*/
+        [[UIApplication sharedApplication] openURL: whatsappURL];
+    }
+    else {
+        [RKDropdownAlert title:@"Knit" message:@"WhatsApp is not installed on your phone."  time:2];
+    }
 }
 
 -(void)view4Tapped:(UITapGestureRecognizer *)recognizer {
     if (ABAddressBookGetAuthorizationStatus() == kABAuthorizationStatusDenied ||
         ABAddressBookGetAuthorizationStatus() == kABAuthorizationStatusRestricted){
-        [RKDropdownAlert title:@"Knit" message:@"Not authorized to open phone book."  time:2];
+        [RKDropdownAlert title:@"Knit" message:@"Not able to access phone book. Provide access by going to Settings -> Knit -> Contacts."  time:4];
     } else if (ABAddressBookGetAuthorizationStatus() == kABAuthorizationStatusAuthorized){
         TSAddressBookViewController *addressBookVC = [self.storyboard instantiateViewControllerWithIdentifier:@"addressBookVC"];
         addressBookVC.isAddressBook = false;
+        addressBookVC.type = _type;
+        addressBookVC.classCode = _classCode;
+        addressBookVC.fromInApp = _fromInApp;
         [self.navigationController pushViewController:addressBookVC animated:YES];
     } else{
         ABAddressBookRequestAccessWithCompletion(ABAddressBookCreateWithOptions(NULL, nil), ^(bool granted, CFErrorRef error) {
             if (!granted){
-                [RKDropdownAlert title:@"Knit" message:@"Not authorized to open phone book."  time:2];
+                [RKDropdownAlert title:@"Knit" message:@"Knit is not able to access your Contacts."  time:2];
                 return;
             }
             TSAddressBookViewController *addressBookVC = [self.storyboard instantiateViewControllerWithIdentifier:@"addressBookVC"];
             addressBookVC.isAddressBook = false;
+            addressBookVC.type = _type;
+            addressBookVC.classCode = _classCode;
+            addressBookVC.fromInApp = _fromInApp;
             [self.navigationController pushViewController:addressBookVC animated:YES];
         });
     }
@@ -174,7 +223,27 @@
 
 
 -(void)label1Tapped:(id)sender {
-    
+    /*
+    NSDictionary *dimensions = @{@"Invite Type" : [NSString stringWithFormat:@"type%d", _type], @"Invite Mode":@"receiveInstructions"};
+    [PFAnalytics trackEvent:@"inviteMode" dimensions:dimensions];*/
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Knit"
+                                                    message:@"Enter your email id"
+                                                   delegate:self
+                                          cancelButtonTitle:@"Cancel"
+                                          otherButtonTitles:@"Send Instructions", nil];
+    alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+    [alert show];
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if (buttonIndex == 1) {
+        NSString *email = [[alertView textFieldAtIndex:0] text];
+        [Data emailInstruction:email code:_classCode className:_className successBlock:^(id object) {
+            [RKDropdownAlert title:@"Knit" message:@"Voila!Instructions have been sent to you via email." time:2];
+        } errorBlock:^(NSError *error) {
+            [RKDropdownAlert title:@"Knit" message:@"Oops! Seems like a problem occured while sending instruction. Try again." time:2];
+        }];
+    }
 }
 
 /*
