@@ -169,7 +169,7 @@
                 NSLog(@"error : %@", error);
                 if([[((NSDictionary *)error.userInfo) objectForKey:@"error"] isEqualToString:@"USER_ALREADY_EXISTS"]) {
                     [hud hide:YES];
-                    [self dismissViewControllerAnimated:YES completion:nil];
+                    [self.navigationController popViewControllerAnimated:YES];
                     [RKDropdownAlert title:@"Knit" message:@"User already exists."  time:2];
                     return;
                 }

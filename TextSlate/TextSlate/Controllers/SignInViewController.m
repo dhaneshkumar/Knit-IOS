@@ -27,7 +27,6 @@
 @property (weak, nonatomic) IBOutlet UITextField *mobilTextField;
 @property (weak, nonatomic) IBOutlet UITextField *emailTextField;
 @property (weak, nonatomic) IBOutlet UITextField *passwordTextField;
-
 @property (nonatomic) BOOL isState1;
 
 @end
@@ -49,7 +48,7 @@
     _mobilTextField.keyboardType = UIKeyboardTypeNumberPad;
     _isState1 = true;
     [self state1View];
-    [_mobilTextField becomeFirstResponder];
+    //[_mobilTextField becomeFirstResponder];
 }
 
 -(IBAction)backButtonTapped:(id)sender {
@@ -416,5 +415,13 @@
     // Pass the selected object to the new view controller.
 }
 */
+
+
+- (IBAction)tappedOutside:(id)sender {
+    [_mobilTextField resignFirstResponder];
+    [_passwordTextField resignFirstResponder];
+    [_emailTextField resignFirstResponder];
+}
+
 
 @end

@@ -386,10 +386,26 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YIT-en-aal">
                                 <rect key="frame" x="-23" y="-15" width="46" height="30"/>
                                 <color key="backgroundColor" red="0.16078431372549018" green="0.71372549019607845" blue="0.96470588235294119" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="222" id="ffJ-eS-Bah"/>
+                                    <constraint firstAttribute="height" constant="40" id="viy-EL-m9y"/>
+                                </constraints>
                                 <state key="normal" title="SIGN UP">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="ffJ-eS-Bah"/>
+                                        <exclude reference="viy-EL-m9y"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=regular-widthClass=compact">
+                                    <mask key="constraints">
+                                        <include reference="ffJ-eS-Bah"/>
+                                        <include reference="viy-EL-m9y"/>
+                                    </mask>
+                                </variation>
                                 <connections>
                                     <action selector="signUpClicked:" destination="Uvz-ky-B2V" eventType="touchUpInside" id="nmc-Hf-U3v"/>
                                 </connections>
@@ -398,7 +414,7 @@
                                 <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="OlF-z5-D9g"/>
-                                    <constraint firstAttribute="width" constant="42" id="zc4-b3-RHo"/>
+                                    <constraint firstAttribute="width" constant="30" id="rVA-0G-ooI"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -406,13 +422,13 @@
                                 <variation key="default">
                                     <mask key="constraints">
                                         <exclude reference="OlF-z5-D9g"/>
-                                        <exclude reference="zc4-b3-RHo"/>
+                                        <exclude reference="rVA-0G-ooI"/>
                                     </mask>
                                 </variation>
                                 <variation key="heightClass=regular-widthClass=compact">
                                     <mask key="constraints">
                                         <include reference="OlF-z5-D9g"/>
-                                        <include reference="zc4-b3-RHo"/>
+                                        <include reference="rVA-0G-ooI"/>
                                     </mask>
                                 </variation>
                             </label>
@@ -421,21 +437,15 @@
                         <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="kSO-uL-Z8Z" firstAttribute="leading" secondItem="VZe-n1-nTb" secondAttribute="leadingMargin" id="3yK-lM-6cs"/>
-                            <constraint firstItem="YIT-en-aal" firstAttribute="trailing" secondItem="VZe-n1-nTb" secondAttribute="trailingMargin" id="7z3-ZH-B0d"/>
+                            <constraint firstItem="wb8-wh-K02" firstAttribute="trailing" secondItem="VZe-n1-nTb" secondAttribute="trailingMargin" id="4od-Lc-hJB"/>
                             <constraint firstItem="ozG-ak-6r7" firstAttribute="top" secondItem="wb8-wh-K02" secondAttribute="bottom" constant="8" id="EKV-AE-E3t"/>
-                            <constraint firstItem="YIT-en-aal" firstAttribute="top" secondItem="ozG-ak-6r7" secondAttribute="bottom" constant="30" id="I4x-7G-anu">
-                                <variation key="heightClass=regular-widthClass=compact" constant="23"/>
-                            </constraint>
-                            <constraint firstItem="wb8-wh-K02" firstAttribute="leading" secondItem="VZe-n1-nTb" secondAttribute="leadingMargin" constant="44" id="NZD-cL-AxF"/>
-                            <constraint firstItem="ozG-ak-6r7" firstAttribute="leading" secondItem="kSO-uL-Z8Z" secondAttribute="trailing" constant="2" id="a70-DR-Cac"/>
+                            <constraint firstItem="ozG-ak-6r7" firstAttribute="trailing" secondItem="VZe-n1-nTb" secondAttribute="trailingMargin" id="PaH-7S-KLb"/>
+                            <constraint firstAttribute="centerX" secondItem="YIT-en-aal" secondAttribute="centerX" id="SbG-Bd-FYj"/>
+                            <constraint firstItem="ozG-ak-6r7" firstAttribute="leading" secondItem="kSO-uL-Z8Z" secondAttribute="trailing" constant="4" id="asT-Aa-OPB"/>
                             <constraint firstItem="kSO-uL-Z8Z" firstAttribute="top" secondItem="wb8-wh-K02" secondAttribute="bottom" constant="8" id="cq1-aa-DsD"/>
                             <constraint firstItem="wb8-wh-K02" firstAttribute="top" secondItem="C4K-rr-xKp" secondAttribute="bottom" constant="9" id="dQa-G0-t4q"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="wb8-wh-K02" secondAttribute="trailing" constant="44" id="iSj-oR-Ct0"/>
-                            <constraint firstItem="YIT-en-aal" firstAttribute="top" secondItem="kSO-uL-Z8Z" secondAttribute="bottom" constant="30" id="tJG-36-EHw"/>
-                            <constraint firstItem="YIT-en-aal" firstAttribute="leading" secondItem="VZe-n1-nTb" secondAttribute="leadingMargin" constant="47" id="upo-mn-Atl">
-                                <variation key="heightClass=regular-widthClass=compact" constant="0.0"/>
-                            </constraint>
-                            <constraint firstAttribute="trailingMargin" secondItem="ozG-ak-6r7" secondAttribute="trailing" constant="44" id="vHU-Kx-xpH"/>
+                            <constraint firstItem="YIT-en-aal" firstAttribute="top" secondItem="ozG-ak-6r7" secondAttribute="bottom" constant="30" id="kdV-CH-IUe"/>
+                            <constraint firstItem="wb8-wh-K02" firstAttribute="leading" secondItem="VZe-n1-nTb" secondAttribute="leadingMargin" constant="34" id="vvf-3s-pRK"/>
                         </constraints>
                         <variation key="default">
                             <mask key="subviews">
@@ -445,18 +455,16 @@
                                 <exclude reference="kSO-uL-Z8Z"/>
                             </mask>
                             <mask key="constraints">
-                                <exclude reference="NZD-cL-AxF"/>
+                                <exclude reference="4od-Lc-hJB"/>
                                 <exclude reference="dQa-G0-t4q"/>
-                                <exclude reference="iSj-oR-Ct0"/>
+                                <exclude reference="vvf-3s-pRK"/>
                                 <exclude reference="3yK-lM-6cs"/>
                                 <exclude reference="cq1-aa-DsD"/>
                                 <exclude reference="EKV-AE-E3t"/>
-                                <exclude reference="a70-DR-Cac"/>
-                                <exclude reference="vHU-Kx-xpH"/>
-                                <exclude reference="7z3-ZH-B0d"/>
-                                <exclude reference="I4x-7G-anu"/>
-                                <exclude reference="tJG-36-EHw"/>
-                                <exclude reference="upo-mn-Atl"/>
+                                <exclude reference="PaH-7S-KLb"/>
+                                <exclude reference="asT-Aa-OPB"/>
+                                <exclude reference="SbG-Bd-FYj"/>
+                                <exclude reference="kdV-CH-IUe"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
@@ -467,18 +475,16 @@
                                 <include reference="kSO-uL-Z8Z"/>
                             </mask>
                             <mask key="constraints">
-                                <include reference="NZD-cL-AxF"/>
+                                <include reference="4od-Lc-hJB"/>
                                 <include reference="dQa-G0-t4q"/>
-                                <include reference="iSj-oR-Ct0"/>
+                                <include reference="vvf-3s-pRK"/>
                                 <include reference="3yK-lM-6cs"/>
                                 <include reference="cq1-aa-DsD"/>
                                 <include reference="EKV-AE-E3t"/>
-                                <include reference="a70-DR-Cac"/>
-                                <include reference="vHU-Kx-xpH"/>
-                                <include reference="7z3-ZH-B0d"/>
-                                <exclude reference="I4x-7G-anu"/>
-                                <include reference="tJG-36-EHw"/>
-                                <include reference="upo-mn-Atl"/>
+                                <include reference="PaH-7S-KLb"/>
+                                <include reference="asT-Aa-OPB"/>
+                                <include reference="SbG-Bd-FYj"/>
+                                <include reference="kdV-CH-IUe"/>
                             </mask>
                         </variation>
                         <connections>
@@ -498,7 +504,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="4617" y="-2886.75"/>
+            <point key="canvasLocation" x="4500" y="-2877.75"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="r4T-PU-A4t">
@@ -6157,6 +6163,7 @@
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="HKV-sO-cMS" firstAttribute="trailing" secondItem="w3i-pd-Cxw" secondAttribute="trailing" id="23r-GD-4Rf"/>
                             <constraint firstItem="8b6-PN-uCV" firstAttribute="top" secondItem="m7n-Hk-Dok" secondAttribute="bottom" constant="6" id="3M5-ab-GY0"/>
@@ -6239,6 +6246,9 @@
                                 <exclude reference="YiI-wM-3x2"/>
                             </mask>
                         </variation>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="Fai-dH-EeJ" appends="YES" id="VnI-iL-0IX"/>
+                        </connections>
                     </view>
                     <navigationItem key="navigationItem" id="1xd-hs-eGy">
                         <barButtonItem key="leftBarButtonItem" title="Cancel" id="Xrc-lo-J3D">
@@ -6256,6 +6266,11 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JWC-tY-EI9" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="Fai-dH-EeJ">
+                    <connections>
+                        <action selector="tappedOutside:" destination="QXl-Xe-G9D" id="Ty5-1y-krA"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="6559.5" y="1500"/>
         </scene>
@@ -6637,6 +6652,7 @@ Login using your email ID.</string>
                             </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="g17-pi-FRU" firstAttribute="leading" secondItem="ahb-Xk-vbx" secondAttribute="leadingMargin" id="38l-pP-50P"/>
                             <constraint firstItem="g17-pi-FRU" firstAttribute="trailing" secondItem="ahb-Xk-vbx" secondAttribute="trailingMargin" id="5cd-S2-fqG"/>
@@ -6731,6 +6747,9 @@ Login using your email ID.</string>
                                 <include reference="bVv-XN-dFC"/>
                             </mask>
                         </variation>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="g4y-AH-Usl" appends="YES" id="zap-iF-yUv"/>
+                        </connections>
                     </view>
                     <connections>
                         <outlet property="emailTextField" destination="g17-pi-FRU" id="p6i-tn-wMI"/>
@@ -6747,6 +6766,11 @@ Login using your email ID.</string>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="I8U-wA-LRt" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="g4y-AH-Usl">
+                    <connections>
+                        <action selector="tappedOutside:" destination="Cml-32-eLc" id="r7M-2n-tDQ"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="3393" y="-2886.75"/>
         </scene>

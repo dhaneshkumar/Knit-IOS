@@ -26,7 +26,6 @@
 @property (weak, nonatomic) IBOutlet UITextField *associatedPersonTextField;
 @property (weak, nonatomic) IBOutlet UIButton *joinButton;
 - (IBAction)inviteTeacherTapped:(id)sender;
-
 @property (weak, nonatomic) IBOutlet UIButton *inviteTeacherButton;
 @end
 
@@ -227,4 +226,10 @@
     inviteTeacher.type = 1;
     [self presentViewController:inviteTeacherNav animated:YES completion:nil];
 }
+
+- (IBAction)tappedOutside:(id)sender {
+    [_classCodeTextField resignFirstResponder];
+    [_associatedPersonTextField resignFirstResponder];
+}
+
 @end

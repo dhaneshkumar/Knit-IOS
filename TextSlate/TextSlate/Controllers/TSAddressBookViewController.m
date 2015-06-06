@@ -89,8 +89,8 @@
     NSArray *invites = [query findObjects];
     for(PFObject *invite in invites) {
         [objectIds addObject:invite.objectId];
-        NSDictionary *tempDict = @{@"name":invite[@"name"], (_addressBook?@"phone":@"email"):invite[@"info"]};
-        [functionArgument addObject:tempDict];
+        NSArray *tempArr = @[invite[@"name"], invite[@"info"]];
+        [functionArgument addObject:tempArr];
     }
     [Data inviteUsers:_isAddressBook?@"phone":@"email" code:_classCode data:functionArgument type:_type successBlock:^(id object){
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^() {
