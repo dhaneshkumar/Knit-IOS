@@ -84,8 +84,16 @@
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     if (buttonIndex == 1) {
         NSString *email = [[[alertView textFieldAtIndex:0] text] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-        [PFUser requestPasswordResetForEmail:email];
-        [RKDropdownAlert title:@"Knit" message:@"A reset link has been sent to your email."  time:2];
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
+        hud.labelText = @"Loading";
+        [PFUser requestPasswordResetForEmailInBackground:email block:^(BOOL succeeded, NSError *error) {
+            [hud hide:YES];
+            if(succeeded) {
+                [RKDropdownAlert title:@"Knit" message:@"A reset link has been sent to your email."  time:2];
+            }
+            
+        }];
     }
 }
 
@@ -135,7 +143,7 @@
         [self state2View];
         [UIView animateWithDuration:0.5 animations:^{
             [self.view layoutIfNeeded];
-            [_emailTextField becomeFirstResponder];
+            //[_emailTextField becomeFirstResponder];
         }];
     }
 }
@@ -346,14 +354,19 @@
             }];
         }
         else {
+            NSLog(@"error 11");
             UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error in signing in. Try again later." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
             [hud hide:YES];
             [errorAlertView show];
         }
     } errorBlock:^(NSError *error) {
-        UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error in signing in. Try again later." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+        if(error.code == 141) {
+            [RKDropdownAlert title:@"Knit" message:@"Password for this username is not correct."  time:2];
+        }
+        else {
+            [RKDropdownAlert title:@"Knit" message:@"Internet not connected. Try again."  time:2];
+        }
         [hud hide:YES];
-        [errorAlertView show];
     }];
 }
 

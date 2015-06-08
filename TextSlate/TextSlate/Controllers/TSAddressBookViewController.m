@@ -90,7 +90,6 @@
 
 
 -(void)callInviteFunction {
-    NSLog(@"here");
     NSMutableArray *functionArgument = [[NSMutableArray alloc] init];
     PFQuery *query = [PFQuery queryWithClassName:@"invitedMembers"];
     [query fromLocalDatastore];
@@ -99,19 +98,12 @@
     [query whereKey:@"type" equalTo:[NSNumber numberWithInt:_type]];
     [query whereKey:@"status" equalTo:@"pending"];
     NSArray *invites = [query findObjects];
-    NSLog(@"here : %d", invites.count);
     for(PFObject *invite in invites) {
-        NSLog(@"here2");
         NSMutableArray *tempArr = [[NSMutableArray alloc] init];
-        NSLog(@"here3");
         [tempArr addObject:invite[@"name"]];
-        NSLog(@"here4");
         [tempArr addObject:invite[@"info"]];
-        NSLog(@"here5");
         [functionArgument addObject:tempArr];
-        NSLog(@"here6");
     }
-    NSLog(@"here :");
     [Data inviteUsers:_isAddressBook?@"phone":@"email" code:_classCode data:functionArgument type:_type teacherName:_teacherName successBlock:^(id object){
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^() {
             for(PFObject *invite in invites) {
@@ -124,7 +116,6 @@
             [q whereKey:@"classCode" equalTo:_classCode];
             [q whereKey:@"type" equalTo:[NSNumber numberWithInt:_type]];
             NSArray *objs = [q findObjects];
-            NSLog(@"size : %d", objs.count);
             PFObject *obj = objs[0];
             obj[@"ongoing"] = @"false";
             [obj pinInBackground];
@@ -148,7 +139,6 @@
     CFIndex nPeople = ABAddressBookGetPersonCount( addressBook );
     NSCharacterSet *characterset=[NSCharacterSet characterSetWithCharactersInString:@"\uFFFC\n "];
     for ( int i = 0; i < nPeople; i++ ) {
-        NSLog(@"%d", i+1);
         ABRecordRef ref = CFArrayGetValueAtIndex( allPeople, i );
         NSString *firstName = (__bridge NSString*)ABRecordCopyValue(ref, kABPersonFirstNameProperty);
         if(firstName)
