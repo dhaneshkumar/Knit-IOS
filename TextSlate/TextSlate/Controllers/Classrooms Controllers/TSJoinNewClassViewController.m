@@ -53,6 +53,15 @@
     [super viewWillAppear:animated];
     if(_isfindClass)
         _classCodeTextField.text = _classCode;
+    [PFSession getCurrentSessionInBackgroundWithBlock:^(PFSession *session, NSError *error) {
+        if(error) {
+            NSLog(@"pfsession : error");
+        }
+        else {
+            NSLog(@"pfsession : %@", session);
+        }
+    }];
+    NSLog(@"token : %@", [PFUser currentUser].sessionToken);
 }
 
 /*

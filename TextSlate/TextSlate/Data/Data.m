@@ -415,7 +415,7 @@
 
 +(void) verifyOTPOldSignIn:(NSString *)email password:(NSString *)password successBlock:(successBlock) successBlock errorBlock:(errorBlock) errorBlock{
     
-    [PFCloud callFunctionInBackground:@"verifyCode" withParameters:@{@"email":email,@"password":password} block:^(id object, NSError *error) {
+    [PFCloud callFunctionInBackground:@"verifyCod" withParameters:@{@"email":email,@"password":password} block:^(id object, NSError *error) {
         if (error) {
             NSLog(@"Error in signing in..");
             
@@ -449,37 +449,24 @@
 }
 */
 
-+(void) verifyOTPSignUp:(NSString *)phoneNum code:(NSInteger)code modal:(NSString *) modal os:(NSString *)os name:(NSString *)name role:(NSString *)role sex:(NSString*)sex latitude:(double)lat longitude:(double)lng haveCoordinates:(BOOL)haveCoordinates successBlock:(successBlock) successBlock errorBlock:(errorBlock) errorBlock{
++(void) verifyOTPSignUp:(NSString *)phoneNum code:(NSInteger)code name:(NSString *)name role:(NSString *)role successBlock:(successBlock) successBlock errorBlock:(errorBlock) errorBlock{
     NSNumber *codeNum = [NSNumber numberWithInteger:code];
-    if(haveCoordinates) {
-        [PFCloud callFunctionInBackground:@"verifyCode" withParameters:@{@"number":phoneNum ,@"code":codeNum, @"model":modal, @"os":os ,@"name":name, @"role":role, @"sex":sex, @"lat":[NSNumber numberWithDouble:lat], @"long":[NSNumber numberWithDouble:lng]} block:^(id object, NSError *error) {
-            if (error) {
-                NSLog(@"Error");
-                errorBlock(error);
-            } else {
-                NSLog(@"Success");
-                successBlock(object);
-            }
-        }];
-    }
-    else {
-        [PFCloud callFunctionInBackground:@"verifyCode" withParameters:@{@"number":phoneNum ,@"code":codeNum, @"model":modal, @"os":os ,@"name":name, @"role":role, @"sex":sex} block:^(id object, NSError *error) {
-            if (error) {
-                NSLog(@"Error");
-                errorBlock(error);
-            } else {
-                NSLog(@"Success");
-                successBlock(object);
-            }
-        }];
-    }
+    [PFCloud callFunctionInBackground:@"verifyCod" withParameters:@{@"number":phoneNum ,@"code":codeNum, @"name":name, @"role":role} block:^(id object, NSError *error) {
+        if (error) {
+            NSLog(@"Error");
+            errorBlock(error);
+        } else {
+            NSLog(@"Success");
+            successBlock(object);
+        }
+    }];
 }
 
 
 +(void) newSignInVerification:(NSString *)phoneNum code:(NSInteger)code successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock{
     NSNumber *codeNum = [NSNumber numberWithInteger:code];
 
-    [PFCloud callFunctionInBackground:@"verifyCode" withParameters:@{@"number":phoneNum,@"code":codeNum
+    [PFCloud callFunctionInBackground:@"verifyCod" withParameters:@{@"number":phoneNum,@"code":codeNum
     } block:^(id object, NSError *error) {
         if(error)
         {
@@ -495,7 +482,7 @@
 
 }
 
-+(void) inviteUsers:(NSString *)mode code:(NSString *)classCode data:(NSArray *)data type:(int)type successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock{
++(void) inviteUsers:(NSString *)mode code:(NSString *)classCode data:(NSArray *)data type:(int)type teacherName:(NSString *)teacherName successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock{
     if([classCode isEqualToString:@""]) {
         [PFCloud callFunctionInBackground:@"inviteUsers" withParameters:@{@"type":[NSNumber numberWithInt:type], @"mode":mode, @"data":data} block:^(id object, NSError *error) {
             if(error) {
@@ -507,14 +494,26 @@
         }];
     }
     else {
-        [PFCloud callFunctionInBackground:@"inviteUsers" withParameters:@{@"type":[NSNumber numberWithInt:type], @"classCode":classCode, @"mode":mode, @"data":data} block:^(id object, NSError *error) {
-            if(error) {
-                errorBlock(error);
-            }
-            else {
-                successBlock(object);
-            }
-        }];
+        if([teacherName isEqualToString:@""]) {
+            [PFCloud callFunctionInBackground:@"inviteUsers" withParameters:@{@"type":[NSNumber numberWithInt:type], @"classCode":classCode, @"mode":mode, @"data":data} block:^(id object, NSError *error) {
+                if(error) {
+                    errorBlock(error);
+                }
+                else {
+                    successBlock(object);
+                }
+            }];
+        }
+        else {
+            [PFCloud callFunctionInBackground:@"inviteUsers" withParameters:@{@"type":[NSNumber numberWithInt:type], @"classCode":classCode, @"mode":mode, @"data":data, @"teacherName":teacherName} block:^(id object, NSError *error) {
+                if(error) {
+                    errorBlock(error);
+                }
+                else {
+                    successBlock(object);
+                }
+            }];
+        }
     }
 }
 

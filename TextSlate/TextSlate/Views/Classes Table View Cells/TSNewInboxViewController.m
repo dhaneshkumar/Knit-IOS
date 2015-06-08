@@ -446,7 +446,6 @@
     PFQuery *query = [PFQuery queryWithClassName:@"GroupDetails"];
     [query fromLocalDatastore];
     [query orderByDescending:@"createdAt"];
-    //[query whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
     [query whereKey:@"code" containedIn:joinedClassCodes];
     NSArray *messages = (NSArray *)[query findObjects];
     [_hud hide:YES];
@@ -692,7 +691,6 @@
             NSCharacterSet *characterset=[NSCharacterSet characterSetWithCharactersInString:@"\uFFFC\n "];
             NSMutableArray *tempArray = [[NSMutableArray alloc] initWithArray:_messagesArray];
             for (PFObject *msg in messageObjects) {
-                //msg[@"iosUserID"] = [PFUser currentUser].objectId;
                 msg[@"likeStatus"] = @"false";
                 msg[@"confuseStatus"] = @"false";
                 msg[@"likeStatusServer"] = @"false";

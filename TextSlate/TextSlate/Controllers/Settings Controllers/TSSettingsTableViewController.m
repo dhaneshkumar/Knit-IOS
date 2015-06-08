@@ -256,13 +256,17 @@ if(section==0)
         PFInstallation *currentInstallation=[PFInstallation currentInstallation];
         NSString *objectID=currentInstallation.objectId;
         NSLog(@"Object ID is %@",objectID);
-        
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
+        hud.labelText = @"Loading";
         [Data appLogout:objectID successBlock:^(id object) {
             NSLog(@"Logging out...");
             [[UIApplication sharedApplication] cancelAllLocalNotifications];
-            [(TSTabBarViewController*)self.parentViewController.parentViewController logout];
+            [hud hide:YES];
+            [(TSTabBarViewController*)self.tabBarController logout];
         } errorBlock:^(NSError *error) {
-            NSLog(@"Some error has occured.Please try again later");
+            [hud hide:YES];
+            [RKDropdownAlert title:@"Knit" message:@"Error occured on logging out. Try again later."  time:2];
         }];
     }
     
@@ -276,9 +280,6 @@ if(section==0)
                                               cancelButtonTitle:@"OK"
                                               otherButtonTitles:nil];
         [alert show];
-
-
-    
     }
     
     if(indexPath.row==1 && indexPath.section==2)

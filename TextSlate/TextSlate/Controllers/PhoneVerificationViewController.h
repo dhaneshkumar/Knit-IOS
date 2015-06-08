@@ -16,7 +16,7 @@
 @property (strong, nonatomic) NSString *password;
 @property (strong, nonatomic) NSString *confirmPassword;
 @property (strong,nonatomic) NSString *otpCode;
-@property (strong, nonatomic) NSString *modal;
+@property (strong, nonatomic) NSString *model;
 @property (strong, nonatomic) NSString *role;
 @property (nonatomic) double latitude;
 @property (nonatomic) double longitude;

@@ -13,6 +13,7 @@
 @property (nonatomic) BOOL isAddressBook;
 @property (nonatomic) int type;
 @property (strong, nonatomic) NSString *classCode;
+@property (strong, nonatomic) NSString *teacherName;
 @property (nonatomic) BOOL fromInApp;
 
 @end

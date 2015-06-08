@@ -77,11 +77,11 @@ typedef void (^errorBlock)(NSError *error);
 
 +(void) verifyOTPOldSignIn:(NSString *)email password:(NSString *)password successBlock:(successBlock) successBlock errorBlock:(errorBlock) errorBlock;
 
-+(void) inviteUsers:(NSString *)mode code:(NSString *)classCode data:(NSArray *)data type:(int)type successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock;
++(void) inviteUsers:(NSString *)mode code:(NSString *)classCode data:(NSArray *)data type:(int)type teacherName:(NSString *)teacherName successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock;
 
 +(void) newSignInVerification:(NSString *)phoneNum code:(NSInteger) code successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock;
 
-+(void) verifyOTPSignUp:(NSString *)phoneNum code:(NSInteger)code modal:(NSString *) modal os:(NSString *)os name:(NSString *)name role:(NSString *)role sex:(NSString*)sex latitude:(double)lat longitude:(double)lng haveCoordinates:(BOOL)haveCoordinates successBlock:(successBlock) successBlock errorBlock:(errorBlock) errorBlock;
++(void) verifyOTPSignUp:(NSString *)phoneNum code:(NSInteger)code name:(NSString *)name role:(NSString *)role successBlock:(successBlock) successBlock errorBlock:(errorBlock) errorBlock;
 
 +(void) saveInstallationId:(NSString *)installationId deviceType:(NSString *)deviceType successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock;
 

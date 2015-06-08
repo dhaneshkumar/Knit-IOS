@@ -16,6 +16,7 @@
 #import "ClassesParentViewController.h"
 #import "MBProgressHUD.h"
 #import "RKDropdownAlert.h"
+#import <sys/utsname.h>
 
 @interface PhoneVerificationViewController ()
 
@@ -35,6 +36,41 @@
     //self.navigationController.navigationBar.hidden=NO;
     float version=[[[UIDevice currentDevice] systemVersion] floatValue];
     _osVersion=[[NSNumber numberWithFloat:version] stringValue];
+    
+    struct utsname systemInfo;
+    uname(&systemInfo);
+    _model = [NSString stringWithCString:systemInfo.machine encoding:NSUTF8StringEncoding];
+    /*
+     @"i386"      on 32-bit Simulator
+     @"x86_64"    on 64-bit Simulator
+     @"iPod1,1"   on iPod Touch
+     @"iPod2,1"   on iPod Touch Second Generation
+     @"iPod3,1"   on iPod Touch Third Generation
+     @"iPod4,1"   on iPod Touch Fourth Generation
+     @"iPhone1,1" on iPhone
+     @"iPhone1,2" on iPhone 3G
+     @"iPhone2,1" on iPhone 3GS
+     @"iPad1,1"   on iPad
+     @"iPad2,1"   on iPad 2
+     @"iPad3,1"   on 3rd Generation iPad
+     @"iPhone3,1" on iPhone 4 (GSM)
+     @"iPhone3,3" on iPhone 4 (CDMA/Verizon/Sprint)
+     @"iPhone4,1" on iPhone 4S
+     @"iPhone5,1" on iPhone 5 (model A1428, AT&T/Canada)
+     @"iPhone5,2" on iPhone 5 (model A1429, everything else)
+     @"iPad3,4" on 4th Generation iPad
+     @"iPad2,5" on iPad Mini
+     @"iPhone5,3" on iPhone 5c (model A1456, A1532 | GSM)
+     @"iPhone5,4" on iPhone 5c (model A1507, A1516, A1526 (China), A1529 | Global)
+     @"iPhone6,1" on iPhone 5s (model A1433, A1533 | GSM)
+     @"iPhone6,2" on iPhone 5s (model A1457, A1518, A1528 (China), A1530 | Global)
+     @"iPad4,1" on 5th Generation iPad (iPad Air) - Wifi
+     @"iPad4,2" on 5th Generation iPad (iPad Air) - Cellular
+     @"iPad4,4" on 2nd Generation iPad Mini - Wifi
+     @"iPad4,5" on 2nd Generation iPad Mini - Cellular
+     @"iPhone7,1" on iPhone 6 Plus
+     @"iPhone7,2" on iPhone 6
+     */
     _codeText.delegate = self;
     _codeText.keyboardType = UIKeyboardTypeNumberPad;
     self.navigationItem.title = @"Knit";
@@ -76,7 +112,7 @@
             hud.labelText = @"Loading";
             NSLog(@"lat: %f, long: %f, osVersion: %@", _latitude, _longitude, _osVersion);
             NSInteger verificationCode = [_codeText.text integerValue];
-            [Data verifyOTPSignUp:_phoneNumber code:verificationCode modal:_modal os:[NSString stringWithFormat:@"iOS %@", _osVersion] name:_nameText role:_role sex:@"damor" latitude:_latitude longitude:_longitude haveCoordinates:_areCoordinatesUpdated successBlock:^(id object){
+            [Data verifyOTPSignUp:_phoneNumber code:verificationCode name:_nameText role:_role successBlock:^(id object){
                 NSDictionary *tokenDict=[[NSDictionary alloc]init];
                 tokenDict=object;
                 NSString *flagString=[tokenDict objectForKey:@"flag"];
@@ -91,6 +127,20 @@
                             NSLog(@"PFUser in background sign up ka pain");
                             return;
                         } else {
+                            [PFSession getCurrentSessionInBackgroundWithBlock:^(PFSession *session, NSError *error) {
+                                if(error) {
+                                    NSLog(@"pfsession : error");
+                                }
+                                else {
+                                    if(_areCoordinatesUpdated) {
+                                        session[@"lat"] = [NSNumber numberWithDouble:_latitude];
+                                        session[@"long"] = [NSNumber numberWithDouble:_longitude];
+                                    }
+                                    session[@"os"] = [NSString stringWithFormat:@"iOS %@", _osVersion];
+                                    session[@"model"] = _model;
+                                    [session saveEventually];
+                                }
+                            }];
                             PFUser *current=[PFUser currentUser];
                             PFInstallation *currentInstallation = [PFInstallation currentInstallation];
                             NSString *installationId=[currentInstallation objectForKey:@"installationId"];
@@ -205,6 +255,20 @@
                             return;
                         } else {
                             NSLog(@"Successfully Validated ");
+                            [PFSession getCurrentSessionInBackgroundWithBlock:^(PFSession *session, NSError *error) {
+                                if(error) {
+                                    NSLog(@"pfsession : error");
+                                }
+                                else {
+                                    if(_areCoordinatesUpdated) {
+                                        session[@"lat"] = [NSNumber numberWithDouble:_latitude];
+                                        session[@"long"] = [NSNumber numberWithDouble:_longitude];
+                                    }
+                                    session[@"os"] = [NSString stringWithFormat:@"iOS %@", _osVersion];
+                                    session[@"model"] = _model;
+                                    [session saveEventually];
+                                }
+                            }];
                             PFUser *current=[PFUser currentUser];
                             NSLog(@"%@ current user",current.objectId);
                             PFInstallation *currentInstallation = [PFInstallation currentInstallation];

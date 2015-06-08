@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <CoreLocation/CoreLocation.h>
 
-@interface SignInViewController : UIViewController <UITextFieldDelegate>
+@interface SignInViewController : UIViewController <UITextFieldDelegate, CLLocationManagerDelegate, UIAlertViewDelegate>
 
 @end

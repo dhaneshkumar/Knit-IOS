@@ -544,13 +544,9 @@
     NSLog(@"invite parents tapped!!");
     UINavigationController *inviteParentNav = [self.storyboard instantiateViewControllerWithIdentifier:@"inviteParentNavVC"];
     TSNewInviteParentViewController *inviteParent = (TSNewInviteParentViewController *)inviteParentNav.topViewController;
-    PFQuery *localQuery = [PFQuery queryWithClassName:@"Codegroup"];
-    [localQuery fromLocalDatastore];
-    [localQuery whereKey:@"code" equalTo:_classCode];
-    NSArray *objs = [localQuery findObjects];
     inviteParent.classCode = _classCode;
     inviteParent.className = _className;
-    inviteParent.teacherName = ((PFObject *)objs[0])[@"Creator"];
+    inviteParent.teacherName = @"";
     inviteParent.fromInApp = true;
     inviteParent.type = 2;
     [self presentViewController:inviteParentNav animated:YES completion:nil];

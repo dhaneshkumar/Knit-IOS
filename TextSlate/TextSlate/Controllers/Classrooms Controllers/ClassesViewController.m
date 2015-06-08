@@ -42,7 +42,6 @@
     self.classesTable.delegate = self;
     self.classesTable.dataSource = self;
     self.classesTable.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
-    //[TSUtils applyRoundedCorners:_createOrJoinButton];
     [[_createOrJoinButton layer] setBorderWidth:0.3f];
     [[_createOrJoinButton layer] setBorderColor:[[UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0] CGColor]];
     [_createOrJoinButton.layer setShadowOffset:CGSizeMake(0.3, 0.3)];

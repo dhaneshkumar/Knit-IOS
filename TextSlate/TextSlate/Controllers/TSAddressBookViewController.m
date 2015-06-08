@@ -12,6 +12,7 @@
 #import <AddressBook/AddressBook.h>
 #import <Parse/Parse.h>
 #import "Data.h"
+#import "RKDropdownAlert.h"
 
 @interface TSAddressBookViewController ()
 
@@ -35,16 +36,27 @@
     if ([_tableView respondsToSelector:@selector(setSeparatorInset:)]) {
         [_tableView setSeparatorInset:UIEdgeInsetsZero];
     }
-    /*
     NSDictionary *dimensions = @{@"Invite Type" : [NSString stringWithFormat:@"type%d", _type], @"Invite Mode":(_isAddressBook?@"phone":@"email")};
-    [PFAnalytics trackEvent:@"inviteMode" dimensions:dimensions];*/
+    [PFAnalytics trackEvent:@"inviteMode" dimensions:dimensions];
 }
 
 -(IBAction)backButtonTapped:(id)sender {
     //Write function to send the data.
-    //if([self canCallInviteFunction])
-        //[self callInviteFunction];
+    if([self canCallInviteFunction]) {
+        [self callInviteFunction];
+    }
+    PFQuery *query = [PFQuery queryWithClassName:@"invitedMembers"];
+    [query fromLocalDatastore];
+    [query whereKey:@"isAddress" equalTo:_isAddressBook?@"true":@"false"];
+    [query whereKey:@"classCode" equalTo:_classCode];
+    [query whereKey:@"type" equalTo:[NSNumber numberWithInt:_type]];
+    [query whereKey:@"status" equalTo:@"pending"];
+    NSArray *invites = [query findObjects];
     [self.navigationController popViewControllerAnimated:YES];
+    if(invites.count==1)
+        [RKDropdownAlert title:@"Knit" message:@"Invitation sent successfully." time:2];
+    else if(invites.count>1)
+        [RKDropdownAlert title:@"Knit" message:@"Invitations sent successfully." time:2];
 }
 
 -(BOOL)canCallInviteFunction {
@@ -78,7 +90,7 @@
 
 
 -(void)callInviteFunction {
-    NSMutableArray *objectIds = [[NSMutableArray alloc] init];
+    NSLog(@"here");
     NSMutableArray *functionArgument = [[NSMutableArray alloc] init];
     PFQuery *query = [PFQuery queryWithClassName:@"invitedMembers"];
     [query fromLocalDatastore];
@@ -87,27 +99,32 @@
     [query whereKey:@"type" equalTo:[NSNumber numberWithInt:_type]];
     [query whereKey:@"status" equalTo:@"pending"];
     NSArray *invites = [query findObjects];
+    NSLog(@"here : %d", invites.count);
     for(PFObject *invite in invites) {
-        [objectIds addObject:invite.objectId];
-        NSArray *tempArr = @[invite[@"name"], invite[@"info"]];
+        NSLog(@"here2");
+        NSMutableArray *tempArr = [[NSMutableArray alloc] init];
+        NSLog(@"here3");
+        [tempArr addObject:invite[@"name"]];
+        NSLog(@"here4");
+        [tempArr addObject:invite[@"info"]];
+        NSLog(@"here5");
         [functionArgument addObject:tempArr];
+        NSLog(@"here6");
     }
-    [Data inviteUsers:_isAddressBook?@"phone":@"email" code:_classCode data:functionArgument type:_type successBlock:^(id object){
+    NSLog(@"here :");
+    [Data inviteUsers:_isAddressBook?@"phone":@"email" code:_classCode data:functionArgument type:_type teacherName:_teacherName successBlock:^(id object){
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^() {
-            PFQuery *query = [PFQuery queryWithClassName:@"invitedMembers"];
-            [query fromLocalDatastore];
-            [query whereKey:@"objectId" containedIn:objectIds];
-            NSArray *objs = [query findObjects];
-            for(PFObject *obj in objs) {
-                obj[@"status"] = @"notPending";
-                [obj pinInBackground];
+            for(PFObject *invite in invites) {
+                invite[@"status"] = @"notPending";
+                [invite pinInBackground];
             }
-            query = [PFQuery queryWithClassName:@"canInvite"];
-            [query fromLocalDatastore];
-            [query whereKey:@"isAddress" equalTo:(_isAddressBook)?@"true":@"false"];
-            [query whereKey:@"classCode" equalTo:_classCode];
-            [query whereKey:@"type" equalTo:[NSNumber numberWithInt:_type]];
-            objs = [query findObjects];
+            PFQuery * q = [PFQuery queryWithClassName:@"canInvite"];
+            [q fromLocalDatastore];
+            [q whereKey:@"isAddress" equalTo:(_isAddressBook)?@"true":@"false"];
+            [q whereKey:@"classCode" equalTo:_classCode];
+            [q whereKey:@"type" equalTo:[NSNumber numberWithInt:_type]];
+            NSArray *objs = [q findObjects];
+            NSLog(@"size : %d", objs.count);
             PFObject *obj = objs[0];
             obj[@"ongoing"] = @"false";
             [obj pinInBackground];
@@ -219,9 +236,9 @@
         member[@"status"] = @"pending";
         [member pinInBackground];
         
-        /*
+        
         NSDictionary *dimensions = @{@"Invite Type" : [NSString stringWithFormat:@"type%d", _type], @"Invite Mode":(_isAddressBook?@"phone":@"email")};
-        [PFAnalytics trackEvent:@"invitedUsersCount" dimensions:dimensions];*/
+        [PFAnalytics trackEvent:@"invitedUsersCount" dimensions:dimensions];
         
         NSIndexPath* rowToReload = [NSIndexPath indexPathForRow:indexPath.row inSection:0];
         NSArray* rowsToReload = [NSArray arrayWithObjects:rowToReload, nil];

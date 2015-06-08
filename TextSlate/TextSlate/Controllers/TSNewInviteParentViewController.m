@@ -112,9 +112,9 @@
         _smsButton.hidden = true;
     }
     
-    /*
+    
     NSDictionary *dimensions = @{@"Invite Type" : [NSString stringWithFormat:@"type%d", _type], @"Source":_fromInApp?@"app":@"notification"};
-    [PFAnalytics trackEvent:@"invitePageOpenings" dimensions:dimensions];*/
+    [PFAnalytics trackEvent:@"invitePageOpenings" dimensions:dimensions];
 }
 
 -(IBAction)backButtonTapped:(id)sender {
@@ -149,6 +149,7 @@
         addressBookVC.type = _type;
         addressBookVC.classCode = _classCode;
         addressBookVC.fromInApp = _fromInApp;
+        addressBookVC.teacherName = _teacherName;
         [self.navigationController pushViewController:addressBookVC animated:YES];
     } else{
         ABAddressBookRequestAccessWithCompletion(ABAddressBookCreateWithOptions(NULL, nil), ^(bool granted, CFErrorRef error) {
@@ -161,6 +162,7 @@
             addressBookVC.type = _type;
             addressBookVC.classCode = _classCode;
             addressBookVC.fromInApp = _fromInApp;
+            addressBookVC.teacherName = _teacherName;
             [self.navigationController pushViewController:addressBookVC animated:YES];
         });
     }
@@ -170,23 +172,23 @@
     NSLog(@"view3Tapped");
     NSString *sendCode = @"";
     if(_type==1) {
-        sendCode=[NSString stringWithFormat:@"I found a really cool app to improve communication between teachers and parents/students. Its name is Knit Messaging. Lets start using it."];
+        sendCode=[NSString stringWithFormat:@"Dear teacher, I found an awesome app, ‘Knit Messaging’, for teachers to communicate with parents and students. You can download the app from goo.gl/FmydzU"];
     }
     else if(_type==2) {
-        sendCode=[NSString stringWithFormat:@"I will be using Knit Messaging app for contacting parents/students from now on. Download the app and join the class using the code %@.\n Link: http://www.knitapp.co.in/user.html?/%@", _classCode, _classCode];
+        sendCode=[NSString stringWithFormat:@"Hi! I have recently started using 'Knit Messaging' app to send updates for my %@ class. Download the app from goo.gl/cormDk and use %@ to join my class. To join via SMS, send '%@ <Student's Name>' to 9243000080", _className, _classCode, _classCode];
     }
     else if(_type==3) {
-        sendCode=[NSString stringWithFormat:@"I have just joined %@ classroom of %@ on Knit Messaging app. Download the app and join the class using the code %@.\n Link: http://www.knitapp.co.in/user.html?/%@", _className, _teacherName, _classCode, _classCode];
+        sendCode=[NSString stringWithFormat:@"Hi! I just joined %@ class of %@ on 'Knit Messaging' app.  Download the app from goo.gl/Q2yeE3 and use %@ to join this class. To join via SMS, send '%@ <Student's Name>' to 9243000080", _className, _teacherName, _classCode, _classCode];
     }
     else {
-        sendCode=[NSString stringWithFormat:@"I found a really cool app to improve communication between teachers and parents/students. Its name is Knit Messaging. Check it out and start using it."];
+        sendCode=[NSString stringWithFormat:@"Yo! I just started using 'Knit Messaging' app. It's an awesome app for teachers, parents and students to connect with each other. Download the app from goo.gl/GLkQ57"];
     }
     
     NSString* strSharingText = [sendCode stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSURL *whatsappURL = [NSURL URLWithString:[NSString stringWithFormat:@"whatsapp://send?text=%@",strSharingText]];
     if ([[UIApplication sharedApplication] canOpenURL: whatsappURL]) {
-        /*NSDictionary *dimensions = @{@"Invite Type" : [NSString stringWithFormat:@"type%d", _type], @"Invite Mode":@"whatsapp"};
-        [PFAnalytics trackEvent:@"inviteMode" dimensions:dimensions];*/
+        NSDictionary *dimensions = @{@"Invite Type" : [NSString stringWithFormat:@"type%d", _type], @"Invite Mode":@"whatsapp"};
+        [PFAnalytics trackEvent:@"inviteMode" dimensions:dimensions];
         [[UIApplication sharedApplication] openURL: whatsappURL];
     }
     else {
@@ -204,6 +206,7 @@
         addressBookVC.type = _type;
         addressBookVC.classCode = _classCode;
         addressBookVC.fromInApp = _fromInApp;
+        addressBookVC.teacherName = _teacherName;
         [self.navigationController pushViewController:addressBookVC animated:YES];
     } else{
         ABAddressBookRequestAccessWithCompletion(ABAddressBookCreateWithOptions(NULL, nil), ^(bool granted, CFErrorRef error) {
@@ -216,6 +219,7 @@
             addressBookVC.type = _type;
             addressBookVC.classCode = _classCode;
             addressBookVC.fromInApp = _fromInApp;
+            addressBookVC.teacherName = _teacherName;
             [self.navigationController pushViewController:addressBookVC animated:YES];
         });
     }
@@ -223,9 +227,8 @@
 
 
 -(void)label1Tapped:(id)sender {
-    /*
     NSDictionary *dimensions = @{@"Invite Type" : [NSString stringWithFormat:@"type%d", _type], @"Invite Mode":@"receiveInstructions"};
-    [PFAnalytics trackEvent:@"inviteMode" dimensions:dimensions];*/
+    [PFAnalytics trackEvent:@"inviteMode" dimensions:dimensions];
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Knit"
                                                     message:@"Enter your email id"
                                                    delegate:self
@@ -237,7 +240,7 @@
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     if (buttonIndex == 1) {
-        NSString *email = [[alertView textFieldAtIndex:0] text];
+        NSString *email = [[[alertView textFieldAtIndex:0] text] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         [Data emailInstruction:email code:_classCode className:_className successBlock:^(id object) {
             [RKDropdownAlert title:@"Knit" message:@"Voila!Instructions have been sent to you via email." time:2];
         } errorBlock:^(NSError *error) {

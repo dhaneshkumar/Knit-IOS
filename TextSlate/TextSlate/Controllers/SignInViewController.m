@@ -13,6 +13,9 @@
 #import "PhoneVerificationViewController.h"
 #import "MBProgressHUD.h"
 #import "RKDropdownAlert.h"
+#import <sys/utsname.h>
+#import <Parse/Parse.h>
+
 
 @interface SignInViewController ()
 
@@ -21,13 +24,21 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *verticalSpace3;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *verticalSpace4;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *verticalSpace5;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *verticalSpace6;
 @property (weak, nonatomic) IBOutlet UILabel *label1;
 @property (weak, nonatomic) IBOutlet UILabel *label2;
 @property (weak, nonatomic) IBOutlet UILabel *label3;
 @property (weak, nonatomic) IBOutlet UITextField *mobilTextField;
 @property (weak, nonatomic) IBOutlet UITextField *emailTextField;
 @property (weak, nonatomic) IBOutlet UITextField *passwordTextField;
+@property (weak, nonatomic) IBOutlet UILabel *forgotPassword;
 @property (nonatomic) BOOL isState1;
+
+@property (strong, nonatomic) CLLocationManager *locationManager;
+@property (strong, nonatomic) PhoneVerificationViewController *pvc;
+@property (nonatomic) BOOL areCoordinatesUpdated;
+@property (nonatomic) double latitude;
+@property (nonatomic) double longitude;
 
 @end
 
@@ -42,17 +53,40 @@
     [self.navigationItem setLeftBarButtonItem:bb];
     UIBarButtonItem *nb = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"next"] style:UIBarButtonItemStylePlain target:self action:@selector(nextButtonTapped:)];
     [self.navigationItem setRightBarButtonItem:nb];
+    _forgotPassword.userInteractionEnabled = true;
+    UITapGestureRecognizer *forgotPasswdTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(forgotPasswordTapped:)];
+    [_forgotPassword addGestureRecognizer:forgotPasswdTap];
     _mobilTextField.delegate = self;
     _emailTextField.delegate = self;
     _passwordTextField.delegate = self;
     _mobilTextField.keyboardType = UIKeyboardTypeNumberPad;
     _isState1 = true;
+    _locationManager = [[CLLocationManager alloc] init];
+    _pvc = nil;
+    _areCoordinatesUpdated = false;
     [self state1View];
-    //[_mobilTextField becomeFirstResponder];
 }
 
 -(IBAction)backButtonTapped:(id)sender {
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+-(void)forgotPasswordTapped:(UITapGestureRecognizer *)recognizer {
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Knit"
+                                                    message:@"Enter your email id"
+                                                   delegate:self
+                                          cancelButtonTitle:@"Cancel"
+                                          otherButtonTitles:@"Ok", nil];
+    alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+    [alert show];
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if (buttonIndex == 1) {
+        NSString *email = [[[alertView textFieldAtIndex:0] text] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        [PFUser requestPasswordResetForEmail:email];
+        [RKDropdownAlert title:@"Knit" message:@"A reset link has been sent to your email."  time:2];
+    }
 }
 
 
@@ -67,12 +101,14 @@
     _verticalSpace3.constant = 4.0;
     _verticalSpace4.constant = 80.0;
     _verticalSpace5.constant = 22.0;
+    _verticalSpace6.constant = 24.0;
     _label1.textColor = [UIColor blackColor];
     _label3.textColor = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
     [_label3 setUserInteractionEnabled:YES];
     [_label3 setFont:[UIFont systemFontOfSize:20]];
     _emailTextField.hidden = true;
     _passwordTextField.hidden = true;
+    _forgotPassword.hidden = true;
 }
 
 
@@ -82,11 +118,13 @@
     _verticalSpace3.constant = 4.0;
     _verticalSpace4.constant = 20.0;
     _verticalSpace5.constant = 22.0;
+    _verticalSpace6.constant = 10.0;
     _label1.textColor = [UIColor colorWithRed:150.0f/255.0f green:150.0f/255.0f blue:150.0f/255.0f alpha:1.0];
     _label3.textColor = [UIColor blackColor];
     [_label3 setFont:[UIFont systemFontOfSize:16]];
     _emailTextField.hidden = false;
     _passwordTextField.hidden = false;
+    _forgotPassword.hidden = false;
 }
 
 
@@ -125,11 +163,47 @@
 }
 
 
+- (void)getCurrentLocation {
+    _locationManager.delegate = self;
+    _locationManager.desiredAccuracy = kCLLocationAccuracyThreeKilometers;
+    if ([_locationManager respondsToSelector:@selector(requestWhenInUseAuthorization)]) {
+        [_locationManager requestWhenInUseAuthorization];
+    }
+    [_locationManager startUpdatingLocation];
+}
+
+
+- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
+    return;
+}
+
+
+- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
+    NSLog(@"didUpdateToLocation: %@", newLocation);
+    CLLocation *currentLocation = newLocation;
+    
+    if (currentLocation != nil) {
+        if(_pvc) {
+            _pvc.latitude = currentLocation.coordinate.latitude;
+            _pvc.longitude = currentLocation.coordinate.longitude;
+            _pvc.areCoordinatesUpdated = true;
+        }
+        else {
+            _latitude = currentLocation.coordinate.latitude;
+            _longitude = currentLocation.coordinate.longitude;
+            _areCoordinatesUpdated = true;
+        }
+    }
+    [_locationManager stopUpdatingLocation];
+}
+
+
 -(void)newSignIn {
     if(_mobilTextField.text.length<10) {
         [RKDropdownAlert title:@"Knit" message:@"Please make sure that the phone number entered is 10 digits."  time:2];
         return;
     }
+    
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
     hud.labelText = @"Loading";
@@ -137,6 +211,9 @@
     [Data generateOTP:_mobilTextField.text successBlock:^(id object) {
         [hud hide:YES];
         PhoneVerificationViewController *dvc = [self.storyboard instantiateViewControllerWithIdentifier:@"phoneVerificationVC"];
+        _pvc = dvc;
+        [self getCurrentLocation];
+        
         dvc.phoneNumber=_mobilTextField.text;
         dvc.password=_passwordTextField.text;
         dvc.isNewSignIn=true;
@@ -171,6 +248,7 @@
         NSString *flagValue=[tokenDict objectForKey:@"flag"];
         NSString *token=[tokenDict objectForKey:@"sessionToken"];
         NSLog(@"Flag %@ and session token %@",flagValue,token);
+        [self getCurrentLocation];
         if([token length]>0)
         {
             [PFUser becomeInBackground:token block:^(PFUser *user, NSError *error) {
@@ -181,6 +259,25 @@
                     [errorAlertView show];
                     return;
                 } else {
+                    [PFSession getCurrentSessionInBackgroundWithBlock:^(PFSession *session, NSError *error) {
+                        if(error) {
+                            NSLog(@"pfsession : error");
+                        }
+                        else {
+                            if(_areCoordinatesUpdated) {
+                                session[@"lat"] = [NSNumber numberWithDouble:_latitude];
+                                session[@"long"] = [NSNumber numberWithDouble:_longitude];
+                            }
+                            float version=[[[UIDevice currentDevice] systemVersion] floatValue];
+                            NSString *os = [[NSNumber numberWithFloat:version] stringValue];
+                            session[@"os"] = [NSString stringWithFormat:@"iOS %@", os];
+                            
+                            struct utsname systemInfo;
+                            uname(&systemInfo);
+                            session[@"model"] = [NSString stringWithCString:systemInfo.machine encoding:NSUTF8StringEncoding];
+                            [session saveEventually];
+                        }
+                    }];
                     NSLog(@"Successfully Validated ");
                     PFUser *current=[PFUser currentUser];
                     NSLog(@"%@ current user",current.objectId);

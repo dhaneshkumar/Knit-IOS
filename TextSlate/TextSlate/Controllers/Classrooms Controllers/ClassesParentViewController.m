@@ -161,21 +161,32 @@
     
     for(NSArray *joinedcl in _joinedClasses)
         [joinedClassCodes addObject:joinedcl[0]];
-    
-    if(_joinedClasses.count==0) {
-        if(!_isHaloLayerAlreadyAdded) {
-            PulsingHaloLayer *halo1 = [PulsingHaloLayer layer];
-            halo1.position = _joinNewClass.center;
-            halo1.radius = 30.0;
-            halo1.animationDuration = 1.2;
-            PulsingHaloLayer *halo2 = [PulsingHaloLayer layer];
-            halo2.position = _joinNewClass.center;
-            halo2.radius = 20.0;
-            halo2.animationDuration = 1.0;
-            [self.view.layer addSublayer:halo1];
-            [self.view.layer addSublayer:halo2];
-            _isHaloLayerAlreadyAdded = true;
+    if(_joinedClasses.count==0 && !_isHaloLayerAlreadyAdded) {
+        PulsingHaloLayer *halo1 = [PulsingHaloLayer layer];
+        halo1.position = _joinNewClass.center;
+        halo1.radius = 30.0;
+        halo1.animationDuration = 1.2;
+        PulsingHaloLayer *halo2 = [PulsingHaloLayer layer];
+        halo2.position = _joinNewClass.center;
+        halo2.radius = 20.0;
+        halo2.animationDuration = 1.0;
+        [self.view.layer addSublayer:halo1];
+        [self.view.layer addSublayer:halo2];
+        _isHaloLayerAlreadyAdded = true;
+    }
+    else if(_joinedClasses.count>0 && _isHaloLayerAlreadyAdded) {
+        NSMutableArray *arr = [[NSMutableArray alloc] init];
+        for (CALayer *layer in self.view.layer.sublayers) {
+            if([layer isKindOfClass:[PulsingHaloLayer class]]) {
+                [arr addObject:layer];
+            }
         }
+        for(CALayer *layer in arr) {
+            [layer removeFromSuperlayer];
+        }
+        _isHaloLayerAlreadyAdded = false;
+    }
+    if(_joinedClasses.count==0) {
         return;
     }
     
