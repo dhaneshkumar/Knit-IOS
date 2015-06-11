@@ -213,7 +213,7 @@
 
 -(void)displayMessages {
     if(_messagesArray.count==0) {
-        _hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        _hud = [MBProgressHUD showHUDAddedTo:[[UIApplication sharedApplication] keyWindow]  animated:YES];
         _hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
         _hud.labelText = @"Loading messages";
         PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
@@ -345,7 +345,7 @@
 
 
 -(void)fetchOldMessagesOnDataDeletion {
-    _hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    _hud = [MBProgressHUD showHUDAddedTo:[[UIApplication sharedApplication] keyWindow]  animated:YES];
     _hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
     _hud.labelText = @"Loading messages";
     [Data updateInboxLocalDatastore:@"c" successBlock:^(id object) {
@@ -425,7 +425,6 @@
             NSCharacterSet *characterset=[NSCharacterSet characterSetWithCharactersInString:@"\uFFFC\n "];
             NSMutableArray *tempArray = [[NSMutableArray alloc] initWithArray:_messagesArray];
             for(PFObject *messageObject in messages) {
-                //messageObject[@"iosUserID"] = [PFUser currentUser].objectId;
                 messageObject[@"messageId"] = messageObject.objectId;
                 messageObject[@"createdTime"] = messageObject.createdAt;
                 [messageObject pinInBackground];

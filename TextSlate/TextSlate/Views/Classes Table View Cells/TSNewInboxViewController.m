@@ -378,47 +378,60 @@
     if([self noJoinedClasses])
         return;
     if(_messagesArray.count==0) {
-        _hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        NSLog(@"kya pain hai bc 1");
+        _hud = [MBProgressHUD showHUDAddedTo:[[UIApplication sharedApplication] keyWindow]  animated:YES];
         _hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
         _hud.labelText = @"Loading messages";
+        NSLog(@"kya pain hai bc 2");
         PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
         [lq fromLocalDatastore];
         [lq whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
+        NSLog(@"kya pain hai bc 3");
         NSArray *localObjs = [lq findObjects];
-        
+        NSLog(@"kya pain hai bc 4");
         if(localObjs.count==0) {
             NSLog(@"Pain hai bhai life me.");
             return;
         }
-        
+        NSLog(@"kya pain hai bc 5");
         int localMessages = [self fetchMessagesFromLocalDatastore];
-        
+        NSLog(@"kya pain hai bc 6");
         if(localMessages==0) {
+            NSLog(@"kya pain hai bc 7");
             if(localObjs[0][@"isInboxDataConsistent"] && [localObjs[0][@"isInboxDataConsistent"] isEqualToString:@"true"]) {
                 _messageFlag=1;
                 if(!_isILMCalled)
                     [self insertLatestMessages];
             }
             else {
+                NSLog(@"kya pain hai bc 8");
                 [self fetchOldMessagesOnDataDeletion];
             }
         }
         else {
-            if(!_isILMCalled)
+            NSLog(@"kya pain hai bc 9");
+            if(!_isILMCalled) {
+                NSLog(@"kya pain hai bc 10");
                 [self insertLatestMessages];
+                NSLog(@"kya pain hai bc 101");
+            }
             if(_lastUpdateCalled) {
+                NSLog(@"kya pain hai bc 11");
                 NSDate *date = [NSDate date];
                 NSTimeInterval ti = [date timeIntervalSinceDate:_lastUpdateCalled];
                 if(ti>900) {
+                    NSLog(@"kya pain hai bc 12");
                     [self updateCountsLocally];
                 }
             }
             else {
+                NSLog(@"kya pain hai bc 13");
                 [self updateCountsLocally];
             }
         }
     }
     else {
+        NSLog(@"kya pain hai bc 20");
         if(!_isILMCalled)
             [self insertLatestMessages];
         if(_lastUpdateCalled) {
@@ -451,6 +464,7 @@
     [_hud hide:YES];
     NSCharacterSet *characterset=[NSCharacterSet characterSetWithCharactersInString:@"\uFFFC\n "];
     for (PFObject * messageObject in messages) {
+        NSLog(@"obj : %@, %@, %@", messageObject[@"createdAt"], messageObject[@"objectId"], messageObject[@"updatedAt"]);
         TSMessage *message = [[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:[messageObject[@"title"] stringByTrimmingCharactersInSet:characterset] sender:messageObject[@"Creator"] sentTime:messageObject.createdAt senderPic:messageObject[@"senderPic"] likeCount:([messageObject[@"like_count"] intValue]+[self adder:messageObject[@"likeStatusServer"] localStatus:messageObject[@"likeStatus"]]) confuseCount:([messageObject[@"confused_count"] intValue]+[self adder:messageObject[@"confuseStatusServer"] localStatus:messageObject[@"confuseStatus"]]) seenCount:0];
         message.likeStatus = messageObject[@"likeStatus"];
         message.confuseStatus = messageObject[@"confuseStatus"];
@@ -497,14 +511,22 @@
 
 -(void)insertLatestMessages {
     _isILMCalled = YES;
+    NSLog(@"kya pain hai bc 33 : %d \n %@ \n %@", _messagesArray.count, [PFUser currentUser], _messagesArray[0]);
     NSDate *latestMessageTime = (_messagesArray.count==0)?[PFUser currentUser].createdAt:((TSMessage *)_messagesArray[0]).sentTime;
+    NSLog(@"kya pain hai bc 34 : %@", latestMessageTime);
     [Data updateInboxLocalDatastoreWithTime:latestMessageTime successBlock:^(id object) {
+        NSLog(@"kya pain hai bc 334");
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
             _lastUpdateCalled = [NSDate date];
+            NSLog(@"kya pain hai bc 35");
             NSArray *messageObjects = (NSArray *) object;
+            NSLog(@"kya pain hai bc 36");
             NSEnumerator *enumerator = [messageObjects reverseObjectEnumerator];
+            NSLog(@"kya pain hai bc 37");
             NSCharacterSet *characterset=[NSCharacterSet characterSetWithCharactersInString:@"\uFFFC\n "];
+            NSLog(@"kya pain hai bc 38");
             NSMutableArray *tempArray = [[NSMutableArray alloc] initWithArray:_messagesArray];
+            NSLog(@"kya pain hai bc 39");
             for(id element in enumerator) {
                 PFObject *messageObj = (PFObject *)element;
                 //messageObj[@"iosUserID"] = [PFUser currentUser].objectId;
@@ -577,7 +599,7 @@
 
 
 -(void)fetchOldMessagesOnDataDeletion {
-    _hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    _hud = [MBProgressHUD showHUDAddedTo:[[UIApplication sharedApplication] keyWindow]  animated:YES];
     _hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
     _hud.labelText = @"Loading messages";
     [Data updateInboxLocalDatastore:@"j" successBlock:^(id object) {

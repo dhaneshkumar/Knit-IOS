@@ -204,20 +204,17 @@
 
 
 -(void)leaveClass {
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[[UIApplication sharedApplication] keyWindow]  animated:YES];
     hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
     hud.labelText = @"Loading";
 
     [Data leaveClass:_classCode successBlock:^(id object) {
-        //[self deleteAllLocalMessages:_classCode];
-        //[self deleteLocalCodegroupEntry:_classCode];
         [[PFUser currentUser] fetch];
         [hud hide:YES];
         [self.navigationController popViewControllerAnimated:YES];
     } errorBlock:^(NSError *error) {
-      //  UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error occured in leaving the class." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
         [hud hide:YES];
-        //[errorAlertView show];
+        NSLog(@"error : %@", error);
          [RKDropdownAlert title:@"Knit" message:@"Error occured in leaving the class"  time:2];
     }];
 }
@@ -226,7 +223,6 @@
 -(void)deleteAllLocalMessages:(NSString *)classCode {
     PFQuery *query = [PFQuery queryWithClassName:@"GroupDetails"];
     [query fromLocalDatastore];
-    //[query whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
     [query whereKey:@"code" equalTo:classCode];
     NSArray *messages = [query findObjects];
     [PFObject unpinAllInBackground:messages];

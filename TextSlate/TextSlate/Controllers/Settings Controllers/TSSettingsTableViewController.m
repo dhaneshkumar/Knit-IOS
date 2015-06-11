@@ -190,9 +190,7 @@ if(section==0)
 
 // It is important for you to hide kwyboard
 
-- (BOOL)textFieldShouldReturn:(UITextField *)textField
-{
-    
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
     NSString *phoneNum=textField.text;
     PFObject *current=[PFUser currentUser];
     [current setObject:phoneNum forKey:@"phone"];
@@ -202,11 +200,9 @@ if(section==0)
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    if ([indexPath row] ==0 && [indexPath section]==0) {
+    if ([indexPath row] ==0 && [indexPath section]==0)
         return  100;
-    }
- else
+    else
      return 50;
 }
 /*
@@ -256,7 +252,7 @@ if(section==0)
         PFInstallation *currentInstallation=[PFInstallation currentInstallation];
         NSString *objectID=currentInstallation.objectId;
         NSLog(@"Object ID is %@",objectID);
-        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[[UIApplication sharedApplication] keyWindow]  animated:YES];
         hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
         hud.labelText = @"Loading";
         [Data appLogout:objectID successBlock:^(id object) {
@@ -319,7 +315,7 @@ if(section==0)
             PFInstallation *currentInstallation=[PFInstallation currentInstallation];
             NSString *objectID=currentInstallation.objectId;
             NSLog(@"Object ID is %@",objectID);
-            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[[UIApplication sharedApplication] keyWindow]  animated:YES];
             hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
             hud.labelText = @"Loading";
 
