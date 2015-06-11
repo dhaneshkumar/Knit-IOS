@@ -16,12 +16,14 @@
 #import "Data.h"
 #import "MBProgressHUD.h"
 #import "RKDropdownAlert.h"
+#import "FeedbackViewController.h"
 
 @interface TSSettingsTableViewController ()
 
 @property (weak, nonatomic) IBOutlet UITableView *settingsTableView;
 @property (strong, nonatomic) NSMutableArray *section2Content;
 @property (strong, nonatomic) NSMutableArray *section3Content;
+@property (strong,nonatomic) UIImage *resized;
 @property (assign) bool isOld;
 
 
@@ -133,10 +135,9 @@ if(section==0)
                 
             });
         }
-        UIButton * btn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        btn.frame = CGRectMake(120, 30, 100, 50);
-        [btn setTitle:@"Edit Picture" forState:UIControlStateNormal];
-        [cell.contentView addSubview:btn];
+        
+        cell.textLabel.textColor=[UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
+        cell.textLabel.text=@"Edit Picture";
     }
     
     else if(indexPath.section==1)
@@ -284,19 +285,22 @@ if(section==0)
     
     if(indexPath.row==1 && indexPath.section==2)
     {
-        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Ok", nil];
-        alert.frame=CGRectMake(0,0,500,500);
-        alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+        FeedbackViewController *feedbackNavigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"feedbackViewController"];
+        [self.navigationController pushViewController:feedbackNavigationController animated:YES];
         
-        UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(10, 10, 100, 80)];
-        textField.keyboardType = UIKeyboardTypeDefault;
-         [alert show];
     }
     
     if(indexPath.row==0 && indexPath.section==0)
     {
-        UINavigationController *profile=[self.storyboard instantiateViewControllerWithIdentifier:@"profilePictureNavigation"];
-        [self presentViewController:profile animated:NO completion:nil];
+        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Choose Option"
+                                                                 delegate:self
+                                                        cancelButtonTitle:@"Cancel"
+                                                   destructiveButtonTitle:nil
+                                                        otherButtonTitles:@"Take a photo",@"Choose from photos",nil];
+        
+        [actionSheet showInView:self.view];
+      //  UINavigationController *profile=[self.storyboard instantiateViewControllerWithIdentifier:@"profilePictureNavigation"];
+        //[self presentViewController:profile animated:NO completion:nil];
         
     }
     if(indexPath.row==0 && indexPath.section==2)
@@ -335,19 +339,24 @@ if(section==0)
         }
         
         if(indexPath.row==1 && indexPath.section==2) {
-            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Ok", nil];
-            alert.frame=CGRectMake(0,0,500,500);
-            alert.alertViewStyle = UIAlertViewStylePlainTextInput;
-            
-            UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(10, 10, 100, 80)];
-            textField.keyboardType = UIKeyboardTypeDefault;
-            [alert show];
+            FeedbackViewController *feedbackNavigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"feedbackViewController"];
+            [self.navigationController pushViewController:feedbackNavigationController animated:YES];
+
         }
         
         
         if(indexPath.row==0 && indexPath.section==0) {
-            UINavigationController *profile=[self.storyboard instantiateViewControllerWithIdentifier:@"profilePictureNavigation"];
-            [self presentViewController:profile animated:NO completion:nil];
+            
+            
+            UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Choose Option"
+                                                                     delegate:self
+                                                            cancelButtonTitle:@"Cancel"
+                                                       destructiveButtonTitle:nil
+                                                            otherButtonTitles:@"Take a photo",@"Choose from photos",nil];
+            
+            [actionSheet showInView:self.view];
+            //UINavigationController *profile=[self.storyboard instantiateViewControllerWithIdentifier:@"profilePictureNavigation"];
+            //[self presentViewController:profile animated:NO completion:nil];
         }
         
         if(indexPath.row==0 && indexPath.section==2) {
@@ -362,6 +371,100 @@ if(section==0)
     }
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
+
+-(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
+    
+        NSLog(@"%@   %i",[actionSheet buttonTitleAtIndex:buttonIndex],buttonIndex);
+    if(buttonIndex==0)
+    {
+        UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+        picker.delegate = self;
+        picker.allowsEditing = YES;
+        picker.sourceType = UIImagePickerControllerSourceTypeCamera;
+        
+        [self presentViewController:picker animated:YES completion:NULL];
+
+    }
+    
+    if(buttonIndex==1)
+    {
+        
+        UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+        picker.delegate = self;
+        picker.allowsEditing = YES;
+        picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+        
+        [self presentViewController:picker animated:YES completion:NULL];
+
+    }
+    
+    
+}
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    
+    UIImage *chosenImage = info[UIImagePickerControllerEditedImage];
+ //   self.imageView.contentMode = UIViewContentModeScaleAspectFit;
+   // self.imageView.clipsToBounds = YES;
+    CGSize size={1080,1080};
+    UIImage *resized=[self resizeImage:chosenImage imageSize:size];
+    
+   // self.imageView.image = resized;
+    
+    [picker dismissViewControllerAnimated:YES completion:NULL];
+    UIImage *profileImage=resized;
+    NSData *imageData = UIImageJPEGRepresentation(profileImage, 0);
+    PFFile *imageFile = [PFFile fileWithName:@"Profileimage.jpeg" data:imageData];
+    [imageFile saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (!error) {
+            if (succeeded) {
+                PFUser *user = [PFUser currentUser];
+                user[@"pid"] = imageFile;
+                [user saveInBackground];
+            }
+            UIAlertView *myAlertView = [[UIAlertView alloc] initWithTitle:@"Knit"
+                                                                  message:@"Picture has been saved."
+                                                                 delegate:nil
+                                                        cancelButtonTitle:@"OK"
+                                                        otherButtonTitles: nil];
+            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+            UITableViewCell *selectedCell=[self.settingsTableView cellForRowAtIndexPath:indexPath];
+            selectedCell.imageView.image=resized;
+            [self.settingsTableView reloadData];
+            
+            
+            [myAlertView show];
+
+        } else {
+            
+        }
+    }];
+    
+
+    
+}
+
+-(UIImage*)resizeImage:(UIImage *)image imageSize:(CGSize)size
+{
+    UIGraphicsBeginImageContext(size);
+    [image drawInRect:CGRectMake(0,0,size.width,size.height)];
+    UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
+    
+    //here is the scaled image which has been changed to the size specified
+    UIGraphicsBeginImageContextWithOptions(size,NO,0.0);
+    
+    return newImage;
+    
+}
+
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
+    
+    [picker dismissViewControllerAnimated:YES completion:NULL];
+    
+}
+
+
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue  {
     if ([segue.identifier isEqualToString:@"showFAQ"]) {

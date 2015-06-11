@@ -92,5 +92,6 @@ typedef void (^errorBlock)(NSError *error);
 +(void) inviteTeacher:(NSString *)senderId schoolName:(NSString *)schoolName teacherName:(NSString*) teacherName childName:(NSString *)childName email:(NSString *)email phoneNum:(NSString *)phoneNum successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock;
 
 +(void)findClassDetail:(NSString *)classCode successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock;
++(void)feedback:(NSString *)userInput successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock;
 
 @end

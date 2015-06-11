@@ -18,6 +18,7 @@
 		404C9E1C1AC0260C001CF571 /* phone.png in Resources */ = {isa = PBXBuildFile; fileRef = 404C9E1B1AC0260C001CF571 /* phone.png */; };
 		404C9E1E1AC0263C001CF571 /* iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = 404C9E1D1AC0263C001CF571 /* iphone.png */; };
 		4068825E1A8A307D00C055E1 /* ProfilePictureViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4068825D1A8A307D00C055E1 /* ProfilePictureViewController.m */; };
+		406E1DF31B294FA500F17C33 /* FeedbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 406E1DF21B294FA500F17C33 /* FeedbackViewController.m */; };
 		408863721AF0272400DCF61B /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 408863711AF0272400DCF61B /* Social.framework */; };
 		408863741AF0273B00DCF61B /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 408863731AF0273B00DCF61B /* Accounts.framework */; };
 		40A9FC831AC42C0900082555 /* attach_30x30.png in Resources */ = {isa = PBXBuildFile; fileRef = 40A9FC801AC42C0900082555 /* attach_30x30.png */; };
@@ -180,6 +181,8 @@
 		404C9E1D1AC0263C001CF571 /* iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iphone.png; sourceTree = "<group>"; };
 		4068825C1A8A307D00C055E1 /* ProfilePictureViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfilePictureViewController.h; sourceTree = "<group>"; };
 		4068825D1A8A307D00C055E1 /* ProfilePictureViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfilePictureViewController.m; sourceTree = "<group>"; };
+		406E1DF11B294FA500F17C33 /* FeedbackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedbackViewController.h; sourceTree = "<group>"; };
+		406E1DF21B294FA500F17C33 /* FeedbackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedbackViewController.m; sourceTree = "<group>"; };
 		408863711AF0272400DCF61B /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		408863731AF0273B00DCF61B /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		40A9FC801AC42C0900082555 /* attach_30x30.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = attach_30x30.png; sourceTree = "<group>"; };
@@ -440,6 +443,15 @@
 			name = "Profile Picture Controller";
 			sourceTree = "<group>";
 		};
+		406E1DF01B294F7A00F17C33 /* Feedback Controller */ = {
+			isa = PBXGroup;
+			children = (
+				406E1DF11B294FA500F17C33 /* FeedbackViewController.h */,
+				406E1DF21B294FA500F17C33 /* FeedbackViewController.m */,
+			);
+			name = "Feedback Controller";
+			sourceTree = "<group>";
+		};
 		40BB899D1AC49909002CFDFE /* Invite Teacher */ = {
 			isa = PBXGroup;
 			children = (
@@ -470,6 +482,7 @@
 		971687D71A1F1BCA00FE98FC /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				406E1DF01B294F7A00F17C33 /* Feedback Controller */,
 				FB65C9671B1D80A500EAE58E /* Gif Viewer */,
 				FB777C081B16D59F00754546 /* Address Book */,
 				FB777C041B162A7400754546 /* New Invite Parent */,
@@ -1167,6 +1180,7 @@
 				FBA778FD1AD12EC000D247CC /* ClassesParentViewController.m in Sources */,
 				973A4BD81A1F174D0039175A /* main.m in Sources */,
 				40CD58651A89455B000CB1AB /* FAQTableViewController.m in Sources */,
+				406E1DF31B294FA500F17C33 /* FeedbackViewController.m in Sources */,
 				FBB860C21AF3595F0005474A /* JTSImageViewController.m in Sources */,
 				40CDDBB61A90E47E00922ADF /* TSMember.m in Sources */,
 				FBB860C01AF3595F0005474A /* JTSAnimatedGIFUtility.m in Sources */,

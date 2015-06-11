@@ -605,5 +605,18 @@
     }];
 }
 
++(void)feedback:(NSString *)userInput successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock{
+    [PFCloud callFunctionInBackground:@"feedback" withParameters:@{@"feed":userInput} block:^(id object, NSError *error) {
+        if(error)
+        {
+            NSLog(@"Error %@",error);
+            errorBlock(error);
+        }
+        
+        else{
+            successBlock(object);
+        }
+    }];
+}
 
 @end
