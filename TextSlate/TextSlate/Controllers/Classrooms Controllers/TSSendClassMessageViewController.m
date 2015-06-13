@@ -49,27 +49,30 @@
     [self.navigationItem setLeftBarButtonItem:bb];
     _shouldScrollUp = false;
     CGFloat navBarHeight = self.navigationController.navigationBar.frame.size.height;
-    CGFloat navBarWidth = [self getScreenWidth] * 0.9;
-    UIView *titleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, navBarWidth, navBarHeight)];
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 4, navBarWidth - 2*navBarHeight, 18)];
+    CGFloat navBarWidth = self.navigationController.navigationBar.frame.size.width;
+    CGFloat width1 = [_className sizeWithAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:16.0f]}].width;
+    CGFloat width2 = [_classCode sizeWithAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12.0f]}].width;
+    CGFloat width = navBarWidth - 176.0;
+    UIView *titleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, width, navBarHeight)];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake((width>width1)?(width-width1)/2.0:0.0, 6, (width>width1)?width1:width, 16)];
     label.backgroundColor = [UIColor clearColor];
-    label.font = [UIFont boldSystemFontOfSize: 18.0f];
+    label.font = [UIFont boldSystemFontOfSize: 16.0f];
     label.textAlignment = NSTextAlignmentCenter;
     label.textColor = [UIColor whiteColor];
     label.text = _className;
+    if(width>width1)
+        [label sizeToFit];
     [titleView addSubview:label];
     
-    label = [[UILabel alloc] initWithFrame:CGRectMake(0, 26, navBarWidth - 2*navBarHeight, 14)];
+    label = [[UILabel alloc] initWithFrame:CGRectMake((width-width2)/2.0, 26, width2, 12)];
     label.backgroundColor = [UIColor clearColor];
     label.font = [UIFont boldSystemFontOfSize: 12.0f];
     label.textAlignment = NSTextAlignmentCenter;
     label.textColor = [UIColor whiteColor];
     label.text = _classCode;
+    [label sizeToFit];
     [titleView addSubview:label];
     self.navigationItem.titleView = titleView;
-    CGRect frame = [[self.navigationItem.leftBarButtonItem valueForKey:@"view"] frame];
-    NSLog(@"width : %f", frame.size.width);
-    NSLog(@"height : %f", frame.size.height);
 }
 
 -(IBAction)backButtonTapped:(id)sender {
@@ -79,7 +82,10 @@
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     UIBarButtonItem *composeBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose  target:self action:@selector(composeMessage)];
-    [self.navigationItem setRightBarButtonItem:composeBarButtonItem];
+    UIButton *moreInfoContactButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+    [moreInfoContactButton addTarget:self action:@selector(moreInfoButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *moreInfoContactButtonItem = [[UIBarButtonItem alloc] initWithCustomView:moreInfoContactButton];
+    [self.navigationItem setRightBarButtonItems:@[composeBarButtonItem, moreInfoContactButtonItem]];
     [_messageTable reloadData];
 }
 
@@ -98,6 +104,10 @@
 -(void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     self.navigationItem.rightBarButtonItem = nil;
+}
+
+-(void)moreInfoButtonPressed:(id)sender {
+    NSLog(@"more info tapped");
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {

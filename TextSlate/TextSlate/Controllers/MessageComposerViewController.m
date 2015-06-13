@@ -49,7 +49,7 @@
 @property (strong,nonatomic) NSString *classCode;
 @property (strong,nonatomic) NSString *className;
 @property (strong ,nonatomic) NSTimer *timer;
-
+@property (strong,nonatomic) UIActionSheet *classOptions;
 @property (nonatomic) BOOL hasSelectedClass;
 @property (nonatomic) BOOL hasTypedMessage;
 
@@ -122,6 +122,7 @@
         [_createdclassCode addObject:[a objectAtIndex:0]];
         [_createdclassName addObject:[a objectAtIndex:1]];
     }
+    
     NSLog(@"created class name %@",_createdclassName);
     NSLog(@"created class code %@",_createdclassCode);
     _hasSelectedClass = false;
@@ -130,18 +131,6 @@
     _recipientViewHeight.constant = 50.0;
     _messageBodyView.constant = 160.0;
     
-    /*
-     CGFloat width =  [@"Tap to select Class" sizeWithAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15.0f]}].width;
-     CGFloat height = 20.0;
-     _tapToSelectClass = [[UILabel alloc] initWithFrame:CGRectMake(50.0, (_recipientViewHeight.constant-height)/2.0, width, height)];
-     _tapToSelectClass.text = @"Tap to select Class";
-     _tapToSelectClass.textColor = [UIColor lightGrayColor];
-     _tapToSelectClass.numberOfLines = 0;
-     _tapToSelectClass.textAlignment = NSTextAlignmentCenter;
-     _tapToSelectClass.font = [UIFont systemFontOfSize:15.0];
-     [_tapToSelectClass sizeToFit];
-     [_recipientClassView addSubview:_tapToSelectClass];
-     */
     CGFloat width =  [@"Write message here ..." sizeWithAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:17.0f]}].width;
     CGFloat height = 30.0;
     _writeMessageHere = [[UILabel alloc] initWithFrame:CGRectMake(12.0, 10.0, width, height)];
@@ -153,6 +142,7 @@
     [_writeMessageHere sizeToFit];
     [_textMessage addSubview:_writeMessageHere];
 }
+
 
 
 -(void)closeWindow {
@@ -168,6 +158,13 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(liftMainViewWhenKeybordAppears:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(liftMainViewWhenKeybordHide:) name:UIKeyboardDidHideNotification object:nil];
+    self.classOptions=[[UIActionSheet alloc]init];
+    for (NSString *title in _createdclassName) {
+        [self.classOptions addButtonWithTitle:title];
+    }
+    self.classOptions.cancelButtonIndex = [self.classOptions addButtonWithTitle:@"Cancel"];
+    
+
     if(_isClass) {
         _hasSelectedClass = true;
         _classCode = _classcode;
@@ -244,18 +241,8 @@
 -(void)recipientClassTapped:(UITapGestureRecognizer *)recognizer {
     NSLog(@"recipient class tapped");
     if(!_isClass) {
-        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Choose class from here"
-                                                                 delegate:self
-                                                        cancelButtonTitle:nil
-                                                   destructiveButtonTitle:nil
-                                                        otherButtonTitles:nil];
-    
-        for (NSString *title in _createdclassName) {
-            [actionSheet addButtonWithTitle:title];
-        }
         
-        actionSheet.cancelButtonIndex = [actionSheet addButtonWithTitle:@"Cancel"];
-        [actionSheet showInView:self.view];
+        [self.classOptions showInView:self.view];
     }
 }
 

@@ -40,8 +40,6 @@
 @property (nonatomic) double latitude;
 @property (nonatomic) double longitude;
 
-@property (nonatomic, strong) UIToolbar* keyboardDoneButtonView;
-
 @end
 
 @implementation SignInViewController
@@ -70,14 +68,14 @@
     _pvc = nil;
     _areCoordinatesUpdated = false;
     
-    _keyboardDoneButtonView = [[UIToolbar alloc] init];
+    UIToolbar* keyboardDoneButtonView = [[UIToolbar alloc] init];
     UIBarButtonItem *flexBarButton = [[UIBarButtonItem alloc]
                                       initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
                                       target:nil action:nil];
     UIBarButtonItem* doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(doneClicked:)];
-    [_keyboardDoneButtonView sizeToFit];
-    [_keyboardDoneButtonView setItems:[NSArray arrayWithObjects:flexBarButton, doneButton, nil]];
-    _mobilTextField.inputAccessoryView = _keyboardDoneButtonView;
+    [keyboardDoneButtonView sizeToFit];
+    [keyboardDoneButtonView setItems:[NSArray arrayWithObjects:flexBarButton, doneButton, nil]];
+    _mobilTextField.inputAccessoryView = keyboardDoneButtonView;
     [self state1View];
 }
 
