@@ -5,7 +5,8 @@
 //  Created by Ravi Vooda on 1/7/15.
 //  Copyright (c) 2015 Ravi Vooda. All rights reserved.
 //
-
+#import <AVFoundation/AVFoundation.h>
+#import <AssetsLibrary/AssetsLibrary.h>
 #import "TSSettingsTableViewController.h"
 #import <Parse/Parse.h>
 #import <QuartzCore/QuartzCore.h>
@@ -377,18 +378,39 @@ if(section==0)
         NSLog(@"%@   %i",[actionSheet buttonTitleAtIndex:buttonIndex],buttonIndex);
     if(buttonIndex==0)
     {
-        UIImagePickerController *picker = [[UIImagePickerController alloc] init];
-        picker.delegate = self;
-        picker.allowsEditing = YES;
-        picker.sourceType = UIImagePickerControllerSourceTypeCamera;
-        
-        [self presentViewController:picker animated:YES completion:NULL];
+        AVAuthorizationStatus status = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
+        if(status == AVAuthorizationStatusAuthorized) { // authorized
+            
+            UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+            picker.delegate = self;
+            picker.allowsEditing = YES;
+            picker.sourceType = UIImagePickerControllerSourceTypeCamera;
+            
+            [self presentViewController:picker animated:YES completion:NULL];
+        }
+        else if(status == AVAuthorizationStatusDenied){ // denied
+        [RKDropdownAlert title:@"Knit" message:@"Please provide the permission to access camera!"  time:2];
+            return;
+        }
+        else if(status == AVAuthorizationStatusRestricted){ // restricted
+            
+            [RKDropdownAlert title:@"Knit" message:@"Please provide the permission to access camera!"  time:2];
+            return;
+        }
+    
+      
 
     }
     
     if(buttonIndex==1)
     {
+        ALAuthorizationStatus status = [ALAssetsLibrary authorizationStatus];
         
+        if (status != ALAuthorizationStatusAuthorized) {
+            [RKDropdownAlert title:@"Knit" message:@"Please provide the permission to access photos!"  time:2];
+            return;
+        }
+        else{
         UIImagePickerController *picker = [[UIImagePickerController alloc] init];
         picker.delegate = self;
         picker.allowsEditing = YES;
@@ -396,6 +418,7 @@ if(section==0)
         
         [self presentViewController:picker animated:YES completion:NULL];
 
+        }
     }
     
     
