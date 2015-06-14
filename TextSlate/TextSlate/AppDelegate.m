@@ -18,13 +18,19 @@
 #import "InviteParentViewController.h"
 #import "TSNewInboxViewController.h"
 #import "InviteParentViewController.h"
+#import "TSOutboxViewController.h"
 #import "TSTabBarViewController.h"
+#import "TSSendClassMessageViewController.h"
 
 
 @interface AppDelegate ()
 
 @property (nonatomic, strong) NSString *classCode;
 @property (nonatomic, strong) NSString *className;
+@property (nonatomic, strong) NSString *membersClassCode;
+@property (nonatomic, strong) NSString *membersClassName;
+
+
 
 @end
 
@@ -39,6 +45,7 @@
     
     // Enable local datastore.
     [Parse enableLocalDatastore];
+
     
     // Override point for customization after application launch.
     [self setKeysForDevelopmentKnit];
@@ -115,7 +122,9 @@
     if (userInfo) {
         NSLog(@"%@",userInfo);
         NSString *notificationType=[userInfo objectForKey:@"type"];
-        
+        NSString *actionType=[userInfo objectForKey:@"action"];
+        _membersClassCode=[userInfo objectForKey:@"groupCode"];
+        _membersClassName=[userInfo objectForKey:@"groupName"];
         
         if([notificationType isEqualToString:@"UPDATE"])
         {
@@ -133,18 +142,75 @@
                 
             }
         }
-        else{
-            if (application.applicationState == UIApplicationStateActive ) {
-            }
-            else {
-                TSTabBarViewController *rootTab = (TSTabBarViewController *)_startNav.topViewController;
-                [rootTab setSelectedIndex:1];
-                TSNewInboxViewController *newInbox = (TSNewInboxViewController *)rootTab.viewControllers[1];
-                newInbox.shouldScrollUp = true;
-                newInbox.newMessage = true;
-                self.window.rootViewController = _startNav;
-            }
+        else if([notificationType isEqualToString:@"NORMAL"]){
+
+                if (application.applicationState == UIApplicationStateActive ) {
+                }
+                else {
+
+                    TSTabBarViewController *rootTab = (TSTabBarViewController *)_startNav.topViewController;
+                    [rootTab setSelectedIndex:1];
+                    TSNewInboxViewController *newInbox = (TSNewInboxViewController *)rootTab.viewControllers[1];
+                    newInbox.shouldScrollUp = true;
+                    newInbox.newMessage = true;
+                    self.window.rootViewController = _startNav;
+                
+                }
         }
+        
+        
+        else if ([notificationType isEqualToString:@"TRANSITION"])
+        {
+            
+            if([actionType isEqualToString:@"LIKE"])
+            {
+                /*TSTabBarViewController *rootTab = (TSTabBarViewController *)_startNav.topViewController;
+                [rootTab setSelectedIndex:1];
+                TSOutboxViewController *newOutbox = (TSOutboxViewController *)rootTab.viewControllers[2];
+                newOutbox.shouldScrollUp = true;
+                self.window.rootViewController = _startNav;*/
+            }
+            
+            
+            if([actionType isEqualToString:@"CONFUSE"])
+            {
+                
+            }
+            
+            if([actionType isEqualToString:@"CLASS_PAGE"])
+            {
+                if(application.applicationState==UIApplicationStateInactive)
+                {
+                TSTabBarViewController *rootTab = (TSTabBarViewController *)_startNav.topViewController;
+                self.window.rootViewController = _startNav;
+
+                UIStoryboard *storyboard=[UIStoryboard storyboardWithName:@"Main" bundle:nil];
+                
+                TSSendClassMessageViewController *dvc = (TSSendClassMessageViewController*)[storyboard instantiateViewControllerWithIdentifier:@"createdClassVC"];
+                
+                dvc.className = _membersClassName;
+                dvc.classCode = _membersClassCode;
+               // [_createdClassesVCs setObject:dvc forKey:_createdClasses[row][0]];
+                [rootTab presentViewController:dvc animated:YES completion:nil];
+
+                }
+                
+                else if(application.applicationState==UIApplicationStateActive)
+                {
+                 
+                    NSString *title=[userInfo objectForKey:@"groupName"];
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
+                                                                    message:@"See how many members have joined you class here!"
+                                                                   delegate:self cancelButtonTitle:@"OK"
+                                                          otherButtonTitles:@"Members",nil];
+                    [alert show];
+
+                }
+            }
+            
+            
+        }
+
     }
 }
 
@@ -278,6 +344,24 @@
         NSString *iTunesLink = @"itms://itunes.apple.com/in/app/knit-messaging/id962112913?mt=8";
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:iTunesLink]];
     }
+    
+    if([title isEqualToString:@"Members"])
+    {
+        TSTabBarViewController *rootTab = (TSTabBarViewController *)_startNav.topViewController;
+        self.window.rootViewController = _startNav;
+        
+        UIStoryboard *storyboard=[UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        
+        TSSendClassMessageViewController *dvc = (TSSendClassMessageViewController*)[storyboard instantiateViewControllerWithIdentifier:@"createdClassVC"];
+        NSString *classname=_membersClassName;
+        NSString *classcode=_membersClassCode;
+        dvc.className = classname;
+        dvc.classCode = classcode;
+        // [_createdClassesVCs setObject:dvc forKey:_createdClasses[row][0]];
+        [rootTab presentViewController:dvc animated:YES completion:nil];
+
+    }
+    
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

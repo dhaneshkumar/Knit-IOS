@@ -19,12 +19,12 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self.feedback.layer setBorderColor:[[[UIColor grayColor] colorWithAlphaComponent:0.5] CGColor]];
-    [self.feedback.layer setBorderWidth:2.0];
+//    [self.feedback.layer setBorderColor:[[[UIColor grayColor] colorWithAlphaComponent:0.5] CGColor]];
+  //  [self.feedback.layer setBorderWidth:2.0];
 
     //The rounded corner part, where you specify your view's corner radius:
-    self.feedback.layer.cornerRadius = 5;
-    self.feedback.clipsToBounds = YES;
+    //self.feedback.layer.cornerRadius = 5;
+    //self.feedback.clipsToBounds = YES;
     self.feedback.delegate=self;
     [self.feedback becomeFirstResponder];
     self.navigationItem.title=@"Send Feedback";
