@@ -359,9 +359,7 @@
         dvc.classCode = classcode;
         // [_createdClassesVCs setObject:dvc forKey:_createdClasses[row][0]];
         [rootTab presentViewController:dvc animated:YES completion:nil];
-
     }
-    
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
