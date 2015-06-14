@@ -146,6 +146,7 @@
 
 
 -(void)closeWindow {
+    [_textMessage resignFirstResponder];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 

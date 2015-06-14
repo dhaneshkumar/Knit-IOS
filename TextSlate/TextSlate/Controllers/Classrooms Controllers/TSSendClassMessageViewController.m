@@ -18,6 +18,7 @@
 #import "RKDropdownAlert.h"
 #import "MBProgressHUD.h"
 #import "TSNewInviteParentViewController.h"
+#import "CustomUIActionSheetViewController.h"
 
 @interface TSSendClassMessageViewController ()
 
@@ -27,6 +28,7 @@
 @property (strong, nonatomic) NSDate * timeDiff;
 @property (nonatomic) BOOL isBottomRefreshCalled;
 @property (strong, nonatomic) MBProgressHUD *hud;
+@property (strong, nonatomic) CustomUIActionSheetViewController *customUIActionSheetViewController;
 
 @end
 
@@ -108,6 +110,12 @@
 
 -(void)moreInfoButtonPressed:(id)sender {
     NSLog(@"more info tapped");
+    self.customUIActionSheetViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"customAlertSheetVC"];
+    self.customUIActionSheetViewController.classCode = _classCode;
+    self.customUIActionSheetViewController.sendClassVC = self;
+    [self.navigationController.view
+     addSubview:self.customUIActionSheetViewController.view];
+    [self.customUIActionSheetViewController viewWillAppear:NO];
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -583,17 +591,17 @@
 */
 
 -(void) deleteClass {
-    [Data deleteClass:_classCode
-         successBlock:^(id object) {
-             [self.navigationController popViewControllerAnimated:YES];
-         } errorBlock:^(NSError *error) {
-            /* UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error occured in deleting the class." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-             [errorAlertView show];
-             */
-             
-             [RKDropdownAlert title:@"Knit" message:@"Error occured in deleting the class."  time:2];
-
-        }];
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[[UIApplication sharedApplication] keyWindow]  animated:YES];
+    hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
+    hud.labelText = @"Loading";
+    [Data deleteClass:_classCode successBlock:^(id object) {
+        [[PFUser currentUser] fetch];
+        [hud hide:YES];
+        [self.navigationController popViewControllerAnimated:YES];
+    } errorBlock:^(NSError *error) {
+        [hud hide:YES];
+        [RKDropdownAlert title:@"Knit" message:@"Error occured in deleting the class."  time:2];
+    }];
 }
 
 

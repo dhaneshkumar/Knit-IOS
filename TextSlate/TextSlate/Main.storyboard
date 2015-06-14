@@ -7,6 +7,23 @@
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
+        <!--CustomUI Action Sheet View Controller-->
+        <scene sceneID="44k-uR-wwd">
+            <objects>
+                <viewController storyboardIdentifier="customAlertSheetVC" id="ckC-Mf-XAb" customClass="CustomUIActionSheetViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="IWV-SH-DPL"/>
+                        <viewControllerLayoutGuide type="bottom" id="VTh-TA-IGZ"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Juo-O9-pi7">
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="calibratedRGB"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0wI-6U-QcP" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1078.5" y="2248.5"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="4X9-Ct-ZqL">
             <objects>

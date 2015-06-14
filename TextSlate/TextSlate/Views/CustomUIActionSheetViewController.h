@@ -7,7 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TSSendClassMessageViewController.h"
 
 @interface CustomUIActionSheetViewController : UIViewController
+
+@property (strong, nonatomic) NSArray *names;
+@property (strong, nonatomic) NSString *classCode;
+@property (strong, nonatomic) TSSendClassMessageViewController *sendClassVC;
 
 @end
