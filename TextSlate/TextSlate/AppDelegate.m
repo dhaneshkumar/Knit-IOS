@@ -46,7 +46,6 @@
     // Enable local datastore.
     [Parse enableLocalDatastore];
 
-    
     // Override point for customization after application launch.
     [self setKeysForDevelopmentKnit];
     [PFUser enableRevocableSessionInBackground];
@@ -77,7 +76,7 @@
     [[UISegmentedControl appearance] setTintColor:[UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0]];
     [[UIBarButtonItem appearanceWhenContainedIn:[UINavigationBar class], nil] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], NSForegroundColorAttributeName,nil] forState:UIControlStateNormal];
     [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
-    //[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+
     _startNav = (UINavigationController *)_window.rootViewController;
     TSTabBarViewController *rootTab = (TSTabBarViewController *)_startNav.topViewController;
     if([PFUser currentUser]) {
@@ -147,14 +146,12 @@
                 if (application.applicationState == UIApplicationStateActive ) {
                 }
                 else {
-
                     TSTabBarViewController *rootTab = (TSTabBarViewController *)_startNav.topViewController;
                     [rootTab setSelectedIndex:1];
                     TSNewInboxViewController *newInbox = (TSNewInboxViewController *)rootTab.viewControllers[1];
                     newInbox.shouldScrollUp = true;
                     newInbox.newMessage = true;
                     self.window.rootViewController = _startNav;
-                
                 }
         }
         
