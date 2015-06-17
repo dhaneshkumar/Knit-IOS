@@ -25,19 +25,64 @@
 
 @implementation TSOutboxViewController
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
+-(void)initialization {
     _messagesArray = [[NSMutableArray alloc] init];
-    // Do any additional setup after loading the view.
-    self.messagesTable.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
-    self.messagesTable.dataSource = self;
-    self.messagesTable.delegate = self;
     _isBottomRefreshCalled = false;
     _messagesArray = [[NSMutableArray alloc] init];
     _mapCodeToObjects = [[NSMutableDictionary alloc] init];
     _messageIds = [[NSMutableArray alloc] init];
     _lastUpdateCalled = nil;
     _shouldScrollUp = false;
+    NSLog(@"outbox init end");
+}
+
+
+-(void)preProcessing {
+    NSArray *createdClasses = [[PFUser currentUser] objectForKey:@"Created_groups"];
+    NSMutableArray *createdClassCodes = [[NSMutableArray alloc] init];
+    for(NSArray *cls in createdClasses) {
+        [createdClassCodes addObject:cls[0]];
+    }
+    
+    PFQuery *query = [PFQuery queryWithClassName:@"GroupDetails"];
+    [query fromLocalDatastore];
+    [query whereKey:@"code" containedIn:createdClassCodes];
+    [query orderByDescending:@"createdTime"];
+    NSArray *messages = (NSArray *)[query findObjects];
+    NSCharacterSet *characterset=[NSCharacterSet characterSetWithCharactersInString:@"\uFFFC\n "];
+    for (PFObject * messageObject in messages) {
+        TSMessage *message = [[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:[messageObject[@"title"] stringByTrimmingCharactersInSet:characterset] sender:messageObject[@"Creator"] sentTime:messageObject[@"createdTime"] senderPic:nil likeCount:[messageObject[@"like_count"] intValue] confuseCount:[messageObject[@"confused_count"] intValue] seenCount:[messageObject[@"seen_count"] intValue]];
+        message.messageId = messageObject[@"messageId"];
+        if(messageObject[@"attachment"]) {
+            message.hasAttachment = true;
+            message.attachment = nil;
+        }
+        _mapCodeToObjects[message.messageId] = message;
+        [_messagesArray addObject:message];
+        [_messageIds addObject:message.messageId];
+        if(message.hasAttachment) {
+            PFFile *attachImageUrl=messageObject[@"attachment"];
+            NSString *url=attachImageUrl.url;
+            UIImage *image = [[sharedCache sharedInstance] getCachedImageForKey:url];
+            NSLog(@"%@ image",image);
+            if(image) {
+                NSLog(@"already cached");
+                message.attachment = image;
+            }
+        }
+    }
+    NSLog(@"outbox preprocessing end");
+}
+
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    NSLog(@"outbox vdl");
+    // Do any additional setup after loading the view.
+    self.messagesTable.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+    self.messagesTable.dataSource = self;
+    self.messagesTable.delegate = self;
+    NSLog(@"outbox vdl end");
 }
 
 - (void)didReceiveMemoryWarning {
@@ -111,8 +156,11 @@
     cell.confuseCount.text = [NSString stringWithFormat:@"%d", message.confuseCount];
     cell.seenCount.text = [NSString stringWithFormat:@"%d", message.seenCount];
     if(message.hasAttachment) {
-        cell.attachedImage.image = message.attachment;
-        UIImage *img = message.attachment;
+        if(message.attachment)
+            cell.attachedImage.image = message.attachment;
+        else
+            cell.attachedImage.image = [UIImage imageNamed:@"white.jpg"];
+        UIImage *img = cell.attachedImage.image;
         float height = img.size.height;
         float width = img.size.width;
         if(height>width) {
@@ -126,7 +174,7 @@
             cell.imageWidth.constant = 300.0;
         }
         cell.activityIndicator.hidesWhenStopped = true;
-        if([message.attachment isEqual:[UIImage imageNamed:@"white.jpg"]]) {
+        if(!message.attachment) {
             [cell.activityIndicator startAnimating];
         }
         else
@@ -321,7 +369,7 @@
         message.messageId = messageObject[@"messageId"];
         if(messageObject[@"attachment"]) {
             message.hasAttachment = true;
-            message.attachment = [UIImage imageNamed:@"white.jpg"];
+            message.attachment = nil;
         }
         _mapCodeToObjects[message.messageId] = message;
         [_messagesArray addObject:message];
@@ -379,7 +427,7 @@
                 message.messageId = messageObject[@"messageId"];
                 if(messageObject[@"attachment"]) {
                     message.hasAttachment = true;
-                    message.attachment = [UIImage imageNamed:@"white.jpg"];
+                    message.attachment = nil;
                 }
                 _mapCodeToObjects[message.messageId] = message;
                 [_messagesArray addObject:message];
@@ -447,7 +495,7 @@
                 message.messageId = messageObject[@"messageId"];
                 if(messageObject[@"attachment"]) {
                     message.hasAttachment = true;
-                    message.attachment = [UIImage imageNamed:@"white.jpg"];
+                    message.attachment = nil;
                 }
                 _mapCodeToObjects[message.messageId] = message;
                 [tempArray addObject:message];

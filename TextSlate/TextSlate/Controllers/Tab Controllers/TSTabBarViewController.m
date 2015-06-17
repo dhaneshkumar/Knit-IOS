@@ -109,6 +109,8 @@
     ClassesViewController *classesVC = [self.storyboard instantiateViewControllerWithIdentifier:@"classroomsParent"];
     TSNewInboxViewController *inboxVC = [self.storyboard instantiateViewControllerWithIdentifier:@"inbox"];
     TSSettingsTableViewController *settingVC = [self.storyboard instantiateViewControllerWithIdentifier:@"settingTab"];
+    [inboxVC initialization];
+    [inboxVC preProcessing];
     classesVC.tabBarItem.title = @"Classrooms";
     classesVC.tabBarItem.image = [UIImage imageNamed:@"classroomsIcon"];
     inboxVC.tabBarItem.title = @"Inbox";
@@ -124,6 +126,10 @@
     TSNewInboxViewController *inboxVC = [self.storyboard instantiateViewControllerWithIdentifier:@"inbox"];
     TSOutboxViewController *outboxVC = [self.storyboard instantiateViewControllerWithIdentifier:@"outbox"];
     TSSettingsTableViewController *settingVC = [self.storyboard instantiateViewControllerWithIdentifier:@"settingTab"];
+    [inboxVC initialization];
+    [inboxVC preProcessing];
+    [outboxVC initialization];
+    [outboxVC preProcessing];
     classesVC.tabBarItem.title = @"Classrooms";
     classesVC.tabBarItem.image = [UIImage imageNamed:@"classroomsIcon"];
     inboxVC.tabBarItem.title = @"Inbox";

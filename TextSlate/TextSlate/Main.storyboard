@@ -16,6 +16,7 @@
                         <viewControllerLayoutGuide type="bottom" id="VTh-TA-IGZ"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Juo-O9-pi7">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="calibratedRGB"/>
                     </view>
@@ -4334,14 +4335,11 @@
                                                 <constraint firstItem="lM3-MN-xnr" firstAttribute="top" secondItem="bfK-BB-rrl" secondAttribute="topMargin" constant="5" id="QIk-lr-aQ8"/>
                                                 <constraint firstItem="0PY-Mg-p1q" firstAttribute="top" secondItem="DpZ-Ph-5BI" secondAttribute="bottom" constant="146" id="U0E-r6-VA4"/>
                                                 <constraint firstItem="0PY-Mg-p1q" firstAttribute="leading" secondItem="bfK-BB-rrl" secondAttribute="leadingMargin" constant="140" id="X8e-HC-UQm"/>
-                                                <constraint firstItem="bNu-In-Xjh" firstAttribute="leading" secondItem="bfK-BB-rrl" secondAttribute="leadingMargin" id="Xi7-EL-rvz"/>
                                                 <constraint firstItem="SG7-ju-WyI" firstAttribute="top" secondItem="bfK-BB-rrl" secondAttribute="topMargin" id="fat-HP-yTC"/>
                                                 <constraint firstItem="6H2-nD-goC" firstAttribute="bottom" secondItem="Wsk-pV-OjS" secondAttribute="bottom" id="gvr-mr-wuO"/>
-                                                <constraint firstItem="0PY-Mg-p1q" firstAttribute="top" secondItem="DpZ-Ph-5BI" secondAttribute="bottom" constant="96" id="jTD-Lj-8Ee"/>
                                                 <constraint firstItem="6H2-nD-goC" firstAttribute="trailing" secondItem="bfK-BB-rrl" secondAttribute="trailingMargin" id="nUX-9d-QDR"/>
                                                 <constraint firstItem="Wsk-pV-OjS" firstAttribute="leading" secondItem="8i6-Ah-Uyi" secondAttribute="trailing" constant="17" id="vn7-ya-rDD"/>
                                                 <constraint firstItem="lM3-MN-xnr" firstAttribute="leading" secondItem="SG7-ju-WyI" secondAttribute="trailing" constant="12" id="wR0-gB-5KK"/>
-                                                <constraint firstItem="0PY-Mg-p1q" firstAttribute="leading" secondItem="bfK-BB-rrl" secondAttribute="leadingMargin" constant="90" id="xHL-qU-yTN"/>
                                                 <constraint firstItem="DpZ-Ph-5BI" firstAttribute="leading" secondItem="bfK-BB-rrl" secondAttribute="leadingMargin" id="xYR-Wg-pws"/>
                                             </constraints>
                                             <variation key="default">
@@ -4367,11 +4365,8 @@
                                                     <exclude reference="wR0-gB-5KK"/>
                                                     <exclude reference="U0E-r6-VA4"/>
                                                     <exclude reference="X8e-HC-UQm"/>
-                                                    <exclude reference="jTD-Lj-8Ee"/>
-                                                    <exclude reference="xHL-qU-yTN"/>
                                                     <exclude reference="C2S-l7-y0C"/>
                                                     <exclude reference="LqU-Ds-gfb"/>
-                                                    <exclude reference="Xi7-EL-rvz"/>
                                                     <exclude reference="7vz-zd-LIW"/>
                                                     <exclude reference="JSh-jT-mtN"/>
                                                     <exclude reference="JN7-T9-Zwl"/>
@@ -4401,11 +4396,8 @@
                                                     <include reference="wR0-gB-5KK"/>
                                                     <include reference="U0E-r6-VA4"/>
                                                     <include reference="X8e-HC-UQm"/>
-                                                    <exclude reference="jTD-Lj-8Ee"/>
-                                                    <exclude reference="xHL-qU-yTN"/>
                                                     <include reference="C2S-l7-y0C"/>
                                                     <include reference="LqU-Ds-gfb"/>
-                                                    <exclude reference="Xi7-EL-rvz"/>
                                                     <include reference="7vz-zd-LIW"/>
                                                     <include reference="JSh-jT-mtN"/>
                                                     <include reference="JN7-T9-Zwl"/>

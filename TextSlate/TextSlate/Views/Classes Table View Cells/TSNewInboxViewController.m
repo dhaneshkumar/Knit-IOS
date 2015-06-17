@@ -29,8 +29,59 @@
 
 @implementation TSNewInboxViewController
 
+-(void)initialization {
+    _isBottomRefreshCalled = false;
+    _messagesArray = [[NSMutableArray alloc] init];
+    _mapCodeToObjects = [[NSMutableDictionary alloc] init];
+    _messageIds = [[NSMutableArray alloc] init];
+    _lastUpdateCalled = nil;
+    _isUpdateSeenCountsCalled = false;
+    _isILMCalled = false;
+    NSLog(@"inbox init end");
+}
+
+-(void)preProcessing {
+    NSArray *joinedClasses = [[PFUser currentUser] objectForKey:@"joined_groups"];
+    NSMutableArray *joinedClassCodes = [[NSMutableArray alloc] init];
+    for(NSArray *cls in joinedClasses) {
+        [joinedClassCodes addObject:cls[0]];
+    }
+    
+    PFQuery *query = [PFQuery queryWithClassName:@"GroupDetails"];
+    [query fromLocalDatastore];
+    [query orderByDescending:@"createdAt"];
+    [query whereKey:@"code" containedIn:joinedClassCodes];
+    NSArray *messages = (NSArray *)[query findObjects];
+    NSCharacterSet *characterset=[NSCharacterSet characterSetWithCharactersInString:@"\uFFFC\n "];
+    for (PFObject * messageObject in messages) {
+        TSMessage *message = [[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:[messageObject[@"title"] stringByTrimmingCharactersInSet:characterset] sender:messageObject[@"Creator"] sentTime:messageObject.createdAt senderPic:messageObject[@"senderPic"] likeCount:([messageObject[@"like_count"] intValue]+[self adder:messageObject[@"likeStatusServer"] localStatus:messageObject[@"likeStatus"]]) confuseCount:([messageObject[@"confused_count"] intValue]+[self adder:messageObject[@"confuseStatusServer"] localStatus:messageObject[@"confuseStatus"]]) seenCount:0];
+        message.likeStatus = messageObject[@"likeStatus"];
+        message.confuseStatus = messageObject[@"confuseStatus"];
+        message.messageId = messageObject[@"messageId"];
+        if(messageObject[@"attachment"]) {
+            message.hasAttachment = true;
+            message.attachment = nil;
+        }
+        _mapCodeToObjects[message.messageId] = message;
+        [_messagesArray addObject:message];
+        [_messageIds addObject:message.messageId];
+        if(message.hasAttachment) {
+            PFFile *attachImageUrl=messageObject[@"attachment"];
+            NSString *url=attachImageUrl.url;
+            UIImage *image = [[sharedCache sharedInstance] getCachedImageForKey:url];
+            if(image)
+            {
+                NSLog(@"already cached");
+                message.attachment = image;
+            }
+        }
+    }
+    NSLog(@"inbox preprocess end");
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
+    NSLog(@"inbox vdl");
     self.messagesTable.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     // Do any additional setup after loading the view.
     self.messagesTable.dataSource = self;
@@ -40,13 +91,7 @@
     _refreshControl.backgroundColor = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
     [self.messagesTable addSubview:_refreshControl];
     [_refreshControl addTarget:self action:@selector(pullDownToRefresh) forControlEvents:UIControlEventValueChanged];
-    _isBottomRefreshCalled = false;
-    _messagesArray = [[NSMutableArray alloc] init];
-    _mapCodeToObjects = [[NSMutableDictionary alloc] init];
-    _messageIds = [[NSMutableArray alloc] init];
-    _lastUpdateCalled = nil;
-    _isUpdateSeenCountsCalled = false;
-    _isILMCalled = false;
+    NSLog(@"inbox vdl end");
 }
 
 - (void)didReceiveMemoryWarning {
@@ -69,6 +114,7 @@
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    NSLog(@"inbox vwa");
     [_messagesTable reloadData];
 }
 
@@ -123,8 +169,11 @@
     cell.likesCount.textColor = ([message.likeStatus isEqualToString:@"true"])?[UIColor colorWithRed:57.0f/255.0f green:181.0f/255.0f blue:74.0f/255.0f alpha:1.0]:[UIColor darkGrayColor];
     
     if(message.hasAttachment) {
-        cell.attachedImage.image = message.attachment;
-        UIImage *img = message.attachment;
+        if(message.attachment)
+            cell.attachedImage.image = message.attachment;
+        else
+            cell.attachedImage.image = [UIImage imageNamed:@"white.jpg"];
+        UIImage *img = cell.attachedImage.image;
         float height = img.size.height;
         float width = img.size.width;
         if(height>width) {
@@ -139,7 +188,7 @@
         }
         cell.attachedImage.contentMode = UIViewContentModeScaleToFill;
         cell.activityIndicator.hidesWhenStopped = true;
-        if([message.attachment isEqual:[UIImage imageNamed:@"white.jpg"]]) {
+        if(!message.attachment) {
             [cell.activityIndicator startAnimating];
         }
         else
@@ -329,7 +378,7 @@
                 message.messageId = messageObj.objectId;
                 if(messageObj[@"attachment"]) {
                     message.hasAttachment = true;
-                    message.attachment = [UIImage imageNamed:@"white.jpg"];
+                    message.attachment = nil;
                 }
                 _mapCodeToObjects[message.messageId] = message;
                 [tempArray insertObject:message atIndex:0];
@@ -378,60 +427,45 @@
     if([self noJoinedClasses])
         return;
     if(_messagesArray.count==0) {
-        NSLog(@"kya pain hai bc 1");
         _hud = [MBProgressHUD showHUDAddedTo:[[UIApplication sharedApplication] keyWindow]  animated:YES];
         _hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
         _hud.labelText = @"Loading messages";
-        NSLog(@"kya pain hai bc 2");
         PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
         [lq fromLocalDatastore];
         [lq whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
-        NSLog(@"kya pain hai bc 3");
         NSArray *localObjs = [lq findObjects];
-        NSLog(@"kya pain hai bc 4");
         if(localObjs.count==0) {
             NSLog(@"Pain hai bhai life me.");
             return;
         }
-        NSLog(@"kya pain hai bc 5");
         int localMessages = [self fetchMessagesFromLocalDatastore];
-        NSLog(@"kya pain hai bc 6");
         if(localMessages==0) {
-            NSLog(@"kya pain hai bc 7");
             if(localObjs[0][@"isInboxDataConsistent"] && [localObjs[0][@"isInboxDataConsistent"] isEqualToString:@"true"]) {
                 _messageFlag=1;
                 if(!_isILMCalled)
                     [self insertLatestMessages];
             }
             else {
-                NSLog(@"kya pain hai bc 8");
                 [self fetchOldMessagesOnDataDeletion];
             }
         }
         else {
-            NSLog(@"kya pain hai bc 9");
             if(!_isILMCalled) {
-                NSLog(@"kya pain hai bc 10");
                 [self insertLatestMessages];
-                NSLog(@"kya pain hai bc 101");
             }
             if(_lastUpdateCalled) {
-                NSLog(@"kya pain hai bc 11");
                 NSDate *date = [NSDate date];
                 NSTimeInterval ti = [date timeIntervalSinceDate:_lastUpdateCalled];
                 if(ti>900) {
-                    NSLog(@"kya pain hai bc 12");
                     [self updateCountsLocally];
                 }
             }
             else {
-                NSLog(@"kya pain hai bc 13");
                 [self updateCountsLocally];
             }
         }
     }
     else {
-        NSLog(@"kya pain hai bc 20");
         if(!_isILMCalled)
             [self insertLatestMessages];
         if(_lastUpdateCalled) {
@@ -464,14 +498,13 @@
     [_hud hide:YES];
     NSCharacterSet *characterset=[NSCharacterSet characterSetWithCharactersInString:@"\uFFFC\n "];
     for (PFObject * messageObject in messages) {
-        NSLog(@"obj : %@, %@, %@", messageObject[@"createdAt"], messageObject[@"objectId"], messageObject[@"updatedAt"]);
         TSMessage *message = [[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:[messageObject[@"title"] stringByTrimmingCharactersInSet:characterset] sender:messageObject[@"Creator"] sentTime:messageObject.createdAt senderPic:messageObject[@"senderPic"] likeCount:([messageObject[@"like_count"] intValue]+[self adder:messageObject[@"likeStatusServer"] localStatus:messageObject[@"likeStatus"]]) confuseCount:([messageObject[@"confused_count"] intValue]+[self adder:messageObject[@"confuseStatusServer"] localStatus:messageObject[@"confuseStatus"]]) seenCount:0];
         message.likeStatus = messageObject[@"likeStatus"];
         message.confuseStatus = messageObject[@"confuseStatus"];
         message.messageId = messageObject[@"messageId"];
         if(messageObject[@"attachment"]) {
             message.hasAttachment = true;
-            message.attachment = [UIImage imageNamed:@"white.jpg"];
+            message.attachment = nil;
         }
         _mapCodeToObjects[message.messageId] = message;
         [_messagesArray addObject:message];
@@ -480,7 +513,6 @@
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
                 PFFile *attachImageUrl=messageObject[@"attachment"];
                 NSString *url=attachImageUrl.url;
-                //NSLog(@"url to image fetchfrom localdatastore %@",url);
                 UIImage *image = [[sharedCache sharedInstance] getCachedImageForKey:url];
                 NSLog(@"%@ image",image);
                 if(image)
@@ -511,22 +543,14 @@
 
 -(void)insertLatestMessages {
     _isILMCalled = YES;
-    NSLog(@"kya pain hai bc 33 : %d \n %@ \n %@", _messagesArray.count, [PFUser currentUser], _messagesArray[0]);
     NSDate *latestMessageTime = (_messagesArray.count==0)?[PFUser currentUser].createdAt:((TSMessage *)_messagesArray[0]).sentTime;
-    NSLog(@"kya pain hai bc 34 : %@", latestMessageTime);
     [Data updateInboxLocalDatastoreWithTime:latestMessageTime successBlock:^(id object) {
-        NSLog(@"kya pain hai bc 334");
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
             _lastUpdateCalled = [NSDate date];
-            NSLog(@"kya pain hai bc 35");
             NSArray *messageObjects = (NSArray *) object;
-            NSLog(@"kya pain hai bc 36");
             NSEnumerator *enumerator = [messageObjects reverseObjectEnumerator];
-            NSLog(@"kya pain hai bc 37");
             NSCharacterSet *characterset=[NSCharacterSet characterSetWithCharactersInString:@"\uFFFC\n "];
-            NSLog(@"kya pain hai bc 38");
             NSMutableArray *tempArray = [[NSMutableArray alloc] initWithArray:_messagesArray];
-            NSLog(@"kya pain hai bc 39");
             for(id element in enumerator) {
                 PFObject *messageObj = (PFObject *)element;
                 //messageObj[@"iosUserID"] = [PFUser currentUser].objectId;
@@ -544,7 +568,7 @@
                 message.messageId = messageObj.objectId;
                 if(messageObj[@"attachment"]) {
                     message.hasAttachment = true;
-                    message.attachment = [UIImage imageNamed:@"white.jpg"];
+                    message.attachment = nil;
                 }
                 _mapCodeToObjects[message.messageId] = message;
                 [tempArray insertObject:message atIndex:0];
@@ -639,7 +663,7 @@
                 message.messageId = msg.objectId;
                 if(msg[@"attachment"]) {
                     message.hasAttachment = true;
-                    message.attachment = [UIImage imageNamed:@"white.jpg"];
+                    message.attachment = nil;
                 }
                 _mapCodeToObjects[message.messageId] = message;
                 [_messagesArray addObject:message];
@@ -734,7 +758,7 @@
                 message.messageId = msg.objectId;
                 if(msg[@"attachment"]) {
                     message.hasAttachment = true;
-                    message.attachment = [UIImage imageNamed:@"white.jpg"];
+                    message.attachment = nil;
                 }
                 _mapCodeToObjects[message.messageId] = message;
                 [tempArray addObject:message];

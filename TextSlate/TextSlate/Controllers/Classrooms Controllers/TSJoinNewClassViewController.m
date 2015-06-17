@@ -150,7 +150,7 @@
                 message.messageId = msg.objectId;
                 if(msg[@"attachment"]) {
                     message.hasAttachment = true;
-                    message.attachment = [UIImage imageNamed:@"white.jpg"];
+                    message.attachment = nil;
                 }
                 newInbox.mapCodeToObjects[message.messageId] = message;
                 [newInbox.messagesArray insertObject:message atIndex:0];

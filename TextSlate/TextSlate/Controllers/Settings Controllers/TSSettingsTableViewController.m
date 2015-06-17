@@ -33,6 +33,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    NSLog(@"settings vdl");
     [_settingsTableView reloadData]; 
 }
 
