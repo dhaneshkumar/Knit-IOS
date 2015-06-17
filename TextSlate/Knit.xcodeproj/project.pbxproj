@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2A64CE101386DA8DF13DFEDA /* libPods-Knit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 92F296F2593AFC26685698B2 /* libPods-Knit.a */; };
+		402AFA2A1B3082F200B8AA49 /* CustomCoachMarkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 402AFA291B3082F200B8AA49 /* CustomCoachMarkViewController.m */; };
 		4038D4261AC6C62200E9009A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4038D4251AC6C62200E9009A /* Main.storyboard */; };
 		403FFF0E1ABB0071008FB159 /* MessageComposerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 403FFF0D1ABB0071008FB159 /* MessageComposerViewController.m */; };
 		403FFF121ABB5BEC008FB159 /* InviteParentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 403FFF111ABB5BEC008FB159 /* InviteParentViewController.m */; };
@@ -32,6 +33,7 @@
 		40CD58651A89455B000CB1AB /* FAQTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 40CD58641A89455B000CB1AB /* FAQTableViewController.m */; };
 		40CDDBB61A90E47E00922ADF /* TSMember.m in Sources */ = {isa = PBXBuildFile; fileRef = 40CDDBB51A90E47E00922ADF /* TSMember.m */; };
 		40D0185E1AF26A62000C87B1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40D0185D1AF26A62000C87B1 /* Foundation.framework */; };
+		40D223771B30922300BCC6DB /* coachmark.png in Resources */ = {isa = PBXBuildFile; fileRef = 40D223761B30922300BCC6DB /* coachmark.png */; };
 		40D9861B1A9B921100D8BB0C /* PhoneVerificationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 40D9861A1A9B921100D8BB0C /* PhoneVerificationViewController.m */; };
 		40EBADA81A7E60B6003FB0B1 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 40EBADA71A7E60B6003FB0B1 /* LaunchScreen.xib */; };
 		40EBADAC1A7E611F003FB0B1 /* 05-xxhdpi.png in Resources */ = {isa = PBXBuildFile; fileRef = 40EBADAB1A7E611F003FB0B1 /* 05-xxhdpi.png */; };
@@ -71,6 +73,7 @@
 		FB65C96C1B2175A700EAE58E /* inviteParentsViaSMS.gif in Resources */ = {isa = PBXBuildFile; fileRef = FB65C96B1B2175A700EAE58E /* inviteParentsViaSMS.gif */; };
 		FB6A04A81AC29770009E9D9D /* ios icons-15.png in Resources */ = {isa = PBXBuildFile; fileRef = FB6A04A71AC2976F009E9D9D /* ios icons-15.png */; };
 		FB6A04AF1AC2DE7B009E9D9D /* EditStudentNameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FB6A04AE1AC2DE7B009E9D9D /* EditStudentNameViewController.m */; };
+		FB6F098C1B2C42E300EA9AEB /* CustomUIActionSheetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FB6F098B1B2C42E200EA9AEB /* CustomUIActionSheetViewController.m */; };
 		FB777C071B162AD100754546 /* TSNewInviteParentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FB777C061B162AD100754546 /* TSNewInviteParentViewController.m */; };
 		FB777C0B1B16D5C000754546 /* TSAddressBookViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FB777C0A1B16D5C000754546 /* TSAddressBookViewController.m */; };
 		FB777C0E1B16D6B800754546 /* addressBookTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FB777C0D1B16D6B800754546 /* addressBookTableViewCell.m */; };
@@ -168,6 +171,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		402AFA281B3082F200B8AA49 /* CustomCoachMarkViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomCoachMarkViewController.h; sourceTree = "<group>"; };
+		402AFA291B3082F200B8AA49 /* CustomCoachMarkViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomCoachMarkViewController.m; sourceTree = "<group>"; };
 		4038D4251AC6C62200E9009A /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		403FFF0C1ABB0071008FB159 /* MessageComposerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageComposerViewController.h; sourceTree = "<group>"; };
 		403FFF0D1ABB0071008FB159 /* MessageComposerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageComposerViewController.m; sourceTree = "<group>"; };
@@ -200,6 +205,7 @@
 		40CDDBB41A90E47E00922ADF /* TSMember.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSMember.h; sourceTree = "<group>"; };
 		40CDDBB51A90E47E00922ADF /* TSMember.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSMember.m; sourceTree = "<group>"; };
 		40D0185D1AF26A62000C87B1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		40D223761B30922300BCC6DB /* coachmark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = coachmark.png; sourceTree = "<group>"; };
 		40D986191A9B921100D8BB0C /* PhoneVerificationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhoneVerificationViewController.h; sourceTree = "<group>"; };
 		40D9861A1A9B921100D8BB0C /* PhoneVerificationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhoneVerificationViewController.m; sourceTree = "<group>"; };
 		40EBADA71A7E60B6003FB0B1 /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
@@ -264,6 +270,8 @@
 		FB6A04A71AC2976F009E9D9D /* ios icons-15.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ios icons-15.png"; sourceTree = "<group>"; };
 		FB6A04AD1AC2DE7B009E9D9D /* EditStudentNameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditStudentNameViewController.h; sourceTree = "<group>"; };
 		FB6A04AE1AC2DE7B009E9D9D /* EditStudentNameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditStudentNameViewController.m; sourceTree = "<group>"; };
+		FB6F098A1B2C42E200EA9AEB /* CustomUIActionSheetViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomUIActionSheetViewController.h; sourceTree = "<group>"; };
+		FB6F098B1B2C42E200EA9AEB /* CustomUIActionSheetViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomUIActionSheetViewController.m; sourceTree = "<group>"; };
 		FB777C051B162AD100754546 /* TSNewInviteParentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSNewInviteParentViewController.h; sourceTree = "<group>"; };
 		FB777C061B162AD100754546 /* TSNewInviteParentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSNewInviteParentViewController.m; sourceTree = "<group>"; };
 		FB777C091B16D5C000754546 /* TSAddressBookViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSAddressBookViewController.h; sourceTree = "<group>"; };
@@ -416,6 +424,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		402AFA261B30829E00B8AA49 /* CustomCoachMark */ = {
+			isa = PBXGroup;
+			children = (
+				402AFA281B3082F200B8AA49 /* CustomCoachMarkViewController.h */,
+				402AFA291B3082F200B8AA49 /* CustomCoachMarkViewController.m */,
+			);
+			name = CustomCoachMark;
+			sourceTree = "<group>";
+		};
 		403FFF0B1ABB0044008FB159 /* Message Composer */ = {
 			isa = PBXGroup;
 			children = (
@@ -530,6 +547,7 @@
 		971687DB1A1F1BCA00FE98FC /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				40D223761B30922300BCC6DB /* coachmark.png */,
 				FB65C96B1B2175A700EAE58E /* inviteParentsViaSMS.gif */,
 				FB65C9631B1D808F00EAE58E /* inviteParentsViaApp.gif */,
 				FB777C1E1B18780800754546 /* whatsapp@3x.png */,
@@ -609,6 +627,8 @@
 		971687DC1A1F1BCA00FE98FC /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				402AFA261B30829E00B8AA49 /* CustomCoachMark */,
+				FB6F09891B2C426E00EA9AEB /* CustomAlertSheet */,
 				FB65C95F1B1C353D00EAE58E /* Blackout View */,
 				975B1E8A1A2118B50028BE25 /* Classes Table View Cells */,
 			);
@@ -846,6 +866,15 @@
 			name = "Edit Student Name";
 			sourceTree = "<group>";
 		};
+		FB6F09891B2C426E00EA9AEB /* CustomAlertSheet */ = {
+			isa = PBXGroup;
+			children = (
+				FB6F098A1B2C42E200EA9AEB /* CustomUIActionSheetViewController.h */,
+				FB6F098B1B2C42E200EA9AEB /* CustomUIActionSheetViewController.m */,
+			);
+			name = CustomAlertSheet;
+			sourceTree = "<group>";
+		};
 		FB777C041B162A7400754546 /* New Invite Parent */ = {
 			isa = PBXGroup;
 			children = (
@@ -1020,6 +1049,7 @@
 				FB777C2C1B18780800754546 /* phonebook@1x.png in Resources */,
 				FBA236501B0750250001D8E3 /* sent@2x.png in Resources */,
 				FBAA81351AE0D8B40056E168 /* ios icons-31.png in Resources */,
+				40D223771B30922300BCC6DB /* coachmark.png in Resources */,
 				FBA236A21B0B4B830001D8E3 /* white_arrow@3x.png in Resources */,
 				FB777C2D1B18780800754546 /* email@1x.png in Resources */,
 				FBA236AA1B0B4B830001D8E3 /* blue_arrow@1x.png in Resources */,
@@ -1154,6 +1184,7 @@
 				FBB860C31AF3595F0005474A /* JTSSimpleImageDownloader.m in Sources */,
 				FBC1BD061AB6CFF3004921CD /* JoinedClassTableViewController.m in Sources */,
 				FBC1BD0C1AB70037004921CD /* classDetailsTableViewCell.m in Sources */,
+				402AFA2A1B3082F200B8AA49 /* CustomCoachMarkViewController.m in Sources */,
 				975B1E7F1A2070070028BE25 /* TSSignUpViewController.m in Sources */,
 				FBBA45CF1A9673AC0088CCBC /* TSCreatedClassMessageTableViewCell.m in Sources */,
 				FB65C96A1B1D80CA00EAE58E /* TSGifViewerViewController.m in Sources */,
@@ -1193,6 +1224,7 @@
 				9786AE4C1A473E2B00801838 /* TSJoinNewClassViewController.m in Sources */,
 				FB777C111B16F3F400754546 /* TSAddressBook.m in Sources */,
 				FB93500A1AEA1075001BE394 /* Reachability.m in Sources */,
+				FB6F098C1B2C42E300EA9AEB /* CustomUIActionSheetViewController.m in Sources */,
 				4068825E1A8A307D00C055E1 /* ProfilePictureViewController.m in Sources */,
 				40C7B2D31A935F6E00C1BFC8 /* ClassesViewController.m in Sources */,
 				403FFF121ABB5BEC008FB159 /* InviteParentViewController.m in Sources */,

@@ -109,12 +109,9 @@
 
 
 -(void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-    
-    // NSMutableArray *channel=[[NSMutableArray alloc]init];
     // Store the deviceToken in the current installation and save it to Parse.
     PFInstallation *currentInstallation = [PFInstallation currentInstallation];
     [currentInstallation setDeviceTokenFromData:deviceToken];
-    //  currentInstallation.channels = @[ @"global" ];
     [currentInstallation saveInBackground];
     
 }
@@ -362,9 +359,7 @@
         dvc.classCode = classcode;
         // [_createdClassesVCs setObject:dvc forKey:_createdClasses[row][0]];
         [rootTab presentViewController:dvc animated:YES completion:nil];
-
     }
-    
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

@@ -18,6 +18,7 @@
 #import "RKDropdownAlert.h"
 #import "MBProgressHUD.h"
 #import "TSNewInviteParentViewController.h"
+#import "CustomUIActionSheetViewController.h"
 
 @interface TSSendClassMessageViewController ()
 
@@ -27,6 +28,7 @@
 @property (strong, nonatomic) NSDate * timeDiff;
 @property (nonatomic) BOOL isBottomRefreshCalled;
 @property (strong, nonatomic) MBProgressHUD *hud;
+@property (strong, nonatomic) CustomUIActionSheetViewController *customUIActionSheetViewController;
 
 @end
 
@@ -49,27 +51,30 @@
     [self.navigationItem setLeftBarButtonItem:bb];
     _shouldScrollUp = false;
     CGFloat navBarHeight = self.navigationController.navigationBar.frame.size.height;
-    CGFloat navBarWidth = [self getScreenWidth] * 0.9;
-    UIView *titleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, navBarWidth, navBarHeight)];
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 4, navBarWidth - 2*navBarHeight, 18)];
+    CGFloat navBarWidth = self.navigationController.navigationBar.frame.size.width;
+    CGFloat width1 = [_className sizeWithAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:16.0f]}].width;
+    CGFloat width2 = [_classCode sizeWithAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12.0f]}].width;
+    CGFloat width = navBarWidth - 176.0;
+    UIView *titleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, width, navBarHeight)];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake((width>width1)?(width-width1)/2.0:0.0, 6, (width>width1)?width1:width, 16)];
     label.backgroundColor = [UIColor clearColor];
-    label.font = [UIFont boldSystemFontOfSize: 18.0f];
+    label.font = [UIFont boldSystemFontOfSize: 16.0f];
     label.textAlignment = NSTextAlignmentCenter;
     label.textColor = [UIColor whiteColor];
     label.text = _className;
+    if(width>width1)
+        [label sizeToFit];
     [titleView addSubview:label];
     
-    label = [[UILabel alloc] initWithFrame:CGRectMake(0, 26, navBarWidth - 2*navBarHeight, 14)];
+    label = [[UILabel alloc] initWithFrame:CGRectMake((width-width2)/2.0, 26, width2, 12)];
     label.backgroundColor = [UIColor clearColor];
     label.font = [UIFont boldSystemFontOfSize: 12.0f];
     label.textAlignment = NSTextAlignmentCenter;
     label.textColor = [UIColor whiteColor];
     label.text = _classCode;
+    [label sizeToFit];
     [titleView addSubview:label];
     self.navigationItem.titleView = titleView;
-    CGRect frame = [[self.navigationItem.leftBarButtonItem valueForKey:@"view"] frame];
-    NSLog(@"width : %f", frame.size.width);
-    NSLog(@"height : %f", frame.size.height);
 }
 
 -(IBAction)backButtonTapped:(id)sender {
@@ -79,7 +84,10 @@
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     UIBarButtonItem *composeBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose  target:self action:@selector(composeMessage)];
-    [self.navigationItem setRightBarButtonItem:composeBarButtonItem];
+    UIButton *moreInfoContactButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+    [moreInfoContactButton addTarget:self action:@selector(moreInfoButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *moreInfoContactButtonItem = [[UIBarButtonItem alloc] initWithCustomView:moreInfoContactButton];
+    [self.navigationItem setRightBarButtonItems:@[composeBarButtonItem, moreInfoContactButtonItem]];
     [_messageTable reloadData];
 }
 
@@ -98,6 +106,16 @@
 -(void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     self.navigationItem.rightBarButtonItem = nil;
+}
+
+-(void)moreInfoButtonPressed:(id)sender {
+    NSLog(@"more info tapped");
+    self.customUIActionSheetViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"customAlertSheetVC"];
+    self.customUIActionSheetViewController.classCode = _classCode;
+    self.customUIActionSheetViewController.sendClassVC = self;
+    [self.navigationController.view
+     addSubview:self.customUIActionSheetViewController.view];
+    [self.customUIActionSheetViewController viewWillAppear:NO];
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -213,7 +231,7 @@
 
 -(void)displayMessages {
     if(_messagesArray.count==0) {
-        _hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        _hud = [MBProgressHUD showHUDAddedTo:[[UIApplication sharedApplication] keyWindow]  animated:YES];
         _hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
         _hud.labelText = @"Loading messages";
         PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
@@ -345,7 +363,7 @@
 
 
 -(void)fetchOldMessagesOnDataDeletion {
-    _hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    _hud = [MBProgressHUD showHUDAddedTo:[[UIApplication sharedApplication] keyWindow]  animated:YES];
     _hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
     _hud.labelText = @"Loading messages";
     [Data updateInboxLocalDatastore:@"c" successBlock:^(id object) {
@@ -425,7 +443,6 @@
             NSCharacterSet *characterset=[NSCharacterSet characterSetWithCharactersInString:@"\uFFFC\n "];
             NSMutableArray *tempArray = [[NSMutableArray alloc] initWithArray:_messagesArray];
             for(PFObject *messageObject in messages) {
-                //messageObject[@"iosUserID"] = [PFUser currentUser].objectId;
                 messageObject[@"messageId"] = messageObject.objectId;
                 messageObject[@"createdTime"] = messageObject.createdAt;
                 [messageObject pinInBackground];
@@ -574,17 +591,17 @@
 */
 
 -(void) deleteClass {
-    [Data deleteClass:_classCode
-         successBlock:^(id object) {
-             [self.navigationController popViewControllerAnimated:YES];
-         } errorBlock:^(NSError *error) {
-            /* UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error occured in deleting the class." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-             [errorAlertView show];
-             */
-             
-             [RKDropdownAlert title:@"Knit" message:@"Error occured in deleting the class."  time:2];
-
-        }];
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[[UIApplication sharedApplication] keyWindow]  animated:YES];
+    hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
+    hud.labelText = @"Loading";
+    [Data deleteClass:_classCode successBlock:^(id object) {
+        [[PFUser currentUser] fetch];
+        [hud hide:YES];
+        [self.navigationController popViewControllerAnimated:YES];
+    } errorBlock:^(NSError *error) {
+        [hud hide:YES];
+        [RKDropdownAlert title:@"Knit" message:@"Error occured in deleting the class."  time:2];
+    }];
 }
 
 

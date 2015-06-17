@@ -60,10 +60,22 @@
     _emailTextField.delegate = self;
     _passwordTextField.delegate = self;
     _mobilTextField.keyboardType = UIKeyboardTypeNumberPad;
+    _emailTextField.keyboardType = UIKeyboardTypeEmailAddress;
+    [_emailTextField setReturnKeyType:UIReturnKeyNext];
+    [_passwordTextField setReturnKeyType:UIReturnKeyDone];
     _isState1 = true;
     _locationManager = [[CLLocationManager alloc] init];
     _pvc = nil;
     _areCoordinatesUpdated = false;
+    
+    UIToolbar* keyboardDoneButtonView = [[UIToolbar alloc] init];
+    UIBarButtonItem *flexBarButton = [[UIBarButtonItem alloc]
+                                      initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
+                                      target:nil action:nil];
+    UIBarButtonItem* doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(doneClicked:)];
+    [keyboardDoneButtonView sizeToFit];
+    [keyboardDoneButtonView setItems:[NSArray arrayWithObjects:flexBarButton, doneButton, nil]];
+    _mobilTextField.inputAccessoryView = keyboardDoneButtonView;
     [self state1View];
 }
 
@@ -71,20 +83,30 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+- (IBAction)doneClicked:(id)sender
+{
+    [_mobilTextField resignFirstResponder];
+    [self newSignIn];
+}
+
 -(void)forgotPasswordTapped:(UITapGestureRecognizer *)recognizer {
+    [_emailTextField resignFirstResponder];
+    [_passwordTextField resignFirstResponder];
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Knit"
                                                     message:@"Enter your email id"
                                                    delegate:self
                                           cancelButtonTitle:@"Cancel"
                                           otherButtonTitles:@"Ok", nil];
     alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+    UITextField *textField = [alert textFieldAtIndex:0];
+    textField.text = _emailTextField.text;
     [alert show];
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     if (buttonIndex == 1) {
         NSString *email = [[[alertView textFieldAtIndex:0] text] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[[UIApplication sharedApplication] keyWindow] animated:YES];
         hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
         hud.labelText = @"Loading";
         [PFUser requestPasswordResetForEmailInBackground:email block:^(BOOL succeeded, NSError *error) {
@@ -162,12 +184,31 @@
 
 
 -(IBAction)nextButtonTapped:(id)sender {
+    [self go];
+}
+
+
+-(void)go {
     if(_isState1) {
         [self newSignIn];
     }
     else {
         [self oldSignIn];
     }
+}
+
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    if([textField isEqual:_mobilTextField]) {
+        NSLog(@"kaise hua re ye baba!!");
+    }
+    else if([textField isEqual:_passwordTextField]){
+        [self go];
+    }
+    else if([textField isEqual:_emailTextField]) {
+        [_passwordTextField becomeFirstResponder];
+    }
+    return YES;
 }
 
 
@@ -212,7 +253,7 @@
         return;
     }
     
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[[UIApplication sharedApplication] keyWindow] animated:YES];
     hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
     hud.labelText = @"Loading";
     
@@ -246,7 +287,7 @@
         return;
     }
     
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[[UIApplication sharedApplication] keyWindow] animated:YES];
     hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
     hud.labelText = @"Loading";
     
@@ -354,14 +395,13 @@
             }];
         }
         else {
-            NSLog(@"error 11");
             UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error in signing in. Try again later." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
             [hud hide:YES];
             [errorAlertView show];
         }
     } errorBlock:^(NSError *error) {
         if(error.code == 141) {
-            [RKDropdownAlert title:@"Knit" message:@"Password for this username is not correct."  time:2];
+            [RKDropdownAlert title:@"Knit" message:[NSString stringWithFormat:@"Password for username:%@ is not correct.", _emailTextField.text]  time:4];
         }
         else {
             [RKDropdownAlert title:@"Knit" message:@"Internet not connected. Try again."  time:2];
@@ -503,11 +543,9 @@
         if(range.length + range.location > textField.text.length) {
             return NO;
         }
-        
         if ([string rangeOfCharacterFromSet:[[NSCharacterSet decimalDigitCharacterSet] invertedSet]].location != NSNotFound) {
             return NO;
         }
-        
         NSUInteger newLength = [textField.text length] + [string length] - range.length;
         return (newLength > 10) ? NO : YES;
     }

@@ -7,6 +7,83 @@
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
+        <!--CustomUI Action Sheet View Controller-->
+        <scene sceneID="44k-uR-wwd">
+            <objects>
+                <viewController storyboardIdentifier="customAlertSheetVC" id="ckC-Mf-XAb" customClass="CustomUIActionSheetViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="IWV-SH-DPL"/>
+                        <viewControllerLayoutGuide type="bottom" id="VTh-TA-IGZ"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Juo-O9-pi7">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="calibratedRGB"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0wI-6U-QcP" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1078.5" y="2248.5"/>
+        </scene>
+        <!--Custom Coach Mark View Controller-->
+        <scene sceneID="8E8-Yi-sK6">
+            <objects>
+                <viewController storyboardIdentifier="customCoachMarkVC" id="Tie-5M-qRN" customClass="CustomCoachMarkViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="kya-IQ-YXY"/>
+                        <viewControllerLayoutGuide type="bottom" id="jBW-Nk-joW"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="zFu-yd-Snb">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="TrV-sg-8my">
+                                <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="TrV-sg-8my" firstAttribute="leading" secondItem="zFu-yd-Snb" secondAttribute="leadingMargin" constant="-5" id="AGm-iX-GUy"/>
+                            <constraint firstItem="TrV-sg-8my" firstAttribute="top" secondItem="kya-IQ-YXY" secondAttribute="bottom" constant="22" id="fRc-uJ-oJG">
+                                <variation key="heightClass=regular-widthClass=compact" constant="58"/>
+                            </constraint>
+                            <constraint firstItem="jBW-Nk-joW" firstAttribute="top" secondItem="TrV-sg-8my" secondAttribute="bottom" constant="60" id="sU7-1h-Wtm">
+                                <variation key="heightClass=regular-widthClass=compact" constant="95"/>
+                            </constraint>
+                            <constraint firstAttribute="trailingMargin" secondItem="TrV-sg-8my" secondAttribute="trailing" constant="-5" id="sbd-ZO-4Wb"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="subviews">
+                                <exclude reference="TrV-sg-8my"/>
+                            </mask>
+                            <mask key="constraints">
+                                <exclude reference="AGm-iX-GUy"/>
+                                <exclude reference="fRc-uJ-oJG"/>
+                                <exclude reference="sbd-ZO-4Wb"/>
+                                <exclude reference="sU7-1h-Wtm"/>
+                            </mask>
+                        </variation>
+                        <variation key="heightClass=regular-widthClass=compact">
+                            <mask key="subviews">
+                                <include reference="TrV-sg-8my"/>
+                            </mask>
+                            <mask key="constraints">
+                                <include reference="AGm-iX-GUy"/>
+                                <include reference="fRc-uJ-oJG"/>
+                                <include reference="sbd-ZO-4Wb"/>
+                                <include reference="sU7-1h-Wtm"/>
+                            </mask>
+                        </variation>
+                    </view>
+                    <connections>
+                        <outlet property="CoachMarkView" destination="zFu-yd-Snb" id="1kx-7S-FVJ"/>
+                        <outlet property="coachImage" destination="TrV-sg-8my" id="84d-ad-m3c"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="3QM-KP-6l0" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1030.5" y="2928"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="4X9-Ct-ZqL">
             <objects>
@@ -528,6 +605,7 @@
                         <viewControllerLayoutGuide type="bottom" id="iWv-dg-V1R"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="q6k-VG-mAF">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="05e-Ja-YE5">
@@ -595,12 +673,12 @@
                                 <exclude reference="rso-xe-YNB"/>
                             </mask>
                             <mask key="constraints">
-                                <exclude reference="2Al-cw-u0h"/>
-                                <exclude reference="75f-rs-b7p"/>
-                                <exclude reference="W8y-pW-FS7"/>
                                 <exclude reference="8rk-x8-r06"/>
                                 <exclude reference="YR5-XA-ue4"/>
                                 <exclude reference="YrJ-zQ-tuw"/>
+                                <exclude reference="2Al-cw-u0h"/>
+                                <exclude reference="75f-rs-b7p"/>
+                                <exclude reference="W8y-pW-FS7"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
@@ -609,12 +687,12 @@
                                 <include reference="rso-xe-YNB"/>
                             </mask>
                             <mask key="constraints">
-                                <include reference="2Al-cw-u0h"/>
-                                <include reference="75f-rs-b7p"/>
-                                <include reference="W8y-pW-FS7"/>
                                 <include reference="8rk-x8-r06"/>
                                 <include reference="YR5-XA-ue4"/>
                                 <include reference="YrJ-zQ-tuw"/>
+                                <include reference="2Al-cw-u0h"/>
+                                <include reference="75f-rs-b7p"/>
+                                <include reference="W8y-pW-FS7"/>
                             </mask>
                         </variation>
                     </view>
@@ -5451,9 +5529,22 @@
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Send me instructions on email" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hJS-eF-d7Q">
                                 <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="25" id="jAJ-xU-SkW"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <color key="textColor" red="0.16078431372549018" green="0.71372549019607845" blue="0.96470588235294119" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="jAJ-xU-SkW"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=regular-widthClass=compact">
+                                    <mask key="constraints">
+                                        <include reference="jAJ-xU-SkW"/>
+                                    </mask>
+                                </variation>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="See how parents/students will join class via" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bUO-ng-AE6">
                                 <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
@@ -5611,7 +5702,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="CLU-Ft-ccu" firstAttribute="top" secondItem="XkH-HR-wme" secondAttribute="bottom" id="7Dm-vW-zee"/>
-                            <constraint firstItem="hJS-eF-d7Q" firstAttribute="top" secondItem="CLU-Ft-ccu" secondAttribute="bottom" constant="42" id="BQF-Ej-s1a"/>
+                            <constraint firstItem="hJS-eF-d7Q" firstAttribute="top" secondItem="CLU-Ft-ccu" secondAttribute="bottom" constant="39" id="BQF-Ej-s1a"/>
                             <constraint firstItem="hJS-eF-d7Q" firstAttribute="leading" secondItem="Td6-G7-cIx" secondAttribute="leadingMargin" constant="5" id="GB8-tF-9Oh"/>
                             <constraint firstItem="XkH-HR-wme" firstAttribute="top" secondItem="25S-v6-OcW" secondAttribute="bottom" id="GIh-3r-1M7"/>
                             <constraint firstItem="XkH-HR-wme" firstAttribute="leading" secondItem="Td6-G7-cIx" secondAttribute="leadingMargin" constant="-16" id="Mfp-O3-JYZ"/>
@@ -5619,7 +5710,7 @@
                             <constraint firstItem="25S-v6-OcW" firstAttribute="top" secondItem="YmO-3a-8s6" secondAttribute="bottom" id="QtH-Po-dYc"/>
                             <constraint firstItem="JQU-xz-KnY" firstAttribute="top" secondItem="bUO-ng-AE6" secondAttribute="bottom" constant="37" id="RVL-CK-GM6"/>
                             <constraint firstAttribute="trailingMargin" secondItem="XkH-HR-wme" secondAttribute="trailing" constant="-16" id="WgH-bF-vVK"/>
-                            <constraint firstItem="bUO-ng-AE6" firstAttribute="top" secondItem="hJS-eF-d7Q" secondAttribute="bottom" constant="105" id="Wn0-F3-Pjj"/>
+                            <constraint firstItem="bUO-ng-AE6" firstAttribute="top" secondItem="hJS-eF-d7Q" secondAttribute="bottom" constant="100" id="Wn0-F3-Pjj"/>
                             <constraint firstItem="CLU-Ft-ccu" firstAttribute="leading" secondItem="Td6-G7-cIx" secondAttribute="leadingMargin" constant="-16" id="XxV-zl-bEe"/>
                             <constraint firstAttribute="trailingMargin" secondItem="CLU-Ft-ccu" secondAttribute="trailing" constant="-16" id="lL2-0P-Rny"/>
                             <constraint firstAttribute="trailingMargin" secondItem="25S-v6-OcW" secondAttribute="trailing" constant="-16" id="lQb-XY-npW"/>
@@ -6735,6 +6826,7 @@ Login using your email ID.</string>
                                 <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="KbG-uK-ra4"/>
+                                    <constraint firstAttribute="height" constant="40" id="Q8w-jn-bGT"/>
                                     <constraint firstAttribute="width" constant="102" id="edP-un-Olu"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
@@ -6743,12 +6835,14 @@ Login using your email ID.</string>
                                 <variation key="default">
                                     <mask key="constraints">
                                         <exclude reference="KbG-uK-ra4"/>
+                                        <exclude reference="Q8w-jn-bGT"/>
                                         <exclude reference="edP-un-Olu"/>
                                     </mask>
                                 </variation>
                                 <variation key="heightClass=regular-widthClass=compact">
                                     <mask key="constraints">
-                                        <include reference="KbG-uK-ra4"/>
+                                        <exclude reference="KbG-uK-ra4"/>
+                                        <include reference="Q8w-jn-bGT"/>
                                         <include reference="edP-un-Olu"/>
                                     </mask>
                                 </variation>
@@ -6759,7 +6853,6 @@ Login using your email ID.</string>
                         <constraints>
                             <constraint firstItem="g17-pi-FRU" firstAttribute="leading" secondItem="ahb-Xk-vbx" secondAttribute="leadingMargin" id="38l-pP-50P"/>
                             <constraint firstItem="g17-pi-FRU" firstAttribute="trailing" secondItem="ahb-Xk-vbx" secondAttribute="trailingMargin" id="5cd-S2-fqG"/>
-                            <constraint firstItem="eDn-lC-diw" firstAttribute="leading" secondItem="ahb-Xk-vbx" secondAttribute="leadingMargin" id="8S3-OC-mFa"/>
                             <constraint firstItem="GvX-FL-zkC" firstAttribute="top" secondItem="rr8-5l-fNZ" secondAttribute="bottom" constant="30" id="9PS-J8-EHA"/>
                             <constraint firstItem="zKz-1c-SHT" firstAttribute="top" secondItem="xht-Ie-j7R" secondAttribute="bottom" constant="70" id="AGO-TU-Fqp"/>
                             <constraint firstItem="aNg-6a-xiY" firstAttribute="trailing" secondItem="ahb-Xk-vbx" secondAttribute="trailingMargin" id="ChN-Mg-v6t"/>
@@ -6768,17 +6861,18 @@ Login using your email ID.</string>
                             <constraint firstItem="aNg-6a-xiY" firstAttribute="top" secondItem="g17-pi-FRU" secondAttribute="bottom" constant="5" id="MgO-aZ-RzC"/>
                             <constraint firstItem="GvX-FL-zkC" firstAttribute="trailing" secondItem="ahb-Xk-vbx" secondAttribute="trailingMargin" id="NKi-vc-dy6"/>
                             <constraint firstAttribute="centerX" secondItem="zKz-1c-SHT" secondAttribute="centerX" id="PQ8-F7-Aj7"/>
-                            <constraint firstItem="eDn-lC-diw" firstAttribute="top" secondItem="aNg-6a-xiY" secondAttribute="bottom" constant="17" id="WBi-jU-344"/>
                             <constraint firstItem="GvX-FL-zkC" firstAttribute="leading" secondItem="ahb-Xk-vbx" secondAttribute="leadingMargin" id="YHM-i3-xm8"/>
                             <constraint firstItem="xht-Ie-j7R" firstAttribute="top" secondItem="R9I-h8-ELE" secondAttribute="bottom" constant="4" id="Zf5-X2-l09"/>
                             <constraint firstItem="xht-Ie-j7R" firstAttribute="leading" secondItem="ahb-Xk-vbx" secondAttribute="leadingMargin" id="asW-W9-qls"/>
                             <constraint firstItem="xht-Ie-j7R" firstAttribute="trailing" secondItem="ahb-Xk-vbx" secondAttribute="trailingMargin" id="bPy-s8-lQp"/>
                             <constraint firstItem="aNg-6a-xiY" firstAttribute="leading" secondItem="ahb-Xk-vbx" secondAttribute="leadingMargin" id="bVv-XN-dFC"/>
+                            <constraint firstItem="eDn-lC-diw" firstAttribute="trailing" secondItem="ahb-Xk-vbx" secondAttribute="trailingMargin" id="cZt-6Q-sY2"/>
                             <constraint firstItem="g17-pi-FRU" firstAttribute="top" secondItem="zKz-1c-SHT" secondAttribute="bottom" constant="22" id="gX1-yD-QSS"/>
                             <constraint firstItem="R9I-h8-ELE" firstAttribute="leading" secondItem="ljL-gV-tI6" secondAttribute="trailing" constant="5" id="jJD-ly-4GJ"/>
                             <constraint firstItem="ljL-gV-tI6" firstAttribute="top" secondItem="GvX-FL-zkC" secondAttribute="bottom" constant="24" id="k2s-vE-cYF"/>
                             <constraint firstAttribute="centerX" secondItem="GvX-FL-zkC" secondAttribute="centerX" id="lEI-bf-aul"/>
                             <constraint firstItem="zKz-1c-SHT" firstAttribute="leading" secondItem="ahb-Xk-vbx" secondAttribute="leadingMargin" id="lVC-uZ-hQg"/>
+                            <constraint firstItem="eDn-lC-diw" firstAttribute="top" secondItem="aNg-6a-xiY" secondAttribute="bottom" constant="12" id="pq1-wN-qDE"/>
                             <constraint firstItem="zKz-1c-SHT" firstAttribute="trailing" secondItem="ahb-Xk-vbx" secondAttribute="trailingMargin" id="qyg-YV-8qA"/>
                             <constraint firstItem="R9I-h8-ELE" firstAttribute="top" secondItem="GvX-FL-zkC" secondAttribute="bottom" constant="24" id="uuO-wS-vr8"/>
                         </constraints>
@@ -6804,8 +6898,8 @@ Login using your email ID.</string>
                                 <exclude reference="ChN-Mg-v6t"/>
                                 <exclude reference="MgO-aZ-RzC"/>
                                 <exclude reference="bVv-XN-dFC"/>
-                                <exclude reference="8S3-OC-mFa"/>
-                                <exclude reference="WBi-jU-344"/>
+                                <exclude reference="cZt-6Q-sY2"/>
+                                <exclude reference="pq1-wN-qDE"/>
                                 <exclude reference="38l-pP-50P"/>
                                 <exclude reference="5cd-S2-fqG"/>
                                 <exclude reference="gX1-yD-QSS"/>
@@ -6842,8 +6936,8 @@ Login using your email ID.</string>
                                 <include reference="ChN-Mg-v6t"/>
                                 <include reference="MgO-aZ-RzC"/>
                                 <include reference="bVv-XN-dFC"/>
-                                <include reference="8S3-OC-mFa"/>
-                                <include reference="WBi-jU-344"/>
+                                <include reference="cZt-6Q-sY2"/>
+                                <include reference="pq1-wN-qDE"/>
                                 <include reference="38l-pP-50P"/>
                                 <include reference="5cd-S2-fqG"/>
                                 <include reference="gX1-yD-QSS"/>
@@ -7485,20 +7579,20 @@ Login using your email ID.</string>
             <point key="canvasLocation" x="3498" y="2235.75"/>
         </scene>
         <!--Navigation Controller-->
-        <scene sceneID="fnQ-0f-RFl">
+        <scene sceneID="WcA-iK-BsO">
             <objects>
-                <navigationController storyboardIdentifier="faqNavigation" automaticallyAdjustsScrollViewInsets="NO" id="vwU-ij-YfW" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="faqNavigation" automaticallyAdjustsScrollViewInsets="NO" id="Kr2-WI-gCM" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="PTN-Yn-ev8">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="SIb-6I-hTi">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="UZ8-Qk-udY" kind="relationship" relationship="rootViewController" id="dHL-kz-pdV"/>
+                        <segue destination="UZ8-Qk-udY" kind="relationship" relationship="rootViewController" id="5Mh-s0-ChR"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="SDW-kn-a3N" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="zq3-ao-yCp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="8199" y="-859.5"/>
         </scene>

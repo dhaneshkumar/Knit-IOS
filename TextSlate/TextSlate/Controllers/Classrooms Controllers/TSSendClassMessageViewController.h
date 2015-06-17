@@ -27,5 +27,6 @@
 
 
 -(void)attachedImageTapped:(JTSImageInfo *)imageInfo;
+-(void) deleteClass;
 
 @end
