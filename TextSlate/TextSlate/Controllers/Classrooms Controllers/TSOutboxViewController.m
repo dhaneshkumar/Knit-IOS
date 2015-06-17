@@ -112,7 +112,6 @@
     cell.seenCount.text = [NSString stringWithFormat:@"%d", message.seenCount];
     if(message.hasAttachment) {
         cell.attachedImage.image = message.attachment;
-        //cell.attachedImage.contentMode = UIViewContentModeScaleAspectFill;
         UIImage *img = message.attachment;
         float height = img.size.height;
         float width = img.size.width;
@@ -161,7 +160,6 @@
     CGSize maximumLabelSize = CGSizeMake([self getScreenWidth] - 20.0, 9999);
     
     CGSize expectSize = [gettingSizeLabel sizeThatFits:maximumLabelSize];
-    //NSLog(@"height : %f", expectSize.height);
     
     if(((TSMessage *)_messagesArray[indexPath.row]).attachment) {
         UIImage *img = ((TSMessage *)_messagesArray[indexPath.row]).attachment;

@@ -13,12 +13,14 @@
 
 + (void) applyRoundedCorners:(UIButton*)button;
 
-+ (NSString *)safe_string:(id) object;
++ (NSString *) safe_string:(id) object;
 
-+ (int)safe_int:(id) object;
++ (int) safe_int:(id) object;
 
 + (CGFloat) getScreenHeight;
 
 + (CGFloat) getScreenWidth;
+
++ (float) getOSVersion;
 
 @end

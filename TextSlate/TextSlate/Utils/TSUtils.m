@@ -42,4 +42,8 @@
     return screenWidth;
 }
 
++(float)getOSVersion {
+    return [[[UIDevice currentDevice] systemVersion] floatValue];
+}
+
 @end

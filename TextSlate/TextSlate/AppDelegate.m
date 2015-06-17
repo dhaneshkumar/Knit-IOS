@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "Data.h"
+#import "TSUtils.h"
 #import "TSJoinedClass.h"
 #import "TSSettingsTableViewController.h"
 #import "TSTabBarViewController.h"
@@ -21,6 +22,7 @@
 #import "TSOutboxViewController.h"
 #import "TSTabBarViewController.h"
 #import "TSSendClassMessageViewController.h"
+#import "RKDropdownAlert.h"
 
 
 @interface AppDelegate ()
@@ -29,8 +31,6 @@
 @property (nonatomic, strong) NSString *className;
 @property (nonatomic, strong) NSString *membersClassCode;
 @property (nonatomic, strong) NSString *membersClassName;
-
-
 
 @end
 
@@ -50,22 +50,15 @@
     [self setKeysForDevelopmentKnit];
     [PFUser enableRevocableSessionInBackground];
     [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
-    // Registering for the Push notifications
-    if ([application respondsToSelector:@selector(isRegisteredForRemoteNotifications)])
-    {
-        // iOS 8 Notifications
-        UIUserNotificationType userNotificationTypes = (UIUserNotificationTypeAlert |
-                                                        UIUserNotificationTypeBadge |
-                                                        UIUserNotificationTypeSound);
-        UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:userNotificationTypes categories:nil];
-        [application registerUserNotificationSettings:settings];
-        [application registerForRemoteNotifications];
+    
+    // Registering for notification and Push notifications
+    if([TSUtils getOSVersion] >= 8.0) {
+        UIUserNotificationType types = UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert;
+        UIUserNotificationSettings *mySettings = [UIUserNotificationSettings settingsForTypes:types categories:nil];
+        [[UIApplication sharedApplication] registerUserNotificationSettings:mySettings];
     }
-    else
-    {
-        // iOS < 8 Notifications
-        [application registerForRemoteNotificationTypes:
-         (UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeSound)];
+    else {
+        [application registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeSound)];
     }
     
     application.applicationIconBadgeNumber = 0;
@@ -85,12 +78,7 @@
         else
             [rootTab makeItTeacher];
     }
-    if(launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey]) {
-        [self application:application didReceiveRemoteNotification:launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey]];
-    }
-    if(launchOptions[UIApplicationLaunchOptionsLocalNotificationKey]) {
-        [self application:application didReceiveLocalNotification:launchOptions[UIApplicationLaunchOptionsLocalNotificationKey]];
-    }
+    for(int i=0; i<100000; i++) {}
     return YES;
 }
 
@@ -107,21 +95,46 @@
 }
 
 
+-(void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings {
+    //register to receive notifications
+    [application registerForRemoteNotifications];
+}
+
+-(void)application:(UIApplication *)application handleActionWithIdentifier:(NSString *)identifier forRemoteNotification:(NSDictionary *)userInfo completionHandler:(void(^)())completionHandler {
+    //handle custom actions
+    NSLog(@"Handle custom actions from remote notifications");
+    if ([identifier isEqualToString:@"declineAction"]){
+    }
+    else if ([identifier isEqualToString:@"answerAction"]){
+    }
+}
+
+-(void)application:(UIApplication *)application handleActionWithIdentifier:(NSString *)identifier forLocalNotification:(UILocalNotification *)notification completionHandler:(void (^)())completionHandler {
+    NSLog(@"Handle custom actions from local notifications");
+}
+
+
 -(void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     // Store the deviceToken in the current installation and save it to Parse.
     PFInstallation *currentInstallation = [PFInstallation currentInstallation];
     [currentInstallation setDeviceTokenFromData:deviceToken];
     [currentInstallation saveInBackground];
-    
 }
 
-- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
-    
+-(void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
+    NSLog(@"Error in registering remote notifications : %@", error);
+}
+
+-(void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+    //[RKDropdownAlert title:@"Knit" message:[NSString stringWithFormat:@"we have a notification. : %d, badge : %d", application.applicationState, application.applicationIconBadgeNumber]  time:2];
+    application.applicationIconBadgeNumber = 0;
+    NSLog(@"we have a notification");
+    return;
     NSLog(@"we have a notification");
     if (userInfo) {
         NSLog(@"%@",userInfo);
-        NSString *notificationType=[userInfo objectForKey:@"type"];
-        NSString *actionType=[userInfo objectForKey:@"action"];
+        NSString *notificationType = [userInfo objectForKey:@"type"];
+        NSString *actionType = [userInfo objectForKey:@"action"];
         _membersClassCode=[userInfo objectForKey:@"groupCode"];
         _membersClassName=[userInfo objectForKey:@"groupName"];
         
