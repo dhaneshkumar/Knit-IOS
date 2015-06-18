@@ -45,8 +45,6 @@
     [super viewDidAppear:animated];
     PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
     [lq fromLocalDatastore];
-    [lq whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
-    
     NSArray *localOs = [lq findObjects];
     NSString *checkBool=@"";
     

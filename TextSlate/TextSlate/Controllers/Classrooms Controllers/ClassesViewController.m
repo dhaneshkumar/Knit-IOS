@@ -378,36 +378,6 @@
 //Add parameters here rather than in data.m
 //Change it to leave there in table cell
 
-/*
--(void)deleteFunction {
-    NSLog(@"entering function");
-    PFQuery *localQuery = [PFQuery queryWithClassName:@"defaultLocals"];
-    [localQuery fromLocalDatastore];
- 
-    NSArray *objs = [localQuery findObjects];
-    NSLog(@"in function");
-    NSLog(@"count : %d", objs.count);
- 
-    PFObject *locals = [[PFObject alloc] initWithClassName:@"defaultLocals"];
-    locals[@"iosUserID"] = [PFUser currentUser].objectId;
-    [locals pinInBackground];
- 
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [Data getServerTime:^(id object) {
-        NSDate *currentServerTime = (NSDate *)object;
-        NSDate *currentLocalTime = [NSDate date];
-        NSTimeInterval diff = [currentServerTime timeIntervalSinceDate:currentLocalTime];
-        NSLog(@"currLocalTime : %@\ncurrServerTime : %@\ntime diff : %f", currentLocalTime, currentServerTime, diff);
-        NSDate *diffwrtRef = [NSDate dateWithTimeIntervalSince1970:diff];
-        [locals setObject:diffwrtRef forKey:@"timeDifference"];
-        [locals pinInBackground];
-        } errorBlock:^(NSError *error) {
-            NSLog(@"Unable to update server time : %@", [error description]);
-        }];
-    });
-}
-
-*/
 - (IBAction)buttonTapped:(id)sender {
     if(self.segmentedControl.selectedSegmentIndex==0) {
         UINavigationController *createClassroomNavigationViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"createNewClassNavigationController"];

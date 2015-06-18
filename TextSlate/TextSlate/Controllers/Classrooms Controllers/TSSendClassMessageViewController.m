@@ -182,9 +182,8 @@
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
             PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
             [lq fromLocalDatastore];
-            [lq whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
             NSArray *localOs = [lq findObjects];
-            if(localOs[0][@"isOutboxDataConsistent"]==nil || [localOs[0][@"isOutboxDataConsistent"] isEqualToString:@"false"]) {
+            if([localOs[0][@"isOutboxDataConsistent"] isEqualToString:@"false"]) {
                 [self fetchOldMessages];
             }
             else {
@@ -236,18 +235,10 @@
         _hud.labelText = @"Loading messages";
         PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
         [lq fromLocalDatastore];
-        [lq whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
         NSArray *localObjs = [lq findObjects];
-        
-        if(localObjs.count==0) {
-            NSLog(@"Pain hai bhai life me.");
-            return;
-        }
-        
         int localMessages = [self fetchMessagesFromLocalDatastore];
-        
         if(localMessages==0) {
-            if(!localObjs[0][@"isOutboxDataConsistent"] || [localObjs[0][@"isOutboxDataConsistent"] isEqualToString:@"false"]) {
+            if([localObjs[0][@"isOutboxDataConsistent"] isEqualToString:@"false"]) {
                 [self fetchOldMessagesOnDataDeletion];
             }
         }
@@ -258,36 +249,8 @@
 -(void)getTimeDiffBetweenLocalAndServer {
     PFQuery *localQuery = [PFQuery queryWithClassName:@"defaultLocals"];
     [localQuery fromLocalDatastore];
-    [localQuery whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
     NSArray *objs = [localQuery findObjects];
-    if(objs.count==0) {
-        [self createLocalDatastore];
-    }
-    else {
-        _timeDiff = (NSDate *)objs[0][@"timeDifference"];
-    }
-}
-
-
--(void)createLocalDatastore {
-    PFObject *locals = [[PFObject alloc] initWithClassName:@"defaultLocals"];
-    locals[@"iosUserID"] = [PFUser currentUser].objectId;
-    [locals pinInBackground];
-    
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [Data getServerTime:^(id object) {
-            NSDate *currentServerTime = (NSDate *)object;
-            NSDate *currentLocalTime = [NSDate date];
-            NSTimeInterval diff = [currentServerTime timeIntervalSinceDate:currentLocalTime];
-            NSLog(@"currLocalTime : %@\ncurrServerTime : %@\ntime diff : %f", currentLocalTime, currentServerTime, diff);
-            NSDate *diffwrtRef = [NSDate dateWithTimeIntervalSince1970:diff];
-            _timeDiff = diffwrtRef;
-            [locals setObject:diffwrtRef forKey:@"timeDifference"];
-            [locals pinInBackground];
-        } errorBlock:^(NSError *error) {
-            NSLog(@"Unable to update server time : %@", [error description]);
-        }];
-    });
+    _timeDiff = (NSDate *)objs[0][@"timeDifference"];
 }
 
 
@@ -422,7 +385,6 @@
             });
             PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
             [lq fromLocalDatastore];
-            [lq whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
             NSArray *localOs = [lq findObjects];
             localOs[0][@"isOutboxDataConsistent"] = (messages.count < 20) ? @"true" : @"false";
             [localOs[0] pinInBackground];
@@ -492,7 +454,6 @@
             });
             PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
             [lq fromLocalDatastore];
-            [lq whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
             NSArray *localOs = [lq findObjects];
             localOs[0][@"isOutboxDataConsistent"] = (messages.count < 20) ? @"true" : @"false";
             if([localOs[0][@"isOutboxDataConsistent"] isEqualToString:@"false"]) {
