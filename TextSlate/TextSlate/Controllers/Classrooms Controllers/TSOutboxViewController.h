@@ -17,8 +17,10 @@
 @property (strong, nonatomic) NSMutableArray *messagesArray;
 @property (nonatomic, strong) NSMutableDictionary *mapCodeToObjects;
 @property (nonatomic, strong) NSMutableArray *messageIds;
-@property (strong, nonatomic) NSDate * lastUpdateCalled;
+@property (strong, nonatomic) NSDate *lastUpdateCalled;
 @property (nonatomic) BOOL shouldScrollUp;
+@property (nonatomic) BOOL newNotification;
+@property (nonatomic, strong) NSString *notificationId;
 
 -(void)deleteLocalData;
 -(void)attachedImageTapped:(JTSImageInfo *)imageInfo;

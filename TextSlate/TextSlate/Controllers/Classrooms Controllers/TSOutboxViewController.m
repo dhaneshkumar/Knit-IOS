@@ -97,6 +97,20 @@
         [self.messagesTable scrollToRowAtIndexPath:rowIndexPath atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
         _shouldScrollUp = false;
     }
+    else if(_newNotification) {
+        int index = -1;
+        for(int i=0; i<_messageIds.count; i++) {
+            if([_messageIds[i] isEqualToString:_notificationId]) {
+                index = i;
+                break;
+            }
+        }
+        if(index>=0) {
+            NSIndexPath *rowIndexPath = [NSIndexPath indexPathForRow:index inSection:0];
+            [self.messagesTable scrollToRowAtIndexPath:rowIndexPath atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
+            _newNotification = false;
+        }
+    }
     [self getTimeDiffBetweenLocalAndServer];
     [self displayMessages];
     return;

@@ -147,8 +147,7 @@
                             NSString *devicetype=[currentInstallation objectForKey:@"deviceType"];
                             [Data saveInstallationId:installationId deviceType:devicetype successBlock:^(id object) {
                                 [self deleteAllLocalData];
-                                [self createLocalDatastore];
-                                
+                                [self createLocalDatastore:nil];
                                 current[@"installationObjectId"]=object;
                                 [current pinInBackground];
                                 
@@ -293,8 +292,9 @@
                                         //filhaal to kuch nhi
                                     }
                                     else {
+                                        NSDate *dt = ((PFObject*)lds[0])[@"timeDifference"];
                                         [self deleteAllLocalData];
-                                        [self createLocalDatastore];
+                                        [self createLocalDatastore:dt];
                                         if([role isEqualToString:@"parent"])
                                             [rootTab makeItParent];
                                         else
@@ -302,7 +302,7 @@
                                     }
                                 }
                                 else {
-                                    [self createLocalDatastore];
+                                    [self createLocalDatastore:nil];
                                     if([role isEqualToString:@"parent"])
                                         [rootTab makeItParent];
                                     else
@@ -312,22 +312,15 @@
                                 [hud hide:YES];
                                 [self dismissViewControllerAnimated:YES completion:nil];
                                 
-                                if([role isEqualToString:@"parent"] || [role isEqualToString:@"teacher"])
- 
-                                {
+                                if([role isEqualToString:@"parent"] || [role isEqualToString:@"teacher"]) {
                                     [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:nil];
                                     NSTimer* loop = [NSTimer scheduledTimerWithTimeInterval:60*60*24 target:self selector:@selector(showJoinClassNotification) userInfo:nil repeats:NO];
                                     [[NSRunLoop currentRunLoop] addTimer:loop forMode:NSRunLoopCommonModes];
-                                
                                     NSTimer* loop1 = [NSTimer scheduledTimerWithTimeInterval:60*60*24*2 target:self selector:@selector(showInviteTeacherNotification) userInfo:nil repeats:NO];
                                     [[NSRunLoop currentRunLoop] addTimer:loop1 forMode:NSRunLoopCommonModes];
-                                    
-
                                 }
-                                if([role isEqualToString:@"teacher"] )
-                                    
-                                {
-                                [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:nil];
+                                if([role isEqualToString:@"teacher"] ) {
+                                    [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:nil];
                                     NSTimer* loop = [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(showCreateClassNotification) userInfo:nil repeats:NO];
                                     [[NSRunLoop currentRunLoop] addTimer:loop forMode:NSRunLoopCommonModes];
                                 }
@@ -370,7 +363,6 @@
         if([((PFObject*)lds[0])[@"iosUserID"] isEqualToString:[PFUser currentUser].objectId]){
             PFUser *current=[PFUser currentUser];
             NSArray *createdClass=[current objectForKey:@"Created_groups"];
-    
             if(createdClass.count<1 ) {
                 UILocalNotification *localNotification = [[UILocalNotification alloc] init];
                 localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:5];
@@ -379,7 +371,6 @@
                 localNotification.alertAction=@"Create";
                 localNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication]     applicationIconBadgeNumber] + 1;
                 [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
-        
             }
         }
     }
@@ -447,28 +438,37 @@
 }
 
 
--(void)createLocalDatastore {
+-(void)createLocalDatastore:(NSDate *)dt {
     PFObject *locals = [[PFObject alloc] initWithClassName:@"defaultLocals"];
     locals[@"iosUserID"] = [PFUser currentUser].objectId;
-    if(_isNewSignIn==true)
-    {
-        locals[@"isOldUser"]=@"NO";
+    if(_isNewSignIn==true) {
+        locals[@"isOldUser"] = @"NO";
     }
-    [locals pinInBackground];
+    else {
+        locals[@"isOldUser"] = @"YES";
+    }
+    locals[@"isInboxDataConsistent"] = @"false";
+    locals[@"isUpdateCountsGloballyCalled"] = @"false";
+    locals[@"isOutboxDataConsistent"] = @"false";
+    locals[@"isMemberListUpdateCalled"] = @"false";
+    if(dt)
+        locals[@"timeDifference"] = dt;
+    else
+        locals[@"timeDifference"] = [NSDate dateWithTimeIntervalSince1970:0.0];
+    [locals pin];
     
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [Data getServerTime:^(id object) {
+    [Data getServerTime:^(id object) {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             NSDate *currentServerTime = (NSDate *)object;
             NSDate *currentLocalTime = [NSDate date];
             NSTimeInterval diff = [currentServerTime timeIntervalSinceDate:currentLocalTime];
-            NSLog(@"currLocalTime : %@\ncurrServerTime : %@\ntime diff : %f", currentLocalTime, currentServerTime, diff);
             NSDate *diffwrtRef = [NSDate dateWithTimeIntervalSince1970:diff];
             [locals setObject:diffwrtRef forKey:@"timeDifference"];
             [locals pinInBackground];
-        } errorBlock:^(NSError *error) {
-            NSLog(@"Unable to update server time : %@", [error description]);
-        }];
-    });
+        });
+    } errorBlock:^(NSError *error) {
+        NSLog(@"Unable to update server time : %@", [error description]);
+    }];
 }
 
 

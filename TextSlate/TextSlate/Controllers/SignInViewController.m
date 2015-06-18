@@ -350,8 +350,9 @@
                                 //filhaal to kuch nhi
                             }
                             else {
+                                NSDate *dt = ((PFObject*)lds[0])[@"timeDifference"];
                                 [self deleteAllLocalData];
-                                [self createLocalDatastore];
+                                [self createLocalDatastore:dt];
                                 if([role isEqualToString:@"parent"])
                                     [rootTab makeItParent];
                                 else
@@ -359,7 +360,7 @@
                             }
                         }
                         else {
-                            [self createLocalDatastore];
+                            [self createLocalDatastore:nil];
                             if([role isEqualToString:@"parent"])
                                 [rootTab makeItParent];
                             else
@@ -411,25 +412,33 @@
 }
 
 
--(void)createLocalDatastore {
+-(void)createLocalDatastore:(NSDate *)dt {
     PFObject *locals = [[PFObject alloc] initWithClassName:@"defaultLocals"];
     locals[@"iosUserID"] = [PFUser currentUser].objectId;
-    locals[@"isOldUser"]=@"YES";
-    [locals pinInBackground];
+    locals[@"isOldUser"] = @"YES";
+    locals[@"isInboxDataConsistent"] = @"false";
+    locals[@"isUpdateCountsGloballyCalled"] = @"false";
+    locals[@"isOutboxDataConsistent"] = @"false";
+    locals[@"isMemberListUpdateCalled"] = @"false";
+    if(dt)
+        locals[@"timeDifference"] = dt;
+    else
+        locals[@"timeDifference"] = [NSDate dateWithTimeIntervalSince1970:0.0];
+    [locals pin];
     
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [Data getServerTime:^(id object) {
+    [Data getServerTime:^(id object) {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             NSDate *currentServerTime = (NSDate *)object;
             NSDate *currentLocalTime = [NSDate date];
             NSTimeInterval diff = [currentServerTime timeIntervalSinceDate:currentLocalTime];
-            NSLog(@"currLocalTime : %@\ncurrServerTime : %@\ntime diff : %f", currentLocalTime, currentServerTime, diff);
             NSDate *diffwrtRef = [NSDate dateWithTimeIntervalSince1970:diff];
             [locals setObject:diffwrtRef forKey:@"timeDifference"];
             [locals pinInBackground];
-        } errorBlock:^(NSError *error) {
-            NSLog(@"Unable to update server time : %@", [error description]);
-        }];
-    });
+        });
+    } errorBlock:^(NSError *error) {
+        NSLog(@"Unable to update server time : %@", [error description]);
+    }];
+    
 }
 
 
