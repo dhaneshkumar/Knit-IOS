@@ -56,19 +56,19 @@
             message.hasAttachment = true;
             message.attachment = nil;
         }
-        _mapCodeToObjects[message.messageId] = message;
-        [_messagesArray addObject:message];
-        [_messageIds addObject:message.messageId];
         if(message.hasAttachment) {
             PFFile *attachImageUrl=messageObject[@"attachment"];
             NSString *url=attachImageUrl.url;
             UIImage *image = [[sharedCache sharedInstance] getCachedImageForKey:url];
-            NSLog(@"%@ image",image);
+            message.attachmentURL = attachImageUrl;
             if(image) {
                 NSLog(@"already cached");
                 message.attachment = image;
             }
         }
+        _mapCodeToObjects[message.messageId] = message;
+        [_messagesArray addObject:message];
+        [_messageIds addObject:message.messageId];
     }
 }
 
@@ -253,6 +253,7 @@
         }
     }
     else {
+        [self fetchImages];
         if(_lastUpdateCalled) {
             NSDate *date = [NSDate date];
             NSTimeInterval ti = [date timeIntervalSinceDate:_lastUpdateCalled];
@@ -265,6 +266,30 @@
         }
     }
     return;
+}
+
+
+-(void)fetchImages {
+    NSArray *tempArray = [[NSArray alloc] initWithArray:_messagesArray];
+    for(int i=0; i<tempArray.count; i++) {
+        TSMessage *message = tempArray[i];
+        if(message.hasAttachment && !message.attachment) {
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
+                NSData *data = [message.attachmentURL getData];
+                UIImage *image = [[UIImage alloc] initWithData:data];
+                NSString *url = message.attachmentURL.url;
+                if(image)
+                {
+                    NSLog(@"Caching here....");
+                    [[sharedCache sharedInstance] cacheImage:image forKey:url];
+                    message.attachment = image;
+                    dispatch_sync(dispatch_get_main_queue(), ^{
+                        [self.messagesTable reloadData];
+                    });
+                }
+            });
+        }
+    }
 }
 
 
@@ -303,7 +328,7 @@
     return false;
 }
 
-
+/*
 -(int)fetchMessagesFromLocalDatastore {
     NSArray *createdClasses = [[PFUser currentUser] objectForKey:@"Created_groups"];
     NSMutableArray *createdClassCodes = [[NSMutableArray alloc] init];
@@ -360,7 +385,7 @@
     [_messagesTable reloadData];
     return messages.count;
 }
-
+*/
 
 -(void)fetchOldMessagesOnDataDeletion {
     _hud = [MBProgressHUD showHUDAddedTo:[[UIApplication sharedApplication] keyWindow]  animated:YES];
@@ -511,7 +536,6 @@
             for(NSString *messageObjectId in messageObjects) {
                 PFQuery *query = [PFQuery queryWithClassName:@"GroupDetails"];
                 [query fromLocalDatastore];
-                //[query whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
                 [query whereKey:@"messageId" equalTo:messageObjectId];
                 NSArray *msgs = (NSArray *)[query findObjects];
                 PFObject *msg = (PFObject *)msgs[0];

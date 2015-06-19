@@ -15,7 +15,6 @@
 @interface TSSendClassMessageViewController : UIViewController <UITableViewDataSource,UITableViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 
 @property(weak,nonatomic) IBOutlet UITableView *messageTable;
-//@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property (strong, nonatomic) NSMutableArray *messagesArray;
 @property (nonatomic, strong) NSMutableDictionary *mapCodeToObjects;
 

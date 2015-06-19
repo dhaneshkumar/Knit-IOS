@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <Parse/Parse.h>
 #import "UIKit/UIKit.h"
 
 @interface TSMessage : NSObject
@@ -19,6 +20,7 @@
 @property (strong, nonatomic) UIImage *senderPic;
 @property (strong, nonatomic) UIImage *attachment;
 @property (nonatomic) BOOL hasAttachment;
+@property (strong, nonatomic) PFFile *attachmentURL;
 @property (strong, nonatomic) NSString *messageId;
 @property (nonatomic) int likeCount;
 @property (nonatomic) int confuseCount;
