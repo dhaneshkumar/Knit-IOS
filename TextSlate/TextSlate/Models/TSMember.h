@@ -12,7 +12,7 @@
 
 @property (strong,nonatomic) NSString *userName;
 @property (strong,nonatomic) NSString *childName;
-@property (strong,nonatomic) NSString *className;
+//@property (strong,nonatomic) NSString *className;
 @property (strong,nonatomic) NSString *classCode;
 @property (strong,nonatomic) NSString *userType;
 @property (strong,nonatomic) NSString *emailId;

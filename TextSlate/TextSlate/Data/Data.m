@@ -547,6 +547,19 @@
 }
 
 
++(void) appExit:(NSString *)installationId successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
+    [PFCloud callFunctionInBackground:@"appExit" withParameters:@{@"installationId":installationId} block:^(id object, NSError *error) {
+        if(error){
+            NSLog(@"Could not logout the user...");
+            errorBlock(error);
+        }
+        else{
+            successBlock(object);
+        }
+    }];
+}
+
+
 +(void)getServerTime:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
     [PFCloud callFunctionInBackground:@"getServerTime" withParameters:@{} block:^(id object, NSError *error) {
         if (error) {

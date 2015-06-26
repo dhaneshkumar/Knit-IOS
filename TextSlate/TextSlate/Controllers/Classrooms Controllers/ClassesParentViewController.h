@@ -12,6 +12,12 @@
 
 @property (weak, nonatomic) IBOutlet UITableView *classesTable;
 
+@property (strong, nonatomic) NSMutableArray *joinedClasses;
+@property (strong, nonatomic) NSMutableDictionary *codegroups;
 @property (strong, nonatomic) NSMutableDictionary *joinedClassVCs;
+
+-(void)initialization;
+
+
 
 @end

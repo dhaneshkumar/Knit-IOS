@@ -13,5 +13,6 @@
 -(void) logout;
 -(void)makeItParent;
 -(void)makeItTeacher;
+-(void)fetchNewMembers:(NSMutableDictionary *)createdClassesVCs latestDate:(NSDate *)latestDate;
 
 @end

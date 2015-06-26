@@ -26,6 +26,5 @@
 -(void)attachedImageTapped:(JTSImageInfo *)imageInfo;
 -(void)deleteLocalData;
 -(void)initialization;
--(void)preProcessing;
 
 @end

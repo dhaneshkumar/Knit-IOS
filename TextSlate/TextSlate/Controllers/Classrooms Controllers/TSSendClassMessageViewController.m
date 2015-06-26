@@ -19,11 +19,18 @@
 #import "MBProgressHUD.h"
 #import "TSNewInviteParentViewController.h"
 #import "CustomUIActionSheetViewController.h"
+#import "AppDelegate.h"
+#import "TSTabBarViewController.h"
+#import "ClassesViewController.h"
+#import "ClassesParentViewController.h"
 
 @interface TSSendClassMessageViewController ()
 
 @property (weak, nonatomic) IBOutlet UIView *inviteParents;
 @property (weak, nonatomic) IBOutlet UIView *subscribersList;
+
+@property (strong,nonatomic) NSString *className;
+@property (strong,nonatomic) NSString *classCode;
 
 @property (strong, nonatomic) NSDate * timeDiff;
 @property (nonatomic) BOOL isBottomRefreshCalled;
@@ -34,22 +41,29 @@
 
 @implementation TSSendClassMessageViewController
 
+-(void)initialization:(NSString *)classCode className:(NSString *)className {
+    _classCode = classCode;
+    _className = className;
+    _isBottomRefreshCalled = false;
+    _messagesArray = [[NSMutableArray alloc] init];
+    _mapCodeToObjects = [[NSMutableDictionary alloc] init];
+    TSMemberslistTableViewController *memberListController = [self.storyboard instantiateViewControllerWithIdentifier:@"memberListVC"];
+    _memListVC = memberListController;
+    [_memListVC initialization:_classCode className:_className];
+    _shouldScrollUp = false;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.messageTable.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     self.messageTable.dataSource = self;
     self.messageTable.delegate = self;
-    _isBottomRefreshCalled = false;
     UITapGestureRecognizer *inviteParentsTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(inviteParentsTap:)];
     [self.inviteParents addGestureRecognizer:inviteParentsTap];
     UITapGestureRecognizer *subscribersTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(subscribersTap:)];
     [self.subscribersList addGestureRecognizer:subscribersTap];
-    _messagesArray = [[NSMutableArray alloc] init];
-    _mapCodeToObjects = [[NSMutableDictionary alloc] init];
-    _memListVC = nil;
     UIBarButtonItem *bb = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"back"] style:UIBarButtonItemStylePlain target:self action:@selector(backButtonTapped:)];
     [self.navigationItem setLeftBarButtonItem:bb];
-    _shouldScrollUp = false;
     CGFloat navBarHeight = self.navigationController.navigationBar.frame.size.height;
     CGFloat navBarWidth = self.navigationController.navigationBar.frame.size.width;
     CGFloat width1 = [_className sizeWithAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:16.0f]}].width;
@@ -109,7 +123,6 @@
 }
 
 -(void)moreInfoButtonPressed:(id)sender {
-    NSLog(@"more info tapped");
     self.customUIActionSheetViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"customAlertSheetVC"];
     self.customUIActionSheetViewController.classCode = _classCode;
     self.customUIActionSheetViewController.sendClassVC = self;
@@ -125,21 +138,18 @@
     }
     else {
         UILabel *messageLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
-        
         messageLabel.text = @"No messages.";
         messageLabel.textColor = [UIColor blackColor];
         messageLabel.numberOfLines = 0;
         messageLabel.textAlignment = NSTextAlignmentCenter;
         messageLabel.font = [UIFont fontWithName:@"Palatino-Italic" size:20];
         [messageLabel sizeToFit];
-        
         self.messageTable.backgroundView = messageLabel;
         return 0;
     }
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    NSLog(@"Messages : %d", _messagesArray.count);
     return _messagesArray.count;
 }
 
@@ -276,7 +286,6 @@
 -(int)fetchMessagesFromLocalDatastore {
     PFQuery *query = [PFQuery queryWithClassName:@"GroupDetails"];
     [query fromLocalDatastore];
-    //[query whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
     [query whereKey:@"code" equalTo:_classCode];
     [query orderByDescending:@"createdTime"];
     NSArray *messages = (NSArray *)[query findObjects];
@@ -545,6 +554,7 @@
     }
 }
 
+
 /*
 -(void) showClassDetails {
     [self performSegueWithIdentifier:@"showDetails" sender:self];
@@ -557,6 +567,20 @@
     hud.labelText = @"Loading";
     [Data deleteClass:_classCode successBlock:^(id object) {
         [[PFUser currentUser] fetch];
+        AppDelegate *apd = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+        NSArray *vcs = (NSArray *)((UINavigationController *)apd.startNav).viewControllers;
+        TSTabBarViewController *rootTab = (TSTabBarViewController *)((UINavigationController *)apd.startNav).topViewController;
+        for(id vc in vcs) {
+            if([vc isKindOfClass:[TSTabBarViewController class]]) {
+                rootTab = (TSTabBarViewController *)vc;
+                break;
+            }
+        }
+        
+        ClassesViewController *classesVC = rootTab.viewControllers[0];
+        NSArray *createdClassesArray = (NSArray *) [[PFUser currentUser] objectForKey:@"Created_groups"];
+        classesVC.createdClasses = [NSMutableArray arrayWithArray:[[createdClassesArray reverseObjectEnumerator] allObjects]];
+        [classesVC.createdClassesVCs removeObjectForKey:_classCode];
         [hud hide:YES];
         [self.navigationController popViewControllerAnimated:YES];
     } errorBlock:^(NSError *error) {
@@ -585,17 +609,4 @@
     return screenWidth;
 }
 
-
-/*
--(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([segue.identifier isEqualToString:@"showDetails"]) {
-        TSMemberslistTableViewController *dvc = segue.destinationViewController;
-        dvc.classObject = _classObject;
-        dvc.codeClass=_classCode;
-        dvc.nameClass=_className;
-        NSLog(@"CLASS NAME %@",dvc.nameClass);
-        
-    }
-}
-*/
 @end

@@ -18,14 +18,11 @@
 @property (strong, nonatomic) NSMutableArray *messagesArray;
 @property (nonatomic, strong) NSMutableDictionary *mapCodeToObjects;
 
-@property (strong, nonatomic) TSClass *classObject;
-@property (strong,nonatomic) NSString *className;
-@property (strong,nonatomic) NSString *classCode;
 @property (strong, nonatomic) TSMemberslistTableViewController *memListVC;
 @property (nonatomic) BOOL shouldScrollUp;
 
-
+-(void)initialization:(NSString *)classCode className:(NSString *)className;
 -(void)attachedImageTapped:(JTSImageInfo *)imageInfo;
--(void) deleteClass;
+-(void)deleteClass;
 
 @end

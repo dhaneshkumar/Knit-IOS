@@ -36,43 +36,6 @@
 }
 
 
--(void)preProcessing {
-    NSArray *createdClasses = [[PFUser currentUser] objectForKey:@"Created_groups"];
-    NSMutableArray *createdClassCodes = [[NSMutableArray alloc] init];
-    for(NSArray *cls in createdClasses) {
-        [createdClassCodes addObject:cls[0]];
-    }
-    
-    PFQuery *query = [PFQuery queryWithClassName:@"GroupDetails"];
-    [query fromLocalDatastore];
-    [query whereKey:@"code" containedIn:createdClassCodes];
-    [query orderByDescending:@"createdTime"];
-    NSArray *messages = (NSArray *)[query findObjects];
-    NSCharacterSet *characterset=[NSCharacterSet characterSetWithCharactersInString:@"\uFFFC\n "];
-    for (PFObject * messageObject in messages) {
-        TSMessage *message = [[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:[messageObject[@"title"] stringByTrimmingCharactersInSet:characterset] sender:messageObject[@"Creator"] sentTime:messageObject[@"createdTime"] senderPic:nil likeCount:[messageObject[@"like_count"] intValue] confuseCount:[messageObject[@"confused_count"] intValue] seenCount:[messageObject[@"seen_count"] intValue]];
-        message.messageId = messageObject[@"messageId"];
-        if(messageObject[@"attachment"]) {
-            message.hasAttachment = true;
-            message.attachment = nil;
-        }
-        if(message.hasAttachment) {
-            PFFile *attachImageUrl=messageObject[@"attachment"];
-            NSString *url=attachImageUrl.url;
-            UIImage *image = [[sharedCache sharedInstance] getCachedImageForKey:url];
-            message.attachmentURL = attachImageUrl;
-            if(image) {
-                NSLog(@"already cached");
-                message.attachment = image;
-            }
-        }
-        _mapCodeToObjects[message.messageId] = message;
-        [_messagesArray addObject:message];
-        [_messageIds addObject:message.messageId];
-    }
-}
-
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -146,7 +109,6 @@
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    NSLog(@"Messages : %d", _messagesArray.count);
     return _messagesArray.count;
 }
 
@@ -278,8 +240,7 @@
                 NSData *data = [message.attachmentURL getData];
                 UIImage *image = [[UIImage alloc] initWithData:data];
                 NSString *url = message.attachmentURL.url;
-                if(image)
-                {
+                if(image) {
                     NSLog(@"Caching here....");
                     [[sharedCache sharedInstance] cacheImage:image forKey:url];
                     message.attachment = image;

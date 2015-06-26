@@ -71,17 +71,12 @@
     [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
 
     _startNav = (UINavigationController *)_window.rootViewController;
-    TSTabBarViewController *rootTab = (TSTabBarViewController *)_startNav.topViewController;
     if([PFUser currentUser]) {
         PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
         [lq fromLocalDatastore];
         NSArray *objs = [lq findObjects];
         (objs[0])[@"isUpdateCountsGloballyCalled"] = @"false";
         (objs[0])[@"isMemberListUpdateCalled"] = @"false";
-        if([[[PFUser currentUser] objectForKey:@"role"] isEqualToString:@"parent"])
-            [rootTab makeItParent];
-        else
-            [rootTab makeItTeacher];
     }
     return YES;
 }

@@ -112,6 +112,7 @@
 -(void)view1Tapped:(UITapGestureRecognizer *)recognizer {
     NSLog(@"view1 Tapped");
     [self slideOut];
+    //Add alert sheet for delete class
     [_sendClassVC deleteClass];
 }
 

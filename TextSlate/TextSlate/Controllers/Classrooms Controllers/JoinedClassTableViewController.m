@@ -16,6 +16,11 @@
 #import "RKDropdownAlert.h"
 #import "TSNewInviteParentViewController.h"
 #import "TSUtils.h"
+#import "sharedCache.h"
+#import "ClassesViewController.h"
+#import "ClassesParentViewController.h"
+#import "AppDelegate.h"
+#import "TSTabBarViewController.h"
 
 @interface JoinedClassTableViewController ()
 
@@ -27,11 +32,6 @@
     [super viewDidLoad];
     self.navigationItem.title = _className;
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     UIBarButtonItem *bb = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"back"] style:UIBarButtonItemStylePlain target:self action:@selector(backButtonTapped:)];
     [self.navigationItem setLeftBarButtonItem:bb];
 }
@@ -106,7 +106,26 @@
     if(indexPath.section==1) {
         teacherDetailsTableViewCell * cell = (teacherDetailsTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"teacherProfile"];
         cell.teacherNameOutlet.text = _teacherName;
-        cell.teacherPicOutlet.image = _teacherPic;
+        if(_teacherPic)
+            cell.teacherPicOutlet.image = _teacherPic;
+        else {
+            cell.teacherPicOutlet.image = [UIImage imageNamed:@"defaultTeacher.png"];
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
+                NSData *data = [_teacherUrl getData];
+                UIImage *image = [[UIImage alloc] initWithData:data];
+                NSString *url = _teacherUrl.url;
+                if(image) {
+                    [[sharedCache sharedInstance] cacheImage:image forKey:url];
+                    _teacherPic = image;
+                    dispatch_sync(dispatch_get_main_queue(), ^{
+                        NSIndexPath* rowToReload = [NSIndexPath indexPathForRow:indexPath.row inSection:indexPath.section];
+                        NSArray* rowsToReload = [NSArray arrayWithObjects:rowToReload, nil];
+                        [self.tableView reloadRowsAtIndexPaths:rowsToReload withRowAnimation:UITableViewRowAnimationNone];
+                        //[self.tableView reloadData];
+                    });
+                }
+            });
+        }
         cell.userInteractionEnabled = NO;
         return cell;
     }
@@ -210,6 +229,39 @@
 
     [Data leaveClass:_classCode successBlock:^(id object) {
         [[PFUser currentUser] fetch];
+        AppDelegate *apd = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+        NSArray *vcs = (NSArray *)((UINavigationController *)apd.startNav).viewControllers;
+        TSTabBarViewController *rootTab = (TSTabBarViewController *)((UINavigationController *)apd.startNav).topViewController;
+        for(id vc in vcs) {
+            if([vc isKindOfClass:[TSTabBarViewController class]]) {
+                rootTab = (TSTabBarViewController *)vc;
+                break;
+            }
+        }
+        
+        PFUser *currentUser = [PFUser currentUser];
+        if([currentUser[@"role"] isEqualToString:@"teacher"]) {
+            ClassesViewController *classesVC = rootTab.viewControllers[0];
+            NSMutableArray *arr = [[NSMutableArray alloc] init];
+            for(int i=0; i<arr.count; i++) {
+                if([classesVC.joinedClasses[i] isEqualToString:_classCode])
+                    [arr addObject:classesVC.joinedClasses[i]];
+            }
+            classesVC.joinedClasses = arr;
+            [classesVC.joinedClassVCs removeObjectForKey:_classCode];
+            [classesVC.codegroups removeObjectForKey:_classCode];
+        }
+        else {
+            ClassesParentViewController *classesVC = rootTab.viewControllers[0];
+            NSMutableArray *arr = [[NSMutableArray alloc] init];
+            for(int i=0; i<arr.count; i++) {
+                if([classesVC.joinedClasses[i] isEqualToString:_classCode])
+                    [arr addObject:classesVC.joinedClasses[i]];
+            }
+            classesVC.joinedClasses = arr;
+            [classesVC.joinedClassVCs removeObjectForKey:_classCode];
+            [classesVC.codegroups removeObjectForKey:_classCode];
+        }
         [hud hide:YES];
         [self.navigationController popViewControllerAnimated:YES];
     } errorBlock:^(NSError *error) {
@@ -233,7 +285,6 @@
 -(void)deleteLocalCodegroupEntry:(NSString *)classCode {
     PFQuery *query = [PFQuery queryWithClassName:@"Codegroup"];
     [query fromLocalDatastore];
-    //[query whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
     [query whereKey:@"code" equalTo:classCode];
     NSArray *messages = [query findObjects];
     [PFObject unpinAllInBackground:messages];

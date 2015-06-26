@@ -316,14 +316,12 @@ if(section==0)
     else{
         if (indexPath.row == 0 && indexPath.section==1) {
             PFInstallation *currentInstallation=[PFInstallation currentInstallation];
-            NSString *objectID=currentInstallation.objectId;
-            NSLog(@"Object ID is %@",objectID);
+            NSString *installationId = currentInstallation.installationId;
             MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[[UIApplication sharedApplication] keyWindow]  animated:YES];
             hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
             hud.labelText = @"Loading";
 
-            [Data appLogout:objectID successBlock:^(id object) {
-                NSLog(@"Logging out...");
+            [Data appExit:installationId successBlock:^(id object) {
                 [[UIApplication sharedApplication] cancelAllLocalNotifications];
                 [hud hide:YES];
                 [(TSTabBarViewController*)self.tabBarController logout];

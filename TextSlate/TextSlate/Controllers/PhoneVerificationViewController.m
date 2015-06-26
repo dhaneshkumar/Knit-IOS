@@ -155,10 +155,10 @@
                                 UINavigationController *rootNav = (UINavigationController *)apd.startNav;
                                 TSTabBarViewController *rootTab = (TSTabBarViewController *)rootNav.topViewController;
 
-                                if([_role isEqualToString:@"parent"])
-                                    [rootTab makeItParent];
-                                else
+                                if([_role isEqualToString:@"teacher"])
                                     [rootTab makeItTeacher];
+                                else
+                                    [rootTab makeItParent];
                                 
                                 [hud hide:YES];
                                 
@@ -196,7 +196,7 @@
                                     NSTimer* loop = [NSTimer scheduledTimerWithTimeInterval:60*60*24*2 target:self selector:@selector(showJoinClassNotification) userInfo:nil repeats:NO];
                                     [[NSRunLoop currentRunLoop] addTimer:loop forMode:NSRunLoopCommonModes];
                                     
-                                    //// Invite Teacher here not parent
+                                    // Invite Teacher here not parent
                                     NSTimer* loop1 = [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(showInviteTeacherNotification) userInfo:nil repeats:NO];
                                     [[NSRunLoop currentRunLoop] addTimer:loop1 forMode:NSRunLoopCommonModes];
                                 }
@@ -273,61 +273,26 @@
                             PFInstallation *currentInstallation = [PFInstallation currentInstallation];
                             NSString *installationId=[currentInstallation objectForKey:@"installationId"];
                             NSString *devicetype=[currentInstallation objectForKey:@"deviceType"];
+                            
                             [Data saveInstallationId:installationId deviceType:devicetype successBlock:^(id object) {
                                 NSLog(@"Successfully saved installationID");
                                 NSLog(@"current installation %@",object);
                                 current[@"installationObjectId"]=object;
                                 [current pinInBackground];
-                                NSString * role=[current objectForKey:@"role"];
-                                PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
-                                [lq fromLocalDatastore];
-                                NSArray *lds = [lq findObjects];
                                 
-                                AppDelegate *apd = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-                                UINavigationController *rootNav = (UINavigationController *)apd.startNav;
-                                TSTabBarViewController *rootTab = (TSTabBarViewController *)rootNav.topViewController;
-                                
-                                if(lds.count==1) {
-                                    if([((PFObject*)lds[0])[@"iosUserID"] isEqualToString:[PFUser currentUser].objectId]) {
-                                        //filhaal to kuch nhi
+                                [Data getAllCodegroups:^(id object) {
+                                    NSArray *cgs = (NSArray *)object;
+                                    for(PFObject *cg in cgs) {
+                                        [cg pinInBackground];
                                     }
-                                    else {
-                                        NSDate *dt = ((PFObject*)lds[0])[@"timeDifference"];
-                                        [self deleteAllLocalData];
-                                        [self createLocalDatastore:dt];
-                                        if([role isEqualToString:@"parent"])
-                                            [rootTab makeItParent];
-                                        else
-                                            [rootTab makeItTeacher];
-                                    }
-                                }
-                                else {
-                                    [self createLocalDatastore:nil];
-                                    if([role isEqualToString:@"parent"])
-                                        [rootTab makeItParent];
-                                    else
-                                        [rootTab makeItTeacher];
-                                }
-                                
-                                [hud hide:YES];
-                                [self dismissViewControllerAnimated:YES completion:nil];
-                                
-                                if([role isEqualToString:@"parent"] || [role isEqualToString:@"teacher"]) {
-                                    [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:nil];
-                                    NSTimer* loop = [NSTimer scheduledTimerWithTimeInterval:60*60*24 target:self selector:@selector(showJoinClassNotification) userInfo:nil repeats:NO];
-                                    [[NSRunLoop currentRunLoop] addTimer:loop forMode:NSRunLoopCommonModes];
-                                    NSTimer* loop1 = [NSTimer scheduledTimerWithTimeInterval:60*60*24*2 target:self selector:@selector(showInviteTeacherNotification) userInfo:nil repeats:NO];
-                                    [[NSRunLoop currentRunLoop] addTimer:loop1 forMode:NSRunLoopCommonModes];
-                                }
-                                if([role isEqualToString:@"teacher"] ) {
-                                    [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:nil];
-                                    NSTimer* loop = [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(showCreateClassNotification) userInfo:nil repeats:NO];
-                                    [[NSRunLoop currentRunLoop] addTimer:loop forMode:NSRunLoopCommonModes];
-                                }
+                                    [self secondHalfLoginProcess:hud];
+                                } errorBlock:^(NSError *error) {
+                                    NSLog(@"Unable to fetch classes: %@", [error description]);
+                                    [self secondHalfLoginProcess:hud];
+                                }];
                             } errorBlock:^(NSError *error) {
                                 [hud hide:YES];
                                 [RKDropdownAlert title:@"Knit" message:@"Error in signing in.Try again." time:2];
-                                NSLog(@"save installation id ka pain in new login");
                                 return;
                             }];
                         }
@@ -354,15 +319,71 @@
     }
 }
 
+
+
+-(void)secondHalfLoginProcess:(MBProgressHUD *)hud {
+    NSString * role=[[PFUser currentUser] objectForKey:@"role"];
+    PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
+    [lq fromLocalDatastore];
+    NSArray *lds = [lq findObjects];
+    
+    AppDelegate *apd = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    UINavigationController *rootNav = (UINavigationController *)apd.startNav;
+    TSTabBarViewController *rootTab = (TSTabBarViewController *)rootNav.topViewController;
+    
+    if(lds.count==1) {
+        if([((PFObject*)lds[0])[@"iosUserID"] isEqualToString:[PFUser currentUser].objectId]) {
+            (lds[0])[@"isUpdateCountsGloballyCalled"] = @"false";
+            (lds[0])[@"isMemberListUpdateCalled"] = @"false";
+            if([role isEqualToString:@"teacher"])
+                [rootTab makeItTeacher];
+            else
+                [rootTab makeItParent];
+        }
+        else {
+            NSDate *dt = ((PFObject*)lds[0])[@"timeDifference"];
+            [self deleteAllLocalData];
+            [self createLocalDatastore:dt];
+            if([role isEqualToString:@"teacher"])
+                [rootTab makeItTeacher];
+            else
+                [rootTab makeItParent];
+        }
+    }
+    else {
+        [self createLocalDatastore:nil];
+        if([role isEqualToString:@"teacher"])
+            [rootTab makeItTeacher];
+        else
+            [rootTab makeItParent];
+    }
+    
+    [hud hide:YES];
+    [self dismissViewControllerAnimated:YES completion:nil];
+    
+    if([role isEqualToString:@"parent"] || [role isEqualToString:@"teacher"]) {
+        [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:nil];
+        NSTimer* loop = [NSTimer scheduledTimerWithTimeInterval:60*60*24 target:self selector:@selector(showJoinClassNotification) userInfo:nil repeats:NO];
+        [[NSRunLoop currentRunLoop] addTimer:loop forMode:NSRunLoopCommonModes];
+        NSTimer* loop1 = [NSTimer scheduledTimerWithTimeInterval:60*60*24*2 target:self selector:@selector(showInviteTeacherNotification) userInfo:nil repeats:NO];
+        [[NSRunLoop currentRunLoop] addTimer:loop1 forMode:NSRunLoopCommonModes];
+    }
+    if([role isEqualToString:@"teacher"]) {
+        [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:nil];
+        NSTimer* loop = [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(showCreateClassNotification) userInfo:nil repeats:NO];
+        [[NSRunLoop currentRunLoop] addTimer:loop forMode:NSRunLoopCommonModes];
+    }
+}
+
+
 -(void)showCreateClassNotification{
-    NSLog(@"Show notification");
     PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
     [lq fromLocalDatastore];
     NSArray *lds = [lq findObjects];
     if(lds.count==1) {
         if([((PFObject*)lds[0])[@"iosUserID"] isEqualToString:[PFUser currentUser].objectId]){
-            PFUser *current=[PFUser currentUser];
-            NSArray *createdClass=[current objectForKey:@"Created_groups"];
+            PFUser *current = [PFUser currentUser];
+            NSArray *createdClass = [current objectForKey:@"Created_groups"];
             if(createdClass.count<1 ) {
                 UILocalNotification *localNotification = [[UILocalNotification alloc] init];
                 localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:5];

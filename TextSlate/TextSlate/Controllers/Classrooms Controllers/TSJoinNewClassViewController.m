@@ -19,6 +19,10 @@
 #import "MBProgressHUD.h"
 #import "RKDropdownAlert.h"
 #import "TSNewInviteParentViewController.h"
+#import "ClassesViewController.h"
+#import "ClassesParentViewController.h"
+#import "JoinedClassTableViewController.h"
+
 
 @interface TSJoinNewClassViewController ()
 
@@ -116,7 +120,7 @@
         [joinedAndCreatedClassCodes addObject:[createdClass objectAtIndex:0]];
     }
     if ([joinedAndCreatedClassCodes containsObject:classCodeTyped]) {
-        [RKDropdownAlert title:@"Knit" message:@"Hey! You cannot join a class created by you."  time:2];
+        [RKDropdownAlert title:@"Knit" message:@"Hey! You cannot join a class created by yourself."  time:2];
         [hud hide:YES];
          return;
     }
@@ -128,13 +132,56 @@
         NSLog(@"cloud function returned");
         NSMutableDictionary *objDict=(NSMutableDictionary *)object;
         PFObject *codeGroupForClass = [objDict objectForKey:@"codegroup"];
+        AppDelegate *apd = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+        NSArray *vcs = (NSArray *)((UINavigationController *)apd.startNav).viewControllers;
+        TSTabBarViewController *rootTab = (TSTabBarViewController *)((UINavigationController *)apd.startNav).topViewController;
+        for(id vc in vcs) {
+            if([vc isKindOfClass:[TSTabBarViewController class]]) {
+                rootTab = (TSTabBarViewController *)vc;
+                break;
+            }
+        }
+        
+        JoinedClassTableViewController *dvc = (JoinedClassTableViewController *)[self.storyboard instantiateViewControllerWithIdentifier:@"joinedClassVC"];
+        dvc.className = codeGroupForClass[@"name"];
+        dvc.classCode = codeGroupForClass[@"code"];
+        dvc.teacherName = codeGroupForClass[@"Creator"];
+        
+        PFFile *attachImageUrl = codeGroupForClass[@"senderPic"];
+        if(attachImageUrl) {
+            NSString *url=attachImageUrl.url;
+            UIImage *image = [[sharedCache sharedInstance] getCachedImageForKey:url];
+            dvc.teacherUrl = attachImageUrl;
+            if(image) {
+                dvc.teacherPic = image;
+            }
+            else{
+                dvc.teacherPic = nil;
+            }
+        }
+        else {
+            dvc.teacherPic = [UIImage imageNamed:@"defaultTeacher.png"];
+        }
+        dvc.studentName = assocNameTyped;
+        PFUser *currentUser = [PFUser currentUser];
+        if([currentUser[@"role"] isEqualToString:@"teacher"]) {
+            ClassesViewController *classesVC = rootTab.viewControllers[0];
+            [classesVC.joinedClasses insertObject:codeGroupForClass[@"code"] atIndex:0];
+            [classesVC.joinedClassVCs setObject:dvc forKey:codeGroupForClass[@"code"]];
+            [classesVC.codegroups setObject:codeGroupForClass forKey:codeGroupForClass[@"code"]];
+        }
+        else {
+            ClassesParentViewController *classesVC = rootTab.viewControllers[0];
+            [classesVC.joinedClasses insertObject:codeGroupForClass[@"code"] atIndex:0];
+            [classesVC.joinedClassVCs setObject:dvc forKey:codeGroupForClass[@"code"]];
+            [classesVC.codegroups setObject:codeGroupForClass forKey:codeGroupForClass[@"code"]];
+        }
+        
         NSMutableArray *lastFiveMessage=[objDict objectForKey:@"messages"];
         NSCharacterSet *characterset=[NSCharacterSet characterSetWithCharactersInString:@"\uFFFC\n "];
-        TSTabBarViewController *rootTab = (TSTabBarViewController *)((UINavigationController *)((AppDelegate *)[[UIApplication sharedApplication] delegate]).window.rootViewController).topViewController;
         TSNewInboxViewController *newInbox = (TSNewInboxViewController *)(NSArray *)rootTab.viewControllers[1];
-        NSLog(@"message pinning start : %d", newInbox.messagesArray.count);
-        for(PFObject *msg in lastFiveMessage)
-        {
+        
+        for(PFObject *msg in lastFiveMessage) {
             msg[@"likeStatus"] = @"false";
             msg[@"confuseStatus"] = @"false";
             msg[@"likeStatusServer"] = @"false";
@@ -157,7 +204,7 @@
                 [newInbox.messageIds insertObject:message.messageId atIndex:0];
                 if(message.hasAttachment) {
                     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
-                        PFFile *attachImageUrl=msg[@"attachment"];
+                        PFFile *attachImageUrl = msg[@"attachment"];
                         NSString *url=attachImageUrl.url;
                         NSLog(@"url to image insertlatestmessage %@",url);
                         UIImage *image = [[sharedCache sharedInstance] getCachedImageForKey:url];
@@ -180,21 +227,20 @@
                 }
             }
         }
-        NSLog(@"message pinning end : %d", newInbox.messagesArray.count);
+        NSLog(@"message pinning end : %ld", newInbox.messagesArray.count);
         if(newInbox.messagesArray.count>0 && lastFiveMessage.count>0) {
             NSMutableArray *sortedArray = (NSMutableArray *)[newInbox.messagesArray sortedArrayUsingComparator:^NSComparisonResult(TSMessage *m1, TSMessage *m2){
                 return [m2.sentTime compare:m1.sentTime];
             }];
             newInbox.messagesArray = sortedArray;
         }
-        NSLog(@"sorting ended : %d", newInbox.messagesArray.count);
+        NSLog(@"sorting ended : %ld", newInbox.messagesArray.count);
         
         [codeGroupForClass pinInBackground];
         [[PFUser currentUser] fetch];
         [hud hide:YES];
         [self dismissViewControllerAnimated:YES completion:nil];
         [RKDropdownAlert title:@"Knit" message:[NSString stringWithFormat:@"Successfully joined Class: %@ Creator : %@",codeGroupForClass[@"name"], codeGroupForClass[@"Creator"]] time:2];
-
     } errorBlock:^(NSError *error) {
         [hud hide:YES];
         [RKDropdownAlert title:@"Knit" message:@"Error in joining Class. Please make sure you have the correct class code."  time:2];

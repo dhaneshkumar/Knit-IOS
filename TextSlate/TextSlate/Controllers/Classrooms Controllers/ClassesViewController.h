@@ -14,7 +14,12 @@
 - (IBAction)segmentChanged:(id)sender;
 @property (weak, nonatomic) IBOutlet UITableView *classesTable;
 
+@property (strong, nonatomic) NSMutableArray *joinedClasses;
+@property (strong, nonatomic) NSMutableArray *createdClasses;
+@property (strong, nonatomic) NSMutableDictionary *codegroups;
 @property (strong, nonatomic) NSMutableDictionary *createdClassesVCs;
 @property (strong, nonatomic) NSMutableDictionary *joinedClassVCs;
+
+-(void)initialization;
 
 @end

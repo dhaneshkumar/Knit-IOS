@@ -37,9 +37,7 @@
     _lastUpdateCalled = nil;
     _isUpdateSeenCountsCalled = false;
     _isILMCalled = false;
-}
-
--(void)preProcessing {
+    
     NSArray *joinedClasses = [[PFUser currentUser] objectForKey:@"joined_groups"];
     NSMutableArray *joinedClassCodes = [[NSMutableArray alloc] init];
     for(NSArray *cls in joinedClasses) {
@@ -311,7 +309,7 @@
 
 -(void)pullDownToRefresh {
     if(_isILMCalled) {
-        [_refreshControl endRefreshing];
+        //[_refreshControl endRefreshing];
         return;
     }
     _isILMCalled = YES;
@@ -404,8 +402,10 @@
     }
     else {
         [self fetchImages];
-        if(!_isILMCalled)
+        if(!_isILMCalled) {
+            [_refreshControl beginRefreshing];
             [self insertLatestMessages];
+        }
         if(_lastUpdateCalled) {
             NSDate *date = [NSDate date];
             NSTimeInterval ti = [date timeIntervalSinceDate:_lastUpdateCalled];
@@ -542,17 +542,14 @@
                         NSString *url=attachImageUrl.url;
                         //NSLog(@"url to image insertlatestmessage %@",url);
                         UIImage *image = [[sharedCache sharedInstance] getCachedImageForKey:url];
-                        if(image)
-                        {
+                        if(image) {
                             NSLog(@"already cached");
                             message.attachment = image;
                         }
                         else{
                             NSData *data = [attachImageUrl getData];
                             UIImage *image = [[UIImage alloc] initWithData:data];
-                            
-                            if(image)
-                            {
+                            if(image) {
                                 NSLog(@"Caching here....");
                                 [[sharedCache sharedInstance] cacheImage:image forKey:url];
                                 message.attachment = image;
@@ -664,8 +661,7 @@
                 [self.messagesTable reloadData];
             });
 
-            if(_messageFlag==1 && messageObjects.count==1)
-            {
+            if(_messageFlag==1 && messageObjects.count==1) {
                  [RKDropdownAlert title:@"Knit" message:@"You know what? You can like/confuse message and let teacher know."  time:2];
             }
 

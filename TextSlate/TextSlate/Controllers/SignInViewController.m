@@ -337,55 +337,16 @@
                         NSLog(@"Successfully saved installationID");
                         current[@"installationObjectId"]=object;
                         [current pinInBackground];
-                        PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
-                        [lq fromLocalDatastore];
-                        NSArray *lds = [lq findObjects];
-                        NSString * role=[current objectForKey:@"role"];
-                        AppDelegate *apd = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-                        UINavigationController *rootNav = (UINavigationController *)apd.startNav;
-                        TSTabBarViewController *rootTab = (TSTabBarViewController *)rootNav.topViewController;
-                        
-                        if(lds.count==1) {
-                            if([((PFObject*)lds[0])[@"iosUserID"] isEqualToString:[PFUser currentUser].objectId]) {
-                                //filhaal to kuch nhi
+                        [Data getAllCodegroups:^(id object) {
+                            NSArray *cgs = (NSArray *)object;
+                            for(PFObject *cg in cgs) {
+                                [cg pinInBackground];
                             }
-                            else {
-                                NSDate *dt = ((PFObject*)lds[0])[@"timeDifference"];
-                                [self deleteAllLocalData];
-                                [self createLocalDatastore:dt];
-                                if([role isEqualToString:@"parent"])
-                                    [rootTab makeItParent];
-                                else
-                                    [rootTab makeItTeacher];
-                            }
-                        }
-                        else {
-                            [self createLocalDatastore:nil];
-                            if([role isEqualToString:@"parent"])
-                                [rootTab makeItParent];
-                            else
-                                [rootTab makeItTeacher];
-                        }
-                        
-                        [hud hide:YES];
-                        [self dismissViewControllerAnimated:YES completion:nil];
-                        
-                        if([role isEqualToString:@"parent"] || [role isEqualToString:@"teacher"]) {
-                            [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:nil];
-                            NSTimer* loop = [NSTimer scheduledTimerWithTimeInterval:60*60*24*2 target:self selector:@selector(showJoinClassNotification) userInfo:nil repeats:NO];
-                            [[NSRunLoop currentRunLoop] addTimer:loop forMode:NSRunLoopCommonModes];
-                            
-                            [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:nil];
-                            NSTimer* loop1 = [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(showInviteTeacherNotification) userInfo:nil repeats:NO];
-                            [[NSRunLoop currentRunLoop] addTimer:loop1 forMode:NSRunLoopCommonModes];
-                        }
-                        
-                        if([role isEqualToString:@"teacher"]) {
-                            [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:nil];
-                            NSTimer* loop = [NSTimer scheduledTimerWithTimeInterval:60*60*24*2 target:self selector:@selector(showCreateClassNotification) userInfo:nil repeats:NO];
-                            [[NSRunLoop currentRunLoop] addTimer:loop forMode:NSRunLoopCommonModes];
-                        }
-                        
+                            [self secondHalfLoginProcess:hud];
+                        } errorBlock:^(NSError *error) {
+                            NSLog(@"Unable to fetch classes: %@", [error description]);
+                            [self secondHalfLoginProcess:hud];
+                        }];
                     } errorBlock:^(NSError *error) {
                         UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error in signing in. Try again later." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
                         [hud hide:YES];
@@ -409,6 +370,63 @@
         }
         [hud hide:YES];
     }];
+}
+
+
+-(void)secondHalfLoginProcess:(MBProgressHUD *)hud {
+    PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
+    [lq fromLocalDatastore];
+    NSArray *lds = [lq findObjects];
+    NSString * role=[[PFUser currentUser] objectForKey:@"role"];
+    AppDelegate *apd = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    UINavigationController *rootNav = (UINavigationController *)apd.startNav;
+    TSTabBarViewController *rootTab = (TSTabBarViewController *)rootNav.topViewController;
+    
+    if(lds.count==1) {
+        if([((PFObject*)lds[0])[@"iosUserID"] isEqualToString:[PFUser currentUser].objectId]) {
+            (lds[0])[@"isUpdateCountsGloballyCalled"] = @"false";
+            (lds[0])[@"isMemberListUpdateCalled"] = @"false";
+            if([role isEqualToString:@"teacher"])
+                [rootTab makeItTeacher];
+            else
+                [rootTab makeItParent];
+        }
+        else {
+            NSDate *dt = ((PFObject*)lds[0])[@"timeDifference"];
+            [self deleteAllLocalData];
+            [self createLocalDatastore:dt];
+            if([role isEqualToString:@"teacher"])
+                [rootTab makeItTeacher];
+            else
+                [rootTab makeItParent];
+        }
+    }
+    else {
+        [self createLocalDatastore:nil];
+        if([role isEqualToString:@"teacher"])
+            [rootTab makeItTeacher];
+        else
+            [rootTab makeItParent];
+    }
+    
+    [hud hide:YES];
+    [self dismissViewControllerAnimated:YES completion:nil];
+    
+    if([role isEqualToString:@"parent"] || [role isEqualToString:@"teacher"]) {
+        [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:nil];
+        NSTimer* loop = [NSTimer scheduledTimerWithTimeInterval:60*60*24*2 target:self selector:@selector(showJoinClassNotification) userInfo:nil repeats:NO];
+        [[NSRunLoop currentRunLoop] addTimer:loop forMode:NSRunLoopCommonModes];
+        
+        [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:nil];
+        NSTimer* loop1 = [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(showInviteTeacherNotification) userInfo:nil repeats:NO];
+        [[NSRunLoop currentRunLoop] addTimer:loop1 forMode:NSRunLoopCommonModes];
+    }
+    
+    if([role isEqualToString:@"teacher"]) {
+        [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:nil];
+        NSTimer* loop = [NSTimer scheduledTimerWithTimeInterval:60*60*24*2 target:self selector:@selector(showCreateClassNotification) userInfo:nil repeats:NO];
+        [[NSRunLoop currentRunLoop] addTimer:loop forMode:NSRunLoopCommonModes];
+    }
 }
 
 

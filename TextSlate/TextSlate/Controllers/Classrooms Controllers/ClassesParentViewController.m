@@ -17,9 +17,6 @@
 
 @interface ClassesParentViewController ()
 
-@property (strong, nonatomic) NSMutableArray *joinedClasses;
-@property (strong, nonatomic) NSMutableDictionary *codegroups;
-
 @property (weak, nonatomic) IBOutlet UIButton *joinNewClass;
 - (IBAction)buttonTapped:(id)sender;
 
@@ -37,28 +34,127 @@
     [TSUtils applyRoundedCorners:_joinNewClass];
     [[_joinNewClass layer] setBorderWidth:0.5f];
     [[_joinNewClass layer] setBorderColor:[[UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0] CGColor]];
-    _joinedClassVCs = [[NSMutableDictionary alloc] init];
 }
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
+
+-(void)initialization {
+    NSMutableArray *joinedClassCodes = [[NSMutableArray alloc] init];
+    NSMutableDictionary *joinedClassAssocNames = [[NSMutableDictionary alloc] init];
+    NSArray *joinedClassesArray = (NSArray *) [[PFUser currentUser] objectForKey:@"joined_groups"];
+    _joinedClasses = [[NSMutableArray alloc] init];
+    _codegroups = [[NSMutableDictionary alloc] init];
+    for(NSArray *joinedcl in joinedClassesArray) {
+        [joinedClassCodes addObject:joinedcl[0]];
+        [joinedClassAssocNames setObject:joinedcl forKey:joinedcl[0]];
+    }
+    _joinedClassVCs = [[NSMutableDictionary alloc] init];
+    PFQuery *localQuery = [PFQuery queryWithClassName:@"Codegroup"];
+    [localQuery fromLocalDatastore];
+    [localQuery orderByDescending:@"createdAt"];
+    [localQuery whereKey:@"code" containedIn:joinedClassCodes];
+    NSArray *localCodegroups = (NSArray *)[localQuery findObjects];
+    for(PFObject *localCodegroup in localCodegroups) {
+        [_joinedClasses addObject:localCodegroup[@"code"]];
+        [_codegroups setObject:localCodegroup forKey:[localCodegroup objectForKey:@"code"]];
+        JoinedClassTableViewController *dvc = (JoinedClassTableViewController *)[self.storyboard instantiateViewControllerWithIdentifier:@"joinedClassVC"];
+        dvc.className = localCodegroup[@"name"];
+        dvc.classCode = localCodegroup[@"code"];
+        dvc.teacherName = localCodegroup[@"Creator"];
+        
+        PFFile *attachImageUrl = localCodegroup[@"senderPic"];
+        if(attachImageUrl) {
+            NSString *url=attachImageUrl.url;
+            UIImage *image = [[sharedCache sharedInstance] getCachedImageForKey:url];
+            dvc.teacherUrl = attachImageUrl;
+            if(image) {
+                dvc.teacherPic = image;
+            }
+            else{
+                dvc.teacherPic = nil;
+            }
+        }
+        else {
+            dvc.teacherPic = [UIImage imageNamed:@"defaultTeacher.png"];
+        }
+        if(((NSArray *)joinedClassAssocNames[localCodegroup[@"code"]]).count==2)
+            dvc.studentName = [[PFUser currentUser] objectForKey:@"name"];
+        else
+            dvc.studentName = ((NSArray *)joinedClassAssocNames[localCodegroup[@"code"]])[2];
+        [_joinedClassVCs setObject:dvc forKey:localCodegroup[@"code"]];
+    }
+}
+
+
+
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    _joinedClasses = nil;
-    _codegroups = nil;
-    _codegroups = [[NSMutableDictionary alloc] init];
-    if([PFUser currentUser]){
-        [self fillDataModel];
-    }
+    [self.classesTable setEditing:NO animated:NO];
+    [self.classesTable reloadData];
 }
 
 
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+    [self fetchCodegroups];
 }
+
+
+-(void)fetchCodegroups {
+    NSArray *joinedClassesArray = (NSArray *) [[PFUser currentUser] objectForKey:@"joined_groups"];
+    NSMutableDictionary *joinedClassAssocNames = [[NSMutableDictionary alloc] init];
+    for(NSArray *joinedcl in joinedClassesArray) {
+        [joinedClassAssocNames setObject:joinedcl forKey:joinedcl[0]];
+    }
+    if(joinedClassesArray.count>0 && _joinedClasses.count==0) {
+        [Data getAllCodegroups:^(id object) {
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                NSArray *cgs = (NSArray *)object;
+                for(PFObject *cg in cgs) {
+                    [cg pinInBackground];
+                    [_codegroups setObject:cg forKey:[cg objectForKey:@"code"]];
+                    [_joinedClasses addObject:cg[@"code"]];
+                    JoinedClassTableViewController *dvc = (JoinedClassTableViewController *)[self.storyboard instantiateViewControllerWithIdentifier:@"joinedClassVC"];
+                    dvc.className = cg[@"name"];
+                    dvc.classCode = cg[@"code"];
+                    dvc.teacherName = cg[@"Creator"];
+                    
+                    PFFile *attachImageUrl = cg[@"senderPic"];
+                    if(attachImageUrl) {
+                        NSString *url=attachImageUrl.url;
+                        UIImage *image = [[sharedCache sharedInstance] getCachedImageForKey:url];
+                        dvc.teacherUrl = attachImageUrl;
+                        if(image) {
+                            dvc.teacherPic = image;
+                        }
+                        else{
+                            dvc.teacherPic = nil;
+                        }
+                    }
+                    else {
+                        dvc.teacherPic = [UIImage imageNamed:@"defaultTeacher.png"];
+                    }
+                    if(((NSArray *)joinedClassAssocNames[cg[@"code"]]).count==2)
+                        dvc.studentName = [[PFUser currentUser] objectForKey:@"name"];
+                    else
+                        dvc.studentName = ((NSArray *)joinedClassAssocNames[cg[@"code"]])[2];
+                    [_joinedClassVCs setObject:dvc forKey:cg[@"code"]];
+                }
+                dispatch_sync(dispatch_get_main_queue(), ^{
+                    [self.classesTable reloadData];
+                });
+            });
+        } errorBlock:^(NSError *error) {
+            NSLog(@"Unable to fetch classes1: %@", [error description]);
+        }];
+    }
+}
+
 
 
 -(void)viewDidDisappear:(BOOL)animated {
@@ -81,68 +177,20 @@
     return _joinedClasses.count;
 }
 
+
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"joinedClassParentCell"];
-    cell.textLabel.text = _joinedClasses[indexPath.row][1];
-    PFObject *codegroup = [_codegroups objectForKey:_joinedClasses[indexPath.row][0]];
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"by %@", codegroup[@"Creator"]];
+    PFObject *codegroup = [_codegroups objectForKey:_joinedClasses[indexPath.row]];
+    cell.textLabel.text = codegroup[@"name"];
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"by %@ ", codegroup[@"Creator"]];
     return cell;
 }
 
     
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    int row = indexPath.row;
-    if([_joinedClassVCs objectForKey:_joinedClasses[row][0]]) {
-        JoinedClassTableViewController *dvc = (JoinedClassTableViewController *)[_joinedClassVCs objectForKey:_joinedClasses[row][0]];
-        [self.navigationController pushViewController:dvc animated:YES];
-    }
-    else {
-        JoinedClassTableViewController *dvc = (JoinedClassTableViewController *)[self.storyboard instantiateViewControllerWithIdentifier:@"joinedClassVC"];
-        [_joinedClassVCs setObject:dvc forKey:_joinedClasses[row][0]];
-        PFObject *codegroup = [_codegroups objectForKey:_joinedClasses[row][0]];
-        dvc.className = codegroup[@"name"];
-        dvc.classCode = codegroup[@"code"];
-        dvc.teacherName = codegroup[@"Creator"];
-        
-        PFFile *attachImageUrl = codegroup[@"senderPic"];
-        
-        if(attachImageUrl) {
-            NSString *url=attachImageUrl.url;
-            NSLog(@"url to image fetchold message %@",url);
-            UIImage *image = [[sharedCache sharedInstance] getCachedImageForKey:url];
-            if(image)
-            {
-                NSLog(@"already cached");
-                dvc.teacherPic = image;
-            }
-            else{
-                dvc.teacherPic = [UIImage imageNamed:@"defaultTeacher.png"];
-                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
-                    NSData *data = [attachImageUrl getData];
-                    UIImage *image = [[UIImage alloc] initWithData:data];
-                    
-                    if(image)
-                    {
-                        NSLog(@"Caching here....");
-                        [[sharedCache sharedInstance] cacheImage:image forKey:url];
-                        dvc.teacherPic = image;
-                        dispatch_sync(dispatch_get_main_queue(), ^{
-                            [dvc.tableView reloadData];
-                        });
-                        
-                    }
-                });
-            }
-        }
-        else {
-            dvc.teacherPic = [UIImage imageNamed:@"defaultTeacher.png"];
-        }
-        if(((NSArray *)_joinedClasses[row]).count==2)
-            dvc.studentName = [[PFUser currentUser] objectForKey:@"name"];
-        else
-            dvc.studentName = _joinedClasses[row][2];
-        [self.navigationController pushViewController:dvc animated:YES];
-    }
+    long int row = indexPath.row;
+    JoinedClassTableViewController *dvc = (JoinedClassTableViewController *)[_joinedClassVCs objectForKey:_joinedClasses[row][0]];
+    [self.navigationController pushViewController:dvc animated:YES];
 }
 
 /*
@@ -150,49 +198,6 @@
     return UITableViewCellEditingStyleNone;
 }
 */
-
-
--(void)fillDataModel {
-    NSMutableArray *joinedClassCodes = [[NSMutableArray alloc] init];
-    _joinedClasses = (NSMutableArray *)[[PFUser currentUser] objectForKey:@"joined_groups"];
-    
-    for(NSArray *joinedcl in _joinedClasses)
-        [joinedClassCodes addObject:joinedcl[0]];
-    if(_joinedClasses.count==0) {
-        return;
-    }
-    
-    PFQuery *localQuery = [PFQuery queryWithClassName:@"Codegroup"];
-    [localQuery fromLocalDatastore];
-    [localQuery orderByAscending:@"createdAt"];
-    [localQuery whereKey:@"code" containedIn:joinedClassCodes];
-    NSArray *localCodegroups = (NSArray *)[localQuery findObjects];
-    for(PFObject *localCodegroup in localCodegroups)
-        [_codegroups setObject:localCodegroup forKey:[localCodegroup objectForKey:@"code"]];
-    if(localCodegroups.count != joinedClassCodes.count) {
-        NSLog(@"Here in if");
-        [Data getAllCodegroups:^(id object) {
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                NSArray *cgs = (NSArray *)object;
-                for(PFObject *cg in cgs) {
-                    //cg[@"iosUserID"] = [PFUser currentUser].objectId;
-                    [cg pinInBackground];
-                    [_codegroups setObject:cg forKey:[cg objectForKey:@"code"]];
-                }
-                dispatch_sync(dispatch_get_main_queue(), ^{
-                    [self.classesTable reloadData];
-                });
-            });
-        } errorBlock:^(NSError *error) {
-            NSLog(@"Unable to fetch classes1: %@", [error description]);
-        }];
-    }
-    else {
-        NSLog(@"Here in else");
-        [self.classesTable reloadData];
-    }
-    return;
-}
 
 
 /*

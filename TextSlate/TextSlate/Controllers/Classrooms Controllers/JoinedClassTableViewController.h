@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <Parse/Parse.h>
 
 @interface JoinedClassTableViewController : UITableViewController
 
@@ -15,6 +16,7 @@
 @property (strong, nonatomic) NSString *classCode;
 @property (strong, nonatomic) UIImage *teacherPic;
 @property (strong, nonatomic) NSString *studentName;
+@property (strong, nonatomic) PFFile *teacherUrl;
 
 -(void)updateStudentName:(NSString*)studentName;
 
