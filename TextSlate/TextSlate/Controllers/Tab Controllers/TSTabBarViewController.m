@@ -266,7 +266,6 @@
 
 -(TSMember *)createMemberObjectForAppUsers:(PFObject *)object {
     NSString *status = [object objectForKey:@"status"];
-    
     if(!status || [status isEqualToString:@""]) {
         NSString *name = [object objectForKey:@"name"];
         NSArray *children = [object objectForKey:@"children_names"];
@@ -285,7 +284,6 @@
 
 -(TSMember *)createMemberObjectForMessageNeeders:(PFObject *)object {
     NSString *status = [object objectForKey:@"status"];
-    
     if(!status || [status isEqualToString:@""]) {
         NSString *child = [object objectForKey:@"subscriber"];
         NSString *phone = [object objectForKey:@"number"];
@@ -331,14 +329,10 @@
     TSMessage *message = [[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:[messageObject[@"title"] stringByTrimmingCharactersInSet:characterset] sender:messageObject[@"Creator"] sentTime:messageObject[@"createdTime"] senderPic:nil likeCount:[messageObject[@"like_count"] intValue] confuseCount:[messageObject[@"confused_count"] intValue] seenCount:[messageObject[@"seen_count"] intValue]];
     message.messageId = messageObject[@"messageId"];
     if(messageObject[@"attachment"]) {
-        message.hasAttachment = true;
-        message.attachment = nil;
-    }
-    if(message.hasAttachment) {
-        PFFile *attachImageUrl=messageObject[@"attachment"];
-        NSString *url=attachImageUrl.url;
-        UIImage *image = [[sharedCache sharedInstance] getCachedImageForKey:url];
+        PFFile *attachImageUrl = messageObject[@"attachment"];
+        NSString *url = attachImageUrl.url;
         message.attachmentURL = attachImageUrl;
+        UIImage *image = [[sharedCache sharedInstance] getCachedImageForKey:url];
         if(image) {
             message.attachment = image;
         }

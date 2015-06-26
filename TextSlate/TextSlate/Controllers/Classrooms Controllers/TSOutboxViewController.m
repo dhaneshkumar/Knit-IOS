@@ -13,6 +13,11 @@
 #import <Parse/Parse.h>
 #import "MBProgressHUD.h"
 #import "RKDropdownAlert.h"
+#import "AppDelegate.h"
+#import "ClassesViewController.h"
+#import "ClassesParentViewController.h"
+#import "TSSendClassMessageViewController.h"
+#import "TSTabBarViewController.h"
 
 @interface TSOutboxViewController ()
 
@@ -114,7 +119,7 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     TSMessage *message = (TSMessage *)[_messagesArray objectAtIndex:indexPath.row];
-    NSString *cellIdentifier = (message.hasAttachment)?@"outboxAttachmentMessageCell":@"outboxMessageCell";
+    NSString *cellIdentifier = (message.attachmentURL)?@"outboxAttachmentMessageCell":@"outboxMessageCell";
     TSOutboxMessageTableViewCell *cell = (TSOutboxMessageTableViewCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     
     cell.className.text = message.className;
@@ -125,7 +130,7 @@
     cell.likesCount.text = [NSString stringWithFormat:@"%d", message.likeCount];
     cell.confuseCount.text = [NSString stringWithFormat:@"%d", message.confuseCount];
     cell.seenCount.text = [NSString stringWithFormat:@"%d", message.seenCount];
-    if(message.hasAttachment) {
+    if(message.attachmentURL) {
         if(message.attachment)
             cell.attachedImage.image = message.attachment;
         else
@@ -177,13 +182,13 @@
     CGSize maximumLabelSize = CGSizeMake([self getScreenWidth] - 20.0, 9999);
     
     CGSize expectSize = [gettingSizeLabel sizeThatFits:maximumLabelSize];
-    
-    if(((TSMessage *)_messagesArray[indexPath.row]).attachment) {
-        UIImage *img = ((TSMessage *)_messagesArray[indexPath.row]).attachment;
+    TSMessage *msg = (TSMessage *)_messagesArray[indexPath.row];
+    if(msg.attachmentURL) {
+        UIImage *img = msg.attachment?msg.attachment:[UIImage imageNamed:@"white.jpg"];
         float height = img.size.height;
         float width = img.size.width;
         float changedHeight = 300.0;
-        if(height<=width)
+        if(height <= width)
             changedHeight = 300.0*height/width;
         return expectSize.height+72+changedHeight;
     }
@@ -235,7 +240,7 @@
     NSArray *tempArray = [[NSArray alloc] initWithArray:_messagesArray];
     for(int i=0; i<tempArray.count; i++) {
         TSMessage *message = tempArray[i];
-        if(message.hasAttachment && !message.attachment) {
+        if(message.attachmentURL && !message.attachment) {
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
                 NSData *data = [message.attachmentURL getData];
                 UIImage *image = [[UIImage alloc] initWithData:data];
@@ -348,58 +353,41 @@
 }
 */
 
+
 -(void)fetchOldMessagesOnDataDeletion {
     _hud = [MBProgressHUD showHUDAddedTo:[[UIApplication sharedApplication] keyWindow]  animated:YES];
     _hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
     _hud.labelText = @"Loading messages";
+    AppDelegate *apd = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    NSArray *vcs = (NSArray *)((UINavigationController *)apd.startNav).viewControllers;
+    TSTabBarViewController *rootTab = (TSTabBarViewController *)((UINavigationController *)apd.startNav).topViewController;
+    for(id vc in vcs) {
+        if([vc isKindOfClass:[TSTabBarViewController class]]) {
+            rootTab = (TSTabBarViewController *)vc;
+            break;
+        }
+    }
     [Data updateInboxLocalDatastore:@"c" successBlock:^(id object) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
             NSArray *messages = (NSArray *)object;
             dispatch_sync(dispatch_get_main_queue(), ^{
                 [_hud hide:YES];
             });
-            NSCharacterSet *characterset=[NSCharacterSet characterSetWithCharactersInString:@"\uFFFC\n "];
             for(PFObject *messageObject in messages) {
                 messageObject[@"messageId"] = messageObject.objectId;
                 messageObject[@"createdTime"] = messageObject.createdAt;
                 [messageObject pinInBackground];
-                TSMessage *message = [[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:[messageObject[@"title"] stringByTrimmingCharactersInSet:characterset] sender:messageObject[@"Creator"] sentTime:messageObject[@"createdTime"] senderPic:nil likeCount:[messageObject[@"like_count"] intValue] confuseCount:[messageObject[@"confused_count"] intValue] seenCount:[messageObject[@"seen_count"] intValue]];
-                message.messageId = messageObject[@"messageId"];
-                if(messageObject[@"attachment"]) {
-                    message.hasAttachment = true;
-                    message.attachment = nil;
-                }
+                
+                TSMessage *message = [self createMessageObject:messageObject isSendClass:false];
                 _mapCodeToObjects[message.messageId] = message;
                 [_messagesArray addObject:message];
                 [_messageIds addObject:message.messageId];
-                if(message.hasAttachment) {
-                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
-                        PFFile *attachImageUrl=messageObject[@"attachment"];
-                        NSString *url=attachImageUrl.url;
-                        
-                        UIImage *image = [[sharedCache sharedInstance] getCachedImageForKey:url];
-                        if(image)
-                        {
-                            message.attachment = image;
-                        }
-                        else {
-                            NSData *data = [attachImageUrl getData];
-                            
-                            UIImage *image = [[UIImage alloc] initWithData:data];
-                            
-                            if(image)
-                            {
-                                NSLog(@"Caching here....");
-                                [[sharedCache sharedInstance] cacheImage:image forKey:url];
-                                message.attachment = image;
-                                dispatch_sync(dispatch_get_main_queue(), ^{
-                                    [self.messagesTable reloadData];
-                                });
-                                
-                            }
-                        }
-                    });
-                }
+                
+                TSMessage *sendClassMessage = [self createMessageObject:messageObject isSendClass:true];
+                ClassesViewController *classesVC = rootTab.viewControllers[0];
+                TSSendClassMessageViewController *sendClassVC = classesVC.createdClassesVCs[sendClassMessage.classCode];
+                sendClassVC.mapCodeToObjects[sendClassMessage.messageId] = sendClassMessage;
+                [sendClassVC.messagesArray addObject:sendClassMessage];
             }
             dispatch_sync(dispatch_get_main_queue(), ^{
                 [self.messagesTable reloadData];
@@ -417,56 +405,69 @@
 }
 
 
+-(TSMessage *)createMessageObject:(PFObject *)messageObject isSendClass:(BOOL)isSendClass {
+    NSCharacterSet *characterset=[NSCharacterSet characterSetWithCharactersInString:@"\uFFFC\n "];
+    TSMessage *message = [[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:[messageObject[@"title"] stringByTrimmingCharactersInSet:characterset] sender:messageObject[@"Creator"] sentTime:messageObject.createdAt senderPic:nil likeCount:[messageObject[@"like_count"] intValue] confuseCount:[messageObject[@"confused_count"] intValue] seenCount:[messageObject[@"seen_count"] intValue]];
+    message.messageId = messageObject.objectId;
+    if(messageObject[@"attachment"]) {
+        PFFile *attachImageUrl=messageObject[@"attachment"];
+        NSString *url=attachImageUrl.url;
+        message.attachmentURL = attachImageUrl;
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
+            UIImage *image = [[sharedCache sharedInstance] getCachedImageForKey:url];
+            if(image) {
+                message.attachment = image;
+            }
+            else if(!isSendClass) {
+                NSData *data = [attachImageUrl getData];
+                UIImage *image = [[UIImage alloc] initWithData:data];
+                if(image) {
+                    NSLog(@"Caching here....");
+                    [[sharedCache sharedInstance] cacheImage:image forKey:url];
+                    message.attachment = image;
+                    dispatch_sync(dispatch_get_main_queue(), ^{
+                        [self.messagesTable reloadData];
+                    });
+                    
+                }
+            }
+        });
+    }
+    return message;
+}
+
+
 -(void)fetchOldMessages {
     TSMessage *msg = _messagesArray[_messagesArray.count-1];
     NSDate *oldestMsgDate = msg.sentTime;
+    AppDelegate *apd = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    NSArray *vcs = (NSArray *)((UINavigationController *)apd.startNav).viewControllers;
+    TSTabBarViewController *rootTab = (TSTabBarViewController *)((UINavigationController *)apd.startNav).topViewController;
+    for(id vc in vcs) {
+        if([vc isKindOfClass:[TSTabBarViewController class]]) {
+            rootTab = (TSTabBarViewController *)vc;
+            break;
+        }
+    }
     [Data updateInboxLocalDatastoreWithTime1:@"c" oldestMessageTime:oldestMsgDate successBlock:^(id object) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
             NSArray *messages = (NSArray *)object;
-            NSCharacterSet *characterset=[NSCharacterSet characterSetWithCharactersInString:@"\uFFFC\n "];
             NSMutableArray *tempArray = [[NSMutableArray alloc] initWithArray:_messagesArray];
             for(PFObject *messageObject in messages) {
-                //messageObject[@"iosUserID"] = [PFUser currentUser].objectId;
                 messageObject[@"messageId"] = messageObject.objectId;
                 messageObject[@"createdTime"] = messageObject.createdAt;
                 [messageObject pinInBackground];
-                TSMessage *message = [[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:[messageObject[@"title"] stringByTrimmingCharactersInSet:characterset] sender:messageObject[@"Creator"] sentTime:messageObject[@"createdTime"] senderPic:nil likeCount:[messageObject[@"like_count"] intValue] confuseCount:[messageObject[@"confused_count"] intValue] seenCount:[messageObject[@"seen_count"] intValue]];
-                message.messageId = messageObject[@"messageId"];
-                if(messageObject[@"attachment"]) {
-                    message.hasAttachment = true;
-                    message.attachment = nil;
-                }
+                
+                TSMessage *message = [self createMessageObject:messageObject isSendClass:false];
                 _mapCodeToObjects[message.messageId] = message;
                 [tempArray addObject:message];
                 [_messageIds addObject:message.messageId];
-                if(message.hasAttachment) {
-                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
-                        PFFile *attachImageUrl=messageObject[@"attachment"];
-                        NSString *url=attachImageUrl.url;
-                        //NSLog(@"url to image fetchold message %@",url);
-                        UIImage *image = [[sharedCache sharedInstance] getCachedImageForKey:url];
-                        if(image)
-                        {
-                            NSLog(@"already cached");
-                            message.attachment = image;
-                        }
-                        else{
-                            NSData *data = [attachImageUrl getData];
-                            
-                            UIImage *image = [[UIImage alloc] initWithData:data];
-                            
-                            if(image)
-                            {
-                                NSLog(@"Caching here....");
-                                [[sharedCache sharedInstance] cacheImage:image forKey:url];
-                                message.attachment = image;
-                                dispatch_sync(dispatch_get_main_queue(), ^{
-                                    [self.messagesTable reloadData];
-                                });
-                            }
-                        }
-                    });
-                }
+                
+                TSMessage *sendClassMessage = [self createMessageObject:messageObject isSendClass:true];
+                ClassesViewController *classesVC = rootTab.viewControllers[0];
+                TSSendClassMessageViewController *sendClassVC = classesVC.createdClassesVCs[sendClassMessage.classCode];
+                sendClassVC.mapCodeToObjects[sendClassMessage.messageId] = sendClassMessage;
+                [sendClassVC.messagesArray addObject:sendClassMessage];
             }
             _messagesArray = tempArray;
             dispatch_sync(dispatch_get_main_queue(), ^{

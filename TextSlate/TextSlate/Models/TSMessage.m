@@ -22,6 +22,7 @@
         self.confuseCount = confuseCount;
         self.seenCount = seenCount;
         self.attachment = nil;
+        self.attachmentURL = nil;
         self.seenStatus = @"false";
     }
     return self;

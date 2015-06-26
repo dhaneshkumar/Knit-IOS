@@ -56,10 +56,6 @@
         message.confuseStatus = messageObject[@"confuseStatus"];
         message.messageId = messageObject[@"messageId"];
         if(messageObject[@"attachment"]) {
-            message.hasAttachment = true;
-            message.attachment = nil;
-        }
-        if(message.hasAttachment) {
             PFFile *attachImageUrl=messageObject[@"attachment"];
             NSString *url=attachImageUrl.url;
             UIImage *image = [[sharedCache sharedInstance] getCachedImageForKey:url];
@@ -68,6 +64,13 @@
                 NSLog(@"already cached");
                 message.attachment = image;
             }
+            else {
+                message.attachment = nil;
+            }
+        }
+        else {
+            message.attachment = nil;
+            message.attachmentURL = nil;
         }
         _mapCodeToObjects[message.messageId] = message;
         [_messagesArray addObject:message];
@@ -146,7 +149,7 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     TSMessage *message = (TSMessage *)[_messagesArray objectAtIndex:indexPath.row];
-    NSString *cellIdentifier = (message.hasAttachment)?@"inboxAttachmentMessageCell":@"inboxMessageCell";
+    NSString *cellIdentifier = (message.attachmentURL)?@"inboxAttachmentMessageCell":@"inboxMessageCell";
     TSInboxMessageTableViewCell *cell = (TSInboxMessageTableViewCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     cell.className.text = message.className;
     cell.teacherName.text = [NSString stringWithFormat:@"by %@", message.sender];
@@ -161,7 +164,7 @@
     cell.likesImage.image = ([message.likeStatus isEqualToString:@"true"])?[UIImage imageNamed:@"ios icons-32.png"]:[UIImage imageNamed:@"ios icons-18.png"];
     cell.likesCount.textColor = ([message.likeStatus isEqualToString:@"true"])?[UIColor colorWithRed:57.0f/255.0f green:181.0f/255.0f blue:74.0f/255.0f alpha:1.0]:[UIColor darkGrayColor];
     
-    if(message.hasAttachment) {
+    if(message.attachmentURL) {
         if(message.attachment)
             cell.attachedImage.image = message.attachment;
         else
@@ -215,8 +218,9 @@
     CGSize maximumLabelSize = CGSizeMake([self getScreenWidth] - 20.0, 9999);
     
     CGSize expectSize = [gettingSizeLabel sizeThatFits:maximumLabelSize];
-    if(((TSMessage *)_messagesArray[indexPath.row]).attachment) {
-        UIImage *img = ((TSMessage *)_messagesArray[indexPath.row]).attachment;
+    TSMessage *msg = (TSMessage *)_messagesArray[indexPath.row];
+    if(msg.attachmentURL) {
+        UIImage *img = (msg.attachment)?msg.attachment:[UIImage imageNamed:@"white.jpg"];
         float height = img.size.height;
         float width = img.size.width;
         float changedHeight = 300.0;
@@ -309,7 +313,6 @@
 
 -(void)pullDownToRefresh {
     if(_isILMCalled) {
-        //[_refreshControl endRefreshing];
         return;
     }
     _isILMCalled = YES;
@@ -336,28 +339,19 @@
                 message.confuseStatus = messageObj[@"confuseStatus"];
                 message.messageId = messageObj.objectId;
                 if(messageObj[@"attachment"]) {
-                    message.hasAttachment = true;
-                    message.attachment = nil;
-                }
-                _mapCodeToObjects[message.messageId] = message;
-                [tempArray insertObject:message atIndex:0];
-                [_messageIds insertObject:message.messageId atIndex:0];
-                if(message.hasAttachment) {
+                    PFFile *attachImageUrl=messageObj[@"attachment"];
+                    NSString *url=attachImageUrl.url;
+                    message.attachmentURL = attachImageUrl;
                     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
-                        PFFile *attachImageUrl=messageObj[@"attachment"];
-                        NSString *url=attachImageUrl.url;
-                        NSLog(@"url to image insertlatestmessage %@",url);
                         UIImage *image = [[sharedCache sharedInstance] getCachedImageForKey:url];
-                        if(image)
-                        {
+                        if(image) {
                             NSLog(@"already cached");
                             message.attachment = image;
                         }
                         else{
                             NSData *data = [attachImageUrl getData];
                             UIImage *image = [[UIImage alloc] initWithData:data];
-                            if(image)
-                            {
+                            if(image) {
                                 NSLog(@"Caching here....");
                                 [[sharedCache sharedInstance] cacheImage:image forKey:url];
                                 message.attachment = image;
@@ -368,6 +362,9 @@
                         }
                     });
                 }
+                _mapCodeToObjects[message.messageId] = message;
+                [tempArray insertObject:message atIndex:0];
+                [_messageIds insertObject:message.messageId atIndex:0];
             }
             _messagesArray = tempArray;
             dispatch_sync(dispatch_get_main_queue(), ^{
@@ -425,7 +422,7 @@
     NSArray *tempArray = [[NSArray alloc] initWithArray:_messagesArray];
     for(int i=0; i<tempArray.count; i++) {
         TSMessage *message = tempArray[i];
-        if(message.hasAttachment && !message.attachment) {
+        if(message.attachmentURL && !message.attachment) {
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
                 NSData *data = [message.attachmentURL getData];
                 UIImage *image = [[UIImage alloc] initWithData:data];
@@ -530,17 +527,10 @@
                 message.confuseStatus = messageObj[@"confuseStatus"];
                 message.messageId = messageObj.objectId;
                 if(messageObj[@"attachment"]) {
-                    message.hasAttachment = true;
-                    message.attachment = nil;
-                }
-                _mapCodeToObjects[message.messageId] = message;
-                [tempArray insertObject:message atIndex:0];
-                [_messageIds insertObject:message.messageId atIndex:0];
-                if(message.hasAttachment) {
+                    PFFile *attachImageUrl = messageObj[@"attachment"];
+                    NSString *url = attachImageUrl.url;
+                    message.attachmentURL = attachImageUrl;
                     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
-                        PFFile *attachImageUrl=messageObj[@"attachment"];
-                        NSString *url=attachImageUrl.url;
-                        //NSLog(@"url to image insertlatestmessage %@",url);
                         UIImage *image = [[sharedCache sharedInstance] getCachedImageForKey:url];
                         if(image) {
                             NSLog(@"already cached");
@@ -560,6 +550,9 @@
                         }
                     });
                 }
+                _mapCodeToObjects[message.messageId] = message;
+                [tempArray insertObject:message atIndex:0];
+                [_messageIds insertObject:message.messageId atIndex:0];
             }
             if(_messageFlag==1 && messageObjects.count==1) {
                 [RKDropdownAlert title:@"Knit" message:@"You know what? You can like/confuse message and let teacher know." time:2];
@@ -621,31 +614,19 @@
                 message.confuseStatus = msg[@"confuseStatus"];
                 message.messageId = msg.objectId;
                 if(msg[@"attachment"]) {
-                    message.hasAttachment = true;
-                    message.attachment = nil;
-                }
-                _mapCodeToObjects[message.messageId] = message;
-                [_messagesArray addObject:message];
-                [_messageIds addObject:message.messageId];
-                if(message.hasAttachment) {
+                    PFFile *attachImageUrl=msg[@"attachment"];
+                    NSString *url=attachImageUrl.url;
+                    message.attachmentURL = attachImageUrl;
                     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
-                        PFFile *attachImageUrl=msg[@"attachment"];
-                        NSString *url=attachImageUrl.url;
-                        //NSLog(@"url to image fetcholdemssageondatadeletion %@",url);
-
                         UIImage *image = [[sharedCache sharedInstance] getCachedImageForKey:url];
-                        if(image)
-                        {
+                        if(image) {
                             NSLog(@"already cached");
                             message.attachment = image;
                         }
-                        else{
+                        else {
                             NSData *data = [attachImageUrl getData];
-                            
                             UIImage *image = [[UIImage alloc] initWithData:data];
-                            
-                            if(image)
-                            {
+                            if(image) {
                                 NSLog(@"Caching here....");
                                 [[sharedCache sharedInstance] cacheImage:image forKey:url];
                                 message.attachment = image;
@@ -656,6 +637,9 @@
                         }
                     });
                 }
+                _mapCodeToObjects[message.messageId] = message;
+                [_messagesArray addObject:message];
+                [_messageIds addObject:message.messageId];
             }
             dispatch_sync(dispatch_get_main_queue(), ^{
                 [self.messagesTable reloadData];
@@ -714,30 +698,19 @@
                 message.confuseStatus = msg[@"confuseStatus"];
                 message.messageId = msg.objectId;
                 if(msg[@"attachment"]) {
-                    message.hasAttachment = true;
-                    message.attachment = nil;
-                }
-                _mapCodeToObjects[message.messageId] = message;
-                [tempArray addObject:message];
-                [_messageIds addObject:message.messageId];
-                if(message.hasAttachment) {
+                    PFFile *attachImageUrl = msg[@"attachment"];
+                    NSString *url=attachImageUrl.url;
+                    message.attachmentURL = attachImageUrl;
                     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
-                        PFFile *attachImageUrl=msg[@"attachment"];
-                        NSString *url=attachImageUrl.url;
-                        //NSLog(@"url to image fetchold message %@",url);
                         UIImage *image = [[sharedCache sharedInstance] getCachedImageForKey:url];
-                        if(image)
-                        {
+                        if(image) {
                             NSLog(@"already cached");
                             message.attachment = image;
                         }
-                        else{
+                        else {
                             NSData *data = [attachImageUrl getData];
-                            
                             UIImage *image = [[UIImage alloc] initWithData:data];
-                            
-                            if(image)
-                            {
+                            if(image) {
                                 NSLog(@"Caching here....");
                                 [[sharedCache sharedInstance] cacheImage:image forKey:url];
                                 message.attachment = image;
@@ -749,6 +722,9 @@
                         }
                     });
                 }
+                _mapCodeToObjects[message.messageId] = message;
+                [tempArray addObject:message];
+                [_messageIds addObject:message.messageId];
             }
             _messagesArray = tempArray;
             dispatch_sync(dispatch_get_main_queue(), ^{
