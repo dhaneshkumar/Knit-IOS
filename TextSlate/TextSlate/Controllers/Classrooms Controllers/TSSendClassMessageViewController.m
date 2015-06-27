@@ -539,12 +539,6 @@
 }
 
 
-/*
--(void) showClassDetails {
-    [self performSegueWithIdentifier:@"showDetails" sender:self];
-}
-*/
-
 -(void) deleteClass {
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[[UIApplication sharedApplication] keyWindow]  animated:YES];
     hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
@@ -565,6 +559,7 @@
         NSArray *createdClassesArray = (NSArray *) [[PFUser currentUser] objectForKey:@"Created_groups"];
         classesVC.createdClasses = [NSMutableArray arrayWithArray:[[createdClassesArray reverseObjectEnumerator] allObjects]];
         [classesVC.createdClassesVCs removeObjectForKey:_classCode];
+        [self deleteGroupMembers];
         [hud hide:YES];
         [self.navigationController popViewControllerAnimated:YES];
     } errorBlock:^(NSError *error) {
@@ -572,6 +567,22 @@
         [RKDropdownAlert title:@"Knit" message:@"Error occured in deleting the class."  time:2];
     }];
 }
+
+
+-(void)deleteGroupMembers {
+    PFQuery *query = [PFQuery queryWithClassName:@"GroupMembers"];
+    [query fromLocalDatastore];
+    [query whereKey:@"code" equalTo:_classCode];
+    NSArray *appMembers = [query findObjects];
+    [PFObject unpinAllInBackground:appMembers];
+    
+    query = [PFQuery queryWithClassName:@"Messageneeders"];
+    [query fromLocalDatastore];
+    [query whereKey:@"cod" equalTo:_classCode];
+    NSArray *phoneMembers = [query findObjects];
+    [PFObject unpinAllInBackground:phoneMembers];
+}
+
 
 
 -(void)attachedImageTapped:(JTSImageInfo *)imageInfo {

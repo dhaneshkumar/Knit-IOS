@@ -386,27 +386,18 @@
         if([((PFObject*)lds[0])[@"iosUserID"] isEqualToString:[PFUser currentUser].objectId]) {
             (lds[0])[@"isUpdateCountsGloballyCalled"] = @"false";
             (lds[0])[@"isMemberListUpdateCalled"] = @"false";
-            if([role isEqualToString:@"teacher"])
-                [rootTab makeItTeacher];
-            else
-                [rootTab makeItParent];
+            [rootTab initialization];
         }
         else {
             NSDate *dt = ((PFObject*)lds[0])[@"timeDifference"];
             [self deleteAllLocalData];
             [self createLocalDatastore:dt];
-            if([role isEqualToString:@"teacher"])
-                [rootTab makeItTeacher];
-            else
-                [rootTab makeItParent];
+            [rootTab initialization];
         }
     }
     else {
         [self createLocalDatastore:nil];
-        if([role isEqualToString:@"teacher"])
-            [rootTab makeItTeacher];
-        else
-            [rootTab makeItParent];
+        [rootTab initialization];
     }
     
     [hud hide:YES];

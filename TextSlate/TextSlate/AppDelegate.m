@@ -23,6 +23,7 @@
 #import "TSTabBarViewController.h"
 #import "TSSendClassMessageViewController.h"
 #import "RKDropdownAlert.h"
+#import "ClassesViewController.h"
 
 
 @interface AppDelegate ()
@@ -77,6 +78,8 @@
         NSArray *objs = [lq findObjects];
         (objs[0])[@"isUpdateCountsGloballyCalled"] = @"false";
         (objs[0])[@"isMemberListUpdateCalled"] = @"false";
+        TSTabBarViewController *rootTab = (TSTabBarViewController *)_startNav.topViewController;
+        [rootTab initialization];
     }
     return YES;
 }
@@ -135,11 +138,11 @@
         
         if([notificationType isEqualToString:@"UPDATE"])
         {
-            if(application.applicationState==UIApplicationStateInactive){
+            if(application.applicationState==UIApplicationStateInactive) {
                 NSString *iTunesLink = @"itms://itunes.apple.com/in/app/knit-messaging/id962112913?mt=8";
                 [[UIApplication sharedApplication] openURL:[NSURL URLWithString:iTunesLink]];
             }
-            else{
+            else {
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Knit"
                                                                 message:@"A new update has been released .You can download it from appstore."
                                                                delegate:self cancelButtonTitle:@"Not now"
@@ -187,11 +190,9 @@
                     TSTabBarViewController *rootTab = (TSTabBarViewController *)_startNav.topViewController;
                     [rootTab setSelectedIndex:0];
                     self.window.rootViewController = _startNav;
-
-                    UIStoryboard *storyboard=[UIStoryboard storyboardWithName:@"Main" bundle:nil];
-                    TSSendClassMessageViewController *dvc = (TSSendClassMessageViewController*)[storyboard instantiateViewControllerWithIdentifier:@"createdClassVC"];
-                    dvc.className = _membersClassName;
-                    dvc.classCode = _membersClassCode;
+                    
+                    ClassesViewController *classesVC = rootTab.viewControllers[0];
+                    TSSendClassMessageViewController *dvc = classesVC.createdClassesVCs[_membersClassCode];
                     [_startNav pushViewController:dvc animated:YES];
                 }
                 else if(application.applicationState==UIApplicationStateActive) {
@@ -224,10 +225,10 @@
         [alert show];
     }
     
-    if(state==UIApplicationStateInactive)
-    {
-        if([notification.alertAction isEqualToString:@"Create"]) {
+    if(state==UIApplicationStateInactive) {
+        if([notification.alertAction isEqualToString:@"Create"] && [[[PFUser currentUser] objectForKey:@"role"] isEqualToString:@"teacher"]) {
             TSTabBarViewController *rootTab = (TSTabBarViewController *)_startNav.topViewController;
+            [rootTab setSelectedIndex:0];
             self.window.rootViewController = _startNav;
             UIStoryboard *storyboard1 = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
             UINavigationController *joinNewClassNavigationController = [storyboard1 instantiateViewControllerWithIdentifier:@"createNewClassNavigationController"];
@@ -318,17 +319,12 @@
     }
     else if([title isEqualToString:@"Members"]) {
         TSTabBarViewController *rootTab = (TSTabBarViewController *)_startNav.topViewController;
+        [rootTab setSelectedIndex:0];
         self.window.rootViewController = _startNav;
         
-        UIStoryboard *storyboard=[UIStoryboard storyboardWithName:@"Main" bundle:nil];
-        
-        TSSendClassMessageViewController *dvc = (TSSendClassMessageViewController*)[storyboard instantiateViewControllerWithIdentifier:@"createdClassVC"];
-        NSString *classname=_membersClassName;
-        NSString *classcode=_membersClassCode;
-        dvc.className = classname;
-        dvc.classCode = classcode;
-        // [_createdClassesVCs setObject:dvc forKey:_createdClasses[row][0]];
-        [rootTab presentViewController:dvc animated:YES completion:nil];
+        ClassesViewController *classesVC = rootTab.viewControllers[0];
+        TSSendClassMessageViewController *dvc = classesVC.createdClassesVCs[_membersClassCode];
+        [_startNav pushViewController:dvc animated:YES];
     }
 }
 

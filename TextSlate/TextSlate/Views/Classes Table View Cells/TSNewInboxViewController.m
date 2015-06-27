@@ -64,13 +64,6 @@
                 NSLog(@"already cached");
                 message.attachment = image;
             }
-            else {
-                message.attachment = nil;
-            }
-        }
-        else {
-            message.attachment = nil;
-            message.attachmentURL = nil;
         }
         _mapCodeToObjects[message.messageId] = message;
         [_messagesArray addObject:message];
@@ -904,14 +897,6 @@
     obj[@"likeStatus"] = message.likeStatus;
     obj[@"confuseStatus"] = message.confuseStatus;
     [obj pinInBackground];
-}
-
-
--(void)deleteLocalData {
-    _messageIds = nil;
-    _messagesArray = nil;
-    _mapCodeToObjects = nil;
-    _lastUpdateCalled = nil;
 }
 
 

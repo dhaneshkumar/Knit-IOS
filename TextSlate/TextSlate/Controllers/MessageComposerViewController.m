@@ -475,25 +475,18 @@
             [outbox.messagesArray insertObject:newMessage atIndex:0];
             [outbox.messageIds insertObject:newMessage.messageId atIndex:0];
             outbox.shouldScrollUp = true;
-            if(mutableDict[_classCode]) {
-                TSSendClassMessageViewController *classPage = mutableDict[_classCode];
-                if(classPage.messagesArray.count>0) {
-                    classPage.mapCodeToObjects[newMessageForClassPage.messageId] = newMessageForClassPage;
-                    [classPage.messagesArray insertObject:newMessageForClassPage atIndex:0];
-                    classPage.shouldScrollUp = true;
-                }
-            }
+            
+            TSSendClassMessageViewController *classPage = mutableDict[_classCode];
+            classPage.mapCodeToObjects[newMessageForClassPage.messageId] = newMessageForClassPage;
+            [classPage.messagesArray insertObject:newMessageForClassPage atIndex:0];
+            classPage.shouldScrollUp = true;
             
             [hud hide:YES];
             [self dismissViewControllerAnimated:YES completion:nil];
             [RKDropdownAlert title:@"Knit" message:@"Message has been sent successfully."  time:2];
-
-            
         } errorBlock:^(NSError *error) {
-           
             [hud hide:YES];
             [RKDropdownAlert title:@"Knit" message:@"Error occureed while sending message.Try again later."  time:2];
-
         }];
     }
     else if(_finalAttachment)
@@ -527,48 +520,29 @@
                     TSMessage *newMessageForClassPage =[[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:[messageObject[@"title"] stringByTrimmingCharactersInSet:characterset] sender:messageObject[@"Creator"] sentTime:messageObject[@"createdTime"] senderPic:nil likeCount:[messageObject[@"like_count"] intValue] confuseCount:[messageObject[@"confused_count"] intValue] seenCount:[messageObject[@"seen_count"] intValue]];
                     
                     newMessage.messageId = messageObject[@"messageId"];
-                    newMessage.hasAttachment = true;
-                    newMessage.attachment = [UIImage imageNamed:@"white.jpg"];
                     newMessageForClassPage.messageId = messageObject[@"messageId"];
-                    newMessageForClassPage.hasAttachment = true;
-                    newMessageForClassPage.attachment = [UIImage imageNamed:@"white.jpg"];
+                    
+                    NSString *url = _finalAttachment.url;
+                    newMessage.attachmentURL = _finalAttachment;
+                    newMessageForClassPage.attachmentURL = _finalAttachment;
+                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
+                        UIImage *image = [[sharedCache sharedInstance] getCachedImageForKey:url];
+                        if(image) {
+                            NSLog(@"already cached");
+                            newMessage.attachment = image;
+                            newMessageForClassPage.attachment = image;
+                        }
+                    });
                     
                     outbox.mapCodeToObjects[newMessage.messageId] = newMessage;
                     [outbox.messagesArray insertObject:newMessage atIndex:0];
                     [outbox.messageIds insertObject:newMessage.messageId atIndex:0];
                     outbox.shouldScrollUp = true;
-                    if(mutableDict[_classCode]) {
-                        TSSendClassMessageViewController *classPage = mutableDict[_classCode];
-                        if(classPage.messagesArray.count>0) {
-                            classPage.mapCodeToObjects[newMessageForClassPage.messageId] = newMessageForClassPage;
-                            [classPage.messagesArray insertObject:newMessageForClassPage atIndex:0];
-                            classPage.shouldScrollUp = true;
-                        }
-                    }
                     
-                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
-                        NSString *url = _finalAttachment.url;
-                        UIImage *image = [[sharedCache sharedInstance] getCachedImageForKey:url];
-                        if(image)
-                        {
-                            NSLog(@"already cached");
-                            newMessage.attachment = image;
-                            newMessageForClassPage.attachment = image;
-                        }
-                        else {
-                            NSData *data = [_finalAttachment getData];
-                            UIImage *image = [[UIImage alloc] initWithData:data];
-                            
-                            if(image)
-                            {
-                                NSLog(@"Caching here....");
-                                [[sharedCache sharedInstance] cacheImage:image forKey:url];
-                                newMessage.attachment = image;
-                                newMessageForClassPage.attachment = image;
-                            }
-                        }
-                    });
-                    
+                    TSSendClassMessageViewController *classPage = mutableDict[_classCode];
+                    classPage.mapCodeToObjects[newMessageForClassPage.messageId] = newMessageForClassPage;
+                    [classPage.messagesArray insertObject:newMessageForClassPage atIndex:0];
+                    classPage.shouldScrollUp = true;
                     [hud hide:YES];
                     [self dismissViewControllerAnimated:YES completion:nil];
                     [RKDropdownAlert title:@"Knit" message:@"Your message has been sent!"  time:2];

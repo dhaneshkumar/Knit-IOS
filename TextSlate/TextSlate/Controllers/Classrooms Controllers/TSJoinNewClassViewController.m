@@ -129,9 +129,11 @@
     
     NSLog(@"installationID user %@",installationObjectId);
     [Data joinNewClass:classCodeTyped childName:assocNameTyped installationId:installationObjectId successBlock:^(id object) {
+        [[PFUser currentUser] fetch];
         NSLog(@"cloud function returned");
         NSMutableDictionary *objDict=(NSMutableDictionary *)object;
         PFObject *codeGroupForClass = [objDict objectForKey:@"codegroup"];
+        [codeGroupForClass pinInBackground];
         AppDelegate *apd = (AppDelegate *)[[UIApplication sharedApplication] delegate];
         NSArray *vcs = (NSArray *)((UINavigationController *)apd.startNav).viewControllers;
         TSTabBarViewController *rootTab = (TSTabBarViewController *)((UINavigationController *)apd.startNav).topViewController;
@@ -142,102 +144,12 @@
             }
         }
         
-        JoinedClassTableViewController *dvc = (JoinedClassTableViewController *)[self.storyboard instantiateViewControllerWithIdentifier:@"joinedClassVC"];
-        dvc.className = codeGroupForClass[@"name"];
-        dvc.classCode = codeGroupForClass[@"code"];
-        dvc.teacherName = codeGroupForClass[@"Creator"];
+        [self handlingClassroomsTab:codeGroupForClass rootTab:rootTab assocNameTyped:assocNameTyped];
         
-        PFFile *attachImageUrl = codeGroupForClass[@"senderPic"];
-        if(attachImageUrl) {
-            NSString *url=attachImageUrl.url;
-            UIImage *image = [[sharedCache sharedInstance] getCachedImageForKey:url];
-            dvc.teacherUrl = attachImageUrl;
-            if(image) {
-                dvc.teacherPic = image;
-            }
-            else{
-                dvc.teacherPic = nil;
-            }
-        }
-        else {
-            dvc.teacherPic = [UIImage imageNamed:@"defaultTeacher.png"];
-        }
-        dvc.studentName = assocNameTyped;
-        PFUser *currentUser = [PFUser currentUser];
-        if([currentUser[@"role"] isEqualToString:@"teacher"]) {
-            ClassesViewController *classesVC = rootTab.viewControllers[0];
-            [classesVC.joinedClasses insertObject:codeGroupForClass[@"code"] atIndex:0];
-            [classesVC.joinedClassVCs setObject:dvc forKey:codeGroupForClass[@"code"]];
-            [classesVC.codegroups setObject:codeGroupForClass forKey:codeGroupForClass[@"code"]];
-        }
-        else {
-            ClassesParentViewController *classesVC = rootTab.viewControllers[0];
-            [classesVC.joinedClasses insertObject:codeGroupForClass[@"code"] atIndex:0];
-            [classesVC.joinedClassVCs setObject:dvc forKey:codeGroupForClass[@"code"]];
-            [classesVC.codegroups setObject:codeGroupForClass forKey:codeGroupForClass[@"code"]];
-        }
+        NSMutableArray *lastFiveMessages = [objDict objectForKey:@"messages"];
+        if(lastFiveMessages.count>0)
+            [self handlingInboxTab:rootTab lastFiveMessages:lastFiveMessages];
         
-        NSMutableArray *lastFiveMessage=[objDict objectForKey:@"messages"];
-        NSCharacterSet *characterset=[NSCharacterSet characterSetWithCharactersInString:@"\uFFFC\n "];
-        TSNewInboxViewController *newInbox = (TSNewInboxViewController *)(NSArray *)rootTab.viewControllers[1];
-        
-        for(PFObject *msg in lastFiveMessage) {
-            msg[@"likeStatus"] = @"false";
-            msg[@"confuseStatus"] = @"false";
-            msg[@"likeStatusServer"] = @"false";
-            msg[@"confuseStatusServer"] = @"false";
-            msg[@"seenStatus"] = @"false";
-            msg[@"messageId"] = msg.objectId;
-            msg[@"createdTime"] = msg.createdAt;
-            [msg pinInBackground];
-            if(newInbox.messagesArray.count>0) {
-                TSMessage *message = [[TSMessage alloc] initWithValues:msg[@"name"] classCode:msg[@"code"] message:[msg[@"title"] stringByTrimmingCharactersInSet:characterset] sender:msg[@"Creator"] sentTime:msg.createdAt senderPic:nil likeCount:[msg[@"like_count"] intValue] confuseCount:[msg[@"confused_count"] intValue] seenCount:0];
-                message.likeStatus = msg[@"likeStatus"];
-                message.confuseStatus = msg[@"confuseStatus"];
-                message.messageId = msg.objectId;
-                if(msg[@"attachment"]) {
-                    message.hasAttachment = true;
-                    message.attachment = nil;
-                }
-                newInbox.mapCodeToObjects[message.messageId] = message;
-                [newInbox.messagesArray insertObject:message atIndex:0];
-                [newInbox.messageIds insertObject:message.messageId atIndex:0];
-                if(message.hasAttachment) {
-                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
-                        PFFile *attachImageUrl = msg[@"attachment"];
-                        NSString *url=attachImageUrl.url;
-                        NSLog(@"url to image insertlatestmessage %@",url);
-                        UIImage *image = [[sharedCache sharedInstance] getCachedImageForKey:url];
-                        if(image)
-                        {
-                            NSLog(@"already cached");
-                            message.attachment = image;
-                        }
-                        else{
-                            NSData *data = [attachImageUrl getData];
-                            UIImage *image = [[UIImage alloc] initWithData:data];
-                            if(image)
-                            {
-                                NSLog(@"Caching here....");
-                                [[sharedCache sharedInstance] cacheImage:image forKey:url];
-                                message.attachment = image;
-                            }
-                        }
-                    });
-                }
-            }
-        }
-        NSLog(@"message pinning end : %ld", newInbox.messagesArray.count);
-        if(newInbox.messagesArray.count>0 && lastFiveMessage.count>0) {
-            NSMutableArray *sortedArray = (NSMutableArray *)[newInbox.messagesArray sortedArrayUsingComparator:^NSComparisonResult(TSMessage *m1, TSMessage *m2){
-                return [m2.sentTime compare:m1.sentTime];
-            }];
-            newInbox.messagesArray = sortedArray;
-        }
-        NSLog(@"sorting ended : %ld", newInbox.messagesArray.count);
-        
-        [codeGroupForClass pinInBackground];
-        [[PFUser currentUser] fetch];
         [hud hide:YES];
         [self dismissViewControllerAnimated:YES completion:nil];
         [RKDropdownAlert title:@"Knit" message:[NSString stringWithFormat:@"Successfully joined Class: %@ Creator : %@",codeGroupForClass[@"name"], codeGroupForClass[@"Creator"]] time:2];
@@ -246,6 +158,108 @@
         [RKDropdownAlert title:@"Knit" message:@"Error in joining Class. Please make sure you have the correct class code."  time:2];
     }];
 }
+
+
+-(void)handlingClassroomsTab:(PFObject *)codeGroupForClass rootTab:(TSTabBarViewController *)rootTab assocNameTyped:(NSString *)assocNameTyped {
+    JoinedClassTableViewController *dvc = (JoinedClassTableViewController *)[self.storyboard instantiateViewControllerWithIdentifier:@"joinedClassVC"];
+    dvc.className = codeGroupForClass[@"name"];
+    dvc.classCode = codeGroupForClass[@"code"];
+    dvc.teacherName = codeGroupForClass[@"Creator"];
+    
+    PFFile *attachImageUrl = codeGroupForClass[@"senderPic"];
+    if(attachImageUrl) {
+        NSString *url=attachImageUrl.url;
+        UIImage *image = [[sharedCache sharedInstance] getCachedImageForKey:url];
+        dvc.teacherUrl = attachImageUrl;
+        if(image) {
+            dvc.teacherPic = image;
+        }
+        else{
+            dvc.teacherPic = nil;
+        }
+    }
+    else {
+        dvc.teacherPic = [UIImage imageNamed:@"defaultTeacher.png"];
+    }
+    dvc.studentName = assocNameTyped;
+    PFUser *currentUser = [PFUser currentUser];
+    if([currentUser[@"role"] isEqualToString:@"teacher"]) {
+        ClassesViewController *classesVC = rootTab.viewControllers[0];
+        [classesVC.joinedClasses insertObject:codeGroupForClass[@"code"] atIndex:0];
+        [classesVC.joinedClassVCs setObject:dvc forKey:codeGroupForClass[@"code"]];
+        [classesVC.codegroups setObject:codeGroupForClass forKey:codeGroupForClass[@"code"]];
+    }
+    else {
+        ClassesParentViewController *classesVC = rootTab.viewControllers[0];
+        [classesVC.joinedClasses insertObject:codeGroupForClass[@"code"] atIndex:0];
+        [classesVC.joinedClassVCs setObject:dvc forKey:codeGroupForClass[@"code"]];
+        [classesVC.codegroups setObject:codeGroupForClass forKey:codeGroupForClass[@"code"]];
+    }
+}
+
+
+-(void)handlingInboxTab:(TSTabBarViewController *)rootTab lastFiveMessages:(NSArray *)lastFiveMessages {
+    TSNewInboxViewController *newInbox = (TSNewInboxViewController *)(NSArray *)rootTab.viewControllers[1];
+    
+    for(PFObject *msg in lastFiveMessages) {
+        msg[@"likeStatus"] = @"false";
+        msg[@"confuseStatus"] = @"false";
+        msg[@"likeStatusServer"] = @"false";
+        msg[@"confuseStatusServer"] = @"false";
+        msg[@"seenStatus"] = @"false";
+        msg[@"messageId"] = msg.objectId;
+        msg[@"createdTime"] = msg.createdAt;
+        [msg pinInBackground];
+    }
+
+    NSMutableArray *messagesArray = [[NSMutableArray alloc] init];
+    NSMutableDictionary *mapCodeToObjects = [[NSMutableDictionary alloc] init];
+    NSMutableArray *messageIds = [[NSMutableArray alloc] init];
+    
+    NSArray *joinedClasses = [[PFUser currentUser] objectForKey:@"joined_groups"];
+    NSMutableArray *joinedClassCodes = [[NSMutableArray alloc] init];
+    for(NSArray *cls in joinedClasses) {
+        [joinedClassCodes addObject:cls[0]];
+    }
+    
+    PFQuery *query = [PFQuery queryWithClassName:@"GroupDetails"];
+    [query fromLocalDatastore];
+    [query orderByDescending:@"createdAt"];
+    [query whereKey:@"code" containedIn:joinedClassCodes];
+    NSArray *messages = (NSArray *)[query findObjects];
+    NSCharacterSet *characterset=[NSCharacterSet characterSetWithCharactersInString:@"\uFFFC\n "];
+    for (PFObject * messageObject in messages) {
+        TSMessage *message = [[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:[messageObject[@"title"] stringByTrimmingCharactersInSet:characterset] sender:messageObject[@"Creator"] sentTime:messageObject.createdAt senderPic:messageObject[@"senderPic"] likeCount:([messageObject[@"like_count"] intValue]+[self adder:messageObject[@"likeStatusServer"] localStatus:messageObject[@"likeStatus"]]) confuseCount:([messageObject[@"confused_count"] intValue]+[self adder:messageObject[@"confuseStatusServer"] localStatus:messageObject[@"confuseStatus"]]) seenCount:0];
+        message.likeStatus = messageObject[@"likeStatus"];
+        message.confuseStatus = messageObject[@"confuseStatus"];
+        message.messageId = messageObject[@"messageId"];
+        if(messageObject[@"attachment"]) {
+            PFFile *attachImageUrl=messageObject[@"attachment"];
+            NSString *url=attachImageUrl.url;
+            UIImage *image = [[sharedCache sharedInstance] getCachedImageForKey:url];
+            message.attachmentURL = attachImageUrl;
+            if(image) {
+                NSLog(@"already cached");
+                message.attachment = image;
+            }
+        }
+        mapCodeToObjects[message.messageId] = message;
+        [messagesArray addObject:message];
+        [messageIds addObject:message.messageId];
+    }
+    
+    newInbox.mapCodeToObjects = mapCodeToObjects;
+    newInbox.messagesArray = messagesArray;
+    newInbox.messageIds = messageIds;
+}
+
+
+-(int)adder:(NSString *)serverStatus localStatus:(NSString *)localStatus {
+    int server = [serverStatus isEqualToString:@"true"]?1:0;
+    int local = [localStatus isEqualToString:@"true"]?1:0;
+    return local-server;
+}
+
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
     textField.text = [textField.text stringByReplacingCharactersInRange:range withString:[string uppercaseString]];

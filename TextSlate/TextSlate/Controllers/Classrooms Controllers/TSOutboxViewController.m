@@ -410,8 +410,8 @@
     TSMessage *message = [[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:[messageObject[@"title"] stringByTrimmingCharactersInSet:characterset] sender:messageObject[@"Creator"] sentTime:messageObject.createdAt senderPic:nil likeCount:[messageObject[@"like_count"] intValue] confuseCount:[messageObject[@"confused_count"] intValue] seenCount:[messageObject[@"seen_count"] intValue]];
     message.messageId = messageObject.objectId;
     if(messageObject[@"attachment"]) {
-        PFFile *attachImageUrl=messageObject[@"attachment"];
-        NSString *url=attachImageUrl.url;
+        PFFile *attachImageUrl = messageObject[@"attachment"];
+        NSString *url = attachImageUrl.url;
         message.attachmentURL = attachImageUrl;
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
             UIImage *image = [[sharedCache sharedInstance] getCachedImageForKey:url];
@@ -540,12 +540,6 @@
     }
 }
 
--(void)deleteLocalData {
-    _messageIds = nil;
-    _messagesArray = nil;
-    _mapCodeToObjects = nil;
-    _lastUpdateCalled = nil;
-}
 
 -(void)attachedImageTapped:(JTSImageInfo *)imageInfo {
     imageInfo.referenceView = self.view;

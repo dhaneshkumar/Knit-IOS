@@ -95,9 +95,8 @@
         ClassesViewController *classesVC = rootTab.viewControllers[0];
         classesVC.createdClasses = [NSMutableArray arrayWithArray:[[createdClass reverseObjectEnumerator] allObjects]];
         TSSendClassMessageViewController *dvc = (TSSendClassMessageViewController*)[self.storyboard instantiateViewControllerWithIdentifier:@"createdClassVC"];
-        dvc.className = codeGroupForClass[@"name"];
-        dvc.classCode = codeGroupForClass[@"code"];
-        [classesVC.createdClassesVCs setObject:dvc forKey:dvc.classCode];
+        [dvc initialization:codeGroupForClass[@"code"] className:codeGroupForClass[@"name"]];
+        [classesVC.createdClassesVCs setObject:dvc forKey:codeGroupForClass[@"code"]];
         
         if(createdClass.count==1) {
             NSLog(@"Here");

@@ -17,7 +17,6 @@
 #import "TSSendClassMessageViewController.h"
 #import "TSMember.h"
 #import "Data.h"
-
 #import <Parse/Parse.h>
 
 #define classJoinAlertTag 1001
@@ -28,20 +27,25 @@
 
 @implementation TSTabBarViewController
 
+
+-(void)initialization {
+    if([PFUser currentUser]) {
+        if([[[PFUser currentUser] objectForKey:@"role"] isEqualToString:@"teacher"])
+            [self makeItTeacher];
+        else
+            [self makeItParent];
+    }
+}
+
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    NSLog(@"TSTab View Controller View did load");
     
     if (![PFUser currentUser]) {
         [self makeItNoUser];
         UINavigationController *startPage = [self.storyboard instantiateViewControllerWithIdentifier:@"startPageNavVC"];
         [self presentViewController:startPage animated:NO completion:nil];
-    } else {
-        if([[[PFUser currentUser] objectForKey:@"role"] isEqualToString:@"teacher"])
-            [self makeItTeacher];
-        else
-            [self makeItParent];
     }
 }
 
@@ -104,7 +108,7 @@
     ClassesParentViewController *classesVC = [self.storyboard instantiateViewControllerWithIdentifier:@"classroomsParent"];
     TSNewInboxViewController *inboxVC = [self.storyboard instantiateViewControllerWithIdentifier:@"inbox"];
     TSSettingsTableViewController *settingVC = [self.storyboard instantiateViewControllerWithIdentifier:@"settingTab"];
-    
+    [classesVC initialization];
     [inboxVC initialization];
     classesVC.tabBarItem.title = @"Classrooms";
     classesVC.tabBarItem.image = [UIImage imageNamed:@"classroomsIcon"];

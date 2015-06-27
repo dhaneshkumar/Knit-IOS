@@ -105,8 +105,7 @@
         return;
     }
     else {
-        if(_isSignUp==true)
-        {
+        if(_isSignUp==true) {
             MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[[UIApplication sharedApplication] keyWindow]  animated:YES];
             hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
             hud.labelText = @"Loading";
@@ -116,10 +115,10 @@
                 NSDictionary *tokenDict=[[NSDictionary alloc]init];
                 tokenDict=object;
                 NSString *flagString=[tokenDict objectForKey:@"flag"];
-                int flagValue = [flagString integerValue];
+                long int flagValue = [flagString integerValue];
                 NSString *token=[tokenDict objectForKey:@"sessionToken"];
                 
-                if(flagValue==1){
+                if(flagValue==1) {
                     [PFUser becomeInBackground:token block:^(PFUser *user, NSError *error) {
                         if (error) {
                             [hud hide:YES];
@@ -154,11 +153,7 @@
                                 AppDelegate *apd = (AppDelegate *)[[UIApplication sharedApplication] delegate];
                                 UINavigationController *rootNav = (UINavigationController *)apd.startNav;
                                 TSTabBarViewController *rootTab = (TSTabBarViewController *)rootNav.topViewController;
-
-                                if([_role isEqualToString:@"teacher"])
-                                    [rootTab makeItTeacher];
-                                else
-                                    [rootTab makeItParent];
+                                [rootTab initialization];
                                 
                                 [hud hide:YES];
                                 
@@ -241,7 +236,7 @@
                 NSDictionary *tokenDict=[[NSDictionary alloc]init];
                 tokenDict=object;
                 NSString *flagString=[tokenDict objectForKey:@"flag"];
-                int flagValue=[flagString integerValue];
+                long int flagValue=[flagString integerValue];
                 NSString *token=[tokenDict objectForKey:@"sessionToken"];
                 
                 if(flagValue==1)
@@ -335,27 +330,18 @@
         if([((PFObject*)lds[0])[@"iosUserID"] isEqualToString:[PFUser currentUser].objectId]) {
             (lds[0])[@"isUpdateCountsGloballyCalled"] = @"false";
             (lds[0])[@"isMemberListUpdateCalled"] = @"false";
-            if([role isEqualToString:@"teacher"])
-                [rootTab makeItTeacher];
-            else
-                [rootTab makeItParent];
+            [rootTab initialization];
         }
         else {
             NSDate *dt = ((PFObject*)lds[0])[@"timeDifference"];
             [self deleteAllLocalData];
             [self createLocalDatastore:dt];
-            if([role isEqualToString:@"teacher"])
-                [rootTab makeItTeacher];
-            else
-                [rootTab makeItParent];
+            [rootTab initialization];
         }
     }
     else {
         [self createLocalDatastore:nil];
-        if([role isEqualToString:@"teacher"])
-            [rootTab makeItTeacher];
-        else
-            [rootTab makeItParent];
+        [rootTab initialization];
     }
     
     [hud hide:YES];
@@ -398,14 +384,12 @@
 }
 
 
--(void)showJoinClassNotification{
-    
+-(void)showJoinClassNotification {
     PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
     [lq fromLocalDatastore];
     NSArray *lds = [lq findObjects];
     if(lds.count==1) {
-        if([((PFObject*)lds[0])[@"iosUserID"] isEqualToString:[PFUser currentUser].objectId])
-            {
+        if([((PFObject*)lds[0])[@"iosUserID"] isEqualToString:[PFUser currentUser].objectId]) {
             PFUser *current=[PFUser currentUser];
             NSArray *joinedClass=[current objectForKey:@"joined_groups"];
             if(joinedClass.count<1){

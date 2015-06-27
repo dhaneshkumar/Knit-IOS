@@ -22,7 +22,6 @@
 @property (nonatomic) BOOL newNotification;
 @property (nonatomic, strong) NSString *notificationId;
 
--(void)deleteLocalData;
 -(void)attachedImageTapped:(JTSImageInfo *)imageInfo;
 -(void)initialization;
 
