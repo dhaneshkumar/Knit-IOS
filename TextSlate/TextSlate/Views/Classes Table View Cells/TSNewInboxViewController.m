@@ -13,6 +13,7 @@
 #import "TSInboxMessageTableViewCell.h"
 #import "RKDropDownAlert.h"
 #import "MBProgressHUD.h"
+#import "CustomCoachMarkViewController.h"
 
 @interface TSNewInboxViewController ()
 
@@ -23,6 +24,7 @@
 @property (nonatomic) BOOL isUpdateSeenCountsCalled;
 @property (nonatomic) BOOL isILMCalled;
 @property (nonatomic, strong) MBProgressHUD *hud;
+@property (nonatomic ,strong) CustomCoachMarkViewController *customView;
 
 
 @end
@@ -82,6 +84,17 @@
     _refreshControl.backgroundColor = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
     [self.messagesTable addSubview:_refreshControl];
     [_refreshControl addTarget:self action:@selector(pullDownToRefresh) forControlEvents:UIControlEventValueChanged];
+	/*
+    self.customView = [self.storyboard instantiateViewControllerWithIdentifier:@"customCoachMarkVC"];
+    [self.navigationController.view
+     addSubview:self.customView.view];
+    [self.customView viewWillAppear:NO];
+    [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(hideView) userInfo:nil repeats:NO];*/
+}
+
+-(void)hideView {
+    [self.customView.view removeFromSuperview ];
+    [self.customView dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)didReceiveMemoryWarning {
