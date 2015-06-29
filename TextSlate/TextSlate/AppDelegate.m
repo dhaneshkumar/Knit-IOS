@@ -193,7 +193,22 @@
                 }
             }
             else if([actionType isEqualToString:@"CONFUSE"]) {
-                
+                if(application.applicationState==UIApplicationStateInactive) {
+                    TSTabBarViewController *rootTab = (TSTabBarViewController *)_startNav.topViewController;
+                    [rootTab setSelectedIndex:2];
+                    TSOutboxViewController *outbox = (TSOutboxViewController *)rootTab.viewControllers[2];
+                    outbox.newNotification = true;
+                    outbox.notificationId = [userInfo objectForKey:@"id"];
+                    self.window.rootViewController = _startNav;
+                }
+                else if(application.applicationState==UIApplicationStateActive) {
+                    NSString *title=[userInfo objectForKey:@"groupName"];
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
+                                                                    message:@"Which of your posts was liked by parents!"
+                                                                   delegate:self cancelButtonTitle:@"Not now"
+                                                          otherButtonTitles:@"See now",nil];
+                    [alert show];
+                }
             }
             else if([actionType isEqualToString:@"CLASS_PAGE"]) {
                 if(application.applicationState==UIApplicationStateInactive) {

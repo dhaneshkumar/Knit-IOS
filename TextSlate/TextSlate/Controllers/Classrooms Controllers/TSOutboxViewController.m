@@ -54,12 +54,14 @@
 
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+    [self getTimeDiffBetweenLocalAndServer];
+    [self displayMessages];
     if(_messagesArray.count>0 && _shouldScrollUp) {
         NSIndexPath *rowIndexPath = [NSIndexPath indexPathForRow:0 inSection:0];
         [self.messagesTable scrollToRowAtIndexPath:rowIndexPath atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
         _shouldScrollUp = false;
     }
-    else if(_newNotification) {
+    else if(_newNotification && _messagesArray.count>0) {
         int index = -1;
         for(int i=0; i<_messageIds.count; i++) {
             if([_messageIds[i] isEqualToString:_notificationId]) {
@@ -69,14 +71,18 @@
         }
         if(index>=0) {
             NSIndexPath *rowIndexPath = [NSIndexPath indexPathForRow:index inSection:0];
-            [self.messagesTable scrollToRowAtIndexPath:rowIndexPath atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
-            _newNotification = false;
+            [self performSelector:@selector(scrollAtIndex:) withObject:rowIndexPath afterDelay:1.0];
         }
     }
-    [self getTimeDiffBetweenLocalAndServer];
-    [self displayMessages];
+    _newNotification = false;
     return;
 }
+
+
+-(void)scrollAtIndex:(NSIndexPath *)rowIndexPath {
+    [self.messagesTable scrollToRowAtIndexPath:rowIndexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
+}
+
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
