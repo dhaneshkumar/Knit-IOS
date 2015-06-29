@@ -20,6 +20,7 @@
 
 @property (strong, nonatomic) TSMemberslistTableViewController *memListVC;
 @property (nonatomic) BOOL shouldScrollUp;
+@property (nonatomic) BOOL isBottomRefreshCalled;
 
 -(void)initialization:(NSString *)classCode className:(NSString *)className;
 -(void)attachedImageTapped:(JTSImageInfo *)imageInfo;

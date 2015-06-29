@@ -246,7 +246,7 @@
         [self.navigationController pushViewController:dvc animated:YES];
     }
     else {
-        JoinedClassTableViewController *dvc = (JoinedClassTableViewController *)[_joinedClassVCs objectForKey:_joinedClasses[row][0]];
+        JoinedClassTableViewController *dvc = (JoinedClassTableViewController *)[_joinedClassVCs objectForKey:_joinedClasses[row]];
         [self.navigationController pushViewController:dvc animated:YES];
     }
 }
@@ -342,5 +342,20 @@
     [self.classesTable reloadData];
 }
 
+
+-(void)setRefreshCalled {
+    for(int i=0; i<_createdClasses.count; i++) {
+        TSSendClassMessageViewController *sendClassVC = _createdClassesVCs[_createdClasses[i][0]];
+        sendClassVC.isBottomRefreshCalled = true;
+    }
+}
+
+
+-(void)unsetRefreshCalled {
+    for(int i=0; i<_createdClasses.count; i++) {
+        TSSendClassMessageViewController *sendClassVC = _createdClassesVCs[_createdClasses[i][0]];
+        sendClassVC.isBottomRefreshCalled = false;
+    }
+}
 
 @end

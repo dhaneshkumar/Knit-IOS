@@ -81,6 +81,14 @@
         TSTabBarViewController *rootTab = (TSTabBarViewController *)_startNav.topViewController;
         [rootTab initialization];
     }
+    
+    if(launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey]) {
+        [self application:application didReceiveRemoteNotification:launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey]];
+    }
+    
+    if(launchOptions[UIApplicationLaunchOptionsLocalNotificationKey]) {
+        [self application:application didReceiveLocalNotification:launchOptions[UIApplicationLaunchOptionsLocalNotificationKey]];
+    }
     return YES;
 }
 
@@ -136,13 +144,15 @@
         _membersClassCode=[userInfo objectForKey:@"groupCode"];
         _membersClassName=[userInfo objectForKey:@"groupName"];
         
-        if([notificationType isEqualToString:@"UPDATE"])
-        {
+        if([notificationType isEqualToString:@"UPDATE"]) {
             if(application.applicationState==UIApplicationStateInactive) {
                 NSString *iTunesLink = @"itms://itunes.apple.com/in/app/knit-messaging/id962112913?mt=8";
-                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:iTunesLink]];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:iTunesLink]];
+                });
             }
             else {
+                
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Knit"
                                                                 message:@"A new update has been released .You can download it from appstore."
                                                                delegate:self cancelButtonTitle:@"Not now"

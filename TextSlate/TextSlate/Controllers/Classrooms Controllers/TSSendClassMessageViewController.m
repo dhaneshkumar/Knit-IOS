@@ -34,7 +34,6 @@
 @property (strong,nonatomic) NSString *classCode;
 
 @property (strong, nonatomic) NSDate * timeDiff;
-@property (nonatomic) BOOL isBottomRefreshCalled;
 @property (strong, nonatomic) MBProgressHUD *hud;
 @property (strong, nonatomic) CustomUIActionSheetViewController *customUIActionSheetViewController;
 
@@ -54,7 +53,7 @@
     _shouldScrollUp = false;
 }
 
-- (void)viewDidLoad {
+-(void)viewDidLoad {
     [super viewDidLoad];
     self.messageTable.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     self.messageTable.dataSource = self;
@@ -192,7 +191,7 @@
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     if(indexPath.row == _messagesArray.count-1 && !_isBottomRefreshCalled) {
-        _isBottomRefreshCalled = true;
+        [self setRefreshCalled];
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
             PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
             [lq fromLocalDatastore];
@@ -201,7 +200,7 @@
                 [self fetchOldMessages];
             }
             else {
-                _isBottomRefreshCalled = false;
+                [self unsetRefreshCalled];
             }
         });
     }
@@ -364,10 +363,16 @@
                 [outboxVC.messagesArray addObject:message];
                 [outboxVC.messageIds addObject:message.messageId];
                 
+                TSMessage *sendClassMessage = [self createMessageObject:messageObject isSendClass:true];
                 if([message.classCode isEqualToString:_classCode]) {
-                    TSMessage *sendClassMessage = [self createMessageObject:messageObject isSendClass:true];
                     _mapCodeToObjects[sendClassMessage.messageId] = sendClassMessage;
                     [_messagesArray addObject:sendClassMessage];
+                }
+                else {
+                    ClassesViewController *classesVC = rootTab.viewControllers[0];
+                    TSSendClassMessageViewController *sendClassVC = classesVC.createdClassesVCs[sendClassMessage.classCode];
+                    sendClassVC.mapCodeToObjects[sendClassMessage.messageId] = sendClassMessage;
+                    [sendClassVC.messagesArray addObject:sendClassMessage];
                 }
             }
             dispatch_sync(dispatch_get_main_queue(), ^{
@@ -419,8 +424,6 @@
 
 
 -(void)fetchOldMessages {
-    TSMessage *msg = _messagesArray[_messagesArray.count-1];
-    NSDate *oldestMsgDate = msg.sentTime;
     AppDelegate *apd = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     NSArray *vcs = (NSArray *)((UINavigationController *)apd.startNav).viewControllers;
     TSTabBarViewController *rootTab = (TSTabBarViewController *)((UINavigationController *)apd.startNav).topViewController;
@@ -430,6 +433,10 @@
             break;
         }
     }
+    TSOutboxViewController *outboxVC = rootTab.viewControllers[2];
+    TSMessage *msg = outboxVC.messagesArray[outboxVC.messagesArray.count-1];
+    NSDate *oldestMsgDate = msg.sentTime;
+    
     [Data updateInboxLocalDatastoreWithTime1:@"c" oldestMessageTime:oldestMsgDate successBlock:^(id object) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
             NSArray *messages = (NSArray *)object;
@@ -445,10 +452,16 @@
                 [outboxVC.messagesArray addObject:message];
                 [outboxVC.messageIds addObject:message.messageId];
                 
+                TSMessage *sendClassMessage = [self createMessageObject:messageObject isSendClass:true];
                 if([message.classCode isEqualToString:_classCode]) {
-                    TSMessage *sendClassMessage = [self createMessageObject:messageObject isSendClass:true];
                     _mapCodeToObjects[sendClassMessage.messageId] = sendClassMessage;
                     [tempArray addObject:sendClassMessage];
+                }
+                else {
+                    ClassesViewController *classesVC = rootTab.viewControllers[0];
+                    TSSendClassMessageViewController *sendClassVC = classesVC.createdClassesVCs[sendClassMessage.classCode];
+                    sendClassVC.mapCodeToObjects[sendClassMessage.messageId] = sendClassMessage;
+                    [sendClassVC.messagesArray addObject:sendClassMessage];
                 }
             }
             _messagesArray = tempArray;
@@ -460,13 +473,13 @@
             NSArray *localOs = [lq findObjects];
             localOs[0][@"isOutboxDataConsistent"] = (messages.count < 20) ? @"true" : @"false";
             if([localOs[0][@"isOutboxDataConsistent"] isEqualToString:@"false"]) {
-                _isBottomRefreshCalled = false;
+                [self unsetRefreshCalled];
             }
             [localOs[0] pinInBackground];
         });
     } errorBlock:^(NSError *error) {
         NSLog(@"Unable to fetch inbox messages when pulled up to refresh: %@", [error description]);
-            
+        [self unsetRefreshCalled];
     }];
 }
 
@@ -478,7 +491,6 @@
             for(NSString *messageObjectId in messageObjects) {
                 PFQuery *query = [PFQuery queryWithClassName:@"GroupDetails"];
                 [query fromLocalDatastore];
-                //[query whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
                 [query whereKey:@"messageId" equalTo:messageObjectId];
                 NSArray *msgs = (NSArray *)[query findObjects];
                 PFObject *msg = (PFObject *)msgs[0];
@@ -603,5 +615,42 @@
     CGFloat screenWidth = screenRect.size.width;
     return screenWidth;
 }
+
+
+-(void)setRefreshCalled {
+    AppDelegate *apd = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    NSArray *vcs = (NSArray *)((UINavigationController *)apd.startNav).viewControllers;
+    TSTabBarViewController *rootTab = (TSTabBarViewController *)((UINavigationController *)apd.startNav).topViewController;
+    for(id vc in vcs) {
+        if([vc isKindOfClass:[TSTabBarViewController class]]) {
+            rootTab = (TSTabBarViewController *)vc;
+            break;
+        }
+    }
+    
+    ClassesViewController *classesVC = rootTab.viewControllers[0];
+    [classesVC setRefreshCalled];
+    TSOutboxViewController *outboxVC = rootTab.viewControllers[2];
+    outboxVC.isBottomRefreshCalled = true;
+}
+
+
+-(void)unsetRefreshCalled {
+    AppDelegate *apd = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    NSArray *vcs = (NSArray *)((UINavigationController *)apd.startNav).viewControllers;
+    TSTabBarViewController *rootTab = (TSTabBarViewController *)((UINavigationController *)apd.startNav).topViewController;
+    for(id vc in vcs) {
+        if([vc isKindOfClass:[TSTabBarViewController class]]) {
+            rootTab = (TSTabBarViewController *)vc;
+            break;
+        }
+    }
+    
+    ClassesViewController *classesVC = rootTab.viewControllers[0];
+    [classesVC setRefreshCalled];
+    TSOutboxViewController *outboxVC = rootTab.viewControllers[2];
+    outboxVC.isBottomRefreshCalled = false;
+}
+
 
 @end

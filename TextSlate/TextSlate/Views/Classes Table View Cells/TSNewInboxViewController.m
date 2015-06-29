@@ -433,8 +433,7 @@
                 NSData *data = [message.attachmentURL getData];
                 UIImage *image = [[UIImage alloc] initWithData:data];
                 NSString *url = message.attachmentURL.url;
-                if(image)
-                {
+                if(image) {
                     NSLog(@"Caching here....");
                     [[sharedCache sharedInstance] cacheImage:image forKey:url];
                     message.attachment = image;

@@ -21,5 +21,7 @@
 @property (strong, nonatomic) NSMutableDictionary *joinedClassVCs;
 
 -(void)initialization;
+-(void)setRefreshCalled;
+-(void)unsetRefreshCalled;
 
 @end

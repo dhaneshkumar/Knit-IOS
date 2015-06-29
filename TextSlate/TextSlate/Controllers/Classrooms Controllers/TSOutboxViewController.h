@@ -21,6 +21,7 @@
 @property (nonatomic) BOOL shouldScrollUp;
 @property (nonatomic) BOOL newNotification;
 @property (nonatomic, strong) NSString *notificationId;
+@property (nonatomic) BOOL isBottomRefreshCalled;
 
 -(void)attachedImageTapped:(JTSImageInfo *)imageInfo;
 -(void)initialization;

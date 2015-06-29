@@ -21,9 +21,7 @@
 
 @interface TSOutboxViewController ()
 
-
 @property (strong, nonatomic) NSDate * timeDiff;
-@property (nonatomic) BOOL isBottomRefreshCalled;
 @property (strong, nonatomic) MBProgressHUD *hud;
 
 @end
@@ -157,7 +155,7 @@
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     if(indexPath.row == _messagesArray.count-1 && !_isBottomRefreshCalled) {
-        _isBottomRefreshCalled = true;
+        [self setRefreshCalled];
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
             PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
             [lq fromLocalDatastore];
@@ -166,7 +164,7 @@
                 [self fetchOldMessages];
             }
             else {
-                _isBottomRefreshCalled = false;
+                [self unsetRefreshCalled];
             }
         });
     }
@@ -478,7 +476,7 @@
             NSArray *localOs = [lq findObjects];
             localOs[0][@"isOutboxDataConsistent"] = (messages.count < 20) ? @"true" : @"false";
             if([localOs[0][@"isOutboxDataConsistent"] isEqualToString:@"false"]) {
-                _isBottomRefreshCalled = false;
+                [self unsetRefreshCalled];
             }
             [localOs[0] pinInBackground];
         });
@@ -557,6 +555,40 @@
     CGRect screenRect = [[UIScreen mainScreen] bounds];
     CGFloat screenWidth = screenRect.size.width;
     return screenWidth;
+}
+
+
+-(void)setRefreshCalled {
+    AppDelegate *apd = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    NSArray *vcs = (NSArray *)((UINavigationController *)apd.startNav).viewControllers;
+    TSTabBarViewController *rootTab = (TSTabBarViewController *)((UINavigationController *)apd.startNav).topViewController;
+    for(id vc in vcs) {
+        if([vc isKindOfClass:[TSTabBarViewController class]]) {
+            rootTab = (TSTabBarViewController *)vc;
+            break;
+        }
+    }
+    
+    ClassesViewController *classesVC = rootTab.viewControllers[0];
+    [classesVC setRefreshCalled];
+    _isBottomRefreshCalled = true;
+}
+
+
+-(void)unsetRefreshCalled {
+    AppDelegate *apd = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    NSArray *vcs = (NSArray *)((UINavigationController *)apd.startNav).viewControllers;
+    TSTabBarViewController *rootTab = (TSTabBarViewController *)((UINavigationController *)apd.startNav).topViewController;
+    for(id vc in vcs) {
+        if([vc isKindOfClass:[TSTabBarViewController class]]) {
+            rootTab = (TSTabBarViewController *)vc;
+            break;
+        }
+    }
+    
+    ClassesViewController *classesVC = rootTab.viewControllers[0];
+    [classesVC setRefreshCalled];
+    _isBottomRefreshCalled = false;
 }
 
 @end
