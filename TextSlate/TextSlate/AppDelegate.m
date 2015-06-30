@@ -171,14 +171,12 @@
         else if ([notificationType isEqualToString:@"TRANSITION"]) {
             if([actionType isEqualToString:@"LIKE"]) {
                 if(application.applicationState==UIApplicationStateInactive) {
-                    NSLog(@"outbox notify start");
                     TSTabBarViewController *rootTab = [self getTabBarVC];
                     [rootTab setSelectedIndex:2];
                     TSOutboxViewController *outbox = (TSOutboxViewController *)rootTab.viewControllers[2];
                     outbox.newNotification = true;
                     outbox.notificationId = [userInfo objectForKey:@"id"];
                     self.window.rootViewController = _startNav;
-                    NSLog(@"outbox notify end");
                 }
                 else if(application.applicationState==UIApplicationStateActive) {
                     NSString *title=[userInfo objectForKey:@"groupName"];
@@ -239,6 +237,110 @@
 
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
     UIApplicationState state = [application applicationState];
+    NSDictionary *userInfo = notification.userInfo;
+    if (userInfo) {
+        NSString *notificationType = [userInfo objectForKey:@"type"];
+        if ([notificationType isEqualToString:@"TRANSITION"]) {
+            NSString *actionType = [userInfo objectForKey:@"action"];
+            if([actionType isEqualToString:@"CREATE_CLASS"]) {
+                if(state == UIApplicationStateInactive) {
+                    TSTabBarViewController *rootTab = [self getTabBarVC];
+                    [rootTab setSelectedIndex:0];
+                    self.window.rootViewController = _startNav;
+                    
+                    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
+                    UINavigationController *createNewClassNavigationController = [storyboard instantiateViewControllerWithIdentifier:@"createNewClassNavigationController"];
+                    [rootTab presentViewController:createNewClassNavigationController animated:YES completion:nil];
+                }
+                else if(state == UIApplicationStateActive) {
+                    NSString *title = @"Knit";
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
+                                                                    message:@"You have not created any class yet. Create a class and start using Knit. See how it makes your life easier."
+                                                                   delegate:self cancelButtonTitle:@"Later"
+                                                          otherButtonTitles:@"Create",nil];
+                    alert.tag = 21;
+                    [alert show];
+                }
+            }
+            else if([actionType isEqualToString:@"INVITE_TEACHER"]) {
+                if(state == UIApplicationStateInactive) {
+                    TSTabBarViewController *rootTab = [self getTabBarVC];
+                    [rootTab setSelectedIndex:0];
+                    self.window.rootViewController = _startNav;
+                    
+                    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
+                    UINavigationController *joinNewClassNavigationController = [storyboard instantiateViewControllerWithIdentifier:@"joinNewClassViewController"];
+                    [rootTab presentViewController:joinNewClassNavigationController animated:YES completion:nil];
+                }
+                else if(state == UIApplicationStateActive) {
+                    NSString *title = @"Knit";
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
+                                                                    message:@"You have not joined any class yet. Join a class or invite teacher."
+                                                                   delegate:self cancelButtonTitle:@"Later"
+                                                          otherButtonTitles:@"Now",nil];
+                    alert.tag = 22;
+                    [alert show];
+                }
+            }
+            else if([actionType isEqualToString:@"INVITE_PARENT"]) {
+                if(state==UIApplicationStateInactive) {
+                    TSTabBarViewController *rootTab = [self getTabBarVC];
+                    [rootTab setSelectedIndex:0];
+                    self.window.rootViewController = _startNav;
+                    
+                    ClassesViewController *classesVC = rootTab.viewControllers[0];
+                    TSSendClassMessageViewController *dvc = classesVC.createdClassesVCs[[userInfo objectForKey:@"groupCode"]];
+                    [_startNav pushViewController:dvc animated:YES];
+                }
+                else if(state==UIApplicationStateActive) {
+                    _membersClassCode = [userInfo objectForKey:@"groupCode"];
+                    NSString *title = [userInfo objectForKey:@"groupName"];
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
+                                                                    message:@"See how many members have joined your class. Invite if somebody's missing!"
+                                                                   delegate:self cancelButtonTitle:@"Later"
+                                                          otherButtonTitles:@"Now",nil];
+                    alert.tag = 23;
+                    [alert show];
+                }
+            }
+            else if([actionType isEqualToString:@"SEND_MESSAGE"]) {
+                if(((NSArray *)[[PFUser currentUser] objectForKey:@"Created_groups"]).count==0) {
+                    if(state==UIApplicationStateInactive) {
+                        TSTabBarViewController *rootTab = [self getTabBarVC];
+                        [rootTab setSelectedIndex:2];
+                        self.window.rootViewController = _startNav;
+                        [RKDropdownAlert title:@"Knit" message:@"You cannot send message as you have not created any class."  time:2];
+                    }
+                    else if(state==UIApplicationStateActive) {
+                        
+                    }
+                }
+                else {
+                    if(state==UIApplicationStateInactive) {
+                        TSTabBarViewController *rootTab = [self getTabBarVC];
+                        [rootTab setSelectedIndex:2];
+                        self.window.rootViewController = _startNav;
+                        
+                        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
+                        UINavigationController *messageComposer = [storyboard instantiateViewControllerWithIdentifier:@"messageComposer"];
+                        [rootTab presentViewController:messageComposer animated:YES completion:nil];
+                    }
+                
+                    else if(state==UIApplicationStateActive) {
+                        NSString *title = @"Knit";
+                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
+                                                                        message:@"Looks like you have created a class but you have not send any messages yet."
+                                                                       delegate:self cancelButtonTitle:@"Later"
+                                                              otherButtonTitles:@"Now",nil];
+                        alert.tag = 24;
+                        [alert show];
+                    }
+                }
+            }
+        }
+    }
+    /*
+    application.applicationIconBadgeNumber = 0;
     if (state == UIApplicationStateActive){
         NSLog(@"APP DELEGATE");
         if([notification.alertAction isEqualToString:@"Invite Parent"]) {
@@ -296,11 +398,12 @@
             [rootTab presentViewController:joinNewClassNavigationController animated:YES completion:nil];
         }
     }
-    application.applicationIconBadgeNumber = 0;
+    */
 }
 
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    /*
     NSString *title = [alertView buttonTitleAtIndex:buttonIndex];
     if([title isEqualToString:@"Create"]) {
         TSTabBarViewController *rootTab = [self getTabBarVC];
@@ -341,6 +444,7 @@
         UINavigationController *joinNewClassNavigationController = [storyboard1 instantiateViewControllerWithIdentifier:@"messageComposer"];
         [rootTab presentViewController:joinNewClassNavigationController animated:YES completion:nil];
     }
+    */
     
     if(alertView.tag == 1) {
         NSString *iTunesLink = @"itms://itunes.apple.com/in/app/knit-messaging/id962112913?mt=8";
@@ -395,8 +499,41 @@
         TSSendClassMessageViewController *dvc = classesVC.createdClassesVCs[_membersClassCode];
         [_startNav pushViewController:dvc animated:YES];
     }
-    else if(alertView.tag == 5) {
+    else if(alertView.tag == 21) {
+        TSTabBarViewController *rootTab = [self getTabBarVC];
+        [rootTab setSelectedIndex:0];
+        self.window.rootViewController = _startNav;
         
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
+        UINavigationController *createNewClassNavigationController = [storyboard instantiateViewControllerWithIdentifier:@"createNewClassNavigationController"];
+        [rootTab presentViewController:createNewClassNavigationController animated:YES completion:nil];
+    }
+    else if(alertView.tag == 22) {
+        TSTabBarViewController *rootTab = [self getTabBarVC];
+        [rootTab setSelectedIndex:0];
+        self.window.rootViewController = _startNav;
+        
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
+        UINavigationController *joinNewClassNavigationController = [storyboard instantiateViewControllerWithIdentifier:@"joinNewClassViewController"];
+        [rootTab presentViewController:joinNewClassNavigationController animated:YES completion:nil];
+    }
+    else if(alertView.tag == 23) {
+        TSTabBarViewController *rootTab = [self getTabBarVC];
+        [rootTab setSelectedIndex:0];
+        self.window.rootViewController = _startNav;
+        
+        ClassesViewController *classesVC = rootTab.viewControllers[0];
+        TSSendClassMessageViewController *dvc = classesVC.createdClassesVCs[_membersClassCode];
+        [_startNav pushViewController:dvc animated:YES];
+    }
+    else if(alertView.tag == 24) {
+        TSTabBarViewController *rootTab = [self getTabBarVC];
+        [rootTab setSelectedIndex:2];
+        self.window.rootViewController = _startNav;
+        
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
+        UINavigationController *messageComposer = [storyboard instantiateViewControllerWithIdentifier:@"messageComposer"];
+        [rootTab presentViewController:messageComposer animated:YES completion:nil];
     }
 }
 

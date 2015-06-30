@@ -150,6 +150,10 @@
         if(lastFiveMessages.count>0)
             [self handlingInboxTab:rootTab lastFiveMessages:lastFiveMessages];
         
+        //Cancel all local notifications when a parent user has joined a class
+        if(![[[PFUser currentUser] objectForKey:@"role"] isEqualToString:@"teacher"] && ((NSArray *)[[PFUser currentUser] objectForKey:@"joined_groups"]).count==1)
+            [[UIApplication sharedApplication] cancelAllLocalNotifications];
+        
         [hud hide:YES];
         [self dismissViewControllerAnimated:YES completion:nil];
         [RKDropdownAlert title:@"Knit" message:[NSString stringWithFormat:@"Successfully joined Class: %@ Creator : %@",codeGroupForClass[@"name"], codeGroupForClass[@"Creator"]] time:2];

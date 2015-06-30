@@ -402,7 +402,7 @@
     
     [hud hide:YES];
     [self dismissViewControllerAnimated:YES completion:nil];
-    
+    /*
     if([role isEqualToString:@"parent"] || [role isEqualToString:@"teacher"]) {
         [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:nil];
         NSTimer* loop = [NSTimer scheduledTimerWithTimeInterval:60*60*24*2 target:self selector:@selector(showJoinClassNotification) userInfo:nil repeats:NO];
@@ -418,6 +418,7 @@
         NSTimer* loop = [NSTimer scheduledTimerWithTimeInterval:60*60*24*2 target:self selector:@selector(showCreateClassNotification) userInfo:nil repeats:NO];
         [[NSRunLoop currentRunLoop] addTimer:loop forMode:NSRunLoopCommonModes];
     }
+     */
 }
 
 
@@ -479,7 +480,7 @@
     
 }
 
-
+/*
 -(void)showCreateClassNotification{
     PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
     [lq fromLocalDatastore];
@@ -553,7 +554,8 @@
         }
     }
 }
-
+*/
+ 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
     
     if([textField isEqual:_mobilTextField]) {

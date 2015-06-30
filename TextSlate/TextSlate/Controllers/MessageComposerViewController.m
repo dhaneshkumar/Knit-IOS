@@ -481,6 +481,9 @@
             [classPage.messagesArray insertObject:newMessageForClassPage atIndex:0];
             classPage.shouldScrollUp = true;
             
+            //Cancel all local notifications
+            [[UIApplication sharedApplication] cancelAllLocalNotifications];
+            
             [hud hide:YES];
             [self dismissViewControllerAnimated:YES completion:nil];
             [RKDropdownAlert title:@"Knit" message:@"Message has been sent successfully."  time:2];
@@ -543,6 +546,10 @@
                     classPage.mapCodeToObjects[newMessageForClassPage.messageId] = newMessageForClassPage;
                     [classPage.messagesArray insertObject:newMessageForClassPage atIndex:0];
                     classPage.shouldScrollUp = true;
+                    
+                    //Cancel all local notifications
+                    [[UIApplication sharedApplication] cancelAllLocalNotifications];
+                    
                     [hud hide:YES];
                     [self dismissViewControllerAnimated:YES completion:nil];
                     [RKDropdownAlert title:@"Knit" message:@"Your message has been sent!"  time:2];
