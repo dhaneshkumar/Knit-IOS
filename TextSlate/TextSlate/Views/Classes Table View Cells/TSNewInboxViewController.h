@@ -18,7 +18,6 @@
 @property (nonatomic, strong) NSMutableDictionary *mapCodeToObjects;
 @property (nonatomic, strong) NSMutableArray *messageIds;
 @property (strong, nonatomic) NSDate * lastUpdateCalled;
-@property (nonatomic) BOOL shouldScrollUp;
 @property (nonatomic) BOOL newMessage;
 
 -(void)updateLikesDataFromCell:(int)row status:(NSString *)status;

@@ -75,6 +75,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
     self.messagesTable.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     // Do any additional setup after loading the view.
     self.messagesTable.dataSource = self;
@@ -92,6 +93,12 @@
     [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(hideView) userInfo:nil repeats:NO];*/
 }
 
+- (void)applicationWillEnterForeground:(NSNotification *)notification {
+    NSLog(@"appWillFore inbox");
+    [self viewWillAppear:YES];
+    [self viewDidAppear:YES];
+}
+
 -(void)hideView {
     [self.customView.view removeFromSuperview ];
     [self.customView dismissViewControllerAnimated:YES completion:nil];
@@ -105,11 +112,12 @@
 
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+    /*
     if(_messagesArray.count>0 && _shouldScrollUp) {
         NSIndexPath *rowIndexPath = [NSIndexPath indexPathForRow:0 inSection:0];
         [self.messagesTable scrollToRowAtIndexPath:rowIndexPath atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
         _shouldScrollUp = false;
-    }
+    }*/
     [self getTimeDiffBetweenLocalAndServer];
     [self displayMessages];
 }
@@ -404,11 +412,11 @@
         }
     }
     else {
-        [self fetchImages];
         if(!_isILMCalled) {
             [_refreshControl beginRefreshing];
             [self insertLatestMessages];
         }
+        [self fetchImages];
         if(_lastUpdateCalled) {
             NSDate *date = [NSDate date];
             NSTimeInterval ti = [date timeIntervalSinceDate:_lastUpdateCalled];

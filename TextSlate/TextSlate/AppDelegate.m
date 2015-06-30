@@ -22,7 +22,6 @@
 #import "TSOutboxViewController.h"
 #import "TSTabBarViewController.h"
 #import "TSSendClassMessageViewController.h"
-#import "RKDropdownAlert.h"
 #import "ClassesViewController.h"
 
 
@@ -32,6 +31,7 @@
 @property (nonatomic, strong) NSString *className;
 @property (nonatomic, strong) NSString *membersClassCode;
 @property (nonatomic, strong) NSString *membersClassName;
+@property (nonatomic, strong) NSString *notificationId;
 
 @end
 
@@ -141,8 +141,6 @@
     if (userInfo) {
         NSString *notificationType = [userInfo objectForKey:@"type"];
         NSString *actionType = [userInfo objectForKey:@"action"];
-        _membersClassCode=[userInfo objectForKey:@"groupCode"];
-        _membersClassName=[userInfo objectForKey:@"groupName"];
         
         if([notificationType isEqualToString:@"UPDATE"]) {
             if(application.applicationState==UIApplicationStateInactive) {
@@ -152,11 +150,11 @@
                 });
             }
             else {
-                
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Knit"
                                                                 message:@"A new update has been released .You can download it from appstore."
                                                                delegate:self cancelButtonTitle:@"Not now"
                                                       otherButtonTitles:@"Update",nil];
+                alert.tag = 1;
                 [alert show];
             }
         }
@@ -165,36 +163,37 @@
                 [RKDropdownAlert title:@"Knit" message:@"You got a new message. Go to inbox."  time:3];
             }
             else {
-                TSTabBarViewController *rootTab = (TSTabBarViewController *)_startNav.topViewController;
+                TSTabBarViewController *rootTab = [self getTabBarVC];
                 [rootTab setSelectedIndex:1];
-                TSNewInboxViewController *newInbox = (TSNewInboxViewController *)rootTab.viewControllers[1];
-                newInbox.shouldScrollUp = true;
-                newInbox.newMessage = true;
                 self.window.rootViewController = _startNav;
             }
         }
         else if ([notificationType isEqualToString:@"TRANSITION"]) {
             if([actionType isEqualToString:@"LIKE"]) {
                 if(application.applicationState==UIApplicationStateInactive) {
-                    TSTabBarViewController *rootTab = (TSTabBarViewController *)_startNav.topViewController;
+                    NSLog(@"outbox notify start");
+                    TSTabBarViewController *rootTab = [self getTabBarVC];
                     [rootTab setSelectedIndex:2];
                     TSOutboxViewController *outbox = (TSOutboxViewController *)rootTab.viewControllers[2];
                     outbox.newNotification = true;
                     outbox.notificationId = [userInfo objectForKey:@"id"];
                     self.window.rootViewController = _startNav;
+                    NSLog(@"outbox notify end");
                 }
                 else if(application.applicationState==UIApplicationStateActive) {
                     NSString *title=[userInfo objectForKey:@"groupName"];
+                    _notificationId = [userInfo objectForKey:@"id"];
                     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
                                                                     message:@"Which of your posts was liked by parents!"
                                                                    delegate:self cancelButtonTitle:@"Not now"
                                                           otherButtonTitles:@"See now",nil];
+                    alert.tag = 2;
                     [alert show];
                 }
             }
             else if([actionType isEqualToString:@"CONFUSE"]) {
                 if(application.applicationState==UIApplicationStateInactive) {
-                    TSTabBarViewController *rootTab = (TSTabBarViewController *)_startNav.topViewController;
+                    TSTabBarViewController *rootTab = [self getTabBarVC];
                     [rootTab setSelectedIndex:2];
                     TSOutboxViewController *outbox = (TSOutboxViewController *)rootTab.viewControllers[2];
                     outbox.newNotification = true;
@@ -203,21 +202,23 @@
                 }
                 else if(application.applicationState==UIApplicationStateActive) {
                     NSString *title=[userInfo objectForKey:@"groupName"];
+                    _notificationId = [userInfo objectForKey:@"id"];
                     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
-                                                                    message:@"Which of your posts was liked by parents!"
+                                                                    message:@"Which of your posts was not understood by parents!"
                                                                    delegate:self cancelButtonTitle:@"Not now"
                                                           otherButtonTitles:@"See now",nil];
+                    alert.tag = 3;
                     [alert show];
                 }
             }
             else if([actionType isEqualToString:@"CLASS_PAGE"]) {
                 if(application.applicationState==UIApplicationStateInactive) {
-                    TSTabBarViewController *rootTab = (TSTabBarViewController *)_startNav.topViewController;
+                    TSTabBarViewController *rootTab = [self getTabBarVC];
                     [rootTab setSelectedIndex:0];
                     self.window.rootViewController = _startNav;
                     
                     ClassesViewController *classesVC = rootTab.viewControllers[0];
-                    TSSendClassMessageViewController *dvc = classesVC.createdClassesVCs[_membersClassCode];
+                    TSSendClassMessageViewController *dvc = classesVC.createdClassesVCs[[userInfo objectForKey:@"groupCode"]];
                     [_startNav pushViewController:dvc animated:YES];
                 }
                 else if(application.applicationState==UIApplicationStateActive) {
@@ -226,6 +227,8 @@
                                                                     message:@"See how many members have joined you class here!"
                                                                    delegate:self cancelButtonTitle:@"Not now"
                                                           otherButtonTitles:@"Members",nil];
+                    _membersClassCode=[userInfo objectForKey:@"groupCode"];
+                    alert.tag = 4;
                     [alert show];
                 }
             }
@@ -252,7 +255,7 @@
     
     if(state==UIApplicationStateInactive) {
         if([notification.alertAction isEqualToString:@"Create"] && [[[PFUser currentUser] objectForKey:@"role"] isEqualToString:@"teacher"]) {
-            TSTabBarViewController *rootTab = (TSTabBarViewController *)_startNav.topViewController;
+            TSTabBarViewController *rootTab = [self getTabBarVC];
             [rootTab setSelectedIndex:0];
             self.window.rootViewController = _startNav;
             UIStoryboard *storyboard1 = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
@@ -260,14 +263,14 @@
             [rootTab presentViewController:joinNewClassNavigationController animated:YES completion:nil];
         }
         else if([notification.alertAction isEqualToString:@"Join"]) {
-            TSTabBarViewController *rootTab = (TSTabBarViewController *)_startNav.topViewController;
+            TSTabBarViewController *rootTab = [self getTabBarVC];
             self.window.rootViewController = _startNav;
             UIStoryboard *storyboard1 = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
             UINavigationController *joinNewClassNavigationController = [storyboard1 instantiateViewControllerWithIdentifier:@"joinNewClassViewController"];
             [rootTab presentViewController:joinNewClassNavigationController animated:YES completion:nil];
         }
         else if([notification.alertAction isEqualToString:@"Invite Parent"]) {
-            TSTabBarViewController *rootTab = (TSTabBarViewController *)_startNav.topViewController;
+            TSTabBarViewController *rootTab = [self getTabBarVC];
             self.window.rootViewController = _startNav;
             UIStoryboard *storyboard1 = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
             UINavigationController *inviteParentNavigationController = [storyboard1 instantiateViewControllerWithIdentifier:@"inviteParentNav"];
@@ -278,7 +281,7 @@
             [rootTab presentViewController:inviteParentNavigationController animated:YES completion:nil];
         }
         else if([notification.alertAction isEqualToString:@"Invite Teacher"]) {
-            TSTabBarViewController *rootTab = (TSTabBarViewController *)_startNav.topViewController;
+            TSTabBarViewController *rootTab = [self getTabBarVC];
             self.window.rootViewController = _startNav;
             UIStoryboard *storyboard1 = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
             UINavigationController *joinNewClassNavigationController = [storyboard1 instantiateViewControllerWithIdentifier:@"inviteTeacher"];
@@ -286,7 +289,7 @@
             
         }
         else if([notification.alertAction isEqualToString:@"Send Message"]) {
-            TSTabBarViewController *rootTab = (TSTabBarViewController *)_startNav.topViewController;
+            TSTabBarViewController *rootTab = [self getTabBarVC];
             self.window.rootViewController = _startNav;
             UIStoryboard *storyboard1 = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
             UINavigationController *joinNewClassNavigationController = [storyboard1 instantiateViewControllerWithIdentifier:@"messageComposer"];
@@ -300,14 +303,14 @@
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     NSString *title = [alertView buttonTitleAtIndex:buttonIndex];
     if([title isEqualToString:@"Create"]) {
-        TSTabBarViewController *rootTab = (TSTabBarViewController *)_startNav.topViewController;
+        TSTabBarViewController *rootTab = [self getTabBarVC];
         self.window.rootViewController = _startNav;
         UIStoryboard *storyboard1 = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
         UINavigationController *joinNewClassNavigationController = [storyboard1 instantiateViewControllerWithIdentifier:@"createNewClassNavigationController"];
         [rootTab presentViewController:joinNewClassNavigationController animated:YES completion:nil];
     }
     else if([title isEqualToString:@"Join"]) {
-        TSTabBarViewController *rootTab = (TSTabBarViewController *)_startNav.topViewController;
+        TSTabBarViewController *rootTab = [self getTabBarVC];
         self.window.rootViewController = _startNav;
         UIStoryboard *storyboard1 = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
         UINavigationController *joinNewClassNavigationController = [storyboard1 instantiateViewControllerWithIdentifier:@"joinNewClassViewController"];
@@ -315,7 +318,7 @@
         
     }
     else if([title isEqualToString:@"Invite Parent"]) {
-        TSTabBarViewController *rootTab = (TSTabBarViewController *)_startNav.topViewController;
+        TSTabBarViewController *rootTab = [self getTabBarVC];
         self.window.rootViewController = _startNav;
         UIStoryboard *storyboard1 = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
         UINavigationController *inviteParentNavigationController = [storyboard1 instantiateViewControllerWithIdentifier:@"inviteParentNav"];
@@ -325,25 +328,66 @@
         [rootTab presentViewController:inviteParentNavigationController animated:YES completion:nil];
     }
     else if([title isEqualToString:@"Invite Teacher"]) {
-        TSTabBarViewController *rootTab = (TSTabBarViewController *)_startNav.topViewController;
+        TSTabBarViewController *rootTab = [self getTabBarVC];
         self.window.rootViewController = _startNav;
         UIStoryboard *storyboard1 = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
         UINavigationController *joinNewClassNavigationController = [storyboard1 instantiateViewControllerWithIdentifier:@"inviteTeacher"];
         [rootTab presentViewController:joinNewClassNavigationController animated:YES completion:nil];
     }
     else if([title isEqualToString:@"Send Message"]) {
-        TSTabBarViewController *rootTab = (TSTabBarViewController *)_startNav.topViewController;
+        TSTabBarViewController *rootTab = [self getTabBarVC];
         self.window.rootViewController = _startNav;
         UIStoryboard *storyboard1 = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
         UINavigationController *joinNewClassNavigationController = [storyboard1 instantiateViewControllerWithIdentifier:@"messageComposer"];
         [rootTab presentViewController:joinNewClassNavigationController animated:YES completion:nil];
     }
-    else if([title isEqualToString:@"Update"]) {
+    
+    if(alertView.tag == 1) {
         NSString *iTunesLink = @"itms://itunes.apple.com/in/app/knit-messaging/id962112913?mt=8";
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:iTunesLink]];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:iTunesLink]];
+        });
     }
-    else if([title isEqualToString:@"Members"]) {
-        TSTabBarViewController *rootTab = (TSTabBarViewController *)_startNav.topViewController;
+    else if(alertView.tag == 2) {
+        if([_startNav.topViewController isKindOfClass:[TSTabBarViewController class]]) {
+            TSTabBarViewController *rootTab = [self getTabBarVC];
+            if(rootTab.selectedIndex==2) {
+                TSOutboxViewController *outbox = (TSOutboxViewController *)rootTab.viewControllers[2];
+                outbox.newNotification = true;
+                outbox.notificationId = _notificationId;
+                [outbox viewWillAppear:YES];
+                [outbox viewDidAppear:YES];
+                return;
+            }
+        }
+        TSTabBarViewController *rootTab = [self getTabBarVC];
+        [rootTab setSelectedIndex:2];
+        TSOutboxViewController *outbox = (TSOutboxViewController *)rootTab.viewControllers[2];
+        outbox.newNotification = true;
+        outbox.notificationId = _notificationId;
+        self.window.rootViewController = _startNav;
+    }
+    else if(alertView.tag == 3) {
+        if([_startNav.topViewController isKindOfClass:[TSTabBarViewController class]]) {
+            TSTabBarViewController *rootTab = [self getTabBarVC];
+            if(rootTab.selectedIndex==2) {
+                TSOutboxViewController *outbox = (TSOutboxViewController *)rootTab.viewControllers[2];
+                outbox.newNotification = true;
+                outbox.notificationId = _notificationId;
+                [outbox viewWillAppear:YES];
+                [outbox viewDidAppear:YES];
+                return;
+            }
+        }
+        TSTabBarViewController *rootTab = [self getTabBarVC];
+        [rootTab setSelectedIndex:2];
+        TSOutboxViewController *outbox = (TSOutboxViewController *)rootTab.viewControllers[2];
+        outbox.newNotification = true;
+        outbox.notificationId = _notificationId;
+        self.window.rootViewController = _startNav;
+    }
+    else if(alertView.tag == 4) {
+        TSTabBarViewController *rootTab = [self getTabBarVC];
         [rootTab setSelectedIndex:0];
         self.window.rootViewController = _startNav;
         
@@ -351,7 +395,34 @@
         TSSendClassMessageViewController *dvc = classesVC.createdClassesVCs[_membersClassCode];
         [_startNav pushViewController:dvc animated:YES];
     }
+    else if(alertView.tag == 5) {
+        
+    }
 }
+
+
+-(TSTabBarViewController *)getTabBarVC {
+    NSArray *vcs = _startNav.viewControllers;
+    TSTabBarViewController *rootTab = (TSTabBarViewController *)_startNav.topViewController;
+    for(id vc in vcs) {
+        if([vc isKindOfClass:[TSTabBarViewController class]]) {
+            rootTab = (TSTabBarViewController *)vc;
+            break;
+        }
+    }
+    return rootTab;
+}
+
+
+-(BOOL)dropdownAlertWasTapped:(RKDropdownAlert*)alert {
+    // Handle the tap, then return whether or not the alert should hide.
+    NSLog(@"dropdown alert");
+    TSTabBarViewController *rootTab = [self getTabBarVC];
+    [rootTab setSelectedIndex:1];
+    self.window.rootViewController = _startNav;
+    return true;
+}
+
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
@@ -360,6 +431,7 @@
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
     NSLog(@"Application entered in background");
+    /*
     if([PFUser currentUser]) {
         NSArray *vcs = _startNav.viewControllers;
         TSTabBarViewController *tabBarVC;
@@ -371,17 +443,19 @@
                 }
             }
         }
-    }
+    }*/
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+    NSLog(@"adbf");
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    NSLog(@"adba");
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {

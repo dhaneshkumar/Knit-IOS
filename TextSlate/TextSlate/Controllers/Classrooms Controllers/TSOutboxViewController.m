@@ -41,10 +41,17 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
     // Do any additional setup after loading the view.
     self.messagesTable.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     self.messagesTable.dataSource = self;
     self.messagesTable.delegate = self;
+}
+
+- (void)applicationWillEnterForeground:(NSNotification *)notification {
+    NSLog(@"appWillFore outbox");
+    [self viewWillAppear:YES];
+    [self viewDidAppear:YES];
 }
 
 - (void)didReceiveMemoryWarning {
