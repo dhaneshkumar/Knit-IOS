@@ -251,8 +251,33 @@
             [self fetchOldMessagesOnDataDeletion];
         }
     }
+    else {
+        [self fetchImages];
+    }
 }
 
+
+-(void)fetchImages {
+    NSArray *tempArray = [[NSArray alloc] initWithArray:_messagesArray];
+    for(int i=0; i<tempArray.count; i++) {
+        TSMessage *message = tempArray[i];
+        if(message.attachmentURL && !message.attachment) {
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
+                NSData *data = [message.attachmentURL getData];
+                UIImage *image = [[UIImage alloc] initWithData:data];
+                NSString *url = message.attachmentURL.url;
+                if(image) {
+                    NSLog(@"Caching here....");
+                    [[sharedCache sharedInstance] cacheImage:image forKey:url];
+                    message.attachment = image;
+                    dispatch_sync(dispatch_get_main_queue(), ^{
+                        [self.messageTable reloadData];
+                    });
+                }
+            });
+        }
+    }
+}
 
 -(void)getTimeDiffBetweenLocalAndServer {
     PFQuery *localQuery = [PFQuery queryWithClassName:@"defaultLocals"];

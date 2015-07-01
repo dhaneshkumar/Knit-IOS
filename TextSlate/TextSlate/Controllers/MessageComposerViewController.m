@@ -163,7 +163,7 @@
         [self.classOptions addButtonWithTitle:title];
     }
     self.classOptions.cancelButtonIndex = [self.classOptions addButtonWithTitle:@"Cancel"];
-    
+    self.classOptions.delegate = self;
 
     if(_isClass) {
         _hasSelectedClass = true;
@@ -241,7 +241,6 @@
 -(void)recipientClassTapped:(UITapGestureRecognizer *)recognizer {
     NSLog(@"recipient class tapped");
     if(!_isClass) {
-        
         [self.classOptions showInView:self.view];
     }
 }
@@ -323,12 +322,9 @@
     }
     else{
         _recipientClassLabel.text = [actionSheet buttonTitleAtIndex:buttonIndex];
-        //_recipient.textColor=[UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
         _className = _recipientClassLabel.text;
         int index=(int) buttonIndex;
-        NSLog(@" class code %@ %i",[_createdclassCode objectAtIndex:1],index);
         _classCode=[_createdclassCode objectAtIndex:index];
-        NSLog(@"class code and name here is %@ %@",_classCode,_className);
         _recipientClassLabel.textColor = [UIColor colorWithRed:41.0/255.0 green:182.0/255.0 blue:246.0/255.0 alpha:1.0];
         _recipientClassLabel.font = [UIFont systemFontOfSize:20.0];
         _hasSelectedClass = true;
