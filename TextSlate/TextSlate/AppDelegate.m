@@ -364,112 +364,12 @@
             }
         }
     }
-    /*
-    application.applicationIconBadgeNumber = 0;
-    if (state == UIApplicationStateActive){
-        NSLog(@"APP DELEGATE");
-        if([notification.alertAction isEqualToString:@"Invite Parent"]) {
-            NSDictionary *temp = notification.userInfo;
-            _classCode = temp[@"classCode"];
-            _className = temp[@"className"];
-        }
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Reminder"
-                                                        message:notification.alertBody
-                                                       delegate:self cancelButtonTitle:@"OK"
-                                              otherButtonTitles:notification.alertAction,nil];
-        [alert show];
-    }
-    
-    if(state==UIApplicationStateInactive) {
-        if([notification.alertAction isEqualToString:@"Create"] && [[[PFUser currentUser] objectForKey:@"role"] isEqualToString:@"teacher"]) {
-            TSTabBarViewController *rootTab = [self getTabBarVC];
-            [rootTab setSelectedIndex:0];
-            self.window.rootViewController = _startNav;
-            UIStoryboard *storyboard1 = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
-            UINavigationController *joinNewClassNavigationController = [storyboard1 instantiateViewControllerWithIdentifier:@"createNewClassNavigationController"];
-            [rootTab presentViewController:joinNewClassNavigationController animated:YES completion:nil];
-        }
-        else if([notification.alertAction isEqualToString:@"Join"]) {
-            TSTabBarViewController *rootTab = [self getTabBarVC];
-            self.window.rootViewController = _startNav;
-            UIStoryboard *storyboard1 = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
-            UINavigationController *joinNewClassNavigationController = [storyboard1 instantiateViewControllerWithIdentifier:@"joinNewClassViewController"];
-            [rootTab presentViewController:joinNewClassNavigationController animated:YES completion:nil];
-        }
-        else if([notification.alertAction isEqualToString:@"Invite Parent"]) {
-            TSTabBarViewController *rootTab = [self getTabBarVC];
-            self.window.rootViewController = _startNav;
-            UIStoryboard *storyboard1 = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
-            UINavigationController *inviteParentNavigationController = [storyboard1 instantiateViewControllerWithIdentifier:@"inviteParentNav"];
-            InviteParentViewController *inviteParentController = (InviteParentViewController *)inviteParentNavigationController.topViewController;
-            NSDictionary *temp = notification.userInfo;
-            inviteParentController.classCode = temp[@"classCode"];
-            inviteParentController.className = temp[@"className"];
-            [rootTab presentViewController:inviteParentNavigationController animated:YES completion:nil];
-        }
-        else if([notification.alertAction isEqualToString:@"Invite Teacher"]) {
-            TSTabBarViewController *rootTab = [self getTabBarVC];
-            self.window.rootViewController = _startNav;
-            UIStoryboard *storyboard1 = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
-            UINavigationController *joinNewClassNavigationController = [storyboard1 instantiateViewControllerWithIdentifier:@"inviteTeacher"];
-            [rootTab presentViewController:joinNewClassNavigationController animated:YES completion:nil];
-            
-        }
-        else if([notification.alertAction isEqualToString:@"Send Message"]) {
-            TSTabBarViewController *rootTab = [self getTabBarVC];
-            self.window.rootViewController = _startNav;
-            UIStoryboard *storyboard1 = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
-            UINavigationController *joinNewClassNavigationController = [storyboard1 instantiateViewControllerWithIdentifier:@"messageComposer"];
-            [rootTab presentViewController:joinNewClassNavigationController animated:YES completion:nil];
-        }
-    }
-    */
 }
 
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    /*
-    NSString *title = [alertView buttonTitleAtIndex:buttonIndex];
-    if([title isEqualToString:@"Create"]) {
-        TSTabBarViewController *rootTab = [self getTabBarVC];
-        self.window.rootViewController = _startNav;
-        UIStoryboard *storyboard1 = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
-        UINavigationController *joinNewClassNavigationController = [storyboard1 instantiateViewControllerWithIdentifier:@"createNewClassNavigationController"];
-        [rootTab presentViewController:joinNewClassNavigationController animated:YES completion:nil];
-    }
-    else if([title isEqualToString:@"Join"]) {
-        TSTabBarViewController *rootTab = [self getTabBarVC];
-        self.window.rootViewController = _startNav;
-        UIStoryboard *storyboard1 = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
-        UINavigationController *joinNewClassNavigationController = [storyboard1 instantiateViewControllerWithIdentifier:@"joinNewClassViewController"];
-        [rootTab presentViewController:joinNewClassNavigationController animated:YES completion:nil];
-        
-    }
-    else if([title isEqualToString:@"Invite Parent"]) {
-        TSTabBarViewController *rootTab = [self getTabBarVC];
-        self.window.rootViewController = _startNav;
-        UIStoryboard *storyboard1 = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
-        UINavigationController *inviteParentNavigationController = [storyboard1 instantiateViewControllerWithIdentifier:@"inviteParentNav"];
-        InviteParentViewController *inviteParentController = (InviteParentViewController *)inviteParentNavigationController.topViewController;
-        inviteParentController.classCode = _classCode;
-        inviteParentController.className = _className;
-        [rootTab presentViewController:inviteParentNavigationController animated:YES completion:nil];
-    }
-    else if([title isEqualToString:@"Invite Teacher"]) {
-        TSTabBarViewController *rootTab = [self getTabBarVC];
-        self.window.rootViewController = _startNav;
-        UIStoryboard *storyboard1 = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
-        UINavigationController *joinNewClassNavigationController = [storyboard1 instantiateViewControllerWithIdentifier:@"inviteTeacher"];
-        [rootTab presentViewController:joinNewClassNavigationController animated:YES completion:nil];
-    }
-    else if([title isEqualToString:@"Send Message"]) {
-        TSTabBarViewController *rootTab = [self getTabBarVC];
-        self.window.rootViewController = _startNav;
-        UIStoryboard *storyboard1 = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
-        UINavigationController *joinNewClassNavigationController = [storyboard1 instantiateViewControllerWithIdentifier:@"messageComposer"];
-        [rootTab presentViewController:joinNewClassNavigationController animated:YES completion:nil];
-    }
-    */
+    if(buttonIndex == [alertView cancelButtonIndex])
+        return;
     
     if(alertView.tag == 1) {
         NSString *iTunesLink = @"itms://itunes.apple.com/in/app/knit-messaging/id962112913?mt=8";
