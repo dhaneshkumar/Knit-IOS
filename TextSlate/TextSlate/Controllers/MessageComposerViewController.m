@@ -61,7 +61,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.navigationItem.title=@"Compose";
     UIBarButtonItem *cancelBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemStop  target:self action:@selector(closeWindow)];
     self.navigationItem.leftBarButtonItem = cancelBarButtonItem;
     _attachImage=[[UIImageView alloc]init];

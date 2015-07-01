@@ -137,6 +137,7 @@
 		FBAB18DE1B0E10F800440089 /* next@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = FBAB18DB1B0E10F800440089 /* next@3x.png */; };
 		FBACC65C1A74298800DC1747 /* libstdc++.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = FBACC65B1A74298800DC1747 /* libstdc++.6.dylib */; };
 		FBACC65E1A7429A700DC1747 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = FBACC65D1A7429A700DC1747 /* libsqlite3.dylib */; };
+		FBAD1FA01B43BAD900F8999A /* TSWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FBAD1F9F1B43BAD900F8999A /* TSWebViewController.m */; };
 		FBB860B21AF350920005474A /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FBB860B11AF350920005474A /* Default-568h@2x.png */; };
 		FBB860C01AF3595F0005474A /* JTSAnimatedGIFUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = FBB860B51AF3595F0005474A /* JTSAnimatedGIFUtility.m */; };
 		FBB860C11AF3595F0005474A /* JTSImageInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = FBB860B71AF3595F0005474A /* JTSImageInfo.m */; };
@@ -344,6 +345,8 @@
 		FBAB18DB1B0E10F800440089 /* next@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "next@3x.png"; sourceTree = "<group>"; };
 		FBACC65B1A74298800DC1747 /* libstdc++.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.6.dylib"; path = "usr/lib/libstdc++.6.dylib"; sourceTree = SDKROOT; };
 		FBACC65D1A7429A700DC1747 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		FBAD1F9E1B43BAD800F8999A /* TSWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSWebViewController.h; sourceTree = "<group>"; };
+		FBAD1F9F1B43BAD900F8999A /* TSWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSWebViewController.m; sourceTree = "<group>"; };
 		FBB860B11AF350920005474A /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		FBB860B41AF3595F0005474A /* JTSAnimatedGIFUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JTSAnimatedGIFUtility.h; sourceTree = "<group>"; };
 		FBB860B51AF3595F0005474A /* JTSAnimatedGIFUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JTSAnimatedGIFUtility.m; sourceTree = "<group>"; };
@@ -499,6 +502,7 @@
 		971687D71A1F1BCA00FE98FC /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				FBAD1F9D1B43BAA300F8999A /* Web View */,
 				406E1DF01B294F7A00F17C33 /* Feedback Controller */,
 				FB65C9671B1D80A500EAE58E /* Gif Viewer */,
 				FB777C081B16D59F00754546 /* Address Book */,
@@ -920,6 +924,15 @@
 			name = "Sign In For Both";
 			sourceTree = "<group>";
 		};
+		FBAD1F9D1B43BAA300F8999A /* Web View */ = {
+			isa = PBXGroup;
+			children = (
+				FBAD1F9E1B43BAD800F8999A /* TSWebViewController.h */,
+				FBAD1F9F1B43BAD900F8999A /* TSWebViewController.m */,
+			);
+			name = "Web View";
+			sourceTree = "<group>";
+		};
 		FBB860B31AF3595F0005474A /* JTSImageViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -1186,6 +1199,7 @@
 				FBC1BD0C1AB70037004921CD /* classDetailsTableViewCell.m in Sources */,
 				402AFA2A1B3082F200B8AA49 /* CustomCoachMarkViewController.m in Sources */,
 				975B1E7F1A2070070028BE25 /* TSSignUpViewController.m in Sources */,
+				FBAD1FA01B43BAD900F8999A /* TSWebViewController.m in Sources */,
 				FBBA45CF1A9673AC0088CCBC /* TSCreatedClassMessageTableViewCell.m in Sources */,
 				FB65C96A1B1D80CA00EAE58E /* TSGifViewerViewController.m in Sources */,
 				971687E01A1F1C2B00FE98FC /* TSTeacher.m in Sources */,

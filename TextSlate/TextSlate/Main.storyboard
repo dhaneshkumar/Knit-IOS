@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7531" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vM8-hp-Orb">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vM8-hp-Orb">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
@@ -57,10 +57,10 @@
                                 <exclude reference="TrV-sg-8my"/>
                             </mask>
                             <mask key="constraints">
+                                <exclude reference="sU7-1h-Wtm"/>
                                 <exclude reference="AGm-iX-GUy"/>
                                 <exclude reference="fRc-uJ-oJG"/>
                                 <exclude reference="sbd-ZO-4Wb"/>
-                                <exclude reference="sU7-1h-Wtm"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
@@ -68,10 +68,10 @@
                                 <include reference="TrV-sg-8my"/>
                             </mask>
                             <mask key="constraints">
+                                <include reference="sU7-1h-Wtm"/>
                                 <include reference="AGm-iX-GUy"/>
                                 <include reference="fRc-uJ-oJG"/>
                                 <include reference="sbd-ZO-4Wb"/>
-                                <include reference="sU7-1h-Wtm"/>
                             </mask>
                         </variation>
                     </view>
@@ -6170,6 +6170,62 @@
             </objects>
             <point key="canvasLocation" x="5728.5" y="2235.75"/>
         </scene>
+        <!--Web View Controller-->
+        <scene sceneID="xUB-QJ-Bpe">
+            <objects>
+                <viewController id="xHt-8l-NCt" customClass="TSWebViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="QGr-eW-jzh"/>
+                        <viewControllerLayoutGuide type="bottom" id="gxY-CT-9iu"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="8fa-Ht-J0Y">
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <webView contentMode="scaleToFill" scalesPageToFit="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QKe-Vm-Fzz">
+                                <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <dataDetectorType key="dataDetectorTypes" phoneNumber="YES" link="YES"/>
+                            </webView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="QKe-Vm-Fzz" secondAttribute="trailing" constant="-16" id="2KT-4r-YLk"/>
+                            <constraint firstItem="QKe-Vm-Fzz" firstAttribute="leading" secondItem="8fa-Ht-J0Y" secondAttribute="leadingMargin" constant="-16" id="JEa-xZ-LLh"/>
+                            <constraint firstItem="QKe-Vm-Fzz" firstAttribute="top" secondItem="8fa-Ht-J0Y" secondAttribute="topMargin" id="KxV-qC-GK6"/>
+                            <constraint firstItem="gxY-CT-9iu" firstAttribute="top" secondItem="QKe-Vm-Fzz" secondAttribute="bottom" id="tfl-s2-0LM"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="subviews">
+                                <exclude reference="QKe-Vm-Fzz"/>
+                            </mask>
+                            <mask key="constraints">
+                                <exclude reference="2KT-4r-YLk"/>
+                                <exclude reference="JEa-xZ-LLh"/>
+                                <exclude reference="KxV-qC-GK6"/>
+                                <exclude reference="tfl-s2-0LM"/>
+                            </mask>
+                        </variation>
+                        <variation key="heightClass=regular-widthClass=compact">
+                            <mask key="subviews">
+                                <include reference="QKe-Vm-Fzz"/>
+                            </mask>
+                            <mask key="constraints">
+                                <include reference="2KT-4r-YLk"/>
+                                <include reference="JEa-xZ-LLh"/>
+                                <include reference="KxV-qC-GK6"/>
+                                <include reference="tfl-s2-0LM"/>
+                            </mask>
+                        </variation>
+                    </view>
+                    <navigationItem key="navigationItem" id="g1n-hW-mw0"/>
+                    <connections>
+                        <outlet property="webView" destination="QKe-Vm-Fzz" id="VKC-EC-jKL"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="5RK-Ts-Sbf" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="9201" y="2196"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="XNy-4c-hab">
             <objects>
@@ -7586,6 +7642,24 @@ Login using your email ID.</string>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zq3-ao-yCp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="8199" y="-859.5"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="YZZ-8v-YX3">
+            <objects>
+                <navigationController storyboardIdentifier="webViewNavVC" automaticallyAdjustsScrollViewInsets="NO" id="iqZ-ct-PHg" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="ykb-Du-Iw3">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="xHt-8l-NCt" kind="relationship" relationship="rootViewController" id="mjV-V5-pL3"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="MYh-2p-pwP" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="8283" y="2196"/>
         </scene>
     </scenes>
     <resources>

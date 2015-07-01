@@ -23,6 +23,7 @@
 #import "TSTabBarViewController.h"
 #import "TSSendClassMessageViewController.h"
 #import "ClassesViewController.h"
+#import "TSWebViewController.h"
 
 
 @interface AppDelegate ()
@@ -32,6 +33,7 @@
 @property (nonatomic, strong) NSString *membersClassCode;
 @property (nonatomic, strong) NSString *membersClassName;
 @property (nonatomic, strong) NSString *notificationId;
+@property (nonatomic, strong) NSString *url;
 
 @end
 
@@ -229,6 +231,29 @@
                     alert.tag = 4;
                     [alert show];
                 }
+            }
+        }
+        else if ([notificationType isEqualToString:@"LINK"]) {
+            if(application.applicationState==UIApplicationStateInactive) {
+                TSTabBarViewController *rootTab = [self getTabBarVC];
+                [rootTab setSelectedIndex:0];
+                self.window.rootViewController = _startNav;
+                
+                UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
+                UINavigationController *webViewNavigationController = [storyboard instantiateViewControllerWithIdentifier:@"webViewNavVC"];
+                TSWebViewController *webViewVC = (TSWebViewController *)webViewNavigationController.topViewController;
+                webViewVC.url = actionType;
+                [rootTab presentViewController:webViewNavigationController animated:YES completion:nil];
+            }
+            else if(application.applicationState==UIApplicationStateActive) {
+                _url = actionType;
+                NSString *title=@"Knit";
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
+                                                                message:[userInfo objectForKey:@"message"]
+                                                               delegate:self cancelButtonTitle:@"Not now"
+                                                      otherButtonTitles:@"Ok",nil];
+                alert.tag = 5;
+                [alert show];
             }
         }
     }
@@ -498,6 +523,17 @@
         ClassesViewController *classesVC = rootTab.viewControllers[0];
         TSSendClassMessageViewController *dvc = classesVC.createdClassesVCs[_membersClassCode];
         [_startNav pushViewController:dvc animated:YES];
+    }
+    else if(alertView.tag == 5) {
+        TSTabBarViewController *rootTab = [self getTabBarVC];
+        [rootTab setSelectedIndex:0];
+        self.window.rootViewController = _startNav;
+        
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
+        UINavigationController *webViewNavigationController = [storyboard instantiateViewControllerWithIdentifier:@"webViewNavVC"];
+        TSWebViewController *webViewVC = (TSWebViewController *)webViewNavigationController.topViewController;
+        webViewVC.url = _url;
+        [rootTab presentViewController:webViewNavigationController animated:YES completion:nil];
     }
     else if(alertView.tag == 21) {
         TSTabBarViewController *rootTab = [self getTabBarVC];
