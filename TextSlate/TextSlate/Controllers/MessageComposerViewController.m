@@ -22,6 +22,7 @@
 #import "MBProgressHUD.h"
 #import "RKDropdownAlert.h"
 #import "ClassesViewController.h"
+#import "MessageComposerRecipientsViewController.h"
 #import "TSUtils.h"
 
 @interface MessageComposerViewController ()
@@ -83,11 +84,11 @@
     
     [ _cancelAttachment addTarget:self action:@selector(removeAttachment) forControlEvents:UIControlEventTouchUpInside];
     
-    _wordCount=[[UILabel alloc]init];
+    _wordCount = [[UILabel alloc]init];
     [_wordCount setFrame:CGRectMake(260, 2,30, 40)];
-    _wordCount.textColor=[UIColor grayColor];
-    _wordCount.font=[UIFont systemFontOfSize:13];
-    _wordCount.text=@"300";
+    _wordCount.textColor = [UIColor grayColor];
+    _wordCount.font = [UIFont systemFontOfSize:13];
+    _wordCount.text = @"300";
     
     [self.navigationController.toolbar addSubview:_progressBar];
     [self.navigationController.toolbar addSubview:_attachImage];
@@ -99,21 +100,7 @@
     _createdclassName=[[NSMutableArray alloc]init];
     _createdclassCode=[[NSMutableArray alloc]init];
     _textMessage.delegate = self;
-    //[_textMessage scrollRangeToVisible:NSMakeRange(0, 0)];
-    //_textMessage.text = @"  Type Message here...";
-    //_textMessage.textColor = [UIColor lightGrayColor];
-    //_textMessage.layer.cornerRadius = 5;
-    //_textMessage.clipsToBounds = YES;
-    //[_textMessage.layer setBackgroundColor: [[UIColor whiteColor] CGColor]];
     _hasTypedMessage = false;
-    //[_textMessage.layer setBorderColor:[[UIColor lightGrayColor] CGColor]];
-    //[_textMessage.layer setBorderWidth: 1.0];
-    //[_textMessage.layer setCornerRadius:0.0f];
-    //[_textMessage.layer setMasksToBounds:YES];
-    //_recipient.delegate=self;
-    //_recipient.text=@"Tap to select Classroom";
-    //_recipient.textColor=[UIColor lightGrayColor];
-    //_recipient.font=[UIFont systemFontOfSize:14];
     
     _createdClasses=[[PFUser currentUser] objectForKey:@"Created_groups"];
     NSLog(@"object return %@",[_createdClasses objectAtIndex:0]);
@@ -153,7 +140,7 @@
     return NO;
 }
 
--(void)viewWillAppear:(BOOL)animated{
+-(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(liftMainViewWhenKeybordAppears:) name:UIKeyboardWillShowNotification object:nil];
@@ -191,37 +178,16 @@
     [_recipientClassView addGestureRecognizer:recipientClassTap];
     UITapGestureRecognizer *messageBodyTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(messageBodyTapped:)];
     [_textMessage addGestureRecognizer:messageBodyTap];
-    /*if(_isClass==true)
-    {
-        NSLog(@"Here in true class");
-        NSLog(@"classcode %@",_className);
-        _recipient.text=_classname;
-        _recipient.textColor=[UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
-        _classCode = _classcode;
-        _className = _classname;
-    }*/
 }
 
 
 - (void)textViewDidBeginEditing:(UITextView *)textView
 {
     NSLog(@"did begin editing");
-    //[textView becomeFirstResponder];
     _writeMessageHere.hidden = true;
     if (!_hasTypedMessage) {
         textView.text = @"";
     }
-    /*if (!_hasTypedMessage) {
-        textView.text = @"";
-        textView.textColor = [UIColor blackColor]; //optional
-    }
-    _hasTypedMessage = true;
-    
-    if([textView.text isEqualToString:@"Tap to select Classroom"])
-    {
-    
-    }
-    [textView becomeFirstResponder];*/
 }
 
 - (void)textViewDidEndEditing:(UITextView *)textView {
@@ -241,7 +207,13 @@
 -(void)recipientClassTapped:(UITapGestureRecognizer *)recognizer {
     NSLog(@"recipient class tapped");
     if(!_isClass) {
-        [self.classOptions showInView:self.view];
+        MessageComposerRecipientsViewController *popUpView = [self.storyboard instantiateViewControllerWithIdentifier:@"messageRecipientsVC"];
+        popUpView.messageComposerVC = self;
+        if(_hasSelectedClass)
+            popUpView.classCode = _classCode;
+        else
+            popUpView.classCode = nil;
+        [self presentViewController:popUpView animated:YES completion:nil];
     }
 }
 
@@ -276,45 +248,6 @@
 }
 
 
-/*
--(IBAction)recipientButton:(id)sender
-{
-    if(_isClass==true)
-    {
-        
-    }
-    
-    else{
-   
-        if(_createdclassName.count<1)
-        {
-            [RKDropdownAlert title:@"Knit" message:@"Oops! It seems you have not created any class.Please try again later." time:2];
-        }
-        else{
- 
-            UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Choose class from here"
-                                                                 delegate:self
-                                                        cancelButtonTitle:nil
-                                                   destructiveButtonTitle:nil
-                                                        otherButtonTitles:nil];
-        
-        // ObjC Fast Enumeration
-        
-            for (NSString *title in _createdclassName) {
-            [actionSheet addButtonWithTitle:title];
-            }
-        
-        
-            actionSheet.cancelButtonIndex = [actionSheet addButtonWithTitle:@"Cancel"];
-        
-            [actionSheet showInView:self.view];
-     
-        }
-
-    }
-}
-*/
- 
 - (void) actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
     NSLog(@"button index : %d", buttonIndex);
     if(buttonIndex == _createdclassCode.count){
@@ -331,53 +264,21 @@
     }
 }
 
-/*
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger) section {
-            return _createdclassName.count;
-    }
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-        NSLog(@"create table");
-    
-        UITableViewCell *cell = nil;
-       static NSString *AutoCompleteRowIdentifier = @"AutoCompleteRowIdentifier";
-        cell = [tableView dequeueReusableCellWithIdentifier:AutoCompleteRowIdentifier];
-       if (cell == nil) {
-                cell = [[UITableViewCell alloc]
-                                        initWithStyle:UITableViewCellStyleDefault reuseIdentifier:AutoCompleteRowIdentifier];
-            }
-    
-            cell.textLabel.text=[_createdclassName objectAtIndex:indexPath.row];
-    
-    
-        return cell;
-    }
-
-#pragma mark UITableViewDelegate methods
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-        UITableViewCell *selectedCell = [tableView cellForRowAtIndexPath:indexPath];
-
-        _recipient.text=selectedCell.textLabel.text;
-        _recipient.textColor=[UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
-        _className=_recipient.text;
-        int index=(int) indexPath;
-        NSLog(@" class code %@ %i",[_createdclassCode objectAtIndex:1],index);
-        _classCode=[_createdclassCode objectAtIndex:indexPath.row];
-        NSLog(@"class code and name here is %@ %@",_classCode,_className);
-    
+-(void)classSelected:(int)row {
+    _recipientClassLabel.text = _createdclassName[row];
+    _className = _recipientClassLabel.text;
+    _classCode=[_createdclassCode objectAtIndex:row];
+    _recipientClassLabel.textColor = [UIColor colorWithRed:41.0/255.0 green:182.0/255.0 blue:246.0/255.0 alpha:1.0];
+    _recipientClassLabel.font = [UIFont systemFontOfSize:20.0];
+    _hasSelectedClass = true;
 }
- */
 
 -(void)liftMainViewWhenKeybordHide:(NSNotification *)aNotification {
     [_textMessage becomeFirstResponder];
 }
 
 
--(void) liftMainViewWhenKeybordAppears:(NSNotification*)aNotification
-{
+-(void) liftMainViewWhenKeybordAppears:(NSNotification*)aNotification {
         NSDictionary* userInfo = [aNotification userInfo];
     
         NSTimeInterval animationDuration;
@@ -411,6 +312,7 @@
     [_textMessage becomeFirstResponder];
         NSLog(@"toolbar moved: %f", self.navigationController.view.frame.size.height);
 }
+
 
 -(IBAction)sendMessage:(id)sender  {
     NSLog(@"message send pressed");

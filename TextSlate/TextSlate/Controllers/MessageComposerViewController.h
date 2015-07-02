@@ -13,4 +13,6 @@
 @property (strong,nonatomic) NSString *classcode;
 @property (strong,nonatomic) NSString *classname;
 
+-(void)classSelected:(int)row;
+
 @end

@@ -65,6 +65,7 @@
 		976732631A647C8D001CEC97 /* TSMemberslistTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 976732621A647C8D001CEC97 /* TSMemberslistTableViewController.m */; };
 		976F04451A4B6EA0003E9604 /* TSSendClassMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 976F04441A4B6EA0003E9604 /* TSSendClassMessageViewController.m */; };
 		9786AE4C1A473E2B00801838 /* TSJoinNewClassViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9786AE4B1A473E2B00801838 /* TSJoinNewClassViewController.m */; };
+		FB0F6CAD1B45547F0006BE95 /* MessageComposerRecipientsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FB0F6CAC1B45547F0006BE95 /* MessageComposerRecipientsViewController.m */; };
 		FB1F47BB1A7589AE0093350B /* 120x120.png in Resources */ = {isa = PBXBuildFile; fileRef = FB1F47B71A7589AE0093350B /* 120x120.png */; };
 		FB1F47BD1A7589AE0093350B /* 180x180.png in Resources */ = {isa = PBXBuildFile; fileRef = FB1F47B91A7589AE0093350B /* 180x180.png */; };
 		FB65C9621B1C357A00EAE58E /* BlackoutView.m in Sources */ = {isa = PBXBuildFile; fileRef = FB65C9611B1C357A00EAE58E /* BlackoutView.m */; };
@@ -260,6 +261,8 @@
 		9786AE4B1A473E2B00801838 /* TSJoinNewClassViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSJoinNewClassViewController.m; sourceTree = "<group>"; };
 		A0D6BA3FFCBC392BC09140C0 /* Pods-Knit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Knit.release.xcconfig"; path = "Pods/Target Support Files/Pods-Knit/Pods-Knit.release.xcconfig"; sourceTree = "<group>"; };
 		BDFF5D9E42405E99CF3323E3 /* Pods-Knit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Knit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Knit/Pods-Knit.debug.xcconfig"; sourceTree = "<group>"; };
+		FB0F6CAB1B45547F0006BE95 /* MessageComposerRecipientsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageComposerRecipientsViewController.h; sourceTree = "<group>"; };
+		FB0F6CAC1B45547F0006BE95 /* MessageComposerRecipientsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageComposerRecipientsViewController.m; sourceTree = "<group>"; };
 		FB1F47B71A7589AE0093350B /* 120x120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 120x120.png; sourceTree = "<group>"; };
 		FB1F47B91A7589AE0093350B /* 180x180.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 180x180.png; sourceTree = "<group>"; };
 		FB65C9601B1C357A00EAE58E /* BlackoutView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlackoutView.h; sourceTree = "<group>"; };
@@ -631,6 +634,7 @@
 		971687DC1A1F1BCA00FE98FC /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				FB0F6CAA1B45541C0006BE95 /* MessageComposerRecipients */,
 				402AFA261B30829E00B8AA49 /* CustomCoachMark */,
 				FB6F09891B2C426E00EA9AEB /* CustomAlertSheet */,
 				FB65C95F1B1C353D00EAE58E /* Blackout View */,
@@ -841,6 +845,15 @@
 				A0D6BA3FFCBC392BC09140C0 /* Pods-Knit.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		FB0F6CAA1B45541C0006BE95 /* MessageComposerRecipients */ = {
+			isa = PBXGroup;
+			children = (
+				FB0F6CAB1B45547F0006BE95 /* MessageComposerRecipientsViewController.h */,
+				FB0F6CAC1B45547F0006BE95 /* MessageComposerRecipientsViewController.m */,
+			);
+			name = MessageComposerRecipients;
 			sourceTree = "<group>";
 		};
 		FB65C95F1B1C353D00EAE58E /* Blackout View */ = {
@@ -1228,6 +1241,7 @@
 				406E1DF31B294FA500F17C33 /* FeedbackViewController.m in Sources */,
 				FBB860C21AF3595F0005474A /* JTSImageViewController.m in Sources */,
 				40CDDBB61A90E47E00922ADF /* TSMember.m in Sources */,
+				FB0F6CAD1B45547F0006BE95 /* MessageComposerRecipientsViewController.m in Sources */,
 				FBB860C01AF3595F0005474A /* JTSAnimatedGIFUtility.m in Sources */,
 				FBBA45CC1A94D3170088CCBC /* TSInboxMessageTableViewCell.m in Sources */,
 				97655AC61A5D915C004A2884 /* TSSettingsTableViewController.m in Sources */,
