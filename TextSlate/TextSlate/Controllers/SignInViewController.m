@@ -88,7 +88,7 @@
     _verticalSpace6.constant = 24.0;
     _label1.textColor = [UIColor blackColor];
     _contentViewWidth.constant = [TSUtils getScreenWidth];
-    _contentViewHeight.constant = 20+34+24+30+4+14+50+48+22+30+5+30+12+40+216-64-40;
+    //_contentViewHeight.constant = 20+34+24+30+4+14+50+48+22+30+5+30+12+40+216-64-40;
     [self state1View];
 }
 
@@ -179,7 +179,7 @@
             [self state1View];
             [UIView animateWithDuration:0.5 animations:^{
                 [self.view layoutIfNeeded];
-                [_scrollView setContentOffset:CGPointMake(0, 0)];
+                [_scrollView setContentOffset:CGPointMake(0, 10.0)];
             }];
         }
     }
@@ -481,7 +481,6 @@
     }
     return YES;
 }
-
 
 
 /*
