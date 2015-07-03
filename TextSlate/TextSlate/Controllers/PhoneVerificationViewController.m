@@ -152,7 +152,15 @@
                                 
                                 AppDelegate *apd = (AppDelegate *)[[UIApplication sharedApplication] delegate];
                                 UINavigationController *rootNav = (UINavigationController *)apd.startNav;
+                                NSArray *vcs = rootNav.viewControllers;
                                 TSTabBarViewController *rootTab = (TSTabBarViewController *)rootNav.topViewController;
+                                for(id vc in vcs) {
+                                    if([vc isKindOfClass:[TSTabBarViewController class]]) {
+                                        rootTab = (TSTabBarViewController *)vc;
+                                        break;
+                                    }
+                                }
+
                                 [rootTab initialization];
                                 
                                 if([_role isEqualToString:@"teacher"]) {
@@ -205,45 +213,6 @@
                                 }
                                 [hud hide:YES];
                                 [self dismissViewControllerAnimated:YES completion:nil];
-                                
-                                /*
-                                if([_role isEqualToString:@"parent"]){
-                                    UILocalNotification *localNotification = [[UILocalNotification alloc] init];
-                                    localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:10];
-                                    localNotification.alertBody = @"Welcome to Knit! You can join classes here!";
-                                    localNotification.timeZone = [NSTimeZone defaultTimeZone];
-                                    localNotification.alertAction=@"Join";
-                                    localNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication]     applicationIconBadgeNumber] + 1;
-                                    [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
-                                }
-                                
-                                if([_role isEqualToString:@"teacher"]){
-                                    UILocalNotification *localNotification = [[UILocalNotification alloc] init];
-                                    localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:10];
-                                    localNotification.alertBody = @"Welcome to Knit! You can create classes here!";
-                                    localNotification.timeZone = [NSTimeZone defaultTimeZone];
-                                    localNotification.alertAction=@"Create";
-                                    localNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication]     applicationIconBadgeNumber] + 1;
-                                    [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
-                                 
-                                    [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:nil];
-                                    NSTimer* loop = [NSTimer scheduledTimerWithTimeInterval:60*60*24*2 target:self selector:@selector(showCreateClassNotification) userInfo:nil repeats:NO];
-                                    [[NSRunLoop currentRunLoop] addTimer:loop forMode:NSRunLoopCommonModes];
-                                
-                                    
-                                }
-                                if([_role isEqualToString:@"parent"])
-                                {
-                                    [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:nil];
-                                    [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:nil];
-                                    NSTimer* loop = [NSTimer scheduledTimerWithTimeInterval:60*60*24*2 target:self selector:@selector(showJoinClassNotification) userInfo:nil repeats:NO];
-                                    [[NSRunLoop currentRunLoop] addTimer:loop forMode:NSRunLoopCommonModes];
-                                    
-                                    // Invite Teacher here not parent
-                                    NSTimer* loop1 = [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(showInviteTeacherNotification) userInfo:nil repeats:NO];
-                                    [[NSRunLoop currentRunLoop] addTimer:loop1 forMode:NSRunLoopCommonModes];
-                                }
-                                */
                             } errorBlock:^(NSError *error) {
                                 [hud hide:YES];
                                 [RKDropdownAlert title:@"Knit" message:@"Error in signing up. Try again."  time:2];
@@ -372,7 +341,15 @@
     
     AppDelegate *apd = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     UINavigationController *rootNav = (UINavigationController *)apd.startNav;
+    NSArray *vcs = rootNav.viewControllers;
     TSTabBarViewController *rootTab = (TSTabBarViewController *)rootNav.topViewController;
+    for(id vc in vcs) {
+        if([vc isKindOfClass:[TSTabBarViewController class]]) {
+            rootTab = (TSTabBarViewController *)vc;
+            break;
+        }
+    }
+
     
     if(lds.count==1) {
         if([((PFObject*)lds[0])[@"iosUserID"] isEqualToString:[PFUser currentUser].objectId]) {
@@ -394,96 +371,13 @@
     
     [hud hide:YES];
     [self dismissViewControllerAnimated:YES completion:nil];
-    
-    /*
-    if([role isEqualToString:@"parent"] || [role isEqualToString:@"teacher"]) {
-        [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:nil];
-        NSTimer* loop = [NSTimer scheduledTimerWithTimeInterval:60*60*24 target:self selector:@selector(showJoinClassNotification) userInfo:nil repeats:NO];
-        [[NSRunLoop currentRunLoop] addTimer:loop forMode:NSRunLoopCommonModes];
-        NSTimer* loop1 = [NSTimer scheduledTimerWithTimeInterval:60*60*24*2 target:self selector:@selector(showInviteTeacherNotification) userInfo:nil repeats:NO];
-        [[NSRunLoop currentRunLoop] addTimer:loop1 forMode:NSRunLoopCommonModes];
-    }
-    if([role isEqualToString:@"teacher"]) {
-        [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:nil];
-        NSTimer* loop = [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(showCreateClassNotification) userInfo:nil repeats:NO];
-        [[NSRunLoop currentRunLoop] addTimer:loop forMode:NSRunLoopCommonModes];
-    }
-    */
-}
-
-/*
--(void)showCreateClassNotification{
-    PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
-    [lq fromLocalDatastore];
-    NSArray *lds = [lq findObjects];
-    if(lds.count==1) {
-        if([((PFObject*)lds[0])[@"iosUserID"] isEqualToString:[PFUser currentUser].objectId]){
-            PFUser *current = [PFUser currentUser];
-            NSArray *createdClass = [current objectForKey:@"Created_groups"];
-            if(createdClass.count<1 ) {
-                UILocalNotification *localNotification = [[UILocalNotification alloc] init];
-                localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:5];
-                localNotification.alertBody = @"We see you have not created any class.";
-                localNotification.timeZone = [NSTimeZone defaultTimeZone];
-                localNotification.alertAction=@"Create";
-                localNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication]     applicationIconBadgeNumber] + 1;
-                [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
-            }
-        }
-    }
 }
 
 
--(void)showJoinClassNotification {
-    PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
-    [lq fromLocalDatastore];
-    NSArray *lds = [lq findObjects];
-    if(lds.count==1) {
-        if([((PFObject*)lds[0])[@"iosUserID"] isEqualToString:[PFUser currentUser].objectId]) {
-            PFUser *current=[PFUser currentUser];
-            NSArray *joinedClass=[current objectForKey:@"joined_groups"];
-            if(joinedClass.count<1){
-        
-                UILocalNotification *localNotification = [[UILocalNotification alloc] init];
-                localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:5];
-                localNotification.alertBody = @"We see you have not joined any class.";
-                localNotification.timeZone = [NSTimeZone defaultTimeZone];
-                localNotification.alertAction=@"Join";
-                localNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication]     applicationIconBadgeNumber] + 1;
-                [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
-            }
-        }
-    }
-}
-
-
--(void)showInviteTeacherNotification{
-    PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
-    [lq fromLocalDatastore];
-    NSArray *lds = [lq findObjects];
-    if(lds.count==1) {
-        if([((PFObject*)lds[0])[@"iosUserID"] isEqualToString:[PFUser currentUser].objectId])
-        {
-            PFUser *current=[PFUser currentUser];
-            NSArray *joinedClass=[current objectForKey:@"joined_groups"];
-            if(joinedClass.count<1){
-                UILocalNotification *localNotification = [[UILocalNotification alloc] init];
-                localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:5];
-                localNotification.alertBody = @"You know you can invite teachers and join their classese! ";
-                localNotification.timeZone = [NSTimeZone defaultTimeZone];
-                localNotification.alertAction=@"Invite Teacher";
-                localNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication]     applicationIconBadgeNumber] + 1;
-                [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
-    
-            }
-        }
-    }
-}
-*/
- 
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
     return YES;
 }
+
 
 // It is important for you to hide kwyboard
 

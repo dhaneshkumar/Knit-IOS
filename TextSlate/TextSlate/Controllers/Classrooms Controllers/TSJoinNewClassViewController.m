@@ -275,12 +275,6 @@
     if (self.presentingViewController) {
         [self dismissViewControllerAnimated:YES completion:nil];
     }
-   /* UINavigationController *tab=[self.storyboard instantiateViewControllerWithIdentifier:@"tabBar"];
-    TSTabBarViewController *mainTab=(TSTabBarViewController*) tab.topViewController;
-    [self dismissViewControllerAnimated:YES completion:^{
-        [self presentViewController:mainTab animated:NO completion:nil];
-    }];
-*/
 }
 
 -(NSString *)trimmedString:(NSString *)input {

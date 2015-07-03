@@ -249,7 +249,6 @@ if(section==0)
     if(_isOld==true){
     if (indexPath.row == 1 && indexPath.section==1) {
         // Log out.
-     // [(TSTabBarViewController*)self.parentViewController.parentViewController logout];
         PFInstallation *currentInstallation=[PFInstallation currentInstallation];
         NSString *objectID=currentInstallation.objectId;
         NSLog(@"Object ID is %@",objectID);

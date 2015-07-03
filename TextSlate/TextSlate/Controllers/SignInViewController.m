@@ -383,7 +383,15 @@
     NSArray *lds = [lq findObjects];
     AppDelegate *apd = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     UINavigationController *rootNav = (UINavigationController *)apd.startNav;
+    NSArray *vcs = rootNav.viewControllers;
     TSTabBarViewController *rootTab = (TSTabBarViewController *)rootNav.topViewController;
+    for(id vc in vcs) {
+        if([vc isKindOfClass:[TSTabBarViewController class]]) {
+            rootTab = (TSTabBarViewController *)vc;
+            break;
+        }
+    }
+
     
     if(lds.count==1) {
         if([((PFObject*)lds[0])[@"iosUserID"] isEqualToString:[PFUser currentUser].objectId]) {

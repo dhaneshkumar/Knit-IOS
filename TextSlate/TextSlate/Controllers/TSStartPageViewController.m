@@ -90,7 +90,7 @@
 
 -(void)studentTap:(UITapGestureRecognizer *)recognizer {
     TSSignUpViewController *signUpVC = [self.storyboard instantiateViewControllerWithIdentifier:@"signUpVC"];
-    signUpVC.role = @"parent";
+    signUpVC.role = @"student";
     [self.navigationController pushViewController:signUpVC animated:YES];
 }
 
