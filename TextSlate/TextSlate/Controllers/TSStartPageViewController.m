@@ -75,7 +75,8 @@
 }
 
 -(void)loginTap:(UITapGestureRecognizer *)recognizer {
-    SignInViewController *signUpVC = [self.storyboard instantiateViewControllerWithIdentifier:@"dualSignInVC"];
+    SignInViewController *signUpVC = [self.storyboard instantiateViewControllerWithIdentifier:@"newSignInVC"];
+    //UIViewController *signUpVC = [self.storyboard instantiateViewControllerWithIdentifier:@"newSignInVC"];
     [self.navigationController pushViewController:signUpVC animated:YES];
 }
 

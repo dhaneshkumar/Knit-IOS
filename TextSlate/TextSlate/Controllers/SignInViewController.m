@@ -15,6 +15,7 @@
 #import "RKDropdownAlert.h"
 #import <sys/utsname.h>
 #import <Parse/Parse.h>
+#import "TSUtils.h"
 
 
 @interface SignInViewController ()
@@ -32,6 +33,9 @@
 @property (weak, nonatomic) IBOutlet UITextField *emailTextField;
 @property (weak, nonatomic) IBOutlet UITextField *passwordTextField;
 @property (weak, nonatomic) IBOutlet UILabel *forgotPassword;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *contentViewHeight;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *contentViewWidth;
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (nonatomic) BOOL isState1;
 
 @property (strong, nonatomic) CLLocationManager *locationManager;
@@ -76,6 +80,15 @@
     [keyboardDoneButtonView sizeToFit];
     [keyboardDoneButtonView setItems:[NSArray arrayWithObjects:flexBarButton, doneButton, nil]];
     _mobilTextField.inputAccessoryView = keyboardDoneButtonView;
+    _verticalSpace1.constant = 20.0;
+    _verticalSpace2.constant = 24.0;
+    _verticalSpace3.constant = 4.0;
+    _verticalSpace4.constant = 50.0;
+    _verticalSpace5.constant = 22.0;
+    _verticalSpace6.constant = 24.0;
+    _label1.textColor = [UIColor blackColor];
+    _contentViewWidth.constant = [TSUtils getScreenWidth];
+    _contentViewHeight.constant = 20+34+24+30+4+14+50+48+22+30+5+30+12+40+216-64-40;
     [self state1View];
 }
 
@@ -126,13 +139,6 @@
 }
 
 -(void)state1View {
-    _verticalSpace1.constant = 30.0;
-    _verticalSpace2.constant = 24.0;
-    _verticalSpace3.constant = 4.0;
-    _verticalSpace4.constant = 80.0;
-    _verticalSpace5.constant = 22.0;
-    _verticalSpace6.constant = 24.0;
-    _label1.textColor = [UIColor blackColor];
     _label3.textColor = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
     [_label3 setUserInteractionEnabled:YES];
     [_label3 setFont:[UIFont systemFontOfSize:20]];
@@ -143,14 +149,8 @@
 
 
 -(void)state2View {
-    _verticalSpace1.constant = 10.0;
-    _verticalSpace2.constant = 10.0;
-    _verticalSpace3.constant = 4.0;
-    _verticalSpace4.constant = 20.0;
-    _verticalSpace5.constant = 22.0;
-    _verticalSpace6.constant = 10.0;
-    _label1.textColor = [UIColor colorWithRed:150.0f/255.0f green:150.0f/255.0f blue:150.0f/255.0f alpha:1.0];
     _label3.textColor = [UIColor blackColor];
+    [_label3 setUserInteractionEnabled:NO];
     [_label3 setFont:[UIFont systemFontOfSize:16]];
     _emailTextField.hidden = false;
     _passwordTextField.hidden = false;
@@ -165,7 +165,8 @@
         [self state2View];
         [UIView animateWithDuration:0.5 animations:^{
             [self.view layoutIfNeeded];
-            //[_emailTextField becomeFirstResponder];
+            [_scrollView setContentOffset:CGPointMake(0, 170.0)];
+            [_emailTextField becomeFirstResponder];
         }];
     }
 }
@@ -176,7 +177,10 @@
         if(!_isState1) {
             _isState1 = true;
             [self state1View];
-            [UIView animateWithDuration:0.5 animations:^{[self.view layoutIfNeeded];}];
+            [UIView animateWithDuration:0.5 animations:^{
+                [self.view layoutIfNeeded];
+                [_scrollView setContentOffset:CGPointMake(0, 0)];
+            }];
         }
     }
     return YES;
@@ -377,7 +381,6 @@
     PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
     [lq fromLocalDatastore];
     NSArray *lds = [lq findObjects];
-    NSString * role=[[PFUser currentUser] objectForKey:@"role"];
     AppDelegate *apd = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     UINavigationController *rootNav = (UINavigationController *)apd.startNav;
     TSTabBarViewController *rootTab = (TSTabBarViewController *)rootNav.topViewController;
@@ -399,26 +402,8 @@
         [self createLocalDatastore:nil];
         [rootTab initialization];
     }
-    
     [hud hide:YES];
     [self dismissViewControllerAnimated:YES completion:nil];
-    /*
-    if([role isEqualToString:@"parent"] || [role isEqualToString:@"teacher"]) {
-        [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:nil];
-        NSTimer* loop = [NSTimer scheduledTimerWithTimeInterval:60*60*24*2 target:self selector:@selector(showJoinClassNotification) userInfo:nil repeats:NO];
-        [[NSRunLoop currentRunLoop] addTimer:loop forMode:NSRunLoopCommonModes];
-        
-        [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:nil];
-        NSTimer* loop1 = [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(showInviteTeacherNotification) userInfo:nil repeats:NO];
-        [[NSRunLoop currentRunLoop] addTimer:loop1 forMode:NSRunLoopCommonModes];
-    }
-    
-    if([role isEqualToString:@"teacher"]) {
-        [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:nil];
-        NSTimer* loop = [NSTimer scheduledTimerWithTimeInterval:60*60*24*2 target:self selector:@selector(showCreateClassNotification) userInfo:nil repeats:NO];
-        [[NSRunLoop currentRunLoop] addTimer:loop forMode:NSRunLoopCommonModes];
-    }
-     */
 }
 
 
@@ -480,81 +465,6 @@
     
 }
 
-/*
--(void)showCreateClassNotification{
-    PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
-    [lq fromLocalDatastore];
-    NSArray *lds = [lq findObjects];
-    if(lds.count==1) {
-        if([((PFObject*)lds[0])[@"iosUserID"] isEqualToString:[PFUser currentUser].objectId])
-        {
-            NSLog(@"Show notification");
-            PFUser *current=[PFUser currentUser];
-            NSArray *createdClass=[current objectForKey:@"Created_groups"];
-            
-            if(createdClass.count<1 )
-                
-            {
-                UILocalNotification *localNotification = [[UILocalNotification alloc] init];
-                localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:5];
-                localNotification.alertBody = @"We see you have not created any class.";
-                localNotification.timeZone = [NSTimeZone defaultTimeZone];
-                localNotification.alertAction=@"Create";
-                localNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication]     applicationIconBadgeNumber] + 1;
-                [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
-                
-            }
-        }
-    }
-}
-
-
--(void)showJoinClassNotification{
-    PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
-    [lq fromLocalDatastore];
-    NSArray *lds = [lq findObjects];
-    if(lds.count==1) {
-        if([((PFObject*)lds[0])[@"iosUserID"] isEqualToString:[PFUser currentUser].objectId])
-        {
-            PFUser *current=[PFUser currentUser];
-            NSArray *joinedClass=[current objectForKey:@"joined_groups"];
-            if(joinedClass.count<1){
-                
-                UILocalNotification *localNotification = [[UILocalNotification alloc] init];
-                localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:5];
-                localNotification.alertBody = @"We see you have not joined any class.";
-                localNotification.timeZone = [NSTimeZone defaultTimeZone];
-                localNotification.alertAction=@"Join";
-                localNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication]     applicationIconBadgeNumber] + 1;
-                [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
-            }
-        }
-    }
-}
-
-
--(void)showInviteTeacherNotification{
-    PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
-    [lq fromLocalDatastore];
-    NSArray *lds = [lq findObjects];
-    if(lds.count==1) {
-        if([((PFObject*)lds[0])[@"iosUserID"] isEqualToString:[PFUser currentUser].objectId])
-        {
-            PFUser *current=[PFUser currentUser];
-            NSArray *joinedClass=[current objectForKey:@"joined_groups"];
-            if(joinedClass.count<1){
-                UILocalNotification *localNotification = [[UILocalNotification alloc] init];
-                localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:5];
-                localNotification.alertBody = @"You know you can invite teachers and join their classese! ";
-                localNotification.timeZone = [NSTimeZone defaultTimeZone];
-                localNotification.alertAction=@"Invite Teacher";
-                localNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication]     applicationIconBadgeNumber] + 1;
-                [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
-            }
-        }
-    }
-}
-*/
  
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
     
@@ -590,6 +500,5 @@
     [_passwordTextField resignFirstResponder];
     [_emailTextField resignFirstResponder];
 }
-
 
 @end
