@@ -118,6 +118,7 @@
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    NSLog(@"viewWill appear");
     [self.classesTable setEditing:NO animated:NO];
     if(self.segmentedControl.selectedSegmentIndex==0)
         [_createOrJoinButton setTitle:@"+  Create New Class" forState:UIControlStateNormal];
@@ -129,6 +130,7 @@
 
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+    NSLog(@"viewDid appear");
     if([PFUser currentUser])
         [self fetchCodegroups];
 }
@@ -190,28 +192,6 @@
     }
 }
 
-
-/*
-- (void) editButtonSelected: (id) sender {
-    if (self.classesTable.editing) {
-        self.tabBarController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editButtonSelected:)];
-        [self.classesTable setEditing:NO animated:YES];
-    } else {
-        self.tabBarController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(editButtonSelected:)];
-        [self.classesTable setEditing:YES animated:YES];
-    }
-}
-*/
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 -(NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if(self.segmentedControl.selectedSegmentIndex==0)

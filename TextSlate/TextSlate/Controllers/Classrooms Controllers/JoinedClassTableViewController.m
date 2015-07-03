@@ -244,7 +244,7 @@
             ClassesViewController *classesVC = rootTab.viewControllers[0];
             NSMutableArray *arr = [[NSMutableArray alloc] init];
             for(int i=0; i<classesVC.joinedClasses.count; i++) {
-                if([classesVC.joinedClasses[i] isEqualToString:_classCode])
+                if(![classesVC.joinedClasses[i] isEqualToString:_classCode])
                     [arr addObject:classesVC.joinedClasses[i]];
             }
             classesVC.joinedClasses = arr;
@@ -255,7 +255,7 @@
             ClassesParentViewController *classesVC = rootTab.viewControllers[0];
             NSMutableArray *arr = [[NSMutableArray alloc] init];
             for(int i=0; i<classesVC.joinedClasses.count; i++) {
-                if([classesVC.joinedClasses[i] isEqualToString:_classCode])
+                if(![classesVC.joinedClasses[i] isEqualToString:_classCode])
                     [arr addObject:classesVC.joinedClasses[i]];
             }
             classesVC.joinedClasses = arr;
