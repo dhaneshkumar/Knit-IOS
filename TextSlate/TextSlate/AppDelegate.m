@@ -95,7 +95,6 @@
                 }
             }
         }
-        
         TSTabBarViewController *rootTab = (TSTabBarViewController *)_startNav.topViewController;
         [rootTab initialization];
     }
@@ -507,10 +506,11 @@
     }
     else if(alertView.tag==52) {
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
-        FeedbackViewController *feedbackNavigationController = [storyboard instantiateViewControllerWithIdentifier:@"feedbackViewController"];
-        feedbackNavigationController.isSeparateWindow = true;
+        UINavigationController * feedbackNavVC = [storyboard instantiateViewControllerWithIdentifier:@"feedbackNavVC"];
+        FeedbackViewController *feedbackVC = (FeedbackViewController *)feedbackNavVC.topViewController;
+        feedbackVC.isSeparateWindow = true;
         TSTabBarViewController *rootTab = [self getTabBarVC];
-        [rootTab presentViewController:feedbackNavigationController animated:YES completion:nil];
+        [rootTab presentViewController:feedbackNavVC animated:YES completion:nil];
     }
     else if(alertView.tag==53) {
         NSString *iTunesLink = @"itms://itunes.apple.com/in/app/knit-messaging/id962112913?mt=8";

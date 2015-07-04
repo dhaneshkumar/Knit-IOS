@@ -263,9 +263,7 @@ if(section==0)
                 [RKDropdownAlert title:@"Knit" message:@"Error occured on logging out. Try again later."  time:2];
             }];
         }
-        
-        if(indexPath.row==0 && indexPath.section==1)
-        {
+        if(indexPath.row==0 && indexPath.section==1) {
             NSString *email=[[PFUser currentUser] objectForKey:@"email"];
             [PFUser requestPasswordResetForEmail:email];
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Knit"
@@ -275,34 +273,28 @@ if(section==0)
                                                   otherButtonTitles:nil];
             [alert show];
         }
-        
-        if(indexPath.row==1 && indexPath.section==2)
-        {
-            FeedbackViewController *feedbackNavigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"feedbackViewController"];
-            [self.navigationController pushViewController:feedbackNavigationController animated:YES];
+        if(indexPath.row==1 && indexPath.section==2) {
+            FeedbackViewController *feedbackVC= [self.storyboard instantiateViewControllerWithIdentifier:@"feedbackVC"];
+            feedbackVC.isSeparateWindow = false;
+            [self.navigationController pushViewController:feedbackVC animated:YES];
             
         }
-        
-        if(indexPath.row==0 && indexPath.section==0)
-        {
+        if(indexPath.row==0 && indexPath.section==0) {
             UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Choose Option"
                                                                      delegate:self
                                                             cancelButtonTitle:@"Cancel"
                                                        destructiveButtonTitle:nil
                                                             otherButtonTitles:@"Take a photo",@"Choose from photos",nil];
-            
             [actionSheet showInView:self.view];
         }
-        if(indexPath.row==0 && indexPath.section==2)
-        {
-                //faqNavigation
+        if(indexPath.row==0 && indexPath.section==2) {
             UINavigationController *faqNavigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"faqNavigation"];
             [self presentViewController:faqNavigationController animated:YES completion:nil];
 
             
         }
-        if(indexPath.row==2 && indexPath.section==2)
-        {
+        
+        if(indexPath.row==2 && indexPath.section==2) {
             NSString *iTunesLink = @"itms://itunes.apple.com/in/app/knit-messaging/id962112913?mt=8";
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:iTunesLink]];
             
@@ -327,9 +319,9 @@ if(section==0)
         }
         
         if(indexPath.row==1 && indexPath.section==2) {
-            FeedbackViewController *feedbackNavigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"feedbackViewController"];
-            feedbackNavigationController.isSeparateWindow = false;
-            [self.navigationController pushViewController:feedbackNavigationController animated:YES];
+            FeedbackViewController *feedbackVC = [self.storyboard instantiateViewControllerWithIdentifier:@"feedbackVC"];
+            feedbackVC.isSeparateWindow = false;
+            [self.navigationController pushViewController:feedbackVC animated:YES];
 
         }
         
@@ -356,10 +348,8 @@ if(section==0)
 }
 
 -(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
-    
-        NSLog(@"%@   %i",[actionSheet buttonTitleAtIndex:buttonIndex],buttonIndex);
-    if(buttonIndex==0)
-    {
+    NSLog(@"%@   %i",[actionSheet buttonTitleAtIndex:buttonIndex],buttonIndex);
+    if(buttonIndex==0) {
         AVAuthorizationStatus status = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
         if(status == AVAuthorizationStatusAuthorized) { // authorized
             
@@ -384,8 +374,7 @@ if(section==0)
 
     }
     
-    if(buttonIndex==1)
-    {
+    if(buttonIndex==1) {
         ALAuthorizationStatus status = [ALAssetsLibrary authorizationStatus];
         
         if (status != ALAuthorizationStatusAuthorized) {
@@ -402,22 +391,16 @@ if(section==0)
 
         }
     }
-    
-    
 }
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     
     UIImage *chosenImage = info[UIImagePickerControllerEditedImage];
- //   self.imageView.contentMode = UIViewContentModeScaleAspectFit;
-   // self.imageView.clipsToBounds = YES;
-    CGSize size={1080,1080};
-    UIImage *resized=[self resizeImage:chosenImage imageSize:size];
-    
-   // self.imageView.image = resized;
+    CGSize size = {1080,1080};
+    UIImage *resized = [self resizeImage:chosenImage imageSize:size];
     
     [picker dismissViewControllerAnimated:YES completion:NULL];
-    UIImage *profileImage=resized;
+    UIImage *profileImage = resized;
     NSData *imageData = UIImageJPEGRepresentation(profileImage, 0);
     PFFile *imageFile = [PFFile fileWithName:@"Profileimage.jpeg" data:imageData];
     [imageFile saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
@@ -436,17 +419,11 @@ if(section==0)
             UITableViewCell *selectedCell=[self.settingsTableView cellForRowAtIndexPath:indexPath];
             selectedCell.imageView.image=resized;
             [self.settingsTableView reloadData];
-            
-            
             [myAlertView show];
-
         } else {
             
         }
     }];
-    
-
-    
 }
 
 -(UIImage*)resizeImage:(UIImage *)image imageSize:(CGSize)size

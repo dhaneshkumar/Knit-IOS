@@ -1150,7 +1150,7 @@ Login using your email ID.</string>
         <!--Feedback Controller-->
         <scene sceneID="I2y-G4-Izb">
             <objects>
-                <viewController storyboardIdentifier="feedbackViewController" id="S7g-qB-WOS" userLabel="Feedback Controller" customClass="FeedbackViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="feedbackVC" id="S7g-qB-WOS" userLabel="Feedback Controller" customClass="FeedbackViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="gwR-0L-Nfj"/>
                         <viewControllerLayoutGuide type="bottom" id="iWv-dg-V1R"/>
@@ -1174,7 +1174,8 @@ Login using your email ID.</string>
                                         <exclude reference="2tt-Qi-GAo"/>
                                     </mask>
                                 </variation>
-                                <variation key="heightClass=regular-widthClass=compact">
+                                <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
+                                    <rect key="frame" x="16" y="28" width="368" height="176"/>
                                     <mask key="constraints">
                                         <include reference="2tt-Qi-GAo"/>
                                     </mask>
@@ -1196,8 +1197,9 @@ Login using your email ID.</string>
                                         <exclude reference="huZ-OW-X2U"/>
                                     </mask>
                                 </variation>
-                                <variation key="heightClass=regular-widthClass=compact">
+                                <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
                                     <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
+                                    <rect key="frame" x="16" y="212" width="368" height="30"/>
                                     <mask key="constraints">
                                         <include reference="huZ-OW-X2U"/>
                                     </mask>
@@ -1254,7 +1256,7 @@ Login using your email ID.</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mQZ-ZT-mDc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2224.5" y="78.75"/>
+            <point key="canvasLocation" x="3142.5" y="78.75"/>
         </scene>
         <!--Classrooms non-segmented-->
         <scene sceneID="o2g-p0-NcA">
@@ -1419,7 +1421,7 @@ Login using your email ID.</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rTP-s6-73o" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3648" y="-128.25"/>
+            <point key="canvasLocation" x="4566" y="-128.25"/>
         </scene>
         <!--Classrooms Segmented-->
         <scene sceneID="VZX-4q-yT6">
@@ -1737,7 +1739,7 @@ Login using your email ID.</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="f6G-pB-Ek2" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3657" y="623.25"/>
+            <point key="canvasLocation" x="4575" y="623.25"/>
         </scene>
         <!--Joined Class Table View Controller-->
         <scene sceneID="QtS-PX-y0v">
@@ -2152,7 +2154,7 @@ Login using your email ID.</string>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uMp-DG-mxi" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4678.5" y="181.5"/>
+            <point key="canvasLocation" x="5596.5" y="181.5"/>
         </scene>
         <!--Phone Verification-->
         <scene sceneID="cgL-AR-OfL">
@@ -4191,7 +4193,7 @@ Login using your email ID.</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QWy-ML-Byg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="6201" y="36.75"/>
+            <point key="canvasLocation" x="7119" y="36.75"/>
         </scene>
         <!--Edit Assoc name-->
         <scene sceneID="TnF-DU-3SZ">
@@ -5140,7 +5142,7 @@ Login using your email ID.</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="h2s-Xc-h8w" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="7815" y="12"/>
+            <point key="canvasLocation" x="8733" y="12"/>
         </scene>
         <!--Profile Picture -->
         <scene sceneID="LSW-dx-1ET">
@@ -5309,7 +5311,7 @@ Login using your email ID.</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CVs-HD-DeT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="10006.5" y="12"/>
+            <point key="canvasLocation" x="10924.5" y="12"/>
         </scene>
         <!--FAQ Controller-->
         <scene sceneID="Xu3-Xf-z9O">
@@ -7350,7 +7352,7 @@ Login using your email ID.</string>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Zhs-2E-OLw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="9088.5" y="12"/>
+            <point key="canvasLocation" x="10006.5" y="12"/>
         </scene>
         <!--Dual Sign In View Controller-->
         <scene sceneID="ucH-RY-eZl">
@@ -8191,6 +8193,24 @@ Login using your email ID.</string>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MYh-2p-pwP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="8283" y="2196"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="gQm-QF-sIw">
+            <objects>
+                <navigationController storyboardIdentifier="feedbackNavVC" automaticallyAdjustsScrollViewInsets="NO" id="o79-6a-KDH" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="hSn-Pf-SLI">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="S7g-qB-WOS" kind="relationship" relationship="rootViewController" id="Rru-rw-ych"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1TU-f3-qQ7" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2224.5" y="78.75"/>
         </scene>
     </scenes>
     <resources>

@@ -21,8 +21,11 @@
     [super viewDidLoad];
     self.feedback.delegate=self;
     [self.feedback becomeFirstResponder];
-    self.navigationItem.title=@"Send Feedback";
-    // Do any additional setup after loading the view.
+    self.navigationItem.title = @"Send Feedback";
+    if(_isSeparateWindow) {
+        UIBarButtonItem *cancelBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemStop  target:self action:@selector(closeWindow)];
+        self.navigationItem.leftBarButtonItem = cancelBarButtonItem;
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -30,23 +33,34 @@
     // Dispose of any resources that canbe recreated.
 }
 
+-(void)closeWindow {
+    [self.feedback resignFirstResponder];
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+
+-(BOOL)automaticallyAdjustsScrollViewInsets {
+    return NO;
+}
+
+
 -(IBAction)submitFeedback:(id)sender{
-    if([_feedback.text length]<=0)
-    {
+    if([_feedback.text length]<=0) {
           [RKDropdownAlert title:@"Knit" message:@"Please provide us with proper feedback." time:2];
           return;
-        
     }
-    else
-    {
+    else {
         [Data feedback:_feedback.text successBlock:^(id object) {
             [RKDropdownAlert title:@"Knit" message:@"We have got your feedback and we appreciate it." time:2];
             self.feedback.text=@"";
-    
+            if(_isSeparateWindow)
+                [self dismissViewControllerAnimated:YES completion:nil];
+            else
+                [self.navigationController popViewControllerAnimated:YES];
         } errorBlock:^(NSError *error) {
             [RKDropdownAlert title:@"Knit" message:@"Oops! We encountered a problem while processing your feedback.Please try again later!"time:2];
-
-            }];
+        }];
+        
     }
 }
 /*
