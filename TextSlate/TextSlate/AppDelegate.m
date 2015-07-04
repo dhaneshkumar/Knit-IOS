@@ -24,6 +24,7 @@
 #import "TSSendClassMessageViewController.h"
 #import "ClassesViewController.h"
 #import "TSWebViewController.h"
+#import "FeedbackViewController.h"
 
 
 @interface AppDelegate ()
@@ -63,7 +64,6 @@
     else {
         [application registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeSound)];
     }
-    
     application.applicationIconBadgeNumber = 0;
     
     [[UINavigationBar appearance] setBarTintColor:[UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0]];
@@ -78,8 +78,24 @@
         PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
         [lq fromLocalDatastore];
         NSArray *objs = [lq findObjects];
-        (objs[0])[@"isUpdateCountsGloballyCalled"] = @"false";
-        (objs[0])[@"isMemberListUpdateCalled"] = @"false";
+        if(objs.count==0) {
+            [self createLocalDatastore];
+        }
+        else if(!objs[0][@"isNewLocalData"]) {
+            [self completeLocalDatastore:objs[0]];
+        }
+        else {
+            (objs[0])[@"isUpdateCountsGloballyCalled"] = @"false";
+            // Do app launch count only when it is not launched by a notification
+            if(!launchOptions[UIApplicationLaunchOptionsLocalNotificationKey] && !launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey]) {
+                int count = [(objs[0])[@"appLaunchCount"] intValue]+1;
+                (objs[0])[@"appLaunchCount"] = [NSNumber numberWithInt:count];
+                if(count==10) {
+                    [self showRateOurApp];
+                }
+            }
+        }
+        
         TSTabBarViewController *rootTab = (TSTabBarViewController *)_startNav.topViewController;
         [rootTab initialization];
     }
@@ -87,8 +103,7 @@
     if(launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey]) {
         [self application:application didReceiveRemoteNotification:launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey]];
     }
-    
-    if(launchOptions[UIApplicationLaunchOptionsLocalNotificationKey]) {
+    else if(launchOptions[UIApplicationLaunchOptionsLocalNotificationKey]) {
         [self application:application didReceiveLocalNotification:launchOptions[UIApplicationLaunchOptionsLocalNotificationKey]];
     }
     return YES;
@@ -368,8 +383,18 @@
 
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if(buttonIndex == [alertView cancelButtonIndex])
+    if(buttonIndex == [alertView cancelButtonIndex]) {
+        if(alertView.tag==51) {
+            NSString *title = @"Knit";
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
+                                                            message:@"Please give us feedback"
+                                                           delegate:self cancelButtonTitle:@"Later"
+                                                  otherButtonTitles:@"Now",nil];
+            alert.tag = 52;
+            [alert show];
+        }
         return;
+    }
     
     if(alertView.tag == 1) {
         NSString *iTunesLink = @"itms://itunes.apple.com/in/app/knit-messaging/id962112913?mt=8";
@@ -471,6 +496,28 @@
         UINavigationController *messageComposer = [storyboard instantiateViewControllerWithIdentifier:@"messageComposer"];
         [rootTab presentViewController:messageComposer animated:YES completion:nil];
     }
+    else if(alertView.tag==51) {
+        NSString *title = @"Knit";
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
+                                                        message:@"Rate Knit Messaging app"
+                                                       delegate:self cancelButtonTitle:@"Later"
+                                              otherButtonTitles:@"Now",nil];
+        alert.tag = 53;
+        [alert show];
+    }
+    else if(alertView.tag==52) {
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
+        FeedbackViewController *feedbackNavigationController = [storyboard instantiateViewControllerWithIdentifier:@"feedbackViewController"];
+        feedbackNavigationController.isSeparateWindow = true;
+        TSTabBarViewController *rootTab = [self getTabBarVC];
+        [rootTab presentViewController:feedbackNavigationController animated:YES completion:nil];
+    }
+    else if(alertView.tag==53) {
+        NSString *iTunesLink = @"itms://itunes.apple.com/in/app/knit-messaging/id962112913?mt=8";
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:iTunesLink]];
+        });
+    }
 }
 
 
@@ -494,6 +541,17 @@
     [rootTab setSelectedIndex:1];
     self.window.rootViewController = _startNav;
     return true;
+}
+
+
+-(void)showRateOurApp {
+    NSString *title = @"Knit";
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
+                                                    message:@"Do you like our app?"
+                                                   delegate:self cancelButtonTitle:@"No"
+                                          otherButtonTitles:@"Yes", nil];
+    alert.tag = 51;
+    [alert show];
 }
 
 
@@ -521,6 +579,67 @@
 - (void)applicationWillTerminate:(UIApplication *)application {
     //NSLog(@"app terminated");
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+    
+-(void)createLocalDatastore {
+    PFObject *locals = [[PFObject alloc] initWithClassName:@"defaultLocals"];
+    locals[@"iosUserID"] = [PFUser currentUser].objectId;
+    locals[@"isOldUser"] = [self isOldUser]?@"YES":@"NO";
+    locals[@"isInboxDataConsistent"] = @"false";
+    locals[@"isUpdateCountsGloballyCalled"] = @"false";
+    locals[@"isOutboxDataConsistent"] = @"false";
+    locals[@"timeDifference"] = [NSDate dateWithTimeIntervalSince1970:0.0];
+    locals[@"appLaunchCount"] = [NSNumber numberWithInt:0];
+    locals[@"isNewLocalData"] = @"true";
+    [locals pin];
+    
+    [Data getServerTime:^(id object) {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            NSDate *currentServerTime = (NSDate *)object;
+            NSDate *currentLocalTime = [NSDate date];
+            NSTimeInterval diff = [currentServerTime timeIntervalSinceDate:currentLocalTime];
+            NSDate *diffwrtRef = [NSDate dateWithTimeIntervalSince1970:diff];
+            [locals setObject:diffwrtRef forKey:@"timeDifference"];
+            [locals pinInBackground];
+        });
+    } errorBlock:^(NSError *error) {
+        NSLog(@"Unable to update server time : %@", [error description]);
+    }];
+}
+
+
+-(void)completeLocalDatastore:(PFObject *)obj {
+    obj[@"iosUserID"] = [PFUser currentUser].objectId;
+    obj[@"isNewLocalData"] = @"true";
+    if(!obj[@"isInboxDataConsistent"])
+        obj[@"isInboxDataConsistent"] = @"false";
+    if(!obj[@"isOutboxDataConsistent"])
+        obj[@"isOutboxDataConsistent"] = @"false";
+    if(!obj[@"isUpdateCountsGloballyCalled"])
+        obj[@"isUpdateCountsGloballyCalled"] = @"false";
+    if(!obj[@"appLaunchCount"])
+        obj[@"appLaunchCount"] = [NSNumber numberWithInt:0];
+    if(!obj[@"timeDifference"])
+        obj[@"timeDifference"] = [NSDate dateWithTimeIntervalSince1970:0.0];
+    if(!obj[@"isOldUser"])
+        obj[@"isOldUser"] = [self isOldUser]?@"YES":@"NO";
+    [obj pin];
+}
+
+
+-(BOOL)isOldUser {
+    NSString *username = [[PFUser currentUser] objectForKey:@"username"];
+    if(username.length==10) {
+        unichar c;
+        for(int i=0; i<username.length; i++) {
+            c = [username characterAtIndex:i];
+            if(c>'9' || c<'0') {
+                return false;
+            }
+        }
+        return true;
+    }
+    return false;
 }
 
 @end

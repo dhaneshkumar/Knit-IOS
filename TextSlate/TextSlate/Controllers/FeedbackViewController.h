@@ -10,5 +10,6 @@
 
 @interface FeedbackViewController : UIViewController<UITextViewDelegate>
 
+@property (nonatomic) BOOL isSeparateWindow;
 
 @end

@@ -396,7 +396,6 @@
     if(lds.count==1) {
         if([((PFObject*)lds[0])[@"iosUserID"] isEqualToString:[PFUser currentUser].objectId]) {
             (lds[0])[@"isUpdateCountsGloballyCalled"] = @"false";
-            (lds[0])[@"isMemberListUpdateCalled"] = @"false";
             [rootTab initialization];
         }
         else {
@@ -422,11 +421,12 @@
     locals[@"isInboxDataConsistent"] = @"false";
     locals[@"isUpdateCountsGloballyCalled"] = @"false";
     locals[@"isOutboxDataConsistent"] = @"false";
-    locals[@"isMemberListUpdateCalled"] = @"false";
     if(dt)
         locals[@"timeDifference"] = dt;
     else
         locals[@"timeDifference"] = [NSDate dateWithTimeIntervalSince1970:0.0];
+    locals[@"appLaunchCount"] = [NSNumber numberWithInt:0];
+    locals[@"isNewLocalData"] = @"true";
     [locals pin];
     
     [Data getServerTime:^(id object) {
