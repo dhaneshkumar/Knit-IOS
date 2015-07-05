@@ -124,16 +124,14 @@
         [hud hide:YES];
          return;
     }
-    
     NSString *installationObjectId = [[PFUser currentUser] objectForKey:@"installationObjectId"];
     
-    NSLog(@"installationID user %@",installationObjectId);
     [Data joinNewClass:classCodeTyped childName:assocNameTyped installationId:installationObjectId successBlock:^(id object) {
-        [[PFUser currentUser] fetch];
-        NSLog(@"cloud function returned");
-        NSMutableDictionary *objDict=(NSMutableDictionary *)object;
+        NSDictionary *objDict = (NSDictionary *)object;
         PFObject *codeGroupForClass = [objDict objectForKey:@"codegroup"];
         [codeGroupForClass pinInBackground];
+        PFObject *currentUser = [objDict objectForKey:@"user"];
+        [currentUser pin];
         AppDelegate *apd = (AppDelegate *)[[UIApplication sharedApplication] delegate];
         NSArray *vcs = (NSArray *)((UINavigationController *)apd.startNav).viewControllers;
         TSTabBarViewController *rootTab = (TSTabBarViewController *)((UINavigationController *)apd.startNav).topViewController;
@@ -204,7 +202,6 @@
 
 -(void)handlingInboxTab:(TSTabBarViewController *)rootTab lastFiveMessages:(NSArray *)lastFiveMessages {
     TSNewInboxViewController *newInbox = (TSNewInboxViewController *)(NSArray *)rootTab.viewControllers[1];
-    
     for(PFObject *msg in lastFiveMessages) {
         msg[@"likeStatus"] = @"false";
         msg[@"confuseStatus"] = @"false";

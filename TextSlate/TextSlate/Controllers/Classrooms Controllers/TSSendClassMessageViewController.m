@@ -581,7 +581,8 @@
     hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
     hud.labelText = @"Loading";
     [Data deleteClass:_classCode successBlock:^(id object) {
-        [[PFUser currentUser] fetch];
+        PFObject *currentUser = (PFObject *)object;
+        [currentUser pin];
         AppDelegate *apd = (AppDelegate *)[[UIApplication sharedApplication] delegate];
         NSArray *vcs = (NSArray *)((UINavigationController *)apd.startNav).viewControllers;
         TSTabBarViewController *rootTab = (TSTabBarViewController *)((UINavigationController *)apd.startNav).topViewController;

@@ -66,6 +66,8 @@
 		976F04451A4B6EA0003E9604 /* TSSendClassMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 976F04441A4B6EA0003E9604 /* TSSendClassMessageViewController.m */; };
 		9786AE4C1A473E2B00801838 /* TSJoinNewClassViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9786AE4B1A473E2B00801838 /* TSJoinNewClassViewController.m */; };
 		FB0F6CAD1B45547F0006BE95 /* MessageComposerRecipientsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FB0F6CAC1B45547F0006BE95 /* MessageComposerRecipientsViewController.m */; };
+		FB0F6CB01B47E5000006BE95 /* app icon_180x180.png in Resources */ = {isa = PBXBuildFile; fileRef = FB0F6CAE1B47E5000006BE95 /* app icon_180x180.png */; };
+		FB0F6CB11B47E5000006BE95 /* app icon_120x120.png in Resources */ = {isa = PBXBuildFile; fileRef = FB0F6CAF1B47E5000006BE95 /* app icon_120x120.png */; };
 		FB1F47BB1A7589AE0093350B /* 120x120.png in Resources */ = {isa = PBXBuildFile; fileRef = FB1F47B71A7589AE0093350B /* 120x120.png */; };
 		FB1F47BD1A7589AE0093350B /* 180x180.png in Resources */ = {isa = PBXBuildFile; fileRef = FB1F47B91A7589AE0093350B /* 180x180.png */; };
 		FB65C9621B1C357A00EAE58E /* BlackoutView.m in Sources */ = {isa = PBXBuildFile; fileRef = FB65C9611B1C357A00EAE58E /* BlackoutView.m */; };
@@ -263,6 +265,8 @@
 		BDFF5D9E42405E99CF3323E3 /* Pods-Knit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Knit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Knit/Pods-Knit.debug.xcconfig"; sourceTree = "<group>"; };
 		FB0F6CAB1B45547F0006BE95 /* MessageComposerRecipientsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageComposerRecipientsViewController.h; sourceTree = "<group>"; };
 		FB0F6CAC1B45547F0006BE95 /* MessageComposerRecipientsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageComposerRecipientsViewController.m; sourceTree = "<group>"; };
+		FB0F6CAE1B47E5000006BE95 /* app icon_180x180.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "app icon_180x180.png"; sourceTree = "<group>"; };
+		FB0F6CAF1B47E5000006BE95 /* app icon_120x120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "app icon_120x120.png"; sourceTree = "<group>"; };
 		FB1F47B71A7589AE0093350B /* 120x120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 120x120.png; sourceTree = "<group>"; };
 		FB1F47B91A7589AE0093350B /* 180x180.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 180x180.png; sourceTree = "<group>"; };
 		FB65C9601B1C357A00EAE58E /* BlackoutView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlackoutView.h; sourceTree = "<group>"; };
@@ -554,6 +558,8 @@
 		971687DB1A1F1BCA00FE98FC /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				FB0F6CAE1B47E5000006BE95 /* app icon_180x180.png */,
+				FB0F6CAF1B47E5000006BE95 /* app icon_120x120.png */,
 				40D223761B30922300BCC6DB /* coachmark.png */,
 				FB65C96B1B2175A700EAE58E /* inviteParentsViaSMS.gif */,
 				FB65C9631B1D808F00EAE58E /* inviteParentsViaApp.gif */,
@@ -1084,6 +1090,8 @@
 				FBAA81341AE0D8B40056E168 /* ios icons-30.png in Resources */,
 				4038D4261AC6C62200E9009A /* Main.storyboard in Resources */,
 				FBAA81331AE0D8B40056E168 /* ios icons-29.png in Resources */,
+				FB0F6CB11B47E5000006BE95 /* app icon_120x120.png in Resources */,
+				FB0F6CB01B47E5000006BE95 /* app icon_180x180.png in Resources */,
 				404C9E191AC02176001CF571 /* ios icons-26.png in Resources */,
 				40EBADA81A7E60B6003FB0B1 /* LaunchScreen.xib in Resources */,
 				FBAA81741AE3AB170056E168 /* newIcon1.png in Resources */,

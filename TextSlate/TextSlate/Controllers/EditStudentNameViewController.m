@@ -65,7 +65,8 @@
     hud.labelText = @"Loading";
 
     [Data changeName:_classCode newName:trimmedString successBlock:^(id object){
-        [[PFUser currentUser] fetch];
+        PFObject *currentUser = (PFObject *)object;
+        [currentUser pin];
         JoinedClassTableViewController *joinedClassTVC = (JoinedClassTableViewController *)((UINavigationController *)((UINavigationController*)self.presentingViewController).viewControllers[1]);
         [joinedClassTVC updateStudentName:trimmedString];
         [hud hide:YES];

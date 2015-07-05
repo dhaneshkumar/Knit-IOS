@@ -94,7 +94,6 @@
 }
 
 - (void)applicationWillEnterForeground:(NSNotification *)notification {
-    NSLog(@"appWillFore inbox");
     [self viewWillAppear:YES];
     [self viewDidAppear:YES];
 }
@@ -112,12 +111,6 @@
 
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    /*
-    if(_messagesArray.count>0 && _shouldScrollUp) {
-        NSIndexPath *rowIndexPath = [NSIndexPath indexPathForRow:0 inSection:0];
-        [self.messagesTable scrollToRowAtIndexPath:rowIndexPath atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
-        _shouldScrollUp = false;
-    }*/
     [self getTimeDiffBetweenLocalAndServer];
     [self displayMessages];
 }
@@ -151,7 +144,6 @@
         messageLabel.textAlignment = NSTextAlignmentCenter;
         messageLabel.font = [UIFont fontWithName:@"Palatino-Italic" size:20];
         [messageLabel sizeToFit];
-        
         self.messagesTable.backgroundView = messageLabel;
         return 0;
     }

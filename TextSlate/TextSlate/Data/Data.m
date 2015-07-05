@@ -15,7 +15,7 @@
 @implementation Data
 
 +(void) createNewClassWithClassName:(NSString *)className successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
-    [PFCloud callFunctionInBackground:@"createClass" withParameters:@{@"classname":className} block:^(id object, NSError *error) {
+    [PFCloud callFunctionInBackground:@"createClass2" withParameters:@{@"classname":className} block:^(id object, NSError *error) {
         if (error) {
             NSLog(@"error : %@", [error localizedDescription]);
             errorBlock(error);
@@ -85,7 +85,7 @@
 }
 
 +(void) joinNewClass:(NSString *)classCode childName:(NSString *)childName installationId:(NSString*)installationId successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
-    [PFCloud callFunctionInBackground:@"joinClass" withParameters:@{@"classCode" : classCode, @"associateName" : childName, @"installationObjectId" : installationId} block:^(id object, NSError *error) {
+    [PFCloud callFunctionInBackground:@"joinClass2" withParameters:@{@"classCode" : classCode, @"associateName" : childName, @"installationObjectId" : installationId} block:^(id object, NSError *error) {
         if (error) {
             NSLog(@"error : %@", [error localizedDescription]);
             errorBlock(error);
@@ -107,7 +107,7 @@
 
 
 +(void) deleteClass:(NSString *)classCode successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
-    [PFCloud callFunctionInBackground:@"deleteClass" withParameters:@{@"classcode":classCode} block:^(id object, NSError *error) {
+    [PFCloud callFunctionInBackground:@"deleteClass2" withParameters:@{@"classcode":classCode} block:^(id object, NSError *error) {
         if (error) {
             errorBlock(error);
         } else {
@@ -119,7 +119,7 @@
 +(void) leaveClass:(NSString *)classCode  successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
     NSString *installationObjectId=[[PFUser currentUser] objectForKey:@"installationObjectId"];
     NSLog(@"Installaton id joined group %@",installationObjectId);
-    [PFCloud callFunctionInBackground:@"leaveClass" withParameters:@{@"classcode":classCode,@"installationObjectId" :installationObjectId } block:^(id object, NSError *error) {
+    [PFCloud callFunctionInBackground:@"leaveClass2" withParameters:@{@"classcode":classCode,@"installationObjectId" :installationObjectId } block:^(id object, NSError *error) {
         if (error) {
             errorBlock(error);
         } else {
@@ -327,7 +327,7 @@
 }
 
 +(void)changeName:(NSString *)classcode newName:(NSString *)newName successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
-    [PFCloud callFunctionInBackground:@"changeAssociateName" withParameters:@{@"classCode":classcode, @"childName":newName} block:^(id object, NSError *error) {
+    [PFCloud callFunctionInBackground:@"changeAssociateName2" withParameters:@{@"classCode":classcode, @"childName":newName} block:^(id object, NSError *error) {
         if (error) {
             errorBlock(error);
         } else {

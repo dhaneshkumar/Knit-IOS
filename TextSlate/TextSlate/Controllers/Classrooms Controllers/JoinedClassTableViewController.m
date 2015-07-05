@@ -228,7 +228,8 @@
     hud.labelText = @"Loading";
 
     [Data leaveClass:_classCode successBlock:^(id object) {
-        [[PFUser currentUser] fetch];
+        PFObject *currentUser = (PFObject *)object;
+        [currentUser pin];
         AppDelegate *apd = (AppDelegate *)[[UIApplication sharedApplication] delegate];
         NSArray *vcs = (NSArray *)((UINavigationController *)apd.startNav).viewControllers;
         TSTabBarViewController *rootTab = (TSTabBarViewController *)((UINavigationController *)apd.startNav).topViewController;

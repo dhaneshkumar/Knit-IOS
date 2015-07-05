@@ -79,9 +79,11 @@
     }
     
     [Data createNewClassWithClassName:classNameTyped successBlock:^(id object) {
-        PFObject *codeGroupForClass = (PFObject *)object;
-        [codeGroupForClass pinInBackground];
-        [[PFUser currentUser]fetch];
+        NSDictionary *objDict=(NSDictionary *)object;
+        PFObject *codeGroupForClass = [objDict objectForKey:@"codegroup"];
+        [codeGroupForClass pin];
+        PFObject *currentUser = [objDict objectForKey:@"user"];
+        [currentUser pin];
         NSArray *createdClass=[[PFUser currentUser] objectForKey:@"Created_groups"];
         AppDelegate *apd = (AppDelegate *)[[UIApplication sharedApplication] delegate];
         NSArray *vcs = (NSArray *)((UINavigationController *)apd.startNav).viewControllers;
