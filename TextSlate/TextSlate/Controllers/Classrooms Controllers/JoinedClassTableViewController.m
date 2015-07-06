@@ -240,7 +240,6 @@
             }
         }
         
-        PFUser *currentUser = [PFUser currentUser];
         if([currentUser[@"role"] isEqualToString:@"teacher"]) {
             ClassesViewController *classesVC = rootTab.viewControllers[0];
             NSMutableArray *arr = [[NSMutableArray alloc] init];

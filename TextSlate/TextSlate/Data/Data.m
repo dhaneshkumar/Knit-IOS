@@ -53,9 +53,6 @@
                 cl.class_type = JOINED_BY_ME;
                 [returnArray addObject:cl];
             }
-            // for (TSJoinedClass *c in returnArray) {
-             //  NSLog(@"%@",c.name );
-            //}
             successBlock([[NSMutableArray alloc] initWithArray:returnArray]);
         }
     }];
