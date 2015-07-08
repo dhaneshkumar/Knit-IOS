@@ -270,6 +270,19 @@
                 [alert show];
             }
         }
+        else if ([notificationType isEqualToString:@"REMOVE"]) {
+            if(application.applicationState==UIApplicationStateInactive) {
+            }
+            else if(application.applicationState==UIApplicationStateActive) {
+                NSString *title = @"Knit";
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
+                                                                message:[userInfo objectForKey:@"message"]
+                                                               delegate:self cancelButtonTitle:@"Ok"
+                                                      otherButtonTitles:nil];
+                alert.tag = 6;
+                [alert show];
+            }
+        }
     }
 }
 
@@ -561,23 +574,19 @@
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
-    NSLog(@"Application entered in background");
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
-    NSLog(@"adbf");
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-    NSLog(@"adba");
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
-    //NSLog(@"app terminated");
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
     

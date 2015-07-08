@@ -241,6 +241,7 @@
             [sendClassVC.memListVC.memberList addObject:member];
         }
     }
+    
     if(objects.count>0) {
         latestTime = ((PFObject *)objects[0]).updatedAt;
     }
