@@ -66,7 +66,6 @@
 		976F04451A4B6EA0003E9604 /* TSSendClassMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 976F04441A4B6EA0003E9604 /* TSSendClassMessageViewController.m */; };
 		9786AE4C1A473E2B00801838 /* TSJoinNewClassViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9786AE4B1A473E2B00801838 /* TSJoinNewClassViewController.m */; };
 		FB0F6CAD1B45547F0006BE95 /* MessageComposerRecipientsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FB0F6CAC1B45547F0006BE95 /* MessageComposerRecipientsViewController.m */; };
-		FB0F6CB01B47E5000006BE95 /* app icon_180x180.png in Resources */ = {isa = PBXBuildFile; fileRef = FB0F6CAE1B47E5000006BE95 /* app icon_180x180.png */; };
 		FB1F47BB1A7589AE0093350B /* 120x120.png in Resources */ = {isa = PBXBuildFile; fileRef = FB1F47B71A7589AE0093350B /* 120x120.png */; };
 		FB1F47BD1A7589AE0093350B /* 180x180.png in Resources */ = {isa = PBXBuildFile; fileRef = FB1F47B91A7589AE0093350B /* 180x180.png */; };
 		FB65C9621B1C357A00EAE58E /* BlackoutView.m in Sources */ = {isa = PBXBuildFile; fileRef = FB65C9611B1C357A00EAE58E /* BlackoutView.m */; };
@@ -163,6 +162,9 @@
 		FBC1BD0F1AB7004F004921CD /* studentNameTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FBC1BD0E1AB7004F004921CD /* studentNameTableViewCell.m */; };
 		FBC8A27B1B4CFEBE009E06F0 /* icon_120.png in Resources */ = {isa = PBXBuildFile; fileRef = FBC8A27A1B4CFEBE009E06F0 /* icon_120.png */; };
 		FBC8A27D1B4D0345009E06F0 /* icon_180.png in Resources */ = {isa = PBXBuildFile; fileRef = FBC8A27C1B4D0345009E06F0 /* icon_180.png */; };
+		FBC8A2811B4D1E47009E06F0 /* icon_87.png in Resources */ = {isa = PBXBuildFile; fileRef = FBC8A27E1B4D1E47009E06F0 /* icon_87.png */; };
+		FBC8A2821B4D1E47009E06F0 /* icon_80.png in Resources */ = {isa = PBXBuildFile; fileRef = FBC8A27F1B4D1E47009E06F0 /* icon_80.png */; };
+		FBC8A2831B4D1E47009E06F0 /* icon_58.png in Resources */ = {isa = PBXBuildFile; fileRef = FBC8A2801B4D1E47009E06F0 /* icon_58.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -266,7 +268,6 @@
 		BDFF5D9E42405E99CF3323E3 /* Pods-Knit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Knit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Knit/Pods-Knit.debug.xcconfig"; sourceTree = "<group>"; };
 		FB0F6CAB1B45547F0006BE95 /* MessageComposerRecipientsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageComposerRecipientsViewController.h; sourceTree = "<group>"; };
 		FB0F6CAC1B45547F0006BE95 /* MessageComposerRecipientsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageComposerRecipientsViewController.m; sourceTree = "<group>"; };
-		FB0F6CAE1B47E5000006BE95 /* app icon_180x180.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "app icon_180x180.png"; sourceTree = "<group>"; };
 		FB1F47B71A7589AE0093350B /* 120x120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 120x120.png; sourceTree = "<group>"; };
 		FB1F47B91A7589AE0093350B /* 180x180.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 180x180.png; sourceTree = "<group>"; };
 		FB65C9601B1C357A00EAE58E /* BlackoutView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlackoutView.h; sourceTree = "<group>"; };
@@ -396,6 +397,9 @@
 		FBC1BD0E1AB7004F004921CD /* studentNameTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = studentNameTableViewCell.m; sourceTree = "<group>"; };
 		FBC8A27A1B4CFEBE009E06F0 /* icon_120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_120.png; sourceTree = "<group>"; };
 		FBC8A27C1B4D0345009E06F0 /* icon_180.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_180.png; sourceTree = "<group>"; };
+		FBC8A27E1B4D1E47009E06F0 /* icon_87.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_87.png; sourceTree = "<group>"; };
+		FBC8A27F1B4D1E47009E06F0 /* icon_80.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_80.png; sourceTree = "<group>"; };
+		FBC8A2801B4D1E47009E06F0 /* icon_58.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_58.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -560,9 +564,11 @@
 		971687DB1A1F1BCA00FE98FC /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				FBC8A27E1B4D1E47009E06F0 /* icon_87.png */,
+				FBC8A27F1B4D1E47009E06F0 /* icon_80.png */,
+				FBC8A2801B4D1E47009E06F0 /* icon_58.png */,
 				FBC8A27C1B4D0345009E06F0 /* icon_180.png */,
 				FBC8A27A1B4CFEBE009E06F0 /* icon_120.png */,
-				FB0F6CAE1B47E5000006BE95 /* app icon_180x180.png */,
 				40D223761B30922300BCC6DB /* coachmark.png */,
 				FB65C96B1B2175A700EAE58E /* inviteParentsViaSMS.gif */,
 				FB65C9631B1D808F00EAE58E /* inviteParentsViaApp.gif */,
@@ -1094,7 +1100,6 @@
 				FBAA81341AE0D8B40056E168 /* ios icons-30.png in Resources */,
 				4038D4261AC6C62200E9009A /* Main.storyboard in Resources */,
 				FBAA81331AE0D8B40056E168 /* ios icons-29.png in Resources */,
-				FB0F6CB01B47E5000006BE95 /* app icon_180x180.png in Resources */,
 				404C9E191AC02176001CF571 /* ios icons-26.png in Resources */,
 				40EBADA81A7E60B6003FB0B1 /* LaunchScreen.xib in Resources */,
 				FBAA81741AE3AB170056E168 /* newIcon1.png in Resources */,
@@ -1121,6 +1126,7 @@
 				40C7415A1AC6A970007AA844 /* ios icons-20.png in Resources */,
 				FBA236941B0B2C8E0001D8E3 /* back@3x.png in Resources */,
 				FBA236A41B0B4B830001D8E3 /* white_arrow@2x.png in Resources */,
+				FBC8A2811B4D1E47009E06F0 /* icon_87.png in Resources */,
 				FB777C281B18780800754546 /* whatsapp@2x.png in Resources */,
 				FBA2364A1B0750250001D8E3 /* classroom@2x.png in Resources */,
 				FB777C2A1B18780800754546 /* phonebook@3x.png in Resources */,
@@ -1134,9 +1140,11 @@
 				FBA236541B0750250001D8E3 /* settings@3x.png in Resources */,
 				FB777C171B17699D00754546 /* blue tick@1x.png in Resources */,
 				FBAB18DE1B0E10F800440089 /* next@3x.png in Resources */,
+				FBC8A2821B4D1E47009E06F0 /* icon_80.png in Resources */,
 				FBAA81371AE110C10056E168 /* ios icons-32.png in Resources */,
 				404C9E1C1AC0260C001CF571 /* phone.png in Resources */,
 				FB777C1D1B1870EE00754546 /* grey arrow@3x.png in Resources */,
+				FBC8A2831B4D1E47009E06F0 /* icon_58.png in Resources */,
 				FB1F47BD1A7589AE0093350B /* 180x180.png in Resources */,
 				FB777C151B17699D00754546 /* blue tick@3x.png in Resources */,
 				40EBADAC1A7E611F003FB0B1 /* 05-xxhdpi.png in Resources */,
