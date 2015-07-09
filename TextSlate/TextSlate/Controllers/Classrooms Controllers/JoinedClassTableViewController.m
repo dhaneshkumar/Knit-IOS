@@ -175,6 +175,7 @@
             EditStudentNameViewController *editStudentName = (EditStudentNameViewController *)editStudentNameNavigationController.topViewController;
             editStudentName.studentName = _studentName;
             editStudentName.classCode = _classCode;
+            editStudentName.parentController = self;
             [self presentViewController:editStudentNameNavigationController animated:YES completion:nil];
         }
     }
@@ -230,7 +231,7 @@
                 break;
             }
         }
-        NSLog(@"user : %@", [PFUser currentUser]);
+        //NSLog(@"user : %@", [PFUser currentUser]);
         if([currentUser[@"role"] isEqualToString:@"teacher"]) {
             ClassesViewController *classesVC = rootTab.viewControllers[0];
             NSMutableArray *arr = [[NSMutableArray alloc] init];
@@ -257,7 +258,7 @@
         [self.navigationController popViewControllerAnimated:YES];
     } errorBlock:^(NSError *error) {
         [hud hide:YES];
-        NSLog(@"error : %@", error);
+        //NSLog(@"error : %@", error);
          [RKDropdownAlert title:@"Knit" message:@"Error occured in leaving the class"  time:2];
     }];
 }

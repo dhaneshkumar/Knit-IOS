@@ -52,7 +52,7 @@
 }
 
 -(IBAction)dismiss:(id)sender{
-    NSLog(@"quitting...");
+    //NSLog(@"quitting...");
     [self dismissViewControllerAnimated:YES completion:nil];
     
 }

@@ -7,11 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "JoinedClassTableViewController.h"
 
 @interface EditStudentNameViewController : UIViewController
 
 @property (weak, nonatomic) IBOutlet UITextField *studentNameTextField;
+
 @property (strong, nonatomic) NSString *classCode;
 @property (strong, nonatomic) NSString *studentName;
+@property (strong, nonatomic) JoinedClassTableViewController *parentController;
 
 @end

@@ -165,7 +165,7 @@
                 [query whereKey:@"emailId" equalTo:toRemove.emailId];
                 NSArray *appMembers = [query findObjects];
                 if(appMembers.count!=1)
-                    NSLog(@"Nhiiiii....");
+                    //NSLog(@"Nhiiiii....");
                 appMembers[0][@"status"] = @"REMOVED";
                 [appMembers[0] pinInBackground];
                 [_memberList removeObjectAtIndex:row];
@@ -184,7 +184,7 @@
                 [query whereKey:@"number" equalTo:toRemove.phoneNum];
                 NSArray *phoneMembers = [query findObjects];
                 if(phoneMembers.count!=1)
-                    NSLog(@"Nhiiiii....");
+                    //NSLog(@"Nhiiiii....");
                 phoneMembers[0][@"status"] = @"REMOVED";
                 [phoneMembers[0] pinInBackground];
                 [_memberList removeObjectAtIndex:row];
@@ -201,7 +201,7 @@
 
 
 -(void)pullDownToRefresh {
-    NSLog(@"called : %d", _isRefreshCalled);
+    //NSLog(@"called : %d", _isRefreshCalled);
     if(_isRefreshCalled) {
         return;
     }

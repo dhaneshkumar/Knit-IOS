@@ -150,7 +150,7 @@
                 });
             });
         } errorBlock:^(NSError *error) {
-            NSLog(@"Unable to fetch classes1: %@", [error description]);
+            //NSLog(@"Unable to fetch classes1: %@", [error description]);
         }];
     }
 }
@@ -189,7 +189,7 @@
     
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     long int row = indexPath.row;
-    JoinedClassTableViewController *dvc = (JoinedClassTableViewController *)[_joinedClassVCs objectForKey:_joinedClasses[row][0]];
+    JoinedClassTableViewController *dvc = (JoinedClassTableViewController *)[_joinedClassVCs objectForKey:_joinedClasses[row]];
     [self.navigationController pushViewController:dvc animated:YES];
 }
 

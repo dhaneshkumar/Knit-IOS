@@ -59,13 +59,13 @@
         _classCodeTextField.text = _classCode;
     [PFSession getCurrentSessionInBackgroundWithBlock:^(PFSession *session, NSError *error) {
         if(error) {
-            NSLog(@"pfsession : error");
+            //NSLog(@"pfsession : error");
         }
         else {
-            NSLog(@"pfsession : %@", session);
+            //NSLog(@"pfsession : %@", session);
         }
     }];
-    NSLog(@"token : %@", [PFUser currentUser].sessionToken);
+    //NSLog(@"token : %@", [PFUser currentUser].sessionToken);
 }
 
 /*
@@ -94,9 +94,9 @@
     Reachability *networkReachability = [Reachability reachabilityForInternetConnection];
     NetworkStatus networkStatus = [networkReachability currentReachabilityStatus];
     if (networkStatus == NotReachable) {
-        NSLog(@"There IS NO internet connection");
+        //NSLog(@"There IS NO internet connection");
     } else {
-        NSLog(@"There IS internet connection");
+        //NSLog(@"There IS internet connection");
     }
     */
     
@@ -132,7 +132,7 @@
         [codeGroupForClass pinInBackground];
         PFObject *currentUser = (PFObject *)[objDict objectForKey:@"user"];
         [currentUser pin];
-        NSLog(@"user : %@", [PFUser currentUser]);
+        //NSLog(@"user : %@", [PFUser currentUser]);
         AppDelegate *apd = (AppDelegate *)[[UIApplication sharedApplication] delegate];
         NSArray *vcs = (NSArray *)((UINavigationController *)apd.startNav).viewControllers;
         TSTabBarViewController *rootTab = (TSTabBarViewController *)((UINavigationController *)apd.startNav).topViewController;
@@ -241,7 +241,7 @@
             UIImage *image = [[sharedCache sharedInstance] getCachedImageForKey:url];
             message.attachmentURL = attachImageUrl;
             if(image) {
-                NSLog(@"already cached");
+                //NSLog(@"already cached");
                 message.attachment = image;
             }
         }

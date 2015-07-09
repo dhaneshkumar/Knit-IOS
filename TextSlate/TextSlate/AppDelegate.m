@@ -128,7 +128,7 @@
 
 -(void)application:(UIApplication *)application handleActionWithIdentifier:(NSString *)identifier forRemoteNotification:(NSDictionary *)userInfo completionHandler:(void(^)())completionHandler {
     //handle custom actions
-    NSLog(@"Handle custom actions from remote notifications");
+    //NSLog(@"Handle custom actions from remote notifications");
     if ([identifier isEqualToString:@"declineAction"]){
     }
     else if ([identifier isEqualToString:@"answerAction"]){
@@ -136,7 +136,7 @@
 }
 
 -(void)application:(UIApplication *)application handleActionWithIdentifier:(NSString *)identifier forLocalNotification:(UILocalNotification *)notification completionHandler:(void (^)())completionHandler {
-    NSLog(@"Handle custom actions from local notifications");
+    //NSLog(@"Handle custom actions from local notifications");
 }
 
 
@@ -148,12 +148,12 @@
 }
 
 -(void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
-    NSLog(@"Error in registering remote notifications : %@", error);
+    //NSLog(@"Error in registering remote notifications : %@", error);
 }
 
 -(void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
     application.applicationIconBadgeNumber = 0;
-    NSLog(@"we have a notification");
+    //NSLog(@"we have a notification");
     if (userInfo) {
         NSString *notificationType = [userInfo objectForKey:@"type"];
         NSString *actionType = [userInfo objectForKey:@"action"];
@@ -549,7 +549,7 @@
 
 -(BOOL)dropdownAlertWasTapped:(RKDropdownAlert*)alert {
     // Handle the tap, then return whether or not the alert should hide.
-    NSLog(@"dropdown alert");
+    //NSLog(@"dropdown alert");
     TSTabBarViewController *rootTab = [self getTabBarVC];
     [rootTab setSelectedIndex:1];
     self.window.rootViewController = _startNav;
@@ -612,7 +612,7 @@
             [locals pinInBackground];
         });
     } errorBlock:^(NSError *error) {
-        NSLog(@"Unable to update server time : %@", [error description]);
+        //NSLog(@"Unable to update server time : %@", [error description]);
     }];
 }
 

@@ -102,7 +102,7 @@
         
         /*
         if(createdClass.count==1) {
-            NSLog(@"Here");
+            //NSLog(@"Here");
             [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:nil];
             NSTimer* loop = [NSTimer scheduledTimerWithTimeInterval:60*60*24*2 target:self selector:@selector(showInviteParentNotification) userInfo:nil repeats:NO];
             [[NSRunLoop currentRunLoop] addTimer:loop forMode:NSRunLoopCommonModes];
@@ -156,7 +156,7 @@
 
 /*
 -(void)showInviteParentNotification{
-    NSLog(@"here in show invite");
+    //NSLog(@"here in show invite");
     PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
     [lq fromLocalDatastore];
     NSArray *lds = [lq findObjects];
@@ -180,13 +180,13 @@
                     if(name.length>0)
                     {
                         [memberList addObject:name];
-                        NSLog(@"%@ memberlist",memberList);
+                        //NSLog(@"%@ memberlist",memberList);
                     }
                 }
             }
         
         if(memberList.count<1){
-            NSLog(@"hi");
+            //NSLog(@"hi");
             NSDictionary *classInfo=[[NSDictionary alloc]init];
             [classInfo setValue:classCode forKey:@"classCode"];
             [classInfo setValue:className forKey:@"className"];
@@ -201,10 +201,10 @@
             [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
         }
         else{
-            NSLog(@"%@ member count ",memberList);
+            //NSLog(@"%@ member count ",memberList);
         }
     } errorBlock:^(NSError *error) {
-        NSLog(@"Could not get any members");
+        //NSLog(@"Could not get any members");
     }];
         }
     }

@@ -103,14 +103,14 @@
     _hasTypedMessage = false;
     
     _createdClasses=[[PFUser currentUser] objectForKey:@"Created_groups"];
-    NSLog(@"object return %@",[_createdClasses objectAtIndex:0]);
+    //NSLog(@"object return %@",[_createdClasses objectAtIndex:0]);
     for(NSArray *a in _createdClasses) {
         [_createdclassCode addObject:[a objectAtIndex:0]];
         [_createdclassName addObject:[a objectAtIndex:1]];
     }
     
-    NSLog(@"created class name %@",_createdclassName);
-    NSLog(@"created class code %@",_createdclassCode);
+    //NSLog(@"created class name %@",_createdclassName);
+    //NSLog(@"created class code %@",_createdclassCode);
     _hasSelectedClass = false;
     _hasTypedMessage = false;
     
@@ -183,7 +183,7 @@
 
 - (void)textViewDidBeginEditing:(UITextView *)textView
 {
-    NSLog(@"did begin editing");
+    //NSLog(@"did begin editing");
     _writeMessageHere.hidden = true;
     if (!_hasTypedMessage) {
         textView.text = @"";
@@ -191,7 +191,7 @@
 }
 
 - (void)textViewDidEndEditing:(UITextView *)textView {
-    NSLog(@"did end editing");
+    //NSLog(@"did end editing");
     if ([[self trimmedString:textView.text] isEqualToString:@""]) {
         _textMessage.text = @"";
         _hasTypedMessage = false;
@@ -205,7 +205,7 @@
 
 
 -(void)recipientClassTapped:(UITapGestureRecognizer *)recognizer {
-    NSLog(@"recipient class tapped");
+    //NSLog(@"recipient class tapped");
     if(!_isClass) {
         MessageComposerRecipientsViewController *popUpView = [self.storyboard instantiateViewControllerWithIdentifier:@"messageRecipientsVC"];
         popUpView.messageComposerVC = self;
@@ -219,13 +219,13 @@
 
 
 -(void)messageBodyTapped:(UITapGestureRecognizer *)recognizer {
-    NSLog(@"message body tapped");
+    //NSLog(@"message body tapped");
     [_textMessage becomeFirstResponder];
 }
 
 
 -(void)textViewDidChange:(UITextView *)textView {
-    NSLog(@"view did change");
+    //NSLog(@"view did change");
     long len = 300-textView.text.length;
     NSString* count = [@(len) stringValue];
     _wordCount.text = count;
@@ -233,7 +233,7 @@
 
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
-    NSLog(@"oye");
+    //NSLog(@"oye");
     if([text length] == 0) {
         if([textView.text length] == 0) {
             return NO;
@@ -249,9 +249,9 @@
 
 
 - (void) actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
-    NSLog(@"button index : %d", buttonIndex);
+    //NSLog(@"button index : %d", buttonIndex);
     if(buttonIndex == _createdclassCode.count){
-        NSLog(@"No class selected");
+        //NSLog(@"No class selected");
     }
     else{
         _recipientClassLabel.text = [actionSheet buttonTitleAtIndex:buttonIndex];
@@ -310,12 +310,12 @@
     
         [UIView commitAnimations];
     [_textMessage becomeFirstResponder];
-        NSLog(@"toolbar moved: %f", self.navigationController.view.frame.size.height);
+        //NSLog(@"toolbar moved: %f", self.navigationController.view.frame.size.height);
 }
 
 
 -(IBAction)sendMessage:(id)sender  {
-    NSLog(@"message send pressed");
+    //NSLog(@"message send pressed");
     if([_recipientClassLabel.text isEqualToString:@"Tap to select Class"]) {
           [RKDropdownAlert title:@"Knit" message:@"Select a recipient class." time:2];
         return;
@@ -345,9 +345,9 @@
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[[UIApplication sharedApplication] keyWindow]  animated:YES];
         hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
         hud.labelText = @"Loading";
-        NSLog(@"Yo4");
+        //NSLog(@"Yo4");
         [Data sendTextMessage:_classCode classname:_className message:messageText successBlock:^(id object) {
-            NSLog(@"Yo4");
+            //NSLog(@"Yo4");
             NSMutableDictionary *dict = (NSMutableDictionary *) object;
             NSString *messageObjectId = (NSString *)[dict objectForKey:@"messageId"];
             NSString *messageCreatedAt = (NSString *)[dict objectForKey:@"createdAt"];
@@ -363,7 +363,7 @@
             messageObject[@"confused_count"] = [NSNumber numberWithInt:0];
             messageObject[@"seen_count"] = [NSNumber numberWithInt:0];
             [messageObject pinInBackground];
-            NSLog(@"Yo5");
+            //NSLog(@"Yo5");
             TSMessage *newMessage=[[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:[messageObject[@"title"] stringByTrimmingCharactersInSet:characterset] sender:messageObject[@"Creator"] sentTime:messageObject[@"createdTime"] senderPic:nil likeCount:[messageObject[@"like_count"] intValue] confuseCount:[messageObject[@"confused_count"] intValue] seenCount:[messageObject[@"seen_count"] intValue]];
             TSMessage *newMessageForClassPage =[[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:[messageObject[@"title"] stringByTrimmingCharactersInSet:characterset] sender:messageObject[@"Creator"] sentTime:messageObject[@"createdTime"] senderPic:nil likeCount:[messageObject[@"like_count"] intValue] confuseCount:[messageObject[@"confused_count"] intValue] seenCount:[messageObject[@"seen_count"] intValue]];
             newMessage.messageId = messageObject[@"messageId"];
@@ -397,9 +397,9 @@
 
         [_finalAttachment saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
             if (succeeded) {
-                NSLog(@"Yo6");
+                //NSLog(@"Yo6");
                 [Data sendTextMessagewithAttachment:_classCode classname:_className message:messageText attachment:(PFFile*) _finalAttachment filename:_finalAttachment.name successBlock:^(id object) {
-                    NSLog(@"Yo4");
+                    //NSLog(@"Yo4");
                     NSMutableDictionary *dict = (NSMutableDictionary *) object;
                     NSString *messageObjectId = (NSString *)[dict objectForKey:@"messageId"];
                     NSString *messageCreatedAt = (NSString *)[dict objectForKey:@"createdAt"];
@@ -428,7 +428,7 @@
                     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
                         UIImage *image = [[sharedCache sharedInstance] getCachedImageForKey:url];
                         if(image) {
-                            NSLog(@"already cached");
+                            //NSLog(@"already cached");
                             newMessage.attachment = image;
                             newMessageForClassPage.attachment = image;
                         }
@@ -457,7 +457,7 @@
                 }];
             }
             else {
-                NSLog(@"Yo1");
+                //NSLog(@"Yo1");
                 [hud hide:YES];
                 [RKDropdownAlert title:@"Knit" message:@"Error occurred in sending the message. Try again later." time:2];
             }
@@ -496,7 +496,7 @@
 
     _progressBar.progress=0.0;
 
-    NSLog(@"final");
+    //NSLog(@"final");
     self.progressBar.hidden=NO;
     self.cancelAttachment.hidden=NO;
     _attachmentImage = info[UIImagePickerControllerOriginalImage];

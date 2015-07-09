@@ -22,7 +22,7 @@
 }
 
 - (IBAction)copyCodeTap:(id)sender {
-    NSLog(@"Copy code tapped.");
+    //NSLog(@"Copy code tapped.");
     UIButton *copyCodeButton = (UIButton *)sender;
     UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
     pasteboard.string = copyCodeButton.titleLabel.text;

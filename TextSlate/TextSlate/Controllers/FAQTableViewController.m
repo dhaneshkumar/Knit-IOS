@@ -44,7 +44,7 @@
     [localQuery fromLocalDatastore];
     [localQuery orderByAscending:@"createdAt"];
     NSArray *result=[localQuery findObjects];
-    NSLog(@"result count %i",result.count);
+    //NSLog(@"result count %i",result.count);
     if(result.count<1)
     {
         NSDateComponents *comps = [[NSDateComponents alloc] init];
@@ -62,7 +62,7 @@
     _faq=[PFCloud callFunction:@"faq" withParameters:@{@"role" :userRole,@"date":latestDate}];
     if(_faq.count==0)
     {
-        NSLog(@"count zero");
+        //NSLog(@"count zero");
     }
     else{
         for(PFObject *faqs in _faq)

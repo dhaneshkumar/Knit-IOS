@@ -109,7 +109,7 @@
             MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[[UIApplication sharedApplication] keyWindow]  animated:YES];
             hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
             hud.labelText = @"Loading";
-            NSLog(@"lat: %f, long: %f, osVersion: %@", _latitude, _longitude, _osVersion);
+            //NSLog(@"lat: %f, long: %f, osVersion: %@", _latitude, _longitude, _osVersion);
             NSInteger verificationCode = [_codeText.text integerValue];
             [Data verifyOTPSignUp:_phoneNumber code:verificationCode name:_nameText role:_role successBlock:^(id object){
                 NSDictionary *tokenDict=[[NSDictionary alloc]init];
@@ -123,12 +123,12 @@
                         if (error) {
                             [hud hide:YES];
                             [RKDropdownAlert title:@"Knit" message:@"Error in signing up. Try again."  time:2];
-                            NSLog(@"PFUser in background sign up ka pain");
+                            //NSLog(@"PFUser in background sign up ka pain");
                             return;
                         } else {
                             [PFSession getCurrentSessionInBackgroundWithBlock:^(PFSession *session, NSError *error) {
                                 if(error) {
-                                    NSLog(@"pfsession : error");
+                                    //NSLog(@"pfsession : error");
                                 }
                                 else {
                                     if(_areCoordinatesUpdated) {
@@ -216,7 +216,7 @@
                             } errorBlock:^(NSError *error) {
                                 [hud hide:YES];
                                 [RKDropdownAlert title:@"Knit" message:@"Error in signing up. Try again."  time:2];
-                                NSLog(@" in background sign up ka pain");
+                                //NSLog(@" in background sign up ka pain");
                                 return;
                             }];
                         }
@@ -228,7 +228,7 @@
                     return;
                 }
             } errorBlock:^(NSError *error) {
-                NSLog(@"error : %@", error);
+                //NSLog(@"error : %@", error);
                 if([[((NSDictionary *)error.userInfo) objectForKey:@"error"] isEqualToString:@"USER_ALREADY_EXISTS"]) {
                     [hud hide:YES];
                     [self.navigationController popViewControllerAnimated:YES];
@@ -250,7 +250,7 @@
             NSInteger verificationCode=[_codeText.text integerValue];
             NSString *number=_phoneNumber;
             [Data  newSignInVerification:number code:verificationCode successBlock:^(id object) {
-                NSLog(@"Verified");
+                //NSLog(@"Verified");
                 NSDictionary *tokenDict=[[NSDictionary alloc]init];
                 tokenDict=object;
                 NSString *flagString=[tokenDict objectForKey:@"flag"];
@@ -263,13 +263,13 @@
                         if (error) {
                             [hud hide:YES];
                             [RKDropdownAlert title:@"Knit" message:@"Error in signing in.Try again." time:2];
-                            NSLog(@"user become in bg ka pain on new login");
+                            //NSLog(@"user become in bg ka pain on new login");
                             return;
                         } else {
-                            NSLog(@"Successfully Validated ");
+                            //NSLog(@"Successfully Validated ");
                             [PFSession getCurrentSessionInBackgroundWithBlock:^(PFSession *session, NSError *error) {
                                 if(error) {
-                                    NSLog(@"pfsession : error");
+                                    //NSLog(@"pfsession : error");
                                 }
                                 else {
                                     if(_areCoordinatesUpdated) {
@@ -282,14 +282,14 @@
                                 }
                             }];
                             PFUser *current=[PFUser currentUser];
-                            NSLog(@"%@ current user",current.objectId);
+                            //NSLog(@"%@ current user",current.objectId);
                             PFInstallation *currentInstallation = [PFInstallation currentInstallation];
                             NSString *installationId=[currentInstallation objectForKey:@"installationId"];
                             NSString *devicetype=[currentInstallation objectForKey:@"deviceType"];
                             
                             [Data saveInstallationId:installationId deviceType:devicetype successBlock:^(id object) {
-                                NSLog(@"Successfully saved installationID");
-                                NSLog(@"current installation %@",object);
+                                //NSLog(@"Successfully saved installationID");
+                                //NSLog(@"current installation %@",object);
                                 current[@"installationObjectId"]=object;
                                 [current pinInBackground];
                                 
@@ -300,7 +300,7 @@
                                     }
                                     [self secondHalfLoginProcess:hud];
                                 } errorBlock:^(NSError *error) {
-                                    NSLog(@"Unable to fetch classes: %@", [error description]);
+                                    //NSLog(@"Unable to fetch classes: %@", [error description]);
                                     [self secondHalfLoginProcess:hud];
                                 }];
                             } errorBlock:^(NSError *error) {
@@ -317,7 +317,7 @@
                     return;
                 }
             } errorBlock:^(NSError *error) {
-                NSLog(@"error : %@", error);
+                //NSLog(@"error : %@", error);
                 if([[((NSDictionary *)error.userInfo) objectForKey:@"error"] isEqualToString:@"USER_DOESNOT_EXISTS"]) {
                     [hud hide:YES];
                     [self.navigationController popViewControllerAnimated:YES];
@@ -389,12 +389,7 @@
 -(void)createLocalDatastore:(NSDate *)dt {
     PFObject *locals = [[PFObject alloc] initWithClassName:@"defaultLocals"];
     locals[@"iosUserID"] = [PFUser currentUser].objectId;
-    if(_isNewSignIn==true) {
-        locals[@"isOldUser"] = @"NO";
-    }
-    else {
-        locals[@"isOldUser"] = @"YES";
-    }
+    locals[@"isOldUser"] = @"NO";
     locals[@"isInboxDataConsistent"] = @"false";
     locals[@"isUpdateCountsGloballyCalled"] = @"false";
     locals[@"isOutboxDataConsistent"] = @"false";
@@ -416,7 +411,7 @@
             [locals pinInBackground];
         });
     } errorBlock:^(NSError *error) {
-        NSLog(@"Unable to update server time : %@", [error description]);
+        //NSLog(@"Unable to update server time : %@", [error description]);
     }];
 }
 

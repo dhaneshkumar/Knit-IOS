@@ -67,8 +67,7 @@
     [Data changeName:_classCode newName:trimmedString successBlock:^(id object){
         PFObject *currentUser = (PFObject *)object;
         [currentUser pin];
-        JoinedClassTableViewController *joinedClassTVC = (JoinedClassTableViewController *)((UINavigationController *)((UINavigationController*)self.presentingViewController).viewControllers[1]);
-        [joinedClassTVC updateStudentName:trimmedString];
+        [self.parentController updateStudentName:trimmedString];
         [hud hide:YES];
         [self dismissViewControllerAnimated:YES completion:nil];
     }
