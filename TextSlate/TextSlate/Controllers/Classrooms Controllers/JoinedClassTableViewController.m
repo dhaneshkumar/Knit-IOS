@@ -211,6 +211,8 @@
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:1 inSection:1];
     studentNameTableViewCell *cell = (studentNameTableViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
     cell.studentNameOutlet.text = [NSString stringWithFormat:@"Student's Name: %@", _studentName];
+    NSArray* rowsToReload = [NSArray arrayWithObjects:indexPath, nil];
+    [self.tableView reloadRowsAtIndexPaths:rowsToReload withRowAnimation:UITableViewRowAnimationNone];
 }
 
 
