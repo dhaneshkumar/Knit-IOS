@@ -130,8 +130,9 @@
         NSDictionary *objDict = (NSDictionary *)object;
         PFObject *codeGroupForClass = [objDict objectForKey:@"codegroup"];
         [codeGroupForClass pinInBackground];
-        PFObject *currentUser = [objDict objectForKey:@"user"];
+        PFObject *currentUser = (PFObject *)[objDict objectForKey:@"user"];
         [currentUser pin];
+        NSLog(@"user : %@", [PFUser currentUser]);
         AppDelegate *apd = (AppDelegate *)[[UIApplication sharedApplication] delegate];
         NSArray *vcs = (NSArray *)((UINavigationController *)apd.startNav).viewControllers;
         TSTabBarViewController *rootTab = (TSTabBarViewController *)((UINavigationController *)apd.startNav).topViewController;

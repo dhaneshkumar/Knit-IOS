@@ -61,9 +61,11 @@
     [self.tableView reloadData];
 }
 
+
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     if(_isRefreshCalled) {
+        [self.tableView setContentOffset:CGPointMake(0, -self.refreshControl.frame.size.height) animated:YES];
         [self.refreshControl beginRefreshing];
     }
 }
@@ -199,6 +201,7 @@
 
 
 -(void)pullDownToRefresh {
+    NSLog(@"called : %d", _isRefreshCalled);
     if(_isRefreshCalled) {
         return;
     }
@@ -212,7 +215,9 @@
         }
     }
     ClassesViewController *classesVC = rootTab.viewControllers[0];
-    [rootTab fetchNewMembers:classesVC.createdClassesVCs latestDate:[self latestUpdatedTime]];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [rootTab fetchNewMembers:classesVC.createdClassesVCs latestDate:[self latestUpdatedTime]];
+    });
 }
 
 

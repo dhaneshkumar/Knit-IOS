@@ -96,8 +96,7 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-- (IBAction)doneClicked:(id)sender
-{
+- (IBAction)doneClicked:(id)sender {
     [_mobilTextField resignFirstResponder];
     [self newSignIn];
 }
@@ -218,7 +217,7 @@
 
 - (void)getCurrentLocation {
     _locationManager.delegate = self;
-    _locationManager.desiredAccuracy = kCLLocationAccuracyThreeKilometers;
+    _locationManager.desiredAccuracy = kCLLocationAccuracyKilometer;
     if ([_locationManager respondsToSelector:@selector(requestWhenInUseAuthorization)]) {
         [_locationManager requestWhenInUseAuthorization];
     }

@@ -165,7 +165,7 @@
 
 - (void)getCurrentLocation {
     _locationManager.delegate = self;
-    _locationManager.desiredAccuracy = kCLLocationAccuracyThreeKilometers;
+    _locationManager.desiredAccuracy = kCLLocationAccuracyKilometer;
     if ([_locationManager respondsToSelector:@selector(requestWhenInUseAuthorization)]) {
         [_locationManager requestWhenInUseAuthorization];
     }

@@ -54,14 +54,12 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     // Return the number of sections.
-    //NSLog(@"sections");
     return 4;
 }
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
-    //NSLog(@"rows");
     if(section==2)
         return 2;
     return 1;
@@ -188,29 +186,22 @@
 }
 
 -(void)showAreYouSureAlertView {
-    UIAlertController * alert =   [UIAlertController
-                                   alertControllerWithTitle:@"Knit"
-                                   message:@"Are you sure?"
-                                   preferredStyle:UIAlertControllerStyleAlert];
-    
-    UIAlertAction* yes = [UIAlertAction
-                          actionWithTitle:@"YES"
-                          style:UIAlertActionStyleDefault
-                          handler:^(UIAlertAction * action)
-                          {
-                              [self leaveClass];
-                          }];
-    UIAlertAction* no = [UIAlertAction
-                         actionWithTitle:@"NO"
-                         style:UIAlertActionStyleDefault
-                         handler:^(UIAlertAction * action)
-                         {
-                             
-                         }];
-    
-    [alert addAction:yes];
-    [alert addAction:no];
-    [self presentViewController:alert animated:YES completion:nil];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Knit"
+                                                    message:@"Are you sure?"
+                                                   delegate:self cancelButtonTitle:@"No"
+                                          otherButtonTitles:@"Yes",nil];
+    alert.tag = 1;
+    [alert show];
+}
+
+
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if(buttonIndex == [alertView cancelButtonIndex]) {
+        return;
+    }
+    if(alertView.tag==1) {
+        [self leaveClass];
+    }
 }
 
 
@@ -239,7 +230,7 @@
                 break;
             }
         }
-        
+        NSLog(@"user : %@", [PFUser currentUser]);
         if([currentUser[@"role"] isEqualToString:@"teacher"]) {
             ClassesViewController *classesVC = rootTab.viewControllers[0];
             NSMutableArray *arr = [[NSMutableArray alloc] init];

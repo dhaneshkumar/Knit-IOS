@@ -18,6 +18,7 @@
 #import "TSMember.h"
 #import "Data.h"
 #import <Parse/Parse.h>
+#import "AppDelegate.h"
 
 #define classJoinAlertTag 1001
 
@@ -40,8 +41,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    
     if (![PFUser currentUser]) {
         [self makeItNoUser];
         UINavigationController *startPage = [self.storyboard instantiateViewControllerWithIdentifier:@"startPageNavVC"];
@@ -132,7 +131,9 @@
     [outboxVC initialization];
     [self messagesInitialization:classesVC.createdClassesVCs outbox:outboxVC];
     NSDate *latestDate = [self membersInitialization:classesVC.createdClassesVCs];
-    [self fetchNewMembers:classesVC.createdClassesVCs latestDate:latestDate];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [self fetchNewMembers:classesVC.createdClassesVCs latestDate:latestDate];
+    });
 
     classesVC.tabBarItem.title = @"Classrooms";
     classesVC.tabBarItem.image = [UIImage imageNamed:@"classroomsIcon"];
@@ -158,15 +159,14 @@
     
     [Data getMemberList:latestDate successBlock:^(id object) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            NSLog(@"here : %@", latestDate);
             NSMutableDictionary *members = (NSMutableDictionary *) object;
             NSArray *appUser=(NSArray *)[members objectForKey:@"app"];
             NSArray *phoneUser=(NSArray *)[members objectForKey:@"sms"];
-            for(PFObject * appUs in appUser) {
-                [appUs pinInBackground];
-            }
-            for(PFObject * phoneUs in phoneUser) {
-                [phoneUs pinInBackground];
-            }
+            NSLog(@"appUsers : %d, messageusers : %d", appUser.count, phoneUser.count);
+            [PFObject pinAll:appUser];
+            [PFObject pinAll:phoneUser];
+            
             if(appUser.count>0 || phoneUser.count>0) {
                 NSMutableDictionary *memberArrays = [[NSMutableDictionary alloc] init];
                 NSMutableArray *createdClassCodes = [[NSMutableArray alloc] init];
@@ -180,10 +180,13 @@
                 [query orderByDescending:@"updatedAt"];
                 [query whereKey:@"code" containedIn:createdClassCodes];
                 NSArray * objects = [query findObjects];
+                NSLog(@"local app users : %d", objects.count);
                 for(PFObject *name in objects) {
                     TSMember *member = [self createMemberObjectForAppUsers:name];
+                    NSLog(@"app member : %@, %@", name, member);
                     if(member) {
                         [memberArrays[member.classCode] addObject:member];
+                        NSLog(@"app yups");
                     }
                 }
                 
@@ -192,16 +195,20 @@
                 [query orderByDescending:@"updatedAt"];
                 [query whereKey:@"cod" containedIn:createdClassCodes];
                 objects = [query findObjects];
-                
+                NSLog(@"local phone users : %d", objects.count);
                 for(PFObject *name in objects) {
                     TSMember *member = [self createMemberObjectForMessageNeeders:name];
+                    NSLog(@"phone member : %@, %@", name, member);
                     if(member) {
                         [memberArrays[member.classCode] addObject:member];
+                        NSLog(@"message yups");
                     }
                 }
+                
                 for(NSArray *cls in createdClasses) {
                     TSSendClassMessageViewController *sendClassVC = createdClassesVCs[cls[0]];
                     [sendClassVC.memListVC updateMemberList:memberArrays[cls[0]]];
+                    sendClassVC.memberCountString = [NSString stringWithFormat:@"%d", sendClassVC.memListVC.memberList.count];
                 }
             }
             else {
@@ -259,6 +266,12 @@
             [sendClassVC.memListVC.memberList addObject:member];
         }
     }
+    
+    for(NSString *classCode in createdClassCodes) {
+        TSSendClassMessageViewController *sendClassVC = createdClassesVCs[classCode];
+        sendClassVC.memberCountString = [NSString stringWithFormat:@"%d", sendClassVC.memListVC.memberList.count];
+    }
+    
     
     if(objects.count>0) {
         NSDate *newLatestTime = ((PFObject *)objects[0]).updatedAt;

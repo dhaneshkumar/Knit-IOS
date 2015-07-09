@@ -230,53 +230,6 @@
         [self.navigationController pushViewController:dvc animated:YES];
     }
 }
-    /*    else {
-            JoinedClassTableViewController *dvc = (JoinedClassTableViewController *)[self.storyboard instantiateViewControllerWithIdentifier:@"joinedClassVC"];
-            [_joinedClassVCs setObject:dvc forKey:_joinedClasses[row][0]];
-            PFObject *codegroup = [_codegroups objectForKey:_joinedClasses[row][0]];
-            dvc.className = codegroup[@"name"];
-            dvc.classCode = codegroup[@"code"];
-            dvc.teacherName = codegroup[@"Creator"];
-            
-            PFFile *attachImageUrl = codegroup[@"senderPic"];
-            
-            if(attachImageUrl) {
-                NSString *url=attachImageUrl.url;
-                NSLog(@"url to image fetchold message %@",url);
-                UIImage *image = [[sharedCache sharedInstance] getCachedImageForKey:url];
-                if(image) {
-                    NSLog(@"already cached");
-                    dvc.teacherPic = image;
-                }
-                else{
-                    dvc.teacherPic = [UIImage imageNamed:@"defaultTeacher.png"];
-                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
-                        NSData *data = [attachImageUrl getData];
-                        UIImage *image = [[UIImage alloc] initWithData:data];
-                        
-                        if(image) {
-                            NSLog(@"Caching here....");
-                            [[sharedCache sharedInstance] cacheImage:image forKey:url];
-                            dvc.teacherPic = image;
-                            dispatch_sync(dispatch_get_main_queue(), ^{
-                                [dvc.tableView reloadData];
-                            });
-                        }
-                    });
-                }
-            }
-            else {
-                dvc.teacherPic = [UIImage imageNamed:@"defaultTeacher.png"];
-            }
-            if(((NSArray *)_joinedClasses[row]).count==2)
-                dvc.studentName = [[PFUser currentUser] objectForKey:@"name"];
-            else
-                dvc.studentName = _joinedClasses[row][2];
-            [self.navigationController pushViewController:dvc animated:YES];
-        }
-    }*/
-
-
 
 - (IBAction)segmentChanged:(id)sender {
     if(self.segmentedControl.selectedSegmentIndex==0) {

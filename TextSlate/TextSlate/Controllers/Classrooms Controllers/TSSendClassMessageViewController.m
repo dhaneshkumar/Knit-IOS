@@ -102,6 +102,7 @@
     [moreInfoContactButton addTarget:self action:@selector(moreInfoButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *moreInfoContactButtonItem = [[UIBarButtonItem alloc] initWithCustomView:moreInfoContactButton];
     [self.navigationItem setRightBarButtonItems:@[composeBarButtonItem, moreInfoContactButtonItem]];
+    _memberCount.text = _memberCountString;
     [_messageTable reloadData];
 }
 
