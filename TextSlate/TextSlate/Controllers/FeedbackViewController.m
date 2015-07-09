@@ -9,6 +9,7 @@
 #import "FeedbackViewController.h"
 #import "RKDropdownAlert.h"
 #import "Data.h"
+#import "MBProgressHUD.h"
 
 @interface FeedbackViewController ()
 @property (weak, nonatomic) IBOutlet UITextView *feedback;
@@ -61,14 +62,19 @@
           return;
     }
     else {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[[UIApplication sharedApplication] keyWindow] animated:YES];
+        hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
+        hud.labelText = @"Loading";
         [Data feedback:_feedback.text successBlock:^(id object) {
+            [hud hide:YES];
             [RKDropdownAlert title:@"Knit" message:@"We have got your feedback and we appreciate it." time:2];
-            self.feedback.text=@"";
+            self.feedback.text = @"";
             if(_isSeparateWindow)
                 [self dismissViewControllerAnimated:YES completion:nil];
             else
                 [self.navigationController popViewControllerAnimated:YES];
         } errorBlock:^(NSError *error) {
+            [hud hide:YES];
             [RKDropdownAlert title:@"Knit" message:@"Oops! We encountered a problem while processing your feedback.Please try again later!"time:2];
         }];
         

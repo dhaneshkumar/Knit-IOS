@@ -315,7 +315,6 @@
 
 
 -(IBAction)sendMessage:(id)sender  {
-    //NSLog(@"message send pressed");
     if([_recipientClassLabel.text isEqualToString:@"Tap to select Class"]) {
           [RKDropdownAlert title:@"Knit" message:@"Select a recipient class." time:2];
         return;
@@ -336,6 +335,7 @@
             break;
         }
     }
+    [_textMessage resignFirstResponder];
     TSOutboxViewController *outbox = (TSOutboxViewController *)(NSArray *)rootTab.viewControllers[2];
     ClassesViewController *classrooms = (ClassesViewController *)(NSArray *)rootTab.viewControllers[0];
     NSMutableDictionary *mutableDict = classrooms.createdClassesVCs;
@@ -345,9 +345,7 @@
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[[UIApplication sharedApplication] keyWindow]  animated:YES];
         hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
         hud.labelText = @"Loading";
-        //NSLog(@"Yo4");
         [Data sendTextMessage:_classCode classname:_className message:messageText successBlock:^(id object) {
-            //NSLog(@"Yo4");
             NSMutableDictionary *dict = (NSMutableDictionary *) object;
             NSString *messageObjectId = (NSString *)[dict objectForKey:@"messageId"];
             NSString *messageCreatedAt = (NSString *)[dict objectForKey:@"createdAt"];
@@ -363,7 +361,6 @@
             messageObject[@"confused_count"] = [NSNumber numberWithInt:0];
             messageObject[@"seen_count"] = [NSNumber numberWithInt:0];
             [messageObject pinInBackground];
-            //NSLog(@"Yo5");
             TSMessage *newMessage=[[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:[messageObject[@"title"] stringByTrimmingCharactersInSet:characterset] sender:messageObject[@"Creator"] sentTime:messageObject[@"createdTime"] senderPic:nil likeCount:[messageObject[@"like_count"] intValue] confuseCount:[messageObject[@"confused_count"] intValue] seenCount:[messageObject[@"seen_count"] intValue]];
             TSMessage *newMessageForClassPage =[[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:[messageObject[@"title"] stringByTrimmingCharactersInSet:characterset] sender:messageObject[@"Creator"] sentTime:messageObject[@"createdTime"] senderPic:nil likeCount:[messageObject[@"like_count"] intValue] confuseCount:[messageObject[@"confused_count"] intValue] seenCount:[messageObject[@"seen_count"] intValue]];
             newMessage.messageId = messageObject[@"messageId"];
@@ -397,9 +394,7 @@
 
         [_finalAttachment saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
             if (succeeded) {
-                //NSLog(@"Yo6");
                 [Data sendTextMessagewithAttachment:_classCode classname:_className message:messageText attachment:(PFFile*) _finalAttachment filename:_finalAttachment.name successBlock:^(id object) {
-                    //NSLog(@"Yo4");
                     NSMutableDictionary *dict = (NSMutableDictionary *) object;
                     NSString *messageObjectId = (NSString *)[dict objectForKey:@"messageId"];
                     NSString *messageCreatedAt = (NSString *)[dict objectForKey:@"createdAt"];
@@ -428,7 +423,6 @@
                     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
                         UIImage *image = [[sharedCache sharedInstance] getCachedImageForKey:url];
                         if(image) {
-                            //NSLog(@"already cached");
                             newMessage.attachment = image;
                             newMessageForClassPage.attachment = image;
                         }
@@ -446,7 +440,6 @@
                     
                     //Cancel all local notifications
                     [[UIApplication sharedApplication] cancelAllLocalNotifications];
-                    
                     [hud hide:YES];
                     [self dismissViewControllerAnimated:YES completion:nil];
                     [RKDropdownAlert title:@"Knit" message:@"Your message has been sent!"  time:2];
@@ -457,7 +450,6 @@
                 }];
             }
             else {
-                //NSLog(@"Yo1");
                 [hud hide:YES];
                 [RKDropdownAlert title:@"Knit" message:@"Error occurred in sending the message. Try again later." time:2];
             }
@@ -493,10 +485,7 @@
 
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
-
     _progressBar.progress=0.0;
-
-    //NSLog(@"final");
     self.progressBar.hidden=NO;
     self.cancelAttachment.hidden=NO;
     _attachmentImage = info[UIImagePickerControllerOriginalImage];
