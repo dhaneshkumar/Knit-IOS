@@ -1156,20 +1156,18 @@ Login using your email ID.</string>
                                 <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="359" id="2tt-Qi-GAo">
-                                        <variation key="heightClass=regular-widthClass=compact" constant="176"/>
-                                    </constraint>
+                                    <constraint firstAttribute="height" constant="144" id="rOM-YF-RRj"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                 <variation key="default">
                                     <mask key="constraints">
-                                        <exclude reference="2tt-Qi-GAo"/>
+                                        <exclude reference="rOM-YF-RRj"/>
                                     </mask>
                                 </variation>
                                 <variation key="heightClass=regular-widthClass=compact">
                                     <mask key="constraints">
-                                        <include reference="2tt-Qi-GAo"/>
+                                        <include reference="rOM-YF-RRj"/>
                                     </mask>
                                 </variation>
                             </textView>

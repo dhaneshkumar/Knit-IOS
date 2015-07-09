@@ -26,12 +26,23 @@
         UIBarButtonItem *cancelBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemStop  target:self action:@selector(closeWindow)];
         self.navigationItem.leftBarButtonItem = cancelBarButtonItem;
     }
+    else {
+        UIBarButtonItem *bb = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"back"] style:UIBarButtonItemStylePlain target:self action:@selector(backButtonTapped:)];
+        [self.navigationItem setLeftBarButtonItem:bb];
+    }
 }
+
+
+-(IBAction)backButtonTapped:(id)sender {
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that canbe recreated.
 }
+
 
 -(void)closeWindow {
     [self.feedback resignFirstResponder];

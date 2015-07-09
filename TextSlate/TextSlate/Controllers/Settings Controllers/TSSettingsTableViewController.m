@@ -369,9 +369,6 @@ if(section==0)
             [RKDropdownAlert title:@"Knit" message:@"Please provide the permission to access camera!"  time:2];
             return;
         }
-    
-      
-
     }
     
     if(buttonIndex==1) {

@@ -7,7 +7,7 @@
 //
 
 #import "ProfilePictureViewController.h"
-#import<Parse/Parse.h>
+#import <Parse/Parse.h>
 
 @interface ProfilePictureViewController ()
 

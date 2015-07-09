@@ -8,9 +8,11 @@
 
 #import "FAQTableViewController.h"
 #import "Data.h"
+#import "MBProgressHUD.h"
 #import <Parse/Parse.h>
+
 @interface FAQTableViewController ()
-@property (strong,nonatomic) NSMutableArray *faq;
+
 @property (strong,nonatomic) NSMutableArray *ques;
 @property (strong,nonatomic) NSMutableArray *answer;
 
@@ -22,60 +24,59 @@
     [super viewDidLoad];
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     [self.tableView reloadData];
-    
 }
+
 
 -(void) viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    _faq=[[NSMutableArray alloc]init];
     _ques=[[NSMutableArray alloc]init];
     _answer=[[NSMutableArray alloc]init];
     [self getFaq];
-    [self.tableView reloadData];
-    
 }
+
+
 -(void)getFaq{
-    NSString *userRole=[[PFUser currentUser] objectForKey:@"role"];
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view  animated:YES];
+    hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
+    hud.labelText = @"Loading";
     
-    NSDate *latestDate;
-    
-    
-    PFQuery *localQuery = [PFQuery queryWithClassName:@"Codegroup"];
+    PFQuery *localQuery = [PFQuery queryWithClassName:@"FAQs"];
     [localQuery fromLocalDatastore];
-    [localQuery orderByAscending:@"createdAt"];
-    NSArray *result=[localQuery findObjects];
-    //NSLog(@"result count %i",result.count);
-    if(result.count<1)
-    {
+    [localQuery orderByDescending:@"updatedAt"];
+    NSArray *faqObjs = [localQuery findObjects];
+    NSDate *latestDate;
+    if(faqObjs.count==0) {
         NSDateComponents *comps = [[NSDateComponents alloc] init];
         [comps setDay:10];
         [comps setMonth:10];
         [comps setYear:2010];
         latestDate = [[NSCalendar currentCalendar] dateFromComponents:comps];
-        
     }
-    else{
-        PFObject *latestResult=[result objectAtIndex:0];
-        latestDate=latestResult.createdAt;
+    else {
+        PFObject *latestResult = faqObjs[0];
+        latestDate = latestResult.updatedAt;
     }
     
-    _faq=[PFCloud callFunction:@"faq" withParameters:@{@"role" :userRole,@"date":latestDate}];
-    if(_faq.count==0)
-    {
-        //NSLog(@"count zero");
-    }
-    else{
-        for(PFObject *faqs in _faq)
-        {
-            NSString *question=[faqs objectForKey:@"question"];
-            
-            NSString *ans=[faqs objectForKey:@"answer"];
-            [_ques addObject:question ];
-            [_answer addObject:ans];
-        }
-    }
-
+    [Data getFAQ:latestDate successBlock:^(id object) {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            NSArray *faqs = (NSArray *) object;
+            for(PFObject *faq in faqs) {
+                NSString *question = [faq objectForKey:@"question"];
+                NSString *ans = [faq objectForKey:@"answer"];
+                [_ques addObject:question];
+                [_answer addObject:ans];
+            }
+            [hud hide:YES];
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                [self.tableView reloadData];
+            });
+        });
+    } errorBlock:^(NSError *error) {
+        [hud hide:YES];
+    }];
 }
+
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
