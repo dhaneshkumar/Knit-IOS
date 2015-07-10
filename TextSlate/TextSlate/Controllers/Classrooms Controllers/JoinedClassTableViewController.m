@@ -48,6 +48,7 @@
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    [self.tableView reloadData];
 }
 
 #pragma mark - Table view data source
@@ -211,8 +212,6 @@
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:1 inSection:1];
     studentNameTableViewCell *cell = (studentNameTableViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
     cell.studentNameOutlet.text = [NSString stringWithFormat:@"Student's Name: %@", _studentName];
-    NSArray* rowsToReload = [NSArray arrayWithObjects:indexPath, nil];
-    [self.tableView reloadRowsAtIndexPaths:rowsToReload withRowAnimation:UITableViewRowAnimationNone];
 }
 
 

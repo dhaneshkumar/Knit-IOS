@@ -506,6 +506,16 @@
     [Data updateCountsLocally:tempArray successBlock:^(id object) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
             NSDictionary *messageObjects = (NSDictionary *)object;
+            AppDelegate *apd = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+            NSArray *vcs = (NSArray *)((UINavigationController *)apd.startNav).viewControllers;
+            TSTabBarViewController *rootTab = (TSTabBarViewController *)((UINavigationController *)apd.startNav).topViewController;
+            for(id vc in vcs) {
+                if([vc isKindOfClass:[TSTabBarViewController class]]) {
+                    rootTab = (TSTabBarViewController *)vc;
+                    break;
+                }
+            }
+            ClassesViewController *classesVC = rootTab.viewControllers[0];
             for(NSString *messageObjectId in messageObjects) {
                 PFQuery *query = [PFQuery queryWithClassName:@"GroupDetails"];
                 [query fromLocalDatastore];
@@ -519,7 +529,14 @@
                 ((TSMessage *)_mapCodeToObjects[messageObjectId]).seenCount = [msg[@"seen_count"] intValue];
                 ((TSMessage *)_mapCodeToObjects[messageObjectId]).likeCount = [msg[@"like_count"] intValue];
                 ((TSMessage *)_mapCodeToObjects[messageObjectId]).confuseCount = [msg[@"confused_count"] intValue];
+                TSSendClassMessageViewController *sendClassVC = classesVC.createdClassesVCs[msg[@"code"]];
+                ((TSMessage *)sendClassVC.mapCodeToObjects[messageObjectId]).seenCount = [msg[@"seen_count"] intValue];
+                ((TSMessage *)sendClassVC.mapCodeToObjects[messageObjectId]).likeCount = [msg[@"like_count"] intValue];
+                ((TSMessage *)sendClassVC.mapCodeToObjects[messageObjectId]).confuseCount = [msg[@"confused_count"] intValue];
             }
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                [self.messagesTable reloadData];
+            });
         });
     } errorBlock:^(NSError *error) {
         //NSLog(@"Unable to fetch like confuse counts in inbox: %@", [error description]);

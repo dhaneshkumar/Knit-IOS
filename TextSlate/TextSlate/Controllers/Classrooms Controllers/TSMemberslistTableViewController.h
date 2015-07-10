@@ -12,6 +12,7 @@
 @interface TSMemberslistTableViewController : UITableViewController
 
 @property (strong,nonatomic) NSMutableArray *memberList;
+
 -(void)initialization:(NSString *)classCode className:(NSString *)className;
 -(void)updateMemberList:(NSMutableArray *)memberArray;
 -(void)startMemberUpdating;
