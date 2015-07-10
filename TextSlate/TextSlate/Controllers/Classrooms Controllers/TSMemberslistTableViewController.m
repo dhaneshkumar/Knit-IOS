@@ -15,6 +15,7 @@
 #import "AppDelegate.h"
 #import "TSTabBarViewController.h"
 #import "ClassesViewController.h"
+#import "TSSendClassMessageViewController.h"
 
 @interface TSMemberslistTableViewController ()
 
@@ -23,6 +24,7 @@
 @property (strong, nonatomic) UIRefreshControl *refreshControl;
 @property (nonatomic) BOOL isRefreshCalled;
 @property (strong, nonatomic) MBProgressHUD *hud;
+@property (nonatomic, strong) NSIndexPath *indexPath;
 
 @end
 
@@ -60,6 +62,9 @@
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.tableView reloadData];
+    if(self.tableView.editing) {
+        [self.tableView setEditing:NO];
+    }
 }
 
 
@@ -152,11 +157,29 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
+        _indexPath = indexPath;
+        NSString *title = @"Knit";
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
+                                                        message:@"Are you sure?"
+                                                       delegate:self cancelButtonTitle:@"No"
+                                              otherButtonTitles:@"Yes",nil];
+        alert.tag = 1;
+        [alert show];
+    }
+}
+
+
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if(buttonIndex == [alertView cancelButtonIndex]) {
+        return;
+    }
+    
+    if(alertView.tag == 1) {
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[[UIApplication sharedApplication] keyWindow]  animated:YES];
         hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
         hud.labelText = @"Loading";
-
-        long row = indexPath.row;
+        
+        long row = _indexPath.row;
         TSMember *toRemove = (TSMember *)_memberList[row];
         if([toRemove.userType isEqualToString:@"app"]) {
             [Data removeMemberApp:_classCode classname:_className emailId:toRemove.emailId usertype:toRemove.userType successBlock:^(id object){
@@ -165,15 +188,16 @@
                 [query whereKey:@"code" equalTo:_classCode];
                 [query whereKey:@"emailId" equalTo:toRemove.emailId];
                 NSArray *appMembers = [query findObjects];
-                if(appMembers.count!=1)
-                    NSLog(@"Nhiiiii....");
+                if(appMembers.count!=1) {
+                    //NSLog(@"Nhiiiii....");
+                }
                 appMembers[0][@"status"] = @"REMOVED";
                 [appMembers[0] pinInBackground];
                 [_memberList removeObjectAtIndex:row];
                 [hud hide:YES];
                 int memCount = [_sendClassVC.memberCountString intValue];
                 _sendClassVC.memberCountString = [NSString stringWithFormat:@"%d", memCount-1];
-                [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+                [self.tableView deleteRowsAtIndexPaths:@[_indexPath] withRowAnimation:UITableViewRowAnimationFade];
             }errorBlock:^(NSError *error){
                 [hud hide:YES];
                 [RKDropdownAlert title:@"Knit" message:@"Error occured while deleting members. Please try again later."  time:2];
@@ -186,15 +210,16 @@
                 [query whereKey:@"cod" equalTo:_classCode];
                 [query whereKey:@"number" equalTo:toRemove.phoneNum];
                 NSArray *phoneMembers = [query findObjects];
-                if(phoneMembers.count!=1)
-                    NSLog(@"Nhiiiii....");
+                if(phoneMembers.count!=1) {
+                    //NSLog(@"Nhiiiii....");
+                }
                 phoneMembers[0][@"status"] = @"REMOVED";
                 [phoneMembers[0] pinInBackground];
                 [_memberList removeObjectAtIndex:row];
                 [hud hide:YES];
                 int memCount = [_sendClassVC.memberCountString intValue];
                 _sendClassVC.memberCountString = [NSString stringWithFormat:@"%d", memCount-1];
-                [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+                [self.tableView deleteRowsAtIndexPaths:@[_indexPath] withRowAnimation:UITableViewRowAnimationFade];
             }errorBlock:^(NSError *error){
                 UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error occured while removing member." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
                 [hud hide:YES];
@@ -206,7 +231,7 @@
 
 
 -(void)pullDownToRefresh {
-    NSLog(@"called : %d", _isRefreshCalled);
+    //NSLog(@"called : %d", _isRefreshCalled);
     if(_isRefreshCalled) {
         return;
     }

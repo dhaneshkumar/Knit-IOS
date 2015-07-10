@@ -50,7 +50,7 @@
     
     float screenHeight = [self getScreenHeight];
     float unit = (screenHeight - 64.0)/12.0;
-    NSLog(@"self.view.height : %f", self.view.frame.size.height);
+    //NSLog(@"self.view.height : %f", self.view.frame.size.height);
     _view1Height.constant = 1.4*unit;
     _view2Height.constant = 2*unit;
     _view3Height.constant = 2*unit;
@@ -169,7 +169,7 @@
 }
 
 -(void)view3Tapped:(UITapGestureRecognizer *)recognizer {
-    NSLog(@"view3Tapped");
+    //NSLog(@"view3Tapped");
     NSString *sendCode = @"";
     if(_type==1) {
         sendCode=[NSString stringWithFormat:@"Dear teacher, I found an awesome app, ‘Knit Messaging’, for teachers to communicate with parents and students. You can download the app from goo.gl/FmydzU"];

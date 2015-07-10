@@ -103,14 +103,14 @@
     _hasTypedMessage = false;
     
     _createdClasses=[[PFUser currentUser] objectForKey:@"Created_groups"];
-    NSLog(@"object return %@",[_createdClasses objectAtIndex:0]);
+    //NSLog(@"object return %@",[_createdClasses objectAtIndex:0]);
     for(NSArray *a in _createdClasses) {
         [_createdclassCode addObject:[a objectAtIndex:0]];
         [_createdclassName addObject:[a objectAtIndex:1]];
     }
     
-    NSLog(@"created class name %@",_createdclassName);
-    NSLog(@"created class code %@",_createdclassCode);
+    //NSLog(@"created class name %@",_createdclassName);
+    //NSLog(@"created class code %@",_createdclassCode);
     _hasSelectedClass = false;
     _hasTypedMessage = false;
     
@@ -183,7 +183,7 @@
 
 - (void)textViewDidBeginEditing:(UITextView *)textView
 {
-    NSLog(@"did begin editing");
+    //NSLog(@"did begin editing");
     _writeMessageHere.hidden = true;
     if (!_hasTypedMessage) {
         textView.text = @"";
@@ -191,7 +191,7 @@
 }
 
 - (void)textViewDidEndEditing:(UITextView *)textView {
-    NSLog(@"did end editing");
+    //NSLog(@"did end editing");
     if ([[self trimmedString:textView.text] isEqualToString:@""]) {
         _textMessage.text = @"";
         _hasTypedMessage = false;
@@ -205,7 +205,7 @@
 
 
 -(void)recipientClassTapped:(UITapGestureRecognizer *)recognizer {
-    NSLog(@"recipient class tapped");
+    //NSLog(@"recipient class tapped");
     if(!_isClass) {
         MessageComposerRecipientsViewController *popUpView = [self.storyboard instantiateViewControllerWithIdentifier:@"messageRecipientsVC"];
         popUpView.messageComposerVC = self;
@@ -219,13 +219,13 @@
 
 
 -(void)messageBodyTapped:(UITapGestureRecognizer *)recognizer {
-    NSLog(@"message body tapped");
+    //NSLog(@"message body tapped");
     [_textMessage becomeFirstResponder];
 }
 
 
 -(void)textViewDidChange:(UITextView *)textView {
-    NSLog(@"view did change");
+    //NSLog(@"view did change");
     long len = 300-textView.text.length;
     NSString* count = [@(len) stringValue];
     _wordCount.text = count;
@@ -233,7 +233,7 @@
 
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
-    NSLog(@"oye");
+    //NSLog(@"oye");
     if([text length] == 0) {
         if([textView.text length] == 0) {
             return NO;
@@ -249,9 +249,9 @@
 
 
 - (void) actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
-    NSLog(@"button index : %d", buttonIndex);
+    //NSLog(@"button index : %d", buttonIndex);
     if(buttonIndex == _createdclassCode.count){
-        NSLog(@"No class selected");
+        //NSLog(@"No class selected");
     }
     else{
         _recipientClassLabel.text = [actionSheet buttonTitleAtIndex:buttonIndex];
@@ -279,42 +279,43 @@
 
 
 -(void) liftMainViewWhenKeybordAppears:(NSNotification*)aNotification {
-        NSDictionary* userInfo = [aNotification userInfo];
-    
-        NSTimeInterval animationDuration;
-        UIViewAnimationCurve animationCurve;
-        CGRect keyboardFrame;
-        CGFloat keyboardHeight;
-    
-        [[userInfo objectForKey:UIKeyboardAnimationCurveUserInfoKey] getValue:&animationCurve];
-        [[userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey] getValue:&animationDuration];
-        [[userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] getValue:&keyboardFrame];
-    
-        UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
-    
-        if (orientation == UIDeviceOrientationPortrait || orientation == UIDeviceOrientationPortraitUpsideDown ) {
-                keyboardHeight = keyboardFrame.size.height;
-            }
-        else {
-                keyboardHeight = keyboardFrame.size.width;
-            }
-    
-        [UIView beginAnimations:nil context:nil];
-        [UIView setAnimationDuration:animationDuration];
-        [UIView setAnimationCurve:animationCurve];
-    
-        [self.navigationController.toolbar setFrame:CGRectMake(self.navigationController.view.frame.origin.x,
-                                                                +                                                           self.navigationController.view.frame.origin.y + self.navigationController.view.frame.size.height  - keyboardHeight - self.navigationController.toolbar.frame.size.height,
-                                                                +                                                           self.navigationController.toolbar.frame.size.width,
-                                                                +                                                           self.navigationController.toolbar.frame.size.height)];
-    
-        [UIView commitAnimations];
+    NSDictionary* userInfo = [aNotification userInfo];
+
+    NSTimeInterval animationDuration;
+    UIViewAnimationCurve animationCurve;
+    CGRect keyboardFrame;
+    CGFloat keyboardHeight;
+
+    [[userInfo objectForKey:UIKeyboardAnimationCurveUserInfoKey] getValue:&animationCurve];
+    [[userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey] getValue:&animationDuration];
+    [[userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] getValue:&keyboardFrame];
+
+    UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
+
+    if (orientation == UIDeviceOrientationPortrait || orientation == UIDeviceOrientationPortraitUpsideDown ) {
+            keyboardHeight = keyboardFrame.size.height;
+        }
+    else {
+            keyboardHeight = keyboardFrame.size.width;
+        }
+
+    [UIView beginAnimations:nil context:nil];
+    [UIView setAnimationDuration:animationDuration];
+    [UIView setAnimationCurve:animationCurve];
+
+    [self.navigationController.toolbar setFrame:CGRectMake(self.navigationController.view.frame.origin.x,
+                                                            +                                                           self.navigationController.view.frame.origin.y + self.navigationController.view.frame.size.height  - keyboardHeight - self.navigationController.toolbar.frame.size.height,
+                                                            +                                                           self.navigationController.toolbar.frame.size.width,
+                                                            +                                                           self.navigationController.toolbar.frame.size.height)];
+
+    [UIView commitAnimations];
     [_textMessage becomeFirstResponder];
-        NSLog(@"toolbar moved: %f", self.navigationController.view.frame.size.height);
+    //NSLog(@"toolbar moved: %f", self.navigationController.view.frame.size.height);
 }
 
 
 -(IBAction)sendMessage:(id)sender  {
+    [_textMessage resignFirstResponder];
     if([_recipientClassLabel.text isEqualToString:@"Tap to select Class"]) {
           [RKDropdownAlert title:@"Knit" message:@"Select a recipient class." time:2];
         return;
@@ -335,7 +336,6 @@
             break;
         }
     }
-    [_textMessage resignFirstResponder];
     TSOutboxViewController *outbox = (TSOutboxViewController *)(NSArray *)rootTab.viewControllers[2];
     ClassesViewController *classrooms = (ClassesViewController *)(NSArray *)rootTab.viewControllers[0];
     NSMutableDictionary *mutableDict = classrooms.createdClassesVCs;

@@ -66,8 +66,8 @@
                 [_ques addObject:question];
                 [_answer addObject:ans];
             }
-            [hud hide:YES];
             dispatch_sync(dispatch_get_main_queue(), ^{
+                [hud hide:YES];
                 [self.tableView reloadData];
             });
         });
@@ -108,7 +108,6 @@
     return cell;
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
     UIAlertView *message = [[UIAlertView alloc] initWithTitle:_ques[indexPath.row]
                                                       message:_answer[indexPath.row]
                                                      delegate:nil

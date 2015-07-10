@@ -27,7 +27,7 @@
     NSURL *url = [NSURL URLWithString:_url];
     NSURLRequest *urlRequest = [NSURLRequest requestWithURL:url];
     [_webView loadRequest:urlRequest];
-    NSLog(@"vdl tswebView controller : %@", _url);
+    //NSLog(@"vdl tswebView controller : %@", _url);
 }
 
 -(void)closeWindow {
@@ -49,7 +49,7 @@
 }
 
 -(void)webViewDidFinishLoad:(UIWebView *)webView {
-    NSLog(@"finished loading");
+    //NSLog(@"finished loading");
     [_hud hide:YES];
 }
 

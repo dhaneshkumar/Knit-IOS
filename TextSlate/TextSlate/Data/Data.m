@@ -17,7 +17,7 @@
 +(void) createNewClassWithClassName:(NSString *)className successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
     [PFCloud callFunctionInBackground:@"createClass2" withParameters:@{@"classname":className} block:^(id object, NSError *error) {
         if (error) {
-            NSLog(@"error : %@", [error localizedDescription]);
+            //NSLog(@"error : %@", [error localizedDescription]);
             errorBlock(error);
         } else {
             successBlock(object);
@@ -31,7 +31,7 @@
         if (error) {
             errorBlock(error);
         } else {
-            NSLog(@"Network query");
+            //NSLog(@"Network query");
             NSMutableArray *createdGroups =[[NSMutableArray alloc]init];
             createdGroups = [[PFUser currentUser] objectForKey:@"Created_groups"];
             NSMutableArray *returnArray = [[NSMutableArray alloc] init];
@@ -62,7 +62,7 @@
 +(void) getInboxDetails:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
     [PFCloud callFunctionInBackground:@"showallclassesmessages" withParameters:@{} block:^(id object, NSError *error) {
         if (error) {
-            NSLog(@"error : %@", [error localizedDescription]);
+            //NSLog(@"error : %@", [error localizedDescription]);
             errorBlock(error);
         } else {
             successBlock(object);
@@ -73,7 +73,7 @@
 +(void) getInboxMessages:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
     [PFCloud callFunctionInBackground:@"showallclassesmessages" withParameters:@{@"limit" : @20} block:^(id object, NSError *error) {
         if (error) {
-            NSLog(@"error : %@", [error localizedDescription]);
+            //NSLog(@"error : %@", [error localizedDescription]);
             errorBlock(error);
         } else {
             successBlock(object);
@@ -84,7 +84,7 @@
 +(void) joinNewClass:(NSString *)classCode childName:(NSString *)childName installationId:(NSString*)installationId successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
     [PFCloud callFunctionInBackground:@"joinClass2" withParameters:@{@"classCode" : classCode, @"associateName" : childName, @"installationObjectId" : installationId} block:^(id object, NSError *error) {
         if (error) {
-            NSLog(@"error : %@", [error localizedDescription]);
+            //NSLog(@"error : %@", [error localizedDescription]);
             errorBlock(error);
         } else {
             successBlock(object);
@@ -115,7 +115,7 @@
 
 +(void) leaveClass:(NSString *)classCode  successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
     NSString *installationObjectId=[[PFUser currentUser] objectForKey:@"installationObjectId"];
-    NSLog(@"Installaton id joined group %@",installationObjectId);
+    //NSLog(@"Installaton id joined group %@",installationObjectId);
     [PFCloud callFunctionInBackground:@"leaveClass2" withParameters:@{@"classcode":classCode,@"installationObjectId" :installationObjectId } block:^(id object, NSError *error) {
         if (error) {
             errorBlock(error);
@@ -174,7 +174,7 @@
     
     [query findObjectsInBackgroundWithBlock:^(NSArray *object, NSError *error) {
         if (error) {
-            NSLog(@"Error");
+            //NSLog(@"Error");
             errorBlock(error);
         } else {
             successBlock(object);
@@ -218,7 +218,7 @@
         if (error) {
             errorBlock(error);
         } else {
-            NSLog(@"data.m called");
+            //NSLog(@"data.m called");
             successBlock(object);
         }
     }];
@@ -337,11 +337,11 @@
 +(void) classSuggestion:(NSMutableArray *) joinedClasses date:(NSDate *)date successBlock:(successBlock) successBlock errorBlock:(errorBlock) errorBlock{
     [PFCloud callFunctionInBackground:@"suggestClasses" withParameters:@{@"input":joinedClasses,@"date":date } block:^(id object, NSError *error) {
         if (error) {
-            NSLog(@"Error");
+            //NSLog(@"Error");
 
             errorBlock(error);
         } else {
-            NSLog(@"Success");
+            //NSLog(@"Success");
 
             successBlock(object);
         }
@@ -352,10 +352,10 @@
 +(void) autoComplete:(NSString*)area successBlock:(successBlock) successBlock errorBlock:(errorBlock) errorBlock{
     [PFCloud callFunctionInBackground:@"areaAutoComplete" withParameters:@{@"partialAreaName":area } block:^(id object, NSError *error) {
         if (error) {
-            NSLog(@"Error");
+            //NSLog(@"Error");
             errorBlock(error);
         } else {
-            NSLog(@"Success");
+            //NSLog(@"Success");
             successBlock(object);
         }
     }];
@@ -365,11 +365,11 @@
 +(void) autoCompleteSchool:(NSString*)area successBlock:(successBlock) successBlock errorBlock:(errorBlock) errorBlock{
     [PFCloud callFunctionInBackground:@"schoolsNearby" withParameters:@{@"areaName":area } block:^(id object, NSError *error) {
         if (error) {
-            NSLog(@"Error");
+            //NSLog(@"Error");
             
             errorBlock(error);
         } else {
-            NSLog(@"Success");
+            //NSLog(@"Success");
             
             successBlock(object);
         }
@@ -379,11 +379,11 @@
 +(void) getSchoolId:(NSString*)schoolName successBlock:(successBlock) successBlock errorBlock:(errorBlock) errorBlock{
     [PFCloud callFunctionInBackground:@"getSchoolId" withParameters:@{@"school":schoolName } block:^(id object, NSError *error) {
         if (error) {
-            NSLog(@"Error");
+            //NSLog(@"Error");
             
             errorBlock(error);
         } else {
-            NSLog(@"Success");
+            //NSLog(@"Success");
             
             successBlock(object);
         }
@@ -394,11 +394,11 @@
 +(void) generateOTP:(NSString *)phoneNum successBlock:(successBlock) successBlock errorBlock:(errorBlock) errorBlock{
     [PFCloud callFunctionInBackground:@"genCode" withParameters:@{@"number":phoneNum } block:^(id object, NSError *error) {
         if (error) {
-            NSLog(@"Error");
+            //NSLog(@"Error");
             
             errorBlock(error);
         } else {
-            NSLog(@"Success");
+            //NSLog(@"Success");
             
             successBlock(object);
         }
@@ -412,11 +412,11 @@
     
     [PFCloud callFunctionInBackground:@"verifyCod" withParameters:@{@"email":email,@"password":password} block:^(id object, NSError *error) {
         if (error) {
-            NSLog(@"Error in signing in..");
+            //NSLog(@"Error in signing in..");
             
             errorBlock(error);
         } else {
-            NSLog(@"Success");
+            //NSLog(@"Success");
             
             successBlock(object);
         }
@@ -432,11 +432,11 @@
 
     [PFCloud callFunctionInBackground:@"verifyCode" withParameters:@{@"number":phoneNum ,@"code":codeNum} block:^(id object, NSError *error) {
              if (error) {
-                 NSLog(@"Error in signing in..");
+                 //NSLog(@"Error in signing in..");
                  
                  errorBlock(error);
              } else {
-                 NSLog(@"Success");
+                 //NSLog(@"Success");
                  
                  successBlock(object);
              }
@@ -448,10 +448,10 @@
     NSNumber *codeNum = [NSNumber numberWithInteger:code];
     [PFCloud callFunctionInBackground:@"verifyCod" withParameters:@{@"number":phoneNum ,@"code":codeNum, @"name":name, @"role":role} block:^(id object, NSError *error) {
         if (error) {
-            NSLog(@"Error");
+            //NSLog(@"Error");
             errorBlock(error);
         } else {
-            NSLog(@"Success");
+            //NSLog(@"Success");
             successBlock(object);
         }
     }];
@@ -465,12 +465,12 @@
     } block:^(id object, NSError *error) {
         if(error)
         {
-            NSLog(@"Could not verify the code");
+            //NSLog(@"Could not verify the code");
             errorBlock(error);
         }
         else
         {
-            NSLog(@"code verified");
+            //NSLog(@"code verified");
             successBlock(object);
         }
     }];
@@ -516,7 +516,7 @@
     [PFCloud callFunctionInBackground:@"appInstallation" withParameters:@{@"installationId":installationId, @"deviceType":deviceType }block:^(id object, NSError *error) {
         if(error)
         {
-            NSLog(@"Could not save installationID");
+            //NSLog(@"Could not save installationID");
             errorBlock(error);
         }
         else{
@@ -531,7 +531,7 @@
     
     [PFCloud callFunctionInBackground:@"appLogout" withParameters:@{@"installationObjectId":objectId} block:^(id object, NSError *error) {
         if(error){
-            NSLog(@"Could not logout the user...");
+            //NSLog(@"Could not logout the user...");
             errorBlock(error);
         }
         else{
@@ -545,7 +545,7 @@
 +(void) appExit:(NSString *)installationId successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
     [PFCloud callFunctionInBackground:@"appExit" withParameters:@{@"installationId":installationId} block:^(id object, NSError *error) {
         if(error){
-            NSLog(@"Could not logout the user...");
+            //NSLog(@"Could not logout the user...");
             errorBlock(error);
         }
         else{
@@ -558,10 +558,10 @@
 +(void)getServerTime:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
     [PFCloud callFunctionInBackground:@"getServerTime" withParameters:@{} block:^(id object, NSError *error) {
         if (error) {
-            NSLog(@"Error");
+            //NSLog(@"Error");
             errorBlock(error);
         } else {
-            NSLog(@"Success");
+            //NSLog(@"Success");
             successBlock(object);
         }
     }];
@@ -573,7 +573,7 @@
     [PFCloud callFunctionInBackground:@"mailInstructions" withParameters:@{@"emailId":email,@"classcode":code,@"classname":className} block:^(id object, NSError *error) {
         if(error)
         {
-            NSLog(@"Could not send the instruction");
+            //NSLog(@"Could not send the instruction");
             errorBlock(error);
         }
         else{
@@ -588,7 +588,7 @@
     [PFCloud callFunctionInBackground:@"inviteTeacher" withParameters:@{@"senderId":senderId,@"schoolName":schoolName,@"teacherName":teacherName,@"childName":childName,@"email":email ,@"phoneNo":phoneNum} block:^(id object, NSError *error) {
         if(error)
         {
-            NSLog(@"Could not send invitation");
+            //NSLog(@"Could not send invitation");
             errorBlock(error);
         }
         else{
@@ -603,7 +603,7 @@
     [PFCloud callFunctionInBackground:@"findClass" withParameters:@{@"code":classCode} block:^(id object, NSError *error) {
         if(error)
         {
-            NSLog(@"Error %@",error);
+            //NSLog(@"Error %@",error);
             errorBlock(error);
         }
         
@@ -617,7 +617,7 @@
     [PFCloud callFunctionInBackground:@"feedback" withParameters:@{@"feed":userInput} block:^(id object, NSError *error) {
         if(error)
         {
-            NSLog(@"Error %@",error);
+            //NSLog(@"Error %@",error);
             errorBlock(error);
         }
         

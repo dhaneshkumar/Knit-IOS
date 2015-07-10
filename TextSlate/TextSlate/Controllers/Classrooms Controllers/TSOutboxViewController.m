@@ -49,7 +49,7 @@
 }
 
 - (void)applicationWillEnterForeground:(NSNotification *)notification {
-    NSLog(@"appWillFore outbox");
+    //NSLog(@"appWillFore outbox");
     [self viewWillAppear:YES];
     [self viewDidAppear:YES];
 }
@@ -95,7 +95,7 @@
     [super viewWillAppear:animated];
     UIBarButtonItem *composeBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose  target:self action:@selector(composeMessage)];
     self.tabBarController.navigationItem.rightBarButtonItem = composeBarButtonItem;
-    NSLog(@"vwa ended : %@", self.tabBarController.navigationItem.rightBarButtonItem);
+    //NSLog(@"vwa ended : %@", self.tabBarController.navigationItem.rightBarButtonItem);
     [_messagesTable reloadData];
 }
 
@@ -257,7 +257,7 @@
                 UIImage *image = [[UIImage alloc] initWithData:data];
                 NSString *url = message.attachmentURL.url;
                 if(image) {
-                    NSLog(@"Caching here....");
+                    //NSLog(@"Caching here....");
                     [[sharedCache sharedInstance] cacheImage:image forKey:url];
                     message.attachment = image;
                     dispatch_sync(dispatch_get_main_queue(), ^{
@@ -334,16 +334,16 @@
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
                 PFFile *attachImageUrl=messageObject[@"attachment"];
                 NSString *url=attachImageUrl.url;
-                //NSLog(@"url to image fetchfrom localdatastore %@",url);
+                ////NSLog(@"url to image fetchfrom localdatastore %@",url);
                 UIImage *image = [[sharedCache sharedInstance] getCachedImageForKey:url];
-                NSLog(@"%@ image",image);
+                //NSLog(@"%@ image",image);
                 if(image)
                 {
-                    NSLog(@"already cached");
+                    //NSLog(@"already cached");
                     message.attachment = image;
                 }
                 else{
-                    NSLog(@"Caching here....");
+                    //NSLog(@"Caching here....");
                     NSURL *imageURL = [NSURL URLWithString:url];
                     UIImage *image = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:imageURL]];
                     
@@ -410,7 +410,7 @@
             [localOs[0] pinInBackground];
         });
     } errorBlock:^(NSError *error) {
-        NSLog(@"Unable to fetch inbox messages while opening inbox tab: %@", [error description]);
+        //NSLog(@"Unable to fetch inbox messages while opening inbox tab: %@", [error description]);
         [_hud hide:YES];
     }];
 }
@@ -433,7 +433,7 @@
                 NSData *data = [attachImageUrl getData];
                 UIImage *image = [[UIImage alloc] initWithData:data];
                 if(image) {
-                    NSLog(@"Caching here....");
+                    //NSLog(@"Caching here....");
                     [[sharedCache sharedInstance] cacheImage:image forKey:url];
                     message.attachment = image;
                     dispatch_sync(dispatch_get_main_queue(), ^{
@@ -494,13 +494,13 @@
             [localOs[0] pinInBackground];
         });
     } errorBlock:^(NSError *error) {
-        NSLog(@"Unable to fetch inbox messages when pulled up to refresh: %@", [error description]);
+        //NSLog(@"Unable to fetch inbox messages when pulled up to refresh: %@", [error description]);
     }];
 }
 
 
 -(void)updateCountsLocally {
-    NSLog(@"updateCountsLocally outbox called");
+    //NSLog(@"updateCountsLocally outbox called");
     _lastUpdateCalled = [NSDate date];
     NSArray *tempArray = [[NSArray alloc] initWithArray:_messageIds];
     [Data updateCountsLocally:tempArray successBlock:^(id object) {
@@ -539,7 +539,7 @@
             });
         });
     } errorBlock:^(NSError *error) {
-        NSLog(@"Unable to fetch like confuse counts in inbox: %@", [error description]);
+        //NSLog(@"Unable to fetch like confuse counts in inbox: %@", [error description]);
     }];
 }
 

@@ -118,7 +118,7 @@
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    NSLog(@"viewWill appear");
+    //NSLog(@"viewWill appear");
     [self.classesTable setEditing:NO animated:NO];
     if(self.segmentedControl.selectedSegmentIndex==0)
         [_createOrJoinButton setTitle:@"+  Create New Class" forState:UIControlStateNormal];
@@ -130,7 +130,7 @@
 
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    NSLog(@"viewDid appear");
+    //NSLog(@"viewDid appear");
     if([PFUser currentUser])
         [self fetchCodegroups];
 }
@@ -187,7 +187,7 @@
                 });
             });
         } errorBlock:^(NSError *error) {
-            NSLog(@"Unable to fetch classes1: %@", [error description]);
+            //NSLog(@"Unable to fetch classes1: %@", [error description]);
         }];
     }
 }

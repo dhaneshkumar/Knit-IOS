@@ -35,7 +35,7 @@
     imageInfo.image = _attachedImage.image;
     imageInfo.referenceRect = _attachedImage.frame;
     UINavigationController *controller = (UINavigationController *)[UIApplication sharedApplication].keyWindow.rootViewController;
-    NSLog(@"send class controller : %@", controller.topViewController);
+    //NSLog(@"send class controller : %@", controller.topViewController);
     TSSendClassMessageViewController *cont = (TSSendClassMessageViewController *)controller.topViewController;
     //TSOutboxViewController *outboxController = (TSOutboxViewController *)cont.viewControllers[2];
     [cont attachedImageTapped:imageInfo];

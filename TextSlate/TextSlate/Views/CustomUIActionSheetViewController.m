@@ -110,14 +110,14 @@
 }
 
 -(void)view1Tapped:(UITapGestureRecognizer *)recognizer {
-    NSLog(@"view1 Tapped");
+    //NSLog(@"view1 Tapped");
     [self slideOut];
     //Add alert sheet for delete class
     [_sendClassVC deleteClass];
 }
 
 -(void)view2Tapped:(UITapGestureRecognizer *)recognizer {
-    NSLog(@"view2 Tapped");
+    //NSLog(@"view2 Tapped");
     [self slideOut];
     UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
     pasteboard.string = _classCode;
@@ -125,7 +125,7 @@
 }
 
 -(void)view3Tapped:(UITapGestureRecognizer *)recognizer {
-    NSLog(@"view3 Tapped");
+    //NSLog(@"view3 Tapped");
     [self slideOut];
 }
 
