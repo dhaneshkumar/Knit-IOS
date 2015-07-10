@@ -13,7 +13,7 @@
 - (void)drawRect:(CGRect)rect {
     [self.fillColor setFill];
     UIRectFill(rect);
-    //NSLog(@"called");
+    NSLog(@"called");
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGContextSetBlendMode(context, kCGBlendModeDestinationOut);
     

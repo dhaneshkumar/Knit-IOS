@@ -34,7 +34,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    //NSLog(@"settings vdl");
+    NSLog(@"settings vdl");
     [_settingsTableView reloadData]; 
 }
 
@@ -51,10 +51,10 @@
     
     for(PFObject *a in localOs) {
         checkBool=[a objectForKey:@"isOldUser"];
-        //NSLog(@"%@ check",checkBool);
+        NSLog(@"%@ check",checkBool);
     }
     if([checkBool isEqualToString:@"YES"]) {
-        //NSLog(@"is true");
+        NSLog(@"is true");
         _isOld=true;
     }
     else {
@@ -111,10 +111,10 @@ if(section==0)
         PFFile *imageUrl = [[PFUser currentUser] objectForKey:@"pid"];
         
         NSString *url1=imageUrl.url;
-        //NSLog(@"%@ is url to the image",url1);
+        NSLog(@"%@ is url to the image",url1);
         UIImage *image = [[sharedCache sharedInstance] getCachedImageForKey:url1];
         if(image) {
-            //NSLog(@"settings cached");
+            NSLog(@"settings cached");
             cell.imageView.image=image;
         }
         else{
@@ -125,7 +125,7 @@ if(section==0)
                 
                 if(image)
                 {
-                    //NSLog(@"Caching ....");
+                    NSLog(@"Caching ....");
                     [[sharedCache sharedInstance] cacheImage:image forKey:url1];
                     cell.imageView.image=image;
                     dispatch_sync(dispatch_get_main_queue(), ^{
@@ -147,7 +147,7 @@ if(section==0)
     else if(indexPath.section==2)
     {
         cell.textLabel.text=_section3Content[indexPath.row];
-        //NSLog(@"section 2");
+        NSLog(@"section 2");
     }
     return cell;
 }
@@ -249,12 +249,12 @@ if(section==0)
             // Log out.
             PFInstallation *currentInstallation=[PFInstallation currentInstallation];
             NSString *objectID=currentInstallation.objectId;
-            //NSLog(@"Object ID is %@",objectID);
+            NSLog(@"Object ID is %@",objectID);
             MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[[UIApplication sharedApplication] keyWindow]  animated:YES];
             hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
             hud.labelText = @"Loading";
             [Data appLogout:objectID successBlock:^(id object) {
-                //NSLog(@"Logging out...");
+                NSLog(@"Logging out...");
                 [[UIApplication sharedApplication] cancelAllLocalNotifications];
                 [hud hide:YES];
                 [(TSTabBarViewController*)self.tabBarController logout];
@@ -348,7 +348,7 @@ if(section==0)
 }
 
 -(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
-    //NSLog(@"%@   %i",[actionSheet buttonTitleAtIndex:buttonIndex],buttonIndex);
+    NSLog(@"%@   %i",[actionSheet buttonTitleAtIndex:buttonIndex],buttonIndex);
     if(buttonIndex==0) {
         AVAuthorizationStatus status = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
         if(status == AVAuthorizationStatusAuthorized) { // authorized

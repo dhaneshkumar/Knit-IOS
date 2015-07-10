@@ -8,12 +8,14 @@
 
 #import <UIKit/UIKit.h>
 #import "TSClass.h"
+#import "TSSendClassMessageViewController.h"
 
 @interface TSMemberslistTableViewController : UITableViewController
 
 @property (strong,nonatomic) NSMutableArray *memberList;
+@property (strong,nonatomic) TSSendClassMessageViewController *sendClassVC;
 
--(void)initialization:(NSString *)classCode className:(NSString *)className;
+-(void)initialization:(NSString *)classCode className:(NSString *)className sendClassVC:(TSSendClassMessageViewController *)sendClassVC;
 -(void)updateMemberList:(NSMutableArray *)memberArray;
 -(void)startMemberUpdating;
 -(void)endMemberUpdating;

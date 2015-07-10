@@ -203,7 +203,7 @@
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     if([textField isEqual:_mobilTextField]) {
-        //NSLog(@"kaise hua re ye baba!!");
+        NSLog(@"kaise hua re ye baba!!");
     }
     else if([textField isEqual:_passwordTextField]){
         [self go];
@@ -231,7 +231,7 @@
 
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
-    //NSLog(@"didUpdateToLocation: %@", newLocation);
+    NSLog(@"didUpdateToLocation: %@", newLocation);
     CLLocation *currentLocation = newLocation;
     
     if (currentLocation != nil) {
@@ -299,13 +299,13 @@
         tokenDict=object;
         NSString *flagValue=[tokenDict objectForKey:@"flag"];
         NSString *token=[tokenDict objectForKey:@"sessionToken"];
-        //NSLog(@"Flag %@ and session token %@",flagValue,token);
+        NSLog(@"Flag %@ and session token %@",flagValue,token);
         [self getCurrentLocation];
         if([token length]>0)
         {
             [PFUser becomeInBackground:token block:^(PFUser *user, NSError *error) {
                 if (error) {
-                    //NSLog(@"Session token could not be validated");
+                    NSLog(@"Session token could not be validated");
                     UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error in signing in. Try again later." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
                     [hud hide:YES];
                     [errorAlertView show];
@@ -313,7 +313,7 @@
                 } else {
                     [PFSession getCurrentSessionInBackgroundWithBlock:^(PFSession *session, NSError *error) {
                         if(error) {
-                            //NSLog(@"pfsession : error");
+                            NSLog(@"pfsession : error");
                         }
                         else {
                             if(_areCoordinatesUpdated) {
@@ -330,14 +330,14 @@
                             [session saveEventually];
                         }
                     }];
-                    //NSLog(@"Successfully Validated ");
+                    NSLog(@"Successfully Validated ");
                     PFUser *current=[PFUser currentUser];
-                    //NSLog(@"%@ current user",current.objectId);
+                    NSLog(@"%@ current user",current.objectId);
                     PFInstallation *currentInstallation = [PFInstallation currentInstallation];
                     NSString *installationId=[currentInstallation objectForKey:@"installationId"];
                     NSString *devicetype=[currentInstallation objectForKey:@"deviceType"];
                     [Data saveInstallationId:installationId deviceType:devicetype successBlock:^(id object) {
-                        //NSLog(@"Successfully saved installationID");
+                        NSLog(@"Successfully saved installationID");
                         current[@"installationObjectId"]=object;
                         [current pinInBackground];
                         [Data getAllCodegroups:^(id object) {
@@ -347,7 +347,7 @@
                             }
                             [self secondHalfLoginProcess:hud];
                         } errorBlock:^(NSError *error) {
-                            //NSLog(@"Unable to fetch classes: %@", [error description]);
+                            NSLog(@"Unable to fetch classes: %@", [error description]);
                             [self secondHalfLoginProcess:hud];
                         }];
                     } errorBlock:^(NSError *error) {
@@ -438,7 +438,7 @@
             [locals pinInBackground];
         });
     } errorBlock:^(NSError *error) {
-        //NSLog(@"Unable to update server time : %@", [error description]);
+        NSLog(@"Unable to update server time : %@", [error description]);
     }];
     
 }

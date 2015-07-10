@@ -28,9 +28,10 @@
 
 @implementation TSMemberslistTableViewController
 
--(void)initialization:(NSString *)classCode className:(NSString *)className {
+-(void)initialization:(NSString *)classCode className:(NSString *)className sendClassVC:(TSSendClassMessageViewController *)sendClassVC {
     _classCode = classCode;
     _className = className;
+    _sendClassVC = sendClassVC;
     _memberList = [[NSMutableArray alloc] init];
     _isRefreshCalled = false;
 }
@@ -165,11 +166,13 @@
                 [query whereKey:@"emailId" equalTo:toRemove.emailId];
                 NSArray *appMembers = [query findObjects];
                 if(appMembers.count!=1)
-                    //NSLog(@"Nhiiiii....");
+                    NSLog(@"Nhiiiii....");
                 appMembers[0][@"status"] = @"REMOVED";
                 [appMembers[0] pinInBackground];
                 [_memberList removeObjectAtIndex:row];
                 [hud hide:YES];
+                int memCount = [_sendClassVC.memberCountString intValue];
+                _sendClassVC.memberCountString = [NSString stringWithFormat:@"%d", memCount-1];
                 [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
             }errorBlock:^(NSError *error){
                 [hud hide:YES];
@@ -184,11 +187,13 @@
                 [query whereKey:@"number" equalTo:toRemove.phoneNum];
                 NSArray *phoneMembers = [query findObjects];
                 if(phoneMembers.count!=1)
-                    //NSLog(@"Nhiiiii....");
+                    NSLog(@"Nhiiiii....");
                 phoneMembers[0][@"status"] = @"REMOVED";
                 [phoneMembers[0] pinInBackground];
                 [_memberList removeObjectAtIndex:row];
                 [hud hide:YES];
+                int memCount = [_sendClassVC.memberCountString intValue];
+                _sendClassVC.memberCountString = [NSString stringWithFormat:@"%d", memCount-1];
                 [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
             }errorBlock:^(NSError *error){
                 UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error occured while removing member." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
@@ -201,7 +206,7 @@
 
 
 -(void)pullDownToRefresh {
-    //NSLog(@"called : %d", _isRefreshCalled);
+    NSLog(@"called : %d", _isRefreshCalled);
     if(_isRefreshCalled) {
         return;
     }

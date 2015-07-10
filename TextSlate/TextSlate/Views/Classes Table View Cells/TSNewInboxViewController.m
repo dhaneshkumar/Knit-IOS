@@ -63,7 +63,7 @@
             UIImage *image = [[sharedCache sharedInstance] getCachedImageForKey:url];
             message.attachmentURL = attachImageUrl;
             if(image) {
-                //NSLog(@"already cached");
+                NSLog(@"already cached");
                 message.attachment = image;
             }
         }
@@ -351,14 +351,14 @@
                     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
                         UIImage *image = [[sharedCache sharedInstance] getCachedImageForKey:url];
                         if(image) {
-                            //NSLog(@"already cached");
+                            NSLog(@"already cached");
                             message.attachment = image;
                         }
                         else{
                             NSData *data = [attachImageUrl getData];
                             UIImage *image = [[UIImage alloc] initWithData:data];
                             if(image) {
-                                //NSLog(@"Caching here....");
+                                NSLog(@"Caching here....");
                                 [[sharedCache sharedInstance] cacheImage:image forKey:url];
                                 message.attachment = image;
                                 dispatch_sync(dispatch_get_main_queue(), ^{
@@ -379,7 +379,7 @@
             _isILMCalled = NO;
         });
     } errorBlock:^(NSError *error) {
-        //NSLog(@"Unable to fetch inbox messages while opening inbox tab: %@", [error description]);
+        NSLog(@"Unable to fetch inbox messages while opening inbox tab: %@", [error description]);
         _isILMCalled = NO;
     }];
 }
@@ -434,7 +434,7 @@
                 UIImage *image = [[UIImage alloc] initWithData:data];
                 NSString *url = message.attachmentURL.url;
                 if(image) {
-                    //NSLog(@"Caching here....");
+                    NSLog(@"Caching here....");
                     [[sharedCache sharedInstance] cacheImage:image forKey:url];
                     message.attachment = image;
                     dispatch_sync(dispatch_get_main_queue(), ^{
@@ -478,14 +478,14 @@
                 PFFile *attachImageUrl=messageObject[@"attachment"];
                 NSString *url=attachImageUrl.url;
                 UIImage *image = [[sharedCache sharedInstance] getCachedImageForKey:url];
-                //NSLog(@"%@ image",image);
+                NSLog(@"%@ image",image);
                 if(image)
                 {
-                    //NSLog(@"already cached");
+                    NSLog(@"already cached");
                     message.attachment = image;
                 }
                 else{
-                    //NSLog(@"Caching here....");
+                    NSLog(@"Caching here....");
                     NSURL *imageURL = [NSURL URLWithString:url];
                     UIImage *image = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:imageURL]];
                     
@@ -538,14 +538,14 @@
                     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
                         UIImage *image = [[sharedCache sharedInstance] getCachedImageForKey:url];
                         if(image) {
-                            //NSLog(@"already cached");
+                            NSLog(@"already cached");
                             message.attachment = image;
                         }
                         else{
                             NSData *data = [attachImageUrl getData];
                             UIImage *image = [[UIImage alloc] initWithData:data];
                             if(image) {
-                                //NSLog(@"Caching here....");
+                                NSLog(@"Caching here....");
                                 [[sharedCache sharedInstance] cacheImage:image forKey:url];
                                 message.attachment = image;
                                 dispatch_sync(dispatch_get_main_queue(), ^{
@@ -573,7 +573,7 @@
             _isILMCalled = NO;
         });
     } errorBlock:^(NSError *error) {
-        //NSLog(@"Unable to fetch inbox messages while opening inbox tab: %@", [error description]);
+        NSLog(@"Unable to fetch inbox messages while opening inbox tab: %@", [error description]);
         _isILMCalled = NO;
 
     }];
@@ -625,14 +625,14 @@
                     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
                         UIImage *image = [[sharedCache sharedInstance] getCachedImageForKey:url];
                         if(image) {
-                            //NSLog(@"already cached");
+                            NSLog(@"already cached");
                             message.attachment = image;
                         }
                         else {
                             NSData *data = [attachImageUrl getData];
                             UIImage *image = [[UIImage alloc] initWithData:data];
                             if(image) {
-                                //NSLog(@"Caching here....");
+                                NSLog(@"Caching here....");
                                 [[sharedCache sharedInstance] cacheImage:image forKey:url];
                                 message.attachment = image;
                                 dispatch_sync(dispatch_get_main_queue(), ^{
@@ -661,7 +661,7 @@
             [localOs[0] pinInBackground];
         });
     } errorBlock:^(NSError *error) {
-        //NSLog(@"Unable to fetch inbox messages while opening inbox tab: %@", [error description]);
+        NSLog(@"Unable to fetch inbox messages while opening inbox tab: %@", [error description]);
         [_hud hide:YES];
     }];
 }
@@ -709,14 +709,14 @@
                     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
                         UIImage *image = [[sharedCache sharedInstance] getCachedImageForKey:url];
                         if(image) {
-                            //NSLog(@"already cached");
+                            NSLog(@"already cached");
                             message.attachment = image;
                         }
                         else {
                             NSData *data = [attachImageUrl getData];
                             UIImage *image = [[UIImage alloc] initWithData:data];
                             if(image) {
-                                //NSLog(@"Caching here....");
+                                NSLog(@"Caching here....");
                                 [[sharedCache sharedInstance] cacheImage:image forKey:url];
                                 message.attachment = image;
                                 dispatch_sync(dispatch_get_main_queue(), ^{
@@ -735,7 +735,7 @@
             dispatch_sync(dispatch_get_main_queue(), ^{
                 [self.messagesTable reloadData];
             });
-            //NSLog(@"new old messages : %lu", (unsigned long)_messagesArray.count);
+            NSLog(@"new old messages : %lu", (unsigned long)_messagesArray.count);
             PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
             [lq fromLocalDatastore];
             NSArray *localOs = [lq findObjects];
@@ -746,14 +746,14 @@
             [localOs[0] pinInBackground];
         });
     } errorBlock:^(NSError *error) {
-        //NSLog(@"Unable to fetch inbox messages when pulled up to refresh: %@", [error description]);
+        NSLog(@"Unable to fetch inbox messages when pulled up to refresh: %@", [error description]);
             
     }];
 }
 
 
 -(void)updateCountsLocally {
-    //NSLog(@"updateCountsLocally called");
+    NSLog(@"updateCountsLocally called");
     _lastUpdateCalled = [NSDate date];
     NSArray *tempArray = [[NSArray alloc] initWithArray:_messageIds];
     [Data updateCountsLocally:tempArray successBlock:^(id object) {
@@ -773,7 +773,7 @@
             }
         });
     } errorBlock:^(NSError *error) {
-        //NSLog(@"Unable to fetch like confuse counts in inbox: %@", [error description]);
+        NSLog(@"Unable to fetch like confuse counts in inbox: %@", [error description]);
     }];
 }
 
@@ -827,7 +827,7 @@
                     [self setUpdateCountsGloballyCalled:@"false"];
                 });
             } errorBlock:^(NSError *error) {
-                //NSLog(@"Unable to fetch inbox messages when pulled up to refresh: %@", [error description]);
+                NSLog(@"Unable to fetch inbox messages when pulled up to refresh: %@", [error description]);
                 [self setUpdateCountsGloballyCalled:@"false"];
             }];
         }
@@ -839,7 +839,7 @@
 
 
 -(void)updateSeenCountsGlobally {
-    //NSLog(@"updateSeenCountsCalled");
+    NSLog(@"updateSeenCountsCalled");
     _isUpdateSeenCountsCalled = true;
     NSArray *tempArray = [[NSArray alloc] initWithArray:_messagesArray];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
@@ -865,12 +865,12 @@
                     PFObject *obj = ((NSArray *)[query findObjects])[0];
                     obj[@"seenStatus"] = @"true";
                     [obj pinInBackground];
-                    //NSLog(@"seen status updated");
+                    NSLog(@"seen status updated");
                 }
                 _isUpdateSeenCountsCalled = false;
             });
         } errorBlock:^(NSError *error) {
-            //NSLog(@"Unable to fetch inbox messages when pulled up to refresh: %@", [error description]);
+            NSLog(@"Unable to fetch inbox messages when pulled up to refresh: %@", [error description]);
         }];
     });
 }

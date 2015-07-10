@@ -120,7 +120,7 @@
 - (IBAction)emailButtonPressed:(id)sender
 
 {
-    //NSLog(@"Compose mail");
+    NSLog(@"Compose mail");
 
     if ([MFMailComposeViewController canSendMail]) {
         MFMailComposeViewController *composeViewController = [[MFMailComposeViewController alloc] initWithNibName:nil bundle:nil];

@@ -68,18 +68,18 @@
     else{
         width=(CGFloat)0.0 ;
     }
-    //NSLog(@"width : %f", width);
+    NSLog(@"width : %f", width);
     CGRect frame = [view frame];
-    //NSLog(@"origin x : %f", frame.origin.x);
-    //NSLog(@"origin y : %f", frame.origin.y);
-    //NSLog(@"superview : %@", view.superview);
+    NSLog(@"origin x : %f", frame.origin.x);
+    NSLog(@"origin y : %f", frame.origin.y);
+    NSLog(@"superview : %@", view.superview);
     
     CGRect newFrame = [view.superview convertRect:view.frame toView:nil];
     // Add this view to the main window
-    //NSLog(@"origin x : %f", newFrame.origin.x);
-    //NSLog(@"origin y : %f", newFrame.origin.y);
-    //NSLog(@"origin width : %f", newFrame.size.width);
-    //NSLog(@"origin height : %f", newFrame.size.height);
+    NSLog(@"origin x : %f", newFrame.origin.x);
+    NSLog(@"origin y : %f", newFrame.origin.y);
+    NSLog(@"origin width : %f", newFrame.size.width);
+    NSLog(@"origin height : %f", newFrame.size.height);
     BlackoutView *blackMask = [[BlackoutView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, [self getScreenHeight])];
     blackMask.backgroundColor = [UIColor clearColor];
     [blackMask setFillColor:[UIColor colorWithWhite:0.0f alpha:0.8]];
@@ -122,7 +122,7 @@
 
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    //NSLog(@"%f", self.navigationItem.leftBarButtonItem.width);
+    NSLog(@"%f", self.navigationItem.leftBarButtonItem.width);
 }
 
 
@@ -178,7 +178,7 @@
 }
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
-    //NSLog(@"didUpdateToLocation: %@", newLocation);
+    NSLog(@"didUpdateToLocation: %@", newLocation);
     CLLocation *currentLocation = newLocation;
     
     if (currentLocation != nil) {
