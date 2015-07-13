@@ -39,6 +39,8 @@
 		40EBADAC1A7E611F003FB0B1 /* 05-xxhdpi.png in Resources */ = {isa = PBXBuildFile; fileRef = 40EBADAB1A7E611F003FB0B1 /* 05-xxhdpi.png */; };
 		40EBADB01A7E6142003FB0B1 /* 640 x 1136.png in Resources */ = {isa = PBXBuildFile; fileRef = 40EBADAF1A7E6142003FB0B1 /* 640 x 1136.png */; };
 		40EBADB41A7E6150003FB0B1 /* classroom.png in Resources */ = {isa = PBXBuildFile; fileRef = 40EBADB11A7E6150003FB0B1 /* classroom.png */; };
+		5F7F8D361B53E1350054E91E /* 750x1334.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F7F8D341B53E1350054E91E /* 750x1334.png */; };
+		5F7F8D371B53E1350054E91E /* 1242 x 2208 .png in Resources */ = {isa = PBXBuildFile; fileRef = 5F7F8D351B53E1350054E91E /* 1242 x 2208 .png */; };
 		971687E01A1F1C2B00FE98FC /* TSTeacher.m in Sources */ = {isa = PBXBuildFile; fileRef = 971687DF1A1F1C2B00FE98FC /* TSTeacher.m */; };
 		971687E31A1F1C3900FE98FC /* TSParent.m in Sources */ = {isa = PBXBuildFile; fileRef = 971687E21A1F1C3900FE98FC /* TSParent.m */; };
 		971687E71A1F823900FE98FC /* TSUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 971687E61A1F823900FE98FC /* TSUtils.m */; };
@@ -220,6 +222,8 @@
 		40EBADAD1A7E6135003FB0B1 /* 640 x 960.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "640 x 960.png"; sourceTree = "<group>"; };
 		40EBADAF1A7E6142003FB0B1 /* 640 x 1136.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "640 x 1136.png"; sourceTree = "<group>"; };
 		40EBADB11A7E6150003FB0B1 /* classroom.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = classroom.png; sourceTree = "<group>"; };
+		5F7F8D341B53E1350054E91E /* 750x1334.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 750x1334.png; sourceTree = "<group>"; };
+		5F7F8D351B53E1350054E91E /* 1242 x 2208 .png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "1242 x 2208 .png"; sourceTree = "<group>"; };
 		92F296F2593AFC26685698B2 /* libPods-Knit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Knit.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		971687DE1A1F1C2B00FE98FC /* TSTeacher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSTeacher.h; sourceTree = "<group>"; };
 		971687DF1A1F1C2B00FE98FC /* TSTeacher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSTeacher.m; sourceTree = "<group>"; };
@@ -564,6 +568,8 @@
 		971687DB1A1F1BCA00FE98FC /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				5F7F8D341B53E1350054E91E /* 750x1334.png */,
+				5F7F8D351B53E1350054E91E /* 1242 x 2208 .png */,
 				FBC8A27E1B4D1E47009E06F0 /* icon_87.png */,
 				FBC8A27F1B4D1E47009E06F0 /* icon_80.png */,
 				FBC8A2801B4D1E47009E06F0 /* icon_58.png */,
@@ -1123,6 +1129,7 @@
 				FBAB18DC1B0E10F800440089 /* next@2x.png in Resources */,
 				FB65C96C1B2175A700EAE58E /* inviteParentsViaSMS.gif in Resources */,
 				FB777C1C1B1870EE00754546 /* grey arrow@1x.png in Resources */,
+				5F7F8D361B53E1350054E91E /* 750x1334.png in Resources */,
 				40C7415A1AC6A970007AA844 /* ios icons-20.png in Resources */,
 				FBA236941B0B2C8E0001D8E3 /* back@3x.png in Resources */,
 				FBA236A41B0B4B830001D8E3 /* white_arrow@2x.png in Resources */,
@@ -1148,6 +1155,7 @@
 				FB1F47BD1A7589AE0093350B /* 180x180.png in Resources */,
 				FB777C151B17699D00754546 /* blue tick@3x.png in Resources */,
 				40EBADAC1A7E611F003FB0B1 /* 05-xxhdpi.png in Resources */,
+				5F7F8D371B53E1350054E91E /* 1242 x 2208 .png in Resources */,
 				FBA236511B0750250001D8E3 /* sent@3x.png in Resources */,
 				FBC8A27D1B4D0345009E06F0 /* icon_180.png in Resources */,
 				FB777C2F1B18780800754546 /* email@2x.png in Resources */,

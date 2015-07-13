@@ -7,469 +7,435 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		04E1D69E66B2819E9A155A25 /* Pods-Knit-MBProgressHUD-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 039424B23742CABEE3319D75 /* Pods-Knit-MBProgressHUD-dummy.m */; };
-		107521D0D188D1AFED5A05B0 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04748780F145E170925718B8 /* CoreGraphics.framework */; };
-		12F49AB2D3DFFB86C5928DD2 /* PulsingHaloLayer.h in Headers */ = {isa = PBXBuildFile; fileRef = 0761E22E2FBAD4D75ECAC574 /* PulsingHaloLayer.h */; };
-		165EC690D929B59DD3C62937 /* Pods-Knit-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = FF0E73B43D6E0A0220A8CE8F /* Pods-Knit-dummy.m */; };
-		1C5CC3A2A24BB0CF2B4FD9ED /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC5F13BE81618E2B0CD657EE /* UIKit.framework */; };
-		2394C20B1FDFAB111DB29217 /* MBProgressHUD.h in Headers */ = {isa = PBXBuildFile; fileRef = 3956DA247D5091F76250F0E2 /* MBProgressHUD.h */; };
-		267CA17F144D8B321A6ED41D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04748780F145E170925718B8 /* CoreGraphics.framework */; };
-		3B63CA02DC86EAF9DBC8D1DA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE0AB872CD0B2185BDFA88CB /* Foundation.framework */; };
-		3F92CA6EB98643B949BE3D09 /* YLImageView.h in Headers */ = {isa = PBXBuildFile; fileRef = FAFD643DA0C69B2B66DA909A /* YLImageView.h */; };
-		400DC0594443E4431062EE19 /* PulsingHaloLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 621C31E20FF0332015DB0BD0 /* PulsingHaloLayer.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
-		70560F4630D4D7FAD990FCD9 /* UIFloatLabelTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F0623892F0A85F11F7754D8 /* UIFloatLabelTextField.m */; };
-		7280C1ACB5F1047B80774675 /* Pods-Knit-UIFloatLabelTextField-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 690277B439BE3AC48A7D53E5 /* Pods-Knit-UIFloatLabelTextField-dummy.m */; };
-		853864C48FF861B45A2283F7 /* Pods-Knit-YLGIFImage-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F6070A98B0033C68C77AC13 /* Pods-Knit-YLGIFImage-dummy.m */; };
-		857E2A18B194656D4EA1A7F8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE0AB872CD0B2185BDFA88CB /* Foundation.framework */; };
-		8CB9BA9FE26C6E7C7AA51168 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC27D932F4A0F3280CDC5A15 /* MobileCoreServices.framework */; };
-		9C49420E173CD6CD5F2EC8B3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE0AB872CD0B2185BDFA88CB /* Foundation.framework */; };
-		A807CA137685AD14DDB51F4B /* RKDropdownAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = A1C0FFF234CC5C352B22055E /* RKDropdownAlert.m */; };
-		C4B1CD06A97F4D311D2FF6DF /* UIFloatLabelTextField.h in Headers */ = {isa = PBXBuildFile; fileRef = EC8E76DCE5F224C7674EF3FE /* UIFloatLabelTextField.h */; };
-		CE27DA43331BF68C27AD9FA9 /* Pods-Knit-PulsingHalo-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = C70D96199BB497DAC23A0806 /* Pods-Knit-PulsingHalo-dummy.m */; };
-		D295A482AF399B1C1F11CFBD /* YLGIFImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B00E60EAF7D936B322D364E /* YLGIFImage.m */; };
-		D56671B10CD22A0747D0CD06 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DF8272F43663B8EDBB8F7BE4 /* QuartzCore.framework */; };
-		D803524C0FEB07ACEA49F9FD /* RKDropdownAlert.h in Headers */ = {isa = PBXBuildFile; fileRef = B544FA628F93A9CD56F7611E /* RKDropdownAlert.h */; };
-		DA2BDAF3EF3D4D1E9A9BB317 /* YLImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = C6D855109FF364D3D294B530 /* YLImageView.m */; };
-		DB8B98114A7928DA0597DA51 /* Pods-Knit-RKDropdownAlert-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = E68AF2E1F723066524FF18BC /* Pods-Knit-RKDropdownAlert-dummy.m */; };
-		DDB882D3B68081AB1DB96D6F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE0AB872CD0B2185BDFA88CB /* Foundation.framework */; };
-		DED0A45F1778DFF2E447B7D5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE0AB872CD0B2185BDFA88CB /* Foundation.framework */; };
-		DEE1BC52E3F54FF484EB7581 /* YLGIFImage.h in Headers */ = {isa = PBXBuildFile; fileRef = 4352B5E63EAB8DE131EFCCA2 /* YLGIFImage.h */; };
-		E0D8BE066F803F09C9526C38 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE0AB872CD0B2185BDFA88CB /* Foundation.framework */; };
-		E4EC1AB87B00699A29B7FBA0 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 8212B214F29AF07A687F23FD /* MBProgressHUD.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
-		E66FCD8F8AABCD38A638B8EA /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B402A2489D51FE1C0F699320 /* ImageIO.framework */; };
+		09826415034BF68F5FA6C465 /* RKDropdownAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 15714F4EAFB6F7001EB3C16B /* RKDropdownAlert.m */; };
+		217FEEAC729049A5B2E61234 /* Pods-Knit-YLGIFImage-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = FE66CD3D1996D8318B474E72 /* Pods-Knit-YLGIFImage-dummy.m */; };
+		2A4141D0EAC7081518BA8238 /* UIFloatLabelTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A60368499D75463D07421D1 /* UIFloatLabelTextField.m */; };
+		401A9435DA73D08542A86DC3 /* YLImageView.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CE187F3F824039929D2BD6F /* YLImageView.h */; };
+		517564E1B50A2318024048E8 /* PulsingHaloLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D2F054EF8C823474D65E0A3 /* PulsingHaloLayer.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
+		51966FE8C2312DC27962C0B2 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 904984B7B92841F3009DF8DE /* Foundation.framework */; };
+		546C973DE4B8D33F9A2070D9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 904984B7B92841F3009DF8DE /* Foundation.framework */; };
+		55CEA62C016AF8E38F8CF3DE /* Pods-Knit-MBProgressHUD-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = FDA60CBADD3CBC3812AAF28A /* Pods-Knit-MBProgressHUD-dummy.m */; };
+		56BDDBE55795B3E6F24EA0B4 /* Pods-Knit-PulsingHalo-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = D9895730904D91F5401356AE /* Pods-Knit-PulsingHalo-dummy.m */; };
+		56E5F7983BC60911C19DE731 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0076E68FA2324A600C804159 /* MobileCoreServices.framework */; };
+		5BD183567B61955494783254 /* YLImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = D7E03EF0926917EEE6895FBE /* YLImageView.m */; };
+		5C74944AA6E6CC294DFD6777 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 904984B7B92841F3009DF8DE /* Foundation.framework */; };
+		78929BFA5256E0998674167C /* UIFloatLabelTextField.h in Headers */ = {isa = PBXBuildFile; fileRef = BC6A89415F5E72838E8A896F /* UIFloatLabelTextField.h */; };
+		7C1239CFE1C6FEAB3A2DBA8D /* YLGIFImage.h in Headers */ = {isa = PBXBuildFile; fileRef = E7E353920AF01316D3DE09FA /* YLGIFImage.h */; };
+		7C8210B457963A5616A3E0D9 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A28A263E086E1EC043602C3 /* UIKit.framework */; };
+		80C9977A9D79CF6029723AD1 /* YLGIFImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 45C641E1D54F5819470092A7 /* YLGIFImage.m */; };
+		815C38069024635E16E8A7ED /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5918273A7FB2F3ACF4A5690A /* CoreGraphics.framework */; };
+		81FCFF995C01398FEC93F435 /* Pods-Knit-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = D2ABED602EE72B1582788748 /* Pods-Knit-dummy.m */; };
+		841450C4ADEA1882BDE5C8CE /* MBProgressHUD.h in Headers */ = {isa = PBXBuildFile; fileRef = 889A85C4D59D1468DFCF012C /* MBProgressHUD.h */; };
+		9581EB481D94386C84D37221 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 904984B7B92841F3009DF8DE /* Foundation.framework */; };
+		AE0E21CC578356A602892135 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 51802396566C2320636DD8FA /* ImageIO.framework */; };
+		C74520EE3D21A29670A2AE05 /* Pods-Knit-RKDropdownAlert-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = DCC8D4BD86F5F035F9EB73EB /* Pods-Knit-RKDropdownAlert-dummy.m */; };
+		D0528E62361411FAF5459319 /* RKDropdownAlert.h in Headers */ = {isa = PBXBuildFile; fileRef = 5EAD0A4DAF342084268AB414 /* RKDropdownAlert.h */; };
+		D756B9D2FCBB99F16FE14FB4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 904984B7B92841F3009DF8DE /* Foundation.framework */; };
+		DFDD7A38F245F7CA4189E438 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 225FF81C4AFDF336D80BFA6E /* QuartzCore.framework */; };
+		E816907698C61069198676B3 /* PulsingHaloLayer.h in Headers */ = {isa = PBXBuildFile; fileRef = 417B409B631A385C96A19ACB /* PulsingHaloLayer.h */; };
+		E908DC46D69FA54E5D97EBBC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 904984B7B92841F3009DF8DE /* Foundation.framework */; };
+		EB3C502540A347CBF7198840 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5918273A7FB2F3ACF4A5690A /* CoreGraphics.framework */; };
+		ECEA8CA30E999A8D182CBEA3 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A8A09D98C016A80170B805F /* MBProgressHUD.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
+		F335CE8B8370DCD3C65874DB /* Pods-Knit-UIFloatLabelTextField-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 968559AEF2BB03B2C504BA77 /* Pods-Knit-UIFloatLabelTextField-dummy.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		5AE9542B72D66ECAAD6913A9 /* PBXContainerItemProxy */ = {
+		23D519BF82103267F2E6DA65 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = CB27A65ABEBA0D6469667BC1 /* Project object */;
+			containerPortal = 8FD21C101B333D1CDE64A2EC /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = AE5949DCC98BC80C9A6DA659;
-			remoteInfo = "Pods-Knit-PulsingHalo";
-		};
-		6FDB3523CB7EE1FD252C1396 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = CB27A65ABEBA0D6469667BC1 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 535E96E5EE795551024A517C;
+			remoteGlobalIDString = 48F5EC0AB98EE3820ACB0EB7;
 			remoteInfo = "Pods-Knit-UIFloatLabelTextField";
 		};
-		91EB3F14F0EA092386A5BCCC /* PBXContainerItemProxy */ = {
+		310D32E05B1A0F4ADB748A06 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = CB27A65ABEBA0D6469667BC1 /* Project object */;
+			containerPortal = 8FD21C101B333D1CDE64A2EC /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 2712C5D878004CCBF66CCFF8;
+			remoteGlobalIDString = 64E259F93A02EA5F79E56817;
 			remoteInfo = "Pods-Knit-RKDropdownAlert";
 		};
-		CBDCBFEDF4AAFE4AE383BA65 /* PBXContainerItemProxy */ = {
+		88884C633960A3AD805F72BB /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = CB27A65ABEBA0D6469667BC1 /* Project object */;
+			containerPortal = 8FD21C101B333D1CDE64A2EC /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 7EBB7B7DC8FBE34C29C33042;
+			remoteGlobalIDString = 64887E3E1E0BF0C519BB618B;
 			remoteInfo = "Pods-Knit-YLGIFImage";
 		};
-		E5492950626B585D3BB98E67 /* PBXContainerItemProxy */ = {
+		D832C74CB1BED465FB4D39EB /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = CB27A65ABEBA0D6469667BC1 /* Project object */;
+			containerPortal = 8FD21C101B333D1CDE64A2EC /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 4A1BD5D8DD5FF38BAD7463AE;
+			remoteGlobalIDString = C4D6A656B96903D74311155C;
 			remoteInfo = "Pods-Knit-MBProgressHUD";
+		};
+		EA39060C45A71FC3FC916509 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8FD21C101B333D1CDE64A2EC /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A3118031136D39BC66DB1EDA;
+			remoteInfo = "Pods-Knit-PulsingHalo";
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		01B45870FD0F5D4A705A6EC1 /* libPods-Knit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Knit.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		039424B23742CABEE3319D75 /* Pods-Knit-MBProgressHUD-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Knit-MBProgressHUD-dummy.m"; sourceTree = "<group>"; };
-		04748780F145E170925718B8 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/System/Library/Frameworks/CoreGraphics.framework; sourceTree = DEVELOPER_DIR; };
-		0761E22E2FBAD4D75ECAC574 /* PulsingHaloLayer.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PulsingHaloLayer.h; path = PulsingHalo/PulsingHaloLayer.h; sourceTree = "<group>"; };
-		0CD0665EBF586029552E7A88 /* Pods-Knit-MBProgressHUD-Private.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Knit-MBProgressHUD-Private.xcconfig"; sourceTree = "<group>"; };
-		0DB788EE1F209EEAA02E6A80 /* Podfile */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		10D5B91D6A53773C6C7D3AB2 /* Pods-Knit-YLGIFImage-Private.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Knit-YLGIFImage-Private.xcconfig"; sourceTree = "<group>"; };
-		140CD6827B082A9661D80776 /* libPods-Knit-YLGIFImage.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Knit-YLGIFImage.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		24F8D7F4BB4B0FB50FE85498 /* Pods-Knit-UIFloatLabelTextField.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Knit-UIFloatLabelTextField.xcconfig"; sourceTree = "<group>"; };
-		2B00E60EAF7D936B322D364E /* YLGIFImage.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = YLGIFImage.m; path = YLGIFImage/YLGIFImage.m; sourceTree = "<group>"; };
-		2E5FDD3ECD52D9A0182E4B58 /* Pods-Knit-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-Knit-acknowledgements.plist"; sourceTree = "<group>"; };
-		2F6070A98B0033C68C77AC13 /* Pods-Knit-YLGIFImage-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Knit-YLGIFImage-dummy.m"; sourceTree = "<group>"; };
-		3956DA247D5091F76250F0E2 /* MBProgressHUD.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
-		3C8272F4701953A4B7745F79 /* Pods-Knit-PulsingHalo-Private.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Knit-PulsingHalo-Private.xcconfig"; sourceTree = "<group>"; };
-		3D059F8995A55E4DB75A7013 /* Pods-Knit-PulsingHalo-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Knit-PulsingHalo-prefix.pch"; sourceTree = "<group>"; };
-		4352B5E63EAB8DE131EFCCA2 /* YLGIFImage.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = YLGIFImage.h; path = YLGIFImage/YLGIFImage.h; sourceTree = "<group>"; };
-		570441C5B010BB869020EDC9 /* Pods-Knit-YLGIFImage.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Knit-YLGIFImage.xcconfig"; sourceTree = "<group>"; };
-		5BFF319BF9C861CF1BD7C4EF /* Pods-Knit-MBProgressHUD-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Knit-MBProgressHUD-prefix.pch"; sourceTree = "<group>"; };
-		5E5F154DC65FD049F609B0E1 /* Pods-Knit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Knit.release.xcconfig"; sourceTree = "<group>"; };
-		621C31E20FF0332015DB0BD0 /* PulsingHaloLayer.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PulsingHaloLayer.m; path = PulsingHalo/PulsingHaloLayer.m; sourceTree = "<group>"; };
-		690277B439BE3AC48A7D53E5 /* Pods-Knit-UIFloatLabelTextField-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Knit-UIFloatLabelTextField-dummy.m"; sourceTree = "<group>"; };
-		6CD9678C9F543FBBB8FDD269 /* Pods-Knit-environment.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Knit-environment.h"; sourceTree = "<group>"; };
-		72EDA852E55EF6DE0376C19A /* Pods-Knit-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-Knit-acknowledgements.markdown"; sourceTree = "<group>"; };
-		78FCEDDF66B5F539B6F85CA0 /* Pods-Knit-RKDropdownAlert.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Knit-RKDropdownAlert.xcconfig"; sourceTree = "<group>"; };
-		7F0623892F0A85F11F7754D8 /* UIFloatLabelTextField.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = UIFloatLabelTextField.m; path = UIFloatLabelTextField/UIFloatLabelTextField.m; sourceTree = "<group>"; };
-		8212B214F29AF07A687F23FD /* MBProgressHUD.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
-		8C942D12F24118D50EE7E50D /* Pods-Knit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Knit.debug.xcconfig"; sourceTree = "<group>"; };
-		95C4ED60D68DE2DDAA193364 /* Pods-Knit-RKDropdownAlert-Private.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Knit-RKDropdownAlert-Private.xcconfig"; sourceTree = "<group>"; };
-		A1C0FFF234CC5C352B22055E /* RKDropdownAlert.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = RKDropdownAlert.m; path = SlingshotDropdownAlert/RKDropdownAlert.m; sourceTree = "<group>"; };
-		A5D06F74C87157619E5FAACD /* Pods-Knit-PulsingHalo.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Knit-PulsingHalo.xcconfig"; sourceTree = "<group>"; };
-		AAF3B9E16562FDDA03367B70 /* Pods-Knit-RKDropdownAlert-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Knit-RKDropdownAlert-prefix.pch"; sourceTree = "<group>"; };
-		AC27D932F4A0F3280CDC5A15 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/System/Library/Frameworks/MobileCoreServices.framework; sourceTree = DEVELOPER_DIR; };
-		B402A2489D51FE1C0F699320 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/System/Library/Frameworks/ImageIO.framework; sourceTree = DEVELOPER_DIR; };
-		B544FA628F93A9CD56F7611E /* RKDropdownAlert.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RKDropdownAlert.h; path = SlingshotDropdownAlert/RKDropdownAlert.h; sourceTree = "<group>"; };
-		C1840C3012FB22FCCB84B0AB /* libPods-Knit-UIFloatLabelTextField.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Knit-UIFloatLabelTextField.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		C6D855109FF364D3D294B530 /* YLImageView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = YLImageView.m; path = YLGIFImage/YLImageView.m; sourceTree = "<group>"; };
-		C70D96199BB497DAC23A0806 /* Pods-Knit-PulsingHalo-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Knit-PulsingHalo-dummy.m"; sourceTree = "<group>"; };
-		D79A39096CA41F55D110297C /* Pods-Knit-YLGIFImage-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Knit-YLGIFImage-prefix.pch"; sourceTree = "<group>"; };
-		DB13569CE285F250BFA52F2E /* libPods-Knit-PulsingHalo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Knit-PulsingHalo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		DCB79084056830BDA39F8887 /* Pods-Knit-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Knit-resources.sh"; sourceTree = "<group>"; };
-		DD6A3E59742FF6094429D38D /* Pods-Knit-MBProgressHUD.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Knit-MBProgressHUD.xcconfig"; sourceTree = "<group>"; };
-		DF8272F43663B8EDBB8F7BE4 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/System/Library/Frameworks/QuartzCore.framework; sourceTree = DEVELOPER_DIR; };
-		E24DEBF1B8079488DF77050F /* libPods-Knit-RKDropdownAlert.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Knit-RKDropdownAlert.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		E54BE235CC357E93145A76ED /* Pods-Knit-UIFloatLabelTextField-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Knit-UIFloatLabelTextField-prefix.pch"; sourceTree = "<group>"; };
-		E68AF2E1F723066524FF18BC /* Pods-Knit-RKDropdownAlert-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Knit-RKDropdownAlert-dummy.m"; sourceTree = "<group>"; };
-		E6BD96DEB447CBBDEDF45B92 /* Pods-Knit-UIFloatLabelTextField-Private.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Knit-UIFloatLabelTextField-Private.xcconfig"; sourceTree = "<group>"; };
-		EC5F13BE81618E2B0CD657EE /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
-		EC8E76DCE5F224C7674EF3FE /* UIFloatLabelTextField.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = UIFloatLabelTextField.h; path = UIFloatLabelTextField/UIFloatLabelTextField.h; sourceTree = "<group>"; };
-		FAFD643DA0C69B2B66DA909A /* YLImageView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = YLImageView.h; path = YLGIFImage/YLImageView.h; sourceTree = "<group>"; };
-		FB9273E43AD598D649CEFD29 /* libPods-Knit-MBProgressHUD.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Knit-MBProgressHUD.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		FE0AB872CD0B2185BDFA88CB /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
-		FF0E73B43D6E0A0220A8CE8F /* Pods-Knit-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Knit-dummy.m"; sourceTree = "<group>"; };
+		0076E68FA2324A600C804159 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.3.sdk/System/Library/Frameworks/MobileCoreServices.framework; sourceTree = DEVELOPER_DIR; };
+		04AF73C7228DFF640F57F890 /* Pods-Knit-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Knit-resources.sh"; sourceTree = "<group>"; };
+		0915451A4CB9FAA2DE5969F5 /* Pods-Knit-YLGIFImage-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Knit-YLGIFImage-prefix.pch"; sourceTree = "<group>"; };
+		0A28A263E086E1EC043602C3 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.3.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
+		0E649B2BC24529748D4DC8CE /* Pods-Knit-UIFloatLabelTextField-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Knit-UIFloatLabelTextField-prefix.pch"; sourceTree = "<group>"; };
+		12EB0F5FC8BA58E2A94C3BA6 /* libPods-Knit-RKDropdownAlert.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Knit-RKDropdownAlert.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		15714F4EAFB6F7001EB3C16B /* RKDropdownAlert.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = RKDropdownAlert.m; path = SlingshotDropdownAlert/RKDropdownAlert.m; sourceTree = "<group>"; };
+		1A60368499D75463D07421D1 /* UIFloatLabelTextField.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = UIFloatLabelTextField.m; path = UIFloatLabelTextField/UIFloatLabelTextField.m; sourceTree = "<group>"; };
+		1A8A09D98C016A80170B805F /* MBProgressHUD.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
+		225FF81C4AFDF336D80BFA6E /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.3.sdk/System/Library/Frameworks/QuartzCore.framework; sourceTree = DEVELOPER_DIR; };
+		29D69C56925D2ED2A3C3B482 /* libPods-Knit-MBProgressHUD.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Knit-MBProgressHUD.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2CCF1AB76DB3354C2593CDA4 /* Pods-Knit-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-Knit-acknowledgements.plist"; sourceTree = "<group>"; };
+		2EE1D6D4465CAABBB2D5DD7B /* Pods-Knit-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-Knit-acknowledgements.markdown"; sourceTree = "<group>"; };
+		2FF1B45D808DDCE71D1AABAF /* Pods-Knit-MBProgressHUD.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Knit-MBProgressHUD.xcconfig"; sourceTree = "<group>"; };
+		417B409B631A385C96A19ACB /* PulsingHaloLayer.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PulsingHaloLayer.h; path = PulsingHalo/PulsingHaloLayer.h; sourceTree = "<group>"; };
+		44706E0331B87F66384B628F /* Pods-Knit-PulsingHalo.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Knit-PulsingHalo.xcconfig"; sourceTree = "<group>"; };
+		45C641E1D54F5819470092A7 /* YLGIFImage.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = YLGIFImage.m; path = YLGIFImage/YLGIFImage.m; sourceTree = "<group>"; };
+		51802396566C2320636DD8FA /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.3.sdk/System/Library/Frameworks/ImageIO.framework; sourceTree = DEVELOPER_DIR; };
+		5918273A7FB2F3ACF4A5690A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.3.sdk/System/Library/Frameworks/CoreGraphics.framework; sourceTree = DEVELOPER_DIR; };
+		5CE187F3F824039929D2BD6F /* YLImageView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = YLImageView.h; path = YLGIFImage/YLImageView.h; sourceTree = "<group>"; };
+		5EAD0A4DAF342084268AB414 /* RKDropdownAlert.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RKDropdownAlert.h; path = SlingshotDropdownAlert/RKDropdownAlert.h; sourceTree = "<group>"; };
+		6C55608AB6F2170DD66F76D0 /* Pods-Knit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Knit.release.xcconfig"; sourceTree = "<group>"; };
+		7315C38CB98185CECA3A4084 /* libPods-Knit-YLGIFImage.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Knit-YLGIFImage.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		74266425D7B2012F1B037766 /* Pods-Knit-RKDropdownAlert-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Knit-RKDropdownAlert-prefix.pch"; sourceTree = "<group>"; };
+		768A8751FDB62CDF607F314B /* Pods-Knit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Knit.debug.xcconfig"; sourceTree = "<group>"; };
+		7BB7C8B4C160ADD6ABF4459C /* libPods-Knit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Knit.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8252EE9A42ADA5C5BDED4DBF /* Pods-Knit-RKDropdownAlert-Private.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Knit-RKDropdownAlert-Private.xcconfig"; sourceTree = "<group>"; };
+		8595149E9C0CC29DFFE9F77A /* Podfile */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		889A85C4D59D1468DFCF012C /* MBProgressHUD.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
+		904984B7B92841F3009DF8DE /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.3.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		968559AEF2BB03B2C504BA77 /* Pods-Knit-UIFloatLabelTextField-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Knit-UIFloatLabelTextField-dummy.m"; sourceTree = "<group>"; };
+		98D48F21E27316A2B65D154C /* Pods-Knit-YLGIFImage.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Knit-YLGIFImage.xcconfig"; sourceTree = "<group>"; };
+		9A753558557B30BE6977324F /* Pods-Knit-UIFloatLabelTextField-Private.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Knit-UIFloatLabelTextField-Private.xcconfig"; sourceTree = "<group>"; };
+		9CE18369E8F5A4A2B3DE3220 /* Pods-Knit-UIFloatLabelTextField.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Knit-UIFloatLabelTextField.xcconfig"; sourceTree = "<group>"; };
+		9D2F054EF8C823474D65E0A3 /* PulsingHaloLayer.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PulsingHaloLayer.m; path = PulsingHalo/PulsingHaloLayer.m; sourceTree = "<group>"; };
+		ABCE354C9178F5CCDB21BD7E /* libPods-Knit-UIFloatLabelTextField.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Knit-UIFloatLabelTextField.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		B217779FC05175522839462B /* Pods-Knit-environment.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Knit-environment.h"; sourceTree = "<group>"; };
+		B85A099549F1A765A8330515 /* Pods-Knit-PulsingHalo-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Knit-PulsingHalo-prefix.pch"; sourceTree = "<group>"; };
+		BC6A89415F5E72838E8A896F /* UIFloatLabelTextField.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = UIFloatLabelTextField.h; path = UIFloatLabelTextField/UIFloatLabelTextField.h; sourceTree = "<group>"; };
+		CDD68E88D4836A110D464990 /* Pods-Knit-PulsingHalo-Private.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Knit-PulsingHalo-Private.xcconfig"; sourceTree = "<group>"; };
+		CE342A3C00830D0141831E77 /* Pods-Knit-YLGIFImage-Private.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Knit-YLGIFImage-Private.xcconfig"; sourceTree = "<group>"; };
+		D2ABED602EE72B1582788748 /* Pods-Knit-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Knit-dummy.m"; sourceTree = "<group>"; };
+		D7E03EF0926917EEE6895FBE /* YLImageView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = YLImageView.m; path = YLGIFImage/YLImageView.m; sourceTree = "<group>"; };
+		D9895730904D91F5401356AE /* Pods-Knit-PulsingHalo-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Knit-PulsingHalo-dummy.m"; sourceTree = "<group>"; };
+		DCC8D4BD86F5F035F9EB73EB /* Pods-Knit-RKDropdownAlert-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Knit-RKDropdownAlert-dummy.m"; sourceTree = "<group>"; };
+		E7E353920AF01316D3DE09FA /* YLGIFImage.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = YLGIFImage.h; path = YLGIFImage/YLGIFImage.h; sourceTree = "<group>"; };
+		EB1E0603068B94B7E9DC8CF1 /* Pods-Knit-RKDropdownAlert.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Knit-RKDropdownAlert.xcconfig"; sourceTree = "<group>"; };
+		F4D8B5F16DB69DC8107CE010 /* libPods-Knit-PulsingHalo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Knit-PulsingHalo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F99F619E2A8384EA6AFCB4AD /* Pods-Knit-MBProgressHUD-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Knit-MBProgressHUD-prefix.pch"; sourceTree = "<group>"; };
+		FA9D4BE9F1C5FE82038F7B27 /* Pods-Knit-MBProgressHUD-Private.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Knit-MBProgressHUD-Private.xcconfig"; sourceTree = "<group>"; };
+		FDA60CBADD3CBC3812AAF28A /* Pods-Knit-MBProgressHUD-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Knit-MBProgressHUD-dummy.m"; sourceTree = "<group>"; };
+		FE66CD3D1996D8318B474E72 /* Pods-Knit-YLGIFImage-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Knit-YLGIFImage-dummy.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		01A07E3415C673A48CAE18A5 /* Frameworks */ = {
+		1003092E7D4FAEDBD3CB0199 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DDB882D3B68081AB1DB96D6F /* Foundation.framework in Frameworks */,
+				9581EB481D94386C84D37221 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		1375F44DD5311B43B5C11AA0 /* Frameworks */ = {
+		6444E70FA8460645325F3279 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9C49420E173CD6CD5F2EC8B3 /* Foundation.framework in Frameworks */,
+				5C74944AA6E6CC294DFD6777 /* Foundation.framework in Frameworks */,
+				DFDD7A38F245F7CA4189E438 /* QuartzCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		47D242C22D159B6AD79F0C06 /* Frameworks */ = {
+		8E5F6733CE81D4681A3905A6 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DED0A45F1778DFF2E447B7D5 /* Foundation.framework in Frameworks */,
-				D56671B10CD22A0747D0CD06 /* QuartzCore.framework in Frameworks */,
+				815C38069024635E16E8A7ED /* CoreGraphics.framework in Frameworks */,
+				51966FE8C2312DC27962C0B2 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		53DB979397283D34A0056365 /* Frameworks */ = {
+		96FC88B05A4353C38A395DF9 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				107521D0D188D1AFED5A05B0 /* CoreGraphics.framework in Frameworks */,
-				3B63CA02DC86EAF9DBC8D1DA /* Foundation.framework in Frameworks */,
-				E66FCD8F8AABCD38A638B8EA /* ImageIO.framework in Frameworks */,
-				8CB9BA9FE26C6E7C7AA51168 /* MobileCoreServices.framework in Frameworks */,
-				1C5CC3A2A24BB0CF2B4FD9ED /* UIKit.framework in Frameworks */,
+				D756B9D2FCBB99F16FE14FB4 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		DBCD3B3658BCA96D98E5A7FD /* Frameworks */ = {
+		E18C66AF538EB774F18F82CE /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				857E2A18B194656D4EA1A7F8 /* Foundation.framework in Frameworks */,
+				546C973DE4B8D33F9A2070D9 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		F3547FDA38948F625052B93E /* Frameworks */ = {
+		EE1AFB352B3DEAC5CE0F8AAE /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				267CA17F144D8B321A6ED41D /* CoreGraphics.framework in Frameworks */,
-				E0D8BE066F803F09C9526C38 /* Foundation.framework in Frameworks */,
+				EB3C502540A347CBF7198840 /* CoreGraphics.framework in Frameworks */,
+				E908DC46D69FA54E5D97EBBC /* Foundation.framework in Frameworks */,
+				AE0E21CC578356A602892135 /* ImageIO.framework in Frameworks */,
+				56E5F7983BC60911C19DE731 /* MobileCoreServices.framework in Frameworks */,
+				7C8210B457963A5616A3E0D9 /* UIKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		1529A6D6A5B3654499565CCD /* Pods-Knit */ = {
+		0FA1E5CB024DDAB597CFEEF7 /* YLGIFImage */ = {
 			isa = PBXGroup;
 			children = (
-				72EDA852E55EF6DE0376C19A /* Pods-Knit-acknowledgements.markdown */,
-				2E5FDD3ECD52D9A0182E4B58 /* Pods-Knit-acknowledgements.plist */,
-				FF0E73B43D6E0A0220A8CE8F /* Pods-Knit-dummy.m */,
-				6CD9678C9F543FBBB8FDD269 /* Pods-Knit-environment.h */,
-				DCB79084056830BDA39F8887 /* Pods-Knit-resources.sh */,
-				8C942D12F24118D50EE7E50D /* Pods-Knit.debug.xcconfig */,
-				5E5F154DC65FD049F609B0E1 /* Pods-Knit.release.xcconfig */,
+				E7E353920AF01316D3DE09FA /* YLGIFImage.h */,
+				45C641E1D54F5819470092A7 /* YLGIFImage.m */,
+				5CE187F3F824039929D2BD6F /* YLImageView.h */,
+				D7E03EF0926917EEE6895FBE /* YLImageView.m */,
+				79836AB6EEABA8138FDC9E28 /* Support Files */,
 			);
-			name = "Pods-Knit";
-			path = "Target Support Files/Pods-Knit";
+			path = YLGIFImage;
 			sourceTree = "<group>";
 		};
-		26E6D69C128B451DF008569B /* MBProgressHUD */ = {
+		18343EC90A6F006D5BBD7C74 /* UIFloatLabelTextField */ = {
 			isa = PBXGroup;
 			children = (
-				3956DA247D5091F76250F0E2 /* MBProgressHUD.h */,
-				8212B214F29AF07A687F23FD /* MBProgressHUD.m */,
-				7E34C990E1B9DD4879E7C416 /* Support Files */,
-			);
-			path = MBProgressHUD;
-			sourceTree = "<group>";
-		};
-		2E2BDC7BE528A823587BC982 /* PulsingHalo */ = {
-			isa = PBXGroup;
-			children = (
-				0761E22E2FBAD4D75ECAC574 /* PulsingHaloLayer.h */,
-				621C31E20FF0332015DB0BD0 /* PulsingHaloLayer.m */,
-				4990C8D67C4CB21D790AB8CA /* Support Files */,
-			);
-			path = PulsingHalo;
-			sourceTree = "<group>";
-		};
-		497BEEE10E6DC7BC879D78B5 = {
-			isa = PBXGroup;
-			children = (
-				0DB788EE1F209EEAA02E6A80 /* Podfile */,
-				5CB2B689401D0E24A39CD32C /* Frameworks */,
-				F4C757C6978D96230E95F097 /* Pods */,
-				BCF7B9058692ED676766B9C2 /* Products */,
-				B1DC778D53ED4C9E2F09F173 /* Targets Support Files */,
-			);
-			sourceTree = "<group>";
-		};
-		4990C8D67C4CB21D790AB8CA /* Support Files */ = {
-			isa = PBXGroup;
-			children = (
-				A5D06F74C87157619E5FAACD /* Pods-Knit-PulsingHalo.xcconfig */,
-				3C8272F4701953A4B7745F79 /* Pods-Knit-PulsingHalo-Private.xcconfig */,
-				C70D96199BB497DAC23A0806 /* Pods-Knit-PulsingHalo-dummy.m */,
-				3D059F8995A55E4DB75A7013 /* Pods-Knit-PulsingHalo-prefix.pch */,
-			);
-			name = "Support Files";
-			path = "../Target Support Files/Pods-Knit-PulsingHalo";
-			sourceTree = "<group>";
-		};
-		57D1CCFC18FA45D35CD149DA /* Support Files */ = {
-			isa = PBXGroup;
-			children = (
-				78FCEDDF66B5F539B6F85CA0 /* Pods-Knit-RKDropdownAlert.xcconfig */,
-				95C4ED60D68DE2DDAA193364 /* Pods-Knit-RKDropdownAlert-Private.xcconfig */,
-				E68AF2E1F723066524FF18BC /* Pods-Knit-RKDropdownAlert-dummy.m */,
-				AAF3B9E16562FDDA03367B70 /* Pods-Knit-RKDropdownAlert-prefix.pch */,
-			);
-			name = "Support Files";
-			path = "../Target Support Files/Pods-Knit-RKDropdownAlert";
-			sourceTree = "<group>";
-		};
-		5CB2B689401D0E24A39CD32C /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				FB19DBEB23256F755BFD117F /* iOS */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		678B2A57CC158C0A0543823D /* RKDropdownAlert */ = {
-			isa = PBXGroup;
-			children = (
-				B544FA628F93A9CD56F7611E /* RKDropdownAlert.h */,
-				A1C0FFF234CC5C352B22055E /* RKDropdownAlert.m */,
-				57D1CCFC18FA45D35CD149DA /* Support Files */,
-			);
-			path = RKDropdownAlert;
-			sourceTree = "<group>";
-		};
-		7E34C990E1B9DD4879E7C416 /* Support Files */ = {
-			isa = PBXGroup;
-			children = (
-				DD6A3E59742FF6094429D38D /* Pods-Knit-MBProgressHUD.xcconfig */,
-				0CD0665EBF586029552E7A88 /* Pods-Knit-MBProgressHUD-Private.xcconfig */,
-				039424B23742CABEE3319D75 /* Pods-Knit-MBProgressHUD-dummy.m */,
-				5BFF319BF9C861CF1BD7C4EF /* Pods-Knit-MBProgressHUD-prefix.pch */,
-			);
-			name = "Support Files";
-			path = "../Target Support Files/Pods-Knit-MBProgressHUD";
-			sourceTree = "<group>";
-		};
-		8A0A4DF8A1D30707E5D7DF21 /* UIFloatLabelTextField */ = {
-			isa = PBXGroup;
-			children = (
-				EC8E76DCE5F224C7674EF3FE /* UIFloatLabelTextField.h */,
-				7F0623892F0A85F11F7754D8 /* UIFloatLabelTextField.m */,
-				8BE40D62AC0792D89999629B /* Support Files */,
+				BC6A89415F5E72838E8A896F /* UIFloatLabelTextField.h */,
+				1A60368499D75463D07421D1 /* UIFloatLabelTextField.m */,
+				3CE1C264420E90E475BA22B2 /* Support Files */,
 			);
 			path = UIFloatLabelTextField;
 			sourceTree = "<group>";
 		};
-		8BE40D62AC0792D89999629B /* Support Files */ = {
+		3CE1C264420E90E475BA22B2 /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				24F8D7F4BB4B0FB50FE85498 /* Pods-Knit-UIFloatLabelTextField.xcconfig */,
-				E6BD96DEB447CBBDEDF45B92 /* Pods-Knit-UIFloatLabelTextField-Private.xcconfig */,
-				690277B439BE3AC48A7D53E5 /* Pods-Knit-UIFloatLabelTextField-dummy.m */,
-				E54BE235CC357E93145A76ED /* Pods-Knit-UIFloatLabelTextField-prefix.pch */,
+				9CE18369E8F5A4A2B3DE3220 /* Pods-Knit-UIFloatLabelTextField.xcconfig */,
+				9A753558557B30BE6977324F /* Pods-Knit-UIFloatLabelTextField-Private.xcconfig */,
+				968559AEF2BB03B2C504BA77 /* Pods-Knit-UIFloatLabelTextField-dummy.m */,
+				0E649B2BC24529748D4DC8CE /* Pods-Knit-UIFloatLabelTextField-prefix.pch */,
 			);
 			name = "Support Files";
 			path = "../Target Support Files/Pods-Knit-UIFloatLabelTextField";
 			sourceTree = "<group>";
 		};
-		B1DC778D53ED4C9E2F09F173 /* Targets Support Files */ = {
+		3F74B02002D678154385BB42 /* PulsingHalo */ = {
 			isa = PBXGroup;
 			children = (
-				1529A6D6A5B3654499565CCD /* Pods-Knit */,
+				417B409B631A385C96A19ACB /* PulsingHaloLayer.h */,
+				9D2F054EF8C823474D65E0A3 /* PulsingHaloLayer.m */,
+				6272206962BD9745AA80758C /* Support Files */,
 			);
-			name = "Targets Support Files";
+			path = PulsingHalo;
 			sourceTree = "<group>";
 		};
-		BCF7B9058692ED676766B9C2 /* Products */ = {
+		4040B66EAD55841C8A01852B /* RKDropdownAlert */ = {
 			isa = PBXGroup;
 			children = (
-				01B45870FD0F5D4A705A6EC1 /* libPods-Knit.a */,
-				FB9273E43AD598D649CEFD29 /* libPods-Knit-MBProgressHUD.a */,
-				DB13569CE285F250BFA52F2E /* libPods-Knit-PulsingHalo.a */,
-				E24DEBF1B8079488DF77050F /* libPods-Knit-RKDropdownAlert.a */,
-				C1840C3012FB22FCCB84B0AB /* libPods-Knit-UIFloatLabelTextField.a */,
-				140CD6827B082A9661D80776 /* libPods-Knit-YLGIFImage.a */,
+				5EAD0A4DAF342084268AB414 /* RKDropdownAlert.h */,
+				15714F4EAFB6F7001EB3C16B /* RKDropdownAlert.m */,
+				6C34923F9F73E00CBE21F148 /* Support Files */,
 			);
-			name = Products;
+			path = RKDropdownAlert;
 			sourceTree = "<group>";
 		};
-		BE0F872787343213816C8C5C /* Support Files */ = {
+		47FA098ACE16955B8F7C2206 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				570441C5B010BB869020EDC9 /* Pods-Knit-YLGIFImage.xcconfig */,
-				10D5B91D6A53773C6C7D3AB2 /* Pods-Knit-YLGIFImage-Private.xcconfig */,
-				2F6070A98B0033C68C77AC13 /* Pods-Knit-YLGIFImage-dummy.m */,
-				D79A39096CA41F55D110297C /* Pods-Knit-YLGIFImage-prefix.pch */,
+				57EE87D7B08205CA498F05F1 /* MBProgressHUD */,
+				3F74B02002D678154385BB42 /* PulsingHalo */,
+				4040B66EAD55841C8A01852B /* RKDropdownAlert */,
+				18343EC90A6F006D5BBD7C74 /* UIFloatLabelTextField */,
+				0FA1E5CB024DDAB597CFEEF7 /* YLGIFImage */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		57EE87D7B08205CA498F05F1 /* MBProgressHUD */ = {
+			isa = PBXGroup;
+			children = (
+				889A85C4D59D1468DFCF012C /* MBProgressHUD.h */,
+				1A8A09D98C016A80170B805F /* MBProgressHUD.m */,
+				CAE6B07734C0CB2761863998 /* Support Files */,
+			);
+			path = MBProgressHUD;
+			sourceTree = "<group>";
+		};
+		6272206962BD9745AA80758C /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				44706E0331B87F66384B628F /* Pods-Knit-PulsingHalo.xcconfig */,
+				CDD68E88D4836A110D464990 /* Pods-Knit-PulsingHalo-Private.xcconfig */,
+				D9895730904D91F5401356AE /* Pods-Knit-PulsingHalo-dummy.m */,
+				B85A099549F1A765A8330515 /* Pods-Knit-PulsingHalo-prefix.pch */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/Pods-Knit-PulsingHalo";
+			sourceTree = "<group>";
+		};
+		6C34923F9F73E00CBE21F148 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				EB1E0603068B94B7E9DC8CF1 /* Pods-Knit-RKDropdownAlert.xcconfig */,
+				8252EE9A42ADA5C5BDED4DBF /* Pods-Knit-RKDropdownAlert-Private.xcconfig */,
+				DCC8D4BD86F5F035F9EB73EB /* Pods-Knit-RKDropdownAlert-dummy.m */,
+				74266425D7B2012F1B037766 /* Pods-Knit-RKDropdownAlert-prefix.pch */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/Pods-Knit-RKDropdownAlert";
+			sourceTree = "<group>";
+		};
+		79836AB6EEABA8138FDC9E28 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				98D48F21E27316A2B65D154C /* Pods-Knit-YLGIFImage.xcconfig */,
+				CE342A3C00830D0141831E77 /* Pods-Knit-YLGIFImage-Private.xcconfig */,
+				FE66CD3D1996D8318B474E72 /* Pods-Knit-YLGIFImage-dummy.m */,
+				0915451A4CB9FAA2DE5969F5 /* Pods-Knit-YLGIFImage-prefix.pch */,
 			);
 			name = "Support Files";
 			path = "../Target Support Files/Pods-Knit-YLGIFImage";
 			sourceTree = "<group>";
 		};
-		C134BDFE932687FD539D8372 /* YLGIFImage */ = {
+		90A751B266AC42FDB11CE602 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				4352B5E63EAB8DE131EFCCA2 /* YLGIFImage.h */,
-				2B00E60EAF7D936B322D364E /* YLGIFImage.m */,
-				FAFD643DA0C69B2B66DA909A /* YLImageView.h */,
-				C6D855109FF364D3D294B530 /* YLImageView.m */,
-				BE0F872787343213816C8C5C /* Support Files */,
+				EF4D5B1BBA60E940F0FBF3B1 /* iOS */,
 			);
-			path = YLGIFImage;
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		F4C757C6978D96230E95F097 /* Pods */ = {
+		B4BD25C1D04991169F03ABCB = {
 			isa = PBXGroup;
 			children = (
-				26E6D69C128B451DF008569B /* MBProgressHUD */,
-				2E2BDC7BE528A823587BC982 /* PulsingHalo */,
-				678B2A57CC158C0A0543823D /* RKDropdownAlert */,
-				8A0A4DF8A1D30707E5D7DF21 /* UIFloatLabelTextField */,
-				C134BDFE932687FD539D8372 /* YLGIFImage */,
+				8595149E9C0CC29DFFE9F77A /* Podfile */,
+				90A751B266AC42FDB11CE602 /* Frameworks */,
+				47FA098ACE16955B8F7C2206 /* Pods */,
+				C7D8104F63A24B9A4087F177 /* Products */,
+				FC683E88A0EA8EBF4F281D49 /* Targets Support Files */,
 			);
-			name = Pods;
 			sourceTree = "<group>";
 		};
-		FB19DBEB23256F755BFD117F /* iOS */ = {
+		C7D8104F63A24B9A4087F177 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				04748780F145E170925718B8 /* CoreGraphics.framework */,
-				FE0AB872CD0B2185BDFA88CB /* Foundation.framework */,
-				B402A2489D51FE1C0F699320 /* ImageIO.framework */,
-				AC27D932F4A0F3280CDC5A15 /* MobileCoreServices.framework */,
-				DF8272F43663B8EDBB8F7BE4 /* QuartzCore.framework */,
-				EC5F13BE81618E2B0CD657EE /* UIKit.framework */,
+				7BB7C8B4C160ADD6ABF4459C /* libPods-Knit.a */,
+				29D69C56925D2ED2A3C3B482 /* libPods-Knit-MBProgressHUD.a */,
+				F4D8B5F16DB69DC8107CE010 /* libPods-Knit-PulsingHalo.a */,
+				12EB0F5FC8BA58E2A94C3BA6 /* libPods-Knit-RKDropdownAlert.a */,
+				ABCE354C9178F5CCDB21BD7E /* libPods-Knit-UIFloatLabelTextField.a */,
+				7315C38CB98185CECA3A4084 /* libPods-Knit-YLGIFImage.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C8D1229F9FAE9EAB73869EF3 /* Pods-Knit */ = {
+			isa = PBXGroup;
+			children = (
+				2EE1D6D4465CAABBB2D5DD7B /* Pods-Knit-acknowledgements.markdown */,
+				2CCF1AB76DB3354C2593CDA4 /* Pods-Knit-acknowledgements.plist */,
+				D2ABED602EE72B1582788748 /* Pods-Knit-dummy.m */,
+				B217779FC05175522839462B /* Pods-Knit-environment.h */,
+				04AF73C7228DFF640F57F890 /* Pods-Knit-resources.sh */,
+				768A8751FDB62CDF607F314B /* Pods-Knit.debug.xcconfig */,
+				6C55608AB6F2170DD66F76D0 /* Pods-Knit.release.xcconfig */,
+			);
+			name = "Pods-Knit";
+			path = "Target Support Files/Pods-Knit";
+			sourceTree = "<group>";
+		};
+		CAE6B07734C0CB2761863998 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				2FF1B45D808DDCE71D1AABAF /* Pods-Knit-MBProgressHUD.xcconfig */,
+				FA9D4BE9F1C5FE82038F7B27 /* Pods-Knit-MBProgressHUD-Private.xcconfig */,
+				FDA60CBADD3CBC3812AAF28A /* Pods-Knit-MBProgressHUD-dummy.m */,
+				F99F619E2A8384EA6AFCB4AD /* Pods-Knit-MBProgressHUD-prefix.pch */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/Pods-Knit-MBProgressHUD";
+			sourceTree = "<group>";
+		};
+		EF4D5B1BBA60E940F0FBF3B1 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				5918273A7FB2F3ACF4A5690A /* CoreGraphics.framework */,
+				904984B7B92841F3009DF8DE /* Foundation.framework */,
+				51802396566C2320636DD8FA /* ImageIO.framework */,
+				0076E68FA2324A600C804159 /* MobileCoreServices.framework */,
+				225FF81C4AFDF336D80BFA6E /* QuartzCore.framework */,
+				0A28A263E086E1EC043602C3 /* UIKit.framework */,
 			);
 			name = iOS;
+			sourceTree = "<group>";
+		};
+		FC683E88A0EA8EBF4F281D49 /* Targets Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				C8D1229F9FAE9EAB73869EF3 /* Pods-Knit */,
+			);
+			name = "Targets Support Files";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		0AD5BBD9E42C90EAD8858061 /* Headers */ = {
+		497274E43AF6D72C35C3FA0E /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				12F49AB2D3DFFB86C5928DD2 /* PulsingHaloLayer.h in Headers */,
+				E816907698C61069198676B3 /* PulsingHaloLayer.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		39E6DE0E89DE28C8043BB166 /* Headers */ = {
+		4D9594889EDD0370695F26ED /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D803524C0FEB07ACEA49F9FD /* RKDropdownAlert.h in Headers */,
+				78929BFA5256E0998674167C /* UIFloatLabelTextField.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		3C2262A8FFA947EFA1BA33AC /* Headers */ = {
+		B2487F0E8A189495245FB9B3 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2394C20B1FDFAB111DB29217 /* MBProgressHUD.h in Headers */,
+				841450C4ADEA1882BDE5C8CE /* MBProgressHUD.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		B59F7C8488839438BEFF6E36 /* Headers */ = {
+		E07D1EFA24746046110975B1 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C4B1CD06A97F4D311D2FF6DF /* UIFloatLabelTextField.h in Headers */,
+				7C1239CFE1C6FEAB3A2DBA8D /* YLGIFImage.h in Headers */,
+				401A9435DA73D08542A86DC3 /* YLImageView.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		D81C12B10B28F7A7AE428927 /* Headers */ = {
+		F1668CF7BD3CD3C0E4078CC4 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DEE1BC52E3F54FF484EB7581 /* YLGIFImage.h in Headers */,
-				3F92CA6EB98643B949BE3D09 /* YLImageView.h in Headers */,
+				D0528E62361411FAF5459319 /* RKDropdownAlert.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		2712C5D878004CCBF66CCFF8 /* Pods-Knit-RKDropdownAlert */ = {
+		48F5EC0AB98EE3820ACB0EB7 /* Pods-Knit-UIFloatLabelTextField */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 108A471E49FC53975A942131 /* Build configuration list for PBXNativeTarget "Pods-Knit-RKDropdownAlert" */;
+			buildConfigurationList = 26BB90917EDAADF6A28A054A /* Build configuration list for PBXNativeTarget "Pods-Knit-UIFloatLabelTextField" */;
 			buildPhases = (
-				368425D2B46FB5865D431088 /* Sources */,
-				1375F44DD5311B43B5C11AA0 /* Frameworks */,
-				39E6DE0E89DE28C8043BB166 /* Headers */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = "Pods-Knit-RKDropdownAlert";
-			productName = "Pods-Knit-RKDropdownAlert";
-			productReference = E24DEBF1B8079488DF77050F /* libPods-Knit-RKDropdownAlert.a */;
-			productType = "com.apple.product-type.library.static";
-		};
-		4A1BD5D8DD5FF38BAD7463AE /* Pods-Knit-MBProgressHUD */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 54D5320705623858FA081022 /* Build configuration list for PBXNativeTarget "Pods-Knit-MBProgressHUD" */;
-			buildPhases = (
-				450BBE711426F958B2812359 /* Sources */,
-				F3547FDA38948F625052B93E /* Frameworks */,
-				3C2262A8FFA947EFA1BA33AC /* Headers */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = "Pods-Knit-MBProgressHUD";
-			productName = "Pods-Knit-MBProgressHUD";
-			productReference = FB9273E43AD598D649CEFD29 /* libPods-Knit-MBProgressHUD.a */;
-			productType = "com.apple.product-type.library.static";
-		};
-		535E96E5EE795551024A517C /* Pods-Knit-UIFloatLabelTextField */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 184095A02622490E7711CF21 /* Build configuration list for PBXNativeTarget "Pods-Knit-UIFloatLabelTextField" */;
-			buildPhases = (
-				26B3423BAD4DFC2A3452B8B6 /* Sources */,
-				DBCD3B3658BCA96D98E5A7FD /* Frameworks */,
-				B59F7C8488839438BEFF6E36 /* Headers */,
+				25F9406B08647D1651630013 /* Sources */,
+				E18C66AF538EB774F18F82CE /* Frameworks */,
+				4D9594889EDD0370695F26ED /* Headers */,
 			);
 			buildRules = (
 			);
@@ -477,16 +443,16 @@
 			);
 			name = "Pods-Knit-UIFloatLabelTextField";
 			productName = "Pods-Knit-UIFloatLabelTextField";
-			productReference = C1840C3012FB22FCCB84B0AB /* libPods-Knit-UIFloatLabelTextField.a */;
+			productReference = ABCE354C9178F5CCDB21BD7E /* libPods-Knit-UIFloatLabelTextField.a */;
 			productType = "com.apple.product-type.library.static";
 		};
-		7EBB7B7DC8FBE34C29C33042 /* Pods-Knit-YLGIFImage */ = {
+		64887E3E1E0BF0C519BB618B /* Pods-Knit-YLGIFImage */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D43434046862076A773A2D5E /* Build configuration list for PBXNativeTarget "Pods-Knit-YLGIFImage" */;
+			buildConfigurationList = E098E08BFBCBEEF06B9759F7 /* Build configuration list for PBXNativeTarget "Pods-Knit-YLGIFImage" */;
 			buildPhases = (
-				9910471D10B5E8625F3997F0 /* Sources */,
-				53DB979397283D34A0056365 /* Frameworks */,
-				D81C12B10B28F7A7AE428927 /* Headers */,
+				8FDF07E05AC900A53266550E /* Sources */,
+				EE1AFB352B3DEAC5CE0F8AAE /* Frameworks */,
+				E07D1EFA24746046110975B1 /* Headers */,
 			);
 			buildRules = (
 			);
@@ -494,16 +460,54 @@
 			);
 			name = "Pods-Knit-YLGIFImage";
 			productName = "Pods-Knit-YLGIFImage";
-			productReference = 140CD6827B082A9661D80776 /* libPods-Knit-YLGIFImage.a */;
+			productReference = 7315C38CB98185CECA3A4084 /* libPods-Knit-YLGIFImage.a */;
 			productType = "com.apple.product-type.library.static";
 		};
-		AE5949DCC98BC80C9A6DA659 /* Pods-Knit-PulsingHalo */ = {
+		64E259F93A02EA5F79E56817 /* Pods-Knit-RKDropdownAlert */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 3577CFC8E4B8CF1CCDB70F37 /* Build configuration list for PBXNativeTarget "Pods-Knit-PulsingHalo" */;
+			buildConfigurationList = 924E534C7A62F9393281D338 /* Build configuration list for PBXNativeTarget "Pods-Knit-RKDropdownAlert" */;
 			buildPhases = (
-				4050EC2359E33E2754E035A7 /* Sources */,
-				47D242C22D159B6AD79F0C06 /* Frameworks */,
-				0AD5BBD9E42C90EAD8858061 /* Headers */,
+				6CC41A368E909B109C7AE4BA /* Sources */,
+				1003092E7D4FAEDBD3CB0199 /* Frameworks */,
+				F1668CF7BD3CD3C0E4078CC4 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Pods-Knit-RKDropdownAlert";
+			productName = "Pods-Knit-RKDropdownAlert";
+			productReference = 12EB0F5FC8BA58E2A94C3BA6 /* libPods-Knit-RKDropdownAlert.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		734254953571B2C703265421 /* Pods-Knit */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1D7478C95B6CA4EF474FD473 /* Build configuration list for PBXNativeTarget "Pods-Knit" */;
+			buildPhases = (
+				8DDD65DC4BC21E656C6C9AF1 /* Sources */,
+				96FC88B05A4353C38A395DF9 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				2ED51339BE8CC94C0B877154 /* PBXTargetDependency */,
+				C40A9E2425698DF43F55A99A /* PBXTargetDependency */,
+				546AA08FD73334F6F36B1BD2 /* PBXTargetDependency */,
+				AFB9F9374BD584D29428B4E2 /* PBXTargetDependency */,
+				47AAACF8A3EC669F42DD57BD /* PBXTargetDependency */,
+			);
+			name = "Pods-Knit";
+			productName = "Pods-Knit";
+			productReference = 7BB7C8B4C160ADD6ABF4459C /* libPods-Knit.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		A3118031136D39BC66DB1EDA /* Pods-Knit-PulsingHalo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4E2A6B9BB610045BCB5B12E4 /* Build configuration list for PBXNativeTarget "Pods-Knit-PulsingHalo" */;
+			buildPhases = (
+				EB50C8DB5BBDF24F01C38374 /* Sources */,
+				6444E70FA8460645325F3279 /* Frameworks */,
+				497274E43AF6D72C35C3FA0E /* Headers */,
 			);
 			buildRules = (
 			);
@@ -511,266 +515,148 @@
 			);
 			name = "Pods-Knit-PulsingHalo";
 			productName = "Pods-Knit-PulsingHalo";
-			productReference = DB13569CE285F250BFA52F2E /* libPods-Knit-PulsingHalo.a */;
+			productReference = F4D8B5F16DB69DC8107CE010 /* libPods-Knit-PulsingHalo.a */;
 			productType = "com.apple.product-type.library.static";
 		};
-		CF1BE3F554F3B0AC2166E8AD /* Pods-Knit */ = {
+		C4D6A656B96903D74311155C /* Pods-Knit-MBProgressHUD */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = DDC80BE5B0865D8C0C1284A5 /* Build configuration list for PBXNativeTarget "Pods-Knit" */;
+			buildConfigurationList = C2973A38D2CFE06451C39FB5 /* Build configuration list for PBXNativeTarget "Pods-Knit-MBProgressHUD" */;
 			buildPhases = (
-				32E87547C956CFD77C4AB41A /* Sources */,
-				01A07E3415C673A48CAE18A5 /* Frameworks */,
+				DF8A8F2A3785FA28F74B8E4A /* Sources */,
+				8E5F6733CE81D4681A3905A6 /* Frameworks */,
+				B2487F0E8A189495245FB9B3 /* Headers */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				A6292A07DFDE83B6E43275BF /* PBXTargetDependency */,
-				2B38F6062C188CB996A84FC1 /* PBXTargetDependency */,
-				7DBF94FF7D8E31570A37C4AD /* PBXTargetDependency */,
-				8395C1C94FF7FB983B0ACC64 /* PBXTargetDependency */,
-				F4EF0EB78FCD80A64CC7612E /* PBXTargetDependency */,
 			);
-			name = "Pods-Knit";
-			productName = "Pods-Knit";
-			productReference = 01B45870FD0F5D4A705A6EC1 /* libPods-Knit.a */;
+			name = "Pods-Knit-MBProgressHUD";
+			productName = "Pods-Knit-MBProgressHUD";
+			productReference = 29D69C56925D2ED2A3C3B482 /* libPods-Knit-MBProgressHUD.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		CB27A65ABEBA0D6469667BC1 /* Project object */ = {
+		8FD21C101B333D1CDE64A2EC /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0510;
+				LastUpgradeCheck = 0640;
 			};
-			buildConfigurationList = C4804F14EF7C9216987F163D /* Build configuration list for PBXProject "Pods" */;
+			buildConfigurationList = FAC2E03E3492C83752CC0E76 /* Build configuration list for PBXProject "Pods" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 			);
-			mainGroup = 497BEEE10E6DC7BC879D78B5;
-			productRefGroup = BCF7B9058692ED676766B9C2 /* Products */;
+			mainGroup = B4BD25C1D04991169F03ABCB;
+			productRefGroup = C7D8104F63A24B9A4087F177 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				CF1BE3F554F3B0AC2166E8AD /* Pods-Knit */,
-				4A1BD5D8DD5FF38BAD7463AE /* Pods-Knit-MBProgressHUD */,
-				AE5949DCC98BC80C9A6DA659 /* Pods-Knit-PulsingHalo */,
-				2712C5D878004CCBF66CCFF8 /* Pods-Knit-RKDropdownAlert */,
-				535E96E5EE795551024A517C /* Pods-Knit-UIFloatLabelTextField */,
-				7EBB7B7DC8FBE34C29C33042 /* Pods-Knit-YLGIFImage */,
+				734254953571B2C703265421 /* Pods-Knit */,
+				C4D6A656B96903D74311155C /* Pods-Knit-MBProgressHUD */,
+				A3118031136D39BC66DB1EDA /* Pods-Knit-PulsingHalo */,
+				64E259F93A02EA5F79E56817 /* Pods-Knit-RKDropdownAlert */,
+				48F5EC0AB98EE3820ACB0EB7 /* Pods-Knit-UIFloatLabelTextField */,
+				64887E3E1E0BF0C519BB618B /* Pods-Knit-YLGIFImage */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
-		26B3423BAD4DFC2A3452B8B6 /* Sources */ = {
+		25F9406B08647D1651630013 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7280C1ACB5F1047B80774675 /* Pods-Knit-UIFloatLabelTextField-dummy.m in Sources */,
-				70560F4630D4D7FAD990FCD9 /* UIFloatLabelTextField.m in Sources */,
+				F335CE8B8370DCD3C65874DB /* Pods-Knit-UIFloatLabelTextField-dummy.m in Sources */,
+				2A4141D0EAC7081518BA8238 /* UIFloatLabelTextField.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		32E87547C956CFD77C4AB41A /* Sources */ = {
+		6CC41A368E909B109C7AE4BA /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				165EC690D929B59DD3C62937 /* Pods-Knit-dummy.m in Sources */,
+				C74520EE3D21A29670A2AE05 /* Pods-Knit-RKDropdownAlert-dummy.m in Sources */,
+				09826415034BF68F5FA6C465 /* RKDropdownAlert.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		368425D2B46FB5865D431088 /* Sources */ = {
+		8DDD65DC4BC21E656C6C9AF1 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DB8B98114A7928DA0597DA51 /* Pods-Knit-RKDropdownAlert-dummy.m in Sources */,
-				A807CA137685AD14DDB51F4B /* RKDropdownAlert.m in Sources */,
+				81FCFF995C01398FEC93F435 /* Pods-Knit-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		4050EC2359E33E2754E035A7 /* Sources */ = {
+		8FDF07E05AC900A53266550E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CE27DA43331BF68C27AD9FA9 /* Pods-Knit-PulsingHalo-dummy.m in Sources */,
-				400DC0594443E4431062EE19 /* PulsingHaloLayer.m in Sources */,
+				217FEEAC729049A5B2E61234 /* Pods-Knit-YLGIFImage-dummy.m in Sources */,
+				80C9977A9D79CF6029723AD1 /* YLGIFImage.m in Sources */,
+				5BD183567B61955494783254 /* YLImageView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		450BBE711426F958B2812359 /* Sources */ = {
+		DF8A8F2A3785FA28F74B8E4A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E4EC1AB87B00699A29B7FBA0 /* MBProgressHUD.m in Sources */,
-				04E1D69E66B2819E9A155A25 /* Pods-Knit-MBProgressHUD-dummy.m in Sources */,
+				ECEA8CA30E999A8D182CBEA3 /* MBProgressHUD.m in Sources */,
+				55CEA62C016AF8E38F8CF3DE /* Pods-Knit-MBProgressHUD-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		9910471D10B5E8625F3997F0 /* Sources */ = {
+		EB50C8DB5BBDF24F01C38374 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				853864C48FF861B45A2283F7 /* Pods-Knit-YLGIFImage-dummy.m in Sources */,
-				D295A482AF399B1C1F11CFBD /* YLGIFImage.m in Sources */,
-				DA2BDAF3EF3D4D1E9A9BB317 /* YLImageView.m in Sources */,
+				56BDDBE55795B3E6F24EA0B4 /* Pods-Knit-PulsingHalo-dummy.m in Sources */,
+				517564E1B50A2318024048E8 /* PulsingHaloLayer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		2B38F6062C188CB996A84FC1 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "Pods-Knit-PulsingHalo";
-			target = AE5949DCC98BC80C9A6DA659 /* Pods-Knit-PulsingHalo */;
-			targetProxy = 5AE9542B72D66ECAAD6913A9 /* PBXContainerItemProxy */;
-		};
-		7DBF94FF7D8E31570A37C4AD /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "Pods-Knit-RKDropdownAlert";
-			target = 2712C5D878004CCBF66CCFF8 /* Pods-Knit-RKDropdownAlert */;
-			targetProxy = 91EB3F14F0EA092386A5BCCC /* PBXContainerItemProxy */;
-		};
-		8395C1C94FF7FB983B0ACC64 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "Pods-Knit-UIFloatLabelTextField";
-			target = 535E96E5EE795551024A517C /* Pods-Knit-UIFloatLabelTextField */;
-			targetProxy = 6FDB3523CB7EE1FD252C1396 /* PBXContainerItemProxy */;
-		};
-		A6292A07DFDE83B6E43275BF /* PBXTargetDependency */ = {
+		2ED51339BE8CC94C0B877154 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = "Pods-Knit-MBProgressHUD";
-			target = 4A1BD5D8DD5FF38BAD7463AE /* Pods-Knit-MBProgressHUD */;
-			targetProxy = E5492950626B585D3BB98E67 /* PBXContainerItemProxy */;
+			target = C4D6A656B96903D74311155C /* Pods-Knit-MBProgressHUD */;
+			targetProxy = D832C74CB1BED465FB4D39EB /* PBXContainerItemProxy */;
 		};
-		F4EF0EB78FCD80A64CC7612E /* PBXTargetDependency */ = {
+		47AAACF8A3EC669F42DD57BD /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = "Pods-Knit-YLGIFImage";
-			target = 7EBB7B7DC8FBE34C29C33042 /* Pods-Knit-YLGIFImage */;
-			targetProxy = CBDCBFEDF4AAFE4AE383BA65 /* PBXContainerItemProxy */;
+			target = 64887E3E1E0BF0C519BB618B /* Pods-Knit-YLGIFImage */;
+			targetProxy = 88884C633960A3AD805F72BB /* PBXContainerItemProxy */;
+		};
+		546AA08FD73334F6F36B1BD2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Pods-Knit-RKDropdownAlert";
+			target = 64E259F93A02EA5F79E56817 /* Pods-Knit-RKDropdownAlert */;
+			targetProxy = 310D32E05B1A0F4ADB748A06 /* PBXContainerItemProxy */;
+		};
+		AFB9F9374BD584D29428B4E2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Pods-Knit-UIFloatLabelTextField";
+			target = 48F5EC0AB98EE3820ACB0EB7 /* Pods-Knit-UIFloatLabelTextField */;
+			targetProxy = 23D519BF82103267F2E6DA65 /* PBXContainerItemProxy */;
+		};
+		C40A9E2425698DF43F55A99A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Pods-Knit-PulsingHalo";
+			target = A3118031136D39BC66DB1EDA /* Pods-Knit-PulsingHalo */;
+			targetProxy = EA39060C45A71FC3FC916509 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		1808CBF0BEBEB064CD8E536C /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0CD0665EBF586029552E7A88 /* Pods-Knit-MBProgressHUD-Private.xcconfig */;
-			buildSettings = {
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/Pods-Knit-MBProgressHUD/Pods-Knit-MBProgressHUD-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				MTL_ENABLE_DEBUG_INFO = YES;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-			};
-			name = Debug;
-		};
-		27B1FF00406E80E37CEA3874 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 10D5B91D6A53773C6C7D3AB2 /* Pods-Knit-YLGIFImage-Private.xcconfig */;
-			buildSettings = {
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/Pods-Knit-YLGIFImage/Pods-Knit-YLGIFImage-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				MTL_ENABLE_DEBUG_INFO = YES;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-			};
-			name = Debug;
-		};
-		2B4B2E9657E53B5AC74CA3E2 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				COPY_PHASE_STRIP = YES;
-				ENABLE_NS_ASSERTIONS = NO;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_PREPROCESSOR_DEFINITIONS = "RELEASE=1";
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				STRIP_INSTALLED_PRODUCT = NO;
-				SYMROOT = "${SRCROOT}/../build";
-				VALIDATE_PRODUCT = YES;
-			};
-			name = Release;
-		};
-		376A22C84F08A1BF056EB054 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 95C4ED60D68DE2DDAA193364 /* Pods-Knit-RKDropdownAlert-Private.xcconfig */;
-			buildSettings = {
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/Pods-Knit-RKDropdownAlert/Pods-Knit-RKDropdownAlert-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				MTL_ENABLE_DEBUG_INFO = YES;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-			};
-			name = Debug;
-		};
-		4EDC135BB06B3BE0C8FBC002 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0CD0665EBF586029552E7A88 /* Pods-Knit-MBProgressHUD-Private.xcconfig */;
-			buildSettings = {
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/Pods-Knit-MBProgressHUD/Pods-Knit-MBProgressHUD-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				MTL_ENABLE_DEBUG_INFO = NO;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-			};
-			name = Release;
-		};
-		5819910C4F6630EB4018EA40 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = E6BD96DEB447CBBDEDF45B92 /* Pods-Knit-UIFloatLabelTextField-Private.xcconfig */;
-			buildSettings = {
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/Pods-Knit-UIFloatLabelTextField/Pods-Knit-UIFloatLabelTextField-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				MTL_ENABLE_DEBUG_INFO = YES;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-			};
-			name = Debug;
-		};
-		609792911B560D0EE8F47061 /* Debug */ = {
+		006AD2F84977E5896F52FDDE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -809,73 +695,9 @@
 			};
 			name = Debug;
 		};
-		6FB870D9C98C72DD1BA7DDC3 /* Release */ = {
+		0DA59BEDD12DB67EDFB587BB /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3C8272F4701953A4B7745F79 /* Pods-Knit-PulsingHalo-Private.xcconfig */;
-			buildSettings = {
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/Pods-Knit-PulsingHalo/Pods-Knit-PulsingHalo-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				MTL_ENABLE_DEBUG_INFO = NO;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-			};
-			name = Release;
-		};
-		77466D9CC539663B80CC12C3 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = E6BD96DEB447CBBDEDF45B92 /* Pods-Knit-UIFloatLabelTextField-Private.xcconfig */;
-			buildSettings = {
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/Pods-Knit-UIFloatLabelTextField/Pods-Knit-UIFloatLabelTextField-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				MTL_ENABLE_DEBUG_INFO = NO;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-			};
-			name = Release;
-		};
-		95D0E0CD74A6D63185315F54 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 10D5B91D6A53773C6C7D3AB2 /* Pods-Knit-YLGIFImage-Private.xcconfig */;
-			buildSettings = {
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/Pods-Knit-YLGIFImage/Pods-Knit-YLGIFImage-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				MTL_ENABLE_DEBUG_INFO = NO;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-			};
-			name = Release;
-		};
-		9C817CC2BE9AF5BFE9C6DC0E /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5E5F154DC65FD049F609B0E1 /* Pods-Knit.release.xcconfig */;
-			buildSettings = {
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				MTL_ENABLE_DEBUG_INFO = NO;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-			};
-			name = Release;
-		};
-		CE9A88E45F663015305AC082 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 95C4ED60D68DE2DDAA193364 /* Pods-Knit-RKDropdownAlert-Private.xcconfig */;
+			baseConfigurationReference = 8252EE9A42ADA5C5BDED4DBF /* Pods-Knit-RKDropdownAlert-Private.xcconfig */;
 			buildSettings = {
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_PREFIX_HEADER = "Target Support Files/Pods-Knit-RKDropdownAlert/Pods-Knit-RKDropdownAlert-prefix.pch";
@@ -889,9 +711,25 @@
 			};
 			name = Release;
 		};
-		EF3448E3EB67D98189A3C4BE /* Debug */ = {
+		39C0EF1EF99FC743DB5B29C2 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3C8272F4701953A4B7745F79 /* Pods-Knit-PulsingHalo-Private.xcconfig */;
+			baseConfigurationReference = 9A753558557B30BE6977324F /* Pods-Knit-UIFloatLabelTextField-Private.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/Pods-Knit-UIFloatLabelTextField/Pods-Knit-UIFloatLabelTextField-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		4161C7A3ED12713EDEF34FCF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = CDD68E88D4836A110D464990 /* Pods-Knit-PulsingHalo-Private.xcconfig */;
 			buildSettings = {
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_PREFIX_HEADER = "Target Support Files/Pods-Knit-PulsingHalo/Pods-Knit-PulsingHalo-prefix.pch";
@@ -905,9 +743,57 @@
 			};
 			name = Debug;
 		};
-		FEEAF2788165767210F210D1 /* Debug */ = {
+		466DDFACF1CEFDFA37CD1EB3 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8C942D12F24118D50EE7E50D /* Pods-Knit.debug.xcconfig */;
+			baseConfigurationReference = CDD68E88D4836A110D464990 /* Pods-Knit-PulsingHalo-Private.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/Pods-Knit-PulsingHalo/Pods-Knit-PulsingHalo-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		5AF719092724C89BBB9EA435 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = FA9D4BE9F1C5FE82038F7B27 /* Pods-Knit-MBProgressHUD-Private.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/Pods-Knit-MBProgressHUD/Pods-Knit-MBProgressHUD-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		63517A60CFA300BB25060BD1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8252EE9A42ADA5C5BDED4DBF /* Pods-Knit-RKDropdownAlert-Private.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/Pods-Knit-RKDropdownAlert/Pods-Knit-RKDropdownAlert-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		8D5990B2BF6BF5B4EDED5722 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 768A8751FDB62CDF607F314B /* Pods-Knit.debug.xcconfig */;
 			buildSettings = {
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
@@ -921,73 +807,187 @@
 			};
 			name = Debug;
 		};
+		A33FE12C74085601F3913E47 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6C55608AB6F2170DD66F76D0 /* Pods-Knit.release.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		D0B578A492DE3A5FEEEC5FC7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9A753558557B30BE6977324F /* Pods-Knit-UIFloatLabelTextField-Private.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/Pods-Knit-UIFloatLabelTextField/Pods-Knit-UIFloatLabelTextField-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		E2C12C10259C61F2CEBE0335 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = FA9D4BE9F1C5FE82038F7B27 /* Pods-Knit-MBProgressHUD-Private.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/Pods-Knit-MBProgressHUD/Pods-Knit-MBProgressHUD-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		E499DAE3E6BEB824B787D2D9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = CE342A3C00830D0141831E77 /* Pods-Knit-YLGIFImage-Private.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/Pods-Knit-YLGIFImage/Pods-Knit-YLGIFImage-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		E81475A4FF47BFDC54BA1160 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PREPROCESSOR_DEFINITIONS = "RELEASE=1";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				STRIP_INSTALLED_PRODUCT = NO;
+				SYMROOT = "${SRCROOT}/../build";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		E93BE6BEC0EEE82BA786F3C8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = CE342A3C00830D0141831E77 /* Pods-Knit-YLGIFImage-Private.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/Pods-Knit-YLGIFImage/Pods-Knit-YLGIFImage-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		108A471E49FC53975A942131 /* Build configuration list for PBXNativeTarget "Pods-Knit-RKDropdownAlert" */ = {
+		1D7478C95B6CA4EF474FD473 /* Build configuration list for PBXNativeTarget "Pods-Knit" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				376A22C84F08A1BF056EB054 /* Debug */,
-				CE9A88E45F663015305AC082 /* Release */,
+				8D5990B2BF6BF5B4EDED5722 /* Debug */,
+				A33FE12C74085601F3913E47 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		184095A02622490E7711CF21 /* Build configuration list for PBXNativeTarget "Pods-Knit-UIFloatLabelTextField" */ = {
+		26BB90917EDAADF6A28A054A /* Build configuration list for PBXNativeTarget "Pods-Knit-UIFloatLabelTextField" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				5819910C4F6630EB4018EA40 /* Debug */,
-				77466D9CC539663B80CC12C3 /* Release */,
+				D0B578A492DE3A5FEEEC5FC7 /* Debug */,
+				39C0EF1EF99FC743DB5B29C2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		3577CFC8E4B8CF1CCDB70F37 /* Build configuration list for PBXNativeTarget "Pods-Knit-PulsingHalo" */ = {
+		4E2A6B9BB610045BCB5B12E4 /* Build configuration list for PBXNativeTarget "Pods-Knit-PulsingHalo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				EF3448E3EB67D98189A3C4BE /* Debug */,
-				6FB870D9C98C72DD1BA7DDC3 /* Release */,
+				4161C7A3ED12713EDEF34FCF /* Debug */,
+				466DDFACF1CEFDFA37CD1EB3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		54D5320705623858FA081022 /* Build configuration list for PBXNativeTarget "Pods-Knit-MBProgressHUD" */ = {
+		924E534C7A62F9393281D338 /* Build configuration list for PBXNativeTarget "Pods-Knit-RKDropdownAlert" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				1808CBF0BEBEB064CD8E536C /* Debug */,
-				4EDC135BB06B3BE0C8FBC002 /* Release */,
+				63517A60CFA300BB25060BD1 /* Debug */,
+				0DA59BEDD12DB67EDFB587BB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C4804F14EF7C9216987F163D /* Build configuration list for PBXProject "Pods" */ = {
+		C2973A38D2CFE06451C39FB5 /* Build configuration list for PBXNativeTarget "Pods-Knit-MBProgressHUD" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				609792911B560D0EE8F47061 /* Debug */,
-				2B4B2E9657E53B5AC74CA3E2 /* Release */,
+				E2C12C10259C61F2CEBE0335 /* Debug */,
+				5AF719092724C89BBB9EA435 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D43434046862076A773A2D5E /* Build configuration list for PBXNativeTarget "Pods-Knit-YLGIFImage" */ = {
+		E098E08BFBCBEEF06B9759F7 /* Build configuration list for PBXNativeTarget "Pods-Knit-YLGIFImage" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				27B1FF00406E80E37CEA3874 /* Debug */,
-				95D0E0CD74A6D63185315F54 /* Release */,
+				E93BE6BEC0EEE82BA786F3C8 /* Debug */,
+				E499DAE3E6BEB824B787D2D9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		DDC80BE5B0865D8C0C1284A5 /* Build configuration list for PBXNativeTarget "Pods-Knit" */ = {
+		FAC2E03E3492C83752CC0E76 /* Build configuration list for PBXProject "Pods" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				FEEAF2788165767210F210D1 /* Debug */,
-				9C817CC2BE9AF5BFE9C6DC0E /* Release */,
+				006AD2F84977E5896F52FDDE /* Debug */,
+				E81475A4FF47BFDC54BA1160 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = CB27A65ABEBA0D6469667BC1 /* Project object */;
+	rootObject = 8FD21C101B333D1CDE64A2EC /* Project object */;
 }
