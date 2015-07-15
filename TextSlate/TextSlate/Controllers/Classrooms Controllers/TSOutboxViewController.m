@@ -95,7 +95,6 @@
     [super viewWillAppear:animated];
     UIBarButtonItem *composeBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose  target:self action:@selector(composeMessage)];
     self.tabBarController.navigationItem.rightBarButtonItem = composeBarButtonItem;
-    //NSLog(@"vwa ended : %@", self.tabBarController.navigationItem.rightBarButtonItem);
     [_messagesTable reloadData];
 }
 
