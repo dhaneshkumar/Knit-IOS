@@ -97,7 +97,6 @@
 }
 
 - (IBAction)doneClicked:(id)sender {
-    [_mobilTextField resignFirstResponder];
     [self newSignIn];
 }
 
@@ -255,7 +254,7 @@
         [RKDropdownAlert title:@"Knit" message:@"Please make sure that the phone number entered is 10 digits."  time:2];
         return;
     }
-    
+    [_mobilTextField resignFirstResponder];
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[[UIApplication sharedApplication] keyWindow] animated:YES];
     hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
     hud.labelText = @"Loading";
@@ -289,6 +288,8 @@
         [RKDropdownAlert title:@"Knit" message:@"Password field cannot be left blank."  time:2];
         return;
     }
+    [_emailTextField resignFirstResponder];
+    [_passwordTextField resignFirstResponder];
     
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[[UIApplication sharedApplication] keyWindow] animated:YES];
     hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];

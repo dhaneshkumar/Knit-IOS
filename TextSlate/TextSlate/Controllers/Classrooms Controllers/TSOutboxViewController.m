@@ -18,6 +18,7 @@
 #import "ClassesParentViewController.h"
 #import "TSSendClassMessageViewController.h"
 #import "TSTabBarViewController.h"
+#import "MessageComposerViewController.h"
 
 @interface TSOutboxViewController ()
 
@@ -219,7 +220,7 @@
 
 
 -(void)displayMessages {
-    if([self noCreatedClasses])
+    if([self createdClassesCount] == 0)
         return;
     if(_messagesArray.count==0) {
         PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
@@ -278,12 +279,21 @@
 
 
 -(void)composeMessage {
-    if([self noCreatedClasses]) {
+    if([self createdClassesCount] == 0) {
         [RKDropdownAlert title:@"Knit" message:@"You cannot send message as you have not created any class."  time:2];
     }
+    else if([self createdClassesCount] == 1) {
+        UINavigationController *messageComposerNavVC = [self.storyboard instantiateViewControllerWithIdentifier:@"messageComposer"];
+        MessageComposerViewController *messageComposerVC = (MessageComposerViewController *)messageComposerNavVC.topViewController;
+        messageComposerVC.isClass=true;
+        NSArray *createdClasses = [[PFUser currentUser] objectForKey:@"Created_groups"];
+        messageComposerVC.classcode = createdClasses[0][0];
+        messageComposerVC.classname = createdClasses[0][1];
+        [self presentViewController:messageComposerNavVC animated:YES completion:nil];
+    }
     else {
-        UINavigationController *joinNewClassNavigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"messageComposer"];
-        [self presentViewController:joinNewClassNavigationController animated:YES completion:nil];
+        UINavigationController *messageComposerVC = [self.storyboard instantiateViewControllerWithIdentifier:@"messageComposer"];
+        [self presentViewController:messageComposerVC animated:YES completion:nil];
     }
 }
 /*
@@ -297,11 +307,9 @@
 */
 
 
--(BOOL)noCreatedClasses {
+-(int)createdClassesCount {
     NSArray *createdClasses = [[PFUser currentUser] objectForKey:@"Created_groups"];
-    if(createdClasses.count == 0)
-        return true;
-    return false;
+    return createdClasses.count;
 }
 
 /*

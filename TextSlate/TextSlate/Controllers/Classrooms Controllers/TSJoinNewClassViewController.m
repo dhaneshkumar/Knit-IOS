@@ -124,6 +124,9 @@
         [hud hide:YES];
          return;
     }
+    [_classCodeTextField resignFirstResponder];
+    [_associatedPersonTextField resignFirstResponder];
+    
     NSString *installationObjectId = [[PFUser currentUser] objectForKey:@"installationObjectId"];
     
     [Data joinNewClass:classCodeTyped childName:assocNameTyped installationId:installationObjectId successBlock:^(id object) {

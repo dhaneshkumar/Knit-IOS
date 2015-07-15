@@ -77,7 +77,7 @@
         [RKDropdownAlert title:@"Knit" message:@"You have already created a class with the same name."  time:2];
         return;
     }
-    
+    [_classNameTextField resignFirstResponder];
     [Data createNewClassWithClassName:classNameTyped successBlock:^(id object) {
         NSDictionary *objDict=(NSDictionary *)object;
         PFObject *codeGroupForClass = [objDict objectForKey:@"codegroup"];

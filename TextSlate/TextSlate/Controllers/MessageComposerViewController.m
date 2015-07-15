@@ -274,7 +274,7 @@
 }
 
 -(void)liftMainViewWhenKeybordHide:(NSNotification *)aNotification {
-    [_textMessage becomeFirstResponder];
+    [_textMessage resignFirstResponder];
 }
 
 
@@ -315,7 +315,6 @@
 
 
 -(IBAction)sendMessage:(id)sender  {
-    [_textMessage resignFirstResponder];
     if([_recipientClassLabel.text isEqualToString:@"Tap to select Class"]) {
           [RKDropdownAlert title:@"Knit" message:@"Select a recipient class." time:2];
         return;
@@ -327,6 +326,7 @@
             return;
         }
     }
+    [_textMessage resignFirstResponder];
     AppDelegate *apd = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     NSArray *vcs = (NSArray *)((UINavigationController *)apd.startNav).viewControllers;
     TSTabBarViewController *rootTab = (TSTabBarViewController *)((UINavigationController *)apd.startNav).topViewController;

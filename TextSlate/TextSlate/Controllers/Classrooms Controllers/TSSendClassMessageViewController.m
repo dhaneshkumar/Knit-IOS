@@ -290,12 +290,12 @@
 
 
 -(void) composeMessage{
-    UINavigationController *joinNewClassNavigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"messageComposer"];
-    MessageComposerViewController *messageComposer=(MessageComposerViewController *)joinNewClassNavigationController.topViewController;
-    messageComposer.isClass=true;
-    messageComposer.classcode=_classCode;
-    messageComposer.classname=_className;
-    [self presentViewController:joinNewClassNavigationController animated:YES completion:nil];
+    UINavigationController *messageComposerNavVC = [self.storyboard instantiateViewControllerWithIdentifier:@"messageComposer"];
+    MessageComposerViewController *messageComposerVC = (MessageComposerViewController *)messageComposerNavVC.topViewController;
+    messageComposerVC.isClass=true;
+    messageComposerVC.classcode=_classCode;
+    messageComposerVC.classname=_className;
+    [self presentViewController:messageComposerNavVC animated:YES completion:nil];
 }
 /*
  #pragma mark - Navigation
