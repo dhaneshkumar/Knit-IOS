@@ -406,4 +406,27 @@
     }];
 }
 
+
++(void)updateProfileName:(NSString *)newName successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
+    [PFCloud callFunctionInBackground:@"updateProfileName" withParameters:@{@"name":newName} block:^(id object, NSError *error) {
+        if(error) {
+            errorBlock(error);
+        }
+        else {
+            successBlock(object);
+        }
+    }];
+}
+
++(void)updateProfilePic:(PFFile *)newPic successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
+    [PFCloud callFunctionInBackground:@"updateProfilePic" withParameters:@{@"pid":newPic} block:^(id object, NSError *error) {
+        if(error) {
+            errorBlock(error);
+        }
+        else {
+            successBlock(object);
+        }
+    }];
+}
+
 @end

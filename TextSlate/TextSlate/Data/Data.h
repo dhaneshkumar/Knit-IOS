@@ -96,4 +96,8 @@ typedef void (^errorBlock)(NSError *error);
 +(void)findClassDetail:(NSString *)classCode successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock;
 +(void)feedback:(NSString *)userInput successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock;
 
++(void)updateProfileName:(NSString *)newName successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock;
+
++(void)updateProfilePic:(PFFile *)newPic successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock;
+
 @end

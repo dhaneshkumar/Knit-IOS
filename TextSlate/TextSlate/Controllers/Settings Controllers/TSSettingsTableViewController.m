@@ -18,24 +18,41 @@
 #import "MBProgressHUD.h"
 #import "RKDropdownAlert.h"
 #import "FeedbackViewController.h"
+#import "settingsTableViewCell.h"
+#import "EditProfileNameViewController.h"
 
 @interface TSSettingsTableViewController ()
 
 @property (weak, nonatomic) IBOutlet UITableView *settingsTableView;
-@property (strong, nonatomic) NSMutableArray *section2Content;
-@property (strong, nonatomic) NSMutableArray *section3Content;
 @property (strong,nonatomic) UIImage *resized;
-@property (assign) bool isOld;
-
+@property (nonatomic) BOOL isOldUser;
 
 @end
 
 @implementation TSSettingsTableViewController
 
+
+-(void)initialization {
+    _isOldUser = true;
+    PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
+    [lq fromLocalDatastore];
+    NSArray *localOs = [lq findObjects];
+    
+    if(localOs.count > 0) {
+        NSString *checkBool = [localOs[0] objectForKey:@"isOldUser"];
+        if([checkBool isEqualToString:@"NO"]) {
+            _isOldUser = false;
+        }
+        else {
+            _isOldUser = true;
+        }
+    }
+    self.navigationController.title = @"Profile/Settings";
+}
+
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    //NSLog(@"settings vdl");
-    [_settingsTableView reloadData]; 
 }
 
 - (void)didReceiveMemoryWarning {
@@ -44,35 +61,6 @@
 }
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
-    [lq fromLocalDatastore];
-    NSArray *localOs = [lq findObjects];
-    NSString *checkBool=@"";
-    
-    for(PFObject *a in localOs) {
-        checkBool=[a objectForKey:@"isOldUser"];
-        //NSLog(@"%@ check",checkBool);
-    }
-    if([checkBool isEqualToString:@"YES"]) {
-        //NSLog(@"is true");
-        _isOld=true;
-    }
-    else {
-        _isOld=false;
-    }
-    
-    _section2Content=[[NSMutableArray alloc]init];
-    if(_isOld==true){
-        [_section2Content addObject:@"Reset Password"];
-    }
-    [_section2Content addObject:@"Logout"];
-    
-    _section3Content=[[NSMutableArray alloc]init];
-    [_section3Content addObject:@"FAQ"];
-    [_section3Content addObject:@"Feedback"];
-    [_section3Content addObject:@"Rate Our App"];
-    self.navigationController.title=@"Settings";
-    //self.navigationController.navigationBarHidden=NO;
     [_settingsTableView reloadData];
 }
 
@@ -85,119 +73,92 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
-if(section==0)
-{
-    return 1;
-}
-    else if(section==1)
-    {
-        return _section2Content.count;
-    }
-
-    else {
-        return _section3Content.count;
-    }
+    return section+1;
 }
 
 
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"settingsCellIdentifier" forIndexPath:indexPath];
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if(indexPath.section==0) {
+        settingsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"settingsFirstCellIdentifier" forIndexPath:indexPath];
+        /*
         CALayer * l = [cell.imageView layer];
         [l setMasksToBounds:YES];
         [l setCornerRadius:20.0];
-        PFFile *imageUrl = [[PFUser currentUser] objectForKey:@"pid"];
+        */
         
+        PFFile *imageUrl = [[PFUser currentUser] objectForKey:@"pid"];
         NSString *url1=imageUrl.url;
-        //NSLog(@"%@ is url to the image",url1);
         UIImage *image = [[sharedCache sharedInstance] getCachedImageForKey:url1];
         if(image) {
-            //NSLog(@"settings cached");
-            cell.imageView.image=image;
+            cell.profilePic.image = image;
         }
         else{
-            cell.imageView.image=[UIImage imageNamed:@"defaultTeacher.png"];
+            cell.profilePic.image = [UIImage imageNamed:@"defaultTeacher.png"];
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
                 NSURL *imageURL = [NSURL URLWithString:url1];
                 UIImage *image = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:imageURL]];
                 
                 if(image) {
-                    //NSLog(@"Caching ....");
                     [[sharedCache sharedInstance] cacheImage:image forKey:url1];
                     cell.imageView.image=image;
                     dispatch_sync(dispatch_get_main_queue(), ^{
                         [_settingsTableView reloadData];
                     });
                 }
-                
             });
         }
-        cell.textLabel.textColor=[UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
-        cell.textLabel.text=@"Edit Picture";
+        cell.profileName = [[PFUser currentUser] objectForKey:@"name"];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        return cell;
     }
     
-    else if(indexPath.section==1) {
-        cell.textLabel.text=_section2Content[indexPath.row];
+    else if(indexPath.section == 1) {
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"settingsRestCellsIdentifier" forIndexPath:indexPath];
+        if(indexPath.row == 0) {
+            cell.textLabel.text = [[PFUser currentUser] objectForKey:@"username"];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        }
+        else {
+            cell.textLabel.text = @"Log Out";
+        }
+        return cell;
     }
-    else if(indexPath.section==2) {
-        cell.textLabel.text=_section3Content[indexPath.row];
-        //NSLog(@"section 2");
+    else {
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"settingsRestCellsIdentifier" forIndexPath:indexPath];
+        if(indexPath.row == 0) {
+            cell.textLabel.text = @"FAQ";
+        }
+        else if(indexPath.row == 1) {
+            cell.textLabel.text = @"Feedback";
+        }
+        else {
+            cell.textLabel.text = @"Rate our app";
+        }
+        return cell;
     }
-    return cell;
 }
 
--(UIImage *)makeRoundedImage:(UIImage *) image
-                      radius: (float) radius;
-{
-    CALayer *imageLayer = [CALayer layer];
-    imageLayer.frame = CGRectMake(0, 0, image.size.width, image.size.height);
-    imageLayer.contents = (id) image.CGImage;
-    
-    imageLayer.masksToBounds = YES;
-    imageLayer.cornerRadius = radius;
-    
-    UIGraphicsBeginImageContext(image.size);
-    [imageLayer renderInContext:UIGraphicsGetCurrentContext()];
-    UIImage *roundedImage = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    
-    return roundedImage;
-}
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    if(section == 0)
+    if(section == 0) {
         return @"PROFILE";
-    if(section == 1)
+    }
+    else if(section == 1) {
         return @"ACCOUNT";
+    }
     else {
-        
-    return @"ABOUT THE APP";
+        return @"ABOUT THE APP";
     }
 }
 
-- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
-{
-    textField.text=@"";
-    return YES;
-}
-
-// It is important for you to hide kwyboard
-
-- (BOOL)textFieldShouldReturn:(UITextField *)textField {
-    NSString *phoneNum=textField.text;
-    PFObject *current=[PFUser currentUser];
-    [current setObject:phoneNum forKey:@"phone"];
-    [current saveInBackground];
-    [textField resignFirstResponder];
-    return YES;
-}
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if ([indexPath row] ==0 && [indexPath section]==0)
-        return  100;
-    else
+    if ([indexPath row] ==0 && [indexPath section]==0) {
+        return  80;
+    }
+    else {
      return 50;
+    }
 }
 /*
 // Override to support conditional editing of the table view.
@@ -239,70 +200,21 @@ if(section==0)
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if(_isOld==true){
-        if (indexPath.row == 1 && indexPath.section==1) {
-            // Log out.
-            PFInstallation *currentInstallation=[PFInstallation currentInstallation];
-            NSString *objectID=currentInstallation.objectId;
-            //NSLog(@"Object ID is %@",objectID);
-            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[[UIApplication sharedApplication] keyWindow]  animated:YES];
-            hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
-            hud.labelText = @"Loading";
-            [Data appLogout:objectID successBlock:^(id object) {
-                //NSLog(@"Logging out...");
-                [[UIApplication sharedApplication] cancelAllLocalNotifications];
-                [hud hide:YES];
-                [(TSTabBarViewController*)self.tabBarController logout];
-            } errorBlock:^(NSError *error) {
-                [hud hide:YES];
-                [RKDropdownAlert title:@"Knit" message:@"Error occured on logging out. Try again later."  time:2];
-            }];
-        }
-        if(indexPath.row==0 && indexPath.section==1) {
-            NSString *email=[[PFUser currentUser] objectForKey:@"email"];
-            [PFUser requestPasswordResetForEmail:email];
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Knit"
-                                                            message:@"A reset link has been sent to your email."
-                                                           delegate:self
-                                                  cancelButtonTitle:@"OK"
-                                                  otherButtonTitles:nil];
-            [alert show];
-        }
-        if(indexPath.row==1 && indexPath.section==2) {
-            FeedbackViewController *feedbackVC= [self.storyboard instantiateViewControllerWithIdentifier:@"feedbackVC"];
-            feedbackVC.isSeparateWindow = false;
-            [self.navigationController pushViewController:feedbackVC animated:YES];
-            
-        }
-        if(indexPath.row==0 && indexPath.section==0) {
-            UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Choose Option"
-                                                                     delegate:self
-                                                            cancelButtonTitle:@"Cancel"
-                                                       destructiveButtonTitle:nil
-                                                            otherButtonTitles:@"Take a photo",@"Choose from photos",nil];
-            [actionSheet showInView:self.view];
-        }
-        if(indexPath.row==0 && indexPath.section==2) {
-            UINavigationController *faqNavigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"faqNavigation"];
-            [self presentViewController:faqNavigationController animated:YES completion:nil];
-
-            
-        }
-        
-        if(indexPath.row==2 && indexPath.section==2) {
-            NSString *iTunesLink = @"itms://itunes.apple.com/in/app/knit-messaging/id962112913?mt=8";
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:iTunesLink]];
-            
-        }
+    if(indexPath.section == 0) {
+        NSLog(@"first row tapped");
+        UINavigationController *editProfileNameNavigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"editProfileNameNav"];
+        EditProfileNameViewController *editProfileNameVC = (EditProfileNameViewController *)editProfileNameNavigationController.topViewController;
+        editProfileNameVC.profileName = [[PFUser currentUser] objectForKey:@"name"];
+        [self presentViewController:editProfileNameNavigationController animated:YES completion:nil];
     }
-    else{
-        if (indexPath.row == 0 && indexPath.section==1) {
+    else if(indexPath.section == 1) {
+        if(indexPath.row == 1) {
             PFInstallation *currentInstallation=[PFInstallation currentInstallation];
             NSString *installationId = currentInstallation.installationId;
             MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[[UIApplication sharedApplication] keyWindow]  animated:YES];
             hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
             hud.labelText = @"Loading";
-
+            
             [Data appExit:installationId successBlock:^(id object) {
                 [[UIApplication sharedApplication] cancelAllLocalNotifications];
                 [hud hide:YES];
@@ -311,39 +223,52 @@ if(section==0)
                 [hud hide:YES];
                 [RKDropdownAlert title:@"Knit" message:@"Error occured on logging out. Try again later."  time:2];
             }];
-        }
-        
-        if(indexPath.row==1 && indexPath.section==2) {
-            FeedbackViewController *feedbackVC = [self.storyboard instantiateViewControllerWithIdentifier:@"feedbackVC"];
-            feedbackVC.isSeparateWindow = false;
-            [self.navigationController pushViewController:feedbackVC animated:YES];
 
         }
-        
+    }
+    else {
+        if(indexPath.row == 0) {
+            UINavigationController *faqNavigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"faqNavigation"];
+            [self presentViewController:faqNavigationController animated:YES completion:nil];
+        }
+        else if(indexPath.row == 1) {
+            FeedbackViewController *feedbackVC= [self.storyboard instantiateViewControllerWithIdentifier:@"feedbackVC"];
+            feedbackVC.isSeparateWindow = false;
+            [self.navigationController pushViewController:feedbackVC animated:YES];
+        }
+        else {
+            NSString *iTunesLink = @"itms://itunes.apple.com/in/app/knit-messaging/id962112913?mt=8";
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:iTunesLink]];
+        }
+    }
+    
+    
+    /*
+    if(_isOld==true){
         if(indexPath.row==0 && indexPath.section==0) {
             UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Choose Option"
                                                                      delegate:self
                                                             cancelButtonTitle:@"Cancel"
                                                        destructiveButtonTitle:nil
-                                                            otherButtonTitles:@"Take a photo",@"Choose from photos",nil];
+                                                            otherButtonTitles:@"Take a photo", @"Choose from photos", nil];
             [actionSheet showInView:self.view];
         }
-        
-        if(indexPath.row==0 && indexPath.section==2) {
-            UINavigationController *faqNavigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"faqNavigation"];
-            [self presentViewController:faqNavigationController animated:YES completion:nil];
-        }
-        
-        if(indexPath.row==2 && indexPath.section==2) {
-            NSString *iTunesLink = @"itms://itunes.apple.com/in/app/knit-messaging/id962112913?mt=8";
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:iTunesLink]];
-        }
     }
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    else {
+        if(indexPath.row==0 && indexPath.section==0) {
+            UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Choose Option"
+                                                                     delegate:self
+                                                            cancelButtonTitle:@"Cancel"
+                                                       destructiveButtonTitle:nil
+                                                            otherButtonTitles:@"Take a photo", @"Choose from photos", nil];
+            [actionSheet showInView:self.view];
+        }
+    }*/
+    //[tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
+
 -(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
-    //NSLog(@"%@   %i",[actionSheet buttonTitleAtIndex:buttonIndex],buttonIndex);
     if(buttonIndex==0) {
         AVAuthorizationStatus status = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
         if(status == AVAuthorizationStatusAuthorized) { // authorized
@@ -428,27 +353,11 @@ if(section==0)
     UIGraphicsBeginImageContextWithOptions(size,NO,0.0);
     
     return newImage;
-    
 }
 
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
-    
     [picker dismissViewControllerAnimated:YES completion:NULL];
-    
-}
-
-
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue  {
-    if ([segue.identifier isEqualToString:@"showFAQ"]) {
-        FAQTableViewController *dvc = [segue destinationViewController];
-        [self.navigationController pushViewController:dvc animated:YES];
-         }
-    if ([segue.identifier isEqualToString:@"profilePic"]) {
-        ProfilePictureViewController *dvc = [segue destinationViewController];
-        [self.navigationController pushViewController:dvc animated:YES];
-    }
 }
 
 @end

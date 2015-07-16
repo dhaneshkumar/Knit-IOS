@@ -39,6 +39,8 @@
 		40EBADAC1A7E611F003FB0B1 /* 05-xxhdpi.png in Resources */ = {isa = PBXBuildFile; fileRef = 40EBADAB1A7E611F003FB0B1 /* 05-xxhdpi.png */; };
 		40EBADB01A7E6142003FB0B1 /* 640 x 1136.png in Resources */ = {isa = PBXBuildFile; fileRef = 40EBADAF1A7E6142003FB0B1 /* 640 x 1136.png */; };
 		40EBADB41A7E6150003FB0B1 /* classroom.png in Resources */ = {isa = PBXBuildFile; fileRef = 40EBADB11A7E6150003FB0B1 /* classroom.png */; };
+		5F56DFA91B57E05800151889 /* settingsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F56DFA81B57E05800151889 /* settingsTableViewCell.m */; };
+		5F56DFAC1B582E5200151889 /* EditProfileNameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F56DFAB1B582E5200151889 /* EditProfileNameViewController.m */; };
 		5F7F8D361B53E1350054E91E /* 750x1334.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F7F8D341B53E1350054E91E /* 750x1334.png */; };
 		5F7F8D371B53E1350054E91E /* 1242 x 2208 .png in Resources */ = {isa = PBXBuildFile; fileRef = 5F7F8D351B53E1350054E91E /* 1242 x 2208 .png */; };
 		971687E01A1F1C2B00FE98FC /* TSTeacher.m in Sources */ = {isa = PBXBuildFile; fileRef = 971687DF1A1F1C2B00FE98FC /* TSTeacher.m */; };
@@ -222,6 +224,10 @@
 		40EBADAD1A7E6135003FB0B1 /* 640 x 960.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "640 x 960.png"; sourceTree = "<group>"; };
 		40EBADAF1A7E6142003FB0B1 /* 640 x 1136.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "640 x 1136.png"; sourceTree = "<group>"; };
 		40EBADB11A7E6150003FB0B1 /* classroom.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = classroom.png; sourceTree = "<group>"; };
+		5F56DFA71B57E05800151889 /* settingsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = settingsTableViewCell.h; sourceTree = "<group>"; };
+		5F56DFA81B57E05800151889 /* settingsTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = settingsTableViewCell.m; sourceTree = "<group>"; };
+		5F56DFAA1B582E5200151889 /* EditProfileNameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditProfileNameViewController.h; sourceTree = "<group>"; };
+		5F56DFAB1B582E5200151889 /* EditProfileNameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditProfileNameViewController.m; sourceTree = "<group>"; };
 		5F7F8D341B53E1350054E91E /* 750x1334.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 750x1334.png; sourceTree = "<group>"; };
 		5F7F8D351B53E1350054E91E /* 1242 x 2208 .png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "1242 x 2208 .png"; sourceTree = "<group>"; };
 		92F296F2593AFC26685698B2 /* libPods-Knit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Knit.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -528,7 +534,7 @@
 				FBA2368D1B0A472D0001D8E3 /* Start Page */,
 				FB9350071AEA105C001BE394 /* Reachability */,
 				40BB899D1AC49909002CFDFE /* Invite Teacher */,
-				FB6A04A91AC2CE1C009E9D9D /* Edit Student Name */,
+				FB6A04A91AC2CE1C009E9D9D /* Edit Name */,
 				403FFF0F1ABB5BD3008FB159 /* Invite Parent */,
 				403FFF0B1ABB0044008FB159 /* Message Composer */,
 				40D986181A9B91F500D8BB0C /* Phone Verification Controller */,
@@ -790,6 +796,8 @@
 				FBC1BD0E1AB7004F004921CD /* studentNameTableViewCell.m */,
 				FB777C0C1B16D6B800754546 /* addressBookTableViewCell.h */,
 				FB777C0D1B16D6B800754546 /* addressBookTableViewCell.m */,
+				5F56DFA71B57E05800151889 /* settingsTableViewCell.h */,
+				5F56DFA81B57E05800151889 /* settingsTableViewCell.m */,
 			);
 			path = "Classes Table View Cells";
 			sourceTree = "<group>";
@@ -895,13 +903,15 @@
 			name = "Gif Viewer";
 			sourceTree = "<group>";
 		};
-		FB6A04A91AC2CE1C009E9D9D /* Edit Student Name */ = {
+		FB6A04A91AC2CE1C009E9D9D /* Edit Name */ = {
 			isa = PBXGroup;
 			children = (
 				FB6A04AD1AC2DE7B009E9D9D /* EditStudentNameViewController.h */,
 				FB6A04AE1AC2DE7B009E9D9D /* EditStudentNameViewController.m */,
+				5F56DFAA1B582E5200151889 /* EditProfileNameViewController.h */,
+				5F56DFAB1B582E5200151889 /* EditProfileNameViewController.m */,
 			);
-			name = "Edit Student Name";
+			name = "Edit Name";
 			sourceTree = "<group>";
 		};
 		FB6F09891B2C426E00EA9AEB /* CustomAlertSheet */ = {
@@ -1242,6 +1252,7 @@
 				975B1E7F1A2070070028BE25 /* TSSignUpViewController.m in Sources */,
 				FBAD1FA01B43BAD900F8999A /* TSWebViewController.m in Sources */,
 				FBBA45CF1A9673AC0088CCBC /* TSCreatedClassMessageTableViewCell.m in Sources */,
+				5F56DFAC1B582E5200151889 /* EditProfileNameViewController.m in Sources */,
 				FB65C96A1B1D80CA00EAE58E /* TSGifViewerViewController.m in Sources */,
 				971687E01A1F1C2B00FE98FC /* TSTeacher.m in Sources */,
 				40D9861B1A9B921100D8BB0C /* PhoneVerificationViewController.m in Sources */,
@@ -1258,6 +1269,7 @@
 				976F04451A4B6EA0003E9604 /* TSSendClassMessageViewController.m in Sources */,
 				FBBA45C91A94D2330088CCBC /* TSNewInboxViewController.m in Sources */,
 				976732631A647C8D001CEC97 /* TSMemberslistTableViewController.m in Sources */,
+				5F56DFA91B57E05800151889 /* settingsTableViewCell.m in Sources */,
 				975B1E901A211A380028BE25 /* TSClass.m in Sources */,
 				971687E71A1F823900FE98FC /* TSUtils.m in Sources */,
 				975B1E941A2133030028BE25 /* TSTabBarViewController.m in Sources */,

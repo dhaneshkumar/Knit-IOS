@@ -109,6 +109,7 @@
     TSSettingsTableViewController *settingVC = [self.storyboard instantiateViewControllerWithIdentifier:@"settingTab"];
     [classesVC initialization];
     [inboxVC initialization];
+    [settingVC initialization];
     classesVC.tabBarItem.title = @"Classrooms";
     classesVC.tabBarItem.image = [UIImage imageNamed:@"classroomsIcon"];
     inboxVC.tabBarItem.title = @"Inbox";
@@ -129,6 +130,8 @@
     [classesVC initialization];
     [inboxVC initialization];
     [outboxVC initialization];
+    [settingVC initialization];
+    
     [self messagesInitialization:classesVC.createdClassesVCs outbox:outboxVC];
     NSDate *latestDate = [self membersInitialization:classesVC.createdClassesVCs];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{

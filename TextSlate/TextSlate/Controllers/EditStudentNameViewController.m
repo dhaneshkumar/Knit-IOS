@@ -22,7 +22,6 @@
     [super viewDidLoad];
     self.navigationItem.title = @"Knit";
     self.navigationController.navigationBar.translucent = false;
-    
 }
 
 -(void)viewWillAppear:(BOOL)animated {

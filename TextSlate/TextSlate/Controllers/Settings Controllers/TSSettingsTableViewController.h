@@ -10,4 +10,6 @@
 
 @interface TSSettingsTableViewController : UIViewController<UIActionSheetDelegate,UIImagePickerControllerDelegate>
 
+-(void)initialization;
+
 @end
