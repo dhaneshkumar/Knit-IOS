@@ -59,8 +59,12 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+    PFUser *currentUser = [PFUser currentUser];
+    _profileName = currentUser[@"name"];
     [_settingsTableView reloadData];
 }
 
@@ -107,7 +111,7 @@
                 }
             });
         }
-        cell.profileName = [[PFUser currentUser] objectForKey:@"name"];
+        cell.profileName.text = _profileName;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
     }
@@ -204,7 +208,7 @@
         NSLog(@"first row tapped");
         UINavigationController *editProfileNameNavigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"editProfileNameNav"];
         EditProfileNameViewController *editProfileNameVC = (EditProfileNameViewController *)editProfileNameNavigationController.topViewController;
-        editProfileNameVC.profileName = [[PFUser currentUser] objectForKey:@"name"];
+        editProfileNameVC.profileName = _profileName;
         [self presentViewController:editProfileNameNavigationController animated:YES completion:nil];
     }
     else if(indexPath.section == 1) {

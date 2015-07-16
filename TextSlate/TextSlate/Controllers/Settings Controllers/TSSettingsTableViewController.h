@@ -10,6 +10,8 @@
 
 @interface TSSettingsTableViewController : UIViewController<UIActionSheetDelegate,UIImagePickerControllerDelegate>
 
+@property (nonatomic, strong) NSString *profileName;
+
 -(void)initialization;
 
 @end
