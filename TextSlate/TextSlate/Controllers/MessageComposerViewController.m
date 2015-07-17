@@ -24,6 +24,8 @@
 #import "ClassesViewController.h"
 #import "MessageComposerRecipientsViewController.h"
 #import "TSUtils.h"
+#import <AVFoundation/AVFoundation.h>
+#import <AssetsLibrary/AssetsLibrary.h>
 
 @interface MessageComposerViewController ()
 
@@ -393,61 +395,67 @@
         hud.labelText = @"Sending";
 
         [_finalAttachment saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-            if (succeeded) {
-                [Data sendTextMessagewithAttachment:_classCode classname:_className message:messageText attachment:(PFFile*) _finalAttachment filename:_finalAttachment.name successBlock:^(id object) {
-                    NSMutableDictionary *dict = (NSMutableDictionary *) object;
-                    NSString *messageObjectId = (NSString *)[dict objectForKey:@"messageId"];
-                    NSString *messageCreatedAt = (NSString *)[dict objectForKey:@"createdAt"];
-                    PFObject *messageObject = [PFObject objectWithClassName:@"GroupDetails"];
-                    messageObject[@"Creator"] = [[PFUser currentUser] objectForKey:@"name"];
-                    messageObject[@"code"] = _classCode;
-                    messageObject[@"name"] = _className;
-                    messageObject[@"attachment"] = (PFFile *)_finalAttachment;
-                    messageObject[@"title"] = messageText;
-                    messageObject[@"createdTime"] = messageCreatedAt;
-                    messageObject[@"messageId"] = messageObjectId;
-                    messageObject[@"like_count"] = [NSNumber numberWithInt:0];
-                    messageObject[@"confused_count"] = [NSNumber numberWithInt:0];
-                    messageObject[@"seen_count"] = [NSNumber numberWithInt:0];
-                    [messageObject pinInBackground];
-                    
-                    TSMessage *newMessage=[[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:[messageObject[@"title"] stringByTrimmingCharactersInSet:characterset] sender:messageObject[@"Creator"] sentTime:messageObject[@"createdTime"] senderPic:nil likeCount:[messageObject[@"like_count"] intValue] confuseCount:[messageObject[@"confused_count"] intValue] seenCount:[messageObject[@"seen_count"] intValue]];
-                    TSMessage *newMessageForClassPage =[[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:[messageObject[@"title"] stringByTrimmingCharactersInSet:characterset] sender:messageObject[@"Creator"] sentTime:messageObject[@"createdTime"] senderPic:nil likeCount:[messageObject[@"like_count"] intValue] confuseCount:[messageObject[@"confused_count"] intValue] seenCount:[messageObject[@"seen_count"] intValue]];
-                    
-                    newMessage.messageId = messageObject[@"messageId"];
-                    newMessageForClassPage.messageId = messageObject[@"messageId"];
-                    
-                    NSString *url = _finalAttachment.url;
-                    newMessage.attachmentURL = _finalAttachment;
-                    newMessageForClassPage.attachmentURL = _finalAttachment;
-                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
-                        UIImage *image = [[sharedCache sharedInstance] getCachedImageForKey:url];
-                        if(image) {
-                            newMessage.attachment = image;
-                            newMessageForClassPage.attachment = image;
-                        }
-                    });
-                    
-                    outbox.mapCodeToObjects[newMessage.messageId] = newMessage;
-                    [outbox.messagesArray insertObject:newMessage atIndex:0];
-                    [outbox.messageIds insertObject:newMessage.messageId atIndex:0];
-                    outbox.shouldScrollUp = true;
-                    
-                    TSSendClassMessageViewController *classPage = mutableDict[_classCode];
-                    classPage.mapCodeToObjects[newMessageForClassPage.messageId] = newMessageForClassPage;
-                    [classPage.messagesArray insertObject:newMessageForClassPage atIndex:0];
-                    classPage.shouldScrollUp = true;
-                    
-                    //Cancel all local notifications
-                    [[UIApplication sharedApplication] cancelAllLocalNotifications];
-                    [hud hide:YES];
-                    [self dismissViewControllerAnimated:YES completion:nil];
-                    [RKDropdownAlert title:@"Knit" message:@"Your message has been sent!"  time:2];
+            if(!error) {
+                if (succeeded) {
+                    [Data sendTextMessagewithAttachment:_classCode classname:_className message:messageText attachment:(PFFile*) _finalAttachment filename:_finalAttachment.name successBlock:^(id object) {
+                        NSMutableDictionary *dict = (NSMutableDictionary *) object;
+                        NSString *messageObjectId = (NSString *)[dict objectForKey:@"messageId"];
+                        NSString *messageCreatedAt = (NSString *)[dict objectForKey:@"createdAt"];
+                        PFObject *messageObject = [PFObject objectWithClassName:@"GroupDetails"];
+                        messageObject[@"Creator"] = [[PFUser currentUser] objectForKey:@"name"];
+                        messageObject[@"code"] = _classCode;
+                        messageObject[@"name"] = _className;
+                        messageObject[@"attachment"] = (PFFile *)_finalAttachment;
+                        messageObject[@"title"] = messageText;
+                        messageObject[@"createdTime"] = messageCreatedAt;
+                        messageObject[@"messageId"] = messageObjectId;
+                        messageObject[@"like_count"] = [NSNumber numberWithInt:0];
+                        messageObject[@"confused_count"] = [NSNumber numberWithInt:0];
+                        messageObject[@"seen_count"] = [NSNumber numberWithInt:0];
+                        [messageObject pinInBackground];
+                        
+                        TSMessage *newMessage=[[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:[messageObject[@"title"] stringByTrimmingCharactersInSet:characterset] sender:messageObject[@"Creator"] sentTime:messageObject[@"createdTime"] senderPic:nil likeCount:[messageObject[@"like_count"] intValue] confuseCount:[messageObject[@"confused_count"] intValue] seenCount:[messageObject[@"seen_count"] intValue]];
+                        TSMessage *newMessageForClassPage =[[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:[messageObject[@"title"] stringByTrimmingCharactersInSet:characterset] sender:messageObject[@"Creator"] sentTime:messageObject[@"createdTime"] senderPic:nil likeCount:[messageObject[@"like_count"] intValue] confuseCount:[messageObject[@"confused_count"] intValue] seenCount:[messageObject[@"seen_count"] intValue]];
+                        
+                        newMessage.messageId = messageObject[@"messageId"];
+                        newMessageForClassPage.messageId = messageObject[@"messageId"];
+                        
+                        NSString *url = _finalAttachment.url;
+                        newMessage.attachmentURL = _finalAttachment;
+                        newMessageForClassPage.attachmentURL = _finalAttachment;
+                        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
+                            UIImage *image = [[sharedCache sharedInstance] getCachedImageForKey:url];
+                            if(image) {
+                                newMessage.attachment = image;
+                                newMessageForClassPage.attachment = image;
+                            }
+                        });
+                        
+                        outbox.mapCodeToObjects[newMessage.messageId] = newMessage;
+                        [outbox.messagesArray insertObject:newMessage atIndex:0];
+                        [outbox.messageIds insertObject:newMessage.messageId atIndex:0];
+                        outbox.shouldScrollUp = true;
+                        
+                        TSSendClassMessageViewController *classPage = mutableDict[_classCode];
+                        classPage.mapCodeToObjects[newMessageForClassPage.messageId] = newMessageForClassPage;
+                        [classPage.messagesArray insertObject:newMessageForClassPage atIndex:0];
+                        classPage.shouldScrollUp = true;
+                        
+                        //Cancel all local notifications
+                        [[UIApplication sharedApplication] cancelAllLocalNotifications];
+                        [hud hide:YES];
+                        [self dismissViewControllerAnimated:YES completion:nil];
+                        [RKDropdownAlert title:@"Knit" message:@"Your message has been sent!"  time:2];
 
-                } errorBlock:^(NSError *error) {
+                    } errorBlock:^(NSError *error) {
+                        [hud hide:YES];
+                         [RKDropdownAlert title:@"Knit" message:@"Error occurred in sending the message. Try again later."  time:2];
+                    }];
+                }
+                else {
                     [hud hide:YES];
-                     [RKDropdownAlert title:@"Knit" message:@"Error occurred in sending the message. Try again later."  time:2];
-                }];
+                    [RKDropdownAlert title:@"Knit" message:@"Error occurred in sending the message. Try again later." time:2];
+                }
             }
             else {
                 [hud hide:YES];
@@ -467,27 +475,70 @@
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (buttonIndex == 2) {
-        UIImagePickerController *picker = [[UIImagePickerController alloc] init];
-        picker.delegate = self;
-        picker.allowsEditing = YES;
-        picker.sourceType = UIImagePickerControllerSourceTypeCamera;
-        [self presentViewController:picker animated:YES completion:NULL];
+        AVAuthorizationStatus status = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
+        if(status == AVAuthorizationStatusAuthorized) {
+            // authorized
+            UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+            picker.delegate = self;
+            picker.sourceType = UIImagePickerControllerSourceTypeCamera;
+            [self presentViewController:picker animated:YES completion:NULL];
+        }
+        else if(status == AVAuthorizationStatusDenied){
+            // denied
+            [RKDropdownAlert title:@"Knit" message:@"Go to Settings and provide permission to access camera"  time:2];
+            return;
+        }
+        else if(status == AVAuthorizationStatusRestricted){
+            // restricted
+            [RKDropdownAlert title:@"Knit" message:@"Go to Settings and provide permission to access camera"  time:2];
+            return;
+        }
+        else if(status == AVAuthorizationStatusNotDetermined) {
+            //not determined
+            [AVCaptureDevice requestAccessForMediaType:AVMediaTypeVideo completionHandler:^(BOOL granted) {
+                if(granted){
+                    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+                    picker.delegate = self;
+                    picker.sourceType = UIImagePickerControllerSourceTypeCamera;
+                    [self presentViewController:picker animated:YES completion:NULL];
+                } else {
+                    //ab kya hi kar sakte hai
+                }
+            }];
+        }
     }
     
     if (buttonIndex == 1) {
-        UIImagePickerController *picker = [[UIImagePickerController alloc] init];
-        picker.delegate = self;
-        picker.allowsEditing = YES;
-        picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-        [self presentViewController:picker animated:YES completion:NULL];
+        ALAuthorizationStatus status = [ALAssetsLibrary authorizationStatus];
+        if(status == ALAuthorizationStatusAuthorized) {
+            UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+            picker.delegate = self;
+            picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+            
+            [self presentViewController:picker animated:YES completion:NULL];
+        }
+        else if(status == ALAuthorizationStatusDenied) {
+            [RKDropdownAlert title:@"Knit" message:@"Go to Settings and provide permission to access photos"  time:2];
+            return;
+        }
+        else if(status == ALAuthorizationStatusNotDetermined) {
+            [RKDropdownAlert title:@"Knit" message:@"Go to Settings and provide permission to access photos"  time:2];
+            return;
+        }
+        else if(status == ALAuthorizationStatusNotDetermined) {
+            UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+            picker.delegate = self;
+            picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+            [self presentViewController:picker animated:YES completion:NULL];
+        }
     }
 }
 
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
-    _progressBar.progress=0.0;
-    self.progressBar.hidden=NO;
-    self.cancelAttachment.hidden=NO;
+    _progressBar.progress = 0.0;
+    self.progressBar.hidden = NO;
+    self.cancelAttachment.hidden = NO;
     _attachmentImage = info[UIImagePickerControllerOriginalImage];
     NSData *imageData = UIImageJPEGRepresentation(_attachmentImage, 0);
     _finalAttachment= [PFFile fileWithName:@"attachedImage.jpeg" data:imageData];
@@ -497,13 +548,22 @@
                                            selector: @selector(updateTimer)
                                            userInfo: nil
                                             repeats: YES];
-    _attachImage.image=_attachmentImage;
+    _attachImage.image = _attachmentImage;
     [picker dismissViewControllerAnimated:YES completion:NULL];
 }
 
 
-- (void)updateTimer
-{
+-(UIImage*)resizeImage:(UIImage *)image imageSize:(CGSize)size {
+    UIGraphicsBeginImageContext(size);
+    [image drawInRect:CGRectMake(0,0,size.width,size.height)];
+    UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
+    
+    UIGraphicsBeginImageContextWithOptions(size,NO,0.0);
+    return newImage;
+}
+
+
+- (void)updateTimer {
     [UIView animateWithDuration:1 animations:^{
         float newProgress = [self.progressBar progress] + 0.18;
         [self.progressBar setProgress:newProgress animated:YES];

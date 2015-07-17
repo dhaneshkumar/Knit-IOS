@@ -7,6 +7,9 @@
 //
 
 #import "settingsTableViewCell.h"
+#import "TSTabBarViewController.h"
+#import "TSSettingsTableViewController.h"
+#import <Parse/Parse.h>
 
 @implementation settingsTableViewCell
 
@@ -23,6 +26,16 @@
 
 -(void)photoTapped:(UITapGestureRecognizer *)recognizer {
     NSLog(@"photo tapped");
+    UINavigationController *controller = (UINavigationController *)[UIApplication sharedApplication].keyWindow.rootViewController;
+    TSTabBarViewController *cont = (TSTabBarViewController *)controller.topViewController;
+    PFUser *currentUser = [PFUser currentUser];
+    NSString *role = currentUser[@"role"];
+    int index = 2;
+    if([role isEqualToString:@"teacher"]) {
+        index = 3;
+    }
+    TSSettingsTableViewController *settingsController = (TSSettingsTableViewController *)cont.viewControllers[index];
+    [settingsController profilePicTapped];
 }
 
 @end

@@ -13,5 +13,6 @@
 
 @property (weak, nonatomic) IBOutlet UITextField *profileNameField;
 @property (strong, nonatomic) NSString *profileName;
+@property (nonatomic, strong) TSSettingsTableViewController *parentController;
 
 @end

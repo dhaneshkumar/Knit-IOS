@@ -13,5 +13,6 @@
 @property (nonatomic, strong) NSString *profileName;
 
 -(void)initialization;
+-(void)profilePicTapped;
 
 @end

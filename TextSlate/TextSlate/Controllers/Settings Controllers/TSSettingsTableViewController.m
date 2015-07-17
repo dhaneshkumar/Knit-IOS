@@ -57,7 +57,6 @@
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 
@@ -84,19 +83,16 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if(indexPath.section==0) {
         settingsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"settingsFirstCellIdentifier" forIndexPath:indexPath];
-        /*
-        CALayer * l = [cell.imageView layer];
-        [l setMasksToBounds:YES];
-        [l setCornerRadius:20.0];
-        */
         
         PFFile *imageUrl = [[PFUser currentUser] objectForKey:@"pid"];
-        NSString *url1=imageUrl.url;
+        NSString *url1 = imageUrl.url;
         UIImage *image = [[sharedCache sharedInstance] getCachedImageForKey:url1];
         if(image) {
+            NSLog(@"already cached");
             cell.profilePic.image = image;
         }
         else{
+            NSLog(@"not cached");
             cell.profilePic.image = [UIImage imageNamed:@"defaultTeacher.png"];
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
                 NSURL *imageURL = [NSURL URLWithString:url1];
@@ -112,7 +108,6 @@
             });
         }
         cell.profileName.text = _profileName;
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
     }
     
@@ -209,6 +204,7 @@
         UINavigationController *editProfileNameNavigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"editProfileNameNav"];
         EditProfileNameViewController *editProfileNameVC = (EditProfileNameViewController *)editProfileNameNavigationController.topViewController;
         editProfileNameVC.profileName = _profileName;
+        editProfileNameVC.parentController = self;
         [self presentViewController:editProfileNameNavigationController animated:YES completion:nil];
     }
     else if(indexPath.section == 1) {
@@ -245,77 +241,85 @@
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:iTunesLink]];
         }
     }
-    
-    
-    /*
-    if(_isOld==true){
-        if(indexPath.row==0 && indexPath.section==0) {
-            UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Choose Option"
-                                                                     delegate:self
-                                                            cancelButtonTitle:@"Cancel"
-                                                       destructiveButtonTitle:nil
-                                                            otherButtonTitles:@"Take a photo", @"Choose from photos", nil];
-            [actionSheet showInView:self.view];
-        }
-    }
-    else {
-        if(indexPath.row==0 && indexPath.section==0) {
-            UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Choose Option"
-                                                                     delegate:self
-                                                            cancelButtonTitle:@"Cancel"
-                                                       destructiveButtonTitle:nil
-                                                            otherButtonTitles:@"Take a photo", @"Choose from photos", nil];
-            [actionSheet showInView:self.view];
-        }
-    }*/
-    //[tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+
+-(void)profilePicTapped {
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Choose Option"
+                                                             delegate:self
+                                                    cancelButtonTitle:@"Cancel"
+                                               destructiveButtonTitle:nil
+                                                    otherButtonTitles:@"Take a photo", @"Choose from photos", nil];
+    [actionSheet showInView:self.view];
 }
 
 
 -(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
     if(buttonIndex==0) {
         AVAuthorizationStatus status = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
-        if(status == AVAuthorizationStatusAuthorized) { // authorized
-            
+        if(status == AVAuthorizationStatusAuthorized) {
+            // authorized
             UIImagePickerController *picker = [[UIImagePickerController alloc] init];
             picker.delegate = self;
             picker.allowsEditing = YES;
             picker.sourceType = UIImagePickerControllerSourceTypeCamera;
-            
             [self presentViewController:picker animated:YES completion:NULL];
         }
-        else if(status == AVAuthorizationStatusDenied){ // denied
-        [RKDropdownAlert title:@"Knit" message:@"Please provide the permission to access camera!"  time:2];
+        else if(status == AVAuthorizationStatusDenied){
+            // denied
+            [RKDropdownAlert title:@"Knit" message:@"Go to Settings and provide permission to access camera"  time:2];
             return;
         }
-        else if(status == AVAuthorizationStatusRestricted){ // restricted
-            
-            [RKDropdownAlert title:@"Knit" message:@"Please provide the permission to access camera!"  time:2];
+        else if(status == AVAuthorizationStatusRestricted){
+            // restricted
+            [RKDropdownAlert title:@"Knit" message:@"Go to Settings and provide permission to access camera"  time:2];
             return;
+        }
+        else if(status == AVAuthorizationStatusNotDetermined) {
+            //not determined
+            [AVCaptureDevice requestAccessForMediaType:AVMediaTypeVideo completionHandler:^(BOOL granted) {
+                if(granted){
+                    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+                    picker.delegate = self;
+                    picker.allowsEditing = YES;
+                    picker.sourceType = UIImagePickerControllerSourceTypeCamera;
+                    [self presentViewController:picker animated:YES completion:NULL];
+                } else {
+                    //ab kya hi kar sakte hai
+                }
+            }];
         }
     }
     
     if(buttonIndex==1) {
         ALAuthorizationStatus status = [ALAssetsLibrary authorizationStatus];
-        
-        if (status != ALAuthorizationStatusAuthorized) {
-            [RKDropdownAlert title:@"Knit" message:@"Please provide the permission to access photos!"  time:2];
+        if(status == ALAuthorizationStatusAuthorized) {
+            UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+            picker.delegate = self;
+            picker.allowsEditing = YES;
+            picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+            
+            [self presentViewController:picker animated:YES completion:NULL];
+        }
+        else if(status == ALAuthorizationStatusDenied) {
+            [RKDropdownAlert title:@"Knit" message:@"Go to Settings and provide permission to access photos"  time:2];
             return;
         }
-        else{
-        UIImagePickerController *picker = [[UIImagePickerController alloc] init];
-        picker.delegate = self;
-        picker.allowsEditing = YES;
-        picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-        
-        [self presentViewController:picker animated:YES completion:NULL];
-
+        else if(status == ALAuthorizationStatusNotDetermined) {
+            [RKDropdownAlert title:@"Knit" message:@"Go to Settings and provide permission to access photos"  time:2];
+            return;
+        }
+        else if(status == ALAuthorizationStatusNotDetermined) {
+            UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+            picker.delegate = self;
+            picker.allowsEditing = YES;
+            picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+            [self presentViewController:picker animated:YES completion:NULL];
         }
     }
 }
 
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
-    
+-(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     UIImage *chosenImage = info[UIImagePickerControllerEditedImage];
     CGSize size = {1080,1080};
     UIImage *resized = [self resizeImage:chosenImage imageSize:size];
@@ -324,31 +328,38 @@
     UIImage *profileImage = resized;
     NSData *imageData = UIImageJPEGRepresentation(profileImage, 0);
     PFFile *imageFile = [PFFile fileWithName:@"Profileimage.jpeg" data:imageData];
+    
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[[UIApplication sharedApplication] keyWindow]  animated:YES];
+    hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
+    hud.labelText = @"Sending";
+    
     [imageFile saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (!error) {
             if (succeeded) {
-                PFUser *user = [PFUser currentUser];
-                user[@"pid"] = imageFile;
-                [user saveInBackground];
+                [Data updateProfilePic:imageFile successBlock:^(id object) {
+                    [[sharedCache sharedInstance] cacheImage:[[UIImage alloc] initWithData:imageData] forKey:imageFile.url];
+                    PFUser *user = [PFUser currentUser];
+                    user[@"pid"] = imageFile;
+                    [user pin];
+                    [_settingsTableView reloadData];
+                    [hud hide:YES];
+                } errorBlock:^(NSError *error) {
+                    [RKDropdownAlert title:@"Knit" message:@"Error occured while updating profile pic. Try again later."  time:2];
+                    [hud hide:YES];
+                }];
             }
-            UIAlertView *myAlertView = [[UIAlertView alloc] initWithTitle:@"Knit"
-                                                                  message:@"Picture has been saved."
-                                                                 delegate:nil
-                                                        cancelButtonTitle:@"OK"
-                                                        otherButtonTitles: nil];
-            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
-            UITableViewCell *selectedCell=[self.settingsTableView cellForRowAtIndexPath:indexPath];
-            selectedCell.imageView.image=resized;
-            [self.settingsTableView reloadData];
-            [myAlertView show];
+            else {
+                [RKDropdownAlert title:@"Knit" message:@"Error occured while updating profile pic. Try again later."  time:2];
+                [hud hide:YES];
+            }
         } else {
-            
+            [RKDropdownAlert title:@"Knit" message:@"Error occured while updating profile pic. Try again later."  time:2];
+            [hud hide:YES];
         }
     }];
 }
 
--(UIImage*)resizeImage:(UIImage *)image imageSize:(CGSize)size
-{
+-(UIImage*)resizeImage:(UIImage *)image imageSize:(CGSize)size {
     UIGraphicsBeginImageContext(size);
     [image drawInRect:CGRectMake(0,0,size.width,size.height)];
     UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
