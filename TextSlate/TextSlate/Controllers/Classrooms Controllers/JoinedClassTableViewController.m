@@ -73,14 +73,18 @@
 
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    if(section==0)
+    if(section==0) {
         return @"";
-    else if(section==1)
+    }
+    else if(section==1) {
         return @"Teacher Profile";
-    else if(section==2)
+    }
+    else if(section==2) {
         return @"Class Details";
-    else
+    }
+    else {
         return @"";
+    }
 }
 
 

@@ -47,12 +47,13 @@
             _isOldUser = true;
         }
     }
-    self.navigationController.title = @"Profile/Settings";
 }
 
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.navigationController.title = @"Profile/Settings";
+    self.settingsTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -159,6 +160,13 @@
      return 50;
     }
 }
+
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return 48.0;
+}
+
+
 /*
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
