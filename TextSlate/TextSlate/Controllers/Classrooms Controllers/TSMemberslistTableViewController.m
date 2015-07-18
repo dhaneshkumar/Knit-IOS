@@ -151,6 +151,13 @@
     TSMember *child = (TSMember *)_memberList[indexPath.row];
     cell.textLabel.text = child.childName;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    BOOL isAppUser = true;
+    if([child.userType isEqualToString:@"sms"]) {
+        isAppUser = false;
+    }
+    UIImage *accessoryImage = [UIImage imageNamed:isAppUser?@"android.png":@"sms.png"];
+    UIImageView *accImageView = [[UIImageView alloc] initWithImage:accessoryImage];
+    cell.accessoryView = accImageView;
     return cell;
 }
 
