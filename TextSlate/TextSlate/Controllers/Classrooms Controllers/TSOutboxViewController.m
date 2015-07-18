@@ -201,10 +201,10 @@
         float changedHeight = 300.0;
         if(height <= width)
             changedHeight = 300.0*height/width;
-        return expectSize.height+72+changedHeight;
+        return expectSize.height+84+changedHeight;
     }
     else {
-        return expectSize.height+66;
+        return expectSize.height+78;
     }
 }
 
