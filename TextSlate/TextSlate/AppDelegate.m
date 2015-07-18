@@ -16,9 +16,7 @@
 #import <ParseCrashReporting/ParseCrashReporting.h>
 #import "TSCreateClassroomViewController.h"
 #import "TSJoinNewClassViewController.h"
-#import "InviteParentViewController.h"
 #import "TSNewInboxViewController.h"
-#import "InviteParentViewController.h"
 #import "TSOutboxViewController.h"
 #import "TSTabBarViewController.h"
 #import "TSSendClassMessageViewController.h"

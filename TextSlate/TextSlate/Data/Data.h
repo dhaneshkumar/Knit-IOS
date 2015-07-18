@@ -89,8 +89,6 @@ typedef void (^errorBlock)(NSError *error);
 
 +(void) appExit:(NSString *)installationId successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock;
 
-+(void) emailInstruction:(NSString *)email code:(NSString *)code className:(NSString*)className successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock;
-
 +(void) inviteTeacher:(NSString *)senderId schoolName:(NSString *)schoolName teacherName:(NSString*) teacherName childName:(NSString *)childName email:(NSString *)email phoneNum:(NSString *)phoneNum successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock;
 
 +(void)findClassDetail:(NSString *)classCode successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock;

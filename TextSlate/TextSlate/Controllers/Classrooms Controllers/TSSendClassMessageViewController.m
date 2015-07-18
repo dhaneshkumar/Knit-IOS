@@ -13,7 +13,6 @@
 #import "sharedCache.h"
 #import "TSMessage.h"
 #import "TSCreatedClassMessageTableViewCell.h"
-#import "InviteParentViewController.h"
 #import "MessageComposerViewController.h"
 #import "RKDropdownAlert.h"
 #import "MBProgressHUD.h"

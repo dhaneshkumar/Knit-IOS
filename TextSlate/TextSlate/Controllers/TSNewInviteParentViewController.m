@@ -15,6 +15,8 @@
 #import "Data.h"
 
 @interface TSNewInviteParentViewController ()
+@property (strong, nonatomic) NSMutableData *responseData;
+
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *verticalSpace1;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *verticalSpace2;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *verticalSpace3;
@@ -241,12 +243,51 @@
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     if (buttonIndex == 1) {
         NSString *email = [[[alertView textFieldAtIndex:0] text] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-        [Data emailInstruction:email code:_classCode className:_className successBlock:^(id object) {
-            [RKDropdownAlert title:@"Knit" message:@"Voila!Instructions have been sent to you via email." time:2];
-        } errorBlock:^(NSError *error) {
-            [RKDropdownAlert title:@"Knit" message:@"Oops! Seems like a problem occured while sending instruction. Try again." time:2];
-        }];
+        NSString *name = [[PFUser currentUser] objectForKey:@"name"];
+        // Create the request.
+        NSString *url = [NSString stringWithFormat:@"http://ec2-52-26-56-243.us-west-2.compute.amazonaws.com/createPdf.php?email=%@&code=%@&name=%@", email, _classCode, name];
+        NSString *escapedURL = [url stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+        NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:escapedURL]];
+        
+        // Create url connection and fire request
+        [[NSURLConnection alloc] initWithRequest:request delegate:self];
     }
+}
+
+
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
+    // A response has been received, this is where we initialize the instance var you created
+    // so that we can append data to it in the didReceiveData method
+    // Furthermore, this method is called each time there is a redirect so reinitializing it
+    // also serves to clear it
+    _responseData = [[NSMutableData alloc] init];
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
+    // Append the new data to the instance variable you declared
+    [_responseData appendData:data];
+}
+
+- (NSCachedURLResponse *)connection:(NSURLConnection *)connection
+                  willCacheResponse:(NSCachedURLResponse*)cachedResponse {
+    // Return nil to indicate not necessary to store a cached response for this connection
+    return nil;
+}
+
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection {
+    // The request is complete and data has been received
+    // You can parse the stuff in your instance variable now
+    NSError* error;
+    NSDictionary* json = [NSJSONSerialization JSONObjectWithData:_responseData
+                                                         options:kNilOptions
+                                                           error:&error];
+    NSArray* result = [json objectForKey:@"result"];
+    [RKDropdownAlert title:@"Knit" message:@"Voila! Instructions have been sent to you via email." time:2];
+}
+
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
+    // The request has failed
+    [RKDropdownAlert title:@"Knit" message:@"Oops! Seems like a problem occured while sending instruction. Try again." time:3];
 }
 
 /*
