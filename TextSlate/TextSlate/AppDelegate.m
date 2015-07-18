@@ -128,10 +128,11 @@
 
 -(void)application:(UIApplication *)application handleActionWithIdentifier:(NSString *)identifier forRemoteNotification:(NSDictionary *)userInfo completionHandler:(void(^)())completionHandler {
     //handle custom actions
-    //NSLog(@"Handle custom actions from remote notifications");
     if ([identifier isEqualToString:@"declineAction"]){
+    
     }
     else if ([identifier isEqualToString:@"answerAction"]){
+    
     }
 }
 

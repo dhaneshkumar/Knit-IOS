@@ -316,6 +316,19 @@
 }
 
 
+-(NSDate *)getCurrentServerTime {
+    PFQuery *localQuery = [PFQuery queryWithClassName:@"defaultLocals"];
+    [localQuery fromLocalDatastore];
+    NSArray *objs = [localQuery findObjects];
+    NSDate *timeDiff = (NSDate *)objs[0][@"timeDifference"];
+    NSDate *ndate = [NSDate dateWithTimeIntervalSince1970:0];
+    NSTimeInterval ti = [timeDiff timeIntervalSinceDate:ndate];
+    NSDate *currLocalTime = [NSDate date];
+    NSDate *currServerTime = [NSDate dateWithTimeInterval:ti sinceDate:currLocalTime];
+    return currServerTime;
+}
+
+
 -(IBAction)sendMessage:(id)sender  {
     if([_recipientClassLabel.text isEqualToString:@"Tap to select Class"]) {
           [RKDropdownAlert title:@"Knit" message:@"Select a recipient class." time:2];
@@ -328,7 +341,28 @@
             return;
         }
     }
+    
+    NSDateComponents *components = [[NSCalendar currentCalendar] components:NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit fromDate:[self getCurrentServerTime]];
+    NSInteger currentHour = [components hour];
+    NSLog(@"current hour : %ld", currentHour);
+    
+    if (currentHour>22 || currentHour<7) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Knit"
+                                                        message:@"This might not be a suitable time to send message."
+                                                       delegate:self cancelButtonTitle:@"Don't send"
+                                              otherButtonTitles:@"Send anyways",nil];
+        alert.tag = 1;
+        [alert show];
+    }
+    else {
+        [self sendMessageNow];
+    }
+}
+
+
+-(void)sendMessageNow {
     [_textMessage resignFirstResponder];
+    NSString *messageText = [self trimmedString:_textMessage.text];
     AppDelegate *apd = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     NSArray *vcs = (NSArray *)((UINavigationController *)apd.startNav).viewControllers;
     TSTabBarViewController *rootTab = (TSTabBarViewController *)((UINavigationController *)apd.startNav).topViewController;
@@ -393,7 +427,7 @@
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[[UIApplication sharedApplication] keyWindow]  animated:YES];
         hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
         hud.labelText = @"Sending";
-
+        
         [_finalAttachment saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
             if(!error) {
                 if (succeeded) {
@@ -446,10 +480,10 @@
                         [hud hide:YES];
                         [self dismissViewControllerAnimated:YES completion:nil];
                         [RKDropdownAlert title:@"Knit" message:@"Your message has been sent!"  time:2];
-
+                        
                     } errorBlock:^(NSError *error) {
                         [hud hide:YES];
-                         [RKDropdownAlert title:@"Knit" message:@"Error occurred in sending the message. Try again later."  time:2];
+                        [RKDropdownAlert title:@"Knit" message:@"Error occurred in sending the message. Try again later."  time:2];
                     }];
                 }
                 else {
@@ -463,73 +497,81 @@
             }
         }];
     }
-
 }
+
 
 -(IBAction)sendAttachment:(id)sender{
     [_textMessage becomeFirstResponder];
     UIAlertView * alert = [[UIAlertView alloc]initWithTitle:@"Knit" message:@"" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Choose from Photos", @"Open Camera", nil];
-    
+    alert.tag = 2;
     [alert show];
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if (buttonIndex == 2) {
-        AVAuthorizationStatus status = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
-        if(status == AVAuthorizationStatusAuthorized) {
-            // authorized
-            UIImagePickerController *picker = [[UIImagePickerController alloc] init];
-            picker.delegate = self;
-            picker.sourceType = UIImagePickerControllerSourceTypeCamera;
-            [self presentViewController:picker animated:YES completion:NULL];
-        }
-        else if(status == AVAuthorizationStatusDenied){
-            // denied
-            [RKDropdownAlert title:@"Knit" message:@"Go to Settings and provide permission to access camera"  time:2];
-            return;
-        }
-        else if(status == AVAuthorizationStatusRestricted){
-            // restricted
-            [RKDropdownAlert title:@"Knit" message:@"Go to Settings and provide permission to access camera"  time:2];
-            return;
-        }
-        else if(status == AVAuthorizationStatusNotDetermined) {
-            //not determined
-            [AVCaptureDevice requestAccessForMediaType:AVMediaTypeVideo completionHandler:^(BOOL granted) {
-                if(granted){
-                    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
-                    picker.delegate = self;
-                    picker.sourceType = UIImagePickerControllerSourceTypeCamera;
-                    [self presentViewController:picker animated:YES completion:NULL];
-                } else {
-                    //ab kya hi kar sakte hai
-                }
-            }];
-        }
+    if(buttonIndex == [alertView cancelButtonIndex]) {
+        return;
     }
-    
-    if (buttonIndex == 1) {
-        ALAuthorizationStatus status = [ALAssetsLibrary authorizationStatus];
-        if(status == ALAuthorizationStatusAuthorized) {
-            UIImagePickerController *picker = [[UIImagePickerController alloc] init];
-            picker.delegate = self;
-            picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-            
-            [self presentViewController:picker animated:YES completion:NULL];
+    if(alertView.tag==1) {
+        [self sendMessageNow];
+    }
+    else if(alertView.tag==2) {
+        if (buttonIndex == 2) {
+            AVAuthorizationStatus status = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
+            if(status == AVAuthorizationStatusAuthorized) {
+                // authorized
+                UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+                picker.delegate = self;
+                picker.sourceType = UIImagePickerControllerSourceTypeCamera;
+                [self presentViewController:picker animated:YES completion:NULL];
+            }
+            else if(status == AVAuthorizationStatusDenied){
+                // denied
+                [RKDropdownAlert title:@"Knit" message:@"Go to Settings and provide permission to access camera"  time:2];
+                return;
+            }
+            else if(status == AVAuthorizationStatusRestricted){
+                // restricted
+                [RKDropdownAlert title:@"Knit" message:@"Go to Settings and provide permission to access camera"  time:2];
+                return;
+            }
+            else if(status == AVAuthorizationStatusNotDetermined) {
+                //not determined
+                [AVCaptureDevice requestAccessForMediaType:AVMediaTypeVideo completionHandler:^(BOOL granted) {
+                    if(granted){
+                        UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+                        picker.delegate = self;
+                        picker.sourceType = UIImagePickerControllerSourceTypeCamera;
+                        [self presentViewController:picker animated:YES completion:NULL];
+                    } else {
+                        //ab kya hi kar sakte hai
+                    }
+                }];
+            }
         }
-        else if(status == ALAuthorizationStatusDenied) {
-            [RKDropdownAlert title:@"Knit" message:@"Go to Settings and provide permission to access photos"  time:2];
-            return;
-        }
-        else if(status == ALAuthorizationStatusNotDetermined) {
-            [RKDropdownAlert title:@"Knit" message:@"Go to Settings and provide permission to access photos"  time:2];
-            return;
-        }
-        else if(status == ALAuthorizationStatusNotDetermined) {
-            UIImagePickerController *picker = [[UIImagePickerController alloc] init];
-            picker.delegate = self;
-            picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-            [self presentViewController:picker animated:YES completion:NULL];
+        
+        if (buttonIndex == 1) {
+            ALAuthorizationStatus status = [ALAssetsLibrary authorizationStatus];
+            if(status == ALAuthorizationStatusAuthorized) {
+                UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+                picker.delegate = self;
+                picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+                
+                [self presentViewController:picker animated:YES completion:NULL];
+            }
+            else if(status == ALAuthorizationStatusDenied) {
+                [RKDropdownAlert title:@"Knit" message:@"Go to Settings and provide permission to access photos"  time:2];
+                return;
+            }
+            else if(status == ALAuthorizationStatusNotDetermined) {
+                [RKDropdownAlert title:@"Knit" message:@"Go to Settings and provide permission to access photos"  time:2];
+                return;
+            }
+            else if(status == ALAuthorizationStatusNotDetermined) {
+                UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+                picker.delegate = self;
+                picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+                [self presentViewController:picker animated:YES completion:NULL];
+            }
         }
     }
 }
