@@ -138,6 +138,7 @@
                                     }
                                     session[@"os"] = [NSString stringWithFormat:@"iOS %@", _osVersion];
                                     session[@"model"] = _model;
+                                    session[@"role"] = _role;
                                     [session saveEventually];
                                 }
                             }];
@@ -279,6 +280,7 @@
                                     }
                                     session[@"os"] = [NSString stringWithFormat:@"iOS %@", _osVersion];
                                     session[@"model"] = _model;
+                                    session[@"role"] = _role;
                                     [session saveEventually];
                                 }
                             }];

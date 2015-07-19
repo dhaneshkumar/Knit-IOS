@@ -328,6 +328,8 @@
                             struct utsname systemInfo;
                             uname(&systemInfo);
                             session[@"model"] = [NSString stringWithCString:systemInfo.machine encoding:NSUTF8StringEncoding];
+                            PFUser *currentUser = [PFUser currentUser];
+                            session[@"role"] = currentUser[@"role"];
                             [session saveEventually];
                         }
                     }];
