@@ -28,7 +28,6 @@
 +(void) joinNewClass:(NSString *)classCode childName:(NSString *)childName installationId:(NSString*)installationId successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
     [PFCloud callFunctionInBackground:@"joinClass2" withParameters:@{@"classCode" : classCode, @"associateName" : childName, @"installationObjectId" : installationId} block:^(id object, NSError *error) {
         if (error) {
-            //NSLog(@"error : %@", [error localizedDescription]);
             errorBlock(error);
         } else {
             successBlock(object);

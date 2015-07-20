@@ -268,7 +268,8 @@
                                 <variation key="widthClass=compact" ambiguous="YES">
                                     <rect key="frame" x="0.0" y="1" width="0.0" height="0.0"/>
                                 </variation>
-                                <variation key="heightClass=regular-widthClass=compact">
+                                <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
+                                    <rect key="frame" x="0.0" y="126" width="400" height="155"/>
                                     <mask key="constraints">
                                         <include reference="Wsr-s3-fw5"/>
                                     </mask>
@@ -312,7 +313,8 @@
                                                 <exclude reference="ZMU-9F-bRe"/>
                                             </mask>
                                         </variation>
-                                        <variation key="heightClass=regular-widthClass=compact">
+                                        <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
+                                            <rect key="frame" x="51" y="12" width="325" height="30"/>
                                             <mask key="constraints">
                                                 <include reference="ZMU-9F-bRe"/>
                                             </mask>
@@ -346,7 +348,8 @@
                                         <exclude reference="DQs-Dj-Cbk"/>
                                     </mask>
                                 </variation>
-                                <variation key="heightClass=regular-widthClass=compact">
+                                <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
+                                    <rect key="frame" x="0.0" y="68" width="400" height="54"/>
                                     <mask key="subviews">
                                         <include reference="kxS-7h-9Ze"/>
                                         <include reference="3Ye-yG-4u5"/>
@@ -364,13 +367,21 @@
                         </subviews>
                         <color key="backgroundColor" red="0.96078431372549022" green="0.96078431372549022" blue="0.96078431372549022" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="4xf-cd-a97" secondAttribute="trailing" id="2GN-zb-bO1"/>
                             <constraint firstItem="ISz-jk-Z5i" firstAttribute="leading" secondItem="drH-r7-fHj" secondAttribute="leadingMargin" constant="-16" id="64C-kG-92L"/>
                             <constraint firstAttribute="trailingMargin" secondItem="ISz-jk-Z5i" secondAttribute="trailing" constant="-16" id="6L6-B6-3Nk"/>
                             <constraint firstItem="4xf-cd-a97" firstAttribute="top" secondItem="ISz-jk-Z5i" secondAttribute="bottom" id="8gx-tw-GTD"/>
+                            <constraint firstItem="4xf-cd-a97" firstAttribute="leading" secondItem="drH-r7-fHj" secondAttribute="leadingMargin" constant="-8" id="Awu-XH-gfM"/>
                             <constraint firstItem="4xf-cd-a97" firstAttribute="top" secondItem="ISz-jk-Z5i" secondAttribute="bottom" constant="4" id="BoM-mL-M7V"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="4xf-cd-a97" secondAttribute="trailing" constant="-8" id="Dib-uC-Mwu"/>
                             <constraint firstItem="4xf-cd-a97" firstAttribute="leading" secondItem="drH-r7-fHj" secondAttribute="leadingMargin" constant="-16" id="GMS-zN-2Em"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="ISz-jk-Z5i" secondAttribute="trailing" constant="-8" id="Jqx-JM-nVl"/>
+                            <constraint firstItem="4xf-cd-a97" firstAttribute="leading" secondItem="drH-r7-fHj" secondAttribute="leadingMargin" id="M8u-gP-s93"/>
                             <constraint firstAttribute="trailingMargin" secondItem="4xf-cd-a97" secondAttribute="trailing" constant="-16" id="UxM-5k-rFg"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="ISz-jk-Z5i" secondAttribute="trailing" id="VzM-bW-EVV"/>
+                            <constraint firstItem="ISz-jk-Z5i" firstAttribute="leading" secondItem="drH-r7-fHj" secondAttribute="leadingMargin" id="dNm-4m-y0C"/>
                             <constraint firstItem="ISz-jk-Z5i" firstAttribute="top" secondItem="9dv-rM-5dz" secondAttribute="bottom" constant="1" id="ibs-ek-Xzc"/>
+                            <constraint firstItem="ISz-jk-Z5i" firstAttribute="leading" secondItem="drH-r7-fHj" secondAttribute="leadingMargin" constant="-8" id="jXF-aP-5lu"/>
                             <constraint firstItem="ISz-jk-Z5i" firstAttribute="top" secondItem="9dv-rM-5dz" secondAttribute="bottom" constant="4" id="lWw-r8-1ZH"/>
                         </constraints>
                         <variation key="default">
@@ -379,14 +390,22 @@
                                 <exclude reference="ISz-jk-Z5i"/>
                             </mask>
                             <mask key="constraints">
-                                <exclude reference="8gx-tw-GTD"/>
-                                <exclude reference="BoM-mL-M7V"/>
-                                <exclude reference="GMS-zN-2Em"/>
-                                <exclude reference="UxM-5k-rFg"/>
                                 <exclude reference="64C-kG-92L"/>
                                 <exclude reference="6L6-B6-3Nk"/>
+                                <exclude reference="Jqx-JM-nVl"/>
+                                <exclude reference="VzM-bW-EVV"/>
+                                <exclude reference="dNm-4m-y0C"/>
                                 <exclude reference="ibs-ek-Xzc"/>
+                                <exclude reference="jXF-aP-5lu"/>
                                 <exclude reference="lWw-r8-1ZH"/>
+                                <exclude reference="2GN-zb-bO1"/>
+                                <exclude reference="8gx-tw-GTD"/>
+                                <exclude reference="Awu-XH-gfM"/>
+                                <exclude reference="BoM-mL-M7V"/>
+                                <exclude reference="Dib-uC-Mwu"/>
+                                <exclude reference="GMS-zN-2Em"/>
+                                <exclude reference="M8u-gP-s93"/>
+                                <exclude reference="UxM-5k-rFg"/>
                             </mask>
                         </variation>
                         <variation key="widthClass=compact">
@@ -399,14 +418,22 @@
                                 <include reference="ISz-jk-Z5i"/>
                             </mask>
                             <mask key="constraints">
-                                <exclude reference="8gx-tw-GTD"/>
-                                <include reference="BoM-mL-M7V"/>
-                                <include reference="GMS-zN-2Em"/>
-                                <include reference="UxM-5k-rFg"/>
-                                <include reference="64C-kG-92L"/>
-                                <include reference="6L6-B6-3Nk"/>
+                                <exclude reference="64C-kG-92L"/>
+                                <exclude reference="6L6-B6-3Nk"/>
+                                <include reference="Jqx-JM-nVl"/>
+                                <exclude reference="VzM-bW-EVV"/>
+                                <exclude reference="dNm-4m-y0C"/>
                                 <exclude reference="ibs-ek-Xzc"/>
+                                <include reference="jXF-aP-5lu"/>
                                 <include reference="lWw-r8-1ZH"/>
+                                <exclude reference="2GN-zb-bO1"/>
+                                <exclude reference="8gx-tw-GTD"/>
+                                <include reference="Awu-XH-gfM"/>
+                                <include reference="BoM-mL-M7V"/>
+                                <include reference="Dib-uC-Mwu"/>
+                                <exclude reference="GMS-zN-2Em"/>
+                                <exclude reference="M8u-gP-s93"/>
+                                <exclude reference="UxM-5k-rFg"/>
                             </mask>
                         </variation>
                     </view>
@@ -629,11 +656,11 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="LF4-HS-nZX" firstAttribute="leading" secondItem="HCi-oH-1RI" secondAttribute="leadingMargin" id="3c9-l8-vyp"/>
                             <constraint firstAttribute="trailing" secondItem="LF4-HS-nZX" secondAttribute="trailing" constant="16" id="49P-a9-eVh"/>
+                            <constraint firstItem="nVK-kf-XCj" firstAttribute="leading" secondItem="HCi-oH-1RI" secondAttribute="leadingMargin" id="CE9-8i-9nD"/>
                             <constraint firstItem="nVK-kf-XCj" firstAttribute="top" secondItem="VGC-fj-Stx" secondAttribute="bottom" constant="25" id="hKY-4P-EiA"/>
-                            <constraint firstItem="nVK-kf-XCj" firstAttribute="leading" secondItem="HCi-oH-1RI" secondAttribute="leading" constant="26" id="nIR-Fy-1mY"/>
                             <constraint firstItem="LF4-HS-nZX" firstAttribute="top" secondItem="nVK-kf-XCj" secondAttribute="bottom" constant="21" id="ueC-DK-xux"/>
-                            <constraint firstItem="LF4-HS-nZX" firstAttribute="leading" secondItem="HCi-oH-1RI" secondAttribute="leading" constant="26" id="yY7-G4-2VQ"/>
                         </constraints>
                         <variation key="default">
                             <mask key="subviews">
@@ -641,11 +668,11 @@
                                 <exclude reference="LF4-HS-nZX"/>
                             </mask>
                             <mask key="constraints">
+                                <exclude reference="CE9-8i-9nD"/>
+                                <exclude reference="hKY-4P-EiA"/>
+                                <exclude reference="3c9-l8-vyp"/>
                                 <exclude reference="49P-a9-eVh"/>
                                 <exclude reference="ueC-DK-xux"/>
-                                <exclude reference="yY7-G4-2VQ"/>
-                                <exclude reference="hKY-4P-EiA"/>
-                                <exclude reference="nIR-Fy-1mY"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
@@ -654,11 +681,11 @@
                                 <include reference="LF4-HS-nZX"/>
                             </mask>
                             <mask key="constraints">
+                                <include reference="CE9-8i-9nD"/>
+                                <include reference="hKY-4P-EiA"/>
+                                <include reference="3c9-l8-vyp"/>
                                 <include reference="49P-a9-eVh"/>
                                 <include reference="ueC-DK-xux"/>
-                                <include reference="yY7-G4-2VQ"/>
-                                <include reference="hKY-4P-EiA"/>
-                                <include reference="nIR-Fy-1mY"/>
                             </mask>
                         </variation>
                     </view>
@@ -736,7 +763,8 @@ WW91ciBpbmZvcm1hdGlvbiB3aWxsIG5vdCBiZSBzaGFyZWQREQ13aXRoIGFueW9uZS4
                                                         <exclude reference="FMz-4I-K3l"/>
                                                     </mask>
                                                 </variation>
-                                                <variation key="heightClass=regular-widthClass=compact">
+                                                <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
+                                                    <rect key="frame" x="40" y="78" width="352" height="30"/>
                                                     <mask key="constraints">
                                                         <include reference="FMz-4I-K3l"/>
                                                     </mask>
@@ -794,7 +822,8 @@ Login using your email ID.</string>
                                                         <exclude reference="SG0-Dq-6rd"/>
                                                     </mask>
                                                 </variation>
-                                                <variation key="heightClass=regular-widthClass=compact">
+                                                <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
+                                                    <rect key="frame" x="8" y="266" width="384" height="30"/>
                                                     <mask key="constraints">
                                                         <include reference="SG0-Dq-6rd"/>
                                                     </mask>
@@ -812,7 +841,8 @@ Login using your email ID.</string>
                                                         <exclude reference="cgg-em-TMD"/>
                                                     </mask>
                                                 </variation>
-                                                <variation key="heightClass=regular-widthClass=compact">
+                                                <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
+                                                    <rect key="frame" x="8" y="301" width="384" height="30"/>
                                                     <mask key="constraints">
                                                         <include reference="cgg-em-TMD"/>
                                                     </mask>
@@ -831,7 +861,8 @@ Login using your email ID.</string>
                                                         <exclude reference="3pI-xo-Gzc"/>
                                                     </mask>
                                                 </variation>
-                                                <variation key="heightClass=regular-widthClass=compact">
+                                                <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
+                                                    <rect key="frame" x="8" y="78" width="27" height="30"/>
                                                     <mask key="constraints">
                                                         <include reference="3pI-xo-Gzc"/>
                                                     </mask>
@@ -872,15 +903,17 @@ Login using your email ID.</string>
                                             <constraint firstItem="vVJ-rf-cKq" firstAttribute="top" secondItem="Gd6-xe-ca2" secondAttribute="top" constant="20" id="5Ck-PD-W4d">
                                                 <variation key="heightClass=regular-widthClass=compact" constant="20"/>
                                             </constraint>
-                                            <constraint firstItem="hdw-9Q-5o7" firstAttribute="trailing" secondItem="Gd6-xe-ca2" secondAttribute="trailingMargin" id="6xa-57-aVE"/>
                                             <constraint firstItem="tEm-64-aTu" firstAttribute="trailing" secondItem="Gd6-xe-ca2" secondAttribute="trailingMargin" id="9P0-5P-cea"/>
+                                            <constraint firstAttribute="trailing" secondItem="5WZ-6l-Zlb" secondAttribute="trailing" constant="16" id="9aW-oN-QdO"/>
+                                            <constraint firstItem="ybU-fx-ALR" firstAttribute="leading" secondItem="Gd6-xe-ca2" secondAttribute="leading" constant="16" id="Afc-1q-TUU"/>
+                                            <constraint firstItem="rvo-Z8-hq9" firstAttribute="leading" secondItem="Gd6-xe-ca2" secondAttribute="leading" constant="16" id="Fap-wO-4E8"/>
                                             <constraint firstItem="ybU-fx-ALR" firstAttribute="top" secondItem="vVJ-rf-cKq" secondAttribute="bottom" constant="24" id="Fx5-bL-MQ4"/>
-                                            <constraint firstItem="rvo-Z8-hq9" firstAttribute="trailing" secondItem="Gd6-xe-ca2" secondAttribute="trailingMargin" id="Lqg-Og-xtq"/>
+                                            <constraint firstAttribute="trailing" secondItem="rvo-Z8-hq9" secondAttribute="trailing" constant="16" id="J1f-FQ-O65"/>
                                             <constraint firstItem="ybU-fx-ALR" firstAttribute="leading" secondItem="Gd6-xe-ca2" secondAttribute="leadingMargin" id="Nb9-Xe-joz"/>
-                                            <constraint firstItem="hdw-9Q-5o7" firstAttribute="leading" secondItem="Gd6-xe-ca2" secondAttribute="leadingMargin" id="R9D-kj-3iw"/>
+                                            <constraint firstAttribute="trailing" secondItem="hdw-9Q-5o7" secondAttribute="trailing" constant="16" id="Nw3-8B-SRs"/>
+                                            <constraint firstItem="hdw-9Q-5o7" firstAttribute="leading" secondItem="Gd6-xe-ca2" secondAttribute="leading" constant="16" id="UJY-qe-KBx"/>
                                             <constraint firstItem="a4j-M8-rkt" firstAttribute="top" secondItem="rvo-Z8-hq9" secondAttribute="bottom" constant="12" id="WNb-MM-T7R"/>
                                             <constraint firstItem="MUv-dx-itV" firstAttribute="leading" secondItem="Gd6-xe-ca2" secondAttribute="leadingMargin" id="ZSP-1e-Vl6"/>
-                                            <constraint firstItem="rvo-Z8-hq9" firstAttribute="leading" secondItem="Gd6-xe-ca2" secondAttribute="leadingMargin" id="ahd-dU-gGY"/>
                                             <constraint firstItem="vVJ-rf-cKq" firstAttribute="trailing" secondItem="Gd6-xe-ca2" secondAttribute="trailingMargin" id="ahn-G0-KiA"/>
                                             <constraint firstItem="hdw-9Q-5o7" firstAttribute="top" secondItem="MUv-dx-itV" secondAttribute="bottom" constant="22" id="dm5-hg-MAG"/>
                                             <constraint firstItem="a4j-M8-rkt" firstAttribute="trailing" secondItem="Gd6-xe-ca2" secondAttribute="trailingMargin" id="ejL-eg-A7E"/>
@@ -909,28 +942,30 @@ Login using your email ID.</string>
                                             <mask key="constraints">
                                                 <exclude reference="4Qt-nA-9qj"/>
                                                 <exclude reference="w4F-6q-v6l"/>
-                                                <exclude reference="n1Z-tD-cze"/>
-                                                <exclude reference="nGo-6m-sFw"/>
-                                                <exclude reference="wl1-tg-lOU"/>
-                                                <exclude reference="ZSP-1e-Vl6"/>
-                                                <exclude reference="u0x-gn-gVE"/>
-                                                <exclude reference="x9T-Ai-js7"/>
-                                                <exclude reference="WNb-MM-T7R"/>
-                                                <exclude reference="ejL-eg-A7E"/>
-                                                <exclude reference="6xa-57-aVE"/>
-                                                <exclude reference="R9D-kj-3iw"/>
-                                                <exclude reference="dm5-hg-MAG"/>
-                                                <exclude reference="Lqg-Og-xtq"/>
-                                                <exclude reference="ahd-dU-gGY"/>
-                                                <exclude reference="hUL-Kg-xDo"/>
-                                                <exclude reference="9P0-5P-cea"/>
-                                                <exclude reference="h6N-qD-oUb"/>
-                                                <exclude reference="pvL-m2-J9p"/>
                                                 <exclude reference="5Ck-PD-W4d"/>
                                                 <exclude reference="ahn-G0-KiA"/>
                                                 <exclude reference="k0X-qe-53Z"/>
+                                                <exclude reference="Afc-1q-TUU"/>
                                                 <exclude reference="Fx5-bL-MQ4"/>
                                                 <exclude reference="Nb9-Xe-joz"/>
+                                                <exclude reference="9aW-oN-QdO"/>
+                                                <exclude reference="n1Z-tD-cze"/>
+                                                <exclude reference="nGo-6m-sFw"/>
+                                                <exclude reference="wl1-tg-lOU"/>
+                                                <exclude reference="9P0-5P-cea"/>
+                                                <exclude reference="h6N-qD-oUb"/>
+                                                <exclude reference="pvL-m2-J9p"/>
+                                                <exclude reference="ZSP-1e-Vl6"/>
+                                                <exclude reference="u0x-gn-gVE"/>
+                                                <exclude reference="x9T-Ai-js7"/>
+                                                <exclude reference="Nw3-8B-SRs"/>
+                                                <exclude reference="UJY-qe-KBx"/>
+                                                <exclude reference="dm5-hg-MAG"/>
+                                                <exclude reference="Fap-wO-4E8"/>
+                                                <exclude reference="J1f-FQ-O65"/>
+                                                <exclude reference="hUL-Kg-xDo"/>
+                                                <exclude reference="WNb-MM-T7R"/>
+                                                <exclude reference="ejL-eg-A7E"/>
                                             </mask>
                                         </variation>
                                         <variation key="heightClass=regular-widthClass=compact">
@@ -947,28 +982,30 @@ Login using your email ID.</string>
                                             <mask key="constraints">
                                                 <include reference="4Qt-nA-9qj"/>
                                                 <include reference="w4F-6q-v6l"/>
-                                                <include reference="n1Z-tD-cze"/>
-                                                <include reference="nGo-6m-sFw"/>
-                                                <include reference="wl1-tg-lOU"/>
-                                                <include reference="ZSP-1e-Vl6"/>
-                                                <include reference="u0x-gn-gVE"/>
-                                                <include reference="x9T-Ai-js7"/>
-                                                <include reference="WNb-MM-T7R"/>
-                                                <include reference="ejL-eg-A7E"/>
-                                                <include reference="6xa-57-aVE"/>
-                                                <include reference="R9D-kj-3iw"/>
-                                                <include reference="dm5-hg-MAG"/>
-                                                <include reference="Lqg-Og-xtq"/>
-                                                <include reference="ahd-dU-gGY"/>
-                                                <include reference="hUL-Kg-xDo"/>
-                                                <include reference="9P0-5P-cea"/>
-                                                <include reference="h6N-qD-oUb"/>
-                                                <include reference="pvL-m2-J9p"/>
                                                 <include reference="5Ck-PD-W4d"/>
                                                 <include reference="ahn-G0-KiA"/>
                                                 <include reference="k0X-qe-53Z"/>
+                                                <include reference="Afc-1q-TUU"/>
                                                 <include reference="Fx5-bL-MQ4"/>
-                                                <include reference="Nb9-Xe-joz"/>
+                                                <exclude reference="Nb9-Xe-joz"/>
+                                                <include reference="9aW-oN-QdO"/>
+                                                <include reference="n1Z-tD-cze"/>
+                                                <include reference="nGo-6m-sFw"/>
+                                                <exclude reference="wl1-tg-lOU"/>
+                                                <include reference="9P0-5P-cea"/>
+                                                <include reference="h6N-qD-oUb"/>
+                                                <include reference="pvL-m2-J9p"/>
+                                                <include reference="ZSP-1e-Vl6"/>
+                                                <include reference="u0x-gn-gVE"/>
+                                                <include reference="x9T-Ai-js7"/>
+                                                <include reference="Nw3-8B-SRs"/>
+                                                <include reference="UJY-qe-KBx"/>
+                                                <include reference="dm5-hg-MAG"/>
+                                                <include reference="Fap-wO-4E8"/>
+                                                <include reference="J1f-FQ-O65"/>
+                                                <include reference="hUL-Kg-xDo"/>
+                                                <include reference="WNb-MM-T7R"/>
+                                                <include reference="ejL-eg-A7E"/>
                                             </mask>
                                         </variation>
                                         <connections>
@@ -1135,7 +1172,7 @@ Login using your email ID.</string>
                                 </variation>
                             </textField>
                         </subviews>
-                        <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="wb8-wh-K02" firstAttribute="trailing" secondItem="VZe-n1-nTb" secondAttribute="trailingMargin" id="4od-Lc-hJB"/>
@@ -1249,7 +1286,8 @@ Login using your email ID.</string>
                                         <exclude reference="rOM-YF-RRj"/>
                                     </mask>
                                 </variation>
-                                <variation key="heightClass=regular-widthClass=compact">
+                                <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
+                                    <rect key="frame" x="16" y="72" width="368" height="144"/>
                                     <mask key="constraints">
                                         <include reference="rOM-YF-RRj"/>
                                     </mask>
@@ -1271,8 +1309,9 @@ Login using your email ID.</string>
                                         <exclude reference="huZ-OW-X2U"/>
                                     </mask>
                                 </variation>
-                                <variation key="heightClass=regular-widthClass=compact">
+                                <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
                                     <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
+                                    <rect key="frame" x="16" y="224" width="368" height="30"/>
                                     <mask key="constraints">
                                         <include reference="huZ-OW-X2U"/>
                                     </mask>
@@ -1285,13 +1324,17 @@ Login using your email ID.</string>
                         <color key="backgroundColor" red="0.96078431372549022" green="0.96078431372549022" blue="0.96078431372549022" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="05e-Ja-YE5" firstAttribute="top" secondItem="gwR-0L-Nfj" secondAttribute="bottom" constant="8" id="2Al-cw-u0h"/>
+                            <constraint firstItem="05e-Ja-YE5" firstAttribute="leading" secondItem="q6k-VG-mAF" secondAttribute="leadingMargin" constant="-8" id="5Q1-6D-v1R"/>
                             <constraint firstItem="05e-Ja-YE5" firstAttribute="leading" secondItem="q6k-VG-mAF" secondAttribute="leadingMargin" id="75f-rs-b7p"/>
                             <constraint firstItem="rso-xe-YNB" firstAttribute="leading" secondItem="q6k-VG-mAF" secondAttribute="leadingMargin" id="8rk-x8-r06"/>
+                            <constraint firstItem="05e-Ja-YE5" firstAttribute="trailing" secondItem="q6k-VG-mAF" secondAttribute="trailingMargin" constant="-8" id="J25-Fz-LQu"/>
+                            <constraint firstItem="rso-xe-YNB" firstAttribute="trailing" secondItem="q6k-VG-mAF" secondAttribute="trailingMargin" constant="-8" id="Vhm-Lw-kdI"/>
                             <constraint firstItem="05e-Ja-YE5" firstAttribute="trailing" secondItem="q6k-VG-mAF" secondAttribute="trailingMargin" id="W8y-pW-FS7"/>
                             <constraint firstItem="rso-xe-YNB" firstAttribute="top" secondItem="05e-Ja-YE5" secondAttribute="bottom" constant="26" id="YR5-XA-ue4">
                                 <variation key="heightClass=regular-widthClass=compact" constant="8"/>
                             </constraint>
                             <constraint firstItem="rso-xe-YNB" firstAttribute="trailing" secondItem="q6k-VG-mAF" secondAttribute="trailingMargin" id="YrJ-zQ-tuw"/>
+                            <constraint firstItem="rso-xe-YNB" firstAttribute="leading" secondItem="q6k-VG-mAF" secondAttribute="leadingMargin" constant="-8" id="uzY-WN-ovz"/>
                         </constraints>
                         <variation key="default">
                             <mask key="subviews">
@@ -1299,12 +1342,16 @@ Login using your email ID.</string>
                                 <exclude reference="rso-xe-YNB"/>
                             </mask>
                             <mask key="constraints">
+                                <exclude reference="2Al-cw-u0h"/>
+                                <exclude reference="5Q1-6D-v1R"/>
+                                <exclude reference="75f-rs-b7p"/>
+                                <exclude reference="J25-Fz-LQu"/>
+                                <exclude reference="W8y-pW-FS7"/>
                                 <exclude reference="8rk-x8-r06"/>
+                                <exclude reference="Vhm-Lw-kdI"/>
                                 <exclude reference="YR5-XA-ue4"/>
                                 <exclude reference="YrJ-zQ-tuw"/>
-                                <exclude reference="2Al-cw-u0h"/>
-                                <exclude reference="75f-rs-b7p"/>
-                                <exclude reference="W8y-pW-FS7"/>
+                                <exclude reference="uzY-WN-ovz"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
@@ -1313,12 +1360,16 @@ Login using your email ID.</string>
                                 <include reference="rso-xe-YNB"/>
                             </mask>
                             <mask key="constraints">
-                                <include reference="8rk-x8-r06"/>
-                                <include reference="YR5-XA-ue4"/>
-                                <include reference="YrJ-zQ-tuw"/>
                                 <include reference="2Al-cw-u0h"/>
-                                <include reference="75f-rs-b7p"/>
-                                <include reference="W8y-pW-FS7"/>
+                                <include reference="5Q1-6D-v1R"/>
+                                <exclude reference="75f-rs-b7p"/>
+                                <include reference="J25-Fz-LQu"/>
+                                <exclude reference="W8y-pW-FS7"/>
+                                <exclude reference="8rk-x8-r06"/>
+                                <include reference="Vhm-Lw-kdI"/>
+                                <include reference="YR5-XA-ue4"/>
+                                <exclude reference="YrJ-zQ-tuw"/>
+                                <include reference="uzY-WN-ovz"/>
                             </mask>
                         </variation>
                     </view>
@@ -1832,19 +1883,20 @@ Login using your email ID.</string>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Hwj-FB-dZ5">
                                             <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                                             <constraints>
-                                                <constraint firstAttribute="height" constant="40" id="4NZ-ry-C8D"/>
-                                                <constraint firstAttribute="width" constant="40" id="Fxj-65-cb2"/>
+                                                <constraint firstAttribute="width" constant="56" id="UMH-6j-u3A"/>
+                                                <constraint firstAttribute="height" constant="56" id="pjL-23-fGl"/>
                                             </constraints>
                                             <variation key="default">
                                                 <mask key="constraints">
-                                                    <exclude reference="4NZ-ry-C8D"/>
-                                                    <exclude reference="Fxj-65-cb2"/>
+                                                    <exclude reference="UMH-6j-u3A"/>
+                                                    <exclude reference="pjL-23-fGl"/>
                                                 </mask>
                                             </variation>
-                                            <variation key="heightClass=regular-widthClass=compact">
+                                            <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
+                                                <rect key="frame" x="23" y="10" width="40" height="40"/>
                                                 <mask key="constraints">
-                                                    <include reference="4NZ-ry-C8D"/>
-                                                    <include reference="Fxj-65-cb2"/>
+                                                    <include reference="UMH-6j-u3A"/>
+                                                    <include reference="pjL-23-fGl"/>
                                                 </mask>
                                             </variation>
                                         </imageView>
@@ -1861,7 +1913,8 @@ Login using your email ID.</string>
                                                     <exclude reference="WhP-xr-PPN"/>
                                                 </mask>
                                             </variation>
-                                            <variation key="heightClass=regular-widthClass=compact">
+                                            <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
+                                                <rect key="frame" x="81" y="19" width="295" height="21"/>
                                                 <mask key="constraints">
                                                     <include reference="WhP-xr-PPN"/>
                                                 </mask>
@@ -1871,10 +1924,9 @@ Login using your email ID.</string>
                                     <constraints>
                                         <constraint firstAttribute="centerY" secondItem="xVI-RA-y04" secondAttribute="centerY" id="46b-YS-Z7B"/>
                                         <constraint firstAttribute="centerY" secondItem="Hwj-FB-dZ5" secondAttribute="centerY" id="9WF-Mo-SMK"/>
-                                        <constraint firstItem="Hwj-FB-dZ5" firstAttribute="leading" secondItem="6vx-B3-bRq" secondAttribute="leadingMargin" constant="15" id="PAc-rd-eKg"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="xVI-RA-y04" secondAttribute="trailing" id="AfV-Ua-7go"/>
                                         <constraint firstItem="xVI-RA-y04" firstAttribute="leading" secondItem="Hwj-FB-dZ5" secondAttribute="trailing" constant="18" id="Q8r-7t-bSr"/>
-                                        <constraint firstAttribute="trailing" secondItem="xVI-RA-y04" secondAttribute="trailing" constant="24" id="ejC-Rz-kgK"/>
-                                        <constraint firstAttribute="trailingMargin" secondItem="xVI-RA-y04" secondAttribute="trailing" constant="24" id="xFE-1K-boW"/>
+                                        <constraint firstItem="Hwj-FB-dZ5" firstAttribute="leading" secondItem="6vx-B3-bRq" secondAttribute="leadingMargin" id="Y7n-rU-eY4"/>
                                     </constraints>
                                     <variation key="default">
                                         <mask key="subviews">
@@ -1882,12 +1934,11 @@ Login using your email ID.</string>
                                             <exclude reference="xVI-RA-y04"/>
                                         </mask>
                                         <mask key="constraints">
-                                            <exclude reference="46b-YS-Z7B"/>
-                                            <exclude reference="Q8r-7t-bSr"/>
-                                            <exclude reference="ejC-Rz-kgK"/>
-                                            <exclude reference="xFE-1K-boW"/>
                                             <exclude reference="9WF-Mo-SMK"/>
-                                            <exclude reference="PAc-rd-eKg"/>
+                                            <exclude reference="Y7n-rU-eY4"/>
+                                            <exclude reference="46b-YS-Z7B"/>
+                                            <exclude reference="AfV-Ua-7go"/>
+                                            <exclude reference="Q8r-7t-bSr"/>
                                         </mask>
                                     </variation>
                                     <variation key="heightClass=regular-widthClass=compact">
@@ -1896,12 +1947,11 @@ Login using your email ID.</string>
                                             <include reference="xVI-RA-y04"/>
                                         </mask>
                                         <mask key="constraints">
-                                            <include reference="46b-YS-Z7B"/>
-                                            <include reference="Q8r-7t-bSr"/>
-                                            <include reference="ejC-Rz-kgK"/>
-                                            <exclude reference="xFE-1K-boW"/>
                                             <include reference="9WF-Mo-SMK"/>
-                                            <include reference="PAc-rd-eKg"/>
+                                            <include reference="Y7n-rU-eY4"/>
+                                            <include reference="46b-YS-Z7B"/>
+                                            <include reference="AfV-Ua-7go"/>
+                                            <include reference="Q8r-7t-bSr"/>
                                         </mask>
                                     </variation>
                                 </tableViewCellContentView>
@@ -1999,7 +2049,6 @@ Login using your email ID.</string>
                                     </subviews>
                                     <constraints>
                                         <constraint firstAttribute="centerX" secondItem="oBU-Zg-Nyi" secondAttribute="centerX" id="FZC-Rf-Xbo"/>
-                                        <constraint firstAttribute="centerY" secondItem="oBU-Zg-Nyi" secondAttribute="centerY" id="Goe-TD-vEu"/>
                                         <constraint firstAttribute="centerY" secondItem="oBU-Zg-Nyi" secondAttribute="centerY" id="NSV-Gt-E4b"/>
                                     </constraints>
                                     <variation key="default">
@@ -2008,7 +2057,6 @@ Login using your email ID.</string>
                                         </mask>
                                         <mask key="constraints">
                                             <exclude reference="FZC-Rf-Xbo"/>
-                                            <exclude reference="Goe-TD-vEu"/>
                                             <exclude reference="NSV-Gt-E4b"/>
                                         </mask>
                                     </variation>
@@ -2018,7 +2066,6 @@ Login using your email ID.</string>
                                         </mask>
                                         <mask key="constraints">
                                             <include reference="FZC-Rf-Xbo"/>
-                                            <exclude reference="Goe-TD-vEu"/>
                                             <include reference="NSV-Gt-E4b"/>
                                         </mask>
                                     </variation>
@@ -2043,7 +2090,8 @@ Login using your email ID.</string>
                                                     <exclude reference="fVg-Tz-xhq"/>
                                                 </mask>
                                             </variation>
-                                            <variation key="heightClass=regular-widthClass=compact">
+                                            <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
+                                                <rect key="frame" x="23" y="19" width="249" height="21"/>
                                                 <mask key="constraints">
                                                     <include reference="fVg-Tz-xhq"/>
                                                 </mask>
@@ -2067,7 +2115,8 @@ Login using your email ID.</string>
                                                     <exclude reference="Y18-AP-brD"/>
                                                 </mask>
                                             </variation>
-                                            <variation key="heightClass=regular-widthClass=compact">
+                                            <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
+                                                <rect key="frame" x="296" y="10" width="80" height="30"/>
                                                 <mask key="constraints">
                                                     <include reference="FcF-a9-9Ds"/>
                                                     <include reference="Y18-AP-brD"/>
@@ -2092,7 +2141,8 @@ Login using your email ID.</string>
                                                     <exclude reference="YgI-W3-sEo"/>
                                                 </mask>
                                             </variation>
-                                            <variation key="heightClass=regular-widthClass=compact">
+                                            <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
+                                                <rect key="frame" x="296" y="40" width="80" height="15"/>
                                                 <mask key="constraints">
                                                     <include reference="8uu-Eo-vHh"/>
                                                     <include reference="YgI-W3-sEo"/>
@@ -2102,11 +2152,11 @@ Login using your email ID.</string>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="OGh-71-RgD" firstAttribute="top" secondItem="SOV-Ct-fgw" secondAttribute="topMargin" constant="2" id="8gu-kS-pbf"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="lrN-B6-eWH" secondAttribute="trailing" id="8ld-YL-60w"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="OGh-71-RgD" secondAttribute="trailing" id="CDm-K3-wem"/>
                                         <constraint firstItem="OGh-71-RgD" firstAttribute="leading" secondItem="xYG-i9-8bo" secondAttribute="trailing" constant="24" id="DG7-nN-Yrv"/>
+                                        <constraint firstItem="xYG-i9-8bo" firstAttribute="leading" secondItem="SOV-Ct-fgw" secondAttribute="leadingMargin" id="Q7h-Ju-Thd"/>
                                         <constraint firstAttribute="centerY" secondItem="xYG-i9-8bo" secondAttribute="centerY" id="Qcq-Rb-R6A"/>
-                                        <constraint firstAttribute="trailingMargin" secondItem="OGh-71-RgD" secondAttribute="trailing" constant="16" id="VBM-wd-8w0"/>
-                                        <constraint firstItem="xYG-i9-8bo" firstAttribute="leading" secondItem="SOV-Ct-fgw" secondAttribute="leadingMargin" constant="15" id="WAq-3a-xXX"/>
-                                        <constraint firstAttribute="trailingMargin" secondItem="lrN-B6-eWH" secondAttribute="trailing" constant="16" id="t8Y-Fc-Whh"/>
                                         <constraint firstItem="lrN-B6-eWH" firstAttribute="top" secondItem="OGh-71-RgD" secondAttribute="bottom" id="whG-1x-JIR"/>
                                     </constraints>
                                     <variation key="default">
@@ -2116,13 +2166,13 @@ Login using your email ID.</string>
                                             <exclude reference="lrN-B6-eWH"/>
                                         </mask>
                                         <mask key="constraints">
-                                            <exclude reference="t8Y-Fc-Whh"/>
-                                            <exclude reference="whG-1x-JIR"/>
+                                            <exclude reference="Q7h-Ju-Thd"/>
                                             <exclude reference="Qcq-Rb-R6A"/>
-                                            <exclude reference="WAq-3a-xXX"/>
                                             <exclude reference="8gu-kS-pbf"/>
+                                            <exclude reference="CDm-K3-wem"/>
                                             <exclude reference="DG7-nN-Yrv"/>
-                                            <exclude reference="VBM-wd-8w0"/>
+                                            <exclude reference="8ld-YL-60w"/>
+                                            <exclude reference="whG-1x-JIR"/>
                                         </mask>
                                     </variation>
                                     <variation key="heightClass=regular-widthClass=compact">
@@ -2132,13 +2182,13 @@ Login using your email ID.</string>
                                             <include reference="lrN-B6-eWH"/>
                                         </mask>
                                         <mask key="constraints">
-                                            <include reference="t8Y-Fc-Whh"/>
-                                            <include reference="whG-1x-JIR"/>
+                                            <include reference="Q7h-Ju-Thd"/>
                                             <include reference="Qcq-Rb-R6A"/>
-                                            <include reference="WAq-3a-xXX"/>
                                             <include reference="8gu-kS-pbf"/>
+                                            <include reference="CDm-K3-wem"/>
                                             <include reference="DG7-nN-Yrv"/>
-                                            <include reference="VBM-wd-8w0"/>
+                                            <include reference="8ld-YL-60w"/>
+                                            <include reference="whG-1x-JIR"/>
                                         </mask>
                                     </variation>
                                 </tableViewCellContentView>
@@ -2165,7 +2215,8 @@ Login using your email ID.</string>
                                                     <exclude reference="O7k-HW-byr"/>
                                                 </mask>
                                             </variation>
-                                            <variation key="heightClass=regular-widthClass=compact">
+                                            <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
+                                                <rect key="frame" x="23" y="13" width="345" height="21"/>
                                                 <mask key="constraints">
                                                     <include reference="O7k-HW-byr"/>
                                                 </mask>
@@ -2186,7 +2237,8 @@ Login using your email ID.</string>
                                                     <exclude reference="rHG-fK-OFA"/>
                                                 </mask>
                                             </variation>
-                                            <variation key="heightClass=regular-widthClass=compact">
+                                            <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
+                                                <rect key="frame" x="23" y="38" width="30" height="16"/>
                                                 <mask key="constraints">
                                                     <include reference="OQ5-s8-3bQ"/>
                                                     <include reference="rHG-fK-OFA"/>
@@ -2196,10 +2248,10 @@ Login using your email ID.</string>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="vH2-bI-Eed" firstAttribute="top" secondItem="uUj-TB-JuB" secondAttribute="topMargin" constant="5" id="3Ns-sm-APE"/>
-                                        <constraint firstItem="d8a-A1-9MJ" firstAttribute="leading" secondItem="uUj-TB-JuB" secondAttribute="leadingMargin" constant="15" id="IjC-GZ-cjP"/>
-                                        <constraint firstAttribute="trailingMargin" secondItem="vH2-bI-Eed" secondAttribute="trailing" constant="24" id="eVg-Td-U9b"/>
+                                        <constraint firstItem="vH2-bI-Eed" firstAttribute="leading" secondItem="uUj-TB-JuB" secondAttribute="leadingMargin" id="GHx-MN-qLg"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="vH2-bI-Eed" secondAttribute="trailing" id="J7O-9e-PjA"/>
+                                        <constraint firstItem="d8a-A1-9MJ" firstAttribute="leading" secondItem="uUj-TB-JuB" secondAttribute="leadingMargin" id="WZB-10-1Tn"/>
                                         <constraint firstItem="d8a-A1-9MJ" firstAttribute="top" secondItem="vH2-bI-Eed" secondAttribute="bottom" constant="4" id="fkH-7d-n4h"/>
-                                        <constraint firstItem="vH2-bI-Eed" firstAttribute="leading" secondItem="uUj-TB-JuB" secondAttribute="leadingMargin" constant="15" id="rlj-qe-zRk"/>
                                     </constraints>
                                     <variation key="default">
                                         <mask key="subviews">
@@ -2207,11 +2259,11 @@ Login using your email ID.</string>
                                             <exclude reference="d8a-A1-9MJ"/>
                                         </mask>
                                         <mask key="constraints">
-                                            <exclude reference="IjC-GZ-cjP"/>
-                                            <exclude reference="fkH-7d-n4h"/>
                                             <exclude reference="3Ns-sm-APE"/>
-                                            <exclude reference="eVg-Td-U9b"/>
-                                            <exclude reference="rlj-qe-zRk"/>
+                                            <exclude reference="GHx-MN-qLg"/>
+                                            <exclude reference="J7O-9e-PjA"/>
+                                            <exclude reference="WZB-10-1Tn"/>
+                                            <exclude reference="fkH-7d-n4h"/>
                                         </mask>
                                     </variation>
                                     <variation key="heightClass=regular-widthClass=compact">
@@ -2220,11 +2272,11 @@ Login using your email ID.</string>
                                             <include reference="d8a-A1-9MJ"/>
                                         </mask>
                                         <mask key="constraints">
-                                            <include reference="IjC-GZ-cjP"/>
-                                            <include reference="fkH-7d-n4h"/>
                                             <include reference="3Ns-sm-APE"/>
-                                            <include reference="eVg-Td-U9b"/>
-                                            <include reference="rlj-qe-zRk"/>
+                                            <include reference="GHx-MN-qLg"/>
+                                            <include reference="J7O-9e-PjA"/>
+                                            <include reference="WZB-10-1Tn"/>
+                                            <include reference="fkH-7d-n4h"/>
                                         </mask>
                                     </variation>
                                 </tableViewCellContentView>
@@ -2752,6 +2804,7 @@ Login using your email ID.</string>
                                             <constraints>
                                                 <constraint firstItem="UpR-Rt-bXf" firstAttribute="leading" secondItem="mY5-wN-qSa" secondAttribute="leadingMargin" id="0HI-pO-9sU"/>
                                                 <constraint firstItem="GAG-O1-wOW" firstAttribute="leading" secondItem="mY5-wN-qSa" secondAttribute="leadingMargin" id="5JM-HO-HL2"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="UpR-Rt-bXf" secondAttribute="trailing" id="9CH-rE-wOp"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="UpR-Rt-bXf" secondAttribute="trailing" constant="24" id="Cya-Dh-rho"/>
                                                 <constraint firstItem="kWe-eh-b2h" firstAttribute="top" secondItem="GAG-O1-wOW" secondAttribute="bottom" constant="6" id="EKb-gn-cIA"/>
                                                 <constraint firstItem="kWe-eh-b2h" firstAttribute="leading" secondItem="bnn-yQ-ccp" secondAttribute="trailing" constant="17" id="KjG-Pg-IfI"/>
@@ -2777,22 +2830,23 @@ Login using your email ID.</string>
                                                     <exclude reference="bnn-yQ-ccp"/>
                                                 </mask>
                                                 <mask key="constraints">
-                                                    <exclude reference="5JM-HO-HL2"/>
-                                                    <exclude reference="fyT-dZ-Ctg"/>
                                                     <exclude reference="0HI-pO-9sU"/>
+                                                    <exclude reference="9CH-rE-wOp"/>
                                                     <exclude reference="Cya-Dh-rho"/>
                                                     <exclude reference="Qzh-FE-xHb"/>
                                                     <exclude reference="XO8-CH-vai"/>
                                                     <exclude reference="gzX-nm-aYW"/>
                                                     <exclude reference="xAE-lU-E1h"/>
-                                                    <exclude reference="SKw-eE-gUQ"/>
-                                                    <exclude reference="jOL-41-toA"/>
+                                                    <exclude reference="5JM-HO-HL2"/>
+                                                    <exclude reference="fyT-dZ-Ctg"/>
+                                                    <exclude reference="Yuh-qp-eHL"/>
+                                                    <exclude reference="ZHh-og-l4u"/>
                                                     <exclude reference="Sc5-fu-mf0"/>
                                                     <exclude reference="gXA-ZU-p1O"/>
                                                     <exclude reference="EKb-gn-cIA"/>
                                                     <exclude reference="KjG-Pg-IfI"/>
-                                                    <exclude reference="Yuh-qp-eHL"/>
-                                                    <exclude reference="ZHh-og-l4u"/>
+                                                    <exclude reference="SKw-eE-gUQ"/>
+                                                    <exclude reference="jOL-41-toA"/>
                                                 </mask>
                                             </variation>
                                             <variation key="heightClass=regular-widthClass=compact">
@@ -2805,22 +2859,23 @@ Login using your email ID.</string>
                                                     <include reference="bnn-yQ-ccp"/>
                                                 </mask>
                                                 <mask key="constraints">
-                                                    <include reference="5JM-HO-HL2"/>
-                                                    <include reference="fyT-dZ-Ctg"/>
                                                     <include reference="0HI-pO-9sU"/>
-                                                    <include reference="Cya-Dh-rho"/>
+                                                    <include reference="9CH-rE-wOp"/>
+                                                    <exclude reference="Cya-Dh-rho"/>
                                                     <include reference="Qzh-FE-xHb"/>
                                                     <exclude reference="XO8-CH-vai"/>
                                                     <exclude reference="gzX-nm-aYW"/>
                                                     <exclude reference="xAE-lU-E1h"/>
-                                                    <include reference="SKw-eE-gUQ"/>
-                                                    <include reference="jOL-41-toA"/>
+                                                    <include reference="5JM-HO-HL2"/>
+                                                    <include reference="fyT-dZ-Ctg"/>
+                                                    <include reference="Yuh-qp-eHL"/>
+                                                    <include reference="ZHh-og-l4u"/>
                                                     <include reference="Sc5-fu-mf0"/>
                                                     <include reference="gXA-ZU-p1O"/>
                                                     <include reference="EKb-gn-cIA"/>
                                                     <include reference="KjG-Pg-IfI"/>
-                                                    <include reference="Yuh-qp-eHL"/>
-                                                    <include reference="ZHh-og-l4u"/>
+                                                    <include reference="SKw-eE-gUQ"/>
+                                                    <include reference="jOL-41-toA"/>
                                                 </mask>
                                             </variation>
                                         </tableViewCellContentView>
@@ -3203,6 +3258,7 @@ Login using your email ID.</string>
                                                 <constraint firstItem="Iq6-78-fJE" firstAttribute="top" secondItem="buM-LY-gAS" secondAttribute="bottom" constant="6" id="V35-Ph-fWb"/>
                                                 <constraint firstItem="RuC-sl-Peo" firstAttribute="leading" secondItem="fet-09-e0y" secondAttribute="trailing" constant="17" id="VC0-0Z-lq1"/>
                                                 <constraint firstItem="woQ-63-u4N" firstAttribute="trailing" secondItem="5g8-ZU-3iF" secondAttribute="trailingMargin" id="Yal-CK-vog"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="e18-Zl-oT5" secondAttribute="trailing" id="ag7-TD-dEq"/>
                                                 <constraint firstItem="lpY-WT-3Wz" firstAttribute="top" secondItem="jme-vO-y8f" secondAttribute="bottom" constant="96" id="cx1-ji-JRg"/>
                                                 <constraint firstItem="lpY-WT-3Wz" firstAttribute="leading" secondItem="5g8-ZU-3iF" secondAttribute="leadingMargin" constant="140" id="e23-YI-D5q"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="e18-Zl-oT5" secondAttribute="trailing" constant="24" id="eO7-NV-nBY"/>
@@ -3229,26 +3285,27 @@ Login using your email ID.</string>
                                                     <exclude reference="2b9-AJ-pFf"/>
                                                     <exclude reference="2wH-b4-pnz"/>
                                                     <exclude reference="GpC-kV-wPo"/>
+                                                    <exclude reference="ag7-TD-dEq"/>
                                                     <exclude reference="eO7-NV-nBY"/>
                                                     <exclude reference="gG1-Jp-5Zo"/>
                                                     <exclude reference="r5A-n6-LKX"/>
                                                     <exclude reference="LhF-DU-FGF"/>
                                                     <exclude reference="ojW-1w-FHV"/>
-                                                    <exclude reference="Yal-CK-vog"/>
+                                                    <exclude reference="HWw-Ia-9Uv"/>
+                                                    <exclude reference="Svl-hC-tGk"/>
+                                                    <exclude reference="nGq-Lh-2F7"/>
                                                     <exclude reference="3Si-Pc-ury"/>
                                                     <exclude reference="IB4-8E-SZF"/>
                                                     <exclude reference="cx1-ji-JRg"/>
                                                     <exclude reference="e23-YI-D5q"/>
-                                                    <exclude reference="HWw-Ia-9Uv"/>
-                                                    <exclude reference="Svl-hC-tGk"/>
-                                                    <exclude reference="nGq-Lh-2F7"/>
                                                     <exclude reference="MBM-rK-ghY"/>
                                                     <exclude reference="V35-Ph-fWb"/>
+                                                    <exclude reference="jyj-9f-MOi"/>
+                                                    <exclude reference="owp-RG-AVU"/>
                                                     <exclude reference="B8O-Ca-MJx"/>
                                                     <exclude reference="VC0-0Z-lq1"/>
                                                     <exclude reference="gKM-H8-tgF"/>
-                                                    <exclude reference="jyj-9f-MOi"/>
-                                                    <exclude reference="owp-RG-AVU"/>
+                                                    <exclude reference="Yal-CK-vog"/>
                                                 </mask>
                                             </variation>
                                             <variation key="heightClass=regular-widthClass=compact">
@@ -3266,26 +3323,27 @@ Login using your email ID.</string>
                                                     <include reference="2b9-AJ-pFf"/>
                                                     <exclude reference="2wH-b4-pnz"/>
                                                     <include reference="GpC-kV-wPo"/>
-                                                    <include reference="eO7-NV-nBY"/>
+                                                    <include reference="ag7-TD-dEq"/>
+                                                    <exclude reference="eO7-NV-nBY"/>
                                                     <exclude reference="gG1-Jp-5Zo"/>
                                                     <exclude reference="r5A-n6-LKX"/>
                                                     <include reference="LhF-DU-FGF"/>
                                                     <include reference="ojW-1w-FHV"/>
-                                                    <include reference="Yal-CK-vog"/>
+                                                    <include reference="HWw-Ia-9Uv"/>
+                                                    <exclude reference="Svl-hC-tGk"/>
+                                                    <include reference="nGq-Lh-2F7"/>
                                                     <include reference="3Si-Pc-ury"/>
                                                     <exclude reference="IB4-8E-SZF"/>
                                                     <exclude reference="cx1-ji-JRg"/>
                                                     <include reference="e23-YI-D5q"/>
-                                                    <include reference="HWw-Ia-9Uv"/>
-                                                    <exclude reference="Svl-hC-tGk"/>
-                                                    <include reference="nGq-Lh-2F7"/>
                                                     <include reference="MBM-rK-ghY"/>
                                                     <include reference="V35-Ph-fWb"/>
+                                                    <include reference="jyj-9f-MOi"/>
+                                                    <include reference="owp-RG-AVU"/>
                                                     <include reference="B8O-Ca-MJx"/>
                                                     <include reference="VC0-0Z-lq1"/>
                                                     <include reference="gKM-H8-tgF"/>
-                                                    <include reference="jyj-9f-MOi"/>
-                                                    <include reference="owp-RG-AVU"/>
+                                                    <include reference="Yal-CK-vog"/>
                                                 </mask>
                                             </variation>
                                         </tableViewCellContentView>
@@ -3304,11 +3362,16 @@ Login using your email ID.</string>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
+                                <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
+                                    <rect key="frame" x="4" y="28" width="392" height="724"/>
+                                </variation>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="C05-eT-qh5" secondAttribute="trailing" constant="-8" id="6Nf-UZ-fVT"/>
                             <constraint firstAttribute="trailingMargin" secondItem="C05-eT-qh5" secondAttribute="trailing" constant="-12" id="Ugu-wt-Kk7"/>
+                            <constraint firstItem="C05-eT-qh5" firstAttribute="leading" secondItem="U4q-NS-u98" secondAttribute="leadingMargin" constant="-8" id="V5B-eU-j0k"/>
                             <constraint firstItem="C05-eT-qh5" firstAttribute="leading" secondItem="U4q-NS-u98" secondAttribute="leadingMargin" constant="-12" id="YHp-8r-Lh7"/>
                             <constraint firstItem="C05-eT-qh5" firstAttribute="top" secondItem="Li0-BY-ecd" secondAttribute="bottom" constant="8" id="biu-Jy-S22"/>
                             <constraint firstItem="MKM-ce-Msz" firstAttribute="top" secondItem="C05-eT-qh5" secondAttribute="bottom" constant="4" id="cYj-iI-iqM"/>
@@ -3318,10 +3381,12 @@ Login using your email ID.</string>
                                 <exclude reference="C05-eT-qh5"/>
                             </mask>
                             <mask key="constraints">
-                                <exclude reference="cYj-iI-iqM"/>
+                                <exclude reference="6Nf-UZ-fVT"/>
                                 <exclude reference="Ugu-wt-Kk7"/>
+                                <exclude reference="V5B-eU-j0k"/>
                                 <exclude reference="YHp-8r-Lh7"/>
                                 <exclude reference="biu-Jy-S22"/>
+                                <exclude reference="cYj-iI-iqM"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
@@ -3329,10 +3394,12 @@ Login using your email ID.</string>
                                 <include reference="C05-eT-qh5"/>
                             </mask>
                             <mask key="constraints">
-                                <include reference="cYj-iI-iqM"/>
-                                <include reference="Ugu-wt-Kk7"/>
-                                <include reference="YHp-8r-Lh7"/>
+                                <include reference="6Nf-UZ-fVT"/>
+                                <exclude reference="Ugu-wt-Kk7"/>
+                                <include reference="V5B-eU-j0k"/>
+                                <exclude reference="YHp-8r-Lh7"/>
                                 <include reference="biu-Jy-S22"/>
+                                <include reference="cYj-iI-iqM"/>
                             </mask>
                         </variation>
                     </view>
