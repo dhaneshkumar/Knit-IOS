@@ -243,7 +243,7 @@
             }];
         }
 
-        else if(_isNewSignIn==true)
+        else if(_isNewSignIn == true)
         {
             MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[[UIApplication sharedApplication] keyWindow]  animated:YES];
             hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
@@ -280,7 +280,8 @@
                                     }
                                     session[@"os"] = [NSString stringWithFormat:@"iOS %@", _osVersion];
                                     session[@"model"] = _model;
-                                    session[@"role"] = _role;
+                                    PFUser *currentUser = [PFUser currentUser];
+                                    session[@"role"] = currentUser[@"role"];
                                     [session saveEventually];
                                 }
                             }];
