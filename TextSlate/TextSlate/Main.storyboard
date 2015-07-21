@@ -1324,16 +1324,15 @@ Login using your email ID.</string>
                         <color key="backgroundColor" red="0.96078431372549022" green="0.96078431372549022" blue="0.96078431372549022" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="05e-Ja-YE5" firstAttribute="top" secondItem="gwR-0L-Nfj" secondAttribute="bottom" constant="8" id="2Al-cw-u0h"/>
+                            <constraint firstItem="05e-Ja-YE5" firstAttribute="trailing" secondItem="q6k-VG-mAF" secondAttribute="trailingMargin" constant="8" id="3qg-oC-dkc"/>
                             <constraint firstItem="05e-Ja-YE5" firstAttribute="leading" secondItem="q6k-VG-mAF" secondAttribute="leadingMargin" constant="-8" id="5Q1-6D-v1R"/>
-                            <constraint firstItem="05e-Ja-YE5" firstAttribute="leading" secondItem="q6k-VG-mAF" secondAttribute="leadingMargin" id="75f-rs-b7p"/>
-                            <constraint firstItem="rso-xe-YNB" firstAttribute="leading" secondItem="q6k-VG-mAF" secondAttribute="leadingMargin" id="8rk-x8-r06"/>
+                            <constraint firstItem="05e-Ja-YE5" firstAttribute="trailing" secondItem="q6k-VG-mAF" secondAttribute="trailingMargin" constant="-16" id="5m2-AO-tvz"/>
+                            <constraint firstItem="rso-xe-YNB" firstAttribute="trailing" secondItem="q6k-VG-mAF" secondAttribute="trailingMargin" constant="8" id="GGZ-Um-hhV"/>
                             <constraint firstItem="05e-Ja-YE5" firstAttribute="trailing" secondItem="q6k-VG-mAF" secondAttribute="trailingMargin" constant="-8" id="J25-Fz-LQu"/>
                             <constraint firstItem="rso-xe-YNB" firstAttribute="trailing" secondItem="q6k-VG-mAF" secondAttribute="trailingMargin" constant="-8" id="Vhm-Lw-kdI"/>
-                            <constraint firstItem="05e-Ja-YE5" firstAttribute="trailing" secondItem="q6k-VG-mAF" secondAttribute="trailingMargin" id="W8y-pW-FS7"/>
                             <constraint firstItem="rso-xe-YNB" firstAttribute="top" secondItem="05e-Ja-YE5" secondAttribute="bottom" constant="26" id="YR5-XA-ue4">
                                 <variation key="heightClass=regular-widthClass=compact" constant="8"/>
                             </constraint>
-                            <constraint firstItem="rso-xe-YNB" firstAttribute="trailing" secondItem="q6k-VG-mAF" secondAttribute="trailingMargin" id="YrJ-zQ-tuw"/>
                             <constraint firstItem="rso-xe-YNB" firstAttribute="leading" secondItem="q6k-VG-mAF" secondAttribute="leadingMargin" constant="-8" id="uzY-WN-ovz"/>
                         </constraints>
                         <variation key="default">
@@ -1343,14 +1342,13 @@ Login using your email ID.</string>
                             </mask>
                             <mask key="constraints">
                                 <exclude reference="2Al-cw-u0h"/>
+                                <exclude reference="3qg-oC-dkc"/>
                                 <exclude reference="5Q1-6D-v1R"/>
-                                <exclude reference="75f-rs-b7p"/>
+                                <exclude reference="5m2-AO-tvz"/>
                                 <exclude reference="J25-Fz-LQu"/>
-                                <exclude reference="W8y-pW-FS7"/>
-                                <exclude reference="8rk-x8-r06"/>
+                                <exclude reference="GGZ-Um-hhV"/>
                                 <exclude reference="Vhm-Lw-kdI"/>
                                 <exclude reference="YR5-XA-ue4"/>
-                                <exclude reference="YrJ-zQ-tuw"/>
                                 <exclude reference="uzY-WN-ovz"/>
                             </mask>
                         </variation>
@@ -1361,14 +1359,13 @@ Login using your email ID.</string>
                             </mask>
                             <mask key="constraints">
                                 <include reference="2Al-cw-u0h"/>
+                                <include reference="3qg-oC-dkc"/>
                                 <include reference="5Q1-6D-v1R"/>
-                                <exclude reference="75f-rs-b7p"/>
-                                <include reference="J25-Fz-LQu"/>
-                                <exclude reference="W8y-pW-FS7"/>
-                                <exclude reference="8rk-x8-r06"/>
-                                <include reference="Vhm-Lw-kdI"/>
+                                <exclude reference="5m2-AO-tvz"/>
+                                <exclude reference="J25-Fz-LQu"/>
+                                <include reference="GGZ-Um-hhV"/>
+                                <exclude reference="Vhm-Lw-kdI"/>
                                 <include reference="YR5-XA-ue4"/>
-                                <exclude reference="YrJ-zQ-tuw"/>
                                 <include reference="uzY-WN-ovz"/>
                             </mask>
                         </variation>
