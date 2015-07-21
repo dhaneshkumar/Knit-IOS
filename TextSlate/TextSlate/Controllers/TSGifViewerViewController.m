@@ -39,10 +39,12 @@
     CGRect screenRect = [[UIScreen mainScreen] bounds];
     CGFloat screenHeight = screenRect.size.height - 64.0;
     CGFloat screenWidth = screenRect.size.width;
-    float heightUnit = screenHeight/6.0;
-    float widthUnit = screenWidth/7.0;
+    float gifHeight = 320.0;
+    float gifWidth = _showAppGif?260.0:240.0;
+    float x = screenWidth-gifWidth-(screenWidth<500.0?0.0:32.0);
+    float y = screenHeight-gifHeight;
     
-    YLImageView* imageView = [[YLImageView alloc] initWithFrame:CGRectMake(widthUnit, heightUnit, 5*widthUnit, 3*heightUnit)];
+    YLImageView* imageView = [[YLImageView alloc] initWithFrame:CGRectMake(x/2.0, y/2.0, gifWidth, gifHeight)];
     NSString *gifName = _showAppGif?@"inviteParentsViaApp.gif":@"inviteParentsViaSMS.gif";
     imageView.image = [YLGIFImage imageNamed:gifName];
     [self.view addSubview:imageView];
