@@ -36,17 +36,17 @@
     self.classesTable.delegate = self;
     self.classesTable.dataSource = self;
     self.classesTable.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
-    [[_createOrJoinButton layer] setBorderWidth:0.3f];
-    [[_createOrJoinButton layer] setBorderColor:[[UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0] CGColor]];
-    [_createOrJoinButton.layer setShadowOffset:CGSizeMake(0.3, 0.3)];
-    [_createOrJoinButton.layer setShadowColor:[[UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0] CGColor]];
-    [_createOrJoinButton.layer setShadowOpacity:0.3];
-    
+    //[[_createOrJoinButton layer] setBorderWidth:0.3f];
+    //[[_createOrJoinButton layer] setBorderColor:[[UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0] CGColor]];
+    //[_createOrJoinButton.layer setShadowOffset:CGSizeMake(0.3, 0.3)];
+    //[_createOrJoinButton.layer setShadowColor:[[UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0] CGColor]];
+    //[_createOrJoinButton.layer setShadowOpacity:0.3];
+    [TSUtils applyRoundedCorners:_createOrJoinButton];
     CGFloat screenWidth = [TSUtils getScreenWidth];
-    _segmentedControlHeight.constant = 36.0;
-    _segmentedControlWidth.constant = screenWidth - 50.0;
-    _buttonHeight.constant = 60.0;
-    _buttonWidth.constant = screenWidth - 12.0;
+    _segmentedControlHeight.constant = 30.0;
+    _segmentedControlWidth.constant = screenWidth - 30.0;
+    _buttonHeight.constant = 30.0;
+    _buttonWidth.constant = screenWidth/1.8;
     UITapGestureRecognizer *view1Tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(view1Tapped:)];
     UITapGestureRecognizer *view2Tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(view2Tapped:)];
     [_createdClassUpperView addGestureRecognizer:view1Tap];
