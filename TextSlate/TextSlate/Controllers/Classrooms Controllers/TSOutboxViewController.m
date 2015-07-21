@@ -135,7 +135,7 @@
     
     cell.className.text = message.className;
     cell.message.text = message.message;
-    cell.messageWidth.constant = [self getScreenWidth] - 20.0;
+    cell.messageWidth.constant = [self getScreenWidth] - 30.0;
     NSTimeInterval mti = [self getMessageTimeDiff:message.sentTime];
     cell.sentTime.text = [self sentTimeDisplayText:mti];
     cell.likesCount.text = [NSString stringWithFormat:@"%d", message.likeCount];
@@ -190,7 +190,7 @@
     gettingSizeLabel.text = ((TSMessage *)_messagesArray[indexPath.row]).message;
     gettingSizeLabel.numberOfLines = 0;
     gettingSizeLabel.lineBreakMode = NSLineBreakByWordWrapping;
-    CGSize maximumLabelSize = CGSizeMake([self getScreenWidth] - 20.0, 9999);
+    CGSize maximumLabelSize = CGSizeMake([self getScreenWidth] - 30.0, 9999);
     
     CGSize expectSize = [gettingSizeLabel sizeThatFits:maximumLabelSize];
     TSMessage *msg = (TSMessage *)_messagesArray[indexPath.row];
