@@ -1525,10 +1525,12 @@ Login using your email ID.</string>
                         </variation>
                     </view>
                     <connections>
+                        <outlet property="bottomSpace" destination="cyf-fj-7dO" id="GBY-gh-3wP"/>
                         <outlet property="classesTable" destination="8Q6-v4-Jnk" id="haE-H9-tPw"/>
                         <outlet property="joinClassHeight" destination="XcS-If-ApA" id="hC7-ha-e4u"/>
                         <outlet property="joinClassWidth" destination="e42-8I-BfA" id="fmj-NU-qw6"/>
                         <outlet property="joinNewClass" destination="1ZL-LS-IuD" id="Pyb-XK-cs3"/>
+                        <outlet property="topSpace" destination="KOW-tC-rTV" id="Gs2-rE-haP"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rTP-s6-73o" userLabel="First Responder" sceneMemberID="firstResponder"/>

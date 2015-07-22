@@ -20,6 +20,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *joinNewClass;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *joinClassHeight;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *joinClassWidth;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *topSpace;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *bottomSpace;
 
 - (IBAction)buttonTapped:(id)sender;
 
@@ -39,6 +41,14 @@
     CGFloat screenWidth = [TSUtils getScreenWidth];
     _joinClassHeight.constant = 30.0;
     _joinClassWidth.constant = screenWidth/1.8;
+    if(_screenHeight<500.0) {
+        _topSpace.constant = 15.0;
+        _bottomSpace.constant = 20.0;
+    }
+    else {
+        _topSpace.constant = 20.0;
+        _bottomSpace.constant = 25.0;
+    }
 }
 
 
