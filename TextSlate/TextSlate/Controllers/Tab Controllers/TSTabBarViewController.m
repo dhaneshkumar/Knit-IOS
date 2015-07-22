@@ -46,6 +46,7 @@
         UINavigationController *startPage = [self.storyboard instantiateViewControllerWithIdentifier:@"startPageNavVC"];
         [self presentViewController:startPage animated:NO completion:nil];
     }
+    self.tabBar.translucent = NO;
 }
 
 
