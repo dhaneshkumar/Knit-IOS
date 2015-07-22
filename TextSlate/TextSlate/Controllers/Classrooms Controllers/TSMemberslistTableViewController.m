@@ -155,7 +155,7 @@
     if([child.userType isEqualToString:@"sms"]) {
         isAppUser = false;
     }
-    UIImage *accessoryImage = [UIImage imageNamed:isAppUser?@"android.png":@"sms.png"];
+    UIImage *accessoryImage = [UIImage imageNamed:isAppUser?@"app":@"sms"];
     UIImageView *accImageView = [[UIImageView alloc] initWithImage:accessoryImage];
     cell.accessoryView = accImageView;
     return cell;

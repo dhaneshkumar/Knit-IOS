@@ -41,8 +41,9 @@
 		5F56DFAC1B582E5200151889 /* EditProfileNameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F56DFAB1B582E5200151889 /* EditProfileNameViewController.m */; };
 		5F7F8D361B53E1350054E91E /* 750x1334.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F7F8D341B53E1350054E91E /* 750x1334.png */; };
 		5F7F8D371B53E1350054E91E /* 1242 x 2208 .png in Resources */ = {isa = PBXBuildFile; fileRef = 5F7F8D351B53E1350054E91E /* 1242 x 2208 .png */; };
-		5FDDA1ED1B5AE82500895D56 /* android.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FDDA1EB1B5AE82500895D56 /* android.png */; };
-		5FDDA1EE1B5AE82500895D56 /* sms.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FDDA1EC1B5AE82500895D56 /* sms.png */; };
+		5FDDA2241B5FC35000895D56 /* sms_in_circle-51.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FDDA2211B5FC34F00895D56 /* sms_in_circle-51.png */; };
+		5FDDA2251B5FC35000895D56 /* sms_in_circle-52.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FDDA2221B5FC35000895D56 /* sms_in_circle-52.png */; };
+		5FDDA2261B5FC35000895D56 /* sms_in_circle-53.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FDDA2231B5FC35000895D56 /* sms_in_circle-53.png */; };
 		971687E01A1F1C2B00FE98FC /* TSTeacher.m in Sources */ = {isa = PBXBuildFile; fileRef = 971687DF1A1F1C2B00FE98FC /* TSTeacher.m */; };
 		971687E31A1F1C3900FE98FC /* TSParent.m in Sources */ = {isa = PBXBuildFile; fileRef = 971687E21A1F1C3900FE98FC /* TSParent.m */; };
 		971687E71A1F823900FE98FC /* TSUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 971687E61A1F823900FE98FC /* TSUtils.m */; };
@@ -226,8 +227,9 @@
 		5F56DFAB1B582E5200151889 /* EditProfileNameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditProfileNameViewController.m; sourceTree = "<group>"; };
 		5F7F8D341B53E1350054E91E /* 750x1334.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 750x1334.png; sourceTree = "<group>"; };
 		5F7F8D351B53E1350054E91E /* 1242 x 2208 .png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "1242 x 2208 .png"; sourceTree = "<group>"; };
-		5FDDA1EB1B5AE82500895D56 /* android.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = android.png; sourceTree = "<group>"; };
-		5FDDA1EC1B5AE82500895D56 /* sms.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sms.png; sourceTree = "<group>"; };
+		5FDDA2211B5FC34F00895D56 /* sms_in_circle-51.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sms_in_circle-51.png"; sourceTree = "<group>"; };
+		5FDDA2221B5FC35000895D56 /* sms_in_circle-52.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sms_in_circle-52.png"; sourceTree = "<group>"; };
+		5FDDA2231B5FC35000895D56 /* sms_in_circle-53.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sms_in_circle-53.png"; sourceTree = "<group>"; };
 		92F296F2593AFC26685698B2 /* libPods-Knit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Knit.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		971687DE1A1F1C2B00FE98FC /* TSTeacher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSTeacher.h; sourceTree = "<group>"; };
 		971687DF1A1F1C2B00FE98FC /* TSTeacher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSTeacher.m; sourceTree = "<group>"; };
@@ -552,8 +554,9 @@
 		971687DB1A1F1BCA00FE98FC /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				5FDDA1EB1B5AE82500895D56 /* android.png */,
-				5FDDA1EC1B5AE82500895D56 /* sms.png */,
+				5FDDA2211B5FC34F00895D56 /* sms_in_circle-51.png */,
+				5FDDA2221B5FC35000895D56 /* sms_in_circle-52.png */,
+				5FDDA2231B5FC35000895D56 /* sms_in_circle-53.png */,
 				5F7F8D341B53E1350054E91E /* 750x1334.png */,
 				5F7F8D351B53E1350054E91E /* 1242 x 2208 .png */,
 				FBC8A27E1B4D1E47009E06F0 /* icon_87.png */,
@@ -1096,6 +1099,7 @@
 				FBAA81341AE0D8B40056E168 /* ios icons-30.png in Resources */,
 				4038D4261AC6C62200E9009A /* Main.storyboard in Resources */,
 				FBAA81331AE0D8B40056E168 /* ios icons-29.png in Resources */,
+				5FDDA2241B5FC35000895D56 /* sms_in_circle-51.png in Resources */,
 				404C9E191AC02176001CF571 /* ios icons-26.png in Resources */,
 				40EBADA81A7E60B6003FB0B1 /* LaunchScreen.xib in Resources */,
 				FBAA81741AE3AB170056E168 /* newIcon1.png in Resources */,
@@ -1130,11 +1134,10 @@
 				FBA236A91B0B4B830001D8E3 /* blue_arrow@2x.png in Resources */,
 				40C741591AC6A970007AA844 /* ios icons-19.png in Resources */,
 				40A9FC831AC42C0900082555 /* attach_30x30.png in Resources */,
-				5FDDA1EE1B5AE82500895D56 /* sms.png in Resources */,
 				FBA2364E1B0750250001D8E3 /* received@3x.png in Resources */,
 				FBA2364B1B0750250001D8E3 /* classroom@3x.png in Resources */,
+				5FDDA2261B5FC35000895D56 /* sms_in_circle-53.png in Resources */,
 				FB777C2E1B18780800754546 /* email@3x.png in Resources */,
-				5FDDA1ED1B5AE82500895D56 /* android.png in Resources */,
 				40EBADB41A7E6150003FB0B1 /* classroom.png in Resources */,
 				FBA236541B0750250001D8E3 /* settings@3x.png in Resources */,
 				FB777C171B17699D00754546 /* blue tick@1x.png in Resources */,
@@ -1155,6 +1158,7 @@
 				FBA2365A1B08BA1A0001D8E3 /* back@2x.png in Resources */,
 				FB777C161B17699D00754546 /* blue tick@2x.png in Resources */,
 				973A4BE31A1F174D0039175A /* Images.xcassets in Resources */,
+				5FDDA2251B5FC35000895D56 /* sms_in_circle-52.png in Resources */,
 				FBA236A61B0B4B830001D8E3 /* knit@2x.png in Resources */,
 				FB777C291B18780800754546 /* whatsapp@1x.png in Resources */,
 			);

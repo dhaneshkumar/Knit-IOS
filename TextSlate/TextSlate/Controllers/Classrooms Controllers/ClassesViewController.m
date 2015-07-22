@@ -243,7 +243,7 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if(_screenHeight<500.0) {
-        return 50.0;
+        return 54.0;
     }
     else {
         return 60.0;
