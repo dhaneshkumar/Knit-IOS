@@ -26,6 +26,13 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *buttonWidth;
 @property (weak, nonatomic) IBOutlet UIView *createdClassUpperView;
 @property (weak, nonatomic) IBOutlet UIView *joinedClassUpperView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *view1Height;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *view2Height;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *view1Top;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *view2Top;
+
+@property (nonatomic) float screenHeight;
+
 @end
 
 @implementation ClassesViewController
@@ -36,17 +43,22 @@
     self.classesTable.delegate = self;
     self.classesTable.dataSource = self;
     self.classesTable.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
-    //[[_createOrJoinButton layer] setBorderWidth:0.3f];
-    //[[_createOrJoinButton layer] setBorderColor:[[UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0] CGColor]];
-    //[_createOrJoinButton.layer setShadowOffset:CGSizeMake(0.3, 0.3)];
-    //[_createOrJoinButton.layer setShadowColor:[[UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0] CGColor]];
-    //[_createOrJoinButton.layer setShadowOpacity:0.3];
+    
     [TSUtils applyRoundedCorners:_createOrJoinButton];
     CGFloat screenWidth = [TSUtils getScreenWidth];
     _segmentedControlHeight.constant = 30.0;
     _segmentedControlWidth.constant = screenWidth - 30.0;
     _buttonHeight.constant = 30.0;
     _buttonWidth.constant = screenWidth/1.8;
+    if(_screenHeight<500.0) {
+        _view1Height.constant = _view2Height.constant = 20.0;
+        _view1Top.constant = _view2Top.constant = -16.0;
+    }
+    else {
+        _view1Height.constant = _view2Height.constant = 20.0;
+        _view1Top.constant = _view2Top.constant = 4.0;
+    }
+    
     UITapGestureRecognizer *view1Tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(view1Tapped:)];
     UITapGestureRecognizer *view2Tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(view2Tapped:)];
     [_createdClassUpperView addGestureRecognizer:view1Tap];
@@ -60,6 +72,7 @@
 
 
 -(void)initialization {
+    _screenHeight = [TSUtils getScreenHeight];
     NSMutableArray *joinedClassCodes = [[NSMutableArray alloc] init];
     NSMutableDictionary *joinedClassAssocNames = [[NSMutableDictionary alloc] init];
     NSArray *joinedClassesArray = (NSArray *) [[PFUser currentUser] objectForKey:@"joined_groups"];
@@ -118,7 +131,6 @@
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    //NSLog(@"viewWill appear");
     [self.classesTable setEditing:NO animated:NO];
     if(self.segmentedControl.selectedSegmentIndex==0)
         [_createOrJoinButton setTitle:@"+  Create New Class" forState:UIControlStateNormal];
@@ -130,7 +142,6 @@
 
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    //NSLog(@"viewDid appear");
     if([PFUser currentUser])
         [self fetchCodegroups];
 }
@@ -204,6 +215,12 @@
     if(self.segmentedControl.selectedSegmentIndex==0) {
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"createdClassCell"];
         cell.textLabel.text = _createdClasses[indexPath.row][1];
+        if(_screenHeight<500.0) {
+            cell.textLabel.font = [UIFont systemFontOfSize:14.0];
+        }
+        else {
+            cell.textLabel.font = [UIFont systemFontOfSize:16.0];
+        }
         return cell;
     }
     else {
@@ -211,9 +228,28 @@
         PFObject *codegroup = [_codegroups objectForKey:_joinedClasses[indexPath.row]];
         cell.textLabel.text = codegroup[@"name"];
         cell.detailTextLabel.text = [NSString stringWithFormat:@"by %@ ", codegroup[@"Creator"]];
+        if(_screenHeight<500.0) {
+            cell.textLabel.font = [UIFont systemFontOfSize:14.0];
+            cell.detailTextLabel.font = [UIFont systemFontOfSize:10.0];
+        }
+        else {
+            cell.textLabel.font = [UIFont systemFontOfSize:16.0];
+            cell.detailTextLabel.font = [UIFont systemFontOfSize:12.0];
+        }
         return cell;
     }
 }
+
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if(_screenHeight<500.0) {
+        return 50.0;
+    }
+    else {
+        return 60.0;
+    }
+}
+
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;

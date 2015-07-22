@@ -1856,6 +1856,10 @@ Login using your email ID.</string>
                         <outlet property="segmentedControl" destination="xbq-JN-6v9" id="kPQ-Bo-1jq"/>
                         <outlet property="segmentedControlHeight" destination="I0g-cl-KUC" id="5tN-N6-5m1"/>
                         <outlet property="segmentedControlWidth" destination="3rB-Ca-88E" id="gM1-Ws-0LY"/>
+                        <outlet property="view1Height" destination="1r4-62-04q" id="mba-fE-sdc"/>
+                        <outlet property="view1Top" destination="EtD-yW-WBv" id="ZaQ-eR-wKF"/>
+                        <outlet property="view2Height" destination="XGb-vh-GPG" id="is4-QJ-z4V"/>
+                        <outlet property="view2Top" destination="iLe-eO-oYr" id="yYV-la-dFZ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="f6G-pB-Ek2" userLabel="First Responder" sceneMemberID="firstResponder"/>
