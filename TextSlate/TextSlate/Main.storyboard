@@ -783,7 +783,8 @@ WW91ciBpbmZvcm1hdGlvbiB3aWxsIG5vdCBiZSBzaGFyZWQREQ13aXRoIGFueW9uZS4
                                                         <exclude reference="Dv6-25-3qw"/>
                                                     </mask>
                                                 </variation>
-                                                <variation key="heightClass=regular-widthClass=compact">
+                                                <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
+                                                    <rect key="frame" x="8" y="112" width="384" height="14"/>
                                                     <mask key="constraints">
                                                         <include reference="Dv6-25-3qw"/>
                                                     </mask>
@@ -897,6 +898,7 @@ Login using your email ID.</string>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <gestureRecognizers/>
                                         <constraints>
+                                            <constraint firstItem="tEm-64-aTu" firstAttribute="leading" secondItem="Gd6-xe-ca2" secondAttribute="leading" constant="16" id="2k4-Lf-GEF"/>
                                             <constraint firstAttribute="height" constant="800" id="4Qt-nA-9qj">
                                                 <variation key="heightClass=regular-widthClass=compact" constant="800"/>
                                             </constraint>
@@ -909,7 +911,6 @@ Login using your email ID.</string>
                                             <constraint firstItem="rvo-Z8-hq9" firstAttribute="leading" secondItem="Gd6-xe-ca2" secondAttribute="leading" constant="16" id="Fap-wO-4E8"/>
                                             <constraint firstItem="ybU-fx-ALR" firstAttribute="top" secondItem="vVJ-rf-cKq" secondAttribute="bottom" constant="24" id="Fx5-bL-MQ4"/>
                                             <constraint firstAttribute="trailing" secondItem="rvo-Z8-hq9" secondAttribute="trailing" constant="16" id="J1f-FQ-O65"/>
-                                            <constraint firstItem="ybU-fx-ALR" firstAttribute="leading" secondItem="Gd6-xe-ca2" secondAttribute="leadingMargin" id="Nb9-Xe-joz"/>
                                             <constraint firstAttribute="trailing" secondItem="hdw-9Q-5o7" secondAttribute="trailing" constant="16" id="Nw3-8B-SRs"/>
                                             <constraint firstItem="hdw-9Q-5o7" firstAttribute="leading" secondItem="Gd6-xe-ca2" secondAttribute="leading" constant="16" id="UJY-qe-KBx"/>
                                             <constraint firstItem="a4j-M8-rkt" firstAttribute="top" secondItem="rvo-Z8-hq9" secondAttribute="bottom" constant="12" id="WNb-MM-T7R"/>
@@ -917,7 +918,6 @@ Login using your email ID.</string>
                                             <constraint firstItem="vVJ-rf-cKq" firstAttribute="trailing" secondItem="Gd6-xe-ca2" secondAttribute="trailingMargin" id="ahn-G0-KiA"/>
                                             <constraint firstItem="hdw-9Q-5o7" firstAttribute="top" secondItem="MUv-dx-itV" secondAttribute="bottom" constant="22" id="dm5-hg-MAG"/>
                                             <constraint firstItem="a4j-M8-rkt" firstAttribute="trailing" secondItem="Gd6-xe-ca2" secondAttribute="trailingMargin" id="ejL-eg-A7E"/>
-                                            <constraint firstItem="tEm-64-aTu" firstAttribute="leading" secondItem="Gd6-xe-ca2" secondAttribute="leadingMargin" id="h6N-qD-oUb"/>
                                             <constraint firstItem="rvo-Z8-hq9" firstAttribute="top" secondItem="hdw-9Q-5o7" secondAttribute="bottom" constant="5" id="hUL-Kg-xDo"/>
                                             <constraint firstItem="vVJ-rf-cKq" firstAttribute="leading" secondItem="Gd6-xe-ca2" secondAttribute="leadingMargin" id="k0X-qe-53Z"/>
                                             <constraint firstItem="5WZ-6l-Zlb" firstAttribute="leading" secondItem="ybU-fx-ALR" secondAttribute="trailing" constant="5" id="n1Z-tD-cze"/>
@@ -925,7 +925,6 @@ Login using your email ID.</string>
                                             <constraint firstItem="tEm-64-aTu" firstAttribute="top" secondItem="5WZ-6l-Zlb" secondAttribute="bottom" constant="4" id="pvL-m2-J9p"/>
                                             <constraint firstItem="MUv-dx-itV" firstAttribute="top" secondItem="tEm-64-aTu" secondAttribute="bottom" constant="70" id="u0x-gn-gVE"/>
                                             <constraint firstAttribute="width" constant="400" id="w4F-6q-v6l"/>
-                                            <constraint firstItem="5WZ-6l-Zlb" firstAttribute="trailing" secondItem="Gd6-xe-ca2" secondAttribute="trailingMargin" id="wl1-tg-lOU"/>
                                             <constraint firstItem="MUv-dx-itV" firstAttribute="trailing" secondItem="Gd6-xe-ca2" secondAttribute="trailingMargin" id="x9T-Ai-js7"/>
                                         </constraints>
                                         <variation key="default">
@@ -947,13 +946,11 @@ Login using your email ID.</string>
                                                 <exclude reference="k0X-qe-53Z"/>
                                                 <exclude reference="Afc-1q-TUU"/>
                                                 <exclude reference="Fx5-bL-MQ4"/>
-                                                <exclude reference="Nb9-Xe-joz"/>
                                                 <exclude reference="9aW-oN-QdO"/>
                                                 <exclude reference="n1Z-tD-cze"/>
                                                 <exclude reference="nGo-6m-sFw"/>
-                                                <exclude reference="wl1-tg-lOU"/>
+                                                <exclude reference="2k4-Lf-GEF"/>
                                                 <exclude reference="9P0-5P-cea"/>
-                                                <exclude reference="h6N-qD-oUb"/>
                                                 <exclude reference="pvL-m2-J9p"/>
                                                 <exclude reference="ZSP-1e-Vl6"/>
                                                 <exclude reference="u0x-gn-gVE"/>
@@ -987,13 +984,11 @@ Login using your email ID.</string>
                                                 <include reference="k0X-qe-53Z"/>
                                                 <include reference="Afc-1q-TUU"/>
                                                 <include reference="Fx5-bL-MQ4"/>
-                                                <exclude reference="Nb9-Xe-joz"/>
                                                 <include reference="9aW-oN-QdO"/>
                                                 <include reference="n1Z-tD-cze"/>
                                                 <include reference="nGo-6m-sFw"/>
-                                                <exclude reference="wl1-tg-lOU"/>
+                                                <include reference="2k4-Lf-GEF"/>
                                                 <include reference="9P0-5P-cea"/>
-                                                <include reference="h6N-qD-oUb"/>
                                                 <include reference="pvL-m2-J9p"/>
                                                 <include reference="ZSP-1e-Vl6"/>
                                                 <include reference="u0x-gn-gVE"/>

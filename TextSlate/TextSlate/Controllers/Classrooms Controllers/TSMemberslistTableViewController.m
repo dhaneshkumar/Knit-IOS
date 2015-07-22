@@ -62,9 +62,6 @@
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.tableView reloadData];
-    if(self.tableView.editing) {
-        [self.tableView setEditing:NO];
-    }
 }
 
 
