@@ -44,6 +44,9 @@
 		5FDDA2241B5FC35000895D56 /* sms_in_circle-51.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FDDA2211B5FC34F00895D56 /* sms_in_circle-51.png */; };
 		5FDDA2251B5FC35000895D56 /* sms_in_circle-52.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FDDA2221B5FC35000895D56 /* sms_in_circle-52.png */; };
 		5FDDA2261B5FC35000895D56 /* sms_in_circle-53.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FDDA2231B5FC35000895D56 /* sms_in_circle-53.png */; };
+		5FDDA22A1B5FC98600895D56 /* app in circle-48.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FDDA2271B5FC98600895D56 /* app in circle-48.png */; };
+		5FDDA22B1B5FC98600895D56 /* app in circle-49.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FDDA2281B5FC98600895D56 /* app in circle-49.png */; };
+		5FDDA22C1B5FC98600895D56 /* app in circle-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FDDA2291B5FC98600895D56 /* app in circle-50.png */; };
 		971687E01A1F1C2B00FE98FC /* TSTeacher.m in Sources */ = {isa = PBXBuildFile; fileRef = 971687DF1A1F1C2B00FE98FC /* TSTeacher.m */; };
 		971687E31A1F1C3900FE98FC /* TSParent.m in Sources */ = {isa = PBXBuildFile; fileRef = 971687E21A1F1C3900FE98FC /* TSParent.m */; };
 		971687E71A1F823900FE98FC /* TSUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 971687E61A1F823900FE98FC /* TSUtils.m */; };
@@ -230,6 +233,9 @@
 		5FDDA2211B5FC34F00895D56 /* sms_in_circle-51.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sms_in_circle-51.png"; sourceTree = "<group>"; };
 		5FDDA2221B5FC35000895D56 /* sms_in_circle-52.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sms_in_circle-52.png"; sourceTree = "<group>"; };
 		5FDDA2231B5FC35000895D56 /* sms_in_circle-53.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sms_in_circle-53.png"; sourceTree = "<group>"; };
+		5FDDA2271B5FC98600895D56 /* app in circle-48.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "app in circle-48.png"; sourceTree = "<group>"; };
+		5FDDA2281B5FC98600895D56 /* app in circle-49.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "app in circle-49.png"; sourceTree = "<group>"; };
+		5FDDA2291B5FC98600895D56 /* app in circle-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "app in circle-50.png"; sourceTree = "<group>"; };
 		92F296F2593AFC26685698B2 /* libPods-Knit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Knit.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		971687DE1A1F1C2B00FE98FC /* TSTeacher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSTeacher.h; sourceTree = "<group>"; };
 		971687DF1A1F1C2B00FE98FC /* TSTeacher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSTeacher.m; sourceTree = "<group>"; };
@@ -554,6 +560,9 @@
 		971687DB1A1F1BCA00FE98FC /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				5FDDA2271B5FC98600895D56 /* app in circle-48.png */,
+				5FDDA2281B5FC98600895D56 /* app in circle-49.png */,
+				5FDDA2291B5FC98600895D56 /* app in circle-50.png */,
 				5FDDA2211B5FC34F00895D56 /* sms_in_circle-51.png */,
 				5FDDA2221B5FC35000895D56 /* sms_in_circle-52.png */,
 				5FDDA2231B5FC35000895D56 /* sms_in_circle-53.png */,
@@ -1079,6 +1088,7 @@
 				FB6A04A81AC29770009E9D9D /* ios icons-15.png in Resources */,
 				FBA2364F1B0750250001D8E3 /* sent@1x.png in Resources */,
 				FB777C2B1B18780800754546 /* phonebook@2x.png in Resources */,
+				5FDDA22C1B5FC98600895D56 /* app in circle-50.png in Resources */,
 				FBA236A81B0B4B830001D8E3 /* blue_arrow@3x.png in Resources */,
 				FBA236A71B0B4B830001D8E3 /* knit@1x.png in Resources */,
 				FBAA81751AE3AB170056E168 /* newIcon2.png in Resources */,
@@ -1087,6 +1097,7 @@
 				FBA2364D1B0750250001D8E3 /* received@2x.png in Resources */,
 				FBBA45D71A9DE4400088CCBC /* defaultTeacher.png in Resources */,
 				FBC8A27B1B4CFEBE009E06F0 /* icon_120.png in Resources */,
+				5FDDA22B1B5FC98600895D56 /* app in circle-49.png in Resources */,
 				FB777C2C1B18780800754546 /* phonebook@1x.png in Resources */,
 				FBA236501B0750250001D8E3 /* sent@2x.png in Resources */,
 				FBAA81351AE0D8B40056E168 /* ios icons-31.png in Resources */,
@@ -1112,6 +1123,7 @@
 				FBA236A51B0B4B830001D8E3 /* knit@3x.png in Resources */,
 				404C9E171AC02176001CF571 /* ios icons-24.png in Resources */,
 				FB1F47BB1A7589AE0093350B /* 120x120.png in Resources */,
+				5FDDA22A1B5FC98600895D56 /* app in circle-48.png in Resources */,
 				40EBADB01A7E6142003FB0B1 /* 640 x 1136.png in Resources */,
 				FBB860B21AF350920005474A /* Default-568h@2x.png in Resources */,
 				FBA236491B0750250001D8E3 /* classroom@1x.png in Resources */,
