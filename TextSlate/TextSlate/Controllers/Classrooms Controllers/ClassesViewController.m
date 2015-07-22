@@ -149,7 +149,6 @@
 
 -(void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    self.tabBarController.navigationItem.leftBarButtonItem = nil;
 }
 
 

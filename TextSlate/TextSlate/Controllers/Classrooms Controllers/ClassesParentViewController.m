@@ -18,8 +18,12 @@
 @interface ClassesParentViewController ()
 
 @property (weak, nonatomic) IBOutlet UIButton *joinNewClass;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *joinClassHeight;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *joinClassWidth;
+
 - (IBAction)buttonTapped:(id)sender;
 
+@property (nonatomic) float screenHeight;
 
 @end
 
@@ -32,8 +36,9 @@
     self.classesTable.dataSource = self;
     self.classesTable.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     [TSUtils applyRoundedCorners:_joinNewClass];
-    [[_joinNewClass layer] setBorderWidth:0.5f];
-    [[_joinNewClass layer] setBorderColor:[[UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0] CGColor]];
+    CGFloat screenWidth = [TSUtils getScreenWidth];
+    _joinClassHeight.constant = 30.0;
+    _joinClassWidth.constant = screenWidth/1.8;
 }
 
 
@@ -44,6 +49,7 @@
 
 
 -(void)initialization {
+    _screenHeight = [TSUtils getScreenHeight];
     NSMutableArray *joinedClassCodes = [[NSMutableArray alloc] init];
     NSMutableDictionary *joinedClassAssocNames = [[NSMutableDictionary alloc] init];
     NSArray *joinedClassesArray = (NSArray *) [[PFUser currentUser] objectForKey:@"joined_groups"];
@@ -101,7 +107,8 @@
 
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    [self fetchCodegroups];
+    if([PFUser currentUser])
+        [self fetchCodegroups];
 }
 
 
@@ -159,7 +166,6 @@
 
 -(void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
-    self.navigationItem.rightBarButtonItem = nil;
 }
 
 /*
@@ -183,10 +189,29 @@
     PFObject *codegroup = [_codegroups objectForKey:_joinedClasses[indexPath.row]];
     cell.textLabel.text = codegroup[@"name"];
     cell.detailTextLabel.text = [NSString stringWithFormat:@"by %@ ", codegroup[@"Creator"]];
+    if(_screenHeight<500.0) {
+        cell.textLabel.font = [UIFont systemFontOfSize:14.0];
+        cell.detailTextLabel.font = [UIFont systemFontOfSize:10.0];
+    }
+    else {
+        cell.textLabel.font = [UIFont systemFontOfSize:16.0];
+        cell.detailTextLabel.font = [UIFont systemFontOfSize:12.0];
+    }
+
     return cell;
 }
 
-    
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if(_screenHeight<500.0) {
+        return 54.0;
+    }
+    else {
+        return 60.0;
+    }
+}
+
+
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     long int row = indexPath.row;
     JoinedClassTableViewController *dvc = (JoinedClassTableViewController *)[_joinedClassVCs objectForKey:_joinedClasses[row]];
