@@ -68,9 +68,9 @@
     self.navigationItem.leftBarButtonItem = cancelBarButtonItem;
     _attachImage=[[UIImageView alloc]init];
     [_attachImage setFrame:CGRectMake(65, 1, 60, 40)];
-    _attachImage.contentMode=UIViewContentModeScaleToFill;
-    _attachImage.clipsToBounds=YES;
-    _attachImage.layer.cornerRadius=4;
+    _attachImage.contentMode = UIViewContentModeScaleToFill;
+    _attachImage.clipsToBounds = YES;
+    _attachImage.layer.cornerRadius = 4;
     [_attachImage.layer setCornerRadius:5];
     [_attachImage.layer setMasksToBounds:YES];
     
@@ -97,7 +97,7 @@
     [self.navigationController.toolbar addSubview:_cancelAttachment];
     [self.navigationController.toolbar addSubview:_wordCount];
  
-    self.navigationItem.title=@"New Message";
+    self.navigationItem.title = @"New Message";
     _createdClasses=[[NSMutableArray alloc]init];
     _createdclassName=[[NSMutableArray alloc]init];
     _createdclassCode=[[NSMutableArray alloc]init];
@@ -105,21 +105,17 @@
     _hasTypedMessage = false;
     
     _createdClasses=[[PFUser currentUser] objectForKey:@"Created_groups"];
-    //NSLog(@"object return %@",[_createdClasses objectAtIndex:0]);
     for(NSArray *a in _createdClasses) {
         [_createdclassCode addObject:[a objectAtIndex:0]];
         [_createdclassName addObject:[a objectAtIndex:1]];
     }
-    
-    //NSLog(@"created class name %@",_createdclassName);
-    //NSLog(@"created class code %@",_createdclassCode);
     _hasSelectedClass = false;
     _hasTypedMessage = false;
     
     _recipientViewHeight.constant = 50.0;
     _messageBodyView.constant = 160.0;
     
-    CGFloat width =  [@"Write message here ..." sizeWithAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:17.0f]}].width;
+    CGFloat width = [@"Write message here ..." sizeWithAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:17.0f]}].width;
     CGFloat height = 30.0;
     _writeMessageHere = [[UILabel alloc] initWithFrame:CGRectMake(12.0, 10.0, width, height)];
     _writeMessageHere.text = @"Write message here ...";
@@ -170,7 +166,6 @@
         _recipientClassLabel.textColor = [UIColor lightGrayColor];
         _recipientClassLabel.font = [UIFont systemFontOfSize:17.0];
     }
-    
     _writeMessageHere.hidden = _hasTypedMessage;
     
     [_recipientClassView setNeedsDisplay];
@@ -183,9 +178,7 @@
 }
 
 
-- (void)textViewDidBeginEditing:(UITextView *)textView
-{
-    //NSLog(@"did begin editing");
+- (void)textViewDidBeginEditing:(UITextView *)textView {
     _writeMessageHere.hidden = true;
     if (!_hasTypedMessage) {
         textView.text = @"";
@@ -193,7 +186,6 @@
 }
 
 - (void)textViewDidEndEditing:(UITextView *)textView {
-    //NSLog(@"did end editing");
     if ([[self trimmedString:textView.text] isEqualToString:@""]) {
         _textMessage.text = @"";
         _hasTypedMessage = false;
@@ -207,8 +199,9 @@
 
 
 -(void)recipientClassTapped:(UITapGestureRecognizer *)recognizer {
-    //NSLog(@"recipient class tapped");
     if(!_isClass) {
+        UINavigationController *messageRecipientsNav = [self.storyboard instantiateViewControllerWithIdentifier:@"msgRecipientsNav"];
+        
         MessageComposerRecipientsViewController *popUpView = [self.storyboard instantiateViewControllerWithIdentifier:@"messageRecipientsVC"];
         popUpView.messageComposerVC = self;
         if(_hasSelectedClass)
@@ -221,21 +214,17 @@
 
 
 -(void)messageBodyTapped:(UITapGestureRecognizer *)recognizer {
-    //NSLog(@"message body tapped");
     [_textMessage becomeFirstResponder];
 }
 
 
 -(void)textViewDidChange:(UITextView *)textView {
-    //NSLog(@"view did change");
     long len = 300-textView.text.length;
     NSString* count = [@(len) stringValue];
     _wordCount.text = count;
 }
 
-- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
-{
-    //NSLog(@"oye");
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
     if([text length] == 0) {
         if([textView.text length] == 0) {
             return NO;
@@ -251,7 +240,6 @@
 
 
 - (void) actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
-    //NSLog(@"button index : %d", buttonIndex);
     if(buttonIndex == _createdclassCode.count){
         //NSLog(@"No class selected");
     }
@@ -312,7 +300,6 @@
 
     [UIView commitAnimations];
     [_textMessage becomeFirstResponder];
-    //NSLog(@"toolbar moved: %f", self.navigationController.view.frame.size.height);
 }
 
 

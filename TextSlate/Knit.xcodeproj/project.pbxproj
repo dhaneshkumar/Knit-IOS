@@ -47,6 +47,8 @@
 		5FDDA22A1B5FC98600895D56 /* app in circle-48.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FDDA2271B5FC98600895D56 /* app in circle-48.png */; };
 		5FDDA22B1B5FC98600895D56 /* app in circle-49.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FDDA2281B5FC98600895D56 /* app in circle-49.png */; };
 		5FDDA22C1B5FC98600895D56 /* app in circle-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FDDA2291B5FC98600895D56 /* app in circle-50.png */; };
+		5FDDA22F1B618F2100895D56 /* messageRecipientsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FDDA22E1B618F2100895D56 /* messageRecipientsTableViewCell.m */; };
+		5FDDA2331B618F9600895D56 /* messageRecipientsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FDDA2321B618F9600895D56 /* messageRecipientsViewController.m */; };
 		971687E01A1F1C2B00FE98FC /* TSTeacher.m in Sources */ = {isa = PBXBuildFile; fileRef = 971687DF1A1F1C2B00FE98FC /* TSTeacher.m */; };
 		971687E31A1F1C3900FE98FC /* TSParent.m in Sources */ = {isa = PBXBuildFile; fileRef = 971687E21A1F1C3900FE98FC /* TSParent.m */; };
 		971687E71A1F823900FE98FC /* TSUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 971687E61A1F823900FE98FC /* TSUtils.m */; };
@@ -236,6 +238,10 @@
 		5FDDA2271B5FC98600895D56 /* app in circle-48.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "app in circle-48.png"; sourceTree = "<group>"; };
 		5FDDA2281B5FC98600895D56 /* app in circle-49.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "app in circle-49.png"; sourceTree = "<group>"; };
 		5FDDA2291B5FC98600895D56 /* app in circle-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "app in circle-50.png"; sourceTree = "<group>"; };
+		5FDDA22D1B618F2100895D56 /* messageRecipientsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = messageRecipientsTableViewCell.h; sourceTree = "<group>"; };
+		5FDDA22E1B618F2100895D56 /* messageRecipientsTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = messageRecipientsTableViewCell.m; sourceTree = "<group>"; };
+		5FDDA2311B618F9600895D56 /* messageRecipientsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = messageRecipientsViewController.h; sourceTree = "<group>"; };
+		5FDDA2321B618F9600895D56 /* messageRecipientsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = messageRecipientsViewController.m; sourceTree = "<group>"; };
 		92F296F2593AFC26685698B2 /* libPods-Knit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Knit.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		971687DE1A1F1C2B00FE98FC /* TSTeacher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSTeacher.h; sourceTree = "<group>"; };
 		971687DF1A1F1C2B00FE98FC /* TSTeacher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSTeacher.m; sourceTree = "<group>"; };
@@ -510,9 +516,19 @@
 			name = "Phone Verification Controller";
 			sourceTree = "<group>";
 		};
+		5FDDA2301B618F6700895D56 /* Message Recipients */ = {
+			isa = PBXGroup;
+			children = (
+				5FDDA2311B618F9600895D56 /* messageRecipientsViewController.h */,
+				5FDDA2321B618F9600895D56 /* messageRecipientsViewController.m */,
+			);
+			name = "Message Recipients";
+			sourceTree = "<group>";
+		};
 		971687D71A1F1BCA00FE98FC /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				5FDDA2301B618F6700895D56 /* Message Recipients */,
 				FBAD1F9D1B43BAA300F8999A /* Web View */,
 				406E1DF01B294F7A00F17C33 /* Feedback Controller */,
 				FB65C9671B1D80A500EAE58E /* Gif Viewer */,
@@ -790,6 +806,8 @@
 				FB777C0D1B16D6B800754546 /* addressBookTableViewCell.m */,
 				5F56DFA71B57E05800151889 /* settingsTableViewCell.h */,
 				5F56DFA81B57E05800151889 /* settingsTableViewCell.m */,
+				5FDDA22D1B618F2100895D56 /* messageRecipientsTableViewCell.h */,
+				5FDDA22E1B618F2100895D56 /* messageRecipientsTableViewCell.m */,
 			);
 			path = "Classes Table View Cells";
 			sourceTree = "<group>";
@@ -1266,6 +1284,7 @@
 				976F04451A4B6EA0003E9604 /* TSSendClassMessageViewController.m in Sources */,
 				FBBA45C91A94D2330088CCBC /* TSNewInboxViewController.m in Sources */,
 				976732631A647C8D001CEC97 /* TSMemberslistTableViewController.m in Sources */,
+				5FDDA22F1B618F2100895D56 /* messageRecipientsTableViewCell.m in Sources */,
 				5F56DFA91B57E05800151889 /* settingsTableViewCell.m in Sources */,
 				975B1E901A211A380028BE25 /* TSClass.m in Sources */,
 				971687E71A1F823900FE98FC /* TSUtils.m in Sources */,
@@ -1279,6 +1298,7 @@
 				FBB860C21AF3595F0005474A /* JTSImageViewController.m in Sources */,
 				40CDDBB61A90E47E00922ADF /* TSMember.m in Sources */,
 				FB0F6CAD1B45547F0006BE95 /* MessageComposerRecipientsViewController.m in Sources */,
+				5FDDA2331B618F9600895D56 /* messageRecipientsViewController.m in Sources */,
 				FBB860C01AF3595F0005474A /* JTSAnimatedGIFUtility.m in Sources */,
 				FBBA45CC1A94D3170088CCBC /* TSInboxMessageTableViewCell.m in Sources */,
 				97655AC61A5D915C004A2884 /* TSSettingsTableViewController.m in Sources */,
