@@ -330,7 +330,7 @@
                                     <constraint firstItem="3Ye-yG-4u5" firstAttribute="leading" secondItem="kxS-7h-9Ze" secondAttribute="trailing" constant="12" id="MGD-ZH-Ojx">
                                         <variation key="heightClass=regular-widthClass=compact" constant="6"/>
                                     </constraint>
-                                    <constraint firstAttribute="trailing" secondItem="3Ye-yG-4u5" secondAttribute="trailing" constant="24" id="aqI-of-Xn0"/>
+                                    <constraint firstAttribute="trailing" secondItem="3Ye-yG-4u5" secondAttribute="trailing" constant="6" id="aqI-of-Xn0"/>
                                 </constraints>
                                 <variation key="default">
                                     <mask key="subviews">

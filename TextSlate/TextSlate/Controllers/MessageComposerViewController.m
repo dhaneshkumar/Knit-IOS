@@ -152,9 +152,10 @@
     else {
         NSLog(@"here : %d", _hasSelectedClasses);
         if(_hasSelectedClasses) {
-            _recipientClassLabel.text = [NSString stringWithFormat:@"%ld classes", [_selectedClassIndices allObjects].count];
-            _recipientClassLabel.textColor = [UIColor lightGrayColor];
-            _recipientClassLabel.font = [UIFont systemFontOfSize:17.0];
+            NSString *displayText = [self getDisplayText];
+            _recipientClassLabel.text = displayText;
+            _recipientClassLabel.textColor = [UIColor colorWithRed:41.0/255.0 green:182.0/255.0 blue:246.0/255.0 alpha:1.0];
+            _recipientClassLabel.font = [UIFont systemFontOfSize:20.0];
         }
         else {
             _recipientClassLabel.text = @"Tap to select Class";
@@ -172,6 +173,24 @@
     [_recipientClassView addGestureRecognizer:recipientClassTap];
     UITapGestureRecognizer *messageBodyTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(messageBodyTapped:)];
     [_textMessage addGestureRecognizer:messageBodyTap];
+}
+
+
+- (NSString *)getDisplayText {
+    NSArray *arr = [_selectedClassIndices allObjects];
+    if(arr.count == 1) {
+        return _createdClasses[[arr[0] integerValue]][1];
+    }
+    else if(arr.count == 2) {
+        return [NSString stringWithFormat:@"%@, %@", _createdClasses[[arr[0] integerValue]][1], _createdClasses[[arr[1] integerValue]][1]];
+    }
+    else {
+        NSString *name = _createdClasses[[arr[0] integerValue]][1];
+        if(name.length > 10) {
+            name = [NSString stringWithFormat:@"%@...", [name substringToIndex:8]];
+        }
+        return [NSString stringWithFormat:@"%@ and %ld more", name, _selectedClassIndices.count];
+    }
 }
 
 
