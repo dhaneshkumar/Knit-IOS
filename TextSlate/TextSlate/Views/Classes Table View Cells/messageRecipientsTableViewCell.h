@@ -10,4 +10,6 @@
 
 @interface messageRecipientsTableViewCell : UITableViewCell
 
+@property (weak, nonatomic) IBOutlet UILabel *className;
+
 @end

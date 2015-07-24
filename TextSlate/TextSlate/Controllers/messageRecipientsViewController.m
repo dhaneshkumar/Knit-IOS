@@ -7,6 +7,7 @@
 //
 
 #import "messageRecipientsViewController.h"
+#import "messageRecipientsTableViewCell.h"
 
 @interface messageRecipientsViewController ()
 
@@ -19,13 +20,70 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    _view1Height.constant = 50.0;
+    UIBarButtonItem *doneBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(closeWindow)];
+    self.navigationItem.rightBarButtonItem = doneBarButtonItem;
+    self.navigationItem.title = @"Select classes";
+    self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+    self.tableView.dataSource = self;
+    self.tableView.delegate = self;
 }
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+
+-(void)closeWindow {
+    NSArray *arr = [_selectedClassIndices allObjects];
+    NSLog(@"arr : %@", arr);
+    [_parent classSelected:[_selectedClassIndices allObjects].count>0];
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+
+-(void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+}
+
+
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 1;
+}
+
+
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return _createdClasses.count;
+}
+
+
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSString *cellIdentifier = [_selectedClassIndices containsObject:[NSNumber numberWithInteger:indexPath.row]]?@"selectedClassCell":@"normalClassCell";
+    messageRecipientsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    cell.className.text = _createdClasses[indexPath.row][1];
+    return cell;
+}
+
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 60.0;
+}
+
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    BOOL isSelected = [_selectedClassIndices containsObject:[NSNumber numberWithInteger:indexPath.row]];
+    NSNumber *row = [NSNumber numberWithInteger:indexPath.row];
+    if(isSelected) {
+        [_selectedClassIndices removeObject:row];
+    }
+    else {
+        [_selectedClassIndices addObject:row];
+    }
+    [_tableView reloadData];
+}
+
 
 /*
 #pragma mark - Navigation

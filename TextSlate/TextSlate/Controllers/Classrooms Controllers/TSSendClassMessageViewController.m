@@ -291,9 +291,9 @@
 -(void) composeMessage{
     UINavigationController *messageComposerNavVC = [self.storyboard instantiateViewControllerWithIdentifier:@"messageComposer"];
     MessageComposerViewController *messageComposerVC = (MessageComposerViewController *)messageComposerNavVC.topViewController;
-    messageComposerVC.isClass=true;
-    messageComposerVC.classcode=_classCode;
-    messageComposerVC.classname=_className;
+    messageComposerVC.isClass = true;
+    messageComposerVC.classCode = _classCode;
+    messageComposerVC.className = _className;
     [self presentViewController:messageComposerNavVC animated:YES completion:nil];
 }
 /*

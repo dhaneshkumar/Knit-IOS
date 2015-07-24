@@ -26,6 +26,7 @@
 #import "TSUtils.h"
 #import <AVFoundation/AVFoundation.h>
 #import <AssetsLibrary/AssetsLibrary.h>
+#import "messageRecipientsViewController.h"
 
 @interface MessageComposerViewController ()
 
@@ -37,23 +38,20 @@
 @property (strong, nonatomic) UILabel *tapToSelectClass;
 @property (strong, nonatomic) UILabel *writeMessageHere;
 
+@property (strong,nonatomic) NSArray *createdClasses;
+@property (strong, nonatomic) NSMutableSet *selectedClassIndices;
+
 @property (strong, nonatomic) NSMutableArray *messagesArray;
 @property (strong,nonatomic) UIImage *attachmentImage;
 @property (strong, nonatomic) UIImagePickerController *imagePicker;
 @property (strong,nonatomic) UILabel *wordCount;
 @property (strong,nonatomic) NSDate *lastEntry;
 @property (strong,nonatomic) PFFile *finalAttachment;
-@property (strong,nonatomic) NSMutableArray *createdClasses;
-@property (strong,nonatomic) NSMutableArray *createdclassName;
-@property (strong,nonatomic) NSMutableArray *createdclassCode;
 @property (strong,nonatomic) UIProgressView *progressBar;
 @property (strong,nonatomic) UIImageView *attachImage;
 @property (strong,nonatomic) UIButton *cancelAttachment;
-@property (strong,nonatomic) NSString *classCode;
-@property (strong,nonatomic) NSString *className;
 @property (strong ,nonatomic) NSTimer *timer;
-@property (strong,nonatomic) UIActionSheet *classOptions;
-@property (nonatomic) BOOL hasSelectedClass;
+@property (nonatomic) BOOL hasSelectedClasses;
 @property (nonatomic) BOOL hasTypedMessage;
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *recipientViewHeight;
@@ -98,18 +96,11 @@
     [self.navigationController.toolbar addSubview:_wordCount];
  
     self.navigationItem.title = @"New Message";
-    _createdClasses=[[NSMutableArray alloc]init];
-    _createdclassName=[[NSMutableArray alloc]init];
-    _createdclassCode=[[NSMutableArray alloc]init];
     _textMessage.delegate = self;
-    _hasTypedMessage = false;
+    _createdClasses = [[PFUser currentUser] objectForKey:@"Created_groups"];
+    _selectedClassIndices = [[NSMutableSet alloc] init];
     
-    _createdClasses=[[PFUser currentUser] objectForKey:@"Created_groups"];
-    for(NSArray *a in _createdClasses) {
-        [_createdclassCode addObject:[a objectAtIndex:0]];
-        [_createdclassName addObject:[a objectAtIndex:1]];
-    }
-    _hasSelectedClass = false;
+    _hasSelectedClasses = false;
     _hasTypedMessage = false;
     
     _recipientViewHeight.constant = 50.0;
@@ -128,44 +119,50 @@
 }
 
 
-
 -(void)closeWindow {
     [_textMessage resignFirstResponder];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+
 -(BOOL)automaticallyAdjustsScrollViewInsets {
     return NO;
 }
 
+
+-(void)classSelected:(BOOL)areClassesSelected {
+    NSLog(@"areClasses : %d", areClassesSelected);
+    _hasSelectedClasses = areClassesSelected;
+}
+
+
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
+    NSLog(@"here");
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(liftMainViewWhenKeybordAppears:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(liftMainViewWhenKeybordHide:) name:UIKeyboardDidHideNotification object:nil];
-    self.classOptions=[[UIActionSheet alloc]init];
-    for (NSString *title in _createdclassName) {
-        [self.classOptions addButtonWithTitle:title];
-    }
-    self.classOptions.cancelButtonIndex = [self.classOptions addButtonWithTitle:@"Cancel"];
-    self.classOptions.delegate = self;
-
+    
     if(_isClass) {
-        _hasSelectedClass = true;
-        _classCode = _classcode;
-        _className = _classname;
-    }
-    if(_hasSelectedClass) {
+        _hasSelectedClasses = true;
         _recipientClassLabel.text = _className;
         _recipientClassLabel.textColor = [UIColor colorWithRed:41.0/255.0 green:182.0/255.0 blue:246.0/255.0 alpha:1.0];
         _recipientClassLabel.font = [UIFont systemFontOfSize:20.0];
 
     }
     else {
-        _recipientClassLabel.text = @"Tap to select Class";
-        _recipientClassLabel.textColor = [UIColor lightGrayColor];
-        _recipientClassLabel.font = [UIFont systemFontOfSize:17.0];
+        NSLog(@"here : %d", _hasSelectedClasses);
+        if(_hasSelectedClasses) {
+            _recipientClassLabel.text = [NSString stringWithFormat:@"%ld classes", [_selectedClassIndices allObjects].count];
+            _recipientClassLabel.textColor = [UIColor lightGrayColor];
+            _recipientClassLabel.font = [UIFont systemFontOfSize:17.0];
+        }
+        else {
+            _recipientClassLabel.text = @"Tap to select Class";
+            _recipientClassLabel.textColor = [UIColor lightGrayColor];
+            _recipientClassLabel.font = [UIFont systemFontOfSize:17.0];
+        }
     }
+    
     _writeMessageHere.hidden = _hasTypedMessage;
     
     [_recipientClassView setNeedsDisplay];
@@ -186,7 +183,7 @@
 }
 
 - (void)textViewDidEndEditing:(UITextView *)textView {
-    if ([[self trimmedString:textView.text] isEqualToString:@""]) {
+    if([[self trimmedString:textView.text] isEqualToString:@""]) {
         _textMessage.text = @"";
         _hasTypedMessage = false;
         _writeMessageHere.hidden = false;
@@ -200,15 +197,12 @@
 
 -(void)recipientClassTapped:(UITapGestureRecognizer *)recognizer {
     if(!_isClass) {
-        UINavigationController *messageRecipientsNav = [self.storyboard instantiateViewControllerWithIdentifier:@"msgRecipientsNav"];
-        
-        MessageComposerRecipientsViewController *popUpView = [self.storyboard instantiateViewControllerWithIdentifier:@"messageRecipientsVC"];
-        popUpView.messageComposerVC = self;
-        if(_hasSelectedClass)
-            popUpView.classCode = _classCode;
-        else
-            popUpView.classCode = nil;
-        [self presentViewController:popUpView animated:YES completion:nil];
+        UINavigationController *messageRecipientsNav = [self.storyboard instantiateViewControllerWithIdentifier:@"msgRecipientsNavVC"];
+        messageRecipientsViewController *messageRecipients = (messageRecipientsViewController *)messageRecipientsNav.topViewController;
+        messageRecipients.parent = self;
+        messageRecipients.selectedClassIndices = _selectedClassIndices;
+        messageRecipients.createdClasses = _createdClasses;
+        [self presentViewController:messageRecipientsNav animated:YES completion:nil];
     }
 }
 
@@ -239,30 +233,6 @@
 }
 
 
-- (void) actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if(buttonIndex == _createdclassCode.count){
-        //NSLog(@"No class selected");
-    }
-    else{
-        _recipientClassLabel.text = [actionSheet buttonTitleAtIndex:buttonIndex];
-        _className = _recipientClassLabel.text;
-        int index=(int) buttonIndex;
-        _classCode=[_createdclassCode objectAtIndex:index];
-        _recipientClassLabel.textColor = [UIColor colorWithRed:41.0/255.0 green:182.0/255.0 blue:246.0/255.0 alpha:1.0];
-        _recipientClassLabel.font = [UIFont systemFontOfSize:20.0];
-        _hasSelectedClass = true;
-    }
-}
-
--(void)classSelected:(int)row {
-    _recipientClassLabel.text = _createdclassName[row];
-    _className = _recipientClassLabel.text;
-    _classCode=[_createdclassCode objectAtIndex:row];
-    _recipientClassLabel.textColor = [UIColor colorWithRed:41.0/255.0 green:182.0/255.0 blue:246.0/255.0 alpha:1.0];
-    _recipientClassLabel.font = [UIFont systemFontOfSize:20.0];
-    _hasSelectedClass = true;
-}
-
 -(void)liftMainViewWhenKeybordHide:(NSNotification *)aNotification {
     [_textMessage resignFirstResponder];
 }
@@ -270,7 +240,6 @@
 
 -(void) liftMainViewWhenKeybordAppears:(NSNotification*)aNotification {
     NSDictionary* userInfo = [aNotification userInfo];
-
     NSTimeInterval animationDuration;
     UIViewAnimationCurve animationCurve;
     CGRect keyboardFrame;
@@ -282,12 +251,12 @@
 
     UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
 
-    if (orientation == UIDeviceOrientationPortrait || orientation == UIDeviceOrientationPortraitUpsideDown ) {
-            keyboardHeight = keyboardFrame.size.height;
-        }
+    if (orientation == UIDeviceOrientationPortrait || orientation == UIDeviceOrientationPortraitUpsideDown) {
+        keyboardHeight = keyboardFrame.size.height;
+    }
     else {
-            keyboardHeight = keyboardFrame.size.width;
-        }
+        keyboardHeight = keyboardFrame.size.width;
+    }
 
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationDuration:animationDuration];

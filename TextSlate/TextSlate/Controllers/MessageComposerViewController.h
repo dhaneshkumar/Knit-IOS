@@ -9,10 +9,11 @@
 #import <UIKit/UIKit.h>
 
 @interface MessageComposerViewController : UIViewController<UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITextFieldDelegate,UITextViewDelegate,UIActionSheetDelegate, UIAlertViewDelegate>
-@property bool isClass;
-@property (strong,nonatomic) NSString *classcode;
-@property (strong,nonatomic) NSString *classname;
 
--(void)classSelected:(int)row;
+@property bool isClass;
+@property (strong,nonatomic) NSString *classCode;
+@property (strong,nonatomic) NSString *className;
+
+-(void)classSelected:(BOOL)areClassesSelected;
 
 @end

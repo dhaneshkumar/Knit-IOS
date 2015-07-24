@@ -285,10 +285,10 @@
     else if([self createdClassesCount] == 1) {
         UINavigationController *messageComposerNavVC = [self.storyboard instantiateViewControllerWithIdentifier:@"messageComposer"];
         MessageComposerViewController *messageComposerVC = (MessageComposerViewController *)messageComposerNavVC.topViewController;
-        messageComposerVC.isClass=true;
+        messageComposerVC.isClass = false;
         NSArray *createdClasses = [[PFUser currentUser] objectForKey:@"Created_groups"];
-        messageComposerVC.classcode = createdClasses[0][0];
-        messageComposerVC.classname = createdClasses[0][1];
+        messageComposerVC.classCode = createdClasses[0][0];
+        messageComposerVC.className = createdClasses[0][1];
         [self presentViewController:messageComposerNavVC animated:YES completion:nil];
     }
     else {

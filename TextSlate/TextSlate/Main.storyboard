@@ -6607,18 +6607,42 @@ Login using your email ID.</string>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kAt-Hm-ThT">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tap to select classes" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ci9-Zc-cAN">
+                                        <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                        <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
+                                            <rect key="frame" x="120" y="22" width="160" height="21"/>
+                                        </variation>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" red="0.96078431372549022" green="0.96078431372549022" blue="0.96078431372549022" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
+                                    <constraint firstAttribute="centerX" secondItem="Ci9-Zc-cAN" secondAttribute="centerX" id="J8V-g3-PLB"/>
                                     <constraint firstAttribute="height" constant="68" id="aSz-dz-3Yq"/>
+                                    <constraint firstAttribute="centerY" secondItem="Ci9-Zc-cAN" secondAttribute="centerY" id="hvC-yb-Tu9"/>
                                 </constraints>
                                 <variation key="default">
+                                    <mask key="subviews">
+                                        <exclude reference="Ci9-Zc-cAN"/>
+                                    </mask>
                                     <mask key="constraints">
                                         <exclude reference="aSz-dz-3Yq"/>
+                                        <exclude reference="J8V-g3-PLB"/>
+                                        <exclude reference="hvC-yb-Tu9"/>
                                     </mask>
                                 </variation>
-                                <variation key="heightClass=regular-widthClass=compact">
+                                <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
+                                    <rect key="frame" x="0.0" y="64" width="400" height="66"/>
+                                    <mask key="subviews">
+                                        <include reference="Ci9-Zc-cAN"/>
+                                    </mask>
                                     <mask key="constraints">
                                         <include reference="aSz-dz-3Yq"/>
+                                        <include reference="J8V-g3-PLB"/>
+                                        <include reference="hvC-yb-Tu9"/>
                                     </mask>
                                 </variation>
                             </view>
@@ -6626,7 +6650,7 @@ Login using your email ID.</string>
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="60" id="Jav-8J-45l" customClass="messageRecipientsTableViewCell">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="selectedClassCell" rowHeight="60" id="Jav-8J-45l" customClass="messageRecipientsTableViewCell">
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Jav-8J-45l" id="z9c-iX-3du">
                                             <autoresizingMask key="autoresizingMask"/>
@@ -6694,8 +6718,11 @@ Login using your email ID.</string>
                                                 </mask>
                                             </variation>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="className" destination="oxZ-Cu-f5V" id="1gj-S9-hpu"/>
+                                        </connections>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="60" id="nU5-En-SWz" customClass="messageRecipientsTableViewCell">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="normalClassCell" rowHeight="60" id="nU5-En-SWz" customClass="messageRecipientsTableViewCell">
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="nU5-En-SWz" id="ano-la-kBV">
                                             <autoresizingMask key="autoresizingMask"/>
@@ -6733,8 +6760,14 @@ Login using your email ID.</string>
                                                 </mask>
                                             </variation>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="className" destination="f5M-e0-424" id="Ssu-tR-ZUp"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
+                                <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
+                                    <rect key="frame" x="0.0" y="131" width="400" height="669"/>
+                                </variation>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -6742,8 +6775,8 @@ Login using your email ID.</string>
                             <constraint firstAttribute="trailingMargin" secondItem="4tX-Q6-8C4" secondAttribute="trailing" constant="-16" id="2oJ-Qd-i7U"/>
                             <constraint firstItem="kAt-Hm-ThT" firstAttribute="leading" secondItem="i6n-af-Gj2" secondAttribute="leadingMargin" constant="-16" id="477-PN-1ar"/>
                             <constraint firstAttribute="trailingMargin" secondItem="kAt-Hm-ThT" secondAttribute="trailing" constant="-16" id="EjT-oW-rer"/>
-                            <constraint firstItem="kAt-Hm-ThT" firstAttribute="top" secondItem="i6n-af-Gj2" secondAttribute="topMargin" id="aFc-Sa-3sS"/>
                             <constraint firstItem="4tX-Q6-8C4" firstAttribute="leading" secondItem="i6n-af-Gj2" secondAttribute="leadingMargin" constant="-16" id="cMW-RQ-FOK"/>
+                            <constraint firstItem="kAt-Hm-ThT" firstAttribute="top" secondItem="zZK-Xv-EuY" secondAttribute="bottom" id="kwa-Op-PjW"/>
                             <constraint firstItem="Y3r-53-pIV" firstAttribute="top" secondItem="4tX-Q6-8C4" secondAttribute="bottom" id="ucN-TZ-DJ3"/>
                             <constraint firstItem="4tX-Q6-8C4" firstAttribute="top" secondItem="kAt-Hm-ThT" secondAttribute="bottom" id="x5k-mC-G6x"/>
                         </constraints>
@@ -6755,7 +6788,7 @@ Login using your email ID.</string>
                             <mask key="constraints">
                                 <exclude reference="477-PN-1ar"/>
                                 <exclude reference="EjT-oW-rer"/>
-                                <exclude reference="aFc-Sa-3sS"/>
+                                <exclude reference="kwa-Op-PjW"/>
                                 <exclude reference="2oJ-Qd-i7U"/>
                                 <exclude reference="cMW-RQ-FOK"/>
                                 <exclude reference="x5k-mC-G6x"/>
@@ -6770,7 +6803,7 @@ Login using your email ID.</string>
                             <mask key="constraints">
                                 <include reference="477-PN-1ar"/>
                                 <include reference="EjT-oW-rer"/>
-                                <include reference="aFc-Sa-3sS"/>
+                                <include reference="kwa-Op-PjW"/>
                                 <include reference="2oJ-Qd-i7U"/>
                                 <include reference="cMW-RQ-FOK"/>
                                 <include reference="x5k-mC-G6x"/>

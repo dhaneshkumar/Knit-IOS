@@ -9,10 +9,10 @@
 #import <UIKit/UIKit.h>
 #import "MessageComposerViewController.h"
 
-@interface messageRecipientsViewController : UIViewController
+@interface messageRecipientsViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
 
-@property (strong, nonatomic) NSMutableArray *classes;
-@property (strong, nonatomic) NSMutableArray *selectedClasses;
 @property (strong, nonatomic) MessageComposerViewController *parent;
+@property (strong,nonatomic) NSArray *createdClasses;
+@property (strong, nonatomic) NSMutableSet *selectedClassIndices;
 
 @end
