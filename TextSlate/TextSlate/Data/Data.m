@@ -171,6 +171,28 @@
     }];
 }
 
+
++(void)sendMultiTextMessage:(NSArray *)classCodes classNames:(NSArray *)classNames message:(NSString *)message successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
+    [PFCloud callFunctionInBackground:@"sendMultiTextMessage" withParameters:@{@"classcode":classCodes, @"classname":classNames, @"message":message} block:^(id object, NSError *error) {
+        if (error) {
+            errorBlock(error);
+        } else {
+            successBlock(object);
+        }
+    }];
+}
+
++(void)sendMultiTextMessagewithAttachment:(NSArray *)classCodes classNames:(NSArray *)classNames message:(NSString *)message attachment:(PFFile*)attachment filename:(NSString *)filename successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
+    [PFCloud callFunctionInBackground:@"sendMultiPhotoTextMessage" withParameters:@{@"classcode":classCodes, @"classname":classNames, @"message":message, @"parsefile":attachment,@"filename":filename } block:^(id object, NSError *error) {
+        if (error) {
+            errorBlock(error);
+        } else {
+            successBlock(object);
+        }
+    }];
+}
+
+
 +(void)removeMemberApp:(NSString *)classcode classname:(NSString *)classname emailId:(NSString *)emailId usertype:(NSString *)usertype successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
     [PFCloud callFunctionInBackground:@"removeMember" withParameters:@{@"classcode":classcode, @"classname":classname, @"emailId":emailId,@"usertype":usertype} block:^(id object, NSError *error) {
         if (error) {
@@ -180,6 +202,7 @@
         }
     }];
 }
+
 +(void)removeMemberPhone:(NSString *)classcode classname:(NSString *)classname number:(NSString *)number usertype:(NSString *)usertype successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
     [PFCloud callFunctionInBackground:@"removeMember" withParameters:@{@"classcode":classcode, @"classname":classname, @"number":number,@"usertype":usertype} block:^(id object, NSError *error) {
         if (error) {

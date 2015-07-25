@@ -189,7 +189,7 @@
         if(name.length > 10) {
             name = [NSString stringWithFormat:@"%@...", [name substringToIndex:8]];
         }
-        return [NSString stringWithFormat:@"%@ and %ld more", name, _selectedClassIndices.count];
+        return [NSString stringWithFormat:@"%@ and %ld more", name, _selectedClassIndices.count-1];
     }
 }
 
@@ -319,7 +319,6 @@
     
     NSDateComponents *components = [[NSCalendar currentCalendar] components:NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit fromDate:[self getCurrentServerTime]];
     NSInteger currentHour = [components hour];
-    NSLog(@"current hour : %ld", currentHour);
     
     if (currentHour>22 || currentHour<7) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Knit"
@@ -330,7 +329,12 @@
         [alert show];
     }
     else {
-        [self sendMessageNow];
+        if(_isClass) {
+            [self sendMessageNow];
+        }
+        else {
+            [self sendMessagesNow];
+        }
     }
 }
 
@@ -361,7 +365,6 @@
             NSString *messageObjectId = (NSString *)[dict objectForKey:@"messageId"];
             NSString *messageCreatedAt = (NSString *)[dict objectForKey:@"createdAt"];
             PFObject *messageObject = [PFObject objectWithClassName:@"GroupDetails"];
-            messageObject[@"iosUserID"] = [PFUser currentUser].objectId;
             messageObject[@"Creator"] = [[PFUser currentUser] objectForKey:@"name"];
             messageObject[@"code"] = _classCode;
             messageObject[@"name"] = _className;
@@ -475,6 +478,158 @@
 }
 
 
+-(void)sendMessagesNow {
+    [_textMessage resignFirstResponder];
+    NSString *messageText = [self trimmedString:_textMessage.text];
+    AppDelegate *apd = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    NSArray *vcs = (NSArray *)((UINavigationController *)apd.startNav).viewControllers;
+    TSTabBarViewController *rootTab = (TSTabBarViewController *)((UINavigationController *)apd.startNav).topViewController;
+    for(id vc in vcs) {
+        if([vc isKindOfClass:[TSTabBarViewController class]]) {
+            rootTab = (TSTabBarViewController *)vc;
+            break;
+        }
+    }
+    TSOutboxViewController *outbox = (TSOutboxViewController *)(NSArray *)rootTab.viewControllers[2];
+    ClassesViewController *classrooms = (ClassesViewController *)(NSArray *)rootTab.viewControllers[0];
+    NSMutableDictionary *mutableDict = classrooms.createdClassesVCs;
+    NSCharacterSet *characterset=[NSCharacterSet characterSetWithCharactersInString:@"\uFFFC\n "];
+    NSArray *selectedClasses = [_selectedClassIndices allObjects];
+    NSMutableArray *classCodes = [[NSMutableArray alloc] init];
+    NSMutableArray *classNames = [[NSMutableArray alloc] init];
+    for(int i=0; i<selectedClasses.count; i++) {
+        [classCodes addObject:_createdClasses[[selectedClasses[i] integerValue]][0]];
+        [classNames addObject:_createdClasses[[selectedClasses[i] integerValue]][1]];
+    }
+    if(!_finalAttachment)
+    {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[[UIApplication sharedApplication] keyWindow]  animated:YES];
+        hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
+        hud.labelText = @"Sending";
+        [Data sendMultiTextMessage:classCodes classNames:classNames message:messageText successBlock:^(id object) {
+            NSMutableDictionary *dict = (NSMutableDictionary *) object;
+            NSArray *messageObjectIds = (NSArray *)[dict objectForKey:@"messageId"];
+            NSArray *messageCreatedAts = (NSArray *)[dict objectForKey:@"createdAt"];
+
+            for(int i=0; i<messageObjectIds.count; i++) {
+                PFObject *messageObject = [PFObject objectWithClassName:@"GroupDetails"];
+                messageObject[@"Creator"] = [[PFUser currentUser] objectForKey:@"name"];
+                messageObject[@"code"] = classCodes[i];
+                messageObject[@"name"] = classNames[i];
+                messageObject[@"title"] = messageText;
+                messageObject[@"createdTime"] = messageCreatedAts[i];
+                messageObject[@"messageId"] = messageObjectIds[i];
+                messageObject[@"like_count"] = [NSNumber numberWithInt:0];
+                messageObject[@"confused_count"] = [NSNumber numberWithInt:0];
+                messageObject[@"seen_count"] = [NSNumber numberWithInt:0];
+                [messageObject pinInBackground];
+                TSMessage *newMessage=[[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:[messageObject[@"title"] stringByTrimmingCharactersInSet:characterset] sender:messageObject[@"Creator"] sentTime:messageObject[@"createdTime"] senderPic:nil likeCount:[messageObject[@"like_count"] intValue] confuseCount:[messageObject[@"confused_count"] intValue] seenCount:[messageObject[@"seen_count"] intValue]];
+                TSMessage *newMessageForClassPage =[[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:[messageObject[@"title"] stringByTrimmingCharactersInSet:characterset] sender:messageObject[@"Creator"] sentTime:messageObject[@"createdTime"] senderPic:nil likeCount:[messageObject[@"like_count"] intValue] confuseCount:[messageObject[@"confused_count"] intValue] seenCount:[messageObject[@"seen_count"] intValue]];
+                newMessage.messageId = messageObject[@"messageId"];
+                newMessageForClassPage.messageId = messageObject[@"messageId"];
+                outbox.mapCodeToObjects[newMessage.messageId] = newMessage;
+                [outbox.messagesArray insertObject:newMessage atIndex:0];
+                [outbox.messageIds insertObject:newMessage.messageId atIndex:0];
+                outbox.shouldScrollUp = true;
+                
+                TSSendClassMessageViewController *classPage = mutableDict[classCodes[i]];
+                classPage.mapCodeToObjects[newMessageForClassPage.messageId] = newMessageForClassPage;
+                [classPage.messagesArray insertObject:newMessageForClassPage atIndex:0];
+                classPage.shouldScrollUp = true;
+            }
+            
+            //Cancel all local notifications
+            [[UIApplication sharedApplication] cancelAllLocalNotifications];
+            
+            [hud hide:YES];
+            [self dismissViewControllerAnimated:YES completion:nil];
+            [RKDropdownAlert title:@"Knit" message:@"Message has been sent successfully."  time:2];
+        } errorBlock:^(NSError *error) {
+            [hud hide:YES];
+            [RKDropdownAlert title:@"Knit" message:@"Error occureed while sending message.Try again later."  time:2];
+        }];
+    }
+    else if(_finalAttachment)
+    {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[[UIApplication sharedApplication] keyWindow]  animated:YES];
+        hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
+        hud.labelText = @"Sending";
+        
+        [_finalAttachment saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            if(!error) {
+                if (succeeded) {
+                    [Data sendMultiTextMessagewithAttachment:classCodes classNames:classNames message:messageText attachment:(PFFile*) _finalAttachment filename:_finalAttachment.name successBlock:^(id object) {
+                        NSMutableDictionary *dict = (NSMutableDictionary *) object;
+                        NSArray *messageObjectIds = (NSArray *)[dict objectForKey:@"messageId"];
+                        NSArray *messageCreatedAts = (NSArray *)[dict objectForKey:@"createdAt"];
+                        
+                        for(int i=0; i<messageObjectIds.count; i++) {
+                            PFObject *messageObject = [PFObject objectWithClassName:@"GroupDetails"];
+                            messageObject[@"Creator"] = [[PFUser currentUser] objectForKey:@"name"];
+                            messageObject[@"code"] = classCodes[i];
+                            messageObject[@"name"] = classNames[i];
+                            messageObject[@"title"] = messageText;
+                            messageObject[@"attachment"] = (PFFile *)_finalAttachment;
+                            messageObject[@"createdTime"] = messageCreatedAts[i];
+                            messageObject[@"messageId"] = messageObjectIds[i];
+                            messageObject[@"like_count"] = [NSNumber numberWithInt:0];
+                            messageObject[@"confused_count"] = [NSNumber numberWithInt:0];
+                            messageObject[@"seen_count"] = [NSNumber numberWithInt:0];
+                            [messageObject pinInBackground];
+                            
+                            TSMessage *newMessage=[[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:[messageObject[@"title"] stringByTrimmingCharactersInSet:characterset] sender:messageObject[@"Creator"] sentTime:messageObject[@"createdTime"] senderPic:nil likeCount:[messageObject[@"like_count"] intValue] confuseCount:[messageObject[@"confused_count"] intValue] seenCount:[messageObject[@"seen_count"] intValue]];
+                            
+                            TSMessage *newMessageForClassPage =[[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:[messageObject[@"title"] stringByTrimmingCharactersInSet:characterset] sender:messageObject[@"Creator"] sentTime:messageObject[@"createdTime"] senderPic:nil likeCount:[messageObject[@"like_count"] intValue] confuseCount:[messageObject[@"confused_count"] intValue] seenCount:[messageObject[@"seen_count"] intValue]];
+                            
+                            newMessage.messageId = messageObject[@"messageId"];
+                            newMessageForClassPage.messageId = messageObject[@"messageId"];
+                            NSString *url = _finalAttachment.url;
+                            newMessage.attachmentURL = _finalAttachment;
+                            newMessageForClassPage.attachmentURL = _finalAttachment;
+                            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
+                                UIImage *image = [[sharedCache sharedInstance] getCachedImageForKey:url];
+                                if(image) {
+                                    newMessage.attachment = image;
+                                    newMessageForClassPage.attachment = image;
+                                }
+                            });
+                            
+                            outbox.mapCodeToObjects[newMessage.messageId] = newMessage;
+                            [outbox.messagesArray insertObject:newMessage atIndex:0];
+                            [outbox.messageIds insertObject:newMessage.messageId atIndex:0];
+                            outbox.shouldScrollUp = true;
+                            
+                            TSSendClassMessageViewController *classPage = mutableDict[classCodes[i]];
+                            classPage.mapCodeToObjects[newMessageForClassPage.messageId] = newMessageForClassPage;
+                            [classPage.messagesArray insertObject:newMessageForClassPage atIndex:0];
+                            classPage.shouldScrollUp = true;
+                        }
+                        
+                        //Cancel all local notifications
+                        [[UIApplication sharedApplication] cancelAllLocalNotifications];
+                        [hud hide:YES];
+                        [self dismissViewControllerAnimated:YES completion:nil];
+                        [RKDropdownAlert title:@"Knit" message:@"Your message has been sent!"  time:2];
+                        
+                    } errorBlock:^(NSError *error) {
+                        [hud hide:YES];
+                        [RKDropdownAlert title:@"Knit" message:@"Error occurred in sending the message. Try again later."  time:2];
+                    }];
+                }
+                else {
+                    [hud hide:YES];
+                    [RKDropdownAlert title:@"Knit" message:@"Error occurred in sending the message. Try again later." time:2];
+                }
+            }
+            else {
+                [hud hide:YES];
+                [RKDropdownAlert title:@"Knit" message:@"Error occurred in sending the message. Try again later." time:2];
+            }
+        }];
+    }
+}
+
+
 -(IBAction)sendAttachment:(id)sender{
     [_textMessage becomeFirstResponder];
     UIAlertView * alert = [[UIAlertView alloc]initWithTitle:@"Knit" message:@"" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Choose from Photos", @"Open Camera", nil];
@@ -487,7 +642,12 @@
         return;
     }
     if(alertView.tag==1) {
-        [self sendMessageNow];
+        if(_isClass) {
+            [self sendMessageNow];
+        }
+        else {
+            [self sendMessagesNow];
+        }
     }
     else if(alertView.tag==2) {
         if (buttonIndex == 2) {

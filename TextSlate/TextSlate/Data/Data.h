@@ -55,6 +55,10 @@ typedef void (^errorBlock)(NSError *error);
 
 +(void)sendTextMessagewithAttachment:(NSString *)classcode classname:(NSString *)classname message:(NSString *)message attachment:(PFFile*)attachment filename:(NSString *)filename successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock ;
 
++(void)sendMultiTextMessage:(NSArray *)classCodes classNames:(NSArray *)classNames message:(NSString *)message successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorblock;
+
++(void)sendMultiTextMessagewithAttachment:(NSArray *)classCodes classNames:(NSArray *)classNames message:(NSString *)message attachment:(PFFile*)attachment filename:(NSString *)filename successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock ;
+
 +(void)removeMemberPhone:(NSString *)classcode classname:(NSString *)classname number:(NSString *)number usertype:(NSString *)usertype successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock ;
 
 +(void)removeMemberApp:(NSString *)classcode classname:(NSString *)classname emailId:(NSString *)emailId usertype:(NSString *)usertype successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock;
