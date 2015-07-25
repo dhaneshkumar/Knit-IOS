@@ -123,10 +123,11 @@
     [Data joinNewClass:classCodeTyped childName:assocNameTyped installationId:installationObjectId successBlock:^(id object) {
         NSDictionary *objDict = (NSDictionary *)object;
         PFObject *codeGroupForClass = [objDict objectForKey:@"codegroup"];
-        [codeGroupForClass pinInBackground];
-        PFObject *currentUser = (PFObject *)[objDict objectForKey:@"user"];
+        [codeGroupForClass pin];
+        NSArray *joinedClasses = [objDict objectForKey:@"user"];
+        PFUser *currentUser = [PFUser currentUser];
+        currentUser[@"joined_groups"] = joinedClasses;
         [currentUser pin];
-        //NSLog(@"user : %@", [PFUser currentUser]);
         AppDelegate *apd = (AppDelegate *)[[UIApplication sharedApplication] delegate];
         NSArray *vcs = (NSArray *)((UINavigationController *)apd.startNav).viewControllers;
         TSTabBarViewController *rootTab = (TSTabBarViewController *)((UINavigationController *)apd.startNav).topViewController;
@@ -139,12 +140,12 @@
         
         [self handlingClassroomsTab:codeGroupForClass rootTab:rootTab assocNameTyped:assocNameTyped];
         NSMutableArray *lastFiveMessages = [objDict objectForKey:@"messages"];
-        NSLog(@"lastFive messages : %d", lastFiveMessages.count);
-        if(lastFiveMessages.count>0)
+        if(lastFiveMessages.count>0) {
             [self handlingInboxTab:rootTab lastFiveMessages:lastFiveMessages];
+        }
         
         //Cancel all local notifications when a parent user has joined a class
-        if(![[[PFUser currentUser] objectForKey:@"role"] isEqualToString:@"teacher"] && ((NSArray *)[[PFUser currentUser] objectForKey:@"joined_groups"]).count==1)
+        if(![[[PFUser currentUser] objectForKey:@"role"] isEqualToString:@"teacher"] && joinedClasses.count==1)
             [[UIApplication sharedApplication] cancelAllLocalNotifications];
         
         [hud hide:YES];
@@ -235,7 +236,6 @@
             UIImage *image = [[sharedCache sharedInstance] getCachedImageForKey:url];
             message.attachmentURL = attachImageUrl;
             if(image) {
-                //NSLog(@"already cached");
                 message.attachment = image;
             }
         }
@@ -243,9 +243,6 @@
         [messagesArray addObject:message];
         [messageIds addObject:message.messageId];
     }
-    
-    NSLog(@"messages array : %d", messagesArray.count);
-    NSLog(@"messages id : %d", messageIds.count);
     
     newInbox.mapCodeToObjects = mapCodeToObjects;
     newInbox.messagesArray = messagesArray;

@@ -306,58 +306,6 @@
  }
  */
 
-/*
--(int)fetchMessagesFromLocalDatastore {
-    PFQuery *query = [PFQuery queryWithClassName:@"GroupDetails"];
-    [query fromLocalDatastore];
-    [query whereKey:@"code" equalTo:_classCode];
-    [query orderByDescending:@"createdTime"];
-    NSArray *messages = (NSArray *)[query findObjects];
-    [_hud hide:YES];
-    NSCharacterSet *characterset=[NSCharacterSet characterSetWithCharactersInString:@"\uFFFC\n "];
-    for (PFObject * messageObject in messages) {
-        TSMessage *message = [[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:[messageObject[@"title"] stringByTrimmingCharactersInSet:characterset] sender:messageObject[@"Creator"] sentTime:messageObject[@"createdTime"] senderPic:nil likeCount:[messageObject[@"like_count"] intValue] confuseCount:[messageObject[@"confused_count"] intValue] seenCount:[messageObject[@"seen_count"] intValue]];
-        message.messageId = messageObject[@"messageId"];
-        if(messageObject[@"attachment"]) {
-            message.hasAttachment = true;
-            message.attachment = [UIImage imageNamed:@"white.jpg"];
-        }
-        _mapCodeToObjects[message.messageId] = message;
-        [_messagesArray addObject:message];
-        if(message.hasAttachment) {
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
-                PFFile *attachImageUrl=messageObject[@"attachment"];
-                NSString *url=attachImageUrl.url;
-                //NSLog(@"url to image fetchfrom localdatastore %@",url);
-                UIImage *image = [[sharedCache sharedInstance] getCachedImageForKey:url];
-                //NSLog(@"%@ image",image);
-                if(image)
-                {
-                    //NSLog(@"already cached");
-                    message.attachment = image;
-                }
-                else{
-                    //NSLog(@"Caching here....");
-                    NSURL *imageURL = [NSURL URLWithString:url];
-                    UIImage *image = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:imageURL]];
-                    
-                    if(image)
-                    {
-                        [[sharedCache sharedInstance] cacheImage:image forKey:url];
-                        message.attachment = image;
-                        dispatch_sync(dispatch_get_main_queue(), ^{
-                            [self.messageTable reloadData];
-                        });
-                    }
-                }
-            });
-        }
-    }
-    [self.messageTable reloadData];
-    return messages.count;
-}
-*/
-
 
 -(void)fetchOldMessagesOnDataDeletion {
     _hud = [MBProgressHUD showHUDAddedTo:[[UIApplication sharedApplication] keyWindow]  animated:YES];
@@ -582,7 +530,9 @@
     hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
     hud.labelText = @"Loading";
     [Data deleteClass:_classCode successBlock:^(id object) {
-        PFObject *currentUser = (PFObject *)object;
+        NSArray *createdClasses = (NSArray *)object;
+        PFUser *currentUser = [PFUser currentUser];
+        currentUser[@"Created_groups"] = createdClasses;
         [currentUser pin];
         AppDelegate *apd = (AppDelegate *)[[UIApplication sharedApplication] delegate];
         NSArray *vcs = (NSArray *)((UINavigationController *)apd.startNav).viewControllers;
@@ -595,8 +545,7 @@
         }
         
         ClassesViewController *classesVC = rootTab.viewControllers[0];
-        NSArray *createdClassesArray = (NSArray *) [[PFUser currentUser] objectForKey:@"Created_groups"];
-        classesVC.createdClasses = [NSMutableArray arrayWithArray:[[createdClassesArray reverseObjectEnumerator] allObjects]];
+        classesVC.createdClasses = [NSMutableArray arrayWithArray:[[createdClasses reverseObjectEnumerator] allObjects]];
         [classesVC.createdClassesVCs removeObjectForKey:_classCode];
         [self deleteGroupMembers];
         [hud hide:YES];

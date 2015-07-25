@@ -124,7 +124,6 @@
                         NSIndexPath* rowToReload = [NSIndexPath indexPathForRow:indexPath.row inSection:indexPath.section];
                         NSArray* rowsToReload = [NSArray arrayWithObjects:rowToReload, nil];
                         [self.tableView reloadRowsAtIndexPaths:rowsToReload withRowAnimation:UITableViewRowAnimationNone];
-                        //[self.tableView reloadData];
                     });
                 }
             });
@@ -225,7 +224,9 @@
     hud.labelText = @"Loading";
 
     [Data leaveClass:_classCode successBlock:^(id object) {
-        PFObject *currentUser = (PFObject *)object;
+        NSArray *joinedClasses = (NSArray *)object;
+        PFUser *currentUser = [PFUser currentUser];
+        currentUser[@"joined_groups"] = joinedClasses;
         [currentUser pin];
         AppDelegate *apd = (AppDelegate *)[[UIApplication sharedApplication] delegate];
         NSArray *vcs = (NSArray *)((UINavigationController *)apd.startNav).viewControllers;
@@ -236,7 +237,7 @@
                 break;
             }
         }
-        //NSLog(@"user : %@", [PFUser currentUser]);
+        
         if([currentUser[@"role"] isEqualToString:@"teacher"]) {
             ClassesViewController *classesVC = rootTab.viewControllers[0];
             NSMutableArray *arr = [[NSMutableArray alloc] init];
@@ -263,7 +264,6 @@
         [self.navigationController popViewControllerAnimated:YES];
     } errorBlock:^(NSError *error) {
         [hud hide:YES];
-        //NSLog(@"error : %@", error);
         [RKDropdownAlert title:@"Knit" message:@"Error occured in leaving the class"  time:2];
     }];
 }
