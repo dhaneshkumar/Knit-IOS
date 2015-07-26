@@ -33,7 +33,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    //self.navigationController.navigationBar.hidden=NO;
     float version=[[[UIDevice currentDevice] systemVersion] floatValue];
     _osVersion=[[NSNumber numberWithFloat:version] stringValue];
     
@@ -110,117 +109,88 @@
             MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[[UIApplication sharedApplication] keyWindow]  animated:YES];
             hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
             hud.labelText = @"Loading";
-            //NSLog(@"lat: %f, long: %f, osVersion: %@", _latitude, _longitude, _osVersion);
+            
             NSInteger verificationCode = [_codeText.text integerValue];
-            [Data verifyOTPSignUp:_phoneNumber code:verificationCode name:_nameText role:_role successBlock:^(id object){
-                NSDictionary *tokenDict=[[NSDictionary alloc]init];
-                tokenDict=object;
-                NSString *flagString=[tokenDict objectForKey:@"flag"];
-                long int flagValue = [flagString integerValue];
-                NSString *token=[tokenDict objectForKey:@"sessionToken"];
+            PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+            NSString *installationId = currentInstallation[@"installationId"];
+            NSString *devicetype = currentInstallation[@"deviceType"];
+            
+            [Data verifyOTPSignUp:_phoneNumber code:verificationCode name:_nameText role:_role installationId:installationId deviceType:devicetype areCoordinatesUpdated:_parentVCSignUp.areCoordinatesUpdated latitude:_parentVCSignUp.latitude longitude:_parentVCSignUp.longitude os:[NSString stringWithFormat:@"iOS %@", _osVersion] model:_model successBlock:^(id object){
+                NSDictionary *tokenDict = object;
+                NSString *token = [tokenDict objectForKey:@"sessionToken"];
                 
-                if(flagValue==1) {
+                if(token.length>0) {
                     [PFUser becomeInBackground:token block:^(PFUser *user, NSError *error) {
                         if (error) {
                             [hud hide:YES];
                             [RKDropdownAlert title:@"Knit" message:@"Error in signing up. Try again."  time:2];
-                            //NSLog(@"PFUser in background sign up ka pain");
                             return;
                         } else {
-                            [PFSession getCurrentSessionInBackgroundWithBlock:^(PFSession *session, NSError *error) {
-                                if(error) {
-                                    //NSLog(@"pfsession : error");
+                            [self deleteAllLocalData];
+                            [self createLocalDatastore:nil];
+                            
+                            AppDelegate *apd = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+                            UINavigationController *rootNav = (UINavigationController *)apd.startNav;
+                            NSArray *vcs = rootNav.viewControllers;
+                            TSTabBarViewController *rootTab = (TSTabBarViewController *)rootNav.topViewController;
+                            for(id vc in vcs) {
+                                if([vc isKindOfClass:[TSTabBarViewController class]]) {
+                                    rootTab = (TSTabBarViewController *)vc;
+                                    break;
                                 }
-                                else {
-                                    if(_areCoordinatesUpdated) {
-                                        session[@"lat"] = [NSNumber numberWithDouble:_latitude];
-                                        session[@"long"] = [NSNumber numberWithDouble:_longitude];
-                                    }
-                                    session[@"os"] = [NSString stringWithFormat:@"iOS %@", _osVersion];
-                                    session[@"model"] = _model;
-                                    session[@"role"] = _role;
-                                    [session saveEventually];
-                                }
-                            }];
-                            PFUser *current=[PFUser currentUser];
-                            PFInstallation *currentInstallation = [PFInstallation currentInstallation];
-                            NSString *installationId=[currentInstallation objectForKey:@"installationId"];
-                            NSString *devicetype=[currentInstallation objectForKey:@"deviceType"];
-                            [Data saveInstallationId:installationId deviceType:devicetype successBlock:^(id object) {
-                                [self deleteAllLocalData];
-                                [self createLocalDatastore:nil];
-                                current[@"installationObjectId"]=object;
-                                [current pinInBackground];
+                            }
+                            [rootTab initialization];
+                            
+                            if([_role isEqualToString:@"teacher"]) {
+                                //1st notification
+                                UILocalNotification *localNotification = [[UILocalNotification alloc] init];
+                                localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:24*60*60];
+                                localNotification.alertBody = NSLocalizedString(@"You have not created any class yet. Create a class and start using it. See how it makes your life easier.", nil);
+                                localNotification.alertAction = NSLocalizedString(@"Create", nil);
+                                localNotification.timeZone = [NSTimeZone defaultTimeZone];
+                                localNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication]     applicationIconBadgeNumber] + 1;
+                                localNotification.soundName = UILocalNotificationDefaultSoundName;
+                                NSDictionary *userInfo =[NSDictionary dictionaryWithObjectsAndKeys:@"TRANSITION", @"type", @"CREATE_CLASS", @"action", nil];
+                                localNotification.userInfo = userInfo;
+                                [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
                                 
-                                AppDelegate *apd = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-                                UINavigationController *rootNav = (UINavigationController *)apd.startNav;
-                                NSArray *vcs = rootNav.viewControllers;
-                                TSTabBarViewController *rootTab = (TSTabBarViewController *)rootNav.topViewController;
-                                for(id vc in vcs) {
-                                    if([vc isKindOfClass:[TSTabBarViewController class]]) {
-                                        rootTab = (TSTabBarViewController *)vc;
-                                        break;
-                                    }
-                                }
-
-                                [rootTab initialization];
+                                //2nd notification
+                                UILocalNotification *localNotification2 = [[UILocalNotification alloc] init];
+                                localNotification2.fireDate = [NSDate dateWithTimeIntervalSinceNow:3*24*60*60];
+                                localNotification2.alertBody = NSLocalizedString(@"You have not created any class yet. Create a class and start using Knit. See how it makes your life easier.", nil);
+                                localNotification2.alertAction = NSLocalizedString(@"Create", nil);
+                                localNotification2.timeZone = [NSTimeZone defaultTimeZone];
+                                localNotification2.applicationIconBadgeNumber = [[UIApplication sharedApplication]     applicationIconBadgeNumber] + 1;
+                                localNotification2.soundName = UILocalNotificationDefaultSoundName;
+                                NSDictionary *userInfo2 =[NSDictionary dictionaryWithObjectsAndKeys:@"TRANSITION", @"type", @"CREATE_CLASS", @"action", nil];
+                                localNotification2.userInfo = userInfo2;
+                                [[UIApplication sharedApplication] scheduleLocalNotification:localNotification2];
+                            }
+                            else {
+                                //1st notification
+                                UILocalNotification *localNotification = [[UILocalNotification alloc] init];
+                                localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:24*60*60];
+                                localNotification.alertBody = NSLocalizedString(@"You have not joined any class yet. Join a class or invite teacher.", nil);
+                                localNotification.timeZone = [NSTimeZone defaultTimeZone];
+                                localNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication]     applicationIconBadgeNumber] + 1;
+                                localNotification.soundName = UILocalNotificationDefaultSoundName;
+                                NSDictionary *userInfo =[NSDictionary dictionaryWithObjectsAndKeys:@"TRANSITION", @"type", @"INVITE_TEACHER", @"action", nil];
+                                localNotification.userInfo = userInfo;
+                                [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
                                 
-                                if([_role isEqualToString:@"teacher"]) {
-                                    //1st notification
-                                    UILocalNotification *localNotification = [[UILocalNotification alloc] init];
-                                    localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:24*60*60];
-                                    localNotification.alertBody = NSLocalizedString(@"You have not created any class yet. Create a class and start using it. See how it makes your life easier.", nil);
-                                    localNotification.alertAction = NSLocalizedString(@"Create", nil);
-                                    localNotification.timeZone = [NSTimeZone defaultTimeZone];
-                                    localNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication]     applicationIconBadgeNumber] + 1;
-                                    localNotification.soundName = UILocalNotificationDefaultSoundName;
-                                    NSDictionary *userInfo =[NSDictionary dictionaryWithObjectsAndKeys:@"TRANSITION", @"type", @"CREATE_CLASS", @"action", nil];
-                                    localNotification.userInfo = userInfo;
-                                    [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
-                                    
-                                    //2nd notification
-                                    UILocalNotification *localNotification2 = [[UILocalNotification alloc] init];
-                                    localNotification2.fireDate = [NSDate dateWithTimeIntervalSinceNow:3*24*60*60];
-                                    localNotification2.alertBody = NSLocalizedString(@"You have not created any class yet. Create a class and start using Knit. See how it makes your life easier.", nil);
-                                    localNotification2.alertAction = NSLocalizedString(@"Create", nil);
-                                    localNotification2.timeZone = [NSTimeZone defaultTimeZone];
-                                    localNotification2.applicationIconBadgeNumber = [[UIApplication sharedApplication]     applicationIconBadgeNumber] + 1;
-                                    localNotification2.soundName = UILocalNotificationDefaultSoundName;
-                                    NSDictionary *userInfo2 =[NSDictionary dictionaryWithObjectsAndKeys:@"TRANSITION", @"type", @"CREATE_CLASS", @"action", nil];
-                                    localNotification2.userInfo = userInfo2;
-                                    [[UIApplication sharedApplication] scheduleLocalNotification:localNotification2];
-                                }
-                                else {
-                                    //1st notification
-                                    UILocalNotification *localNotification = [[UILocalNotification alloc] init];
-                                    localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:24*60*60];
-                                    localNotification.alertBody = NSLocalizedString(@"You have not joined any class yet. Join a class or invite teacher.", nil);
-                                    localNotification.timeZone = [NSTimeZone defaultTimeZone];
-                                    localNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication]     applicationIconBadgeNumber] + 1;
-                                    localNotification.soundName = UILocalNotificationDefaultSoundName;
-                                    NSDictionary *userInfo =[NSDictionary dictionaryWithObjectsAndKeys:@"TRANSITION", @"type", @"INVITE_TEACHER", @"action", nil];
-                                    localNotification.userInfo = userInfo;
-                                    [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
-                                    
-                                    //2nd notification
-                                    UILocalNotification *localNotification2 = [[UILocalNotification alloc] init];
-                                    localNotification2.fireDate = [NSDate dateWithTimeIntervalSinceNow:3*24*60*60];
-                                    localNotification2.alertBody = NSLocalizedString(@"You have not joined any class yet. Join a class or invite teacher.", nil);
-                                    localNotification2.timeZone = [NSTimeZone defaultTimeZone];
-                                    localNotification2.applicationIconBadgeNumber = [[UIApplication sharedApplication]     applicationIconBadgeNumber] + 1;
-                                    localNotification2.soundName = UILocalNotificationDefaultSoundName;
-                                    NSDictionary *userInfo2 =[NSDictionary dictionaryWithObjectsAndKeys:@"TRANSITION", @"type", @"INVITE_TEACHER", @"action", nil];
-                                    localNotification2.userInfo = userInfo2;
-                                    [[UIApplication sharedApplication] scheduleLocalNotification:localNotification2];
-                                }
-                                [hud hide:YES];
-                                [self dismissViewControllerAnimated:YES completion:nil];
-                            } errorBlock:^(NSError *error) {
-                                [hud hide:YES];
-                                [RKDropdownAlert title:@"Knit" message:@"Error in signing up. Try again."  time:2];
-                                //NSLog(@" in background sign up ka pain");
-                                return;
-                            }];
+                                //2nd notification
+                                UILocalNotification *localNotification2 = [[UILocalNotification alloc] init];
+                                localNotification2.fireDate = [NSDate dateWithTimeIntervalSinceNow:3*24*60*60];
+                                localNotification2.alertBody = NSLocalizedString(@"You have not joined any class yet. Join a class or invite teacher.", nil);
+                                localNotification2.timeZone = [NSTimeZone defaultTimeZone];
+                                localNotification2.applicationIconBadgeNumber = [[UIApplication sharedApplication]     applicationIconBadgeNumber] + 1;
+                                localNotification2.soundName = UILocalNotificationDefaultSoundName;
+                                NSDictionary *userInfo2 =[NSDictionary dictionaryWithObjectsAndKeys:@"TRANSITION", @"type", @"INVITE_TEACHER", @"action", nil];
+                                localNotification2.userInfo = userInfo2;
+                                [[UIApplication sharedApplication] scheduleLocalNotification:localNotification2];
+                            }
+                            [hud hide:YES];
+                            [self dismissViewControllerAnimated:YES completion:nil];
                         }
                     }];
                 }
@@ -230,7 +200,6 @@
                     return;
                 }
             } errorBlock:^(NSError *error) {
-                //NSLog(@"error : %@", error);
                 if([[((NSDictionary *)error.userInfo) objectForKey:@"error"] isEqualToString:@"USER_ALREADY_EXISTS"]) {
                     [hud hide:YES];
                     [self.navigationController popViewControllerAnimated:YES];
@@ -243,74 +212,39 @@
             }];
         }
 
-        else if(_isNewSignIn == true)
-        {
+        else if(_isNewSignIn == true) {
             MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[[UIApplication sharedApplication] keyWindow]  animated:YES];
             hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
             hud.labelText = @"Loading";
 
-            NSInteger verificationCode=[_codeText.text integerValue];
-            NSString *number=_phoneNumber;
-            [Data  newSignInVerification:number code:verificationCode successBlock:^(id object) {
-                //NSLog(@"Verified");
-                NSDictionary *tokenDict=[[NSDictionary alloc]init];
-                tokenDict=object;
-                NSString *flagString=[tokenDict objectForKey:@"flag"];
-                long int flagValue=[flagString integerValue];
-                NSString *token=[tokenDict objectForKey:@"sessionToken"];
+            NSInteger verificationCode = [_codeText.text integerValue];
+            NSString *number = _phoneNumber;
+            
+            PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+            NSString *installationId = currentInstallation[@"installationId"];
+            NSString *devicetype = currentInstallation[@"deviceType"];
+            
+            [Data newSignInVerification:number code:verificationCode installationId:installationId deviceType:devicetype areCoordinatesUpdated:_parentVCSignIn.areCoordinatesUpdated latitude:_parentVCSignIn.latitude longitude:_parentVCSignIn.longitude os:[NSString stringWithFormat:@"iOS %@", _osVersion] model:_model successBlock:^(id object) {
                 
-                if(flagValue==1)
-                {
+                NSDictionary *tokenDict = object;
+                NSString *token = [tokenDict objectForKey:@"sessionToken"];
+                
+                if(token.length>0) {
                     [PFUser becomeInBackground:token block:^(PFUser *user, NSError *error) {
                         if (error) {
                             [hud hide:YES];
                             [RKDropdownAlert title:@"Knit" message:@"Error in signing in.Try again." time:2];
-                            //NSLog(@"user become in bg ka pain on new login");
                             return;
                         } else {
-                            //NSLog(@"Successfully Validated ");
-                            [PFSession getCurrentSessionInBackgroundWithBlock:^(PFSession *session, NSError *error) {
-                                if(error) {
-                                    //NSLog(@"pfsession : error");
-                                }
-                                else {
-                                    if(_areCoordinatesUpdated) {
-                                        session[@"lat"] = [NSNumber numberWithDouble:_latitude];
-                                        session[@"long"] = [NSNumber numberWithDouble:_longitude];
-                                    }
-                                    session[@"os"] = [NSString stringWithFormat:@"iOS %@", _osVersion];
-                                    session[@"model"] = _model;
-                                    PFUser *currentUser = [PFUser currentUser];
-                                    session[@"role"] = currentUser[@"role"];
-                                    [session saveEventually];
-                                }
-                            }];
-                            PFUser *current=[PFUser currentUser];
-                            //NSLog(@"%@ current user",current.objectId);
-                            PFInstallation *currentInstallation = [PFInstallation currentInstallation];
-                            NSString *installationId=[currentInstallation objectForKey:@"installationId"];
-                            NSString *devicetype=[currentInstallation objectForKey:@"deviceType"];
                             
-                            [Data saveInstallationId:installationId deviceType:devicetype successBlock:^(id object) {
-                                //NSLog(@"Successfully saved installationID");
-                                //NSLog(@"current installation %@",object);
-                                current[@"installationObjectId"]=object;
-                                [current pinInBackground];
-                                
-                                [Data getAllCodegroups:^(id object) {
-                                    NSArray *cgs = (NSArray *)object;
-                                    for(PFObject *cg in cgs) {
-                                        [cg pinInBackground];
-                                    }
-                                    [self secondHalfLoginProcess:hud];
-                                } errorBlock:^(NSError *error) {
-                                    //NSLog(@"Unable to fetch classes: %@", [error description]);
-                                    [self secondHalfLoginProcess:hud];
-                                }];
+                            [Data getAllCodegroups:^(id object) {
+                                NSArray *cgs = (NSArray *)object;
+                                for(PFObject *cg in cgs) {
+                                    [cg pinInBackground];
+                                }
+                                [self secondHalfLoginProcess:hud];
                             } errorBlock:^(NSError *error) {
-                                [hud hide:YES];
-                                [RKDropdownAlert title:@"Knit" message:@"Error in signing in.Try again." time:2];
-                                return;
+                                [self secondHalfLoginProcess:hud];
                             }];
                         }
                     }];
@@ -321,7 +255,6 @@
                     return;
                 }
             } errorBlock:^(NSError *error) {
-                //NSLog(@"error : %@", error);
                 if([[((NSDictionary *)error.userInfo) objectForKey:@"error"] isEqualToString:@"USER_DOESNOT_EXISTS"]) {
                     [hud hide:YES];
                     [self.navigationController popViewControllerAnimated:YES];
@@ -382,8 +315,7 @@
 }
 
 
-// It is important for you to hide kwyboard
-
+// It is important for you to hide keyboard
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     [textField resignFirstResponder];
     return YES;

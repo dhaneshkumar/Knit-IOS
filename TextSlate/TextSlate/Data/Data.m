@@ -246,41 +246,72 @@
 
 
 
-+(void) verifyOTPOldSignIn:(NSString *)email password:(NSString *)password successBlock:(successBlock) successBlock errorBlock:(errorBlock) errorBlock{
-    [PFCloud callFunctionInBackground:@"verifyCod" withParameters:@{@"email":email,@"password":password} block:^(id object, NSError *error) {
-        if (error) {
-            errorBlock(error);
-        } else {
-            successBlock(object);
-        }
-    }];
-    
++(void)verifyOTPOldSignIn:(NSString *)email password:(NSString *)password installationId:(NSString *)installationId deviceType:(NSString *)deviceType areCoordinatesUpdated:(BOOL)areCoordinatesUpdated latitude:(double)latitude longitude:(double)longitude os:(NSString *)os model:(NSString *)model successBlock:(successBlock) successBlock errorBlock:(errorBlock) errorBlock{
+    if(areCoordinatesUpdated) {
+        [PFCloud callFunctionInBackground:@"appEnter" withParameters:@{@"email":email, @"password":password, @"installationId":installationId, @"deviceType":deviceType, @"lat":[NSNumber numberWithDouble:latitude], @"long":[NSNumber numberWithDouble:longitude], @"os":os, @"model":model} block:^(id object, NSError *error) {
+            if (error) {
+                errorBlock(error);
+            } else {
+                successBlock(object);
+            }
+        }];
+    }
+    else {
+        [PFCloud callFunctionInBackground:@"appEnter" withParameters:@{@"email":email, @"password":password, @"installationId":installationId, @"deviceType":deviceType, @"os":os, @"model":model} block:^(id object, NSError *error) {
+            if (error) {
+                errorBlock(error);
+            } else {
+                successBlock(object);
+            }
+        }];
+    }
 }
 
-+(void) verifyOTPSignUp:(NSString *)phoneNum code:(NSInteger)code name:(NSString *)name role:(NSString *)role successBlock:(successBlock) successBlock errorBlock:(errorBlock) errorBlock{
++(void) verifyOTPSignUp:(NSString *)phoneNum code:(NSInteger)code name:(NSString *)name role:(NSString *)role installationId:(NSString *)installationId deviceType:(NSString *)deviceType areCoordinatesUpdated:(BOOL)areCoordinatesUpdated latitude:(double)latitude longitude:(double)longitude os:(NSString *)os model:(NSString *)model successBlock:(successBlock) successBlock errorBlock:(errorBlock) errorBlock{
     NSNumber *codeNum = [NSNumber numberWithInteger:code];
-    [PFCloud callFunctionInBackground:@"verifyCod" withParameters:@{@"number":phoneNum ,@"code":codeNum, @"name":name, @"role":role} block:^(id object, NSError *error) {
-        if (error) {
-            errorBlock(error);
-        } else {
-            successBlock(object);
-        }
-    }];
+    if(areCoordinatesUpdated) {
+        [PFCloud callFunctionInBackground:@"appEnter" withParameters:@{@"number":phoneNum ,@"code":codeNum, @"name":name, @"role":role, @"installationId":installationId, @"deviceType":deviceType, @"lat":[NSNumber numberWithDouble:latitude], @"long":[NSNumber numberWithDouble:longitude], @"os":os, @"model":model} block:^(id object, NSError *error) {
+            if (error) {
+                errorBlock(error);
+            } else {
+                successBlock(object);
+            }
+        }];
+    }
+    else {
+        [PFCloud callFunctionInBackground:@"appEnter" withParameters:@{@"number":phoneNum ,@"code":codeNum, @"name":name, @"role":role, @"installationId":installationId, @"deviceType":deviceType, @"os":os, @"model":model} block:^(id object, NSError *error) {
+            if (error) {
+                errorBlock(error);
+            } else {
+                successBlock(object);
+            }
+        }];
+    }
 }
 
 
-+(void) newSignInVerification:(NSString *)phoneNum code:(NSInteger)code successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock{
++(void) newSignInVerification:(NSString *)phoneNum code:(NSInteger)code installationId:(NSString *)installationId deviceType:(NSString *)deviceType areCoordinatesUpdated:(BOOL)areCoordinatesUpdated latitude:(double)latitude longitude:(double)longitude os:(NSString *)os model:(NSString *)model successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
     NSNumber *codeNum = [NSNumber numberWithInteger:code];
-
-    [PFCloud callFunctionInBackground:@"verifyCod" withParameters:@{@"number":phoneNum,@"code":codeNum
-    } block:^(id object, NSError *error) {
-        if(error) {
-            errorBlock(error);
-        }
-        else {
-            successBlock(object);
-        }
-    }];
+    if(areCoordinatesUpdated) {
+        [PFCloud callFunctionInBackground:@"appEnter" withParameters:@{@"number":phoneNum, @"code":codeNum, @"installationId":installationId, @"deviceType":deviceType, @"lat":[NSNumber numberWithDouble:latitude], @"long":[NSNumber numberWithDouble:longitude], @"os":os, @"model":model} block:^(id object, NSError *error) {
+            if(error) {
+                errorBlock(error);
+            }
+            else {
+                successBlock(object);
+            }
+        }];
+    }
+    else {
+        [PFCloud callFunctionInBackground:@"appEnter" withParameters:@{@"number":phoneNum, @"code":codeNum, @"installationId":installationId, @"deviceType":deviceType, @"os":os, @"model":model} block:^(id object, NSError *error) {
+            if(error) {
+                errorBlock(error);
+            }
+            else {
+                successBlock(object);
+            }
+        }];
+    }
 }
 
 
@@ -332,8 +363,7 @@
 }
 
 
-+(void)appLogout:(NSString *)objectId successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock{
-    
++(void)appLogout:(NSString *)objectId successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
     [PFCloud callFunctionInBackground:@"appLogout" withParameters:@{@"installationObjectId":objectId} block:^(id object, NSError *error) {
         if(error) {
             errorBlock(error);

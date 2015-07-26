@@ -39,10 +39,6 @@
 @property (nonatomic) BOOL isState1;
 
 @property (strong, nonatomic) CLLocationManager *locationManager;
-@property (strong, nonatomic) PhoneVerificationViewController *pvc;
-@property (nonatomic) BOOL areCoordinatesUpdated;
-@property (nonatomic) double latitude;
-@property (nonatomic) double longitude;
 
 @end
 
@@ -67,10 +63,12 @@
     _emailTextField.keyboardType = UIKeyboardTypeEmailAddress;
     [_emailTextField setReturnKeyType:UIReturnKeyNext];
     [_passwordTextField setReturnKeyType:UIReturnKeyDone];
+    
     _isState1 = true;
     _locationManager = [[CLLocationManager alloc] init];
-    _pvc = nil;
     _areCoordinatesUpdated = false;
+    _latitude = 0.0;
+    _longitude = 0.0;
     
     UIToolbar* keyboardDoneButtonView = [[UIToolbar alloc] init];
     UIBarButtonItem *flexBarButton = [[UIBarButtonItem alloc]
@@ -91,6 +89,12 @@
     //_contentViewHeight.constant = 20+34+24+30+4+14+50+48+22+30+5+30+12+40+216-64-40;
     [self state1View];
 }
+
+-(void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [self getCurrentLocation];
+}
+
 
 -(IBAction)backButtonTapped:(id)sender {
     [self.navigationController popViewControllerAnimated:YES];
@@ -202,7 +206,6 @@
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     if([textField isEqual:_mobilTextField]) {
-        //NSLog(@"kaise hua re ye baba!!");
     }
     else if([textField isEqual:_passwordTextField]){
         [self go];
@@ -230,20 +233,11 @@
 
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
-    //NSLog(@"didUpdateToLocation: %@", newLocation);
     CLLocation *currentLocation = newLocation;
-    
     if (currentLocation != nil) {
-        if(_pvc) {
-            _pvc.latitude = currentLocation.coordinate.latitude;
-            _pvc.longitude = currentLocation.coordinate.longitude;
-            _pvc.areCoordinatesUpdated = true;
-        }
-        else {
-            _latitude = currentLocation.coordinate.latitude;
-            _longitude = currentLocation.coordinate.longitude;
-            _areCoordinatesUpdated = true;
-        }
+        _latitude = currentLocation.coordinate.latitude;
+        _longitude = currentLocation.coordinate.longitude;
+        _areCoordinatesUpdated = true;
     }
     [_locationManager stopUpdatingLocation];
 }
@@ -262,12 +256,11 @@
     [Data generateOTP:_mobilTextField.text successBlock:^(id object) {
         [hud hide:YES];
         PhoneVerificationViewController *dvc = [self.storyboard instantiateViewControllerWithIdentifier:@"phoneVerificationVC"];
-        _pvc = dvc;
-        [self getCurrentLocation];
         
-        dvc.phoneNumber=_mobilTextField.text;
-        dvc.password=_passwordTextField.text;
-        dvc.isNewSignIn=true;
+        dvc.phoneNumber = _mobilTextField.text;
+        dvc.password = _passwordTextField.text;
+        dvc.isNewSignIn = true;
+        dvc.parentVCSignIn = self;
         [self.navigationController pushViewController:dvc animated:YES];
     } errorBlock:^(NSError *error) {
         [hud hide:YES];
@@ -295,69 +288,35 @@
     hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
     hud.labelText = @"Loading";
     
-    [Data verifyOTPOldSignIn:userNameTyped password:passwordTyped successBlock:^(id object) {
-        NSDictionary *tokenDict=[[NSDictionary alloc]init];
-        tokenDict=object;
-        NSString *flagValue=[tokenDict objectForKey:@"flag"];
-        NSString *token=[tokenDict objectForKey:@"sessionToken"];
-        //NSLog(@"Flag %@ and session token %@",flagValue,token);
-        [self getCurrentLocation];
-        if([token length]>0)
-        {
+    PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+    NSString *installationId=[currentInstallation objectForKey:@"installationId"];
+    NSString *devicetype=[currentInstallation objectForKey:@"deviceType"];
+    float version = [[[UIDevice currentDevice] systemVersion] floatValue];
+    NSString *os = [[NSNumber numberWithFloat:version] stringValue];
+    struct utsname systemInfo;
+    uname(&systemInfo);
+    
+    [Data verifyOTPOldSignIn:userNameTyped password:passwordTyped installationId:installationId deviceType:devicetype areCoordinatesUpdated:_areCoordinatesUpdated latitude:_latitude longitude:_longitude os:[NSString stringWithFormat:@"iOS %@", os] model:[NSString stringWithCString:systemInfo.machine encoding:NSUTF8StringEncoding] successBlock:^(id object) {
+        NSDictionary *tokenDict = object;
+        NSString *token = [tokenDict objectForKey:@"sessionToken"];
+        
+        if([token length]>0) {
             [PFUser becomeInBackground:token block:^(PFUser *user, NSError *error) {
                 if (error) {
-                    //NSLog(@"Session token could not be validated");
                     UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error in signing in. Try again later." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
                     [hud hide:YES];
                     [errorAlertView show];
                     return;
                 } else {
-                    [PFSession getCurrentSessionInBackgroundWithBlock:^(PFSession *session, NSError *error) {
-                        if(error) {
-                            //NSLog(@"pfsession : error");
+                    [Data getAllCodegroups:^(id object) {
+                        NSArray *cgs = (NSArray *)object;
+                        for(PFObject *cg in cgs) {
+                            [cg pinInBackground];
                         }
-                        else {
-                            if(_areCoordinatesUpdated) {
-                                session[@"lat"] = [NSNumber numberWithDouble:_latitude];
-                                session[@"long"] = [NSNumber numberWithDouble:_longitude];
-                            }
-                            float version=[[[UIDevice currentDevice] systemVersion] floatValue];
-                            NSString *os = [[NSNumber numberWithFloat:version] stringValue];
-                            session[@"os"] = [NSString stringWithFormat:@"iOS %@", os];
-                            
-                            struct utsname systemInfo;
-                            uname(&systemInfo);
-                            session[@"model"] = [NSString stringWithCString:systemInfo.machine encoding:NSUTF8StringEncoding];
-                            PFUser *currentUser = [PFUser currentUser];
-                            session[@"role"] = currentUser[@"role"];
-                            [session saveEventually];
-                        }
-                    }];
-                    //NSLog(@"Successfully Validated ");
-                    PFUser *current=[PFUser currentUser];
-                    //NSLog(@"%@ current user",current.objectId);
-                    PFInstallation *currentInstallation = [PFInstallation currentInstallation];
-                    NSString *installationId=[currentInstallation objectForKey:@"installationId"];
-                    NSString *devicetype=[currentInstallation objectForKey:@"deviceType"];
-                    [Data saveInstallationId:installationId deviceType:devicetype successBlock:^(id object) {
-                        //NSLog(@"Successfully saved installationID");
-                        current[@"installationObjectId"]=object;
-                        [current pinInBackground];
-                        [Data getAllCodegroups:^(id object) {
-                            NSArray *cgs = (NSArray *)object;
-                            for(PFObject *cg in cgs) {
-                                [cg pinInBackground];
-                            }
-                            [self secondHalfLoginProcess:hud];
-                        } errorBlock:^(NSError *error) {
-                            //NSLog(@"Unable to fetch classes: %@", [error description]);
-                            [self secondHalfLoginProcess:hud];
-                        }];
+                        [self secondHalfLoginProcess:hud];
                     } errorBlock:^(NSError *error) {
-                        UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error in signing in. Try again later." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-                        [hud hide:YES];
-                        [errorAlertView show];
-                        return;
+                        //NSLog(@"Unable to fetch classes: %@", [error description]);
+                        [self secondHalfLoginProcess:hud];
                     }];
                 }
             }];

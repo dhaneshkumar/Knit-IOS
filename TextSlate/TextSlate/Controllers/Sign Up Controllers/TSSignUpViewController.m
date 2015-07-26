@@ -23,7 +23,6 @@
 @property (strong,nonatomic) NSString *getOTP;
 @property (strong,nonatomic) NSMutableArray *classDetails;
 @property (strong, nonatomic) CLLocationManager *locationManager;
-@property (strong, nonatomic) PhoneVerificationViewController *pvc;
 
 @end
 
@@ -40,7 +39,10 @@
     UIBarButtonItem *bb = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"back"] style:UIBarButtonItemStylePlain target:self action:@selector(backButtonTapped:)];
     [self.navigationItem setLeftBarButtonItem:bb];
     _locationManager = [[CLLocationManager alloc] init];
-    _pvc = nil;
+    _areCoordinatesUpdated = false;
+    _latitude = 0.0;
+    _longitude = 0.0;
+    
     UIToolbar* keyboardDoneButtonView = [[UIToolbar alloc] init];
     UIBarButtonItem *flexBarButton = [[UIBarButtonItem alloc]
                                       initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
@@ -51,6 +53,11 @@
     _phoneNumberTextField.inputAccessoryView = keyboardDoneButtonView;
 }
 
+-(void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [self getCurrentLocation];
+}
+
 - (IBAction)doneClicked:(id)sender {
     [_phoneNumberTextField resignFirstResponder];
     [self signUp];
@@ -59,6 +66,7 @@
 -(IBAction)backButtonTapped:(id)sender {
     [self.navigationController popViewControllerAnimated:YES];
     return;
+    /*
     UIBarButtonItem * item = self.navigationItem.leftBarButtonItem;
     UIView *view = [item valueForKey:@"view"];
     CGFloat width;
@@ -87,6 +95,7 @@
     [[[UIApplication sharedApplication] keyWindow] addSubview:blackMask];
     //[self.view setNeedsDisplay];
     //[self.navigationController popViewControllerAnimated:YES];
+    */
 }
 
 -(CGFloat) getScreenHeight {
@@ -120,12 +129,6 @@
 */
 
 
--(void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    //NSLog(@"%f", self.navigationItem.leftBarButtonItem.width);
-}
-
-
 - (IBAction)signUpClicked:(UIButton *)sender {
     [self signUp];
 }
@@ -151,13 +154,12 @@
     [Data generateOTP:_phoneNumberTextField.text successBlock:^(id object) {
         [hud hide:YES];
         PhoneVerificationViewController *dvc = [self.storyboard instantiateViewControllerWithIdentifier:@"phoneVerificationVC"];
-        _pvc = dvc;
-        [self getCurrentLocation];
         
         dvc.nameText=[_displayName.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         dvc.phoneNumber = _phoneNumberTextField.text;
         dvc.isSignUp = true;
         dvc.role = _role;
+        dvc.parentVCSignUp = self;
         [self.navigationController pushViewController:dvc animated:YES];
     } errorBlock:^(NSError *error) {
         [hud hide:YES];
@@ -185,9 +187,9 @@
     CLLocation *currentLocation = newLocation;
     
     if (currentLocation != nil) {
-        _pvc.latitude = currentLocation.coordinate.latitude;
-        _pvc.longitude = currentLocation.coordinate.longitude;
-        _pvc.areCoordinatesUpdated = true;
+        _latitude = currentLocation.coordinate.latitude;
+        _longitude = currentLocation.coordinate.longitude;
+        _areCoordinatesUpdated = true;
     }
     
     [_locationManager stopUpdatingLocation];

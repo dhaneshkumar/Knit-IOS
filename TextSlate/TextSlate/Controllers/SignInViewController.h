@@ -11,4 +11,8 @@
 
 @interface SignInViewController : UIViewController <UITextFieldDelegate, CLLocationManagerDelegate, UIAlertViewDelegate>
 
+@property (nonatomic) BOOL areCoordinatesUpdated;
+@property (nonatomic) double latitude;
+@property (nonatomic) double longitude;
+
 @end

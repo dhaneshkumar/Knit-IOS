@@ -7,6 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TSSignUpViewController.h"
+#import "SignInViewController.h"
 
 @interface PhoneVerificationViewController : UIViewController<UITextFieldDelegate>
 
@@ -18,9 +20,10 @@
 @property (strong,nonatomic) NSString *otpCode;
 @property (strong, nonatomic) NSString *model;
 @property (strong, nonatomic) NSString *role;
-@property (nonatomic) double latitude;
-@property (nonatomic) double longitude;
-@property (nonatomic) BOOL areCoordinatesUpdated;
+
+@property (strong, nonatomic) TSSignUpViewController *parentVCSignUp;
+@property (strong, nonatomic) SignInViewController *parentVCSignIn;
+
 @property (assign) bool isNewSignIn ;
 @property (assign) bool isSignUp ;
 

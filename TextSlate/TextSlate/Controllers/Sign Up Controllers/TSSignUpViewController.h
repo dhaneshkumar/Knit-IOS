@@ -12,5 +12,8 @@
 @interface TSSignUpViewController : UIViewController<UITextFieldDelegate, CLLocationManagerDelegate>
 
 @property (strong,nonatomic) NSString *role;
+@property (nonatomic) BOOL areCoordinatesUpdated;
+@property (nonatomic) double latitude;
+@property (nonatomic) double longitude;
 
 @end
