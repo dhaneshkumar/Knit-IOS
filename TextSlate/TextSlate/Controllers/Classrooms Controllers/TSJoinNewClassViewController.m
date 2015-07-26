@@ -124,7 +124,7 @@
         NSDictionary *objDict = (NSDictionary *)object;
         PFObject *codeGroupForClass = [objDict objectForKey:@"codegroup"];
         [codeGroupForClass pin];
-        NSArray *joinedClasses = [objDict objectForKey:@"user"];
+        NSArray *joinedClasses = [objDict objectForKey:@"joined_groups"];
         PFUser *currentUser = [PFUser currentUser];
         currentUser[@"joined_groups"] = joinedClasses;
         [currentUser pin];

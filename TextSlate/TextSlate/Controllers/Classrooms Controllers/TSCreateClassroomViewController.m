@@ -82,7 +82,7 @@
         NSDictionary *objDict=(NSDictionary *)object;
         PFObject *codeGroupForClass = [objDict objectForKey:@"codegroup"];
         [codeGroupForClass pin];
-        NSArray *createdClasses = [objDict objectForKey:@"user"];
+        NSArray *createdClasses = [objDict objectForKey:@"Created_groups"];
         PFUser *currentUser = [PFUser currentUser];
         currentUser[@"Created_groups"] = createdClasses;
         [currentUser pin];
