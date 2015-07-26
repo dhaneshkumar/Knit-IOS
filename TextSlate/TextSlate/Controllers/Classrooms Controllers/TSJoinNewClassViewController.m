@@ -118,9 +118,10 @@
     [_classCodeTextField resignFirstResponder];
     [_associatedPersonTextField resignFirstResponder];
     
-    NSString *installationObjectId = [[PFUser currentUser] objectForKey:@"installationObjectId"];
+    PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+    NSString *installationId = currentInstallation.installationId;
     
-    [Data joinNewClass:classCodeTyped childName:assocNameTyped installationId:installationObjectId successBlock:^(id object) {
+    [Data joinNewClass:classCodeTyped childName:assocNameTyped installationId:installationId successBlock:^(id object) {
         NSDictionary *objDict = (NSDictionary *)object;
         PFObject *codeGroupForClass = [objDict objectForKey:@"codegroup"];
         [codeGroupForClass pin];

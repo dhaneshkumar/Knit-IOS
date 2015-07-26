@@ -26,7 +26,7 @@
 
 
 +(void) joinNewClass:(NSString *)classCode childName:(NSString *)childName installationId:(NSString*)installationId successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
-    [PFCloud callFunctionInBackground:@"joinClass3" withParameters:@{@"classCode" : classCode, @"associateName" : childName, @"installationObjectId" : installationId} block:^(id object, NSError *error) {
+    [PFCloud callFunctionInBackground:@"joinClass3" withParameters:@{@"classCode" : classCode, @"associateName" : childName, @"installationId" : installationId} block:^(id object, NSError *error) {
         if (error) {
             errorBlock(error);
         } else {
@@ -47,9 +47,9 @@
 }
 
 +(void) leaveClass:(NSString *)classCode  successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
-    NSString *installationObjectId=[[PFUser currentUser] objectForKey:@"installationObjectId"];
-    //NSLog(@"Installaton id joined group %@",installationObjectId);
-    [PFCloud callFunctionInBackground:@"leaveClass3" withParameters:@{@"classcode":classCode,@"installationObjectId" :installationObjectId } block:^(id object, NSError *error) {
+    PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+    NSString *installationId = currentInstallation.installationId;
+    [PFCloud callFunctionInBackground:@"leaveClass3" withParameters:@{@"classcode":classCode,@"installationId" :installationId} block:^(id object, NSError *error) {
         if (error) {
             errorBlock(error);
         } else {
@@ -362,18 +362,6 @@
     }];
 }
 
-
-+(void)appLogout:(NSString *)objectId successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
-    [PFCloud callFunctionInBackground:@"appLogout" withParameters:@{@"installationObjectId":objectId} block:^(id object, NSError *error) {
-        if(error) {
-            errorBlock(error);
-        }
-        else {
-           successBlock(object);
-        }
-    }];
-    
-}
 
 
 +(void) appExit:(NSString *)installationId successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
