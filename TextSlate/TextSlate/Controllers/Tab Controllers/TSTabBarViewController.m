@@ -163,11 +163,9 @@
     
     [Data getMemberList:latestDate successBlock:^(id object) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            //NSLog(@"here : %@", latestDate);
             NSMutableDictionary *members = (NSMutableDictionary *) object;
             NSArray *appUser=(NSArray *)[members objectForKey:@"app"];
             NSArray *phoneUser=(NSArray *)[members objectForKey:@"sms"];
-            //NSLog(@"appUsers : %d, messageusers : %d", appUser.count, phoneUser.count);
             [PFObject pinAll:appUser];
             [PFObject pinAll:phoneUser];
             
@@ -184,13 +182,10 @@
                 [query orderByDescending:@"updatedAt"];
                 [query whereKey:@"code" containedIn:createdClassCodes];
                 NSArray * objects = [query findObjects];
-                //NSLog(@"local app users : %d", objects.count);
                 for(PFObject *name in objects) {
                     TSMember *member = [self createMemberObjectForAppUsers:name];
-                    //NSLog(@"app member : %@, %@", name, member);
                     if(member) {
                         [memberArrays[member.classCode] addObject:member];
-                        //NSLog(@"app yups");
                     }
                 }
                 
@@ -199,13 +194,10 @@
                 [query orderByDescending:@"updatedAt"];
                 [query whereKey:@"cod" containedIn:createdClassCodes];
                 objects = [query findObjects];
-                //NSLog(@"local phone users : %d", objects.count);
                 for(PFObject *name in objects) {
                     TSMember *member = [self createMemberObjectForMessageNeeders:name];
-                    //NSLog(@"phone member : %@, %@", name, member);
                     if(member) {
                         [memberArrays[member.classCode] addObject:member];
-                        //NSLog(@"message yups");
                     }
                 }
                 
@@ -223,7 +215,6 @@
             }
         });
     } errorBlock:^(NSError *error) {
-        //NSLog(@"Error in fetching member list.");
         for(NSArray *cls in createdClasses) {
             TSSendClassMessageViewController *sendClassVC = createdClassesVCs[cls[0]];
             [sendClassVC.memListVC endMemberUpdating];

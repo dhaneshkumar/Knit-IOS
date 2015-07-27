@@ -27,7 +27,6 @@
     NSURL *url = [NSURL URLWithString:_url];
     NSURLRequest *urlRequest = [NSURLRequest requestWithURL:url];
     [_webView loadRequest:urlRequest];
-    //NSLog(@"vdl tswebView controller : %@", _url);
 }
 
 -(void)closeWindow {
@@ -37,7 +36,6 @@
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 
@@ -45,11 +43,9 @@
     _hud = [MBProgressHUD showHUDAddedTo:_webView  animated:YES];
     _hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
     _hud.labelText = @"Loading";
-
 }
 
 -(void)webViewDidFinishLoad:(UIWebView *)webView {
-    //NSLog(@"finished loading");
     [_hud hide:YES];
 }
 

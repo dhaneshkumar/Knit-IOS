@@ -142,8 +142,9 @@
 
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    if([PFUser currentUser])
+    if([PFUser currentUser]) {
         [self fetchCodegroups];
+    }
 }
 
 

@@ -21,7 +21,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     _pickerView.delegate = self;
-    _classArray = [[PFUser currentUser] objectForKey:@"Created_groups"];
+    PFUser *currentUser = [PFUser currentUser];
+    if(currentUser) {
+        _classArray = currentUser[@"Created_groups"];
+    }
 }
 
 - (void)didReceiveMemoryWarning {

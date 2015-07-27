@@ -9,6 +9,8 @@
 #import "TSStartPageViewController.h"
 #import "TSSignUpViewController.h"
 #import "SignInViewController.h"
+#import "Data.h"
+#import "RKDropdownAlert.h"
 
 @interface TSStartPageViewController ()
 
@@ -100,6 +102,19 @@
     border.backgroundColor = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:0.5f].CGColor;
     [_studentCell.layer addSublayer:border];
 }
+
+
+-(void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [Data feedback:@"Yups" successBlock:^(id object) {
+        NSLog(@"success");
+        [RKDropdownAlert title:@"Knit" message:@"We have got your feedback and we appreciate it." time:2];
+    } errorBlock:^(NSError *error) {
+        NSLog(@"error : %@", error);
+        [RKDropdownAlert title:@"Knit" message:@"Oops! We encountered a problem while processing your feedback.Please try again later!"time:2];
+    }];
+}
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

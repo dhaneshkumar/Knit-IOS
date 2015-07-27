@@ -97,7 +97,10 @@
  
     self.navigationItem.title = @"New Message";
     _textMessage.delegate = self;
-    _createdClasses = [[PFUser currentUser] objectForKey:@"Created_groups"];
+    PFUser *currentUser = [PFUser currentUser];
+    if(currentUser) {
+        _createdClasses = currentUser[@"Created_groups"];
+    }
     _selectedClassIndices = [[NSMutableSet alloc] init];
     
     _hasSelectedClasses = false;

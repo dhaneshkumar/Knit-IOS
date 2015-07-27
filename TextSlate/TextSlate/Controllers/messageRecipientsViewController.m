@@ -37,9 +37,8 @@
 
 
 -(void)closeWindow {
-    NSArray *arr = [_selectedClassIndices allObjects];
-    NSLog(@"arr : %@", arr);
-    [_parent classSelected:[_selectedClassIndices allObjects].count>0];
+    NSArray *array = [_selectedClassIndices allObjects];
+    [_parent classSelected:array.count>0];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
