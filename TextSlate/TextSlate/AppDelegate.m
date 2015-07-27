@@ -547,8 +547,6 @@
 
 
 -(BOOL)dropdownAlertWasTapped:(RKDropdownAlert*)alert {
-    // Handle the tap, then return whether or not the alert should hide.
-    //NSLog(@"dropdown alert");
     TSTabBarViewController *rootTab = [self getTabBarVC];
     [rootTab setSelectedIndex:1];
     self.window.rootViewController = _startNav;

@@ -11,12 +11,41 @@
 #import "TSCreatedClass.h"
 #import "TSJoinedClass.h"
 #import "TSUtils.h"
+#import "AppDelegate.h"
+#import "TSTabBarViewController.h"
 
 @implementation Data
+
++(void)handleInvalidSession {
+    AppDelegate *apd = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    NSArray *vcs = (NSArray *)((UINavigationController *)apd.startNav).viewControllers;
+    TSTabBarViewController *rootTab = (TSTabBarViewController *)((UINavigationController *)apd.startNav).topViewController;
+    for(id vc in vcs) {
+        if([vc isKindOfClass:[TSTabBarViewController class]]) {
+            rootTab = (TSTabBarViewController *)vc;
+            break;
+        }
+    }
+    [rootTab setSelectedIndex:0];
+    [PFUser logOut];
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
+    UINavigationController *startPage = [storyboard instantiateViewControllerWithIdentifier:@"startPageNavVC"];
+    [rootTab presentViewController:startPage animated:NO completion:nil];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Knit"
+                                                    message:@"Your session expired. Please login again."
+                                                   delegate:self cancelButtonTitle:nil
+                                          otherButtonTitles:@"OK",nil];
+    [alert show];
+    return;
+}
 
 +(void) createNewClassWithClassName:(NSString *)className successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
     [PFCloud callFunctionInBackground:@"createClass3" withParameters:@{@"classname":className} block:^(id object, NSError *error) {
         if (error) {
+            if(error.code == kPFErrorInvalidSessionToken) {
+                [self handleInvalidSession];
+                return;
+            }
             errorBlock(error);
         } else {
             successBlock(object);
@@ -28,6 +57,10 @@
 +(void) joinNewClass:(NSString *)classCode childName:(NSString *)childName installationId:(NSString*)installationId successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
     [PFCloud callFunctionInBackground:@"joinClass3" withParameters:@{@"classCode" : classCode, @"associateName" : childName, @"installationId" : installationId} block:^(id object, NSError *error) {
         if (error) {
+            if(error.code == kPFErrorInvalidSessionToken) {
+                [self handleInvalidSession];
+                return;
+            }
             errorBlock(error);
         } else {
             successBlock(object);
@@ -39,6 +72,10 @@
 +(void) deleteClass:(NSString *)classCode successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
     [PFCloud callFunctionInBackground:@"deleteClass3" withParameters:@{@"classcode":classCode} block:^(id object, NSError *error) {
         if (error) {
+            if(error.code == kPFErrorInvalidSessionToken) {
+                [self handleInvalidSession];
+                return;
+            }
             errorBlock(error);
         } else {
             successBlock(object);
@@ -51,6 +88,10 @@
     NSString *installationId = currentInstallation.installationId;
     [PFCloud callFunctionInBackground:@"leaveClass3" withParameters:@{@"classcode":classCode,@"installationId" :installationId} block:^(id object, NSError *error) {
         if (error) {
+            if(error.code == kPFErrorInvalidSessionToken) {
+                [self handleInvalidSession];
+                return;
+            }
             errorBlock(error);
         } else {
             successBlock(object);
@@ -62,6 +103,10 @@
 +(void)updateInboxLocalDatastore:(NSString *)classtype successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
     [PFCloud callFunctionInBackground:@"showLatestMessagesWithLimit" withParameters:@{@"classtype":classtype, @"limit":@20} block:^(id object, NSError *error) {
         if (error) {
+            if(error.code == kPFErrorInvalidSessionToken) {
+                [self handleInvalidSession];
+                return;
+            }
             errorBlock(error);
         } else {
             successBlock(object);
@@ -72,6 +117,10 @@
 +(void)updateInboxLocalDatastoreWithTime:(NSDate *)lastMessageTime successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
     [PFCloud callFunctionInBackground:@"showLatestMessages" withParameters:@{@"date":lastMessageTime} block:^(id object, NSError *error) {
         if (error) {
+            if(error.code == kPFErrorInvalidSessionToken) {
+                [self handleInvalidSession];
+                return;
+            }
             errorBlock(error);
         } else {
             successBlock(object);
@@ -82,6 +131,10 @@
 +(void)updateInboxLocalDatastoreWithTime1:(NSString *)classtype oldestMessageTime:(NSDate *)oldestMessageTime successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
     [PFCloud callFunctionInBackground:@"showOldMessages" withParameters:@{@"classtype":classtype, @"date":oldestMessageTime, @"limit":@20} block:^(id object, NSError *error) {
         if (error) {
+            if(error.code == kPFErrorInvalidSessionToken) {
+                [self handleInvalidSession];
+                return;
+            }
             errorBlock(error);
         } else {
             successBlock(object);
@@ -93,9 +146,12 @@
 +(void)updateCountsLocally:(NSArray *)array successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
     [PFCloud callFunctionInBackground:@"updateCount2" withParameters:@{@"array":array} block:^(id object, NSError *error) {
         if (error) {
+            if(error.code == kPFErrorInvalidSessionToken) {
+                [self handleInvalidSession];
+                return;
+            }
             errorBlock(error);
         } else {
-            //NSLog(@"data.m called");
             successBlock(object);
         }
     }];
@@ -105,6 +161,10 @@
 +(void)updateLikeConfuseCountsGlobally:(NSArray *)array dict:(NSDictionary *)dict successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
     [PFCloud callFunctionInBackground:@"updateLikeAndConfusionCount" withParameters:@{@"array":array, @"input":dict} block:^(id object, NSError *error) {
         if (error) {
+            if(error.code == kPFErrorInvalidSessionToken) {
+                [self handleInvalidSession];
+                return;
+            }
             errorBlock(error);
         } else {
             successBlock(object);
@@ -116,6 +176,10 @@
 +(void)updateSeenCountsGlobally:(NSArray *)array successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
     [PFCloud callFunctionInBackground:@"updateSeenCount" withParameters:@{@"array":array} block:^(id object, NSError *error) {
         if (error) {
+            if(error.code == kPFErrorInvalidSessionToken) {
+                [self handleInvalidSession];
+                return;
+            }
             errorBlock(error);
         } else {
             successBlock(object);
@@ -126,8 +190,11 @@
 
 +(void)getMemberList:(NSDate *)lastMessageTime successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock{
     [PFCloud callFunctionInBackground:@"showAllSubscribers" withParameters:@{@"date":lastMessageTime} block:^(id object, NSError *error) {
-        if(error)
-        {
+        if(error) {
+            if(error.code == kPFErrorInvalidSessionToken) {
+                [self handleInvalidSession];
+                return;
+            }
             errorBlock(error);
         }
         else {
@@ -139,8 +206,11 @@
 
 +(void)getFAQ:(NSDate *)latestDate successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock{
     [PFCloud callFunctionInBackground:@"faq" withParameters:@{@"date":latestDate} block:^(id object, NSError *error) {
-        if(error)
-        {
+        if(error) {
+            if(error.code == kPFErrorInvalidSessionToken) {
+                [self handleInvalidSession];
+                return;
+            }
             errorBlock(error);
         }
         else {
@@ -154,6 +224,10 @@
 +(void)sendTextMessage:(NSString *)classcode classname:(NSString *)classname message:(NSString *)message successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
     [PFCloud callFunctionInBackground:@"sendTextMessage" withParameters:@{@"classcode":classcode, @"classname":classname, @"message":message} block:^(id object, NSError *error) {
         if (error) {
+            if(error.code == kPFErrorInvalidSessionToken) {
+                [self handleInvalidSession];
+                return;
+            }
             errorBlock(error);
         } else {
             successBlock(object);
@@ -164,6 +238,10 @@
 +(void)sendTextMessagewithAttachment:(NSString *)classcode classname:(NSString *)classname message:(NSString *)message attachment:(PFFile*)attachment filename:(NSString *)filename successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
     [PFCloud callFunctionInBackground:@"sendPhotoTextMessage" withParameters:@{@"classcode":classcode, @"classname":classname, @"message":message,@"parsefile":attachment,@"filename":filename } block:^(id object, NSError *error) {
         if (error) {
+            if(error.code == kPFErrorInvalidSessionToken) {
+                [self handleInvalidSession];
+                return;
+            }
             errorBlock(error);
         } else {
             successBlock(object);
@@ -175,6 +253,10 @@
 +(void)sendMultiTextMessage:(NSArray *)classCodes classNames:(NSArray *)classNames message:(NSString *)message successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
     [PFCloud callFunctionInBackground:@"sendMultiTextMessage" withParameters:@{@"classcode":classCodes, @"classname":classNames, @"message":message} block:^(id object, NSError *error) {
         if (error) {
+            if(error.code == kPFErrorInvalidSessionToken) {
+                [self handleInvalidSession];
+                return;
+            }
             errorBlock(error);
         } else {
             successBlock(object);
@@ -185,6 +267,10 @@
 +(void)sendMultiTextMessagewithAttachment:(NSArray *)classCodes classNames:(NSArray *)classNames message:(NSString *)message attachment:(PFFile*)attachment filename:(NSString *)filename successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
     [PFCloud callFunctionInBackground:@"sendMultiPhotoTextMessage" withParameters:@{@"classcode":classCodes, @"classname":classNames, @"message":message, @"parsefile":attachment,@"filename":filename } block:^(id object, NSError *error) {
         if (error) {
+            if(error.code == kPFErrorInvalidSessionToken) {
+                [self handleInvalidSession];
+                return;
+            }
             errorBlock(error);
         } else {
             successBlock(object);
@@ -196,6 +282,10 @@
 +(void)removeMemberApp:(NSString *)classcode classname:(NSString *)classname emailId:(NSString *)emailId usertype:(NSString *)usertype successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
     [PFCloud callFunctionInBackground:@"removeMember" withParameters:@{@"classcode":classcode, @"classname":classname, @"emailId":emailId,@"usertype":usertype} block:^(id object, NSError *error) {
         if (error) {
+            if(error.code == kPFErrorInvalidSessionToken) {
+                [self handleInvalidSession];
+                return;
+            }
             errorBlock(error);
         } else {
             successBlock(object);
@@ -206,6 +296,10 @@
 +(void)removeMemberPhone:(NSString *)classcode classname:(NSString *)classname number:(NSString *)number usertype:(NSString *)usertype successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
     [PFCloud callFunctionInBackground:@"removeMember" withParameters:@{@"classcode":classcode, @"classname":classname, @"number":number, @"usertype":usertype} block:^(id object, NSError *error) {
         if (error) {
+            if(error.code == kPFErrorInvalidSessionToken) {
+                [self handleInvalidSession];
+                return;
+            }
             errorBlock(error);
         } else {
             successBlock(object);
@@ -216,6 +310,10 @@
 +(void)getAllCodegroups:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
     [PFCloud callFunctionInBackground:@"giveClassesDetails" withParameters:@{} block:^(id object, NSError *error) {
         if (error) {
+            if(error.code == kPFErrorInvalidSessionToken) {
+                [self handleInvalidSession];
+                return;
+            }
             errorBlock(error);
         } else {
             successBlock(object);
@@ -226,6 +324,10 @@
 +(void)changeName:(NSString *)classcode newName:(NSString *)newName successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
     [PFCloud callFunctionInBackground:@"changeAssociateName2" withParameters:@{@"classCode":classcode, @"childName":newName} block:^(id object, NSError *error) {
         if (error) {
+            if(error.code == kPFErrorInvalidSessionToken) {
+                [self handleInvalidSession];
+                return;
+            }
             errorBlock(error);
         } else {
             successBlock(object);
@@ -236,6 +338,10 @@
 +(void) generateOTP:(NSString *)phoneNum successBlock:(successBlock) successBlock errorBlock:(errorBlock) errorBlock{
     [PFCloud callFunctionInBackground:@"genCode" withParameters:@{@"number":phoneNum } block:^(id object, NSError *error) {
         if (error) {
+            if(error.code == kPFErrorInvalidSessionToken) {
+                [self handleInvalidSession];
+                return;
+            }
             errorBlock(error);
         } else {
             successBlock(object);
@@ -250,6 +356,10 @@
     if(areCoordinatesUpdated) {
         [PFCloud callFunctionInBackground:@"appEnter" withParameters:@{@"email":email, @"password":password, @"installationId":installationId, @"deviceType":deviceType, @"lat":[NSNumber numberWithDouble:latitude], @"long":[NSNumber numberWithDouble:longitude], @"os":os, @"model":model} block:^(id object, NSError *error) {
             if (error) {
+                if(error.code == kPFErrorInvalidSessionToken) {
+                    [self handleInvalidSession];
+                    return;
+                }
                 errorBlock(error);
             } else {
                 successBlock(object);
@@ -259,6 +369,10 @@
     else {
         [PFCloud callFunctionInBackground:@"appEnter" withParameters:@{@"email":email, @"password":password, @"installationId":installationId, @"deviceType":deviceType, @"os":os, @"model":model} block:^(id object, NSError *error) {
             if (error) {
+                if(error.code == kPFErrorInvalidSessionToken) {
+                    [self handleInvalidSession];
+                    return;
+                }
                 errorBlock(error);
             } else {
                 successBlock(object);
@@ -272,6 +386,10 @@
     if(areCoordinatesUpdated) {
         [PFCloud callFunctionInBackground:@"appEnter" withParameters:@{@"number":phoneNum ,@"code":codeNum, @"name":name, @"role":role, @"installationId":installationId, @"deviceType":deviceType, @"lat":[NSNumber numberWithDouble:latitude], @"long":[NSNumber numberWithDouble:longitude], @"os":os, @"model":model} block:^(id object, NSError *error) {
             if (error) {
+                if(error.code == kPFErrorInvalidSessionToken) {
+                    [self handleInvalidSession];
+                    return;
+                }
                 errorBlock(error);
             } else {
                 successBlock(object);
@@ -281,6 +399,10 @@
     else {
         [PFCloud callFunctionInBackground:@"appEnter" withParameters:@{@"number":phoneNum ,@"code":codeNum, @"name":name, @"role":role, @"installationId":installationId, @"deviceType":deviceType, @"os":os, @"model":model} block:^(id object, NSError *error) {
             if (error) {
+                if(error.code == kPFErrorInvalidSessionToken) {
+                    [self handleInvalidSession];
+                    return;
+                }
                 errorBlock(error);
             } else {
                 successBlock(object);
@@ -295,6 +417,10 @@
     if(areCoordinatesUpdated) {
         [PFCloud callFunctionInBackground:@"appEnter" withParameters:@{@"number":phoneNum, @"code":codeNum, @"installationId":installationId, @"deviceType":deviceType, @"lat":[NSNumber numberWithDouble:latitude], @"long":[NSNumber numberWithDouble:longitude], @"os":os, @"model":model} block:^(id object, NSError *error) {
             if(error) {
+                if(error.code == kPFErrorInvalidSessionToken) {
+                    [self handleInvalidSession];
+                    return;
+                }
                 errorBlock(error);
             }
             else {
@@ -305,6 +431,10 @@
     else {
         [PFCloud callFunctionInBackground:@"appEnter" withParameters:@{@"number":phoneNum, @"code":codeNum, @"installationId":installationId, @"deviceType":deviceType, @"os":os, @"model":model} block:^(id object, NSError *error) {
             if(error) {
+                if(error.code == kPFErrorInvalidSessionToken) {
+                    [self handleInvalidSession];
+                    return;
+                }
                 errorBlock(error);
             }
             else {
@@ -319,6 +449,10 @@
     if([classCode isEqualToString:@""]) {
         [PFCloud callFunctionInBackground:@"inviteUsers" withParameters:@{@"type":[NSNumber numberWithInt:type], @"mode":mode, @"data":data} block:^(id object, NSError *error) {
             if(error) {
+                if(error.code == kPFErrorInvalidSessionToken) {
+                    [self handleInvalidSession];
+                    return;
+                }
                 errorBlock(error);
             }
             else {
@@ -330,6 +464,10 @@
         if([teacherName isEqualToString:@""]) {
             [PFCloud callFunctionInBackground:@"inviteUsers" withParameters:@{@"type":[NSNumber numberWithInt:type], @"classCode":classCode, @"mode":mode, @"data":data} block:^(id object, NSError *error) {
                 if(error) {
+                    if(error.code == kPFErrorInvalidSessionToken) {
+                        [self handleInvalidSession];
+                        return;
+                    }
                     errorBlock(error);
                 }
                 else {
@@ -340,6 +478,10 @@
         else {
             [PFCloud callFunctionInBackground:@"inviteUsers" withParameters:@{@"type":[NSNumber numberWithInt:type], @"classCode":classCode, @"mode":mode, @"data":data, @"teacherName":teacherName} block:^(id object, NSError *error) {
                 if(error) {
+                    if(error.code == kPFErrorInvalidSessionToken) {
+                        [self handleInvalidSession];
+                        return;
+                    }
                     errorBlock(error);
                 }
                 else {
@@ -354,6 +496,10 @@
 +(void) saveInstallationId:(NSString *)installationId deviceType:(NSString *)deviceType successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock{
     [PFCloud callFunctionInBackground:@"appInstallation" withParameters:@{@"installationId":installationId, @"deviceType":deviceType }block:^(id object, NSError *error) {
         if(error) {
+            if(error.code == kPFErrorInvalidSessionToken) {
+                [self handleInvalidSession];
+                return;
+            }
             errorBlock(error);
         }
         else{
@@ -367,6 +513,10 @@
 +(void) appExit:(NSString *)installationId successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
     [PFCloud callFunctionInBackground:@"appExit" withParameters:@{@"installationId":installationId} block:^(id object, NSError *error) {
         if(error){
+            if(error.code == kPFErrorInvalidSessionToken) {
+                [self handleInvalidSession];
+                return;
+            }
             errorBlock(error);
         }
         else{
@@ -379,6 +529,10 @@
 +(void)getServerTime:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
     [PFCloud callFunctionInBackground:@"getServerTime" withParameters:@{} block:^(id object, NSError *error) {
         if (error) {
+            if(error.code == kPFErrorInvalidSessionToken) {
+                [self handleInvalidSession];
+                return;
+            }
             errorBlock(error);
         } else {
             successBlock(object);
@@ -389,9 +543,12 @@
 
 //Remove this
 +(void) inviteTeacher:(NSString *)senderId schoolName:(NSString *)schoolName teacherName:(NSString*) teacherName childName:(NSString *)childName email:(NSString *)email phoneNum:(NSString *)phoneNum successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock{
-    
     [PFCloud callFunctionInBackground:@"inviteTeacher" withParameters:@{@"senderId":senderId,@"schoolName":schoolName,@"teacherName":teacherName,@"childName":childName,@"email":email ,@"phoneNo":phoneNum} block:^(id object, NSError *error) {
         if(error) {
+            if(error.code == kPFErrorInvalidSessionToken) {
+                [self handleInvalidSession];
+                return;
+            }
             errorBlock(error);
         }
         else {
@@ -404,6 +561,10 @@
 +(void)feedback:(NSString *)userInput successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock{
     [PFCloud callFunctionInBackground:@"feedback" withParameters:@{@"feed":userInput} block:^(id object, NSError *error) {
         if(error) {
+            if(error.code == kPFErrorInvalidSessionToken) {
+                [self handleInvalidSession];
+                return;
+            }
             errorBlock(error);
         }
         else{
@@ -416,6 +577,10 @@
 +(void)updateProfileName:(NSString *)newName successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
     [PFCloud callFunctionInBackground:@"updateProfileName" withParameters:@{@"name":newName} block:^(id object, NSError *error) {
         if(error) {
+            if(error.code == kPFErrorInvalidSessionToken) {
+                [self handleInvalidSession];
+                return;
+            }
             errorBlock(error);
         }
         else {
@@ -428,6 +593,10 @@
 +(void)updateProfilePic:(PFFile *)newPic successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
     [PFCloud callFunctionInBackground:@"updateProfilePic" withParameters:@{@"pid":newPic} block:^(id object, NSError *error) {
         if(error) {
+            if(error.code == kPFErrorInvalidSessionToken) {
+                [self handleInvalidSession];
+                return;
+            }
             errorBlock(error);
         }
         else {
