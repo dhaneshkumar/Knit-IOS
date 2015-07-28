@@ -14,6 +14,13 @@
 #import <RKDropdownAlert.h>
 #import <sys/utsname.h>
 #import "BlackoutView.h"
+#import "TSUtils.h"
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
+#import <FBSDKLoginKit/FBSDKLoginKit.h>
+#import "TSTabBarViewController.h"
+#import "AppDelegate.h"
+#import "sharedCache.h"
+
 
 
 @interface TSSignUpViewController ()
@@ -23,6 +30,12 @@
 @property (strong,nonatomic) NSString *getOTP;
 @property (strong,nonatomic) NSMutableArray *classDetails;
 @property (strong, nonatomic) CLLocationManager *locationManager;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *verticalSpace1;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *verticalSpace2;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *verticalSpace3;
+@property (weak, nonatomic) IBOutlet UIImageView *fbLoginImg;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *fbLoginImgWidth;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *fbLoginImgHeight;
 
 @end
 
@@ -38,10 +51,21 @@
     self.navigationItem.title = @"Sign Up";
     UIBarButtonItem *bb = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"back"] style:UIBarButtonItemStylePlain target:self action:@selector(backButtonTapped:)];
     [self.navigationItem setLeftBarButtonItem:bb];
+    UIBarButtonItem *nb = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"next"] style:UIBarButtonItemStylePlain target:self action:@selector(nextButtonTapped:)];
+    [self.navigationItem setRightBarButtonItem:nb];
     _locationManager = [[CLLocationManager alloc] init];
     _areCoordinatesUpdated = false;
     _latitude = 0.0;
     _longitude = 0.0;
+    _verticalSpace1.constant = 8.0;
+    _verticalSpace2.constant = 24.0;
+    _verticalSpace3.constant = 24.0;
+    _fbLoginImgHeight.constant = 50.0;
+    _fbLoginImgWidth.constant = [TSUtils getScreenWidth]*0.8;
+    
+    UITapGestureRecognizer *imgTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imgTapped:)];
+    _fbLoginImg.userInteractionEnabled = YES;
+    [_fbLoginImg addGestureRecognizer:imgTap];
     
     UIToolbar* keyboardDoneButtonView = [[UIToolbar alloc] init];
     UIBarButtonItem *flexBarButton = [[UIBarButtonItem alloc]
@@ -62,6 +86,12 @@
     [_phoneNumberTextField resignFirstResponder];
     [self signUp];
 }
+
+
+-(IBAction)nextButtonTapped:(id)sender {
+    [self signUp];
+}
+
 
 -(IBAction)backButtonTapped:(id)sender {
     [self.navigationController popViewControllerAnimated:YES];
@@ -115,6 +145,92 @@
         [_phoneNumberTextField becomeFirstResponder];
     }
     return YES;
+}
+
+
+- (void)imgTapped:(UITapGestureRecognizer *)recognizer {
+    FBSDKLoginManager *login = [[FBSDKLoginManager alloc] init];
+    [login logOut];
+    [login logInWithReadPermissions:@[@"email"] handler:^(FBSDKLoginManagerLoginResult *result, NSError *error) {
+        if (error) {
+            //error
+        } else if (result.isCancelled) {
+            // Handle cancellations
+        } else {
+            //Permission granted
+            FBSDKAccessToken *currentAccessToken = [FBSDKAccessToken currentAccessToken];
+            NSString *tokenString = currentAccessToken.tokenString;
+            NSString *userId = currentAccessToken.userID;
+            if ([result.grantedPermissions containsObject:@"email"]) {
+                //do something if needed
+            }
+            PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+            NSString *installationId = currentInstallation[@"installationId"];
+            NSString *devicetype = currentInstallation[@"deviceType"];
+            
+            float version = [[[UIDevice currentDevice] systemVersion] floatValue];
+            NSString *osVersion = [[NSNumber numberWithFloat:version] stringValue];
+            
+            struct utsname systemInfo;
+            uname(&systemInfo);
+            NSString *model = [NSString stringWithCString:systemInfo.machine encoding:NSUTF8StringEncoding];
+            
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[[UIApplication sharedApplication] keyWindow]  animated:YES];
+            hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
+            hud.labelText = @"Loading";
+            [Data FBSignUp:tokenString role:_role installationId:installationId deviceType:devicetype areCoordinatesUpdated:_areCoordinatesUpdated latitude:_latitude longitude:_longitude os:[NSString stringWithFormat:@"iOS %@", osVersion] model:model successBlock:^(id object) {
+                
+                NSDictionary *tokenDict = object;
+                NSString *token = [tokenDict objectForKey:@"sessionToken"];
+                
+                if(token.length>0) {
+                    [PFUser becomeInBackground:token block:^(PFUser *user, NSError *error) {
+                        if (error) {
+                            [hud hide:YES];
+                            [RKDropdownAlert title:@"Knit" message:@"Error in signing up. Try again."  time:2];
+                            return;
+                        } else {
+                            [self deleteAllLocalData];
+                            [self createLocalDatastore:nil];
+                            
+                            AppDelegate *apd = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+                            UINavigationController *rootNav = (UINavigationController *)apd.startNav;
+                            NSArray *vcs = rootNav.viewControllers;
+                            TSTabBarViewController *rootTab = (TSTabBarViewController *)rootNav.topViewController;
+                            for(id vc in vcs) {
+                                if([vc isKindOfClass:[TSTabBarViewController class]]) {
+                                    rootTab = (TSTabBarViewController *)vc;
+                                    break;
+                                }
+                            }
+                            
+                            [rootTab initialization];
+                            [self fireNotifications];
+                            [self getAndSaveProfilePicture:userId];
+                            
+                            [hud hide:YES];
+                            [self dismissViewControllerAnimated:YES completion:nil];
+                        }
+                    }];
+                }
+                else {
+                    [hud hide:YES];
+                    [RKDropdownAlert title:@"Knit" message:@"Error in signing up Try again."  time:2];
+                    return;
+                }
+            } errorBlock:^(NSError *error) {
+                if([[((NSDictionary *)error.userInfo) objectForKey:@"error"] isEqualToString:@"USER_ALREADY_EXISTS"]) {
+                    [hud hide:YES];
+                    [self.navigationController popViewControllerAnimated:YES];
+                    [RKDropdownAlert title:@"Knit" message:@"User already exists."  time:2];
+                    return;
+                }
+                [hud hide:YES];
+                [RKDropdownAlert title:@"Knit" message:@"Error in signing up. Try again."  time:2];
+                return;
+            }];
+        }
+    }];
 }
 
 
@@ -219,5 +335,147 @@
     }
     return YES;
 }
+
+-(void)createLocalDatastore:(NSDate *)dt {
+    PFObject *locals = [[PFObject alloc] initWithClassName:@"defaultLocals"];
+    locals[@"iosUserID"] = [PFUser currentUser].objectId;
+    locals[@"isOldUser"] = @"NO";
+    locals[@"isInboxDataConsistent"] = @"false";
+    locals[@"isUpdateCountsGloballyCalled"] = @"false";
+    locals[@"isOutboxDataConsistent"] = @"false";
+    if(dt)
+        locals[@"timeDifference"] = dt;
+    else
+        locals[@"timeDifference"] = [NSDate dateWithTimeIntervalSince1970:0.0];
+    locals[@"appLaunchCount"] = [NSNumber numberWithInt:0];
+    locals[@"isNewLocalData"] = @"true";
+    [locals pin];
+    
+    [Data getServerTime:^(id object) {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            NSDate *currentServerTime = (NSDate *)object;
+            NSDate *currentLocalTime = [NSDate date];
+            NSTimeInterval diff = [currentServerTime timeIntervalSinceDate:currentLocalTime];
+            NSDate *diffwrtRef = [NSDate dateWithTimeIntervalSince1970:diff];
+            [locals setObject:diffwrtRef forKey:@"timeDifference"];
+            [locals pinInBackground];
+        });
+    } errorBlock:^(NSError *error) {
+        //NSLog(@"Unable to update server time : %@", [error description]);
+    }];
+}
+
+
+-(void)deleteAllLocalData {
+    PFQuery *query = [PFQuery queryWithClassName:@"Codegroup"];
+    [query fromLocalDatastore];
+    NSArray *array = [query findObjects];
+    [PFObject unpinAllInBackground:array];
+    
+    query = [PFQuery queryWithClassName:@"GroupDetails"];
+    [query fromLocalDatastore];
+    array = [query findObjects];
+    [PFObject unpinAllInBackground:array];
+    
+    query = [PFQuery queryWithClassName:@"GroupMembers"];
+    [query fromLocalDatastore];
+    array = [query findObjects];
+    [PFObject unpinAllInBackground:array];
+    
+    query = [PFQuery queryWithClassName:@"Messageneeders"];
+    [query fromLocalDatastore];
+    array = [query findObjects];
+    [PFObject unpinAllInBackground:array];
+    
+    query = [PFQuery queryWithClassName:@"defaultLocals"];
+    [query fromLocalDatastore];
+    array = [query findObjects];
+    [PFObject unpinAllInBackground:array];
+}
+
+
+-(void)fireNotifications {
+    if([_role isEqualToString:@"teacher"]) {
+        //1st notification
+        UILocalNotification *localNotification = [[UILocalNotification alloc] init];
+        localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:24*60*60];
+        localNotification.alertBody = NSLocalizedString(@"You have not created any class yet. Create a class and start using it. See how it makes your life easier.", nil);
+        localNotification.alertAction = NSLocalizedString(@"Create", nil);
+        localNotification.timeZone = [NSTimeZone defaultTimeZone];
+        localNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication]     applicationIconBadgeNumber] + 1;
+        localNotification.soundName = UILocalNotificationDefaultSoundName;
+        NSDictionary *userInfo =[NSDictionary dictionaryWithObjectsAndKeys:@"TRANSITION", @"type", @"CREATE_CLASS", @"action", nil];
+        localNotification.userInfo = userInfo;
+        [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
+        
+        //2nd notification
+        UILocalNotification *localNotification2 = [[UILocalNotification alloc] init];
+        localNotification2.fireDate = [NSDate dateWithTimeIntervalSinceNow:3*24*60*60];
+        localNotification2.alertBody = NSLocalizedString(@"You have not created any class yet. Create a class and start using Knit. See how it makes your life easier.", nil);
+        localNotification2.alertAction = NSLocalizedString(@"Create", nil);
+        localNotification2.timeZone = [NSTimeZone defaultTimeZone];
+        localNotification2.applicationIconBadgeNumber = [[UIApplication sharedApplication]     applicationIconBadgeNumber] + 1;
+        localNotification2.soundName = UILocalNotificationDefaultSoundName;
+        NSDictionary *userInfo2 =[NSDictionary dictionaryWithObjectsAndKeys:@"TRANSITION", @"type", @"CREATE_CLASS", @"action", nil];
+        localNotification2.userInfo = userInfo2;
+        [[UIApplication sharedApplication] scheduleLocalNotification:localNotification2];
+    }
+    else {
+        //1st notification
+        UILocalNotification *localNotification = [[UILocalNotification alloc] init];
+        localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:24*60*60];
+        localNotification.alertBody = NSLocalizedString(@"You have not joined any class yet. Join a class or invite teacher.", nil);
+        localNotification.timeZone = [NSTimeZone defaultTimeZone];
+        localNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication]     applicationIconBadgeNumber] + 1;
+        localNotification.soundName = UILocalNotificationDefaultSoundName;
+        NSDictionary *userInfo =[NSDictionary dictionaryWithObjectsAndKeys:@"TRANSITION", @"type", @"INVITE_TEACHER", @"action", nil];
+        localNotification.userInfo = userInfo;
+        [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
+        
+        //2nd notification
+        UILocalNotification *localNotification2 = [[UILocalNotification alloc] init];
+        localNotification2.fireDate = [NSDate dateWithTimeIntervalSinceNow:3*24*60*60];
+        localNotification2.alertBody = NSLocalizedString(@"You have not joined any class yet. Join a class or invite teacher.", nil);
+        localNotification2.timeZone = [NSTimeZone defaultTimeZone];
+        localNotification2.applicationIconBadgeNumber = [[UIApplication sharedApplication]     applicationIconBadgeNumber] + 1;
+        localNotification2.soundName = UILocalNotificationDefaultSoundName;
+        NSDictionary *userInfo2 =[NSDictionary dictionaryWithObjectsAndKeys:@"TRANSITION", @"type", @"INVITE_TEACHER", @"action", nil];
+        localNotification2.userInfo = userInfo2;
+        [[UIApplication sharedApplication] scheduleLocalNotification:localNotification2];
+    }
+}
+
+
+-(void)getAndSaveProfilePicture:(NSString *)userId {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
+        NSString *url = [NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=large", userId];
+        NSData *data = [NSData dataWithContentsOfURL: [NSURL URLWithString:url]];
+        UIImage *image = [[UIImage alloc] initWithData:data];
+        if(image) {
+            PFFile *imageFile = [PFFile fileWithName:@"Profileimage.jpeg" data:data];
+            [imageFile saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                if (!error) {
+                    if (succeeded) {
+                        [Data updateProfilePic:imageFile successBlock:^(id object) {
+                            [[sharedCache sharedInstance] cacheImage:[[UIImage alloc] initWithData:data] forKey:imageFile.url];
+                            PFUser *user = [PFUser currentUser];
+                            user[@"pid"] = imageFile;
+                            [user pin];
+                        } errorBlock:^(NSError *error) {
+                            //
+                        }];
+                    }
+                    else {
+                        //
+                    }
+                } else {
+                    //
+                }
+            }];
+        }
+    });
+    return;
+}
+
 
 @end

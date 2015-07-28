@@ -412,6 +412,68 @@
 }
 
 
++(void)FBSignUp:(NSString *)accessToken role:(NSString *)role installationId:(NSString *)installationId deviceType:(NSString *)deviceType areCoordinatesUpdated:(BOOL)areCoordinatesUpdated latitude:(double)latitude longitude:(double)longitude os:(NSString *)os model:(NSString *)model successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
+    
+    if(areCoordinatesUpdated) {
+        [PFCloud callFunctionInBackground:@"appEnter" withParameters:@{@"accessToken":accessToken, @"role":role, @"installationId":installationId, @"deviceType":deviceType, @"lat":[NSNumber numberWithDouble:latitude], @"long":[NSNumber numberWithDouble:longitude], @"os":os, @"model":model} block:^(id object, NSError *error) {
+            if (error) {
+                if(error.code == kPFErrorInvalidSessionToken) {
+                    [self handleInvalidSession];
+                    return;
+                }
+                errorBlock(error);
+            } else {
+                successBlock(object);
+            }
+        }];
+    }
+    else {
+        [PFCloud callFunctionInBackground:@"appEnter" withParameters:@{@"accessToken":accessToken, @"role":role, @"installationId":installationId, @"deviceType":deviceType, @"os":os, @"model":model} block:^(id object, NSError *error) {
+            if (error) {
+                if(error.code == kPFErrorInvalidSessionToken) {
+                    [self handleInvalidSession];
+                    return;
+                }
+                errorBlock(error);
+            } else {
+                successBlock(object);
+            }
+        }];
+    }
+}
+
+
++(void)FBSignIn:(NSString *)accessToken installationId:(NSString *)installationId deviceType:(NSString *)deviceType areCoordinatesUpdated:(BOOL)areCoordinatesUpdated latitude:(double)latitude longitude:(double)longitude os:(NSString *)os model:(NSString *)model successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
+    
+    if(areCoordinatesUpdated) {
+        [PFCloud callFunctionInBackground:@"appEnter" withParameters:@{@"accessToken":accessToken, @"installationId":installationId, @"deviceType":deviceType, @"lat":[NSNumber numberWithDouble:latitude], @"long":[NSNumber numberWithDouble:longitude], @"os":os, @"model":model} block:^(id object, NSError *error) {
+            if (error) {
+                if(error.code == kPFErrorInvalidSessionToken) {
+                    [self handleInvalidSession];
+                    return;
+                }
+                errorBlock(error);
+            } else {
+                successBlock(object);
+            }
+        }];
+    }
+    else {
+        [PFCloud callFunctionInBackground:@"appEnter" withParameters:@{@"accessToken":accessToken, @"installationId":installationId, @"deviceType":deviceType, @"os":os, @"model":model} block:^(id object, NSError *error) {
+            if (error) {
+                if(error.code == kPFErrorInvalidSessionToken) {
+                    [self handleInvalidSession];
+                    return;
+                }
+                errorBlock(error);
+            } else {
+                successBlock(object);
+            }
+        }];
+    }
+}
+
+
 +(void) newSignInVerification:(NSString *)phoneNum code:(NSInteger)code installationId:(NSString *)installationId deviceType:(NSString *)deviceType areCoordinatesUpdated:(BOOL)areCoordinatesUpdated latitude:(double)latitude longitude:(double)longitude os:(NSString *)os model:(NSString *)model successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
     NSNumber *codeNum = [NSNumber numberWithInteger:code];
     if(areCoordinatesUpdated) {

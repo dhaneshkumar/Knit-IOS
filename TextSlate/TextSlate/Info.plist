@@ -26,15 +26,20 @@
 			<key>CFBundleURLIconFile</key>
 			<string>icon_80</string>
 			<key>CFBundleURLName</key>
-			<string>KnitApp</string>
+			<string>com.trumplab.Knit</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
+				<string>fb689390944539813</string>
 				<string>knitApp</string>
 			</array>
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>1.0</string>
+	<key>FacebookAppID</key>
+	<string>689390944539813</string>
+	<key>FacebookDisplayName</key>
+	<string>Knit</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSLocationWhenInUseUsageDescription</key>

@@ -16,16 +16,23 @@
 #import <sys/utsname.h>
 #import <Parse/Parse.h>
 #import "TSUtils.h"
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
+#import <FBSDKLoginKit/FBSDKLoginKit.h>
 
 
 @interface SignInViewController ()
 
+@property (weak, nonatomic) IBOutlet UIImageView *fbLoginImg;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *fbLoginImgHeight;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *fbLoginImgWidth;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *verticalSpace0;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *verticalSpace1;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *verticalSpace2;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *verticalSpace3;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *verticalSpace4;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *verticalSpace5;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *verticalSpace6;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *lineWidth;
+
 @property (weak, nonatomic) IBOutlet UILabel *label1;
 @property (weak, nonatomic) IBOutlet UILabel *label2;
 @property (weak, nonatomic) IBOutlet UILabel *label3;
@@ -78,15 +85,21 @@
     [keyboardDoneButtonView sizeToFit];
     [keyboardDoneButtonView setItems:[NSArray arrayWithObjects:flexBarButton, doneButton, nil]];
     _mobilTextField.inputAccessoryView = keyboardDoneButtonView;
-    _verticalSpace1.constant = 20.0;
+    _fbLoginImgHeight.constant = 50.0;
+    _fbLoginImgWidth.constant = [TSUtils getScreenWidth]*0.8;
+    _verticalSpace0.constant = 10.0;
+    _verticalSpace1.constant = 24.0;
     _verticalSpace2.constant = 24.0;
     _verticalSpace3.constant = 4.0;
     _verticalSpace4.constant = 50.0;
     _verticalSpace5.constant = 22.0;
-    _verticalSpace6.constant = 24.0;
+    _lineWidth.constant = ([TSUtils getScreenWidth]-50.0)/2;
     _label1.textColor = [UIColor blackColor];
     _contentViewWidth.constant = [TSUtils getScreenWidth];
     //_contentViewHeight.constant = 20+34+24+30+4+14+50+48+22+30+5+30+12+40+216-64-40;
+    UITapGestureRecognizer *fbLoginTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(fbLoginTapped:)];
+    _fbLoginImg.userInteractionEnabled = true;
+    [_fbLoginImg addGestureRecognizer:fbLoginTap];
     [self state1View];
 }
 
@@ -100,9 +113,66 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+
 - (IBAction)doneClicked:(id)sender {
     [self newSignIn];
 }
+
+
+-(IBAction)fbLoginTapped:(id)sender {
+    NSLog(@"fb login");
+    FBSDKAccessToken *currentAccessToken = [FBSDKAccessToken currentAccessToken];
+    NSLog(@"%@, %@, %@", currentAccessToken.tokenString, currentAccessToken.userID, currentAccessToken.permissions.allObjects);
+    FBSDKLoginManager *login = [[FBSDKLoginManager alloc] init];
+    [login logOut];
+    currentAccessToken = [FBSDKAccessToken currentAccessToken];
+    NSLog(@"currentAccessToken : %@", currentAccessToken);
+    
+    [login logInWithReadPermissions:nil handler:^(FBSDKLoginManagerLoginResult *result, NSError *error) {
+        if (error) {
+            NSLog(@"error");
+        } else if (result.isCancelled) {
+            // Handle cancellations
+            NSLog(@"handle cancellations");
+            FBSDKAccessToken *currentAccessToken = [FBSDKAccessToken currentAccessToken];
+            NSLog(@"currentAccessToken : %@", currentAccessToken);
+            NSLog(@"%@, %@, %@", currentAccessToken.tokenString, currentAccessToken.userID, currentAccessToken.permissions.allObjects);
+            [FBSDKProfile enableUpdatesOnAccessTokenChange:YES];
+            FBSDKProfile *currentProfile = [FBSDKProfile currentProfile];
+            NSLog(@"currentProfile : %@", currentProfile);
+            NSLog(@"%@, %@, %@", currentProfile.firstName, currentProfile.name, currentProfile.lastName);
+        } else {
+            //Here
+            FBSDKAccessToken *currentAccessToken = [FBSDKAccessToken currentAccessToken];
+            NSLog(@"currentAccessToken : %@", currentAccessToken);
+            NSLog(@"%@, %@, %@", currentAccessToken.tokenString, currentAccessToken.userID, currentAccessToken.permissions.allObjects);
+            [[[FBSDKGraphRequest alloc] initWithGraphPath:@"me" parameters:nil]
+             startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
+                 if (error) {
+                     
+                 }
+                 else {
+                     NSDictionary * userInfo = (NSDictionary *)result;
+                     NSString *userName = [result valueForKey:@"name"];
+                     NSLog(@"userName : %@", userName);
+                     NSLog(@"dictionary : %@", userInfo);
+                     NSString *url = [NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=large", userInfo[@"id"]];
+                     NSLog(@"before get data");
+                     NSData *data = [NSData dataWithContentsOfURL: [NSURL URLWithString:url]];
+                     NSLog(@"after get data : %ld", data.length);
+                 }
+             }];
+        }
+    }];
+}
+
+
+-(void)profileUpdated:(NSNotification *) notification{
+    FBSDKProfile *currentProfile = [FBSDKProfile currentProfile];
+    NSLog(@"currentProfile : %@", currentProfile);
+    NSLog(@"%@, %@, %@", currentProfile.firstName, currentProfile.name, currentProfile.lastName);
+}
+
 
 -(void)forgotPasswordTapped:(UITapGestureRecognizer *)recognizer {
     [_emailTextField resignFirstResponder];
@@ -353,7 +423,6 @@
         }
     }
 
-    
     if(lds.count==1) {
         if([((PFObject*)lds[0])[@"iosUserID"] isEqualToString:[PFUser currentUser].objectId]) {
             (lds[0])[@"isUpdateCountsGloballyCalled"] = @"false";

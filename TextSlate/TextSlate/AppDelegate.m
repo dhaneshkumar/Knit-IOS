@@ -23,6 +23,7 @@
 #import "ClassesViewController.h"
 #import "TSWebViewController.h"
 #import "FeedbackViewController.h"
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
 
 
 @interface AppDelegate ()
@@ -103,7 +104,8 @@
     else if(launchOptions[UIApplicationLaunchOptionsLocalNotificationKey]) {
         [self application:application didReceiveLocalNotification:launchOptions[UIApplicationLaunchOptionsLocalNotificationKey]];
     }
-    return YES;
+    
+    return [[FBSDKApplicationDelegate sharedInstance] application:application didFinishLaunchingWithOptions:launchOptions];
 }
 
 
@@ -135,12 +137,10 @@
 }
 
 -(void)application:(UIApplication *)application handleActionWithIdentifier:(NSString *)identifier forLocalNotification:(UILocalNotification *)notification completionHandler:(void (^)())completionHandler {
-    //NSLog(@"Handle custom actions from local notifications");
 }
 
 
 -(void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-    // Store the deviceToken in the current installation and save it to Parse.
     PFInstallation *currentInstallation = [PFInstallation currentInstallation];
     [currentInstallation setDeviceTokenFromData:deviceToken];
     [currentInstallation saveInBackground];
@@ -152,7 +152,6 @@
 
 -(void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
     application.applicationIconBadgeNumber = 0;
-    //NSLog(@"we have a notification");
     if (userInfo) {
         NSString *notificationType = [userInfo objectForKey:@"type"];
         NSString *actionType = [userInfo objectForKey:@"action"];
@@ -582,11 +581,19 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     application.applicationIconBadgeNumber = 0;
+    [FBSDKAppEvents activateApp];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
+
+
+-(BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+    NSLog(@"open URL");
+    return [[FBSDKApplicationDelegate sharedInstance] application:application openURL:url sourceApplication:sourceApplication annotation:annotation];
+}
+
     
 -(void)createLocalDatastore {
     PFObject *locals = [[PFObject alloc] initWithClassName:@"defaultLocals"];
@@ -610,7 +617,7 @@
             [locals pinInBackground];
         });
     } errorBlock:^(NSError *error) {
-        //NSLog(@"Unable to update server time : %@", [error description]);
+        
     }];
 }
 
