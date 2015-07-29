@@ -120,57 +120,114 @@
 
 
 -(IBAction)fbLoginTapped:(id)sender {
-    NSLog(@"fb login");
-    FBSDKAccessToken *currentAccessToken = [FBSDKAccessToken currentAccessToken];
-    NSLog(@"%@, %@, %@", currentAccessToken.tokenString, currentAccessToken.userID, currentAccessToken.permissions.allObjects);
     FBSDKLoginManager *login = [[FBSDKLoginManager alloc] init];
     [login logOut];
-    currentAccessToken = [FBSDKAccessToken currentAccessToken];
-    NSLog(@"currentAccessToken : %@", currentAccessToken);
-    
-    [login logInWithReadPermissions:nil handler:^(FBSDKLoginManagerLoginResult *result, NSError *error) {
+    [login logInWithReadPermissions:@[@"email"] handler:^(FBSDKLoginManagerLoginResult *result, NSError *error) {
         if (error) {
-            NSLog(@"error");
+            //error
         } else if (result.isCancelled) {
             // Handle cancellations
-            NSLog(@"handle cancellations");
-            FBSDKAccessToken *currentAccessToken = [FBSDKAccessToken currentAccessToken];
-            NSLog(@"currentAccessToken : %@", currentAccessToken);
-            NSLog(@"%@, %@, %@", currentAccessToken.tokenString, currentAccessToken.userID, currentAccessToken.permissions.allObjects);
-            [FBSDKProfile enableUpdatesOnAccessTokenChange:YES];
-            FBSDKProfile *currentProfile = [FBSDKProfile currentProfile];
-            NSLog(@"currentProfile : %@", currentProfile);
-            NSLog(@"%@, %@, %@", currentProfile.firstName, currentProfile.name, currentProfile.lastName);
         } else {
-            //Here
+            //Permission granted
             FBSDKAccessToken *currentAccessToken = [FBSDKAccessToken currentAccessToken];
-            NSLog(@"currentAccessToken : %@", currentAccessToken);
-            NSLog(@"%@, %@, %@", currentAccessToken.tokenString, currentAccessToken.userID, currentAccessToken.permissions.allObjects);
-            [[[FBSDKGraphRequest alloc] initWithGraphPath:@"me" parameters:nil]
-             startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
-                 if (error) {
-                     
-                 }
-                 else {
-                     NSDictionary * userInfo = (NSDictionary *)result;
-                     NSString *userName = [result valueForKey:@"name"];
-                     NSLog(@"userName : %@", userName);
-                     NSLog(@"dictionary : %@", userInfo);
-                     NSString *url = [NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=large", userInfo[@"id"]];
-                     NSLog(@"before get data");
-                     NSData *data = [NSData dataWithContentsOfURL: [NSURL URLWithString:url]];
-                     NSLog(@"after get data : %ld", data.length);
-                 }
-             }];
+            NSString *tokenString = currentAccessToken.tokenString;
+            if ([result.grantedPermissions containsObject:@"email"]) {
+                //do something if needed
+            }
+            PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+            NSString *installationId = currentInstallation[@"installationId"];
+            NSString *devicetype = currentInstallation[@"deviceType"];
+            
+            float version = [[[UIDevice currentDevice] systemVersion] floatValue];
+            NSString *osVersion = [[NSNumber numberWithFloat:version] stringValue];
+            
+            struct utsname systemInfo;
+            uname(&systemInfo);
+            NSString *model = [NSString stringWithCString:systemInfo.machine encoding:NSUTF8StringEncoding];
+            
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[[UIApplication sharedApplication] keyWindow]  animated:YES];
+            hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
+            hud.labelText = @"Loading";
+            [Data FBSignIn:tokenString installationId:installationId deviceType:devicetype areCoordinatesUpdated:_areCoordinatesUpdated latitude:_latitude longitude:_longitude os:[NSString stringWithFormat:@"iOS %@", osVersion] model:model successBlock:^(id object) {
+                
+                NSDictionary *tokenDict = object;
+                NSString *token = [tokenDict objectForKey:@"sessionToken"];
+                
+                if(token.length>0) {
+                    [PFUser becomeInBackground:token block:^(PFUser *user, NSError *error) {
+                        if (error) {
+                            [hud hide:YES];
+                            [RKDropdownAlert title:@"Knit" message:@"Error in signing in. Try again."  time:2];
+                            return;
+                        } else {
+                            [Data getAllCodegroups:^(id object) {
+                                NSArray *cgs = (NSArray *)object;
+                                for(PFObject *cg in cgs) {
+                                    [cg pinInBackground];
+                                }
+                                [self secondHalfLoginProcess:hud];
+                            } errorBlock:^(NSError *error) {
+                                [self secondHalfLoginProcess:hud];
+                            }];
+                        }
+                    }];
+                }
+                else {
+                    [hud hide:YES];
+                    [RKDropdownAlert title:@"Knit" message:@"Error in signing in. Try again."  time:2];
+                    return;
+                }
+            } errorBlock:^(NSError *error) {
+                if([[((NSDictionary *)error.userInfo) objectForKey:@"error"] isEqualToString:@"USER_ALREADY_EXISTS"]) {
+                    [hud hide:YES];
+                    [self.navigationController popViewControllerAnimated:YES];
+                    [RKDropdownAlert title:@"Knit" message:@"User already exists."  time:2];
+                    return;
+                }
+                [hud hide:YES];
+                [RKDropdownAlert title:@"Knit" message:@"Error in signing in. Try again."  time:2];
+                return;
+            }];
         }
     }];
 }
 
 
--(void)profileUpdated:(NSNotification *) notification{
-    FBSDKProfile *currentProfile = [FBSDKProfile currentProfile];
-    NSLog(@"currentProfile : %@", currentProfile);
-    NSLog(@"%@, %@, %@", currentProfile.firstName, currentProfile.name, currentProfile.lastName);
+-(void)secondHalfLoginProcess:(MBProgressHUD *)hud {
+    PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
+    [lq fromLocalDatastore];
+    NSArray *lds = [lq findObjects];
+    
+    AppDelegate *apd = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    UINavigationController *rootNav = (UINavigationController *)apd.startNav;
+    NSArray *vcs = rootNav.viewControllers;
+    TSTabBarViewController *rootTab = (TSTabBarViewController *)rootNav.topViewController;
+    for(id vc in vcs) {
+        if([vc isKindOfClass:[TSTabBarViewController class]]) {
+            rootTab = (TSTabBarViewController *)vc;
+            break;
+        }
+    }
+    
+    if(lds.count==1) {
+        if([((PFObject*)lds[0])[@"iosUserID"] isEqualToString:[PFUser currentUser].objectId]) {
+            (lds[0])[@"isUpdateCountsGloballyCalled"] = @"false";
+            [rootTab initialization];
+        }
+        else {
+            NSDate *dt = ((PFObject*)lds[0])[@"timeDifference"];
+            [self deleteAllLocalData];
+            [self createLocalDatastore:dt];
+            [rootTab initialization];
+        }
+    }
+    else {
+        [self createLocalDatastore:nil];
+        [rootTab initialization];
+    }
+    
+    [hud hide:YES];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 
@@ -405,42 +462,6 @@
         }
         [hud hide:YES];
     }];
-}
-
-
--(void)secondHalfLoginProcess:(MBProgressHUD *)hud {
-    PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
-    [lq fromLocalDatastore];
-    NSArray *lds = [lq findObjects];
-    AppDelegate *apd = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    UINavigationController *rootNav = (UINavigationController *)apd.startNav;
-    NSArray *vcs = rootNav.viewControllers;
-    TSTabBarViewController *rootTab = (TSTabBarViewController *)rootNav.topViewController;
-    for(id vc in vcs) {
-        if([vc isKindOfClass:[TSTabBarViewController class]]) {
-            rootTab = (TSTabBarViewController *)vc;
-            break;
-        }
-    }
-
-    if(lds.count==1) {
-        if([((PFObject*)lds[0])[@"iosUserID"] isEqualToString:[PFUser currentUser].objectId]) {
-            (lds[0])[@"isUpdateCountsGloballyCalled"] = @"false";
-            [rootTab initialization];
-        }
-        else {
-            NSDate *dt = ((PFObject*)lds[0])[@"timeDifference"];
-            [self deleteAllLocalData];
-            [self createLocalDatastore:dt];
-            [rootTab initialization];
-        }
-    }
-    else {
-        [self createLocalDatastore:nil];
-        [rootTab initialization];
-    }
-    [hud hide:YES];
-    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 

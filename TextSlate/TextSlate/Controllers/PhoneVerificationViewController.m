@@ -236,7 +236,6 @@
                             [RKDropdownAlert title:@"Knit" message:@"Error in signing in.Try again." time:2];
                             return;
                         } else {
-                            
                             [Data getAllCodegroups:^(id object) {
                                 NSArray *cgs = (NSArray *)object;
                                 for(PFObject *cg in cgs) {
