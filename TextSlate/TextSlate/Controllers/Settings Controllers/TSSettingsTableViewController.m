@@ -126,7 +126,7 @@
     else {
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"settingsRestCellsIdentifier" forIndexPath:indexPath];
         if(indexPath.row == 0) {
-            cell.textLabel.text = @"FAQ";
+            cell.textLabel.text = @"FAQs";
         }
         else if(indexPath.row == 1) {
             cell.textLabel.text = @"Feedback";

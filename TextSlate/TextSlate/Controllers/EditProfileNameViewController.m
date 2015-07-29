@@ -36,7 +36,6 @@
 
 -(void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    [_profileNameField resignFirstResponder];
 }
 
 /*
@@ -55,7 +54,6 @@
     if(trimmedString.length==0) {
         [RKDropdownAlert title:@"Knit" message:@"Profile name field cannot be left blank." time:2];
         _profileNameField.text = _profileName;
-        [_profileNameField becomeFirstResponder];
         return;
     }
     
@@ -64,6 +62,7 @@
         return;
     }
     
+    [_profileNameField resignFirstResponder];
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[[UIApplication sharedApplication] keyWindow]  animated:YES];
     hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
     hud.labelText = @"Loading";
