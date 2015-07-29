@@ -36,6 +36,9 @@
 @property (weak, nonatomic) IBOutlet UIImageView *fbLoginImg;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *fbLoginImgWidth;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *fbLoginImgHeight;
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *contentViewWidth;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *lineWidth;
 
 @end
 
@@ -43,9 +46,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    _classDetails=[[NSMutableArray alloc]init];
-    _displayName.delegate=self;
-    _phoneNumberTextField.delegate=self;
+    _classDetails = [[NSMutableArray alloc]init];
+    _displayName.delegate = self;
+    _phoneNumberTextField.delegate = self;
     _phoneNumberTextField.keyboardType = UIKeyboardTypeNumberPad;
     [_displayName setReturnKeyType:UIReturnKeyNext];
     self.navigationItem.title = @"Sign Up";
@@ -60,8 +63,11 @@
     _verticalSpace1.constant = 8.0;
     _verticalSpace2.constant = 24.0;
     _verticalSpace3.constant = 24.0;
-    _fbLoginImgHeight.constant = 50.0;
-    _fbLoginImgWidth.constant = [TSUtils getScreenWidth]*0.8;
+    float screenWidth = [TSUtils getScreenWidth];
+    _fbLoginImgHeight.constant = screenWidth*0.2;
+    _fbLoginImgWidth.constant = screenWidth*0.8;
+    _lineWidth.constant = (screenWidth-50.0)/2;
+    _contentViewWidth.constant = screenWidth;
     
     UITapGestureRecognizer *imgTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imgTapped:)];
     _fbLoginImg.userInteractionEnabled = YES;
@@ -144,6 +150,15 @@
     if([textField isEqual:_displayName]) {
         [_phoneNumberTextField becomeFirstResponder];
     }
+    return YES;
+}
+
+
+-(BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
+    [UIView animateWithDuration:0.5 animations:^{
+        [self.view layoutIfNeeded];
+        [_scrollView setContentOffset:CGPointMake(0, 80.0)];
+    }];
     return YES;
 }
 
