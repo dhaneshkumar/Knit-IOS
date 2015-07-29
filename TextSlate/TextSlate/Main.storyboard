@@ -869,7 +869,7 @@ Login using your email ID.</string>
                                                     </mask>
                                                 </variation>
                                             </label>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="loginWithFB.png" translatesAutoresizingMaskIntoConstraints="NO" id="SRc-F0-lU5">
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="fb_login" translatesAutoresizingMaskIntoConstraints="NO" id="SRc-F0-lU5">
                                                 <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="273" id="rJ7-HA-laO"/>
@@ -8299,6 +8299,7 @@ Login using your email ID.</string>
         <image name="blue_arrow" width="8" height="13"/>
         <image name="check" width="37" height="31"/>
         <image name="email" width="30" height="30"/>
+        <image name="fb_login" width="260" height="65"/>
         <image name="grey_arrow" width="8" height="13"/>
         <image name="ios icons-18.png" width="44" height="44"/>
         <image name="ios icons-19.png" width="44" height="44"/>

@@ -85,7 +85,7 @@
     [keyboardDoneButtonView sizeToFit];
     [keyboardDoneButtonView setItems:[NSArray arrayWithObjects:flexBarButton, doneButton, nil]];
     _mobilTextField.inputAccessoryView = keyboardDoneButtonView;
-    _fbLoginImgHeight.constant = 50.0;
+    _fbLoginImgHeight.constant = [TSUtils getScreenWidth]*0.2;
     _fbLoginImgWidth.constant = [TSUtils getScreenWidth]*0.8;
     _verticalSpace0.constant = 10.0;
     _verticalSpace1.constant = 24.0;
@@ -270,6 +270,7 @@
     _label3.textColor = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
     [_label3 setUserInteractionEnabled:YES];
     [_label3 setFont:[UIFont systemFontOfSize:20]];
+    _label3.text = @"Are you an old user?\nClick here.";
     _emailTextField.hidden = true;
     _passwordTextField.hidden = true;
     _forgotPassword.hidden = true;
@@ -280,6 +281,7 @@
     _label3.textColor = [UIColor blackColor];
     [_label3 setUserInteractionEnabled:NO];
     [_label3 setFont:[UIFont systemFontOfSize:16]];
+    _label3.text = @"Are you an old user?\nLogin using your email ID.";
     _emailTextField.hidden = false;
     _passwordTextField.hidden = false;
     _forgotPassword.hidden = false;
@@ -302,14 +304,14 @@
 
 -(BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
     if(textField == _mobilTextField) {
-        if(!_isState1) {
+        //if(!_isState1) {
             _isState1 = true;
             [self state1View];
             [UIView animateWithDuration:0.5 animations:^{
                 [self.view layoutIfNeeded];
-                [_scrollView setContentOffset:CGPointMake(0, 10.0)];
+                [_scrollView setContentOffset:CGPointMake(0, 80.0)];
             }];
-        }
+        //}
     }
     return YES;
 }

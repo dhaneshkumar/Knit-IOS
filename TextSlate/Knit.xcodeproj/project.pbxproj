@@ -53,6 +53,9 @@
 		5FE281D61B669EA3003A62D6 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FE281D31B669EA3003A62D6 /* FBSDKLoginKit.framework */; };
 		5FE281D71B669EA3003A62D6 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FE281D41B669EA3003A62D6 /* FBSDKShareKit.framework */; };
 		5FE281D91B66C911003A62D6 /* loginWithFB.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FE281D81B66C911003A62D6 /* loginWithFB.png */; };
+		5FE281DD1B695EBC003A62D6 /* fb_login-85.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FE281DA1B695EBB003A62D6 /* fb_login-85.png */; };
+		5FE281DE1B695EBC003A62D6 /* fb_login-86.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FE281DB1B695EBC003A62D6 /* fb_login-86.png */; };
+		5FE281DF1B695EBC003A62D6 /* fb_login-87.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FE281DC1B695EBC003A62D6 /* fb_login-87.png */; };
 		971687E01A1F1C2B00FE98FC /* TSTeacher.m in Sources */ = {isa = PBXBuildFile; fileRef = 971687DF1A1F1C2B00FE98FC /* TSTeacher.m */; };
 		971687E31A1F1C3900FE98FC /* TSParent.m in Sources */ = {isa = PBXBuildFile; fileRef = 971687E21A1F1C3900FE98FC /* TSParent.m */; };
 		971687E71A1F823900FE98FC /* TSUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 971687E61A1F823900FE98FC /* TSUtils.m */; };
@@ -250,6 +253,9 @@
 		5FE281D31B669EA3003A62D6 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		5FE281D41B669EA3003A62D6 /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKShareKit.framework; sourceTree = "<group>"; };
 		5FE281D81B66C911003A62D6 /* loginWithFB.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = loginWithFB.png; sourceTree = "<group>"; };
+		5FE281DA1B695EBB003A62D6 /* fb_login-85.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fb_login-85.png"; sourceTree = "<group>"; };
+		5FE281DB1B695EBC003A62D6 /* fb_login-86.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fb_login-86.png"; sourceTree = "<group>"; };
+		5FE281DC1B695EBC003A62D6 /* fb_login-87.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fb_login-87.png"; sourceTree = "<group>"; };
 		92F296F2593AFC26685698B2 /* libPods-Knit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Knit.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		971687DE1A1F1C2B00FE98FC /* TSTeacher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSTeacher.h; sourceTree = "<group>"; };
 		971687DF1A1F1C2B00FE98FC /* TSTeacher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSTeacher.m; sourceTree = "<group>"; };
@@ -587,6 +593,9 @@
 		971687DB1A1F1BCA00FE98FC /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				5FE281DA1B695EBB003A62D6 /* fb_login-85.png */,
+				5FE281DB1B695EBC003A62D6 /* fb_login-86.png */,
+				5FE281DC1B695EBC003A62D6 /* fb_login-87.png */,
 				5FE281D81B66C911003A62D6 /* loginWithFB.png */,
 				5FDDA2271B5FC98600895D56 /* app in circle-48.png */,
 				5FDDA2281B5FC98600895D56 /* app in circle-49.png */,
@@ -1136,6 +1145,7 @@
 				FBA236501B0750250001D8E3 /* sent@2x.png in Resources */,
 				FBAA81351AE0D8B40056E168 /* ios icons-31.png in Resources */,
 				40D223771B30922300BCC6DB /* coachmark.png in Resources */,
+				5FE281DD1B695EBC003A62D6 /* fb_login-85.png in Resources */,
 				FBA236A21B0B4B830001D8E3 /* white_arrow@3x.png in Resources */,
 				FB777C2D1B18780800754546 /* email@1x.png in Resources */,
 				FBA236AA1B0B4B830001D8E3 /* blue_arrow@1x.png in Resources */,
@@ -1191,6 +1201,7 @@
 				FBC8A2821B4D1E47009E06F0 /* icon_80.png in Resources */,
 				FBAA81371AE110C10056E168 /* ios icons-32.png in Resources */,
 				404C9E1C1AC0260C001CF571 /* phone.png in Resources */,
+				5FE281DF1B695EBC003A62D6 /* fb_login-87.png in Resources */,
 				FB777C1D1B1870EE00754546 /* grey arrow@3x.png in Resources */,
 				FBC8A2831B4D1E47009E06F0 /* icon_58.png in Resources */,
 				FB1F47BD1A7589AE0093350B /* 180x180.png in Resources */,
@@ -1200,6 +1211,7 @@
 				FBA236511B0750250001D8E3 /* sent@3x.png in Resources */,
 				FBC8A27D1B4D0345009E06F0 /* icon_180.png in Resources */,
 				FB777C2F1B18780800754546 /* email@2x.png in Resources */,
+				5FE281DE1B695EBC003A62D6 /* fb_login-86.png in Resources */,
 				40C741581AC6A970007AA844 /* ios icons-18.png in Resources */,
 				FBA2365A1B08BA1A0001D8E3 /* back@2x.png in Resources */,
 				FB777C161B17699D00754546 /* blue tick@2x.png in Resources */,
