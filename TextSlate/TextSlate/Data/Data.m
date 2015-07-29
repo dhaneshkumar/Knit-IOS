@@ -325,7 +325,7 @@
 }
 
 +(void)changeName:(NSString *)classcode newName:(NSString *)newName successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock hud:(MBProgressHUD *)hud {
-    [PFCloud callFunctionInBackground:@"changeAssociateName2" withParameters:@{@"classCode":classcode, @"childName":newName} block:^(id object, NSError *error) {
+    [PFCloud callFunctionInBackground:@"changeAssociateName3" withParameters:@{@"classCode":classcode, @"childName":newName} block:^(id object, NSError *error) {
         if (error) {
             if(error.code == kPFErrorInvalidSessionToken) {
                 [self handleInvalidSession:hud];

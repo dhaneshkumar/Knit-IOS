@@ -65,7 +65,9 @@
     hud.labelText = @"Loading";
 
     [Data changeName:_classCode newName:trimmedString successBlock:^(id object){
-        PFObject *currentUser = (PFObject *)object;
+        NSArray *joinedGroups = (NSArray *)object;
+        PFUser *currentUser = [PFUser currentUser];
+        currentUser[@"joined_groups"] = joinedGroups;
         [currentUser pin];
         [self.parentController updateStudentName:trimmedString];
         [hud hide:YES];

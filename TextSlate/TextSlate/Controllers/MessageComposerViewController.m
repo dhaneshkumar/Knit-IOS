@@ -358,8 +358,7 @@
     ClassesViewController *classrooms = (ClassesViewController *)(NSArray *)rootTab.viewControllers[0];
     NSMutableDictionary *mutableDict = classrooms.createdClassesVCs;
     NSCharacterSet *characterset=[NSCharacterSet characterSetWithCharactersInString:@"\uFFFC\n "];
-    if(!_finalAttachment)
-    {
+    if(!_finalAttachment) {
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[[UIApplication sharedApplication] keyWindow]  animated:YES];
         hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
         hud.labelText = @"Sending";
@@ -403,8 +402,7 @@
             [RKDropdownAlert title:@"Knit" message:@"Error occureed while sending message.Try again later."  time:2];
         } hud:hud];
     }
-    else if(_finalAttachment)
-    {
+    else if(_finalAttachment) {
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[[UIApplication sharedApplication] keyWindow]  animated:YES];
         hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
         hud.labelText = @"Sending";
