@@ -136,7 +136,7 @@
     } errorBlock:^(NSError *error) {
         [hud hide:YES];
         [RKDropdownAlert title:@"Knit" message:@"Error occured creating class. Please try again later."  time:2];
-    }];
+    } hud:hud];
 }
 
 

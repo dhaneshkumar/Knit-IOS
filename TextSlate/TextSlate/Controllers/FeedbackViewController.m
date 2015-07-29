@@ -76,7 +76,7 @@
         } errorBlock:^(NSError *error) {
             [hud hide:YES];
             [RKDropdownAlert title:@"Knit" message:@"Oops! We encountered a problem while processing your feedback.Please try again later!"time:2];
-        }];
+        } hud:hud];
     }
 }
 

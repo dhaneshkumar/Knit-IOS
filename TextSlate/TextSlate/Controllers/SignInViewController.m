@@ -168,7 +168,7 @@
                                 [self secondHalfLoginProcess:hud];
                             } errorBlock:^(NSError *error) {
                                 [self secondHalfLoginProcess:hud];
-                            }];
+                            } hud:hud];
                         }
                     }];
                 }
@@ -178,16 +178,15 @@
                     return;
                 }
             } errorBlock:^(NSError *error) {
+                [hud hide:YES];
                 if([[((NSDictionary *)error.userInfo) objectForKey:@"error"] isEqualToString:@"USER_ALREADY_EXISTS"]) {
-                    [hud hide:YES];
                     [self.navigationController popViewControllerAnimated:YES];
                     [RKDropdownAlert title:@"Knit" message:@"User already exists."  time:2];
                     return;
                 }
-                [hud hide:YES];
                 [RKDropdownAlert title:@"Knit" message:@"Error in signing in. Try again."  time:2];
                 return;
-            }];
+            } hud:hud];
         }
     }];
 }
@@ -392,7 +391,7 @@
     } errorBlock:^(NSError *error) {
         [hud hide:YES];
         [RKDropdownAlert title:@"Knit" message:@"Error in generating OTP.Try again later."  time:2];
-    }];
+    } hud:hud];
 }
 
 
@@ -442,9 +441,8 @@
                         }
                         [self secondHalfLoginProcess:hud];
                     } errorBlock:^(NSError *error) {
-                        //NSLog(@"Unable to fetch classes: %@", [error description]);
                         [self secondHalfLoginProcess:hud];
-                    }];
+                    } hud:hud];
                 }
             }];
         }
@@ -461,7 +459,7 @@
             [RKDropdownAlert title:@"Knit" message:@"Internet not connected. Try again."  time:2];
         }
         [hud hide:YES];
-    }];
+    } hud:hud];
 }
 
 

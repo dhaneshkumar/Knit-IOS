@@ -77,7 +77,7 @@
     } errorBlock:^(NSError *error){
       [hud hide:YES];
       [RKDropdownAlert title:@"Knit" message:@"Error in changing profile name. Try again later." time:2];
-    }];
+    } hud:hud];
 }
 
 - (IBAction)cancelButtonPressed:(id)sender {

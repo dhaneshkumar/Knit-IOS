@@ -230,7 +230,7 @@
             } errorBlock:^(NSError *error) {
                 [hud hide:YES];
                 [RKDropdownAlert title:@"Knit" message:@"Error occured on logging out. Try again later."  time:2];
-            }];
+            } hud:hud];
 
         }
     }
@@ -354,7 +354,7 @@
                 } errorBlock:^(NSError *error) {
                     [RKDropdownAlert title:@"Knit" message:@"Error occured while updating profile pic. Try again later."  time:2];
                     [hud hide:YES];
-                }];
+                } hud:hud];
             }
             else {
                 [RKDropdownAlert title:@"Knit" message:@"Error occured while updating profile pic. Try again later."  time:2];

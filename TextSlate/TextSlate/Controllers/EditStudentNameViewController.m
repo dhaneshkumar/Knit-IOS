@@ -75,7 +75,7 @@
         [hud hide:YES];
         [RKDropdownAlert title:@"Knit" message:@"Error in changing student's name. Try again later." time:2];
         return;
-    }];
+    } hud:hud];
 }
 
 

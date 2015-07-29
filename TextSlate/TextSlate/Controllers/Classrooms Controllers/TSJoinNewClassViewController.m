@@ -155,7 +155,7 @@
     } errorBlock:^(NSError *error) {
         [hud hide:YES];
         [RKDropdownAlert title:@"Knit" message:@"Error in joining Class. Please make sure you have the correct class code."  time:2];
-    }];
+    } hud:hud];
 }
 
 

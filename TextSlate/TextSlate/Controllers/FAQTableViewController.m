@@ -73,7 +73,7 @@
         });
     } errorBlock:^(NSError *error) {
         [hud hide:YES];
-    }];
+    } hud:hud];
 }
 
 

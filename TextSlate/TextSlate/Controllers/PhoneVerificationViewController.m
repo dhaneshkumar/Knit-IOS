@@ -209,7 +209,7 @@
                 [hud hide:YES];
                 [RKDropdownAlert title:@"Knit" message:@"Error in signing up. Try again."  time:2];
                 return;
-            }];
+            } hud:hud];
         }
 
         else if(_isNewSignIn == true) {
@@ -244,7 +244,7 @@
                                 [self secondHalfLoginProcess:hud];
                             } errorBlock:^(NSError *error) {
                                 [self secondHalfLoginProcess:hud];
-                            }];
+                            } hud:hud];
                         }
                     }];
                 }
@@ -254,16 +254,15 @@
                     return;
                 }
             } errorBlock:^(NSError *error) {
+                [hud hide:YES];
                 if([[((NSDictionary *)error.userInfo) objectForKey:@"error"] isEqualToString:@"USER_DOESNOT_EXISTS"]) {
-                    [hud hide:YES];
                     [self.navigationController popViewControllerAnimated:YES];
                     [RKDropdownAlert title:@"Knit" message:@"User doesn't exist." time:2];
                     return;
                 }
-                [hud hide:YES];
                 [RKDropdownAlert title:@"Knit" message:@"Error in signing in.Try again."  time:2];
                 return;
-            }];
+            } hud:hud];
         }
     }
 }
@@ -346,7 +345,6 @@
             [locals pinInBackground];
         });
     } errorBlock:^(NSError *error) {
-        //NSLog(@"Unable to update server time : %@", [error description]);
     }];
 }
 

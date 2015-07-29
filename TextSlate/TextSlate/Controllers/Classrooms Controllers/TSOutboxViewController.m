@@ -419,7 +419,7 @@
     } errorBlock:^(NSError *error) {
         //NSLog(@"Unable to fetch inbox messages while opening inbox tab: %@", [error description]);
         [_hud hide:YES];
-    }];
+    } hud:_hud];
 }
 
 
@@ -502,7 +502,7 @@
         });
     } errorBlock:^(NSError *error) {
         //NSLog(@"Unable to fetch inbox messages when pulled up to refresh: %@", [error description]);
-    }];
+    } hud:nil];
 }
 
 
@@ -547,7 +547,7 @@
         });
     } errorBlock:^(NSError *error) {
         //NSLog(@"Unable to fetch like confuse counts in inbox: %@", [error description]);
-    }];
+    } hud:nil];
 }
 
 

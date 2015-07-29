@@ -262,7 +262,7 @@
     } errorBlock:^(NSError *error) {
         [hud hide:YES];
         [RKDropdownAlert title:@"Knit" message:@"Error occured in leaving the class"  time:2];
-    }];
+    } hud:hud];
 }
 
 

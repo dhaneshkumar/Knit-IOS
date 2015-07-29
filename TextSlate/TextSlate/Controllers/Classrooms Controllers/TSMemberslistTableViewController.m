@@ -205,7 +205,7 @@
             }errorBlock:^(NSError *error){
                 [hud hide:YES];
                 [RKDropdownAlert title:@"Knit" message:@"Error occured while deleting members. Please try again later."  time:2];
-            }];
+            } hud:hud];
         }
         else {
             [Data removeMemberPhone:_classCode classname:_className number:toRemove.phoneNum usertype:toRemove.userType successBlock:^(id object) {
@@ -228,7 +228,7 @@
                 UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error occured while removing member." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
                 [hud hide:YES];
                 [errorAlertView show];
-            }];
+            } hud:hud];
         }
     }
 }

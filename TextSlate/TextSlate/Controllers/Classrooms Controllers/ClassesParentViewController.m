@@ -169,7 +169,7 @@
             });
         } errorBlock:^(NSError *error) {
             //NSLog(@"Unable to fetch classes1: %@", [error description]);
-        }];
+        } hud:nil];
     }
 }
 

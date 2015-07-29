@@ -401,7 +401,7 @@
         } errorBlock:^(NSError *error) {
             [hud hide:YES];
             [RKDropdownAlert title:@"Knit" message:@"Error occureed while sending message.Try again later."  time:2];
-        }];
+        } hud:hud];
     }
     else if(_finalAttachment)
     {
@@ -465,7 +465,7 @@
                     } errorBlock:^(NSError *error) {
                         [hud hide:YES];
                         [RKDropdownAlert title:@"Knit" message:@"Error occurred in sending the message. Try again later."  time:2];
-                    }];
+                    } hud:hud];
                 }
                 else {
                     [hud hide:YES];
@@ -550,7 +550,7 @@
         } errorBlock:^(NSError *error) {
             [hud hide:YES];
             [RKDropdownAlert title:@"Knit" message:@"Error occureed while sending message.Try again later."  time:2];
-        }];
+        } hud:hud];
     }
     else if(_finalAttachment)
     {
@@ -617,7 +617,7 @@
                     } errorBlock:^(NSError *error) {
                         [hud hide:YES];
                         [RKDropdownAlert title:@"Knit" message:@"Error occurred in sending the message. Try again later."  time:2];
-                    }];
+                    } hud:hud];
                 }
                 else {
                     [hud hide:YES];
