@@ -31,6 +31,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *joinButton;
 - (IBAction)inviteTeacherTapped:(id)sender;
 @property (weak, nonatomic) IBOutlet UIButton *inviteTeacherButton;
+
+@property (strong, nonatomic) NSString *role;
 @end
 
 @implementation TSJoinNewClassViewController
@@ -46,6 +48,10 @@
     [_inviteTeacherButton.layer setShadowOffset:CGSizeMake(0.5, 0.5)];
     [_inviteTeacherButton.layer setShadowColor:[[UIColor blackColor] CGColor]];
     [_inviteTeacherButton.layer setShadowOpacity:0.5];
+    _role = [[PFUser currentUser] objectForKey:@"role"];
+    if([_role isEqualToString:@"student"]) {
+        _associatedPersonTextField.hidden = true;
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -55,8 +61,6 @@
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    if(_isfindClass)
-        _classCodeTextField.text = _classCode;
 }
 
 /*
@@ -71,15 +75,24 @@
 
 - (IBAction)joinNewClassClicked:(UIButton *)sender {
     NSString *classCodeTyped = [self trimmedString:_classCodeTextField.text];
-    NSString *assocNameTyped = [_associatedPersonTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     if(classCodeTyped.length != 7) {
         [RKDropdownAlert title:@"Knit" message:@"Please make sure class code has 7 characters." time:2];
         return;
     }
-    if(assocNameTyped.length == 0) {
-        [RKDropdownAlert title:@"Knit" message:@"The associate name field cannot be left empty." time:2];
-        return;
+    
+    NSString *assocNameTyped;
+    
+    if([_role isEqualToString:@"student"]) {
+        assocNameTyped = [[PFUser currentUser] objectForKey:@"name"];
     }
+    else {
+        assocNameTyped = [_associatedPersonTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        if(assocNameTyped.length == 0) {
+            [RKDropdownAlert title:@"Knit" message:@"The associate name field cannot be left empty." time:2];
+            return;
+        }
+    }
+    
     
     /*
     Reachability *networkReachability = [Reachability reachabilityForInternetConnection];
@@ -115,8 +128,11 @@
         [hud hide:YES];
          return;
     }
+    
     [_classCodeTextField resignFirstResponder];
-    [_associatedPersonTextField resignFirstResponder];
+    if(![_role isEqualToString:@"student"]) {
+        [_associatedPersonTextField resignFirstResponder];
+    }
     
     PFInstallation *currentInstallation = [PFInstallation currentInstallation];
     NSString *installationId = currentInstallation.installationId;
