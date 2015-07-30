@@ -61,7 +61,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
-    self.navigationController.title = @"Profile/Settings";
     self.settingsTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
 }
 

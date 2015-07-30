@@ -52,6 +52,8 @@
 - (void)applicationWillEnterForeground:(NSNotification *)notification {
     [self viewWillAppear:YES];
     [self viewDidAppear:YES];
+    UIBarButtonItem *composeBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose  target:self action:@selector(composeMessage)];
+    self.tabBarController.navigationItem.rightBarButtonItem = composeBarButtonItem;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -527,18 +529,20 @@
                 [query fromLocalDatastore];
                 [query whereKey:@"messageId" equalTo:messageObjectId];
                 NSArray *msgs = (NSArray *)[query findObjects];
-                PFObject *msg = (PFObject *)msgs[0];
-                msg[@"seen_count"] = ((NSArray *)messageObjects[messageObjectId])[0];
-                msg[@"like_count"] = ((NSArray *)messageObjects[messageObjectId])[1];
-                msg[@"confused_count"] = ((NSArray *)messageObjects[messageObjectId])[2];
-                [msg pinInBackground];
-                ((TSMessage *)_mapCodeToObjects[messageObjectId]).seenCount = [msg[@"seen_count"] intValue];
-                ((TSMessage *)_mapCodeToObjects[messageObjectId]).likeCount = [msg[@"like_count"] intValue];
-                ((TSMessage *)_mapCodeToObjects[messageObjectId]).confuseCount = [msg[@"confused_count"] intValue];
-                TSSendClassMessageViewController *sendClassVC = classesVC.createdClassesVCs[msg[@"code"]];
-                ((TSMessage *)sendClassVC.mapCodeToObjects[messageObjectId]).seenCount = [msg[@"seen_count"] intValue];
-                ((TSMessage *)sendClassVC.mapCodeToObjects[messageObjectId]).likeCount = [msg[@"like_count"] intValue];
-                ((TSMessage *)sendClassVC.mapCodeToObjects[messageObjectId]).confuseCount = [msg[@"confused_count"] intValue];
+                if(msgs.count>0) {
+                    PFObject *msg = (PFObject *)msgs[0];
+                    msg[@"seen_count"] = ((NSArray *)messageObjects[messageObjectId])[0];
+                    msg[@"like_count"] = ((NSArray *)messageObjects[messageObjectId])[1];
+                    msg[@"confused_count"] = ((NSArray *)messageObjects[messageObjectId])[2];
+                    [msg pinInBackground];
+                    ((TSMessage *)_mapCodeToObjects[messageObjectId]).seenCount = [msg[@"seen_count"] intValue];
+                    ((TSMessage *)_mapCodeToObjects[messageObjectId]).likeCount = [msg[@"like_count"] intValue];
+                    ((TSMessage *)_mapCodeToObjects[messageObjectId]).confuseCount = [msg[@"confused_count"] intValue];
+                    TSSendClassMessageViewController *sendClassVC = classesVC.createdClassesVCs[msg[@"code"]];
+                    ((TSMessage *)sendClassVC.mapCodeToObjects[messageObjectId]).seenCount = [msg[@"seen_count"] intValue];
+                    ((TSMessage *)sendClassVC.mapCodeToObjects[messageObjectId]).likeCount = [msg[@"like_count"] intValue];
+                    ((TSMessage *)sendClassVC.mapCodeToObjects[messageObjectId]).confuseCount = [msg[@"confused_count"] intValue];
+                }
             }
             dispatch_sync(dispatch_get_main_queue(), ^{
                 [self.messagesTable reloadData];

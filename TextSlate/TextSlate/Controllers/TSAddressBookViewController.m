@@ -116,9 +116,11 @@
             [q whereKey:@"classCode" equalTo:_classCode];
             [q whereKey:@"type" equalTo:[NSNumber numberWithInt:_type]];
             NSArray *objs = [q findObjects];
-            PFObject *obj = objs[0];
-            obj[@"ongoing"] = @"false";
-            [obj pinInBackground];
+            if(objs.count>0) {
+                PFObject *obj = objs[0];
+                obj[@"ongoing"] = @"false";
+                [obj pinInBackground];
+            }
         });
     } errorBlock:^(NSError *error){
     

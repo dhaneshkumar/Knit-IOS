@@ -714,12 +714,14 @@
                 [query fromLocalDatastore];
                 [query whereKey:@"messageId" equalTo:messageObjectId];
                 NSArray *msgs = (NSArray *)[query findObjects];
-                PFObject *msg = (PFObject *)msgs[0];
-                msg[@"like_count"] = ((NSArray *)messageObjects[messageObjectId])[1];
-                msg[@"confused_count"] = ((NSArray *)messageObjects[messageObjectId])[2];
-                [msg pinInBackground];
-                ((TSMessage *)_mapCodeToObjects[messageObjectId]).likeCount = [msg[@"like_count"] intValue]+[self adder:msg[@"likeStatusServer"] localStatus:msg[@"likeStatus"]];
-                ((TSMessage *)_mapCodeToObjects[messageObjectId]).confuseCount = [msg[@"confused_count"] intValue]+[self adder:msg[@"confuseStatusServer"] localStatus:msg[@"confuseStatus"]];
+                if(msgs.count>0) {
+                    PFObject *msg = (PFObject *)msgs[0];
+                    msg[@"like_count"] = ((NSArray *)messageObjects[messageObjectId])[1];
+                    msg[@"confused_count"] = ((NSArray *)messageObjects[messageObjectId])[2];
+                    [msg pinInBackground];
+                    ((TSMessage *)_mapCodeToObjects[messageObjectId]).likeCount = [msg[@"like_count"] intValue]+[self adder:msg[@"likeStatusServer"] localStatus:msg[@"likeStatus"]];
+                    ((TSMessage *)_mapCodeToObjects[messageObjectId]).confuseCount = [msg[@"confused_count"] intValue]+[self adder:msg[@"confuseStatusServer"] localStatus:msg[@"confuseStatus"]];
+                }
             }
         });
     } errorBlock:^(NSError *error) {
@@ -738,16 +740,19 @@
             PFQuery *query = [PFQuery queryWithClassName:@"GroupDetails"];
             [query fromLocalDatastore];
             [query whereKey:@"messageId" equalTo:tempArray[i]];
-            PFObject *obj = ((NSArray *)[query findObjects])[0];
             
-            if([obj[@"likeStatus"] isEqualToString:obj[@"likeStatusServer"]] && [obj[@"confuseStatus"] isEqualToString:obj[@"confuseStatusServer"]]) {
-            }
-            else {
-                int like_sts = [self adder:obj[@"likeStatusServer"] localStatus:obj[@"likeStatus"]];
-                int confuse_sts = [self adder:obj[@"confuseStatusServer"] localStatus:obj[@"confuseStatus"]];
-                if(like_sts!=0 || confuse_sts!=0) {
-                    dict[tempArray[i]] = @[[NSNumber numberWithInt:like_sts], [NSNumber numberWithInt:confuse_sts]];
-                    [messageIds addObject:tempArray[i]];
+            NSArray *objs = [query findObjects];
+            if(objs.count>0) {
+                PFObject *obj = objs[0];
+                if([obj[@"likeStatus"] isEqualToString:obj[@"likeStatusServer"]] && [obj[@"confuseStatus"] isEqualToString:obj[@"confuseStatusServer"]]) {
+                }
+                else {
+                    int like_sts = [self adder:obj[@"likeStatusServer"] localStatus:obj[@"likeStatus"]];
+                    int confuse_sts = [self adder:obj[@"confuseStatusServer"] localStatus:obj[@"confuseStatus"]];
+                    if(like_sts!=0 || confuse_sts!=0) {
+                        dict[tempArray[i]] = @[[NSNumber numberWithInt:like_sts], [NSNumber numberWithInt:confuse_sts]];
+                        [messageIds addObject:tempArray[i]];
+                    }
                 }
             }
         }
@@ -759,20 +764,23 @@
                         PFQuery *query = [PFQuery queryWithClassName:@"GroupDetails"];
                         [query fromLocalDatastore];
                         [query whereKey:@"messageId" equalTo:messageIds[i]];
-                        PFObject *obj = ((NSArray *)[query findObjects])[0];
-                        if([((NSArray*)dict[messageIds[i]])[0] intValue] == 1) {
-                            obj[@"likeStatusServer"] = @"true";
+                        NSArray *objs = [query findObjects];
+                        if(objs.count>0) {
+                            PFObject *obj = objs[0];
+                            if([((NSArray*)dict[messageIds[i]])[0] intValue] == 1) {
+                                obj[@"likeStatusServer"] = @"true";
+                            }
+                            else if([((NSArray*)dict[messageIds[i]])[0] intValue] == -1) {
+                                obj[@"likeStatusServer"] = @"false";
+                            }
+                            if([((NSArray*)dict[messageIds[i]])[1] intValue] == 1) {
+                                obj[@"confuseStatusServer"] = @"true";
+                            }
+                            else if([((NSArray*)dict[messageIds[i]])[1] intValue] == -1) {
+                                obj[@"confuseStatusServer"] = @"false";
+                            }
+                            [obj pinInBackground];
                         }
-                        else if([((NSArray*)dict[messageIds[i]])[0] intValue] == -1) {
-                            obj[@"likeStatusServer"] = @"false";
-                        }
-                        if([((NSArray*)dict[messageIds[i]])[1] intValue] == 1) {
-                            obj[@"confuseStatusServer"] = @"true";
-                        }
-                        else if([((NSArray*)dict[messageIds[i]])[1] intValue] == -1) {
-                            obj[@"confuseStatusServer"] = @"false";
-                        }
-                        [obj pinInBackground];
                     }
                     [self setUpdateCountsGloballyCalled:@"false"];
                 });
@@ -798,10 +806,14 @@
             PFQuery *query = [PFQuery queryWithClassName:@"GroupDetails"];
             [query fromLocalDatastore];
             [query whereKey:@"messageId" equalTo:((TSMessage *)tempArray[i]).messageId];
-            PFObject *obj = ((NSArray *)[query findObjects])[0];
             
-            if([obj[@"seenStatus"] isEqualToString:@"false"] && [((TSMessage *)tempArray[i]).seenStatus isEqualToString:@"true"])
-                [arr addObject:((TSMessage *)tempArray[i]).messageId];
+            NSArray *objs = [query findObjects];
+            if(objs.count>0) {
+                PFObject *obj = objs[0];
+                if([obj[@"seenStatus"] isEqualToString:@"false"] && [((TSMessage *)tempArray[i]).seenStatus isEqualToString:@"true"]) {
+                    [arr addObject:((TSMessage *)tempArray[i]).messageId];
+                }
+            }
         }
 
         [Data updateSeenCountsGlobally:arr successBlock:^(id object) {
@@ -812,10 +824,12 @@
                     //[query whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
                     [query whereKey:@"messageId" equalTo:arr[i]];
                     
-                    PFObject *obj = ((NSArray *)[query findObjects])[0];
-                    obj[@"seenStatus"] = @"true";
-                    [obj pinInBackground];
-                    //NSLog(@"seen status updated");
+                    NSArray *objs = [query findObjects];
+                    if(objs.count>0) {
+                        PFObject *obj = objs[0];
+                        obj[@"seenStatus"] = @"true";
+                        [obj pinInBackground];
+                    }
                 }
                 _isUpdateSeenCountsCalled = false;
             });
@@ -837,10 +851,13 @@
     [query fromLocalDatastore];
     [query whereKey:@"messageId" equalTo:message.messageId];
     
-    PFObject *obj = ((NSArray *)[query findObjects])[0];
-    obj[@"likeStatus"] = message.likeStatus;
-    obj[@"confuseStatus"] = message.confuseStatus;
-    [obj pinInBackground];
+    NSArray *objs = [query findObjects];
+    if(objs.count>0) {
+        PFObject *obj = objs[0];
+        obj[@"likeStatus"] = message.likeStatus;
+        obj[@"confuseStatus"] = message.confuseStatus;
+        [obj pinInBackground];
+    }
 }
 
 
@@ -855,10 +872,13 @@
     [query fromLocalDatastore];
     [query whereKey:@"messageId" equalTo:message.messageId];
     
-    PFObject *obj = ((NSArray *)[query findObjects])[0];
-    obj[@"likeStatus"] = message.likeStatus;
-    obj[@"confuseStatus"] = message.confuseStatus;
-    [obj pinInBackground];
+    NSArray *objs = [query findObjects];
+    if(objs.count>0) {
+        PFObject *obj = objs[0];
+        obj[@"likeStatus"] = message.likeStatus;
+        obj[@"confuseStatus"] = message.confuseStatus;
+        [obj pinInBackground];
+    }
 }
 
 

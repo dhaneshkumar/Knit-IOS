@@ -467,14 +467,16 @@
                 [query fromLocalDatastore];
                 [query whereKey:@"messageId" equalTo:messageObjectId];
                 NSArray *msgs = (NSArray *)[query findObjects];
-                PFObject *msg = (PFObject *)msgs[0];
-                msg[@"seen_count"] = ((NSArray *)messageObjects[messageObjectId])[0];
-                msg[@"like_count"] = ((NSArray *)messageObjects[messageObjectId])[1];
-                msg[@"confused_count"] = ((NSArray *)messageObjects[messageObjectId])[2];
-                [msg pinInBackground];
-                ((TSMessage *)_mapCodeToObjects[messageObjectId]).seenCount = [msg[@"seen_count"] intValue];
-                ((TSMessage *)_mapCodeToObjects[messageObjectId]).likeCount = [msg[@"like_count"] intValue];
-                ((TSMessage *)_mapCodeToObjects[messageObjectId]).confuseCount = [msg[@"confused_count"] intValue];
+                if(msgs.count>0) {
+                    PFObject *msg = (PFObject *)msgs[0];
+                    msg[@"seen_count"] = ((NSArray *)messageObjects[messageObjectId])[0];
+                    msg[@"like_count"] = ((NSArray *)messageObjects[messageObjectId])[1];
+                    msg[@"confused_count"] = ((NSArray *)messageObjects[messageObjectId])[2];
+                    [msg pinInBackground];
+                    ((TSMessage *)_mapCodeToObjects[messageObjectId]).seenCount = [msg[@"seen_count"] intValue];
+                    ((TSMessage *)_mapCodeToObjects[messageObjectId]).likeCount = [msg[@"like_count"] intValue];
+                    ((TSMessage *)_mapCodeToObjects[messageObjectId]).confuseCount = [msg[@"confused_count"] intValue];
+                }
             }
         });
     } errorBlock:^(NSError *error) {

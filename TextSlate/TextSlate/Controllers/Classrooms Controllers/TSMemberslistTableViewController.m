@@ -192,11 +192,10 @@
                 [query whereKey:@"code" equalTo:_classCode];
                 [query whereKey:@"emailId" equalTo:toRemove.emailId];
                 NSArray *appMembers = [query findObjects];
-                if(appMembers.count!=1) {
-                    //NSLog(@"Nhiiiii....");
+                if(appMembers.count>0) {
+                    appMembers[0][@"status"] = @"REMOVED";
+                    [appMembers[0] pinInBackground];
                 }
-                appMembers[0][@"status"] = @"REMOVED";
-                [appMembers[0] pinInBackground];
                 [_memberList removeObjectAtIndex:row];
                 [hud hide:YES];
                 int memCount = [_sendClassVC.memberCountString intValue];
@@ -214,11 +213,10 @@
                 [query whereKey:@"cod" equalTo:_classCode];
                 [query whereKey:@"number" equalTo:toRemove.phoneNum];
                 NSArray *phoneMembers = [query findObjects];
-                if(phoneMembers.count!=1) {
-                    //NSLog(@"Nhiiiii....");
+                if(phoneMembers.count>0) {
+                    phoneMembers[0][@"status"] = @"REMOVED";
+                    [phoneMembers[0] pinInBackground];
                 }
-                phoneMembers[0][@"status"] = @"REMOVED";
-                [phoneMembers[0] pinInBackground];
                 [_memberList removeObjectAtIndex:row];
                 [hud hide:YES];
                 int memCount = [_sendClassVC.memberCountString intValue];
