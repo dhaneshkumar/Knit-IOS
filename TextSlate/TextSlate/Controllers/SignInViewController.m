@@ -163,6 +163,9 @@
                             [RKDropdownAlert title:@"Knit" message:@"Error in signing in. Try again."  time:2];
                             return;
                         } else {
+                            PFUser *currentUser = [PFUser currentUser];
+                            currentUser[@"isFB"] = @"YES";
+                            [currentUser pin];
                             [Data getAllCodegroups:^(id object) {
                                 NSArray *cgs = (NSArray *)object;
                                 for(PFObject *cg in cgs) {

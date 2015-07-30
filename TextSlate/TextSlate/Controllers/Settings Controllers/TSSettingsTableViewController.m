@@ -26,6 +26,7 @@
 @property (weak, nonatomic) IBOutlet UITableView *settingsTableView;
 @property (strong,nonatomic) UIImage *resized;
 @property (nonatomic) BOOL isOldUser;
+@property (nonatomic) BOOL isFBUser;
 
 @end
 
@@ -47,8 +48,15 @@
             _isOldUser = true;
         }
     }
+    _isFBUser = [self FBUser];
 }
 
+
+-(BOOL)FBUser {
+    PFUser *currentUser = [PFUser currentUser];
+    BOOL rv = (currentUser[@"isFB"])?true:false;
+    return rv;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -84,7 +92,20 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
-    return section+1;
+    if(section==0) {
+        return 1;
+    }
+    else if(section==1) {
+        if(_isFBUser) {
+            return 1;
+        }
+        else {
+            return 2;
+        }
+    }
+    else {
+        return 3;
+    }
 }
 
 
@@ -121,7 +142,7 @@
     
     else if(indexPath.section == 1) {
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"settingsRestCellsIdentifier" forIndexPath:indexPath];
-        if(indexPath.row == 0) {
+        if(indexPath.row == 0 && !_isFBUser) {
             cell.textLabel.text = [[PFUser currentUser] objectForKey:@"username"];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
         }
@@ -223,7 +244,7 @@
         [self presentViewController:editProfileNameNavigationController animated:YES completion:nil];
     }
     else if(indexPath.section == 1) {
-        if(indexPath.row == 1) {
+        if(indexPath.row == 1 || (_isFBUser && indexPath.row==0)) {
             PFInstallation *currentInstallation=[PFInstallation currentInstallation];
             NSString *installationId = currentInstallation.installationId;
             MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[[UIApplication sharedApplication] keyWindow]  animated:YES];

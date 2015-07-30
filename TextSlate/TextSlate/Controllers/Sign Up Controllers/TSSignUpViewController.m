@@ -218,7 +218,9 @@
                                     break;
                                 }
                             }
-                            
+                            PFUser *currentUser = [PFUser currentUser];
+                            currentUser[@"isFB"] = @"YES";
+                            [currentUser pin];
                             [rootTab initialization];
                             [self fireNotifications];
                             [self getAndSaveProfilePicture:userId];
