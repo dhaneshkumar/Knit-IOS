@@ -28,6 +28,8 @@
     }
     [rootTab setSelectedIndex:0];
     [PFUser logOut];
+    UIWindow *mainWindow = [[[UIApplication sharedApplication] windows] firstObject];
+    mainWindow.rootViewController = apd.startNav;
     if(hud) {
         [hud hide:YES];
     }

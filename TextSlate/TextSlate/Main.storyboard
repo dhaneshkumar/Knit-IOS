@@ -1230,7 +1230,7 @@ Login using your email ID.</string>
                                                     </mask>
                                                 </variation>
                                             </textField>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="fb_login" translatesAutoresizingMaskIntoConstraints="NO" id="Bn0-cN-Mbb">
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="fb_signup" translatesAutoresizingMaskIntoConstraints="NO" id="Bn0-cN-Mbb">
                                                 <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="253" id="w9o-w7-Kr8"/>
@@ -8376,6 +8376,7 @@ Login using your email ID.</string>
         <image name="check" width="37" height="31"/>
         <image name="email" width="30" height="30"/>
         <image name="fb_login" width="260" height="65"/>
+        <image name="fb_signup" width="260" height="65"/>
         <image name="grey_arrow" width="8" height="13"/>
         <image name="ios icons-18.png" width="44" height="44"/>
         <image name="ios icons-19.png" width="44" height="44"/>

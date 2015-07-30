@@ -52,10 +52,12 @@
 		5FE281D51B669EA3003A62D6 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FE281D21B669EA3003A62D6 /* FBSDKCoreKit.framework */; };
 		5FE281D61B669EA3003A62D6 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FE281D31B669EA3003A62D6 /* FBSDKLoginKit.framework */; };
 		5FE281D71B669EA3003A62D6 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FE281D41B669EA3003A62D6 /* FBSDKShareKit.framework */; };
-		5FE281D91B66C911003A62D6 /* loginWithFB.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FE281D81B66C911003A62D6 /* loginWithFB.png */; };
 		5FE281DD1B695EBC003A62D6 /* fb_login-85.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FE281DA1B695EBB003A62D6 /* fb_login-85.png */; };
 		5FE281DE1B695EBC003A62D6 /* fb_login-86.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FE281DB1B695EBC003A62D6 /* fb_login-86.png */; };
 		5FE281DF1B695EBC003A62D6 /* fb_login-87.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FE281DC1B695EBC003A62D6 /* fb_login-87.png */; };
+		5FE281E31B6AD036003A62D6 /* fb_signup-85.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FE281E01B6AD036003A62D6 /* fb_signup-85.png */; };
+		5FE281E41B6AD036003A62D6 /* fb_signup-86.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FE281E11B6AD036003A62D6 /* fb_signup-86.png */; };
+		5FE281E51B6AD036003A62D6 /* fb_signup-87.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FE281E21B6AD036003A62D6 /* fb_signup-87.png */; };
 		971687E01A1F1C2B00FE98FC /* TSTeacher.m in Sources */ = {isa = PBXBuildFile; fileRef = 971687DF1A1F1C2B00FE98FC /* TSTeacher.m */; };
 		971687E31A1F1C3900FE98FC /* TSParent.m in Sources */ = {isa = PBXBuildFile; fileRef = 971687E21A1F1C3900FE98FC /* TSParent.m */; };
 		971687E71A1F823900FE98FC /* TSUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 971687E61A1F823900FE98FC /* TSUtils.m */; };
@@ -252,10 +254,12 @@
 		5FE281D21B669EA3003A62D6 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
 		5FE281D31B669EA3003A62D6 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		5FE281D41B669EA3003A62D6 /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKShareKit.framework; sourceTree = "<group>"; };
-		5FE281D81B66C911003A62D6 /* loginWithFB.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = loginWithFB.png; sourceTree = "<group>"; };
 		5FE281DA1B695EBB003A62D6 /* fb_login-85.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fb_login-85.png"; sourceTree = "<group>"; };
 		5FE281DB1B695EBC003A62D6 /* fb_login-86.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fb_login-86.png"; sourceTree = "<group>"; };
 		5FE281DC1B695EBC003A62D6 /* fb_login-87.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fb_login-87.png"; sourceTree = "<group>"; };
+		5FE281E01B6AD036003A62D6 /* fb_signup-85.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fb_signup-85.png"; sourceTree = "<group>"; };
+		5FE281E11B6AD036003A62D6 /* fb_signup-86.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fb_signup-86.png"; sourceTree = "<group>"; };
+		5FE281E21B6AD036003A62D6 /* fb_signup-87.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fb_signup-87.png"; sourceTree = "<group>"; };
 		92F296F2593AFC26685698B2 /* libPods-Knit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Knit.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		971687DE1A1F1C2B00FE98FC /* TSTeacher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSTeacher.h; sourceTree = "<group>"; };
 		971687DF1A1F1C2B00FE98FC /* TSTeacher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSTeacher.m; sourceTree = "<group>"; };
@@ -593,10 +597,12 @@
 		971687DB1A1F1BCA00FE98FC /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				5FE281E01B6AD036003A62D6 /* fb_signup-85.png */,
+				5FE281E11B6AD036003A62D6 /* fb_signup-86.png */,
+				5FE281E21B6AD036003A62D6 /* fb_signup-87.png */,
 				5FE281DA1B695EBB003A62D6 /* fb_login-85.png */,
 				5FE281DB1B695EBC003A62D6 /* fb_login-86.png */,
 				5FE281DC1B695EBC003A62D6 /* fb_login-87.png */,
-				5FE281D81B66C911003A62D6 /* loginWithFB.png */,
 				5FDDA2271B5FC98600895D56 /* app in circle-48.png */,
 				5FDDA2281B5FC98600895D56 /* app in circle-49.png */,
 				5FDDA2291B5FC98600895D56 /* app in circle-50.png */,
@@ -1129,6 +1135,7 @@
 			files = (
 				FB6A04A81AC29770009E9D9D /* ios icons-15.png in Resources */,
 				FBA2364F1B0750250001D8E3 /* sent@1x.png in Resources */,
+				5FE281E31B6AD036003A62D6 /* fb_signup-85.png in Resources */,
 				FB777C2B1B18780800754546 /* phonebook@2x.png in Resources */,
 				5FDDA22C1B5FC98600895D56 /* app in circle-50.png in Resources */,
 				FBA236A81B0B4B830001D8E3 /* blue_arrow@3x.png in Resources */,
@@ -1138,9 +1145,9 @@
 				FB89E2941ACAB443008A0F8E /* white.jpg in Resources */,
 				FBA2364D1B0750250001D8E3 /* received@2x.png in Resources */,
 				FBBA45D71A9DE4400088CCBC /* defaultTeacher.png in Resources */,
-				5FE281D91B66C911003A62D6 /* loginWithFB.png in Resources */,
 				FBC8A27B1B4CFEBE009E06F0 /* icon_120.png in Resources */,
 				5FDDA22B1B5FC98600895D56 /* app in circle-49.png in Resources */,
+				5FE281E51B6AD036003A62D6 /* fb_signup-87.png in Resources */,
 				FB777C2C1B18780800754546 /* phonebook@1x.png in Resources */,
 				FBA236501B0750250001D8E3 /* sent@2x.png in Resources */,
 				FBAA81351AE0D8B40056E168 /* ios icons-31.png in Resources */,
@@ -1155,6 +1162,7 @@
 				4038D4261AC6C62200E9009A /* Main.storyboard in Resources */,
 				FBAA81331AE0D8B40056E168 /* ios icons-29.png in Resources */,
 				5FDDA2241B5FC35000895D56 /* sms_in_circle-51.png in Resources */,
+				5FE281E41B6AD036003A62D6 /* fb_signup-86.png in Resources */,
 				404C9E191AC02176001CF571 /* ios icons-26.png in Resources */,
 				40EBADA81A7E60B6003FB0B1 /* LaunchScreen.xib in Resources */,
 				FBAA81741AE3AB170056E168 /* newIcon1.png in Resources */,
