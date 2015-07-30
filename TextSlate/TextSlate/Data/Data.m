@@ -27,9 +27,10 @@
         }
     }
     [rootTab setSelectedIndex:0];
+    [rootTab.presentedViewController dismissViewControllerAnimated:YES completion:nil];
     [PFUser logOut];
-    UIWindow *mainWindow = [[[UIApplication sharedApplication] windows] firstObject];
-    mainWindow.rootViewController = apd.startNav;
+    //UIWindow *mainWindow = [[[UIApplication sharedApplication] windows] firstObject];
+    //mainWindow.rootViewController = apd.startNav;
     if(hud) {
         [hud hide:YES];
     }
