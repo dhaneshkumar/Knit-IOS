@@ -40,13 +40,9 @@ typedef void (^errorBlock)(NSError *error);
 
 +(void)getFAQ:(NSDate *)latestDate successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock hud:(MBProgressHUD *)hud;
 
-+(void)sendTextMessage:(NSString *)classcode classname:(NSString *)classname message:(NSString *)message successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorblock hud:(MBProgressHUD *)hud;
++(void)sendMultiTextMessage:(NSArray *)classCodes classNames:(NSArray *)classNames checkMembers:(NSArray *)checkMembers message:(NSString *)message successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorblock hud:(MBProgressHUD *)hud;
 
-+(void)sendTextMessagewithAttachment:(NSString *)classcode classname:(NSString *)classname message:(NSString *)message attachment:(PFFile*)attachment filename:(NSString *)filename successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock hud:(MBProgressHUD *)hud;
-
-+(void)sendMultiTextMessage:(NSArray *)classCodes classNames:(NSArray *)classNames message:(NSString *)message successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorblock hud:(MBProgressHUD *)hud;
-
-+(void)sendMultiTextMessagewithAttachment:(NSArray *)classCodes classNames:(NSArray *)classNames message:(NSString *)message attachment:(PFFile*)attachment filename:(NSString *)filename successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock hud:(MBProgressHUD *)hud;
++(void)sendMultiTextMessagewithAttachment:(NSArray *)classCodes classNames:(NSArray *)classNames checkMembers:(NSArray *)checkMembers message:(NSString *)message attachment:(PFFile*)attachment filename:(NSString *)filename successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock hud:(MBProgressHUD *)hud;
 
 +(void)removeMemberPhone:(NSString *)classcode classname:(NSString *)classname number:(NSString *)number usertype:(NSString *)usertype successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock hud:(MBProgressHUD *)hud;
 

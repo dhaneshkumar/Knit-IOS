@@ -219,13 +219,12 @@
         else {
             successBlock(object);
         }
-        
     }];
 }
 
 
-+(void)sendTextMessage:(NSString *)classcode classname:(NSString *)classname message:(NSString *)message successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock hud:(MBProgressHUD *)hud {
-    [PFCloud callFunctionInBackground:@"sendTextMessage" withParameters:@{@"classcode":classcode, @"classname":classname, @"message":message} block:^(id object, NSError *error) {
++(void)sendMultiTextMessage:(NSArray *)classCodes classNames:(NSArray *)classNames checkMembers:(NSArray *)checkMembers message:(NSString *)message successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock hud:(MBProgressHUD *)hud {
+    [PFCloud callFunctionInBackground:@"sendMultiTextMessage" withParameters:@{@"classcode":classCodes, @"classname":classNames, @"checkmember":checkMembers, @"message":message} block:^(id object, NSError *error) {
         if (error) {
             if(error.code == kPFErrorInvalidSessionToken) {
                 [self handleInvalidSession:hud];
@@ -238,37 +237,8 @@
     }];
 }
 
-+(void)sendTextMessagewithAttachment:(NSString *)classcode classname:(NSString *)classname message:(NSString *)message attachment:(PFFile*)attachment filename:(NSString *)filename successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock hud:(MBProgressHUD *)hud {
-    [PFCloud callFunctionInBackground:@"sendPhotoTextMessage" withParameters:@{@"classcode":classcode, @"classname":classname, @"message":message,@"parsefile":attachment,@"filename":filename } block:^(id object, NSError *error) {
-        if (error) {
-            if(error.code == kPFErrorInvalidSessionToken) {
-                [self handleInvalidSession:hud];
-                return;
-            }
-            errorBlock(error);
-        } else {
-            successBlock(object);
-        }
-    }];
-}
-
-
-+(void)sendMultiTextMessage:(NSArray *)classCodes classNames:(NSArray *)classNames message:(NSString *)message successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock hud:(MBProgressHUD *)hud {
-    [PFCloud callFunctionInBackground:@"sendMultiTextMessage" withParameters:@{@"classcode":classCodes, @"classname":classNames, @"message":message} block:^(id object, NSError *error) {
-        if (error) {
-            if(error.code == kPFErrorInvalidSessionToken) {
-                [self handleInvalidSession:hud];
-                return;
-            }
-            errorBlock(error);
-        } else {
-            successBlock(object);
-        }
-    }];
-}
-
-+(void)sendMultiTextMessagewithAttachment:(NSArray *)classCodes classNames:(NSArray *)classNames message:(NSString *)message attachment:(PFFile*)attachment filename:(NSString *)filename successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock hud:(MBProgressHUD *)hud {
-    [PFCloud callFunctionInBackground:@"sendMultiPhotoTextMessage" withParameters:@{@"classcode":classCodes, @"classname":classNames, @"message":message, @"parsefile":attachment,@"filename":filename } block:^(id object, NSError *error) {
++(void)sendMultiTextMessagewithAttachment:(NSArray *)classCodes classNames:(NSArray *)classNames checkMembers:(NSArray *)checkMembers message:(NSString *)message attachment:(PFFile*)attachment filename:(NSString *)filename successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock hud:(MBProgressHUD *)hud {
+    [PFCloud callFunctionInBackground:@"sendMultiPhotoTextMessage" withParameters:@{@"classcode":classCodes, @"classname":classNames, @"checkmember":checkMembers, @"message":message, @"parsefile":attachment,@"filename":filename } block:^(id object, NSError *error) {
         if (error) {
             if(error.code == kPFErrorInvalidSessionToken) {
                 [self handleInvalidSession:hud];
