@@ -44,6 +44,7 @@
     self.classesTable.dataSource = self;
     self.classesTable.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
     [TSUtils applyRoundedCorners:_createOrJoinButton];
     CGFloat screenWidth = [TSUtils getScreenWidth];
     _segmentedControlHeight.constant = 30.0;
@@ -142,9 +143,15 @@
 
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+    self.tabBarController.navigationItem.rightBarButtonItem = nil;
     if([PFUser currentUser]) {
         [self fetchCodegroups];
     }
+}
+
+
+- (void)applicationWillEnterForeground:(NSNotification *)notification {
+    self.tabBarController.navigationItem.rightBarButtonItem = nil;
 }
 
 

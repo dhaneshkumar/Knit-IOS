@@ -125,11 +125,14 @@
     [login logInWithReadPermissions:@[@"email"] handler:^(FBSDKLoginManagerLoginResult *result, NSError *error) {
         if (error) {
             //error
+            NSLog(@"error");
         } else if (result.isCancelled) {
             // Handle cancellations
+            NSLog(@"handle cancellations");
         } else {
             //Permission granted
             FBSDKAccessToken *currentAccessToken = [FBSDKAccessToken currentAccessToken];
+            NSLog(@"permission granted : %@", currentAccessToken);
             NSString *tokenString = currentAccessToken.tokenString;
             if ([result.grantedPermissions containsObject:@"email"]) {
                 //do something if needed
@@ -179,9 +182,9 @@
                 }
             } errorBlock:^(NSError *error) {
                 [hud hide:YES];
-                if([[((NSDictionary *)error.userInfo) objectForKey:@"error"] isEqualToString:@"USER_ALREADY_EXISTS"]) {
+                if([[((NSDictionary *)error.userInfo) objectForKey:@"error"] isEqualToString:@"USER_DOESNOT_EXISTS"]) {
                     [self.navigationController popViewControllerAnimated:YES];
-                    [RKDropdownAlert title:@"Knit" message:@"User already exists."  time:2];
+                    [RKDropdownAlert title:@"Knit" message:@"User does not exist."  time:2];
                     return;
                 }
                 [RKDropdownAlert title:@"Knit" message:@"Error in signing in. Try again."  time:2];

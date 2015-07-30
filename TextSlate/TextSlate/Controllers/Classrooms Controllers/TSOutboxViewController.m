@@ -50,7 +50,6 @@
 }
 
 - (void)applicationWillEnterForeground:(NSNotification *)notification {
-    //NSLog(@"appWillFore outbox");
     [self viewWillAppear:YES];
     [self viewDidAppear:YES];
 }

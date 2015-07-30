@@ -95,6 +95,7 @@
 
 - (void)applicationWillEnterForeground:(NSNotification *)notification {
     [self viewWillAppear:YES];
+    self.tabBarController.navigationItem.rightBarButtonItem = nil;
     [self viewDidAppear:YES];
 }
 

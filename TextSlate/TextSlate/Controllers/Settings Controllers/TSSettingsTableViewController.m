@@ -52,9 +52,16 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
     self.navigationController.title = @"Profile/Settings";
     self.settingsTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
 }
+
+
+- (void)applicationWillEnterForeground:(NSNotification *)notification {
+    self.tabBarController.navigationItem.rightBarButtonItem = nil;
+}
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -231,7 +238,6 @@
                 [hud hide:YES];
                 [RKDropdownAlert title:@"Knit" message:@"Error occured on logging out. Try again later."  time:2];
             } hud:hud];
-
         }
     }
     else {
