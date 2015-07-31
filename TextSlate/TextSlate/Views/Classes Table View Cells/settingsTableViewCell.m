@@ -25,7 +25,6 @@
 
 
 -(void)photoTapped:(UITapGestureRecognizer *)recognizer {
-    NSLog(@"photo tapped");
     UINavigationController *controller = (UINavigationController *)[UIApplication sharedApplication].keyWindow.rootViewController;
     TSTabBarViewController *cont = (TSTabBarViewController *)controller.topViewController;
     PFUser *currentUser = [PFUser currentUser];

@@ -396,7 +396,6 @@
         return;
     }
     if(_messagesArray.count==0) {
-        NSLog(@"here");
         PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
         [lq fromLocalDatastore];
         NSArray *localObjs = [lq findObjects];
@@ -412,7 +411,6 @@
         }
     }
     else {
-        NSLog(@"here");
         if(!_isILMCalled) {
             [_refreshControl beginRefreshing];
             [self insertLatestMessages];

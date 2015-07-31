@@ -276,10 +276,12 @@
         [RKDropdownAlert title:@"Knit" message:@"Please make sure that the phone number entered is 10 digits."  time:2];
         return;
     }
-    if([_phoneNumberTextField.text characterAtIndex:0]<'7' && [_phoneNumberTextField.text characterAtIndex:0]>='0') {
+    
+    if([_phoneNumberTextField.text characterAtIndex:0]<'7' && [_phoneNumberTextField.text characterAtIndex:0]>'0') {
         [RKDropdownAlert title:@"Knit" message:@"Please make sure that the phone number entered is correct."  time:2];
         return;
     }
+    
     [_displayName resignFirstResponder];
     [_phoneNumberTextField resignFirstResponder];
     

@@ -125,14 +125,11 @@
     [login logInWithReadPermissions:@[@"email"] handler:^(FBSDKLoginManagerLoginResult *result, NSError *error) {
         if (error) {
             //error
-            NSLog(@"error");
         } else if (result.isCancelled) {
             // Handle cancellations
-            NSLog(@"handle cancellations");
         } else {
             //Permission granted
             FBSDKAccessToken *currentAccessToken = [FBSDKAccessToken currentAccessToken];
-            NSLog(@"permission granted : %@", currentAccessToken);
             NSString *tokenString = currentAccessToken.tokenString;
             if ([result.grantedPermissions containsObject:@"email"]) {
                 //do something if needed
@@ -382,10 +379,12 @@
         [RKDropdownAlert title:@"Knit" message:@"Please make sure that the phone number entered is 10 digits."  time:2];
         return;
     }
-    if([_mobilTextField.text characterAtIndex:0]<'7' && [_mobilTextField.text characterAtIndex:0]>='0') {
+
+    if([_mobilTextField.text characterAtIndex:0]<'7' && [_mobilTextField.text characterAtIndex:0]>'0') {
         [RKDropdownAlert title:@"Knit" message:@"Please make sure that the phone number entered is correct."  time:2];
         return;
     }
+    
     [_mobilTextField resignFirstResponder];
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[[UIApplication sharedApplication] keyWindow] animated:YES];
     hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];

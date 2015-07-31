@@ -116,11 +116,9 @@
         NSString *url1 = imageUrl.url;
         UIImage *image = [[sharedCache sharedInstance] getCachedImageForKey:url1];
         if(image) {
-            NSLog(@"already cached");
             cell.profilePic.image = image;
         }
         else{
-            NSLog(@"not cached");
             cell.profilePic.image = [UIImage imageNamed:@"defaultTeacher.png"];
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
                 NSURL *imageURL = [NSURL URLWithString:url1];
@@ -235,7 +233,6 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if(indexPath.section == 0) {
-        NSLog(@"first row tapped");
         UINavigationController *editProfileNameNavigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"editProfileNameNav"];
         EditProfileNameViewController *editProfileNameVC = (EditProfileNameViewController *)editProfileNameNavigationController.topViewController;
         editProfileNameVC.profileName = _profileName;

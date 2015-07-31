@@ -144,14 +144,12 @@
 
 
 -(void)classSelected:(BOOL)areClassesSelected {
-    NSLog(@"areClasses : %d", areClassesSelected);
     _hasSelectedClasses = areClassesSelected;
 }
 
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    NSLog(@"here");
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(liftMainViewWhenKeybordAppears:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(liftMainViewWhenKeybordHide:) name:UIKeyboardDidHideNotification object:nil];
     

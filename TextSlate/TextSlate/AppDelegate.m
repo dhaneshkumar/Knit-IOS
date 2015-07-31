@@ -50,7 +50,7 @@
     [Parse enableLocalDatastore];
 
     // Override point for customization after application launch.
-    [self setKeysForDevelopmentKnit];
+    [self setKeysForKnit];
     [PFUser enableRevocableSessionInBackground];
     [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
     
@@ -261,7 +261,7 @@
                 _url = actionType;
                 NSString *title=@"Knit";
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
-                                                                message:[userInfo objectForKey:@"message"]
+                                                                message:[userInfo objectForKey:@"msg"]
                                                                delegate:self cancelButtonTitle:@"Not now"
                                                       otherButtonTitles:@"Ok",nil];
                 alert.tag = 5;
@@ -274,7 +274,7 @@
             else if(application.applicationState==UIApplicationStateActive) {
                 NSString *title = @"Knit";
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
-                                                                message:[userInfo objectForKey:@"message"]
+                                                                message:[userInfo objectForKey:@"msg"]
                                                                delegate:self cancelButtonTitle:@"Ok"
                                                       otherButtonTitles:nil];
                 alert.tag = 6;
@@ -590,7 +590,6 @@
 
 
 -(BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
-    NSLog(@"open URL");
     return [[FBSDKApplicationDelegate sharedInstance] application:application openURL:url sourceApplication:sourceApplication annotation:annotation];
 }
 
