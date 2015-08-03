@@ -39,8 +39,8 @@
     CGRect screenRect = [[UIScreen mainScreen] bounds];
     CGFloat screenHeight = screenRect.size.height - 64.0;
     CGFloat screenWidth = screenRect.size.width;
-    float gifHeight = 320.0;
-    float gifWidth = _showAppGif?260.0:240.0;
+    float gifHeight = _showAppGif?280.0:320.0;
+    float gifWidth = _showAppGif?280.0:240.0;
     float x = screenWidth-gifWidth-(screenWidth<500.0?0.0:32.0);
     float y = screenHeight-gifHeight;
     

@@ -50,7 +50,7 @@
     [Parse enableLocalDatastore];
 
     // Override point for customization after application launch.
-    [self setKeysForKnit];
+    [self setKeysForDevelopmentKnit];
     [PFUser enableRevocableSessionInBackground];
     [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
     
