@@ -244,6 +244,9 @@
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     if (buttonIndex == 1) {
         NSString *email = [[[alertView textFieldAtIndex:0] text] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        if([email isEqualToString:@""]) {
+            return;
+        }
         NSString *name = [[PFUser currentUser] objectForKey:@"name"];
         // Create the request.
         NSString *url = [NSString stringWithFormat:@"http://ec2-52-26-56-243.us-west-2.compute.amazonaws.com/createPdf.php?email=%@&code=%@&name=%@", email, _classCode, name];

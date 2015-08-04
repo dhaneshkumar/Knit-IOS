@@ -121,17 +121,19 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     if(_memberList.count>0) {
         self.tableView.backgroundView = nil;
+        self.navigationItem.rightBarButtonItem = self.editButtonItem;
         return 1;
     }
     else {
         UILabel *messageLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
-        messageLabel.text = @"No members.";
+        messageLabel.text = @"No members.\n Pull down to refresh";
         messageLabel.textColor = [UIColor blackColor];
         messageLabel.numberOfLines = 0;
         messageLabel.textAlignment = NSTextAlignmentCenter;
-        messageLabel.font = [UIFont fontWithName:@"Palatino-Italic" size:20];
+        messageLabel.font = [UIFont fontWithName:@"Palatino-Italic" size:18];
         [messageLabel sizeToFit];
         self.tableView.backgroundView = messageLabel;
+        self.navigationItem.rightBarButtonItem = nil;
         return 0;
     }
 }
