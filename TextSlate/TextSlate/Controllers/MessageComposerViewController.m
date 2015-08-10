@@ -356,9 +356,14 @@
     for(int i=0; i<selectedClasses.count; i++) {
         [classCodes addObject:_createdClasses[[selectedClasses[i] integerValue]][0]];
         [classNames addObject:_createdClasses[[selectedClasses[i] integerValue]][1]];
-        TSSendClassMessageViewController *sendClassVC = mutableDict[_createdClasses[[selectedClasses[i] integerValue]][0]];
-        if(sendClassVC.memListVC.memberList.count==0) {
-            [checkMembers addObject:[NSNumber numberWithBool:YES]];
+        if(selectedClasses.count==1) {
+            TSSendClassMessageViewController *sendClassVC = mutableDict[_createdClasses[[selectedClasses[i] integerValue]][0]];
+            if(sendClassVC.memListVC.memberList.count==0) {
+                [checkMembers addObject:[NSNumber numberWithBool:YES]];
+            }
+            else {
+                [checkMembers addObject:[NSNumber numberWithBool:NO]];
+            }
         }
         else {
             [checkMembers addObject:[NSNumber numberWithBool:NO]];
