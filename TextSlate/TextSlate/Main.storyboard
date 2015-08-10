@@ -151,6 +151,7 @@
                                     <constraint firstAttribute="height" constant="40" id="5nB-ca-5tO"/>
                                     <constraint firstAttribute="width" constant="222" id="UQf-uU-ECY"/>
                                 </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <color key="tintColor" red="0.16078431372549018" green="0.71372549019607845" blue="0.96470588235294119" alpha="1" colorSpace="calibratedRGB"/>
                                 <state key="normal" title="CREATE">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -231,6 +232,8 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="buttonHeight" destination="5nB-ca-5tO" id="rfg-UY-XYJ"/>
+                        <outlet property="buttonWidth" destination="UQf-uU-ECY" id="6Zo-bx-p33"/>
                         <outlet property="classNameTextField" destination="aaP-OU-Ebb" id="POw-cK-Mrs"/>
                         <outlet property="createButton" destination="dX5-Eq-SEZ" id="NlD-Mq-5fy"/>
                     </connections>
@@ -757,8 +760,7 @@
                                                         <exclude reference="Dv6-25-3qw"/>
                                                     </mask>
                                                 </variation>
-                                                <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
-                                                    <rect key="frame" x="16" y="168" width="376" height="14"/>
+                                                <variation key="heightClass=regular-widthClass=compact">
                                                     <mask key="constraints">
                                                         <include reference="Dv6-25-3qw"/>
                                                     </mask>
@@ -779,8 +781,7 @@ Login using your email ID.</string>
                                                         <exclude reference="vKe-uF-xnL"/>
                                                     </mask>
                                                 </variation>
-                                                <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
-                                                    <rect key="frame" x="8" y="196" width="384" height="48"/>
+                                                <variation key="heightClass=regular-widthClass=compact">
                                                     <mask key="constraints">
                                                         <include reference="vKe-uF-xnL"/>
                                                     </mask>
@@ -798,8 +799,7 @@ Login using your email ID.</string>
                                                         <exclude reference="SG0-Dq-6rd"/>
                                                     </mask>
                                                 </variation>
-                                                <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
-                                                    <rect key="frame" x="16" y="266" width="368" height="30"/>
+                                                <variation key="heightClass=regular-widthClass=compact">
                                                     <mask key="constraints">
                                                         <include reference="SG0-Dq-6rd"/>
                                                     </mask>
@@ -817,8 +817,7 @@ Login using your email ID.</string>
                                                         <exclude reference="cgg-em-TMD"/>
                                                     </mask>
                                                 </variation>
-                                                <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
-                                                    <rect key="frame" x="16" y="301" width="368" height="30"/>
+                                                <variation key="heightClass=regular-widthClass=compact">
                                                     <mask key="constraints">
                                                         <include reference="cgg-em-TMD"/>
                                                     </mask>
@@ -860,8 +859,7 @@ Login using your email ID.</string>
                                                         <exclude reference="uoZ-dl-CZt"/>
                                                     </mask>
                                                 </variation>
-                                                <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
-                                                    <rect key="frame" x="290" y="343" width="102" height="40"/>
+                                                <variation key="heightClass=regular-widthClass=compact">
                                                     <mask key="constraints">
                                                         <include reference="8nQ-fk-O0M"/>
                                                         <include reference="sHk-81-Jag"/>
@@ -932,7 +930,7 @@ Login using your email ID.</string>
                                                     <constraint firstAttribute="height" constant="21" id="TUc-K5-V2x"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                                 <variation key="default">
                                                     <mask key="constraints">
@@ -1001,34 +999,34 @@ Login using your email ID.</string>
                                             <mask key="constraints">
                                                 <exclude reference="4Qt-nA-9qj"/>
                                                 <exclude reference="w4F-6q-v6l"/>
-                                                <exclude reference="08n-dj-Fvm"/>
-                                                <exclude reference="6aT-ey-3P4"/>
-                                                <exclude reference="StU-ou-pii"/>
-                                                <exclude reference="eRv-AO-q0x"/>
-                                                <exclude reference="m8V-5z-4wH"/>
-                                                <exclude reference="69v-Xb-eNP"/>
-                                                <exclude reference="Afc-1q-TUU"/>
                                                 <exclude reference="9aW-oN-QdO"/>
                                                 <exclude reference="Vbp-7k-AaW"/>
                                                 <exclude reference="n1Z-tD-cze"/>
-                                                <exclude reference="2k4-Lf-GEF"/>
-                                                <exclude reference="9P0-5P-cea"/>
-                                                <exclude reference="pvL-m2-J9p"/>
                                                 <exclude reference="ZSP-1e-Vl6"/>
                                                 <exclude reference="u0x-gn-gVE"/>
                                                 <exclude reference="x9T-Ai-js7"/>
-                                                <exclude reference="66A-PC-nM5"/>
-                                                <exclude reference="NRV-UV-FTn"/>
-                                                <exclude reference="f7H-qa-fHm"/>
-                                                <exclude reference="IqP-b5-20H"/>
+                                                <exclude reference="WNb-MM-T7R"/>
+                                                <exclude reference="ejL-eg-A7E"/>
                                                 <exclude reference="Nw3-8B-SRs"/>
                                                 <exclude reference="UJY-qe-KBx"/>
                                                 <exclude reference="dm5-hg-MAG"/>
+                                                <exclude reference="66A-PC-nM5"/>
+                                                <exclude reference="NRV-UV-FTn"/>
+                                                <exclude reference="f7H-qa-fHm"/>
                                                 <exclude reference="Fap-wO-4E8"/>
                                                 <exclude reference="J1f-FQ-O65"/>
                                                 <exclude reference="hUL-Kg-xDo"/>
-                                                <exclude reference="WNb-MM-T7R"/>
-                                                <exclude reference="ejL-eg-A7E"/>
+                                                <exclude reference="2k4-Lf-GEF"/>
+                                                <exclude reference="9P0-5P-cea"/>
+                                                <exclude reference="pvL-m2-J9p"/>
+                                                <exclude reference="69v-Xb-eNP"/>
+                                                <exclude reference="Afc-1q-TUU"/>
+                                                <exclude reference="08n-dj-Fvm"/>
+                                                <exclude reference="6aT-ey-3P4"/>
+                                                <exclude reference="IqP-b5-20H"/>
+                                                <exclude reference="StU-ou-pii"/>
+                                                <exclude reference="eRv-AO-q0x"/>
+                                                <exclude reference="m8V-5z-4wH"/>
                                             </mask>
                                         </variation>
                                         <variation key="heightClass=regular-widthClass=compact">
@@ -1048,34 +1046,34 @@ Login using your email ID.</string>
                                             <mask key="constraints">
                                                 <include reference="4Qt-nA-9qj"/>
                                                 <include reference="w4F-6q-v6l"/>
-                                                <include reference="08n-dj-Fvm"/>
-                                                <include reference="6aT-ey-3P4"/>
-                                                <include reference="StU-ou-pii"/>
-                                                <include reference="eRv-AO-q0x"/>
-                                                <include reference="m8V-5z-4wH"/>
-                                                <include reference="69v-Xb-eNP"/>
-                                                <include reference="Afc-1q-TUU"/>
                                                 <include reference="9aW-oN-QdO"/>
                                                 <include reference="Vbp-7k-AaW"/>
                                                 <include reference="n1Z-tD-cze"/>
-                                                <include reference="2k4-Lf-GEF"/>
-                                                <include reference="9P0-5P-cea"/>
-                                                <include reference="pvL-m2-J9p"/>
                                                 <include reference="ZSP-1e-Vl6"/>
                                                 <include reference="u0x-gn-gVE"/>
                                                 <include reference="x9T-Ai-js7"/>
-                                                <include reference="66A-PC-nM5"/>
-                                                <include reference="NRV-UV-FTn"/>
-                                                <include reference="f7H-qa-fHm"/>
-                                                <include reference="IqP-b5-20H"/>
+                                                <include reference="WNb-MM-T7R"/>
+                                                <include reference="ejL-eg-A7E"/>
                                                 <include reference="Nw3-8B-SRs"/>
                                                 <include reference="UJY-qe-KBx"/>
                                                 <include reference="dm5-hg-MAG"/>
+                                                <include reference="66A-PC-nM5"/>
+                                                <include reference="NRV-UV-FTn"/>
+                                                <include reference="f7H-qa-fHm"/>
                                                 <include reference="Fap-wO-4E8"/>
                                                 <include reference="J1f-FQ-O65"/>
                                                 <include reference="hUL-Kg-xDo"/>
-                                                <include reference="WNb-MM-T7R"/>
-                                                <include reference="ejL-eg-A7E"/>
+                                                <include reference="2k4-Lf-GEF"/>
+                                                <include reference="9P0-5P-cea"/>
+                                                <include reference="pvL-m2-J9p"/>
+                                                <include reference="69v-Xb-eNP"/>
+                                                <include reference="Afc-1q-TUU"/>
+                                                <include reference="08n-dj-Fvm"/>
+                                                <include reference="6aT-ey-3P4"/>
+                                                <include reference="IqP-b5-20H"/>
+                                                <include reference="StU-ou-pii"/>
+                                                <include reference="eRv-AO-q0x"/>
+                                                <include reference="m8V-5z-4wH"/>
                                             </mask>
                                         </variation>
                                         <connections>
@@ -1204,8 +1202,7 @@ Login using your email ID.</string>
                                                         <exclude reference="Ghn-cs-19J"/>
                                                     </mask>
                                                 </variation>
-                                                <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
-                                                    <rect key="frame" x="16" y="144" width="368" height="30"/>
+                                                <variation key="heightClass=regular-widthClass=compact">
                                                     <mask key="constraints">
                                                         <include reference="Ghn-cs-19J"/>
                                                     </mask>
@@ -1223,8 +1220,7 @@ Login using your email ID.</string>
                                                         <exclude reference="Y6J-r6-OMQ"/>
                                                     </mask>
                                                 </variation>
-                                                <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
-                                                    <rect key="frame" x="59" y="182" width="325" height="30"/>
+                                                <variation key="heightClass=regular-widthClass=compact">
                                                     <mask key="constraints">
                                                         <include reference="Y6J-r6-OMQ"/>
                                                     </mask>
@@ -1242,8 +1238,7 @@ Login using your email ID.</string>
                                                         <exclude reference="wxt-8f-rqs"/>
                                                     </mask>
                                                 </variation>
-                                                <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
-                                                    <rect key="frame" x="74" y="40" width="253" height="37"/>
+                                                <variation key="heightClass=regular-widthClass=compact">
                                                     <mask key="constraints">
                                                         <include reference="w9o-w7-Kr8"/>
                                                         <include reference="wxt-8f-rqs"/>
@@ -1257,7 +1252,7 @@ Login using your email ID.</string>
                                                     <constraint firstAttribute="height" constant="21" id="Fwy-ON-1Lb"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                                 <variation key="default">
                                                     <mask key="constraints">
@@ -1265,8 +1260,7 @@ Login using your email ID.</string>
                                                         <exclude reference="Fwy-ON-1Lb"/>
                                                     </mask>
                                                 </variation>
-                                                <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
-                                                    <rect key="frame" x="183" y="104" width="35" height="21"/>
+                                                <variation key="heightClass=regular-widthClass=compact">
                                                     <mask key="constraints">
                                                         <include reference="22j-tM-tRP"/>
                                                         <include reference="Fwy-ON-1Lb"/>
@@ -1286,8 +1280,7 @@ Login using your email ID.</string>
                                                         <exclude reference="p6S-VI-3hx"/>
                                                     </mask>
                                                 </variation>
-                                                <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
-                                                    <rect key="frame" x="250" y="114" width="150" height="1"/>
+                                                <variation key="heightClass=regular-widthClass=compact">
                                                     <mask key="constraints">
                                                         <include reference="dBo-Zc-WwF"/>
                                                         <include reference="p6S-VI-3hx"/>
@@ -1305,8 +1298,7 @@ Login using your email ID.</string>
                                                         <exclude reference="6Sv-fC-Yl0"/>
                                                     </mask>
                                                 </variation>
-                                                <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
-                                                    <rect key="frame" x="0.0" y="114" width="150" height="1"/>
+                                                <variation key="heightClass=regular-widthClass=compact">
                                                     <mask key="constraints">
                                                         <include reference="6Sv-fC-Yl0"/>
                                                     </mask>
@@ -1326,8 +1318,7 @@ Login using your email ID.</string>
                                                         <exclude reference="vOr-HC-OH0"/>
                                                     </mask>
                                                 </variation>
-                                                <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
-                                                    <rect key="frame" x="16" y="182" width="42" height="30"/>
+                                                <variation key="heightClass=regular-widthClass=compact">
                                                     <mask key="constraints">
                                                         <include reference="5Xw-YW-XSJ"/>
                                                         <include reference="vOr-HC-OH0"/>
@@ -1370,23 +1361,23 @@ Login using your email ID.</string>
                                             <mask key="constraints">
                                                 <exclude reference="Day-4o-nZi"/>
                                                 <exclude reference="VBb-5N-99G"/>
-                                                <exclude reference="5mp-OM-0w5"/>
-                                                <exclude reference="cP3-hZ-btB"/>
-                                                <exclude reference="Ndi-4A-cF6"/>
-                                                <exclude reference="1Cl-OP-ovv"/>
-                                                <exclude reference="Zaj-TZ-uCt"/>
-                                                <exclude reference="lPB-TW-n5n"/>
                                                 <exclude reference="RZu-1u-lkQ"/>
                                                 <exclude reference="v6W-qF-jkb"/>
-                                                <exclude reference="4Sc-gL-gP2"/>
-                                                <exclude reference="ElE-xL-Qj1"/>
-                                                <exclude reference="get-kt-wiB"/>
                                                 <exclude reference="R8m-BJ-AJF"/>
                                                 <exclude reference="RmI-xy-kSu"/>
                                                 <exclude reference="bcF-bg-Ua8"/>
                                                 <exclude reference="pe7-rt-akF"/>
+                                                <exclude reference="4Sc-gL-gP2"/>
+                                                <exclude reference="ElE-xL-Qj1"/>
+                                                <exclude reference="get-kt-wiB"/>
+                                                <exclude reference="1Cl-OP-ovv"/>
+                                                <exclude reference="Zaj-TZ-uCt"/>
+                                                <exclude reference="lPB-TW-n5n"/>
+                                                <exclude reference="5mp-OM-0w5"/>
+                                                <exclude reference="cP3-hZ-btB"/>
                                                 <exclude reference="OCx-vU-aZE"/>
                                                 <exclude reference="uVK-XZ-kME"/>
+                                                <exclude reference="Ndi-4A-cF6"/>
                                             </mask>
                                         </variation>
                                         <variation key="heightClass=regular-widthClass=compact">
@@ -1402,23 +1393,23 @@ Login using your email ID.</string>
                                             <mask key="constraints">
                                                 <include reference="Day-4o-nZi"/>
                                                 <include reference="VBb-5N-99G"/>
-                                                <include reference="5mp-OM-0w5"/>
-                                                <include reference="cP3-hZ-btB"/>
-                                                <include reference="Ndi-4A-cF6"/>
-                                                <include reference="1Cl-OP-ovv"/>
-                                                <include reference="Zaj-TZ-uCt"/>
-                                                <include reference="lPB-TW-n5n"/>
                                                 <include reference="RZu-1u-lkQ"/>
                                                 <include reference="v6W-qF-jkb"/>
-                                                <include reference="4Sc-gL-gP2"/>
-                                                <include reference="ElE-xL-Qj1"/>
-                                                <include reference="get-kt-wiB"/>
                                                 <include reference="R8m-BJ-AJF"/>
                                                 <include reference="RmI-xy-kSu"/>
                                                 <include reference="bcF-bg-Ua8"/>
                                                 <include reference="pe7-rt-akF"/>
+                                                <include reference="4Sc-gL-gP2"/>
+                                                <include reference="ElE-xL-Qj1"/>
+                                                <include reference="get-kt-wiB"/>
+                                                <include reference="1Cl-OP-ovv"/>
+                                                <include reference="Zaj-TZ-uCt"/>
+                                                <include reference="lPB-TW-n5n"/>
+                                                <include reference="5mp-OM-0w5"/>
+                                                <include reference="cP3-hZ-btB"/>
                                                 <include reference="OCx-vU-aZE"/>
                                                 <include reference="uVK-XZ-kME"/>
+                                                <include reference="Ndi-4A-cF6"/>
                                             </mask>
                                         </variation>
                                     </view>
@@ -1466,10 +1457,10 @@ Login using your email ID.</string>
                                 <exclude reference="ru6-XU-5NW"/>
                             </mask>
                             <mask key="constraints">
+                                <exclude reference="Dsq-9J-rYi"/>
                                 <exclude reference="W8s-MU-WdB"/>
                                 <exclude reference="h0Z-k1-Ivd"/>
                                 <exclude reference="mz6-ed-AcN"/>
-                                <exclude reference="Dsq-9J-rYi"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
@@ -1477,10 +1468,10 @@ Login using your email ID.</string>
                                 <include reference="ru6-XU-5NW"/>
                             </mask>
                             <mask key="constraints">
+                                <include reference="Dsq-9J-rYi"/>
                                 <include reference="W8s-MU-WdB"/>
                                 <include reference="h0Z-k1-Ivd"/>
                                 <include reference="mz6-ed-AcN"/>
-                                <include reference="Dsq-9J-rYi"/>
                             </mask>
                         </variation>
                         <connections>
@@ -1734,7 +1725,7 @@ Login using your email ID.</string>
                                     <constraint firstAttribute="width" constant="383" id="e42-8I-BfA"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <state key="normal" title="+  Join Class">
+                                <state key="normal" title="+  Join New Class">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -2593,6 +2584,7 @@ Login using your email ID.</string>
                                     <constraint firstAttribute="width" constant="222" id="aRQ-tV-EK3"/>
                                     <constraint firstAttribute="height" constant="40" id="y1h-26-g3w"/>
                                 </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <state key="normal" title="Verify">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -2717,6 +2709,8 @@ Login using your email ID.</string>
                     <navigationItem key="navigationItem" id="fk8-li-X9M"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
+                        <outlet property="buttonHeight" destination="y1h-26-g3w" id="a8T-7C-WkV"/>
+                        <outlet property="buttonWidth" destination="aRQ-tV-EK3" id="eVU-y8-a7A"/>
                         <outlet property="codeText" destination="Iea-Um-HPC" id="VyQ-ba-3qi"/>
                         <outlet property="phoneLabel" destination="Ea3-38-ALt" id="fe9-Tt-eaq"/>
                         <outlet property="phoneNumberLabel" destination="2xn-xx-qJX" id="dLs-Kz-i24"/>
@@ -7226,6 +7220,7 @@ Login using your email ID.</string>
                                     <constraint firstAttribute="height" constant="40" id="VDn-8d-IHS"/>
                                     <constraint firstAttribute="height" constant="33" id="slI-py-VEe"/>
                                 </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <color key="tintColor" red="0.12549019610000001" green="0.71372549019999998" blue="0.96470588239999999" alpha="1" colorSpace="calibratedRGB"/>
                                 <state key="normal" title="JOIN">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -7286,6 +7281,7 @@ Login using your email ID.</string>
                                     <constraint firstAttribute="height" constant="39" id="RLX-9m-KOc"/>
                                     <constraint firstAttribute="height" constant="40" id="wYI-RG-iKd"/>
                                 </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <color key="tintColor" red="0.12549019610000001" green="0.71372549019999998" blue="0.96470588239999999" alpha="1" colorSpace="calibratedRGB"/>
                                 <state key="normal" title="Invite Teacher">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -7410,7 +7406,11 @@ Login using your email ID.</string>
                         <outlet property="associatedPersonTextField" destination="w3i-pd-Cxw" id="qyP-Ar-VpE"/>
                         <outlet property="classCodeTextField" destination="HKV-sO-cMS" id="P8e-Ib-NTZ"/>
                         <outlet property="inviteTeacherButton" destination="8b6-PN-uCV" id="wb2-Ra-Afy"/>
+                        <outlet property="inviteTeacherHeight" destination="wYI-RG-iKd" id="cyc-ir-ATG"/>
+                        <outlet property="inviteTeacherWidth" destination="4Yc-aO-tlL" id="bhP-8m-dis"/>
                         <outlet property="joinButton" destination="0qO-Bh-WR4" id="uKA-8D-wWj"/>
+                        <outlet property="joinButtonHeight" destination="VDn-8d-IHS" id="fhS-kK-AZ7"/>
+                        <outlet property="joinButtonWidth" destination="QDB-mx-A2L" id="kH3-uz-DGh"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JWC-tY-EI9" userLabel="First Responder" sceneMemberID="firstResponder"/>

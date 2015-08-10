@@ -15,6 +15,7 @@
 #import "TSTabBarViewController.h"
 #import "ClassesViewController.h"
 #import "TSSendClassMessageViewController.h"
+#import "TSUtils.h"
 
 @interface TSCreateClassroomViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *classNameTextField;
@@ -22,6 +23,8 @@
 @property (strong, nonatomic) NSString *selectedSchool;
 @property (assign) int isFirstClass;
 @property (weak, nonatomic) IBOutlet UIButton *createButton;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *buttonHeight;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *buttonWidth;
 
 @end
 
@@ -33,9 +36,10 @@
     self.classNameTextField.delegate = self;
     self.navigationItem.title = @"Knit";
     // Do any additional setup after loading the view.
-    [_createButton.layer setShadowOffset:CGSizeMake(0.5, 0.5)];
-    [_createButton.layer setShadowColor:[[UIColor blackColor] CGColor]];
-    [_createButton.layer setShadowOpacity:0.5];
+    [TSUtils applyRoundedCorners:_createButton];
+    float screenWidth = [TSUtils getScreenWidth];
+    _buttonHeight.constant = 30.0;
+    _buttonWidth.constant = screenWidth/1.8;
 }
 
 - (void)didReceiveMemoryWarning {

@@ -8,6 +8,7 @@
 #import <Parse/Parse.h>
 #import "PhoneVerificationViewController.h"
 #import "Data.h"
+#import "TSUtils.h"
 #import "TSTabBarViewController.h"
 #import "AppDelegate.h"
 #import "TSNewInboxViewController.h"
@@ -26,6 +27,8 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *phoneNumberLabel;
 @property (weak, nonatomic) IBOutlet UIButton *verifyButton;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *buttonHeight;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *buttonWidth;
 
 @end
 
@@ -75,9 +78,10 @@
     self.navigationItem.title = @"Knit";
     UIBarButtonItem *bb = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"back"] style:UIBarButtonItemStylePlain target:self action:@selector(backButtonTapped:)];
     [self.navigationItem setLeftBarButtonItem:bb];
-    [_verifyButton.layer setShadowOffset:CGSizeMake(0.5, 0.5)];
-    [_verifyButton.layer setShadowColor:[[UIColor blackColor] CGColor]];
-    [_verifyButton.layer setShadowOpacity:0.5];
+    [TSUtils applyRoundedCorners:_verifyButton];
+    float screenWidth = [TSUtils getScreenWidth];
+    _buttonHeight.constant = 30.0;
+    _buttonWidth.constant = screenWidth/1.8;
     _phoneNumberLabel.text = _phoneNumber;
 }
 

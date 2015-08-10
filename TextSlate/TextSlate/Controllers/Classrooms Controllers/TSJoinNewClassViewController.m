@@ -8,6 +8,7 @@
 
 #import "TSJoinNewClassViewController.h"
 #import "Data.h"
+#import "TSUtils.h"
 #import <Parse/Parse.h>
 #import "TSClass.h"
 #import "TSTabBarViewController.h"
@@ -31,6 +32,10 @@
 @property (weak, nonatomic) IBOutlet UIButton *joinButton;
 - (IBAction)inviteTeacherTapped:(id)sender;
 @property (weak, nonatomic) IBOutlet UIButton *inviteTeacherButton;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *joinButtonHeight;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *joinButtonWidth;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *inviteTeacherHeight;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *inviteTeacherWidth;
 
 @property (strong, nonatomic) NSString *role;
 @end
@@ -42,12 +47,13 @@
     _classCodeTextField.delegate=self;
     self.navigationItem.title = @"Knit";
     self.navigationController.navigationBar.translucent = false;
-    [_joinButton.layer setShadowOffset:CGSizeMake(0.5, 0.5)];
-    [_joinButton.layer setShadowColor:[[UIColor blackColor] CGColor]];
-    [_joinButton.layer setShadowOpacity:0.5];
-    [_inviteTeacherButton.layer setShadowOffset:CGSizeMake(0.5, 0.5)];
-    [_inviteTeacherButton.layer setShadowColor:[[UIColor blackColor] CGColor]];
-    [_inviteTeacherButton.layer setShadowOpacity:0.5];
+    [TSUtils applyRoundedCorners:_joinButton];
+    [TSUtils applyRoundedCorners:_inviteTeacherButton];
+    float screenWidth = [TSUtils getScreenWidth];
+    _joinButtonHeight.constant = 30.0;
+    _inviteTeacherHeight.constant = 30.0;
+    _joinButtonWidth.constant = screenWidth/1.8;
+    _inviteTeacherWidth.constant = screenWidth/1.8;
     _role = [[PFUser currentUser] objectForKey:@"role"];
     if([_role isEqualToString:@"student"]) {
         _associatedPersonTextField.hidden = true;
