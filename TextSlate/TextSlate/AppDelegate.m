@@ -104,7 +104,7 @@
     else if(launchOptions[UIApplicationLaunchOptionsLocalNotificationKey]) {
         [self application:application didReceiveLocalNotification:launchOptions[UIApplicationLaunchOptionsLocalNotificationKey]];
     }
-    
+    NSLog(@"installation : %@", [PFInstallation currentInstallation]);
     return [[FBSDKApplicationDelegate sharedInstance] application:application didFinishLaunchingWithOptions:launchOptions];
 }
 
