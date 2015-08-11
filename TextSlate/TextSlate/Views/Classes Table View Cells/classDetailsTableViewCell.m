@@ -8,6 +8,7 @@
 
 #import "classDetailsTableViewCell.h"
 #import "RKDropdownAlert.h"
+#import "TSUtils.h"
 
 @implementation classDetailsTableViewCell
 
@@ -17,7 +18,7 @@
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
-
+    [TSUtils applyRoundedCorners:_codeButton];
     // Configure the view for the selected state
 }
 

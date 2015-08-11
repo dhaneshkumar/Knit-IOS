@@ -2123,10 +2123,10 @@ Login using your email ID.</string>
         <scene sceneID="QtS-PX-y0v">
             <objects>
                 <tableViewController storyboardIdentifier="joinedClassVC" id="XWu-uK-7mc" customClass="JoinedClassTableViewController" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="8bW-aV-SbP">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="8bW-aV-SbP">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="calibratedRGB"/>
                         <inset key="scrollIndicatorInsets" minX="0.0" minY="44" maxX="0.0" maxY="0.0"/>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="teacherProfile" rowHeight="60" id="uZu-al-FuO" customClass="teacherDetailsTableViewCell">
@@ -2354,6 +2354,7 @@ Login using your email ID.</string>
                                                 <constraint firstAttribute="width" constant="80" id="FcF-a9-9Ds"/>
                                                 <constraint firstAttribute="height" constant="30" id="Y18-AP-brD"/>
                                             </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <state key="normal" title="Button">
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
@@ -2477,7 +2478,7 @@ Login using your email ID.</string>
                                                 <constraint firstAttribute="height" constant="16" id="rHG-fK-OFA"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="textColor" red="0.16078431372549018" green="0.71372549019607845" blue="0.96470588235294119" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                             <variation key="default">
                                                 <mask key="constraints">
@@ -4904,7 +4905,9 @@ Login using your email ID.</string>
                             <constraint firstItem="IzB-Ph-si9" firstAttribute="top" secondItem="UR9-Ci-Cer" secondAttribute="bottom" constant="8" id="AbZ-ov-LpK"/>
                             <constraint firstItem="IzB-Ph-si9" firstAttribute="leading" secondItem="zwY-aa-vm1" secondAttribute="leadingMargin" constant="-8" id="B2G-MB-fCa"/>
                             <constraint firstItem="UR9-Ci-Cer" firstAttribute="leading" secondItem="zVT-6M-Iqq" secondAttribute="trailing" constant="3" id="CUC-Nk-xf8"/>
+                            <constraint firstItem="im2-pv-dGl" firstAttribute="top" secondItem="IzB-Ph-si9" secondAttribute="bottom" id="F3X-mU-Mlo"/>
                             <constraint firstItem="zVT-6M-Iqq" firstAttribute="leading" secondItem="zwY-aa-vm1" secondAttribute="leadingMargin" constant="-13" id="ORM-Zn-msU"/>
+                            <constraint firstItem="IzB-Ph-si9" firstAttribute="top" secondItem="UR9-Ci-Cer" secondAttribute="bottom" id="RHr-YI-2mj"/>
                             <constraint firstItem="zVT-6M-Iqq" firstAttribute="width" secondItem="UR9-Ci-Cer" secondAttribute="width" id="SdS-NM-CfM"/>
                             <constraint firstItem="zVT-6M-Iqq" firstAttribute="top" secondItem="EGl-ZJ-EhD" secondAttribute="bottom" constant="5" id="V0i-y6-OUQ"/>
                             <constraint firstItem="IzB-Ph-si9" firstAttribute="top" secondItem="zVT-6M-Iqq" secondAttribute="bottom" constant="8" id="X8n-gh-rbw"/>
@@ -4921,19 +4924,21 @@ Login using your email ID.</string>
                                 <exclude reference="UR9-Ci-Cer"/>
                             </mask>
                             <mask key="constraints">
-                                <exclude reference="rXT-So-Hnh"/>
+                                <exclude reference="ORM-Zn-msU"/>
+                                <exclude reference="SdS-NM-CfM"/>
+                                <exclude reference="V0i-y6-OUQ"/>
                                 <exclude reference="68T-PW-GO2"/>
                                 <exclude reference="AbZ-ov-LpK"/>
                                 <exclude reference="B2G-MB-fCa"/>
+                                <exclude reference="RHr-YI-2mj"/>
                                 <exclude reference="X8n-gh-rbw"/>
                                 <exclude reference="hyi-pa-eEV"/>
                                 <exclude reference="yv4-mt-IE8"/>
                                 <exclude reference="CUC-Nk-xf8"/>
                                 <exclude reference="ZDa-fh-mnY"/>
                                 <exclude reference="cgu-Oy-Wth"/>
-                                <exclude reference="ORM-Zn-msU"/>
-                                <exclude reference="SdS-NM-CfM"/>
-                                <exclude reference="V0i-y6-OUQ"/>
+                                <exclude reference="F3X-mU-Mlo"/>
+                                <exclude reference="rXT-So-Hnh"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
@@ -4943,19 +4948,21 @@ Login using your email ID.</string>
                                 <include reference="UR9-Ci-Cer"/>
                             </mask>
                             <mask key="constraints">
-                                <include reference="rXT-So-Hnh"/>
+                                <include reference="ORM-Zn-msU"/>
+                                <include reference="SdS-NM-CfM"/>
+                                <include reference="V0i-y6-OUQ"/>
                                 <include reference="68T-PW-GO2"/>
-                                <include reference="AbZ-ov-LpK"/>
+                                <exclude reference="AbZ-ov-LpK"/>
                                 <include reference="B2G-MB-fCa"/>
-                                <include reference="X8n-gh-rbw"/>
+                                <include reference="RHr-YI-2mj"/>
+                                <exclude reference="X8n-gh-rbw"/>
                                 <exclude reference="hyi-pa-eEV"/>
                                 <exclude reference="yv4-mt-IE8"/>
                                 <include reference="CUC-Nk-xf8"/>
                                 <include reference="ZDa-fh-mnY"/>
                                 <include reference="cgu-Oy-Wth"/>
-                                <include reference="ORM-Zn-msU"/>
-                                <include reference="SdS-NM-CfM"/>
-                                <include reference="V0i-y6-OUQ"/>
+                                <include reference="F3X-mU-Mlo"/>
+                                <exclude reference="rXT-So-Hnh"/>
                             </mask>
                         </variation>
                     </view>

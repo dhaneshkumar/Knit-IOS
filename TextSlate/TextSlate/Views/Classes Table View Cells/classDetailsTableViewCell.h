@@ -12,6 +12,6 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *classNameOutlet;
 @property (weak, nonatomic) IBOutlet UIButton *codeButton;
-
 - (IBAction)copyCodeTap:(id)sender;
+
 @end

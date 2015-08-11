@@ -86,19 +86,24 @@
 
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    float emptySpace = [TSUtils getScreenHeight] - 64.0 - 300.0 - 49.0;
+    float emptySpace = [TSUtils getScreenHeight] - 64.0 - 300.0 - 97.0;
     if(section == 0) {
         return 1.0;
     }
     else if(section == 1) {
-        return 24.0;
+        return 48.0;
     }
     else if(section == 2) {
-        return 24.0;
+        return 48.0;
     }
     else {
         return emptySpace;
     }
+}
+
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    return 1.0;
 }
 
 
