@@ -17,6 +17,7 @@
     UITapGestureRecognizer * photoTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(photoTapped:)];
     [_profilePic setUserInteractionEnabled:YES];
     [_profilePic addGestureRecognizer:photoTap];
+    [_profilePic setClipsToBounds:YES];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

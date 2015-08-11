@@ -15,6 +15,7 @@
 #import "ProfilePictureViewController.h"
 #import "sharedCache.h"
 #import "Data.h"
+#import "TSUtils.h"
 #import "MBProgressHUD.h"
 #import "RKDropdownAlert.h"
 #import "FeedbackViewController.h"
@@ -126,7 +127,7 @@
                 
                 if(image) {
                     [[sharedCache sharedInstance] cacheImage:image forKey:url1];
-                    cell.imageView.image=image;
+                    cell.profilePic.image = image;
                     dispatch_sync(dispatch_get_main_queue(), ^{
                         [_settingsTableView reloadData];
                     });
