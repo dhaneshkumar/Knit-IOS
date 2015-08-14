@@ -10,13 +10,13 @@
 
 @implementation teacherDetailsTableViewCell
 
-- (void)awakeFromNib {
+-(void)awakeFromNib {
     // Initialization code
+    [_teacherPicOutlet setClipsToBounds:YES];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
-
     // Configure the view for the selected state
 }
 
