@@ -68,13 +68,13 @@
     CGFloat navBarWidth = self.navigationController.navigationBar.frame.size.width;
     CGFloat width1 = [_className sizeWithAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:16.0f]}].width;
     CGFloat width2 = [_classCode sizeWithAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12.0f]}].width;
-    CGFloat width = navBarWidth - 176.0;
+    CGFloat width = navBarWidth - 132.0;
     UIView *titleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, width, navBarHeight)];
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake((width>width1)?(width-width1)/2.0:0.0, 6, (width>width1)?width1:width, 16)];
     label.backgroundColor = [UIColor clearColor];
     label.font = [UIFont boldSystemFontOfSize: 16.0f];
     label.textAlignment = NSTextAlignmentCenter;
-    label.textColor = [UIColor whiteColor];
+    label.textColor = [UIColor blackColor];
     label.text = _className;
     if(width>width1)
         [label sizeToFit];
@@ -84,7 +84,7 @@
     label.backgroundColor = [UIColor clearColor];
     label.font = [UIFont boldSystemFontOfSize: 12.0f];
     label.textAlignment = NSTextAlignmentCenter;
-    label.textColor = [UIColor whiteColor];
+    label.textColor = [UIColor blackColor];
     label.text = _classCode;
     [label sizeToFit];
     [titleView addSubview:label];

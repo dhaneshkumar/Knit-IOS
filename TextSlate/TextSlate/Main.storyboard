@@ -224,8 +224,8 @@
                         </variation>
                     </view>
                     <navigationItem key="navigationItem" id="vUV-Ak-8AC">
-                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="nZs-fd-DoA">
-                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <barButtonItem key="leftBarButtonItem" systemItem="stop" id="nZs-fd-DoA">
+                            <color key="tintColor" red="0.16078431372549018" green="0.71372549019607845" blue="0.96470588235294119" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
                                 <action selector="cancelClicked:" destination="aJn-Q1-P7l" id="iT6-FB-BaL"/>
                             </connections>
@@ -447,7 +447,7 @@
                     </toolbarItems>
                     <navigationItem key="navigationItem" id="Cm9-rZ-ua0">
                         <barButtonItem key="rightBarButtonItem" title="Send" id="cJ1-m6-P5b">
-                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <color key="tintColor" red="0.16078431372549018" green="0.71372549019607845" blue="0.96470588235294119" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
                                 <action selector="sendMessage:" destination="6Ue-Qt-LAf" id="KVs-bj-D3y"/>
                             </connections>
@@ -691,13 +691,13 @@
                     </view>
                     <navigationItem key="navigationItem" id="lAt-6c-E4h">
                         <barButtonItem key="leftBarButtonItem" systemItem="stop" id="chU-OU-1SI">
-                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <color key="tintColor" red="0.16078431372549018" green="0.71372549019607845" blue="0.96470588235294119" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
                                 <action selector="cancelButtonPressed:" destination="Dkq-ra-coQ" id="Sf9-SZ-d7Z"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="done" id="IWU-el-Y99">
-                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <color key="tintColor" red="0.16078431372549018" green="0.71372549019607845" blue="0.96470588235294119" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
                                 <action selector="doneButtonPressed:" destination="Dkq-ra-coQ" id="nW5-BL-Tpf"/>
                             </connections>
@@ -5048,14 +5048,14 @@ Login using your email ID.</string>
                         </variation>
                     </view>
                     <navigationItem key="navigationItem" id="4iF-S9-SUv">
-                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="s2W-1N-Ha4">
-                            <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <barButtonItem key="leftBarButtonItem" systemItem="stop" id="s2W-1N-Ha4">
+                            <color key="tintColor" red="0.16078431372549018" green="0.71372549019607845" blue="0.96470588235294119" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
                                 <action selector="cancelButton:" destination="mkc-TI-dDu" id="xNu-lM-JLy"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="done" id="gvN-PY-qUe">
-                            <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="tintColor" red="0.16078431372549018" green="0.71372549019607845" blue="0.96470588235294119" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
                                 <action selector="doneButton:" destination="mkc-TI-dDu" id="a88-1u-Fum"/>
                             </connections>
@@ -6355,8 +6355,8 @@ Login using your email ID.</string>
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="1dJ-W9-vHG">
-                        <barButtonItem key="rightBarButtonItem" systemItem="cancel" id="plt-lo-Da0">
-                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="stop" id="plt-lo-Da0">
+                            <color key="tintColor" red="0.16078431372549018" green="0.71372549019607845" blue="0.96470588235294119" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
                                 <action selector="cancelView:" destination="UZ8-Qk-udY" id="2fg-fR-UCt"/>
                             </connections>
@@ -7802,8 +7802,8 @@ Login using your email ID.</string>
                         </connections>
                     </view>
                     <navigationItem key="navigationItem" id="1xd-hs-eGy">
-                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="Xrc-lo-J3D">
-                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <barButtonItem key="leftBarButtonItem" systemItem="stop" id="Xrc-lo-J3D">
+                            <color key="tintColor" red="0.16078431372549018" green="0.71372549019607845" blue="0.96470588235294119" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
                                 <action selector="cancelPressed:" destination="QXl-Xe-G9D" id="FjU-jO-EVK"/>
                             </connections>
