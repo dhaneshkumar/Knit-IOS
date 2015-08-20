@@ -3,17 +3,17 @@
     {
       "idiom" : "universal",
       "scale" : "1x",
-      "filename" : "fb_login-85.png"
+      "filename" : "login_fb@1x.png"
     },
     {
       "idiom" : "universal",
       "scale" : "2x",
-      "filename" : "fb_login-86.png"
+      "filename" : "login_fb@2x.png"
     },
     {
       "idiom" : "universal",
       "scale" : "3x",
-      "filename" : "fb_login-87.png"
+      "filename" : "login_fb@3x.png"
     }
   ],
   "info" : {

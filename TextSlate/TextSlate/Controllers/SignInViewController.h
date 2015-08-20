@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
+#import <Google/SignIn.h>
 
-@interface SignInViewController : UIViewController <UITextFieldDelegate, CLLocationManagerDelegate, UIAlertViewDelegate>
+@interface SignInViewController : UIViewController <UITextFieldDelegate, CLLocationManagerDelegate, UIAlertViewDelegate, GIDSignInDelegate, GIDSignInUIDelegate>
 
 @property (nonatomic) BOOL areCoordinatesUpdated;
 @property (nonatomic) double latitude;

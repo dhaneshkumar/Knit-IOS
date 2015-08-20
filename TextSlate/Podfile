@@ -7,6 +7,7 @@ target 'Knit' do
     pod 'UIFloatLabelTextField'
 	pod 'YLGIFImage'
     pod 'PulsingHalo'
+    pod 'Google/SignIn'
 end
 
 

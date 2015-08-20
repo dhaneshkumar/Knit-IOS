@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
+#import <Google/SignIn.h>
 
-@interface TSSignUpViewController : UIViewController<UITextFieldDelegate, CLLocationManagerDelegate>
+@interface TSSignUpViewController : UIViewController<UITextFieldDelegate, CLLocationManagerDelegate, GIDSignInDelegate, GIDSignInUIDelegate>
 
 @property (strong,nonatomic) NSString *role;
 @property (nonatomic) BOOL areCoordinatesUpdated;

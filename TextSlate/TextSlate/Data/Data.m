@@ -357,7 +357,7 @@
     }
 }
 
-+(void) verifyOTPSignUp:(NSString *)phoneNum code:(NSInteger)code name:(NSString *)name role:(NSString *)role installationId:(NSString *)installationId deviceType:(NSString *)deviceType areCoordinatesUpdated:(BOOL)areCoordinatesUpdated latitude:(double)latitude longitude:(double)longitude os:(NSString *)os model:(NSString *)model successBlock:(successBlock) successBlock errorBlock:(errorBlock) errorBlock hud:(MBProgressHUD *)hud {
++(void)verifyOTPSignUp:(NSString *)phoneNum code:(NSInteger)code name:(NSString *)name role:(NSString *)role installationId:(NSString *)installationId deviceType:(NSString *)deviceType areCoordinatesUpdated:(BOOL)areCoordinatesUpdated latitude:(double)latitude longitude:(double)longitude os:(NSString *)os model:(NSString *)model successBlock:(successBlock) successBlock errorBlock:(errorBlock) errorBlock hud:(MBProgressHUD *)hud {
     NSNumber *codeNum = [NSNumber numberWithInteger:code];
     if(areCoordinatesUpdated) {
         [PFCloud callFunctionInBackground:@"appEnter" withParameters:@{@"number":phoneNum ,@"code":codeNum, @"name":name, @"role":role, @"installationId":installationId, @"deviceType":deviceType, @"lat":[NSNumber numberWithDouble:latitude], @"long":[NSNumber numberWithDouble:longitude], @"os":os, @"model":model} block:^(id object, NSError *error) {
@@ -435,6 +435,67 @@
     }
     else {
         [PFCloud callFunctionInBackground:@"appEnter" withParameters:@{@"accessToken":accessToken, @"installationId":installationId, @"deviceType":deviceType, @"os":os, @"model":model} block:^(id object, NSError *error) {
+            if (error) {
+                if(error.code == kPFErrorInvalidSessionToken) {
+                    [self handleInvalidSession:hud];
+                    return;
+                }
+                errorBlock(error);
+            } else {
+                successBlock(object);
+            }
+        }];
+    }
+}
+
+
++(void)googleSignUp:(NSString *)accessToken idToken:(NSString *)idToken name:(NSString *)name role:(NSString *)role installationId:(NSString *)installationId deviceType:(NSString *)deviceType areCoordinatesUpdated:(BOOL)areCoordinatesUpdated latitude:(double)latitude longitude:(double)longitude os:(NSString *)os model:(NSString *)model successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock hud:(MBProgressHUD *)hud {
+    if(areCoordinatesUpdated) {
+        [PFCloud callFunctionInBackground:@"appEnter" withParameters:@{@"accessToken":accessToken, @"idToken":idToken, @"name":name, @"role":role, @"installationId":installationId, @"deviceType":deviceType, @"lat":[NSNumber numberWithDouble:latitude], @"long":[NSNumber numberWithDouble:longitude], @"os":os, @"model":model} block:^(id object, NSError *error) {
+            if (error) {
+                if(error.code == kPFErrorInvalidSessionToken) {
+                    [self handleInvalidSession:hud];
+                    return;
+                }
+                errorBlock(error);
+            } else {
+                successBlock(object);
+            }
+        }];
+    }
+    else {
+        [PFCloud callFunctionInBackground:@"appEnter" withParameters:@{@"accessToken":accessToken, @"idToken":idToken, @"name":name, @"role":role, @"installationId":installationId, @"deviceType":deviceType, @"os":os, @"model":model} block:^(id object, NSError *error) {
+            if (error) {
+                if(error.code == kPFErrorInvalidSessionToken) {
+                    [self handleInvalidSession:hud];
+                    return;
+                }
+                errorBlock(error);
+            } else {
+                successBlock(object);
+            }
+        }];
+    }
+}
+
+
++(void)googleSignIn:(NSString *)accessToken idToken:(NSString *)idToken installationId:(NSString *)installationId deviceType:(NSString *)deviceType areCoordinatesUpdated:(BOOL)areCoordinatesUpdated latitude:(double)latitude longitude:(double)longitude os:(NSString *)os model:(NSString *)model successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock hud:(MBProgressHUD *)hud {
+    
+    if(areCoordinatesUpdated) {
+        [PFCloud callFunctionInBackground:@"appEnter" withParameters:@{@"accessToken":accessToken, @"idToken":idToken, @"installationId":installationId, @"deviceType":deviceType, @"lat":[NSNumber numberWithDouble:latitude], @"long":[NSNumber numberWithDouble:longitude], @"os":os, @"model":model} block:^(id object, NSError *error) {
+            if (error) {
+                if(error.code == kPFErrorInvalidSessionToken) {
+                    [self handleInvalidSession:hud];
+                    return;
+                }
+                errorBlock(error);
+            } else {
+                successBlock(object);
+            }
+        }];
+    }
+    else {
+        [PFCloud callFunctionInBackground:@"appEnter" withParameters:@{@"accessToken":accessToken, @"idToken":idToken, @"installationId":installationId, @"deviceType":deviceType, @"os":os, @"model":model} block:^(id object, NSError *error) {
             if (error) {
                 if(error.code == kPFErrorInvalidSessionToken) {
                     [self handleInvalidSession:hud];

@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "RKDropdownAlert.h"
+#import <Google/SignIn.h>
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate,UIAlertViewDelegate, RKDropdownAlertDelegate>
 

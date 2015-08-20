@@ -55,7 +55,7 @@
 
 -(BOOL)FBUser {
     PFUser *currentUser = [PFUser currentUser];
-    BOOL rv = (currentUser[@"isFB"])?true:false;
+    BOOL rv = (currentUser[@"isFB"] || currentUser[@"isGoogle"])?true:false;
     return rv;
 }
 
@@ -143,9 +143,11 @@
         if(indexPath.row == 0 && !_isFBUser) {
             cell.textLabel.text = [[PFUser currentUser] objectForKey:@"username"];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            
         }
         else {
             cell.textLabel.text = @"Log Out";
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         }
         return cell;
     }
@@ -160,6 +162,7 @@
         else {
             cell.textLabel.text = @"Rate our app";
         }
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         return cell;
     }
 }

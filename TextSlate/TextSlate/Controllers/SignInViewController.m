@@ -23,8 +23,11 @@
 @interface SignInViewController ()
 
 @property (weak, nonatomic) IBOutlet UIImageView *fbLoginImg;
+@property (weak, nonatomic) IBOutlet UIImageView *googleLoginImg;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *fbLoginImgHeight;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *fbLoginImgWidth;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *googleLoginImgHeight;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *googleLoginImgWidth;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *verticalSpace0;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *verticalSpace1;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *verticalSpace2;
@@ -32,6 +35,7 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *verticalSpace4;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *verticalSpace5;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *lineWidth;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *verticalSpace6;
 
 @property (weak, nonatomic) IBOutlet UILabel *label1;
 @property (weak, nonatomic) IBOutlet UILabel *label2;
@@ -85,22 +89,35 @@
     [keyboardDoneButtonView sizeToFit];
     [keyboardDoneButtonView setItems:[NSArray arrayWithObjects:flexBarButton, doneButton, nil]];
     _mobilTextField.inputAccessoryView = keyboardDoneButtonView;
-    _fbLoginImgHeight.constant = [TSUtils getScreenWidth]*0.2;
-    _fbLoginImgWidth.constant = [TSUtils getScreenWidth]*0.8;
-    _verticalSpace0.constant = 10.0;
-    _verticalSpace1.constant = 24.0;
+    _fbLoginImgHeight.constant = 45.0;
+    _fbLoginImgWidth.constant = 280.0;
+    _googleLoginImgHeight.constant = 45.0;
+    _googleLoginImgWidth.constant = 280.0;
+    _verticalSpace0.constant = 8.0;
+    _verticalSpace1.constant = 8.0;
     _verticalSpace2.constant = 24.0;
-    _verticalSpace3.constant = 4.0;
-    _verticalSpace4.constant = 50.0;
-    _verticalSpace5.constant = 22.0;
-    _lineWidth.constant = ([TSUtils getScreenWidth]-50.0)/2;
+    _verticalSpace3.constant = 24.0;
+    _verticalSpace4.constant = 4.0;
+    _verticalSpace5.constant = 50.0;
+    _verticalSpace6.constant = 22.0;
+    float screenWidth = [TSUtils getScreenWidth];
+    _lineWidth.constant = (screenWidth-50.0)/2;
     _label1.textColor = [UIColor blackColor];
-    _contentViewWidth.constant = [TSUtils getScreenWidth];
+    _contentViewWidth.constant = screenWidth;
     //_contentViewHeight.constant = 20+34+24+30+4+14+50+48+22+30+5+30+12+40+216-64-40;
+    
     UITapGestureRecognizer *fbLoginTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(fbLoginTapped:)];
     _fbLoginImg.userInteractionEnabled = true;
     [_fbLoginImg addGestureRecognizer:fbLoginTap];
+    
+    UITapGestureRecognizer *googleLoginTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(googleLoginTapped:)];
+    _googleLoginImg.userInteractionEnabled = YES;
+    [_googleLoginImg addGestureRecognizer:googleLoginTap];
     [self state1View];
+    NSError* configureError;
+    [[GGLContext sharedInstance] configureWithError: &configureError];
+    [GIDSignIn sharedInstance].delegate = self;
+    [GIDSignIn sharedInstance].uiDelegate = self;
 }
 
 -(void)viewDidAppear:(BOOL)animated {
@@ -116,6 +133,67 @@
 
 - (IBAction)doneClicked:(id)sender {
     [self newSignIn];
+}
+
+
+-(IBAction)googleLoginTapped:(id)sender {
+    [[GIDSignIn sharedInstance] signOut];
+    [[GIDSignIn sharedInstance] signIn];
+}
+
+
+-(void)signIn:(GIDSignIn *)signIn didSignInForUser:(GIDGoogleUser *)user withError:(NSError *)error {
+    NSString *accessToken = user.authentication.accessToken;
+    NSString *idToken = user.authentication.idToken;
+    PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+    NSString *installationId = currentInstallation[@"installationId"];
+    NSString *devicetype = currentInstallation[@"deviceType"];
+    
+    float version = [[[UIDevice currentDevice] systemVersion] floatValue];
+    NSString *osVersion = [[NSNumber numberWithFloat:version] stringValue];
+    
+    struct utsname systemInfo;
+    uname(&systemInfo);
+    NSString *model = [NSString stringWithCString:systemInfo.machine encoding:NSUTF8StringEncoding];
+    
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[[UIApplication sharedApplication] keyWindow]  animated:YES];
+    hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
+    hud.labelText = @"Loading";
+    
+    [Data googleSignIn:accessToken idToken:idToken installationId:installationId deviceType:devicetype areCoordinatesUpdated:_areCoordinatesUpdated latitude:_latitude longitude:_longitude os:[NSString stringWithFormat:@"iOS %@", osVersion] model:model successBlock:^(id object) {
+        
+        NSDictionary *tokenDict = object;
+        NSString *token = [tokenDict objectForKey:@"sessionToken"];
+        if(token.length>0) {
+            [PFUser becomeInBackground:token block:^(PFUser *user, NSError *error) {
+                if (error) {
+                    [hud hide:YES];
+                    [RKDropdownAlert title:@"Knit" message:@"Error in signing in. Try again."  time:2];
+                    return;
+                } else {
+                    PFUser *currentUser = [PFUser currentUser];
+                    currentUser[@"isGoogle"] = @"YES";
+                    [currentUser pin];
+                    [Data getAllCodegroups:^(id object) {
+                        NSArray *cgs = (NSArray *)object;
+                        for(PFObject *cg in cgs) {
+                            [cg pinInBackground];
+                        }
+                        [self secondHalfLoginProcess:hud];
+                    } errorBlock:^(NSError *error) {
+                        [self secondHalfLoginProcess:hud];
+                    } hud:hud];
+                }
+            }];
+        }
+        else {
+            [hud hide:YES];
+            [RKDropdownAlert title:@"Knit" message:@"Error in signing in. Try again."  time:2];
+            return;
+        }
+    } errorBlock:^(NSError *error) {
+        
+    } hud:hud];
 }
 
 
@@ -227,7 +305,6 @@
         [self createLocalDatastore:nil];
         [rootTab initialization];
     }
-    
     [hud hide:YES];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
@@ -298,7 +375,7 @@
         [self state2View];
         [UIView animateWithDuration:0.5 animations:^{
             [self.view layoutIfNeeded];
-            [_scrollView setContentOffset:CGPointMake(0, 170.0)];
+            [_scrollView setContentOffset:CGPointMake(0, 215.0)];
             [_emailTextField becomeFirstResponder];
         }];
     }
@@ -312,7 +389,7 @@
             [self state1View];
             [UIView animateWithDuration:0.5 animations:^{
                 [self.view layoutIfNeeded];
-                [_scrollView setContentOffset:CGPointMake(0, 80.0)];
+                [_scrollView setContentOffset:CGPointMake(0, 110.0)];
             }];
         //}
     }
