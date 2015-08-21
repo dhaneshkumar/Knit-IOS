@@ -23,11 +23,9 @@
 #import "ClassesViewController.h"
 #import "ClassesParentViewController.h"
 #import "TSOutboxViewController.h"
+#import "TSUtils.h"
 
 @interface TSSendClassMessageViewController ()
-
-@property (weak, nonatomic) IBOutlet UIView *inviteParents;
-@property (weak, nonatomic) IBOutlet UIView *subscribersList;
 
 @property (strong,nonatomic) NSString *className;
 @property (strong,nonatomic) NSString *classCode;
@@ -35,6 +33,7 @@
 @property (strong, nonatomic) NSDate * timeDiff;
 @property (strong, nonatomic) MBProgressHUD *hud;
 @property (strong, nonatomic) CustomUIActionSheetViewController *customUIActionSheetViewController;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *topViewHeight;
 
 @end
 
@@ -48,7 +47,7 @@
     _mapCodeToObjects = [[NSMutableDictionary alloc] init];
     TSMemberslistTableViewController *memberListController = [self.storyboard instantiateViewControllerWithIdentifier:@"memberListVC"];
     _memListVC = memberListController;
-    _memberCountString = [NSString stringWithFormat:@"%d", 0];
+    _memberCount = 0;
     [_memListVC initialization:_classCode className:_className sendClassVC:self];
     _shouldScrollUp = false;
 }
@@ -58,10 +57,12 @@
     self.messageTable.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     self.messageTable.dataSource = self;
     self.messageTable.delegate = self;
-    UITapGestureRecognizer *inviteParentsTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(inviteParentsTap:)];
-    [self.inviteParents addGestureRecognizer:inviteParentsTap];
-    UITapGestureRecognizer *subscribersTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(subscribersTap:)];
-    [self.subscribersList addGestureRecognizer:subscribersTap];
+    [TSUtils applyRoundedCorners:_membersButton];
+    float screenWidth = [TSUtils getScreenWidth];
+    _membersButtonHeight.constant = 30.0;
+    _membersButtonWidth.constant = screenWidth/1.8;
+    _topViewHeight.constant = 50.0;
+
     UIBarButtonItem *bb = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"back"] style:UIBarButtonItemStylePlain target:self action:@selector(backButtonTapped:)];
     [self.navigationItem setLeftBarButtonItem:bb];
     CGFloat navBarHeight = self.navigationController.navigationBar.frame.size.height;
@@ -76,8 +77,9 @@
     label.textAlignment = NSTextAlignmentCenter;
     label.textColor = [UIColor blackColor];
     label.text = _className;
-    if(width>width1)
+    if(width>width1) {
         [label sizeToFit];
+    }
     [titleView addSubview:label];
     
     label = [[UILabel alloc] initWithFrame:CGRectMake((width-width2)/2.0, 26, width2, 12)];
@@ -100,7 +102,7 @@
     UIBarButtonItem *composeBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose  target:self action:@selector(composeMessage)];
     UIBarButtonItem *moreOptionsContactButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"moreOptions"] style:UIBarButtonItemStyleBordered target:self action:@selector(moreOptionsButtonPressed:)];
     [self.navigationItem setRightBarButtonItems:@[composeBarButtonItem, moreOptionsContactButtonItem]];
-    _memberCount.text = _memberCountString;
+    [_membersButton setTitle:[NSString stringWithFormat:@"Show members : %d", _memberCount] forState:UIControlStateNormal];
     [_messageTable reloadData];
 }
 
@@ -122,12 +124,40 @@
 }
 
 -(void)moreOptionsButtonPressed:(id)sender {
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Choose Option"
+                                                             delegate:self
+                                                    cancelButtonTitle:@"Cancel"
+                                               destructiveButtonTitle:nil
+                                                    otherButtonTitles:@"Invite parents", @"Delete class", @"Copy class code", nil];
+    [actionSheet showInView:self.view];
+    /*
     self.customUIActionSheetViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"customAlertSheetVC"];
     self.customUIActionSheetViewController.classCode = _classCode;
     self.customUIActionSheetViewController.sendClassVC = self;
     [self.navigationController.view
      addSubview:self.customUIActionSheetViewController.view];
-    [self.customUIActionSheetViewController viewWillAppear:NO];
+    [self.customUIActionSheetViewController viewWillAppear:NO];*/
+}
+
+-(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if(buttonIndex==0) {
+        UINavigationController *inviteParentNav = [self.storyboard instantiateViewControllerWithIdentifier:@"inviteParentNavVC"];
+        TSNewInviteParentViewController *inviteParent = (TSNewInviteParentViewController *)inviteParentNav.topViewController;
+        inviteParent.classCode = _classCode;
+        inviteParent.className = _className;
+        inviteParent.teacherName = @"";
+        inviteParent.fromInApp = true;
+        inviteParent.type = 2;
+        [self presentViewController:inviteParentNav animated:YES completion:nil];
+    }
+    else if(buttonIndex==1) {
+        [self deleteClass];
+    }
+    else if(buttonIndex==2) {
+        UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
+        pasteboard.string = _classCode;
+        [RKDropdownAlert title:@"Knit" message:@"Code successfully copied :)"  time:2];
+    }
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -520,13 +550,12 @@
     [self presentViewController:inviteParentNav animated:YES completion:nil];
 }
 
-
-- (void)subscribersTap:(UITapGestureRecognizer *)recognizer {
+- (IBAction)viewMembers:(id)sender {
     [self.navigationController pushViewController:_memListVC animated:YES];
 }
 
 
--(void) deleteClass {
+-(void)deleteClass {
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[[UIApplication sharedApplication] keyWindow]  animated:YES];
     hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
     hud.labelText = @"Loading";

@@ -204,7 +204,7 @@
                 for(NSArray *cls in createdClasses) {
                     TSSendClassMessageViewController *sendClassVC = createdClassesVCs[cls[0]];
                     [sendClassVC.memListVC updateMemberList:memberArrays[cls[0]]];
-                    sendClassVC.memberCountString = [NSString stringWithFormat:@"%d", sendClassVC.memListVC.memberList.count];
+                    sendClassVC.memberCount = sendClassVC.memListVC.memberList.count;
                 }
             }
             else {
@@ -264,7 +264,7 @@
     
     for(NSString *classCode in createdClassCodes) {
         TSSendClassMessageViewController *sendClassVC = createdClassesVCs[classCode];
-        sendClassVC.memberCountString = [NSString stringWithFormat:@"%d", sendClassVC.memListVC.memberList.count];
+        sendClassVC.memberCount = sendClassVC.memListVC.memberList.count;
     }
     
     

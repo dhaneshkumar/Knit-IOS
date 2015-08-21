@@ -64,7 +64,7 @@
     _areCoordinatesUpdated = false;
     _latitude = 0.0;
     _longitude = 0.0;
-    _verticalSpace1.constant = 8.0;
+    _verticalSpace1.constant = 24.0;
     _verticalSpace2.constant = 8.0;
     _verticalSpace3.constant = 24.0;
     _verticalSpace4.constant = 24.0;
@@ -179,7 +179,7 @@
 -(BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
     [UIView animateWithDuration:0.5 animations:^{
         [self.view layoutIfNeeded];
-        [_scrollView setContentOffset:CGPointMake(0, 110.0)];
+        [_scrollView setContentOffset:CGPointMake(0, 125.0)];
     }];
     return YES;
 }

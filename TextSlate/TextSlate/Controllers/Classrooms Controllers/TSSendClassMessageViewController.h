@@ -12,10 +12,9 @@
 #import "JTSImageViewController.h"
 #import "TSMemberslistTableViewController.h"
 
-@interface TSSendClassMessageViewController : UIViewController <UITableViewDataSource,UITableViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
+@interface TSSendClassMessageViewController : UIViewController <UITableViewDataSource,UITableViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate, UIActionSheetDelegate>
 
 @property(weak,nonatomic) IBOutlet UITableView *messageTable;
-@property (weak, nonatomic) IBOutlet UILabel *memberCount;
 
 @property (strong, nonatomic) NSMutableArray *messagesArray;
 @property (nonatomic, strong) NSMutableDictionary *mapCodeToObjects;
@@ -23,7 +22,10 @@
 @property (strong, nonatomic) TSMemberslistTableViewController *memListVC;
 @property (nonatomic) BOOL shouldScrollUp;
 @property (nonatomic) BOOL isBottomRefreshCalled;
-@property (nonatomic, strong) NSString* memberCountString;
+@property (nonatomic) int memberCount;
+@property (weak, nonatomic) IBOutlet UIButton *membersButton;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *membersButtonHeight;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *membersButtonWidth;
 
 -(void)initialization:(NSString *)classCode className:(NSString *)className;
 -(void)attachedImageTapped:(JTSImageInfo *)imageInfo;

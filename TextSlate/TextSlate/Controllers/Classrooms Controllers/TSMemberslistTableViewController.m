@@ -200,8 +200,7 @@
                 }
                 [_memberList removeObjectAtIndex:row];
                 [hud hide:YES];
-                int memCount = [_sendClassVC.memberCountString intValue];
-                _sendClassVC.memberCountString = [NSString stringWithFormat:@"%d", memCount-1];
+                _sendClassVC.memberCount = _sendClassVC.memberCount-1;
                 [self.tableView deleteRowsAtIndexPaths:@[_indexPath] withRowAnimation:UITableViewRowAnimationFade];
             }errorBlock:^(NSError *error){
                 [hud hide:YES];
@@ -221,8 +220,7 @@
                 }
                 [_memberList removeObjectAtIndex:row];
                 [hud hide:YES];
-                int memCount = [_sendClassVC.memberCountString intValue];
-                _sendClassVC.memberCountString = [NSString stringWithFormat:@"%d", memCount-1];
+                _sendClassVC.memberCount = _sendClassVC.memberCount-1;
                 [self.tableView deleteRowsAtIndexPaths:@[_indexPath] withRowAnimation:UITableViewRowAnimationFade];
             }errorBlock:^(NSError *error){
                 UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error occured while removing member." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];

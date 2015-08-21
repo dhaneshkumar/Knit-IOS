@@ -93,7 +93,7 @@
     _fbLoginImgWidth.constant = 280.0;
     _googleLoginImgHeight.constant = 45.0;
     _googleLoginImgWidth.constant = 280.0;
-    _verticalSpace0.constant = 8.0;
+    _verticalSpace0.constant = 24.0;
     _verticalSpace1.constant = 8.0;
     _verticalSpace2.constant = 24.0;
     _verticalSpace3.constant = 24.0;
@@ -381,7 +381,7 @@
         [self state2View];
         [UIView animateWithDuration:0.5 animations:^{
             [self.view layoutIfNeeded];
-            [_scrollView setContentOffset:CGPointMake(0, 215.0)];
+            [_scrollView setContentOffset:CGPointMake(0, 230.0)];
             [_emailTextField becomeFirstResponder];
         }];
     }
@@ -395,7 +395,7 @@
             [self state1View];
             [UIView animateWithDuration:0.5 animations:^{
                 [self.view layoutIfNeeded];
-                [_scrollView setContentOffset:CGPointMake(0, 110.0)];
+                [_scrollView setContentOffset:CGPointMake(0, 125.0)];
             }];
         //}
     }
