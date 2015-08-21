@@ -125,6 +125,12 @@
     [self getCurrentLocation];
 }
 
+-(void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self.navigationController.navigationBar setShadowImage:nil];
+    [self.navigationController.navigationBar setBackgroundImage:nil forBarMetrics:UIBarMetricsDefault];
+    [self.navigationController.navigationBar setBarTintColor:[UIColor whiteColor]];
+}
 
 -(IBAction)backButtonTapped:(id)sender {
     [self.navigationController popViewControllerAnimated:YES];

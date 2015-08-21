@@ -75,8 +75,6 @@
     UITapGestureRecognizer *parentTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(parentTap:)];
     [_parentCell addGestureRecognizer:parentTap];
     self.navigationController.navigationBar.translucent = false;
-    [self.navigationController.navigationBar setShadowImage:[[UIImage alloc] init]];
-    [self.navigationController.navigationBar setBackgroundImage:[[UIImage alloc]init] forBarMetrics:UIBarMetricsDefault];
     CALayer *border = [CALayer layer];
     border.frame = CGRectMake(0.0f, 0.0f, _loginCell.frame.size.width, 1.0f);
     border.backgroundColor = [UIColor colorWithRed:255.0f/255.0f green:255.0f/255.0f blue:255.0f/255.0f alpha:0.5f].CGColor;
@@ -101,6 +99,13 @@
     border.frame = CGRectMake(0.0f, x-1.0f, _studentCell.frame.size.width, 1.0f);
     border.backgroundColor = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:0.5f].CGColor;
     [_studentCell.layer addSublayer:border];
+}
+
+-(void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self.navigationController.navigationBar setShadowImage:[[UIImage alloc] init]];
+    [self.navigationController.navigationBar setBackgroundImage:[[UIImage alloc]init] forBarMetrics:UIBarMetricsDefault];
+    [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:41.0/255.0 green:182.0/255.0 blue:246.0/255.0 alpha:1.0]];
 }
 
 

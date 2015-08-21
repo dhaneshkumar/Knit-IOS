@@ -98,10 +98,8 @@
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     UIBarButtonItem *composeBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose  target:self action:@selector(composeMessage)];
-    UIButton *moreInfoContactButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
-    [moreInfoContactButton addTarget:self action:@selector(moreInfoButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem *moreInfoContactButtonItem = [[UIBarButtonItem alloc] initWithCustomView:moreInfoContactButton];
-    [self.navigationItem setRightBarButtonItems:@[composeBarButtonItem, moreInfoContactButtonItem]];
+    UIBarButtonItem *moreOptionsContactButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"moreOptions"] style:UIBarButtonItemStyleBordered target:self action:@selector(moreOptionsButtonPressed:)];
+    [self.navigationItem setRightBarButtonItems:@[composeBarButtonItem, moreOptionsContactButtonItem]];
     _memberCount.text = _memberCountString;
     [_messageTable reloadData];
 }
@@ -123,7 +121,7 @@
     self.navigationItem.rightBarButtonItem = nil;
 }
 
--(void)moreInfoButtonPressed:(id)sender {
+-(void)moreOptionsButtonPressed:(id)sender {
     self.customUIActionSheetViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"customAlertSheetVC"];
     self.customUIActionSheetViewController.classCode = _classCode;
     self.customUIActionSheetViewController.sendClassVC = self;
