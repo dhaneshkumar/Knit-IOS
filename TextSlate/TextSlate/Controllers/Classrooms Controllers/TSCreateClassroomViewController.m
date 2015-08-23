@@ -34,7 +34,7 @@
     [super viewDidLoad];
     _isFirstClass=0;
     self.classNameTextField.delegate = self;
-    self.navigationItem.title = @"Knit";
+    self.navigationItem.title = @"Create New Class";
     // Do any additional setup after loading the view.
     [TSUtils applyRoundedCorners:_createButton];
     float screenWidth = [TSUtils getScreenWidth];

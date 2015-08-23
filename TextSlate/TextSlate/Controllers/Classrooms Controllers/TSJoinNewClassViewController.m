@@ -45,7 +45,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     _classCodeTextField.delegate=self;
-    self.navigationItem.title = @"Knit";
+    self.navigationItem.title = @"Join New Class";
     self.navigationController.navigationBar.translucent = false;
     [TSUtils applyRoundedCorners:_joinButton];
     [TSUtils applyRoundedCorners:_inviteTeacherButton];

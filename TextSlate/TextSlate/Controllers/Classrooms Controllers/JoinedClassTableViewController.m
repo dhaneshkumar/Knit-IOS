@@ -53,14 +53,14 @@
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 4;
+    return 3;
 }
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if(section==2)
-        return 2;
-    return 1;
+    if(section==0)
+        return 1;
+    return 2;
 }
 
 
@@ -71,34 +71,19 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     if(section==0) {
-        return @"";
-    }
-    else if(section==1) {
         return @"Teacher Profile";
     }
-    else if(section==2) {
+    else if(section==1) {
         return @"Class Details";
     }
     else {
-        return @"";
+        return @"More Options";
     }
 }
 
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    float emptySpace = [TSUtils getScreenHeight] - 64.0 - 300.0 - 97.0;
-    if(section == 0) {
-        return 1.0;
-    }
-    else if(section == 1) {
-        return 48.0;
-    }
-    else if(section == 2) {
-        return 48.0;
-    }
-    else {
-        return emptySpace;
-    }
+    return 48.0;
 }
 
 
@@ -108,7 +93,7 @@
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if(indexPath.section==1) {
+    if(indexPath.section==0) {
         teacherDetailsTableViewCell * cell = (teacherDetailsTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"teacherProfile"];
         cell.teacherNameOutlet.text = _teacherName;
         if(_teacherPic)
@@ -133,7 +118,7 @@
         cell.userInteractionEnabled = NO;
         return cell;
     }
-    else if(indexPath.section==2) {
+    else if(indexPath.section==1) {
         if(indexPath.row==0) {
             classDetailsTableViewCell *cell = (classDetailsTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"className"];
             cell.classNameOutlet.text = _className;
@@ -151,31 +136,24 @@
             return cell;
         }
     }
-    else if(indexPath.section==0){
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"shareViaWhatsApp"];
-        return cell;
-    }
     else {
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"unsubscribe"];
-        return cell;
+        if(indexPath.row==0) {
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"shareViaWhatsApp"];
+            return cell;
+        }
+        else {
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"leaveClass"];
+            return cell;
+        }
     }
 }
 
+
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if(indexPath.section==0) {
-        UINavigationController *inviteParentNav = [self.storyboard instantiateViewControllerWithIdentifier:@"inviteParentNavVC"];
-        TSNewInviteParentViewController *inviteParent = (TSNewInviteParentViewController *)inviteParentNav.topViewController;
-        inviteParent.classCode = _classCode;
-        inviteParent.className = _className;
-        inviteParent.teacherName = _teacherName;
-        inviteParent.fromInApp = true;
-        inviteParent.type = 3;
-        [self presentViewController:inviteParentNav animated:YES completion:nil];
+        //
     }
     else if(indexPath.section==1) {
-        
-    }
-    else if(indexPath.section==2) {
         if(indexPath.row==1) {
             UINavigationController *editStudentNameNavigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"editStudentNameNav"];
             EditStudentNameViewController *editStudentName = (EditStudentNameViewController *)editStudentNameNavigationController.topViewController;
@@ -185,8 +163,20 @@
             [self presentViewController:editStudentNameNavigationController animated:YES completion:nil];
         }
     }
-    else {
-        [self showAreYouSureAlertView];
+    else if(indexPath.section==2) {
+        if(indexPath.row==0) {
+            UINavigationController *inviteParentNav = [self.storyboard instantiateViewControllerWithIdentifier:@"inviteParentNavVC"];
+            TSNewInviteParentViewController *inviteParent = (TSNewInviteParentViewController *)inviteParentNav.topViewController;
+            inviteParent.classCode = _classCode;
+            inviteParent.className = _className;
+            inviteParent.teacherName = _teacherName;
+            inviteParent.fromInApp = true;
+            inviteParent.type = 3;
+            [self presentViewController:inviteParentNav animated:YES completion:nil];
+        }
+        else {
+            [self showAreYouSureAlertView];
+        }
     }
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
     return;
