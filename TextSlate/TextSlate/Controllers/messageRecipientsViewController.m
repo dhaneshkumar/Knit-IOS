@@ -23,7 +23,7 @@
     _view1Height.constant = 50.0;
     UIBarButtonItem *doneBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(closeWindow)];
     self.navigationItem.rightBarButtonItem = doneBarButtonItem;
-    self.navigationItem.title = @"Select classes";
+    self.navigationItem.title = @"Classes";
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     self.tableView.dataSource = self;
     self.tableView.delegate = self;

@@ -72,11 +72,7 @@ typedef void (^errorBlock)(NSError *error);
 
 +(void)googleSignIn:(NSString *)accessToken idToken:(NSString *)idToken installationId:(NSString *)installationId deviceType:(NSString *)deviceType areCoordinatesUpdated:(BOOL)areCoordinatesUpdated latitude:(double)latitude longitude:(double)longitude os:(NSString *)os model:(NSString *)model successBlock:(successBlock) successBlock errorBlock:(errorBlock) errorBlock hud:(MBProgressHUD *)hud;
 
-+(void)saveInstallationId:(NSString *)installationId deviceType:(NSString *)deviceType successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock hud:(MBProgressHUD *)hud;
-
 +(void)appExit:(NSString *)installationId successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock hud:(MBProgressHUD *)hud;
-
-+(void)inviteTeacher:(NSString *)senderId schoolName:(NSString *)schoolName teacherName:(NSString*) teacherName childName:(NSString *)childName email:(NSString *)email phoneNum:(NSString *)phoneNum successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock hud:(MBProgressHUD *)hud;
 
 +(void)feedback:(NSString *)userInput successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock hud:(MBProgressHUD *)hud;
 

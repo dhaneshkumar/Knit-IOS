@@ -591,23 +591,6 @@
 }
 
 
-+(void) saveInstallationId:(NSString *)installationId deviceType:(NSString *)deviceType successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock hud:(MBProgressHUD *)hud {
-    [PFCloud callFunctionInBackground:@"appInstallation" withParameters:@{@"installationId":installationId, @"deviceType":deviceType }block:^(id object, NSError *error) {
-        if(error) {
-            if(error.code == kPFErrorInvalidSessionToken) {
-                [self handleInvalidSession:hud];
-                return;
-            }
-            errorBlock(error);
-        }
-        else{
-            successBlock(object);
-        }
-    }];
-}
-
-
-
 +(void) appExit:(NSString *)installationId successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock hud:(MBProgressHUD *)hud {
     [PFCloud callFunctionInBackground:@"appExit" withParameters:@{@"installationId":installationId} block:^(id object, NSError *error) {
         if(error){
@@ -637,24 +620,6 @@
         }
     }];
 }
-
-
-//Remove this
-+(void) inviteTeacher:(NSString *)senderId schoolName:(NSString *)schoolName teacherName:(NSString*) teacherName childName:(NSString *)childName email:(NSString *)email phoneNum:(NSString *)phoneNum successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock hud:(MBProgressHUD *)hud {
-    [PFCloud callFunctionInBackground:@"inviteTeacher" withParameters:@{@"senderId":senderId,@"schoolName":schoolName,@"teacherName":teacherName,@"childName":childName,@"email":email ,@"phoneNo":phoneNum} block:^(id object, NSError *error) {
-        if(error) {
-            if(error.code == kPFErrorInvalidSessionToken) {
-                [self handleInvalidSession:hud];
-                return;
-            }
-            errorBlock(error);
-        }
-        else {
-            successBlock(object);
-        }
-    }];
-}
-
 
 +(void)feedback:(NSString *)userInput successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock hud:(MBProgressHUD *)hud {
     [PFCloud callFunctionInBackground:@"feedback" withParameters:@{@"feed":userInput} block:^(id object, NSError *error) {

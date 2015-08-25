@@ -143,7 +143,6 @@
         if(indexPath.row == 0 && !_isFBUser) {
             cell.textLabel.text = [[PFUser currentUser] objectForKey:@"username"];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            
         }
         else {
             cell.textLabel.text = @"Log Out";

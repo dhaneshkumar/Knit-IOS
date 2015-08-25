@@ -819,7 +819,6 @@
                 for(int i=0; i<arr.count; i++) {
                     PFQuery *query = [PFQuery queryWithClassName:@"GroupDetails"];
                     [query fromLocalDatastore];
-                    //[query whereKey:@"iosUserID" equalTo:[PFUser currentUser].objectId];
                     [query whereKey:@"messageId" equalTo:arr[i]];
                     
                     NSArray *objs = [query findObjects];
