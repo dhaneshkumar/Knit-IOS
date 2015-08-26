@@ -115,10 +115,12 @@
         else {
             dvc.teacherPic = [UIImage imageNamed:@"defaultTeacher.png"];
         }
-        if(((NSArray *)joinedClassAssocNames[localCodegroup[@"code"]]).count==2)
+        if(((NSArray *)joinedClassAssocNames[localCodegroup[@"code"]]).count==2) {
             dvc.studentName = [[PFUser currentUser] objectForKey:@"name"];
-        else
+        }
+        else {
             dvc.studentName = ((NSArray *)joinedClassAssocNames[localCodegroup[@"code"]])[2];
+        }
         [_joinedClassVCs setObject:dvc forKey:localCodegroup[@"code"]];
     }
     
@@ -163,42 +165,48 @@
 -(void)fetchCodegroups {
     NSArray *joinedClassesArray = (NSArray *) [[PFUser currentUser] objectForKey:@"joined_groups"];
     NSMutableDictionary *joinedClassAssocNames = [[NSMutableDictionary alloc] init];
+    NSMutableArray *joinedClassCodes = [[NSMutableArray alloc] init];
     for(NSArray *joinedcl in joinedClassesArray) {
         [joinedClassAssocNames setObject:joinedcl forKey:joinedcl[0]];
+        [joinedClassCodes addObject:joinedcl[0]];
     }
     if(joinedClassesArray.count>0 && _joinedClasses.count==0) {
         [Data getAllCodegroups:^(id object) {
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                 NSArray *cgs = (NSArray *)object;
                 for(PFObject *cg in cgs) {
-                    [cg pinInBackground];
-                    [_codegroups setObject:cg forKey:[cg objectForKey:@"code"]];
-                    [_joinedClasses addObject:cg[@"code"]];
-                    JoinedClassTableViewController *dvc = (JoinedClassTableViewController *)[self.storyboard instantiateViewControllerWithIdentifier:@"joinedClassVC"];
-                    dvc.className = cg[@"name"];
-                    dvc.classCode = cg[@"code"];
-                    dvc.teacherName = cg[@"Creator"];
-                    
-                    PFFile *attachImageUrl = cg[@"senderPic"];
-                    if(attachImageUrl) {
-                        NSString *url=attachImageUrl.url;
-                        UIImage *image = [[sharedCache sharedInstance] getCachedImageForKey:url];
-                        dvc.teacherUrl = attachImageUrl;
-                        if(image) {
-                            dvc.teacherPic = image;
+                    [cg pin];
+                    if([joinedClassCodes indexOfObject:cg[@"code"]] != NSNotFound) {
+                        [_codegroups setObject:cg forKey:[cg objectForKey:@"code"]];
+                        [_joinedClasses addObject:cg[@"code"]];
+                        JoinedClassTableViewController *dvc = (JoinedClassTableViewController *)[self.storyboard instantiateViewControllerWithIdentifier:@"joinedClassVC"];
+                        dvc.className = cg[@"name"];
+                        dvc.classCode = cg[@"code"];
+                        dvc.teacherName = cg[@"Creator"];
+                        
+                        PFFile *attachImageUrl = cg[@"senderPic"];
+                        if(attachImageUrl) {
+                            NSString *url=attachImageUrl.url;
+                            UIImage *image = [[sharedCache sharedInstance] getCachedImageForKey:url];
+                            dvc.teacherUrl = attachImageUrl;
+                            if(image) {
+                                dvc.teacherPic = image;
+                            }
+                            else{
+                                dvc.teacherPic = nil;
+                            }
                         }
-                        else{
-                            dvc.teacherPic = nil;
+                        else {
+                            dvc.teacherPic = [UIImage imageNamed:@"defaultTeacher.png"];
                         }
+                        if(((NSArray *)joinedClassAssocNames[cg[@"code"]]).count==2) {
+                            dvc.studentName = [[PFUser currentUser] objectForKey:@"name"];
+                        }
+                        else {
+                            dvc.studentName = ((NSArray *)joinedClassAssocNames[cg[@"code"]])[2];
+                        }
+                        [_joinedClassVCs setObject:dvc forKey:cg[@"code"]];
                     }
-                    else {
-                        dvc.teacherPic = [UIImage imageNamed:@"defaultTeacher.png"];
-                    }
-                    if(((NSArray *)joinedClassAssocNames[cg[@"code"]]).count==2)
-                        dvc.studentName = [[PFUser currentUser] objectForKey:@"name"];
-                    else
-                        dvc.studentName = ((NSArray *)joinedClassAssocNames[cg[@"code"]])[2];
-                    [_joinedClassVCs setObject:dvc forKey:cg[@"code"]];
                 }
                 dispatch_sync(dispatch_get_main_queue(), ^{
                     [self.classesTable reloadData];
