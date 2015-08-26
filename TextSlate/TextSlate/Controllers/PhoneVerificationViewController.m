@@ -144,55 +144,7 @@
                                 }
                             }
                             [rootTab initialization];
-                            
-                            if([_role isEqualToString:@"teacher"]) {
-                                //1st notification
-                                UILocalNotification *localNotification = [[UILocalNotification alloc] init];
-                                localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:24*60*60];
-                                localNotification.alertBody = NSLocalizedString(@"You have not created any class yet. Create a class and start using it. See how it makes your life easier.", nil);
-                                localNotification.alertAction = NSLocalizedString(@"Create", nil);
-                                localNotification.timeZone = [NSTimeZone defaultTimeZone];
-                                localNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication]     applicationIconBadgeNumber] + 1;
-                                localNotification.soundName = UILocalNotificationDefaultSoundName;
-                                NSDictionary *userInfo =[NSDictionary dictionaryWithObjectsAndKeys:@"TRANSITION", @"type", @"CREATE_CLASS", @"action", nil];
-                                localNotification.userInfo = userInfo;
-                                [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
-                                
-                                //2nd notification
-                                UILocalNotification *localNotification2 = [[UILocalNotification alloc] init];
-                                localNotification2.fireDate = [NSDate dateWithTimeIntervalSinceNow:3*24*60*60];
-                                localNotification2.alertBody = NSLocalizedString(@"You have not created any class yet. Create a class and start using Knit. See how it makes your life easier.", nil);
-                                localNotification2.alertAction = NSLocalizedString(@"Create", nil);
-                                localNotification2.timeZone = [NSTimeZone defaultTimeZone];
-                                localNotification2.applicationIconBadgeNumber = [[UIApplication sharedApplication]     applicationIconBadgeNumber] + 1;
-                                localNotification2.soundName = UILocalNotificationDefaultSoundName;
-                                NSDictionary *userInfo2 =[NSDictionary dictionaryWithObjectsAndKeys:@"TRANSITION", @"type", @"CREATE_CLASS", @"action", nil];
-                                localNotification2.userInfo = userInfo2;
-                                [[UIApplication sharedApplication] scheduleLocalNotification:localNotification2];
-                            }
-                            else {
-                                //1st notification
-                                UILocalNotification *localNotification = [[UILocalNotification alloc] init];
-                                localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:24*60*60];
-                                localNotification.alertBody = NSLocalizedString(@"You have not joined any class yet. Join a class or invite teacher.", nil);
-                                localNotification.timeZone = [NSTimeZone defaultTimeZone];
-                                localNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication]     applicationIconBadgeNumber] + 1;
-                                localNotification.soundName = UILocalNotificationDefaultSoundName;
-                                NSDictionary *userInfo =[NSDictionary dictionaryWithObjectsAndKeys:@"TRANSITION", @"type", @"INVITE_TEACHER", @"action", nil];
-                                localNotification.userInfo = userInfo;
-                                [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
-                                
-                                //2nd notification
-                                UILocalNotification *localNotification2 = [[UILocalNotification alloc] init];
-                                localNotification2.fireDate = [NSDate dateWithTimeIntervalSinceNow:3*24*60*60];
-                                localNotification2.alertBody = NSLocalizedString(@"You have not joined any class yet. Join a class or invite teacher.", nil);
-                                localNotification2.timeZone = [NSTimeZone defaultTimeZone];
-                                localNotification2.applicationIconBadgeNumber = [[UIApplication sharedApplication]     applicationIconBadgeNumber] + 1;
-                                localNotification2.soundName = UILocalNotificationDefaultSoundName;
-                                NSDictionary *userInfo2 =[NSDictionary dictionaryWithObjectsAndKeys:@"TRANSITION", @"type", @"INVITE_TEACHER", @"action", nil];
-                                localNotification2.userInfo = userInfo2;
-                                [[UIApplication sharedApplication] scheduleLocalNotification:localNotification2];
-                            }
+                            [self fireNotifications];
                             [hud hide:YES];
                             [self dismissViewControllerAnimated:YES completion:nil];
                         }
@@ -324,6 +276,58 @@
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     [textField resignFirstResponder];
     return YES;
+}
+
+
+-(void)fireNotifications {
+    if([_role isEqualToString:@"teacher"]) {
+        //1st notification
+        UILocalNotification *localNotification = [[UILocalNotification alloc] init];
+        localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:24*60*60];
+        localNotification.alertBody = NSLocalizedString(@"You have not created any class yet. Create a class and start using it. See how it makes your life easier.", nil);
+        localNotification.alertAction = NSLocalizedString(@"Create", nil);
+        localNotification.timeZone = [NSTimeZone defaultTimeZone];
+        localNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication]     applicationIconBadgeNumber] + 1;
+        localNotification.soundName = UILocalNotificationDefaultSoundName;
+        NSDictionary *userInfo =[NSDictionary dictionaryWithObjectsAndKeys:@"TRANSITION", @"type", @"CREATE_CLASS", @"action", nil];
+        localNotification.userInfo = userInfo;
+        [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
+        
+        //2nd notification
+        UILocalNotification *localNotification2 = [[UILocalNotification alloc] init];
+        localNotification2.fireDate = [NSDate dateWithTimeIntervalSinceNow:3*24*60*60];
+        localNotification2.alertBody = NSLocalizedString(@"You have not created any class yet. Create a class and start using Knit. See how it makes your life easier.", nil);
+        localNotification2.alertAction = NSLocalizedString(@"Create", nil);
+        localNotification2.timeZone = [NSTimeZone defaultTimeZone];
+        localNotification2.applicationIconBadgeNumber = [[UIApplication sharedApplication]     applicationIconBadgeNumber] + 1;
+        localNotification2.soundName = UILocalNotificationDefaultSoundName;
+        NSDictionary *userInfo2 =[NSDictionary dictionaryWithObjectsAndKeys:@"TRANSITION", @"type", @"CREATE_CLASS", @"action", nil];
+        localNotification2.userInfo = userInfo2;
+        [[UIApplication sharedApplication] scheduleLocalNotification:localNotification2];
+    }
+    else {
+        //1st notification
+        UILocalNotification *localNotification = [[UILocalNotification alloc] init];
+        localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:24*60*60];
+        localNotification.alertBody = NSLocalizedString(@"You have not joined any class yet. Join a class or invite teacher.", nil);
+        localNotification.timeZone = [NSTimeZone defaultTimeZone];
+        localNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication]     applicationIconBadgeNumber] + 1;
+        localNotification.soundName = UILocalNotificationDefaultSoundName;
+        NSDictionary *userInfo =[NSDictionary dictionaryWithObjectsAndKeys:@"TRANSITION", @"type", @"INVITE_TEACHER", @"action", nil];
+        localNotification.userInfo = userInfo;
+        [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
+        
+        //2nd notification
+        UILocalNotification *localNotification2 = [[UILocalNotification alloc] init];
+        localNotification2.fireDate = [NSDate dateWithTimeIntervalSinceNow:3*24*60*60];
+        localNotification2.alertBody = NSLocalizedString(@"You have not joined any class yet. Join a class or invite teacher.", nil);
+        localNotification2.timeZone = [NSTimeZone defaultTimeZone];
+        localNotification2.applicationIconBadgeNumber = [[UIApplication sharedApplication]     applicationIconBadgeNumber] + 1;
+        localNotification2.soundName = UILocalNotificationDefaultSoundName;
+        NSDictionary *userInfo2 =[NSDictionary dictionaryWithObjectsAndKeys:@"TRANSITION", @"type", @"INVITE_TEACHER", @"action", nil];
+        localNotification2.userInfo = userInfo2;
+        [[UIApplication sharedApplication] scheduleLocalNotification:localNotification2];
+    }
 }
 
 

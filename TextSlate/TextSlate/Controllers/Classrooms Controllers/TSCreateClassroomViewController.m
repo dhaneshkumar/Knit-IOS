@@ -108,29 +108,7 @@
         //Cancel all local notifications when a teacher user has created a class
         if([[[PFUser currentUser] objectForKey:@"role"] isEqualToString:@"teacher"] && createdClasses.count==1) {
             [[UIApplication sharedApplication] cancelAllLocalNotifications];
-            UILocalNotification *localNotification = [[UILocalNotification alloc] init];
-            localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:3*24*60*60];
-            NSString *alertBody = [NSString stringWithFormat:@"See how many members have joined your class %@. Invite if somebody's missing!", codeGroupForClass[@"name"]];
-            localNotification.alertBody = NSLocalizedString(alertBody, nil);
-            localNotification.alertAction = NSLocalizedString(@"Check", nil);
-            localNotification.timeZone = [NSTimeZone defaultTimeZone];
-            localNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication]     applicationIconBadgeNumber] + 1;
-            localNotification.soundName = UILocalNotificationDefaultSoundName;
-            NSDictionary *userInfo =[NSDictionary dictionaryWithObjectsAndKeys:@"TRANSITION", @"type", @"INVITE_PARENT", @"action", codeGroupForClass[@"name"], @"groupName", codeGroupForClass[@"code"], @"groupCode", nil];
-            localNotification.userInfo = userInfo;
-            [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
-            
-            UILocalNotification *localNotification2 = [[UILocalNotification alloc] init];
-            localNotification2.fireDate = [NSDate dateWithTimeIntervalSinceNow:6*24*60*60];
-            alertBody = @"Looks like you have created a class but you have not send any messages yet.";
-            localNotification2.alertBody = NSLocalizedString(alertBody, nil);
-            localNotification2.alertAction = NSLocalizedString(@"Send message", nil);
-            localNotification2.timeZone = [NSTimeZone defaultTimeZone];
-            localNotification2.applicationIconBadgeNumber = [[UIApplication sharedApplication]     applicationIconBadgeNumber] + 1;
-            localNotification2.soundName = UILocalNotificationDefaultSoundName;
-            NSDictionary *userInfo2 =[NSDictionary dictionaryWithObjectsAndKeys:@"TRANSITION", @"type", @"SEND_MESSAGE", @"action", nil];
-            localNotification2.userInfo = userInfo2;
-            [[UIApplication sharedApplication] scheduleLocalNotification:localNotification2];
+            [self fireNewNotifications:codeGroupForClass];
         }
     
         [hud hide:YES];
@@ -141,6 +119,33 @@
         [hud hide:YES];
         [RKDropdownAlert title:@"Knit" message:@"Error occured creating class. Please try again later."  time:2];
     } hud:hud];
+}
+
+
+-(void)fireNewNotifications:(PFObject *)codeGroupForClass {
+    UILocalNotification *localNotification = [[UILocalNotification alloc] init];
+    localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:3*24*60*60];
+    NSString *alertBody = [NSString stringWithFormat:@"See how many members have joined your class %@. Invite if somebody's missing!", codeGroupForClass[@"name"]];
+    localNotification.alertBody = NSLocalizedString(alertBody, nil);
+    localNotification.alertAction = NSLocalizedString(@"Check", nil);
+    localNotification.timeZone = [NSTimeZone defaultTimeZone];
+    localNotification.applicationIconBadgeNumber = [[UIApplication sharedApplication]     applicationIconBadgeNumber] + 1;
+    localNotification.soundName = UILocalNotificationDefaultSoundName;
+    NSDictionary *userInfo =[NSDictionary dictionaryWithObjectsAndKeys:@"TRANSITION", @"type", @"INVITE_PARENT", @"action", codeGroupForClass[@"name"], @"groupName", codeGroupForClass[@"code"], @"groupCode", nil];
+    localNotification.userInfo = userInfo;
+    [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
+    
+    UILocalNotification *localNotification2 = [[UILocalNotification alloc] init];
+    localNotification2.fireDate = [NSDate dateWithTimeIntervalSinceNow:6*24*60*60];
+    alertBody = @"Looks like you have created a class but you have not send any messages yet.";
+    localNotification2.alertBody = NSLocalizedString(alertBody, nil);
+    localNotification2.alertAction = NSLocalizedString(@"Send message", nil);
+    localNotification2.timeZone = [NSTimeZone defaultTimeZone];
+    localNotification2.applicationIconBadgeNumber = [[UIApplication sharedApplication]     applicationIconBadgeNumber] + 1;
+    localNotification2.soundName = UILocalNotificationDefaultSoundName;
+    NSDictionary *userInfo2 =[NSDictionary dictionaryWithObjectsAndKeys:@"TRANSITION", @"type", @"SEND_MESSAGE", @"action", nil];
+    localNotification2.userInfo = userInfo2;
+    [[UIApplication sharedApplication] scheduleLocalNotification:localNotification2];
 }
 
 

@@ -87,7 +87,6 @@
     }
     
     NSString *assocNameTyped;
-    
     if([_role isEqualToString:@"student"]) {
         assocNameTyped = [[PFUser currentUser] objectForKey:@"name"];
     }
@@ -98,17 +97,6 @@
             return;
         }
     }
-    
-    
-    /*
-    Reachability *networkReachability = [Reachability reachabilityForInternetConnection];
-    NetworkStatus networkStatus = [networkReachability currentReachabilityStatus];
-    if (networkStatus == NotReachable) {
-        //NSLog(@"There IS NO internet connection");
-    } else {
-        //NSLog(@"There IS internet connection");
-    }
-    */
     
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[[UIApplication sharedApplication] keyWindow]  animated:YES];
     hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
@@ -266,7 +254,6 @@
         [messagesArray addObject:message];
         [messageIds addObject:message.messageId];
     }
-    
     newInbox.mapCodeToObjects = mapCodeToObjects;
     newInbox.messagesArray = messagesArray;
     newInbox.messageIds = messageIds;

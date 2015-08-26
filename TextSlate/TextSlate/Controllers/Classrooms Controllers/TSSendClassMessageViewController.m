@@ -556,9 +556,10 @@
 
 
 -(void)deleteClass {
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[[UIApplication sharedApplication] keyWindow]  animated:YES];
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[[UIApplication sharedApplication] keyWindow] animated:YES];
     hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
     hud.labelText = @"Loading";
+    
     [Data deleteClass:_classCode successBlock:^(id object) {
         NSArray *createdClasses = (NSArray *)object;
         PFUser *currentUser = [PFUser currentUser];
@@ -577,7 +578,7 @@
         ClassesViewController *classesVC = rootTab.viewControllers[0];
         classesVC.createdClasses = [NSMutableArray arrayWithArray:[[createdClasses reverseObjectEnumerator] allObjects]];
         [classesVC.createdClassesVCs removeObjectForKey:_classCode];
-        [self deleteGroupMembers];
+        [self deleteLocalDatastoreStuff];
         [hud hide:YES];
         [self.navigationController popViewControllerAnimated:YES];
     } errorBlock:^(NSError *error) {
@@ -587,18 +588,24 @@
 }
 
 
--(void)deleteGroupMembers {
+-(void)deleteLocalDatastoreStuff {
     PFQuery *query = [PFQuery queryWithClassName:@"GroupMembers"];
     [query fromLocalDatastore];
     [query whereKey:@"code" equalTo:_classCode];
     NSArray *appMembers = [query findObjects];
-    [PFObject unpinAllInBackground:appMembers];
+    [PFObject unpinAll:appMembers];
     
     query = [PFQuery queryWithClassName:@"Messageneeders"];
     [query fromLocalDatastore];
     [query whereKey:@"cod" equalTo:_classCode];
     NSArray *phoneMembers = [query findObjects];
-    [PFObject unpinAllInBackground:phoneMembers];
+    [PFObject unpinAll:phoneMembers];
+    
+    query = [PFQuery queryWithClassName:@"Codegroup"];
+    [query fromLocalDatastore];
+    [query whereKey:@"code" equalTo:_classCode];
+    NSArray *codegroup = [query findObjects];
+    [PFObject unpinAll:codegroup];
 }
 
 

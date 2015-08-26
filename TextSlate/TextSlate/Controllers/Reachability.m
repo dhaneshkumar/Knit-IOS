@@ -307,5 +307,17 @@ static void ReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkReach
 	return returnValue;
 }
 
+/*
+ Write this code wherever to check network reachability status
+    Reachability *networkReachability = [Reachability reachabilityForInternetConnection];
+    NetworkStatus networkStatus = [networkReachability currentReachabilityStatus];
+    if (networkStatus == NotReachable) {
+        NSLog(@"There IS NO internet connection");
+    } else {
+        NSLog(@"There IS internet connection");
+    }
+*/
+
+
 
 @end

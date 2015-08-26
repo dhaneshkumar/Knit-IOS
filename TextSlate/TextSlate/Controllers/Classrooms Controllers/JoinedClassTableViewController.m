@@ -252,6 +252,7 @@
             [classesVC.joinedClassVCs removeObjectForKey:_classCode];
             [classesVC.codegroups removeObjectForKey:_classCode];
         }
+        [self deleteLocalCodegroupEntry];
         [hud hide:YES];
         [self.navigationController popViewControllerAnimated:YES];
     } errorBlock:^(NSError *error) {
@@ -260,24 +261,12 @@
     } hud:hud];
 }
 
-
--(void)deleteAllLocalMessages:(NSString *)classCode {
-    PFQuery *query = [PFQuery queryWithClassName:@"GroupDetails"];
-    [query fromLocalDatastore];
-    [query whereKey:@"code" equalTo:classCode];
-    NSArray *messages = [query findObjects];
-    [PFObject unpinAllInBackground:messages];
-    return;
-}
-
-
--(void)deleteLocalCodegroupEntry:(NSString *)classCode {
+-(void)deleteLocalCodegroupEntry {
     PFQuery *query = [PFQuery queryWithClassName:@"Codegroup"];
     [query fromLocalDatastore];
-    [query whereKey:@"code" equalTo:classCode];
-    NSArray *messages = [query findObjects];
-    [PFObject unpinAllInBackground:messages];
-    return;
+    [query whereKey:@"code" equalTo:_classCode];
+    NSArray *codegroup = [query findObjects];
+    [PFObject unpinAll:codegroup];
 }
 
 /*
