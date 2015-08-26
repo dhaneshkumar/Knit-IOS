@@ -20,7 +20,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.navigationItem.title = @"Knit";
+    self.navigationItem.title = @"Web View";
     UIBarButtonItem *cancelBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemStop  target:self action:@selector(closeWindow)];
     self.navigationItem.leftBarButtonItem = cancelBarButtonItem;
     _webView.delegate = self;

@@ -240,10 +240,34 @@
                             [RKDropdownAlert title:@"Knit" message:@"Error in signing in.Try again." time:2];
                             return;
                         } else {
+                            PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
+                            [lq fromLocalDatastore];
+                            NSArray *lds = [lq findObjects];
+                            
+                            if(lds.count == 1) {
+                                if([((PFObject*)lds[0])[@"iosUserID"] isEqualToString:[PFUser currentUser].objectId]) {
+                                    [self deletePartialLocalData];
+                                    if(!lds[0][@"isNewLocalData"]) {
+                                        [self completeLocalDatastore:lds[0]];
+                                    }
+                                    else {
+                                        lds[0][@"isUpdateCountsGloballyCalled"] = @"false";
+                                        lds[0][@"isOutboxDataConsistent"] = @"false";
+                                    }
+                                }
+                                else {
+                                    [self deleteAllLocalData];
+                                    [self createLocalDatastore:nil];
+                                }
+                            }
+                            else {
+                                [self deleteAllLocalData];
+                                [self createLocalDatastore:nil];
+                            }
                             [Data getAllCodegroups:^(id object) {
                                 NSArray *cgs = (NSArray *)object;
                                 for(PFObject *cg in cgs) {
-                                    [cg pinInBackground];
+                                    [cg pin];
                                 }
                                 [self secondHalfLoginProcess:hud];
                             } errorBlock:^(NSError *error) {
@@ -274,10 +298,6 @@
 
 
 -(void)secondHalfLoginProcess:(MBProgressHUD *)hud {
-    PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
-    [lq fromLocalDatastore];
-    NSArray *lds = [lq findObjects];
-    
     AppDelegate *apd = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     UINavigationController *rootNav = (UINavigationController *)apd.startNav;
     NSArray *vcs = rootNav.viewControllers;
@@ -288,25 +308,8 @@
             break;
         }
     }
-
     
-    if(lds.count==1) {
-        if([((PFObject*)lds[0])[@"iosUserID"] isEqualToString:[PFUser currentUser].objectId]) {
-            (lds[0])[@"isUpdateCountsGloballyCalled"] = @"false";
-            [rootTab initialization];
-        }
-        else {
-            NSDate *dt = ((PFObject*)lds[0])[@"timeDifference"];
-            [self deleteAllLocalData];
-            [self createLocalDatastore:dt];
-            [rootTab initialization];
-        }
-    }
-    else {
-        [self createLocalDatastore:nil];
-        [rootTab initialization];
-    }
-    
+    [rootTab initialization];
     [hud hide:YES];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
@@ -327,7 +330,6 @@
 -(void)createLocalDatastore:(NSDate *)dt {
     PFObject *locals = [[PFObject alloc] initWithClassName:@"defaultLocals"];
     locals[@"iosUserID"] = [PFUser currentUser].objectId;
-    locals[@"isOldUser"] = @"NO";
     locals[@"isInboxDataConsistent"] = @"false";
     locals[@"isUpdateCountsGloballyCalled"] = @"false";
     locals[@"isOutboxDataConsistent"] = @"false";
@@ -349,7 +351,25 @@
             [locals pinInBackground];
         });
     } errorBlock:^(NSError *error) {
+        
     }];
+}
+
+
+-(void)completeLocalDatastore:(PFObject *)obj {
+    obj[@"iosUserID"] = [PFUser currentUser].objectId;
+    obj[@"isNewLocalData"] = @"true";
+    if(!obj[@"isInboxDataConsistent"])
+        obj[@"isInboxDataConsistent"] = @"false";
+    if(!obj[@"isOutboxDataConsistent"])
+        obj[@"isOutboxDataConsistent"] = @"false";
+    if(!obj[@"isUpdateCountsGloballyCalled"])
+        obj[@"isUpdateCountsGloballyCalled"] = @"false";
+    if(!obj[@"appLaunchCount"])
+        obj[@"appLaunchCount"] = [NSNumber numberWithInt:0];
+    if(!obj[@"timeDifference"])
+        obj[@"timeDifference"] = [NSDate dateWithTimeIntervalSince1970:0.0];
+    [obj pin];
 }
 
 
@@ -357,27 +377,48 @@
     PFQuery *query = [PFQuery queryWithClassName:@"Codegroup"];
     [query fromLocalDatastore];
     NSArray *array = [query findObjects];
-    [PFObject unpinAllInBackground:array];
+    [PFObject unpinAll:array];
     
     query = [PFQuery queryWithClassName:@"GroupDetails"];
     [query fromLocalDatastore];
     array = [query findObjects];
-    [PFObject unpinAllInBackground:array];
+    [PFObject unpinAll:array];
     
     query = [PFQuery queryWithClassName:@"GroupMembers"];
     [query fromLocalDatastore];
     array = [query findObjects];
-    [PFObject unpinAllInBackground:array];
+    [PFObject unpinAll:array];
     
     query = [PFQuery queryWithClassName:@"Messageneeders"];
     [query fromLocalDatastore];
     array = [query findObjects];
-    [PFObject unpinAllInBackground:array];
+    [PFObject unpinAll:array];
     
     query = [PFQuery queryWithClassName:@"defaultLocals"];
     [query fromLocalDatastore];
     array = [query findObjects];
-    [PFObject unpinAllInBackground:array];
+    [PFObject unpinAll:array];
+}
+
+
+-(void)deletePartialLocalData {
+    PFQuery *query = [PFQuery queryWithClassName:@"Codegroup"];
+    [query fromLocalDatastore];
+    NSArray *array = [query findObjects];
+    [PFObject unpinAll:array];
+    
+    
+    NSArray *createdClasses = [[PFUser currentUser] objectForKey:@"Created_groups"];
+    NSMutableArray *createdClassCodes = [[NSMutableArray alloc] init];
+    for(NSArray *createdClass in createdClasses) {
+        [createdClassCodes addObject:createdClass[0]];
+    }
+    
+    query = [PFQuery queryWithClassName:@"GroupDetails"];
+    [query fromLocalDatastore];
+    [query whereKey:@"code" containedIn:createdClassCodes];
+    array = [query findObjects];
+    [PFObject unpinAll:array];
 }
 
 /*

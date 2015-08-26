@@ -238,13 +238,13 @@
                             break;
                         }
                     }
+                    
                     PFUser *currentUser = [PFUser currentUser];
                     currentUser[@"isGoogle"] = @"YES";
                     [currentUser pin];
                     [rootTab initialization];
                     [self fireNotifications];
                     [self getAndSaveGoogleProfilePicture:googleUser];
-                    
                     [hud hide:YES];
                     [self dismissViewControllerAnimated:YES completion:nil];
                 }
@@ -398,7 +398,6 @@
     [Data generateOTP:_phoneNumberTextField.text successBlock:^(id object) {
         [hud hide:YES];
         PhoneVerificationViewController *dvc = [self.storyboard instantiateViewControllerWithIdentifier:@"phoneVerificationVC"];
-        
         dvc.nameText=[_displayName.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         dvc.phoneNumber = _phoneNumberTextField.text;
         dvc.isSignUp = true;
@@ -467,7 +466,6 @@
 -(void)createLocalDatastore:(NSDate *)dt {
     PFObject *locals = [[PFObject alloc] initWithClassName:@"defaultLocals"];
     locals[@"iosUserID"] = [PFUser currentUser].objectId;
-    locals[@"isOldUser"] = @"NO";
     locals[@"isInboxDataConsistent"] = @"false";
     locals[@"isUpdateCountsGloballyCalled"] = @"false";
     locals[@"isOutboxDataConsistent"] = @"false";
@@ -498,27 +496,27 @@
     PFQuery *query = [PFQuery queryWithClassName:@"Codegroup"];
     [query fromLocalDatastore];
     NSArray *array = [query findObjects];
-    [PFObject unpinAllInBackground:array];
+    [PFObject unpinAll:array];
     
     query = [PFQuery queryWithClassName:@"GroupDetails"];
     [query fromLocalDatastore];
     array = [query findObjects];
-    [PFObject unpinAllInBackground:array];
+    [PFObject unpinAll:array];
     
     query = [PFQuery queryWithClassName:@"GroupMembers"];
     [query fromLocalDatastore];
     array = [query findObjects];
-    [PFObject unpinAllInBackground:array];
+    [PFObject unpinAll:array];
     
     query = [PFQuery queryWithClassName:@"Messageneeders"];
     [query fromLocalDatastore];
     array = [query findObjects];
-    [PFObject unpinAllInBackground:array];
+    [PFObject unpinAll:array];
     
     query = [PFQuery queryWithClassName:@"defaultLocals"];
     [query fromLocalDatastore];
     array = [query findObjects];
-    [PFObject unpinAllInBackground:array];
+    [PFObject unpinAll:array];
 }
 
 

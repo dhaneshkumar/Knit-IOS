@@ -41,7 +41,7 @@
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that canbe recreated.
+    // Dispose of any resources that can be recreated.
 }
 
 
@@ -76,7 +76,7 @@
                 [self.navigationController popViewControllerAnimated:YES];
         } errorBlock:^(NSError *error) {
             [hud hide:YES];
-            [RKDropdownAlert title:@"Knit" message:@"Oops! We encountered a problem while processing your feedback.Please try again later!"time:2];
+            [RKDropdownAlert title:@"Knit" message:@"Oops! Network connection error. Please try again later!" time:3];
         } hud:hud];
     }
 }

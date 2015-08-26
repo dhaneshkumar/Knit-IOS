@@ -13,6 +13,7 @@
 #import "TSGifViewerViewController.h"
 #import <Parse/Parse.h>
 #import "Data.h"
+#import "TSUtils.h"
 
 @interface TSNewInviteParentViewController ()
 @property (strong, nonatomic) NSMutableData *responseData;
@@ -58,19 +59,13 @@
     _view3Height.constant = 2*unit;
     _view4Height.constant = 2*unit;
     _verticalSpace1.constant = 0.5*unit;
-    _verticalSpace2.constant = 1.3*unit;
-    _verticalSpace3.constant = _verticalSpace4.constant = 0.5*unit;
+    _verticalSpace2.constant = 1.5*unit;
+    _verticalSpace3.constant = _verticalSpace4.constant = 0.3*unit;
     _horizontalSpace1.constant = _horizontalSpace2.constant = 24.0;
     float margins = (screenHeight<500.0)?0.0:16.0*2;
     _button1Width.constant = _button2Width.constant = ([self getScreenWidth] - 3*24.0 - margins)/2.0;
-    [_smsButton.layer setBorderWidth:0.5];
-    [_smsButton.layer setShadowOffset:CGSizeMake(0.5, 0.5)];
-    [_smsButton.layer setShadowColor:[[UIColor blackColor] CGColor]];
-    [_smsButton.layer setShadowOpacity:0.5];
-    [_appButton.layer setBorderWidth:0.5];
-    [_appButton.layer setShadowOffset:CGSizeMake(0.5, 0.5)];
-    [_appButton.layer setShadowColor:[[UIColor blackColor] CGColor]];
-    [_appButton.layer setShadowOpacity:0.5];
+    [TSUtils applyRoundedCorners:_smsButton];
+    [TSUtils applyRoundedCorners:_appButton];
     UITapGestureRecognizer *view2Tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(view2Tapped:)];
     UITapGestureRecognizer *view3Tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(view3Tapped:)];
     UITapGestureRecognizer *view4Tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(view4Tapped:)];
@@ -145,7 +140,7 @@
 -(void)view2Tapped:(UITapGestureRecognizer *)recognizer {
     if (ABAddressBookGetAuthorizationStatus() == kABAuthorizationStatusDenied ||
         ABAddressBookGetAuthorizationStatus() == kABAuthorizationStatusRestricted){
-        [RKDropdownAlert title:@"Knit" message:@"Not able to access phone book. Provide access by going to Settings -> Knit -> Contacts."  time:4];
+        [RKDropdownAlert title:@"Knit" message:@"Provide access to phone book by going to Settings -> Knit -> Contacts."  time:4];
     } else if (ABAddressBookGetAuthorizationStatus() == kABAuthorizationStatusAuthorized){
         TSAddressBookViewController *addressBookVC = [self.storyboard instantiateViewControllerWithIdentifier:@"addressBookVC"];
         addressBookVC.isAddressBook = true;
