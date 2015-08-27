@@ -21,6 +21,8 @@
 #import "FeedbackViewController.h"
 #import "settingsTableViewCell.h"
 #import "EditProfileNameViewController.h"
+#import "JTSImageInfo.h"
+#import "JTSImageViewController.h"
 
 @interface TSSettingsTableViewController ()
 
@@ -28,6 +30,7 @@
 @property (strong,nonatomic) UIImage *resized;
 @property (nonatomic) BOOL isOldUser;
 @property (nonatomic) BOOL isFBUser;
+@property (strong, nonatomic) UIImage *profilePic;
 
 @end
 
@@ -50,6 +53,7 @@
         }
     }
     _isFBUser = [self FBUser];
+    _profilePic = nil;
 }
 
 
@@ -118,9 +122,11 @@
         UIImage *image = [[sharedCache sharedInstance] getCachedImageForKey:url1];
         if(image) {
             cell.profilePic.image = image;
+            _profilePic = image;
         }
         else{
             cell.profilePic.image = [UIImage imageNamed:@"defaultTeacher.png"];
+            _profilePic = cell.profilePic.image;
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
                 NSURL *imageURL = [NSURL URLWithString:url1];
                 UIImage *image = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:imageURL]];
@@ -128,6 +134,7 @@
                 if(image) {
                     [[sharedCache sharedInstance] cacheImage:image forKey:url1];
                     cell.profilePic.image = image;
+                    _profilePic = image;
                     dispatch_sync(dispatch_get_main_queue(), ^{
                         [_settingsTableView reloadData];
                     });
@@ -283,13 +290,28 @@
                                                              delegate:self
                                                     cancelButtonTitle:@"Cancel"
                                                destructiveButtonTitle:nil
-                                                    otherButtonTitles:@"Take a photo", @"Choose from photos", nil];
+                                                    otherButtonTitles:@"View profile pic", @"Take a new pic from camera", @"Choose a new pic from photos", nil];
     [actionSheet showInView:self.view];
 }
 
 
 -(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
     if(buttonIndex==0) {
+        JTSImageInfo *imageInfo = [[JTSImageInfo alloc] init];
+        imageInfo.image = _profilePic;
+        imageInfo.referenceRect = _settingsTableView.frame;
+        imageInfo.referenceView = self.view;
+        
+        // Setup view controller
+        JTSImageViewController *imageViewer = [[JTSImageViewController alloc]
+                                               initWithImageInfo:imageInfo
+                                               mode:JTSImageViewControllerMode_Image
+                                               backgroundStyle:JTSImageViewControllerBackgroundOption_Blurred];
+        
+        // Present the view controller.
+        [imageViewer showFromViewController:self transition:JTSImageViewControllerTransition_FromOffscreen];
+    }
+    else if(buttonIndex==1) {
         AVAuthorizationStatus status = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
         if(status == AVAuthorizationStatusAuthorized) {
             // authorized
@@ -324,8 +346,7 @@
             }];
         }
     }
-    
-    if(buttonIndex==1) {
+    else if(buttonIndex==2) {
         ALAuthorizationStatus status = [ALAssetsLibrary authorizationStatus];
         if(status == ALAuthorizationStatusAuthorized) {
             UIImagePickerController *picker = [[UIImagePickerController alloc] init];

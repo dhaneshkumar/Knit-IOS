@@ -16,7 +16,6 @@
 
 - (void)awakeFromNib {
     // Initialization code
-    
     self.likesImage.tag=1;
     UITapGestureRecognizer *likesViewTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(likesViewTap:)];
     [self.likesView addGestureRecognizer:likesViewTap];

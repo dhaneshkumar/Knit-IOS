@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <Parse/Parse.h>
+#import "JTSImageInfo.h"
 
 @interface JoinedClassTableViewController : UITableViewController<UIAlertViewDelegate>
 
@@ -19,5 +20,6 @@
 @property (strong, nonatomic) PFFile *teacherUrl;
 
 -(void)updateStudentName:(NSString*)studentName;
+-(void)imageViewTapped:(JTSImageInfo *)imageInfo;
 
 @end

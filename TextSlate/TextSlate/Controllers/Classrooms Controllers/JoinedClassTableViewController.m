@@ -21,6 +21,7 @@
 #import "ClassesParentViewController.h"
 #import "AppDelegate.h"
 #import "TSTabBarViewController.h"
+#import "JTSImageViewController.h"
 
 @interface JoinedClassTableViewController ()
 
@@ -115,7 +116,8 @@
                 }
             });
         }
-        cell.userInteractionEnabled = NO;
+        cell.parentVC = self;
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
     }
     else if(indexPath.section==1) {
@@ -261,6 +263,7 @@
     } hud:hud];
 }
 
+
 -(void)deleteLocalCodegroupEntry {
     PFQuery *query = [PFQuery queryWithClassName:@"Codegroup"];
     [query fromLocalDatastore];
@@ -268,6 +271,22 @@
     NSArray *codegroup = [query findObjects];
     [PFObject unpinAll:codegroup];
 }
+
+
+-(void)imageViewTapped:(JTSImageInfo *)imageInfo {
+    imageInfo.referenceView = self.view;
+    
+    // Setup view controller
+    JTSImageViewController *imageViewer = [[JTSImageViewController alloc]
+                                           initWithImageInfo:imageInfo
+                                           mode:JTSImageViewControllerMode_Image
+                                           backgroundStyle:JTSImageViewControllerBackgroundOption_Blurred];
+    
+    // Present the view controller.
+    [imageViewer showFromViewController:self transition:JTSImageViewControllerTransition_FromOffscreen];
+
+}
+
 
 /*
 // Override to support conditional editing of the table view.

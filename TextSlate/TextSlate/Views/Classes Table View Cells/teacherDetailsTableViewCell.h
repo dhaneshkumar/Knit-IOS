@@ -8,10 +8,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "JoinedClassTableViewController.h"
 
 @interface teacherDetailsTableViewCell : UITableViewCell
 
 @property (weak, nonatomic) IBOutlet UIImageView *teacherPicOutlet;
 @property (weak, nonatomic) IBOutlet UILabel *teacherNameOutlet;
+@property (strong, nonatomic) JoinedClassTableViewController *parentVC;
 
 @end
