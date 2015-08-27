@@ -391,7 +391,7 @@
                     messageObject[@"like_count"] = [NSNumber numberWithInt:0];
                     messageObject[@"confused_count"] = [NSNumber numberWithInt:0];
                     messageObject[@"seen_count"] = [NSNumber numberWithInt:0];
-                    [messageObject pinInBackground];
+                    [messageObject pin];
                     TSMessage *newMessage=[[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:[messageObject[@"title"] stringByTrimmingCharactersInSet:characterset] sender:messageObject[@"Creator"] sentTime:messageObject[@"createdTime"] senderPic:nil likeCount:[messageObject[@"like_count"] intValue] confuseCount:[messageObject[@"confused_count"] intValue] seenCount:[messageObject[@"seen_count"] intValue]];
                     TSMessage *newMessageForClassPage =[[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:[messageObject[@"title"] stringByTrimmingCharactersInSet:characterset] sender:messageObject[@"Creator"] sentTime:messageObject[@"createdTime"] senderPic:nil likeCount:[messageObject[@"like_count"] intValue] confuseCount:[messageObject[@"confused_count"] intValue] seenCount:[messageObject[@"seen_count"] intValue]];
                     newMessage.messageId = messageObject[@"messageId"];
@@ -459,7 +459,7 @@
                                 messageObject[@"like_count"] = [NSNumber numberWithInt:0];
                                 messageObject[@"confused_count"] = [NSNumber numberWithInt:0];
                                 messageObject[@"seen_count"] = [NSNumber numberWithInt:0];
-                                [messageObject pinInBackground];
+                                [messageObject pin];
                                 
                                 TSMessage *newMessage=[[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:[messageObject[@"title"] stringByTrimmingCharactersInSet:characterset] sender:messageObject[@"Creator"] sentTime:messageObject[@"createdTime"] senderPic:nil likeCount:[messageObject[@"like_count"] intValue] confuseCount:[messageObject[@"confused_count"] intValue] seenCount:[messageObject[@"seen_count"] intValue]];
                                 

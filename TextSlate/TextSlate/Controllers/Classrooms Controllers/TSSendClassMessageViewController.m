@@ -358,7 +358,7 @@
             for(PFObject *messageObject in messages) {
                 messageObject[@"messageId"] = messageObject.objectId;
                 messageObject[@"createdTime"] = messageObject.createdAt;
-                [messageObject pinInBackground];
+                [messageObject pin];
                 
                 TSMessage *message = [self createMessageObject:messageObject isSendClass:false];
                 TSOutboxViewController *outboxVC = rootTab.viewControllers[2];
@@ -447,7 +447,7 @@
             for(PFObject *messageObject in messages) {
                 messageObject[@"messageId"] = messageObject.objectId;
                 messageObject[@"createdTime"] = messageObject.createdAt;
-                [messageObject pinInBackground];
+                [messageObject pin];
                 
                 TSMessage *message = [self createMessageObject:messageObject isSendClass:false];
                 TSOutboxViewController *outboxVC = rootTab.viewControllers[2];
@@ -501,7 +501,7 @@
                     msg[@"seen_count"] = ((NSArray *)messageObjects[messageObjectId])[0];
                     msg[@"like_count"] = ((NSArray *)messageObjects[messageObjectId])[1];
                     msg[@"confused_count"] = ((NSArray *)messageObjects[messageObjectId])[2];
-                    [msg pinInBackground];
+                    [msg pin];
                     ((TSMessage *)_mapCodeToObjects[messageObjectId]).seenCount = [msg[@"seen_count"] intValue];
                     ((TSMessage *)_mapCodeToObjects[messageObjectId]).likeCount = [msg[@"like_count"] intValue];
                     ((TSMessage *)_mapCodeToObjects[messageObjectId]).confuseCount = [msg[@"confused_count"] intValue];

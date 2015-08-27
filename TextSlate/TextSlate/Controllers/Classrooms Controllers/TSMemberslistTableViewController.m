@@ -196,7 +196,7 @@
                 NSArray *appMembers = [query findObjects];
                 if(appMembers.count>0) {
                     appMembers[0][@"status"] = @"REMOVED";
-                    [appMembers[0] pinInBackground];
+                    [appMembers[0] pin];
                 }
                 [_memberList removeObjectAtIndex:row];
                 [hud hide:YES];
@@ -216,7 +216,7 @@
                 NSArray *phoneMembers = [query findObjects];
                 if(phoneMembers.count>0) {
                     phoneMembers[0][@"status"] = @"REMOVED";
-                    [phoneMembers[0] pinInBackground];
+                    [phoneMembers[0] pin];
                 }
                 [_memberList removeObjectAtIndex:row];
                 [hud hide:YES];

@@ -339,7 +339,7 @@
                 messageObj[@"seenStatus"] = @"false";
                 messageObj[@"messageId"] = messageObj.objectId;
                 messageObj[@"createdTime"] = messageObj.createdAt;
-                [messageObj pinInBackground];
+                [messageObj pin];
                 TSMessage *message = [[TSMessage alloc] initWithValues:messageObj[@"name"] classCode:messageObj[@"code"] message:[messageObj[@"title"] stringByTrimmingCharactersInSet:characterset] sender:messageObj[@"Creator"] sentTime:messageObj.createdAt senderPic:nil likeCount:[messageObj[@"like_count"] intValue] confuseCount:[messageObj[@"confused_count"] intValue] seenCount:0];
                 message.likeStatus = messageObj[@"likeStatus"];
                 message.confuseStatus = messageObj[@"confuseStatus"];
@@ -473,7 +473,7 @@
                 messageObj[@"seenStatus"] = @"false";
                 messageObj[@"messageId"] = messageObj.objectId;
                 messageObj[@"createdTime"] = messageObj.createdAt;
-                [messageObj pinInBackground];
+                [messageObj pin];
                 TSMessage *message = [[TSMessage alloc] initWithValues:messageObj[@"name"] classCode:messageObj[@"code"] message:[messageObj[@"title"] stringByTrimmingCharactersInSet:characterset] sender:messageObj[@"Creator"] sentTime:messageObj.createdAt senderPic:nil likeCount:[messageObj[@"like_count"] intValue] confuseCount:[messageObj[@"confused_count"] intValue] seenCount:0];
                 message.likeStatus = messageObj[@"likeStatus"];
                 message.confuseStatus = messageObj[@"confuseStatus"];
@@ -560,7 +560,7 @@
                     msg[@"confuseStatus"] = [state[@"confused_status"] boolValue]?@"true":@"false";
                     msg[@"confuseStatusServer"] = [state[@"confused_status"] boolValue]?@"true":@"false";
                 }
-                [msg pinInBackground];
+                [msg pin];
                 TSMessage *message = [[TSMessage alloc] initWithValues:msg[@"name"] classCode:msg[@"code"] message:[msg[@"title"] stringByTrimmingCharactersInSet:characterset] sender:msg[@"Creator"] sentTime:msg.createdAt senderPic:nil likeCount:[msg[@"like_count"] intValue] confuseCount:[msg[@"confused_count"] intValue] seenCount:0];
                 message.likeStatus = msg[@"likeStatus"];
                 message.confuseStatus = msg[@"confuseStatus"];
@@ -644,7 +644,7 @@
                     msg[@"confuseStatus"] = [state[@"confused_status"] boolValue]?@"true":@"false";
                     msg[@"confuseStatusServer"] = [state[@"confused_status"] boolValue]?@"true":@"false";
                 }
-                [msg pinInBackground];
+                [msg pin];
                 TSMessage *message = [[TSMessage alloc] initWithValues:msg[@"name"] classCode:msg[@"code"] message:[msg[@"title"] stringByTrimmingCharactersInSet:characterset] sender:msg[@"Creator"] sentTime:msg.createdAt senderPic:nil likeCount:[msg[@"like_count"] intValue] confuseCount:[msg[@"confused_count"] intValue] seenCount:0];
                 message.likeStatus = msg[@"likeStatus"];
                 message.confuseStatus = msg[@"confuseStatus"];
@@ -715,7 +715,7 @@
                     PFObject *msg = (PFObject *)msgs[0];
                     msg[@"like_count"] = ((NSArray *)messageObjects[messageObjectId])[1];
                     msg[@"confused_count"] = ((NSArray *)messageObjects[messageObjectId])[2];
-                    [msg pinInBackground];
+                    [msg pin];
                     ((TSMessage *)_mapCodeToObjects[messageObjectId]).likeCount = [msg[@"like_count"] intValue]+[self adder:msg[@"likeStatusServer"] localStatus:msg[@"likeStatus"]];
                     ((TSMessage *)_mapCodeToObjects[messageObjectId]).confuseCount = [msg[@"confused_count"] intValue]+[self adder:msg[@"confuseStatusServer"] localStatus:msg[@"confuseStatus"]];
                 }
@@ -776,7 +776,7 @@
                             else if([((NSArray*)dict[messageIds[i]])[1] intValue] == -1) {
                                 obj[@"confuseStatusServer"] = @"false";
                             }
-                            [obj pinInBackground];
+                            [obj pin];
                         }
                     }
                     [self setUpdateCountsGloballyCalled:@"false"];
@@ -824,7 +824,7 @@
                     if(objs.count>0) {
                         PFObject *obj = objs[0];
                         obj[@"seenStatus"] = @"true";
-                        [obj pinInBackground];
+                        [obj pin];
                     }
                 }
                 _isUpdateSeenCountsCalled = false;
