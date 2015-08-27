@@ -134,7 +134,7 @@
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                 NSArray *cgs = (NSArray *)object;
                 for(PFObject *cg in cgs) {
-                    [cg pinInBackground];
+                    [cg pin];
                     [_codegroups setObject:cg forKey:[cg objectForKey:@"code"]];
                     [_joinedClasses addObject:cg[@"code"]];
                     JoinedClassTableViewController *dvc = (JoinedClassTableViewController *)[self.storyboard instantiateViewControllerWithIdentifier:@"joinedClassVC"];
