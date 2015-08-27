@@ -337,7 +337,7 @@
 
 
 -(void)fetchOldMessagesOnDataDeletion {
-    _hud = [MBProgressHUD showHUDAddedTo:[[UIApplication sharedApplication] keyWindow]  animated:YES];
+    _hud = [MBProgressHUD showHUDAddedTo:self.view  animated:YES];
     _hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
     _hud.labelText = @"Loading messages";
     AppDelegate *apd = (AppDelegate *)[[UIApplication sharedApplication] delegate];
@@ -558,7 +558,7 @@
 -(void)deleteClass {
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[[UIApplication sharedApplication] keyWindow] animated:YES];
     hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
-    hud.labelText = @"Loading";
+    hud.labelText = @"Deleting class";
     
     [Data deleteClass:_classCode successBlock:^(id object) {
         NSArray *createdClasses = (NSArray *)object;

@@ -255,7 +255,7 @@
             NSString *installationId = currentInstallation.installationId;
             MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[[UIApplication sharedApplication] keyWindow]  animated:YES];
             hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
-            hud.labelText = @"Loading";
+            hud.labelText = @"Logging out";
             
             [Data appExit:installationId successBlock:^(id object) {
                 [[UIApplication sharedApplication] cancelAllLocalNotifications];
@@ -386,7 +386,7 @@
     
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[[UIApplication sharedApplication] keyWindow]  animated:YES];
     hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
-    hud.labelText = @"Sending";
+    hud.labelText = @"Saving picture";
     
     [imageFile saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (!error) {

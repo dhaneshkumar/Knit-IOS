@@ -208,7 +208,7 @@
     
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[[UIApplication sharedApplication] keyWindow]  animated:YES];
     hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
-    hud.labelText = @"Loading";
+    hud.labelText = @"Signing up";
     
     GIDGoogleUser *googleUser = user;
     NSLog(@"idToken : %@", idToken);
@@ -298,7 +298,8 @@
             
             MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[[UIApplication sharedApplication] keyWindow]  animated:YES];
             hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
-            hud.labelText = @"Loading";
+            hud.labelText = @"Signing up";
+            
             [Data FBSignUp:tokenString role:_role installationId:installationId deviceType:devicetype areCoordinatesUpdated:_areCoordinatesUpdated latitude:_latitude longitude:_longitude os:[NSString stringWithFormat:@"iOS %@", osVersion] model:model successBlock:^(id object) {
                 
                 NSDictionary *tokenDict = object;
@@ -393,7 +394,7 @@
     
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[[UIApplication sharedApplication] keyWindow]  animated:YES];
     hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
-    hud.labelText = @"Loading";
+    hud.labelText = @"Signing up";
     
     [Data generateOTP:_phoneNumberTextField.text successBlock:^(id object) {
         [hud hide:YES];

@@ -164,7 +164,7 @@
     
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[[UIApplication sharedApplication] keyWindow]  animated:YES];
     hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
-    hud.labelText = @"Loading";
+    hud.labelText = @"Logging in";
     
     [Data googleSignIn:accessToken idToken:idToken installationId:installationId deviceType:devicetype areCoordinatesUpdated:_areCoordinatesUpdated latitude:_latitude longitude:_longitude os:[NSString stringWithFormat:@"iOS %@", osVersion] model:model successBlock:^(id object) {
         
@@ -223,7 +223,8 @@
             
             MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[[UIApplication sharedApplication] keyWindow]  animated:YES];
             hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
-            hud.labelText = @"Loading";
+            hud.labelText = @"Logging in";
+            
             [Data FBSignIn:tokenString installationId:installationId deviceType:devicetype areCoordinatesUpdated:_areCoordinatesUpdated latitude:_latitude longitude:_longitude os:[NSString stringWithFormat:@"iOS %@", osVersion] model:model successBlock:^(id object) {
                 
                 NSDictionary *tokenDict = object;
@@ -300,13 +301,13 @@
         NSString *email = [[[alertView textFieldAtIndex:0] text] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[[UIApplication sharedApplication] keyWindow] animated:YES];
         hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
-        hud.labelText = @"Loading";
+        hud.labelText = @"Processing";
+        
         [PFUser requestPasswordResetForEmailInBackground:email block:^(BOOL succeeded, NSError *error) {
             [hud hide:YES];
             if(succeeded) {
                 [RKDropdownAlert title:@"" message:@"A reset link has been sent to your email."  time:3];
             }
-            
         }];
     }
 }
@@ -436,7 +437,7 @@
     [_mobilTextField resignFirstResponder];
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[[UIApplication sharedApplication] keyWindow] animated:YES];
     hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
-    hud.labelText = @"Loading";
+    hud.labelText = @"Generating OTP";
     
     [Data generateOTP:_mobilTextField.text successBlock:^(id object) {
         [hud hide:YES];
@@ -470,7 +471,7 @@
     
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[[UIApplication sharedApplication] keyWindow] animated:YES];
     hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
-    hud.labelText = @"Loading";
+    hud.labelText = @"Logging in";
     
     PFInstallation *currentInstallation = [PFInstallation currentInstallation];
     NSString *installationId=[currentInstallation objectForKey:@"installationId"];

@@ -112,7 +112,7 @@
         if(_isSignUp==true) {
             MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[[UIApplication sharedApplication] keyWindow]  animated:YES];
             hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
-            hud.labelText = @"Loading";
+            hud.labelText = @"Verifying OTP";
             
             NSInteger verificationCode = [_codeText.text integerValue];
             PFInstallation *currentInstallation = [PFInstallation currentInstallation];
@@ -171,7 +171,7 @@
         else if(_isNewSignIn == true) {
             MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[[UIApplication sharedApplication] keyWindow]  animated:YES];
             hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
-            hud.labelText = @"Loading";
+            hud.labelText = @"Verifying OTP";
 
             NSInteger verificationCode = [_codeText.text integerValue];
             NSString *number = _phoneNumber;

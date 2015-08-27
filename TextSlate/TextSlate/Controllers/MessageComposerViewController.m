@@ -373,7 +373,7 @@
     if(!_finalAttachment) {
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[[UIApplication sharedApplication] keyWindow]  animated:YES];
         hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
-        hud.labelText = @"Sending";
+        hud.labelText = @"Sending message";
         [Data sendMultiTextMessage:classCodes classNames:classNames checkMembers:checkMembers message:messageText successBlock:^(id object) {
             NSMutableDictionary *dict = (NSMutableDictionary *) object;
             NSArray *messageObjectIds = (NSArray *)[dict objectForKey:@"messageId"];
@@ -436,7 +436,7 @@
     else if(_finalAttachment) {
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[[UIApplication sharedApplication] keyWindow]  animated:YES];
         hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
-        hud.labelText = @"Sending";
+        hud.labelText = @"Sending message";
         
         [_finalAttachment saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
             if(!error) {

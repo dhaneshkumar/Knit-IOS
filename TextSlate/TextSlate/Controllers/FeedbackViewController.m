@@ -65,7 +65,8 @@
         [self.feedback resignFirstResponder];
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[[UIApplication sharedApplication] keyWindow] animated:YES];
         hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
-        hud.labelText = @"Loading";
+        hud.labelText = @"Sending feedback";
+        
         [Data feedback:_feedback.text successBlock:^(id object) {
             [hud hide:YES];
             [RKDropdownAlert title:@"" message:@"We have got your feedback and we appreciate it." time:3];

@@ -65,7 +65,7 @@
     [_profileNameField resignFirstResponder];
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[[UIApplication sharedApplication] keyWindow]  animated:YES];
     hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
-    hud.labelText = @"Loading";
+    hud.labelText = @"Updating name";
     
     [Data updateProfileName:trimmedString successBlock:^(id object) {
         PFObject *currentUser = [PFUser currentUser];
