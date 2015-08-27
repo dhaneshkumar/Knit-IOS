@@ -82,7 +82,7 @@
 - (IBAction)joinNewClassClicked:(UIButton *)sender {
     NSString *classCodeTyped = [self trimmedString:_classCodeTextField.text];
     if(classCodeTyped.length != 7) {
-        [RKDropdownAlert title:@"Knit" message:@"Please make sure class code has 7 characters." time:2];
+        [RKDropdownAlert title:@"" message:@"Please make sure class code has 7 characters." time:3];
         return;
     }
     
@@ -93,7 +93,7 @@
     else {
         assocNameTyped = [_associatedPersonTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         if(assocNameTyped.length == 0) {
-            [RKDropdownAlert title:@"Knit" message:@"The associate name field cannot be left empty." time:2];
+            [RKDropdownAlert title:@"" message:@"The associate name field cannot be left empty." time:3];
             return;
         }
     }
@@ -110,7 +110,7 @@
     }
     if ([joinedAndCreatedClassCodes containsObject:classCodeTyped]) {
         [hud hide:YES];
-        [RKDropdownAlert title:@"Knit" message:@"You have already joined this class!"  time:2];
+        [RKDropdownAlert title:@"" message:@"You have already joined this class!"  time:3];
         return;
     }
     
@@ -118,7 +118,7 @@
         [joinedAndCreatedClassCodes addObject:[createdClass objectAtIndex:0]];
     }
     if ([joinedAndCreatedClassCodes containsObject:classCodeTyped]) {
-        [RKDropdownAlert title:@"Knit" message:@"Hey! You cannot join a class created by yourself."  time:2];
+        [RKDropdownAlert title:@"" message:@"Hey! You cannot join a class created by yourself."  time:3];
         [hud hide:YES];
          return;
     }
@@ -161,10 +161,10 @@
         
         [hud hide:YES];
         [self dismissViewControllerAnimated:YES completion:nil];
-        [RKDropdownAlert title:@"Knit" message:[NSString stringWithFormat:@"Successfully joined Class: %@ Creator : %@",codeGroupForClass[@"name"], codeGroupForClass[@"Creator"]] time:2];
+        [RKDropdownAlert title:@"" message:@"Class successfully joined." time:3];
     } errorBlock:^(NSError *error) {
         [hud hide:YES];
-        [RKDropdownAlert title:@"Knit" message:@"Error in joining Class. Please make sure you have the correct class code."  time:2];
+        [RKDropdownAlert title:@"" message:@"Error in joining Class. Please make sure you have the correct class code."  time:3];
     } hud:hud];
 }
 

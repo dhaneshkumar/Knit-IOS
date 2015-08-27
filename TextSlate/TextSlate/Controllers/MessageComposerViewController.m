@@ -305,13 +305,13 @@
 
 -(IBAction)sendMessage:(id)sender  {
     if([_recipientClassLabel.text isEqualToString:@"Tap to select Class"]) {
-          [RKDropdownAlert title:@"Knit" message:@"Select a recipient class." time:2];
+          [RKDropdownAlert title:@"" message:@"Select class to send message." time:3];
         return;
     }
     NSString *messageText = [self trimmedString:_textMessage.text];
     if([messageText isEqualToString:@""]) {
         if(!_finalAttachment) {
-            [RKDropdownAlert title:@"Knit" message:@"Message without body or attachment cannot be sent."  time:2];
+            [RKDropdownAlert title:@"" message:@"Message without body or attachment cannot be sent."  time:3];
             return;
         }
     }
@@ -423,14 +423,14 @@
             [hud hide:YES];
             [self dismissViewControllerAnimated:YES completion:nil];
             if(wasMessageSent) {
-                [RKDropdownAlert title:@"Knit" message:@"Message sent successfully!"  time:2];
+                [RKDropdownAlert title:@"" message:@"Message sent successfully!"  time:3];
             }
             else {
-                [RKDropdownAlert title:@"Knit" message:@"No members in class. Message not sent!"  time:4];
+                [RKDropdownAlert title:@"" message:@"No members in class. Message not sent!"  time:3];
             }
         } errorBlock:^(NSError *error) {
             [hud hide:YES];
-            [RKDropdownAlert title:@"Knit" message:@"Error occureed while sending message.Try again later."  time:2];
+            [RKDropdownAlert title:@"" message:@"Oops! Network connection error. Please try again."  time:3];
         } hud:hud];
     }
     else if(_finalAttachment) {
@@ -505,24 +505,24 @@
                         [hud hide:YES];
                         [self dismissViewControllerAnimated:YES completion:nil];
                         if(wasMessageSent) {
-                            [RKDropdownAlert title:@"Knit" message:@"Message sent successfully!"  time:2];
+                            [RKDropdownAlert title:@"" message:@"Message sent successfully!"  time:2];
                         }
                         else {
-                            [RKDropdownAlert title:@"Knit" message:@"No members in class. Message not sent!"  time:4];
+                            [RKDropdownAlert title:@"" message:@"No members in class. Message not sent!"  time:3];
                         }
                     } errorBlock:^(NSError *error) {
                         [hud hide:YES];
-                        [RKDropdownAlert title:@"Knit" message:@"Error occurred in sending the message. Try again later."  time:2];
+                        [RKDropdownAlert title:@"" message:@"Oops! Network connection error. Please try again."  time:3];
                     } hud:hud];
                 }
                 else {
                     [hud hide:YES];
-                    [RKDropdownAlert title:@"Knit" message:@"Error occurred in sending the message. Try again later." time:2];
+                    [RKDropdownAlert title:@"" message:@"Oops! Network connection error. Please try again." time:3];
                 }
             }
             else {
                 [hud hide:YES];
-                [RKDropdownAlert title:@"Knit" message:@"Error occurred in sending the message. Try again later." time:2];
+                [RKDropdownAlert title:@"" message:@"Oops! Network connection error. Please try again." time:3];
             }
         }];
     }
@@ -555,12 +555,12 @@
             }
             else if(status == AVAuthorizationStatusDenied){
                 // denied
-                [RKDropdownAlert title:@"Knit" message:@"Go to Settings and provide permission to access camera"  time:2];
+                [RKDropdownAlert title:@"" message:@"Go to Settings and provide permission to access camera"  time:3];
                 return;
             }
             else if(status == AVAuthorizationStatusRestricted){
                 // restricted
-                [RKDropdownAlert title:@"Knit" message:@"Go to Settings and provide permission to access camera"  time:2];
+                [RKDropdownAlert title:@"" message:@"Go to Settings and provide permission to access camera"  time:3];
                 return;
             }
             else if(status == AVAuthorizationStatusNotDetermined) {
@@ -588,11 +588,11 @@
                 [self presentViewController:picker animated:YES completion:NULL];
             }
             else if(status == ALAuthorizationStatusDenied) {
-                [RKDropdownAlert title:@"Knit" message:@"Go to Settings and provide permission to access photos"  time:2];
+                [RKDropdownAlert title:@"" message:@"Go to Settings and provide permission to access photos"  time:3];
                 return;
             }
             else if(status == ALAuthorizationStatusNotDetermined) {
-                [RKDropdownAlert title:@"Knit" message:@"Go to Settings and provide permission to access photos"  time:2];
+                [RKDropdownAlert title:@"" message:@"Go to Settings and provide permission to access photos"  time:3];
                 return;
             }
             else if(status == ALAuthorizationStatusNotDetermined) {

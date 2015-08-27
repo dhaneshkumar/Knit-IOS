@@ -46,11 +46,11 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
--(IBAction)doneButton:(id)sender{
+-(IBAction)doneButton:(id)sender {
     NSString *trimmedString = [_studentNameTextField.text stringByTrimmingCharactersInSet:
                                [NSCharacterSet whitespaceAndNewlineCharacterSet]];
     if(trimmedString.length==0) {
-        [RKDropdownAlert title:@"Knit" message:@"Student's name field cannot be left blank." time:2];
+        [RKDropdownAlert title:@"" message:@"Student's name field cannot be left blank." time:3];
         _studentNameTextField.text = _studentName;
         [_studentNameTextField becomeFirstResponder];
         return;
@@ -75,7 +75,7 @@
     }
     errorBlock:^(NSError *error){
         [hud hide:YES];
-        [RKDropdownAlert title:@"Knit" message:@"Error in changing student's name. Try again later." time:2];
+        [RKDropdownAlert title:@"" message:@"Oops! Network connection error. Please try again." time:3];
         return;
     } hud:hud];
 }

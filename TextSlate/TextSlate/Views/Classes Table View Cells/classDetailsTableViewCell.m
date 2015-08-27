@@ -27,7 +27,7 @@
     UIButton *copyCodeButton = (UIButton *)sender;
     UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
     pasteboard.string = copyCodeButton.titleLabel.text;
-    [RKDropdownAlert title:@"Knit" message:@"Code successfully copied :)"  time:2];
+    [RKDropdownAlert title:@"" message:@"Code successfully copied :)"  time:2];
 }
 
 @end

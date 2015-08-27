@@ -62,7 +62,7 @@
 - (IBAction)createNewClassClicked:(UIButton *)sender {
     NSString *classNameTyped = [self trimmedString:_classNameTextField.text];
     if(classNameTyped.length == 0) {
-        [RKDropdownAlert title:@"Knit" message:@"The class name cannot be left blank."  time:2];
+        [RKDropdownAlert title:@"" message:@"The class name cannot be left blank."  time:3];
         return;
     }
     
@@ -78,7 +78,7 @@
     }
     if ([createdClassNames containsObject:classNameTyped]) {
         [hud hide:YES];
-        [RKDropdownAlert title:@"Knit" message:@"You have already created a class with the same name."  time:2];
+        [RKDropdownAlert title:@"" message:@"You have already created a class with the same name."  time:3];
         return;
     }
     [_classNameTextField resignFirstResponder];
@@ -113,11 +113,11 @@
     
         [hud hide:YES];
         [self dismissViewControllerAnimated:YES completion:nil];
-        [RKDropdownAlert title:@"Knit" message:[NSString stringWithFormat:@"Successfully created Class: %@ Code : %@",codeGroupForClass[@"name"], codeGroupForClass[@"code"]]   time:2];
+        [RKDropdownAlert title:@"" message:@"Class successfully created." time:3];
     
     } errorBlock:^(NSError *error) {
         [hud hide:YES];
-        [RKDropdownAlert title:@"Knit" message:@"Error occured creating class. Please try again later."  time:2];
+        [RKDropdownAlert title:@"" message:@"Oops! Network connection error. Please try again."  time:3];
     } hud:hud];
 }
 

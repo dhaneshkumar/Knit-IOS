@@ -54,9 +54,9 @@
     NSArray *invites = [query findObjects];
     [self.navigationController popViewControllerAnimated:YES];
     if(invites.count==1)
-        [RKDropdownAlert title:@"Knit" message:@"Invitation sent successfully." time:2];
+        [RKDropdownAlert title:@"" message:@"Invitation sent successfully." time:2];
     else if(invites.count>1)
-        [RKDropdownAlert title:@"Knit" message:@"Invitations sent successfully." time:2];
+        [RKDropdownAlert title:@"" message:@"Invitations sent successfully." time:2];
 }
 
 -(BOOL)canCallInviteFunction {

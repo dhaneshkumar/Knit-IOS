@@ -263,7 +263,7 @@
                 [(TSTabBarViewController*)self.tabBarController logout];
             } errorBlock:^(NSError *error) {
                 [hud hide:YES];
-                [RKDropdownAlert title:@"Knit" message:@"Error occured on logging out. Try again later."  time:2];
+                [RKDropdownAlert title:@"" message:@"Oops! Network connection error. Please try again."  time:3];
             } hud:hud];
         }
     }
@@ -323,12 +323,12 @@
         }
         else if(status == AVAuthorizationStatusDenied){
             // denied
-            [RKDropdownAlert title:@"Knit" message:@"Go to Settings and provide permission to access camera"  time:2];
+            [RKDropdownAlert title:@"" message:@"Go to Settings and provide permission to access camera"  time:3];
             return;
         }
         else if(status == AVAuthorizationStatusRestricted){
             // restricted
-            [RKDropdownAlert title:@"Knit" message:@"Go to Settings and provide permission to access camera"  time:2];
+            [RKDropdownAlert title:@"" message:@"Go to Settings and provide permission to access camera"  time:3];
             return;
         }
         else if(status == AVAuthorizationStatusNotDetermined) {
@@ -357,11 +357,11 @@
             [self presentViewController:picker animated:YES completion:NULL];
         }
         else if(status == ALAuthorizationStatusDenied) {
-            [RKDropdownAlert title:@"Knit" message:@"Go to Settings and provide permission to access photos"  time:2];
+            [RKDropdownAlert title:@"" message:@"Go to Settings and provide permission to access photos"  time:3];
             return;
         }
         else if(status == ALAuthorizationStatusNotDetermined) {
-            [RKDropdownAlert title:@"Knit" message:@"Go to Settings and provide permission to access photos"  time:2];
+            [RKDropdownAlert title:@"" message:@"Go to Settings and provide permission to access photos"  time:3];
             return;
         }
         else if(status == ALAuthorizationStatusNotDetermined) {
@@ -399,16 +399,16 @@
                     [_settingsTableView reloadData];
                     [hud hide:YES];
                 } errorBlock:^(NSError *error) {
-                    [RKDropdownAlert title:@"Knit" message:@"Error occured while updating profile pic. Try again later."  time:2];
+                    [RKDropdownAlert title:@"" message:@"Oops! Network connection error. Please try again."  time:3];
                     [hud hide:YES];
                 } hud:hud];
             }
             else {
-                [RKDropdownAlert title:@"Knit" message:@"Error occured while updating profile pic. Try again later."  time:2];
+                [RKDropdownAlert title:@"" message:@"Oops! Network connection error. Please try again."  time:3];
                 [hud hide:YES];
             }
         } else {
-            [RKDropdownAlert title:@"Knit" message:@"Error occured while updating profile pic. Try again later."  time:2];
+            [RKDropdownAlert title:@"" message:@"Oops! Network connection error. Please try again."  time:3];
             [hud hide:YES];
         }
     }];

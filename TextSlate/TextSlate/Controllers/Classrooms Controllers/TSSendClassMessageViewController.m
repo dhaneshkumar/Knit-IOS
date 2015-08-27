@@ -156,7 +156,7 @@
     else if(buttonIndex==2) {
         UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
         pasteboard.string = _classCode;
-        [RKDropdownAlert title:@"Knit" message:@"Code successfully copied :)"  time:2];
+        [RKDropdownAlert title:@"" message:@"Code successfully copied :)"  time:2];
     }
 }
 
@@ -583,7 +583,7 @@
         [self.navigationController popViewControllerAnimated:YES];
     } errorBlock:^(NSError *error) {
         [hud hide:YES];
-        [RKDropdownAlert title:@"Knit" message:@"Error occured in deleting the class."  time:2];
+        [RKDropdownAlert title:@"" message:@"Oops! Network connection error. Please try again."  time:3];
     } hud:hud];
 }
 

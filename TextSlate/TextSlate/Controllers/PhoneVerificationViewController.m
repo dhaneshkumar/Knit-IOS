@@ -104,7 +104,7 @@
 - (IBAction)verifyCode:(UIButton *)sender {
     [_codeText resignFirstResponder];
     if([_codeText.text length]<4) {
-        [RKDropdownAlert title:@"Knit" message:@"OTP should be 4 digit long."  time:2];
+        [RKDropdownAlert title:@"" message:@"OTP should be 4 digit long."  time:3];
         return;
     }
     else {
@@ -127,7 +127,7 @@
                     [PFUser becomeInBackground:token block:^(PFUser *user, NSError *error) {
                         if (error) {
                             [hud hide:YES];
-                            [RKDropdownAlert title:@"Knit" message:@"Error in signing up. Try again."  time:2];
+                            [RKDropdownAlert title:@"" message:@"Oops! Network connection error. Please try again."  time:3];
                             return;
                         } else {
                             [self deleteAllLocalData];
@@ -152,18 +152,18 @@
                 }
                 else {
                     [hud hide:YES];
-                    [RKDropdownAlert title:@"Knit" message:@"Incorrect OTP. Try again."  time:2];
+                    [RKDropdownAlert title:@"" message:@"Incorrect OTP. Try again."  time:3];
                     return;
                 }
             } errorBlock:^(NSError *error) {
                 if([[((NSDictionary *)error.userInfo) objectForKey:@"error"] isEqualToString:@"USER_ALREADY_EXISTS"]) {
                     [hud hide:YES];
                     [self.navigationController popViewControllerAnimated:YES];
-                    [RKDropdownAlert title:@"Knit" message:@"User already exists."  time:2];
+                    [RKDropdownAlert title:@"" message:@"User already exists."  time:3];
                     return;
                 }
                 [hud hide:YES];
-                [RKDropdownAlert title:@"Knit" message:@"Error in signing up. Try again."  time:2];
+                [RKDropdownAlert title:@"" message:@"Oops! Network connection error. Please try again."  time:3];
                 return;
             } hud:hud];
         }
@@ -189,7 +189,7 @@
                     [PFUser becomeInBackground:token block:^(PFUser *user, NSError *error) {
                         if (error) {
                             [hud hide:YES];
-                            [RKDropdownAlert title:@"Knit" message:@"Error in signing in.Try again." time:2];
+                            [RKDropdownAlert title:@"" message:@"Oops! Network connection error. Please try again." time:3];
                             return;
                         } else {
                             PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
@@ -230,17 +230,17 @@
                 }
                 else {
                     [hud hide:YES];
-                    [RKDropdownAlert title:@"Knit" message:@"Incorrect OTP. Try again." time:2];
+                    [RKDropdownAlert title:@"" message:@"Incorrect OTP. Try again." time:3];
                     return;
                 }
             } errorBlock:^(NSError *error) {
                 [hud hide:YES];
                 if([[((NSDictionary *)error.userInfo) objectForKey:@"error"] isEqualToString:@"USER_DOESNOT_EXISTS"]) {
                     [self.navigationController popViewControllerAnimated:YES];
-                    [RKDropdownAlert title:@"Knit" message:@"User doesn't exist." time:2];
+                    [RKDropdownAlert title:@"" message:@"User doesn't exist." time:3];
                     return;
                 }
-                [RKDropdownAlert title:@"Knit" message:@"Error in signing in.Try again."  time:2];
+                [RKDropdownAlert title:@"" message:@"Oops! Network connection error. Please try again."  time:3];
                 return;
             } hud:hud];
         }

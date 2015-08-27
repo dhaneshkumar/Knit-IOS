@@ -140,7 +140,7 @@
 -(void)view2Tapped:(UITapGestureRecognizer *)recognizer {
     if (ABAddressBookGetAuthorizationStatus() == kABAuthorizationStatusDenied ||
         ABAddressBookGetAuthorizationStatus() == kABAuthorizationStatusRestricted){
-        [RKDropdownAlert title:@"Knit" message:@"Provide access to phone book by going to Settings -> Knit -> Contacts."  time:4];
+        [RKDropdownAlert title:@"" message:@"Provide access to phone book by going to Settings -> Knit -> Contacts."  time:4];
     } else if (ABAddressBookGetAuthorizationStatus() == kABAuthorizationStatusAuthorized){
         TSAddressBookViewController *addressBookVC = [self.storyboard instantiateViewControllerWithIdentifier:@"addressBookVC"];
         addressBookVC.isAddressBook = true;
@@ -152,7 +152,7 @@
     } else{
         ABAddressBookRequestAccessWithCompletion(ABAddressBookCreateWithOptions(NULL, nil), ^(bool granted, CFErrorRef error) {
             if (!granted){
-                [RKDropdownAlert title:@"Knit" message:@"Knit is not able to access your Contacts."  time:2];
+                [RKDropdownAlert title:@"" message:@"Knit is not able to access your Contacts."  time:3];
                 return;
             }
             TSAddressBookViewController *addressBookVC = [self.storyboard instantiateViewControllerWithIdentifier:@"addressBookVC"];
@@ -167,7 +167,6 @@
 }
 
 -(void)view3Tapped:(UITapGestureRecognizer *)recognizer {
-    //NSLog(@"view3Tapped");
     NSString *sendCode = @"";
     if(_type==1) {
         sendCode=[NSString stringWithFormat:@"Dear teacher, I found an awesome app, ‘Knit Messaging’, for teachers to communicate with parents and students. You can download the app from goo.gl/FmydzU"];
@@ -190,14 +189,14 @@
         [[UIApplication sharedApplication] openURL: whatsappURL];
     }
     else {
-        [RKDropdownAlert title:@"Knit" message:@"WhatsApp is not installed on your phone."  time:2];
+        [RKDropdownAlert title:@"" message:@"WhatsApp is not installed on your phone."  time:3];
     }
 }
 
 -(void)view4Tapped:(UITapGestureRecognizer *)recognizer {
     if (ABAddressBookGetAuthorizationStatus() == kABAuthorizationStatusDenied ||
         ABAddressBookGetAuthorizationStatus() == kABAuthorizationStatusRestricted){
-        [RKDropdownAlert title:@"Knit" message:@"Not able to access phone book. Provide access by going to Settings -> Knit -> Contacts."  time:4];
+        [RKDropdownAlert title:@"" message:@"Not able to access phone book. Provide access by going to Settings -> Knit -> Contacts."  time:4];
     } else if (ABAddressBookGetAuthorizationStatus() == kABAuthorizationStatusAuthorized){
         TSAddressBookViewController *addressBookVC = [self.storyboard instantiateViewControllerWithIdentifier:@"addressBookVC"];
         addressBookVC.isAddressBook = false;
@@ -209,7 +208,7 @@
     } else{
         ABAddressBookRequestAccessWithCompletion(ABAddressBookCreateWithOptions(NULL, nil), ^(bool granted, CFErrorRef error) {
             if (!granted){
-                [RKDropdownAlert title:@"Knit" message:@"Knit is not able to access your Contacts."  time:2];
+                [RKDropdownAlert title:@"" message:@"Knit is not able to access your Contacts."  time:3];
                 return;
             }
             TSAddressBookViewController *addressBookVC = [self.storyboard instantiateViewControllerWithIdentifier:@"addressBookVC"];
@@ -281,12 +280,12 @@
                                                          options:kNilOptions
                                                            error:&error];
     NSArray* result = [json objectForKey:@"result"];
-    [RKDropdownAlert title:@"Knit" message:@"Voila! Instructions have been sent to you via email." time:2];
+    [RKDropdownAlert title:@"" message:@"Voila! Instructions have been sent to you via email." time:3];
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
     // The request has failed
-    [RKDropdownAlert title:@"Knit" message:@"Oops! Seems like a problem occured while sending instruction. Try again." time:3];
+    [RKDropdownAlert title:@"" message:@"Oops! Network connection error. Please try again."  time:3];
 }
 
 /*

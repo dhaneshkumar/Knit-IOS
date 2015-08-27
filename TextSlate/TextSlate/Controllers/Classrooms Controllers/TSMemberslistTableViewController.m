@@ -204,7 +204,7 @@
                 [self.tableView deleteRowsAtIndexPaths:@[_indexPath] withRowAnimation:UITableViewRowAnimationFade];
             }errorBlock:^(NSError *error){
                 [hud hide:YES];
-                [RKDropdownAlert title:@"Knit" message:@"Error occured while deleting members. Please try again later."  time:2];
+                [RKDropdownAlert title:@"" message:@"Oops! Network connection error. Please try again."  time:3];
             } hud:hud];
         }
         else {
@@ -223,9 +223,8 @@
                 _sendClassVC.memberCount = _sendClassVC.memberCount-1;
                 [self.tableView deleteRowsAtIndexPaths:@[_indexPath] withRowAnimation:UITableViewRowAnimationFade];
             }errorBlock:^(NSError *error){
-                UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error occured while removing member." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
                 [hud hide:YES];
-                [errorAlertView show];
+                [RKDropdownAlert title:@"" message:@"Oops! Network connection error. Please try again."  time:3];
             } hud:hud];
         }
     }

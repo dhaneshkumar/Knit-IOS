@@ -174,7 +174,7 @@
             [PFUser becomeInBackground:token block:^(PFUser *user, NSError *error) {
                 if (error) {
                     [hud hide:YES];
-                    [RKDropdownAlert title:@"Knit" message:@"Error in signing in. Try again."  time:2];
+                    [RKDropdownAlert title:@"" message:@"Oops! Network connection error. Please try again."  time:3];
                     return;
                 } else {
                     PFUser *currentUser = [PFUser currentUser];
@@ -186,7 +186,7 @@
         }
         else {
             [hud hide:YES];
-            [RKDropdownAlert title:@"Knit" message:@"Error in signing in. Try again."  time:2];
+            [RKDropdownAlert title:@"" message:@"Oops! Network connection error. Please try again."  time:3];
             return;
         }
     } errorBlock:^(NSError *error) {
@@ -233,7 +233,7 @@
                     [PFUser becomeInBackground:token block:^(PFUser *user, NSError *error) {
                         if (error) {
                             [hud hide:YES];
-                            [RKDropdownAlert title:@"Knit" message:@"Error in signing in. Try again."  time:2];
+                            [RKDropdownAlert title:@"" message:@"Oops! Network connection error. Please try again."  time:3];
                             return;
                         } else {
                             PFUser *currentUser = [PFUser currentUser];
@@ -245,17 +245,17 @@
                 }
                 else {
                     [hud hide:YES];
-                    [RKDropdownAlert title:@"Knit" message:@"Error in signing in. Try again."  time:2];
+                    [RKDropdownAlert title:@"" message:@"Oops! Network connection error. Please try again."  time:3];
                     return;
                 }
             } errorBlock:^(NSError *error) {
                 [hud hide:YES];
                 if([[((NSDictionary *)error.userInfo) objectForKey:@"error"] isEqualToString:@"USER_DOESNOT_EXISTS"]) {
                     [self.navigationController popViewControllerAnimated:YES];
-                    [RKDropdownAlert title:@"Knit" message:@"User does not exist."  time:2];
+                    [RKDropdownAlert title:@"" message:@"User does not exist."  time:3];
                     return;
                 }
-                [RKDropdownAlert title:@"Knit" message:@"Error in signing in. Try again."  time:2];
+                [RKDropdownAlert title:@"" message:@"Oops! Network connection error. Please try again."  time:3];
                 return;
             } hud:hud];
         }
@@ -304,7 +304,7 @@
         [PFUser requestPasswordResetForEmailInBackground:email block:^(BOOL succeeded, NSError *error) {
             [hud hide:YES];
             if(succeeded) {
-                [RKDropdownAlert title:@"Knit" message:@"A reset link has been sent to your email."  time:2];
+                [RKDropdownAlert title:@"" message:@"A reset link has been sent to your email."  time:3];
             }
             
         }];
@@ -424,12 +424,12 @@
 
 -(void)newSignIn {
     if(_mobilTextField.text.length<10) {
-        [RKDropdownAlert title:@"Knit" message:@"Please make sure that the phone number entered is 10 digits."  time:2];
+        [RKDropdownAlert title:@"" message:@"Please make sure that the phone number entered is 10 digits."  time:3];
         return;
     }
 
     if([_mobilTextField.text characterAtIndex:0]<'7' && [_mobilTextField.text characterAtIndex:0]>'0') {
-        [RKDropdownAlert title:@"Knit" message:@"Please make sure that the phone number entered is correct."  time:2];
+        [RKDropdownAlert title:@"" message:@"Please make sure that the phone number entered is correct."  time:3];
         return;
     }
     
@@ -448,7 +448,7 @@
         [self.navigationController pushViewController:dvc animated:YES];
     } errorBlock:^(NSError *error) {
         [hud hide:YES];
-        [RKDropdownAlert title:@"Knit" message:@"Error in generating OTP.Try again later."  time:2];
+        [RKDropdownAlert title:@"" message:@"Oops! Network connection error. Please try again."  time:3];
     } hud:hud];
 }
 
@@ -456,13 +456,13 @@
 -(void)oldSignIn {
     NSString *userNameTyped = [_emailTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     if(userNameTyped.length==0) {
-        [RKDropdownAlert title:@"Knit" message:@"Email field cannot be left blank."  time:2];
+        [RKDropdownAlert title:@"" message:@"Email field cannot be left blank."  time:3];
         return;
     }
     
     NSString *passwordTyped = [_passwordTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     if(passwordTyped.length==0) {
-        [RKDropdownAlert title:@"Knit" message:@"Password field cannot be left blank."  time:2];
+        [RKDropdownAlert title:@"" message:@"Password field cannot be left blank."  time:3];
         return;
     }
     [_emailTextField resignFirstResponder];
@@ -503,10 +503,10 @@
         }
     } errorBlock:^(NSError *error) {
         if(error.code == 141) {
-            [RKDropdownAlert title:@"Knit" message:[NSString stringWithFormat:@"Password for username:%@ is not correct.", _emailTextField.text]  time:4];
+            [RKDropdownAlert title:@"" message:[NSString stringWithFormat:@"Password for username:%@ is not correct.", _emailTextField.text]  time:4];
         }
         else {
-            [RKDropdownAlert title:@"Knit" message:@"Internet not connected. Try again."  time:2];
+            [RKDropdownAlert title:@"" message:@"Oops! Network connection error. Please try again."  time:3];
         }
         [hud hide:YES];
     } hud:hud];

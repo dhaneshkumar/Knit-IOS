@@ -121,7 +121,7 @@
     [self slideOut];
     UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
     pasteboard.string = _classCode;
-    [RKDropdownAlert title:@"Knit" message:@"Code successfully copied :)"  time:2];
+    [RKDropdownAlert title:@"" message:@"Code successfully copied :)"  time:2];
 }
 
 -(void)view3Tapped:(UITapGestureRecognizer *)recognizer {

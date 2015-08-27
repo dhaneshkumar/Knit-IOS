@@ -281,7 +281,7 @@
 
 -(void)composeMessage {
     if([self createdClassesCount] == 0) {
-        [RKDropdownAlert title:@"Knit" message:@"You cannot send message as you have not created any class."  time:2];
+        [RKDropdownAlert title:@"" message:@"You cannot send message as you have not created any class."  time:3];
     }
     else if([self createdClassesCount] == 1) {
         UINavigationController *messageComposerNavVC = [self.storyboard instantiateViewControllerWithIdentifier:@"messageComposer"];

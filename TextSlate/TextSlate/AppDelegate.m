@@ -174,7 +174,7 @@
         }
         else if([notificationType isEqualToString:@"NORMAL"]) {
             if (application.applicationState == UIApplicationStateActive ) {
-                [RKDropdownAlert title:@"Knit" message:@"You got a new message. Go to inbox."  time:3];
+                [RKDropdownAlert title:@"" message:@"You got a new message. Go to inbox."  time:3];
             }
             else {
                 TSTabBarViewController *rootTab = [self getTabBarVC];
@@ -359,7 +359,7 @@
                         TSTabBarViewController *rootTab = [self getTabBarVC];
                         [rootTab setSelectedIndex:2];
                         self.window.rootViewController = _startNav;
-                        [RKDropdownAlert title:@"Knit" message:@"You cannot send message as you have not created any class."  time:2];
+                        [RKDropdownAlert title:@"" message:@"You cannot send message as you have not created any class."  time:3];
                     }
                     else if(state==UIApplicationStateActive) {
                         

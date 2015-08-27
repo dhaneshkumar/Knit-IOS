@@ -222,7 +222,7 @@
             [PFUser becomeInBackground:token block:^(PFUser *user, NSError *error) {
                 if (error) {
                     [hud hide:YES];
-                    [RKDropdownAlert title:@"Knit" message:@"Error in signing up. Try again."  time:2];
+                    [RKDropdownAlert title:@"" message:@"Oops! Network connection error. Please try again."  time:3];
                     return;
                 } else {
                     [self deleteAllLocalData];
@@ -252,7 +252,7 @@
         }
         else {
             [hud hide:YES];
-            [RKDropdownAlert title:@"Knit" message:@"Error in signing up Try again."  time:2];
+            [RKDropdownAlert title:@"" message:@"Oops! Network connection error. Please try again."  time:3];
             return;
         }
 
@@ -260,10 +260,10 @@
         [hud hide:YES];
         if([[((NSDictionary *)error.userInfo) objectForKey:@"error"] isEqualToString:@"USER_ALREADY_EXISTS"]) {
             [self.navigationController popViewControllerAnimated:YES];
-            [RKDropdownAlert title:@"Knit" message:@"User already exists."  time:2];
+            [RKDropdownAlert title:@"Knit" message:@"User already exists."  time:3];
             return;
         }
-        [RKDropdownAlert title:@"Knit" message:@"Error in signing up. Try again."  time:2];
+        [RKDropdownAlert title:@"" message:@"Oops! Network connection error. Please try again."  time:3];
         return;
     } hud:hud];
 }
@@ -308,7 +308,7 @@
                     [PFUser becomeInBackground:token block:^(PFUser *user, NSError *error) {
                         if (error) {
                             [hud hide:YES];
-                            [RKDropdownAlert title:@"Knit" message:@"Error in signing up. Try again."  time:2];
+                            [RKDropdownAlert title:@"" message:@"Oops! Network connection error. Please try again."  time:3];
                             return;
                         } else {
                             [self deleteAllLocalData];
@@ -338,17 +338,17 @@
                 }
                 else {
                     [hud hide:YES];
-                    [RKDropdownAlert title:@"Knit" message:@"Error in signing up Try again."  time:2];
+                    [RKDropdownAlert title:@"" message:@"Oops! Network connection error. Please try again."  time:3];
                     return;
                 }
             } errorBlock:^(NSError *error) {
                 [hud hide:YES];
                 if([[((NSDictionary *)error.userInfo) objectForKey:@"error"] isEqualToString:@"USER_ALREADY_EXISTS"]) {
                     [self.navigationController popViewControllerAnimated:YES];
-                    [RKDropdownAlert title:@"Knit" message:@"User already exists."  time:2];
+                    [RKDropdownAlert title:@"Knit" message:@"User already exists."  time:3];
                     return;
                 }
-                [RKDropdownAlert title:@"Knit" message:@"Error in signing up. Try again."  time:2];
+                [RKDropdownAlert title:@"" message:@"Oops! Network connection error. Please try again."  time:3];
                 return;
             } hud:hud];
         }
@@ -375,16 +375,16 @@
 -(void)signUp {
     NSString *name = [_displayName.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     if(name.length==0) {
-        [RKDropdownAlert title:@"Knit" message:@"Name field cannot be left empty."  time:2];
+        [RKDropdownAlert title:@"" message:@"Name field cannot be left empty."  time:3];
         return;
     }
     if(_phoneNumberTextField.text.length<10) {
-        [RKDropdownAlert title:@"Knit" message:@"Please make sure that the phone number entered is 10 digits."  time:2];
+        [RKDropdownAlert title:@"" message:@"Please make sure that the phone number entered is 10 digits."  time:3];
         return;
     }
     
     if([_phoneNumberTextField.text characterAtIndex:0]<'7' && [_phoneNumberTextField.text characterAtIndex:0]>'0') {
-        [RKDropdownAlert title:@"Knit" message:@"Please make sure that the phone number entered is correct."  time:2];
+        [RKDropdownAlert title:@"" message:@"Please make sure that the phone number entered is correct."  time:3];
         return;
     }
     
@@ -406,7 +406,7 @@
         [self.navigationController pushViewController:dvc animated:YES];
     } errorBlock:^(NSError *error) {
         [hud hide:YES];
-        [RKDropdownAlert title:@"Knit" message:@"Error in generating OTP. Try again."  time:2];
+        [RKDropdownAlert title:@"" message:@"Oops! Network connection error. Please try again."  time:3];
     } hud:hud];
 }
 

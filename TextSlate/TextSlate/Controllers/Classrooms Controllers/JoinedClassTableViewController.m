@@ -259,7 +259,7 @@
         [self.navigationController popViewControllerAnimated:YES];
     } errorBlock:^(NSError *error) {
         [hud hide:YES];
-        [RKDropdownAlert title:@"Knit" message:@"Error occured in leaving the class"  time:2];
+        [RKDropdownAlert title:@"" message:@"Oops! Network connection error. Please try again."  time:2];
     } hud:hud];
 }
 

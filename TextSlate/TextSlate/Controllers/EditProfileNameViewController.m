@@ -52,7 +52,7 @@
     NSString *trimmedString = [_profileNameField.text stringByTrimmingCharactersInSet:
                                [NSCharacterSet whitespaceAndNewlineCharacterSet]];
     if(trimmedString.length==0) {
-        [RKDropdownAlert title:@"Knit" message:@"Profile name field cannot be left blank." time:2];
+        [RKDropdownAlert title:@"" message:@"Profile name field cannot be left blank." time:3];
         _profileNameField.text = _profileName;
         return;
     }
@@ -75,7 +75,7 @@
         [self dismissViewControllerAnimated:YES completion:nil];
     } errorBlock:^(NSError *error){
       [hud hide:YES];
-      [RKDropdownAlert title:@"Knit" message:@"Error in changing profile name. Try again later." time:2];
+      [RKDropdownAlert title:@"" message:@"Oops! Network connection error. Please try again." time:3];
     } hud:hud];
 }
 

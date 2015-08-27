@@ -507,7 +507,7 @@
                 [_messageIds insertObject:message.messageId atIndex:0];
             }
             if(_messageFlag==1 && messageObjects.count==1) {
-                [RKDropdownAlert title:@"Knit" message:@"You know what? You can like/confuse message and let teacher know." time:2];
+                [RKDropdownAlert title:@"" message:@"You know what? You can like/confuse message and let teacher know." time:3];
             }
             _messagesArray = tempArray;
             dispatch_sync(dispatch_get_main_queue(), ^{
@@ -598,7 +598,7 @@
             });
 
             if(_messageFlag==1 && messageObjects.count==1) {
-                 [RKDropdownAlert title:@"Knit" message:@"You know what? You can like/confuse message and let teacher know."  time:2];
+                 [RKDropdownAlert title:@"" message:@"You know what? You can like/confuse message and let teacher know."  time:3];
             }
 
             PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];

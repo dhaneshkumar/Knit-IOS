@@ -58,7 +58,7 @@
 
 -(IBAction)submitFeedback:(id)sender{
     if([_feedback.text length]<=0) {
-          [RKDropdownAlert title:@"Knit" message:@"Please provide us with proper feedback." time:2];
+          [RKDropdownAlert title:@"" message:@"Please provide us with proper feedback." time:3];
           return;
     }
     else {
@@ -68,7 +68,7 @@
         hud.labelText = @"Loading";
         [Data feedback:_feedback.text successBlock:^(id object) {
             [hud hide:YES];
-            [RKDropdownAlert title:@"Knit" message:@"We have got your feedback and we appreciate it." time:2];
+            [RKDropdownAlert title:@"" message:@"We have got your feedback and we appreciate it." time:3];
             self.feedback.text = @"";
             if(_isSeparateWindow)
                 [self dismissViewControllerAnimated:YES completion:nil];
@@ -76,7 +76,7 @@
                 [self.navigationController popViewControllerAnimated:YES];
         } errorBlock:^(NSError *error) {
             [hud hide:YES];
-            [RKDropdownAlert title:@"Knit" message:@"Oops! Network connection error. Please try again later!" time:3];
+            [RKDropdownAlert title:@"" message:@"Oops! Network connection error. Please try again." time:3];
         } hud:hud];
     }
 }
