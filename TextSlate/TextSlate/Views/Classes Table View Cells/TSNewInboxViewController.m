@@ -401,6 +401,7 @@
         if([localObjs[0][@"isInboxDataConsistent"] isEqualToString:@"true"]) {
             _messageFlag=1;
             if(!_isILMCalled) {
+                [self.messagesTable setContentOffset:CGPointMake(0, -self.refreshControl.frame.size.height) animated:YES];
                 [_refreshControl beginRefreshing];
                 [self insertLatestMessages];
             }
@@ -411,6 +412,7 @@
     }
     else {
         if(!_isILMCalled) {
+            [self.messagesTable setContentOffset:CGPointMake(0, -self.refreshControl.frame.size.height) animated:YES];
             [_refreshControl beginRefreshing];
             [self insertLatestMessages];
         }
