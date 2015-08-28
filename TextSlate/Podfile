@@ -6,6 +6,7 @@ target 'Knit' do
     pod 'RKDropdownAlert'
     pod 'UIFloatLabelTextField'
 	pod 'YLGIFImage'
+    pod 'AppsFlyer-SDK'
     pod 'PulsingHalo'
     pod 'Google/SignIn'
 end

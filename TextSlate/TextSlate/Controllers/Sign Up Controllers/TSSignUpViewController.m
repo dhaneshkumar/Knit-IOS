@@ -20,6 +20,7 @@
 #import "TSTabBarViewController.h"
 #import "AppDelegate.h"
 #import "sharedCache.h"
+#import "AppsFlyerTracker.h"
 
 
 
@@ -225,6 +226,10 @@
                     [RKDropdownAlert title:@"" message:@"Oops! Network connection error. Please try again."  time:3];
                     return;
                 } else {
+                    PFUser *currentUser = [PFUser currentUser];
+                    //AppsFlyer
+                    [AppsFlyerTracker sharedTracker].customerUserID = currentUser[@"username"];
+                    
                     [self deleteAllLocalData];
                     [self createLocalDatastore:nil];
                     
@@ -239,7 +244,6 @@
                         }
                     }
                     
-                    PFUser *currentUser = [PFUser currentUser];
                     currentUser[@"isGoogle"] = @"YES";
                     [currentUser pin];
                     [rootTab initialization];
@@ -312,6 +316,10 @@
                             [RKDropdownAlert title:@"" message:@"Oops! Network connection error. Please try again."  time:3];
                             return;
                         } else {
+                            PFUser *currentUser = [PFUser currentUser];
+                            //AppsFlyer
+                            [AppsFlyerTracker sharedTracker].customerUserID = currentUser[@"username"];
+                            
                             [self deleteAllLocalData];
                             [self createLocalDatastore:nil];
                             
@@ -325,7 +333,7 @@
                                     break;
                                 }
                             }
-                            PFUser *currentUser = [PFUser currentUser];
+                            
                             currentUser[@"isFB"] = @"YES";
                             [currentUser pin];
                             [rootTab initialization];

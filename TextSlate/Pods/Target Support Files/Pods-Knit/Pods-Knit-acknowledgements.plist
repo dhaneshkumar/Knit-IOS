@@ -14,6 +14,15 @@
 		</dict>
 		<dict>
 			<key>FooterText</key>
+			<string>Copyright 2014 AppsFlyer Ltd. All rights reserved.
+</string>
+			<key>Title</key>
+			<string>AppsFlyer-SDK</string>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+		</dict>
+		<dict>
+			<key>FooterText</key>
 			<string>Copyright 2015 Google Inc.</string>
 			<key>Title</key>
 			<string>Google</string>

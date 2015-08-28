@@ -24,6 +24,7 @@
 #import "TSWebViewController.h"
 #import "FeedbackViewController.h"
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
+#import "AppsFlyerTracker.h"
 
 
 @interface AppDelegate ()
@@ -105,6 +106,8 @@
     else if(launchOptions[UIApplicationLaunchOptionsLocalNotificationKey]) {
         [self application:application didReceiveLocalNotification:launchOptions[UIApplicationLaunchOptionsLocalNotificationKey]];
     }
+    [AppsFlyerTracker sharedTracker].appsFlyerDevKey = @"yM6MGfywAWmdjteEvgftxT";
+    [AppsFlyerTracker sharedTracker].appleAppID = @"962112913";
     return [[FBSDKApplicationDelegate sharedInstance] application:application didFinishLaunchingWithOptions:launchOptions];
 }
 

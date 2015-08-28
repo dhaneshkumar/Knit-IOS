@@ -18,6 +18,7 @@
 #import "MBProgressHUD.h"
 #import "RKDropdownAlert.h"
 #import <sys/utsname.h>
+#import "AppsFlyerTracker.h"
 
 @interface PhoneVerificationViewController ()
 
@@ -130,6 +131,10 @@
                             [RKDropdownAlert title:@"" message:@"Oops! Network connection error. Please try again."  time:3];
                             return;
                         } else {
+                            PFUser *currentUser = [PFUser currentUser];
+                            //AppsFlyer
+                            [AppsFlyerTracker sharedTracker].customerUserID = currentUser[@"username"];
+                            
                             [self deleteAllLocalData];
                             [self createLocalDatastore:nil];
                             

@@ -1,1 +1,0 @@
-PODS_KNIT_MBPROGRESSHUD_OTHER_LDFLAGS = -framework "CoreGraphics"

@@ -1,6 +1,11 @@
 # Acknowledgements
 This application makes use of the following third party libraries:
 
+## AppsFlyer-SDK
+
+Copyright 2014 AppsFlyer Ltd. All rights reserved.
+
+
 ## Google
 
 Copyright 2015 Google Inc.
