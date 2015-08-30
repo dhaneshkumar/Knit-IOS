@@ -325,7 +325,6 @@
     NSDate *latestMessageTime = (_messagesArray.count==0)?[PFUser currentUser].createdAt:((TSMessage *)_messagesArray[0]).sentTime;
     [Data updateInboxLocalDatastoreWithTime:latestMessageTime successBlock:^(id object) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
-            [_refreshControl endRefreshing];
             NSArray *messageObjects = (NSArray *) object;
             NSEnumerator *enumerator = [messageObjects reverseObjectEnumerator];
             NSCharacterSet *characterset=[NSCharacterSet characterSetWithCharactersInString:@"\uFFFC\n "];
@@ -375,11 +374,11 @@
             _messagesArray = tempArray;
             dispatch_sync(dispatch_get_main_queue(), ^{
                 [self.messagesTable reloadData];
+                [_refreshControl endRefreshing];
             });
             _isILMCalled = NO;
         });
     } errorBlock:^(NSError *error) {
-        //NSLog(@"Unable to fetch inbox messages while opening inbox tab: %@", [error description]);
         _isILMCalled = NO;
     } hud:nil];
 }
@@ -460,8 +459,6 @@
     NSDate *latestMessageTime = (_messagesArray.count==0)?[PFUser currentUser].createdAt:((TSMessage *)_messagesArray[0]).sentTime;
     [Data updateInboxLocalDatastoreWithTime:latestMessageTime successBlock:^(id object) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
-            //_lastUpdateCalled = [NSDate date];
-            [_refreshControl endRefreshing];
             NSArray *messageObjects = (NSArray *) object;
             NSEnumerator *enumerator = [messageObjects reverseObjectEnumerator];
             NSCharacterSet *characterset=[NSCharacterSet characterSetWithCharactersInString:@"\uFFFC\n "];
@@ -514,6 +511,7 @@
             _messagesArray = tempArray;
             dispatch_sync(dispatch_get_main_queue(), ^{
                 [self.messagesTable reloadData];
+                [_refreshControl endRefreshing];
                 if(messageObjects.count>0) {
                     NSIndexPath *rowIndexPath = [NSIndexPath indexPathForRow:0 inSection:0];
                     [self.messagesTable scrollToRowAtIndexPath:rowIndexPath atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
@@ -522,7 +520,6 @@
             _isILMCalled = NO;
         });
     } errorBlock:^(NSError *error) {
-        //NSLog(@"Unable to fetch inbox messages while opening inbox tab: %@", [error description]);
         _isILMCalled = NO;
 
     } hud:nil];
