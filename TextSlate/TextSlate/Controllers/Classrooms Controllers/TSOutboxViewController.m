@@ -320,15 +320,8 @@
     _hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
     _hud.labelText = @"Loading messages";
     
-    AppDelegate *apd = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    NSArray *vcs = (NSArray *)((UINavigationController *)apd.startNav).viewControllers;
-    TSTabBarViewController *rootTab = (TSTabBarViewController *)((UINavigationController *)apd.startNav).topViewController;
-    for(id vc in vcs) {
-        if([vc isKindOfClass:[TSTabBarViewController class]]) {
-            rootTab = (TSTabBarViewController *)vc;
-            break;
-        }
-    }
+    TSTabBarViewController *rootTab = (TSTabBarViewController *)self.tabBarController;
+
     [self setRefreshCalled];
     [Data updateInboxLocalDatastore:@"c" successBlock:^(id object) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
@@ -404,15 +397,9 @@
 -(void)fetchOldMessages {
     TSMessage *msg = _messagesArray[_messagesArray.count-1];
     NSDate *oldestMsgDate = msg.sentTime;
-    AppDelegate *apd = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    NSArray *vcs = (NSArray *)((UINavigationController *)apd.startNav).viewControllers;
-    TSTabBarViewController *rootTab = (TSTabBarViewController *)((UINavigationController *)apd.startNav).topViewController;
-    for(id vc in vcs) {
-        if([vc isKindOfClass:[TSTabBarViewController class]]) {
-            rootTab = (TSTabBarViewController *)vc;
-            break;
-        }
-    }
+    
+    TSTabBarViewController *rootTab = (TSTabBarViewController *)self.tabBarController;
+    
     [Data updateInboxLocalDatastoreWithTime1:@"c" oldestMessageTime:oldestMsgDate successBlock:^(id object) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
             NSArray *messages = (NSArray *)object;
@@ -447,7 +434,6 @@
             [localOs[0] pinInBackground];
         });
     } errorBlock:^(NSError *error) {
-        //NSLog(@"Unable to fetch inbox messages when pulled up to refresh: %@", [error description]);
     } hud:nil];
 }
 
@@ -458,16 +444,10 @@
     [Data updateCountsLocally:tempArray successBlock:^(id object) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
             NSDictionary *messageObjects = (NSDictionary *)object;
-            AppDelegate *apd = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-            NSArray *vcs = (NSArray *)((UINavigationController *)apd.startNav).viewControllers;
-            TSTabBarViewController *rootTab = (TSTabBarViewController *)((UINavigationController *)apd.startNav).topViewController;
-            for(id vc in vcs) {
-                if([vc isKindOfClass:[TSTabBarViewController class]]) {
-                    rootTab = (TSTabBarViewController *)vc;
-                    break;
-                }
-            }
+            
+            TSTabBarViewController *rootTab = (TSTabBarViewController *)self.tabBarController;
             ClassesViewController *classesVC = rootTab.viewControllers[0];
+            
             for(NSString *messageObjectId in messageObjects) {
                 PFQuery *query = [PFQuery queryWithClassName:@"GroupDetails"];
                 [query fromLocalDatastore];
@@ -553,16 +533,7 @@
 
 
 -(void)setRefreshCalled {
-    AppDelegate *apd = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    NSArray *vcs = (NSArray *)((UINavigationController *)apd.startNav).viewControllers;
-    TSTabBarViewController *rootTab = (TSTabBarViewController *)((UINavigationController *)apd.startNav).topViewController;
-    for(id vc in vcs) {
-        if([vc isKindOfClass:[TSTabBarViewController class]]) {
-            rootTab = (TSTabBarViewController *)vc;
-            break;
-        }
-    }
-    
+    TSTabBarViewController *rootTab = (TSTabBarViewController *)self.tabBarController;
     ClassesViewController *classesVC = rootTab.viewControllers[0];
     [classesVC setRefreshCalled];
     _isBottomRefreshCalled = true;
@@ -570,16 +541,7 @@
 
 
 -(void)unsetRefreshCalled {
-    AppDelegate *apd = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    NSArray *vcs = (NSArray *)((UINavigationController *)apd.startNav).viewControllers;
-    TSTabBarViewController *rootTab = (TSTabBarViewController *)((UINavigationController *)apd.startNav).topViewController;
-    for(id vc in vcs) {
-        if([vc isKindOfClass:[TSTabBarViewController class]]) {
-            rootTab = (TSTabBarViewController *)vc;
-            break;
-        }
-    }
-    
+    TSTabBarViewController *rootTab = (TSTabBarViewController *)self.tabBarController;
     ClassesViewController *classesVC = rootTab.viewControllers[0];
     [classesVC setRefreshCalled];
     _isBottomRefreshCalled = false;
