@@ -164,8 +164,9 @@
         if(!message.attachment) {
             [cell.activityIndicator startAnimating];
         }
-        else
+        else {
             [cell.activityIndicator stopAnimating];
+        }
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     if(indexPath.row == _messagesArray.count-1 && !_isBottomRefreshCalled) {
@@ -221,8 +222,9 @@
 
 
 -(void)displayMessages {
-    if([self createdClassesCount] == 0)
+    if([self createdClassesCount] == 0) {
         return;
+    }
     if(_messagesArray.count==0) {
         PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
         [lq fromLocalDatastore];
@@ -250,10 +252,10 @@
 
 -(void)fetchImages {
     NSArray *tempArray = [[NSArray alloc] initWithArray:_messagesArray];
-    for(int i=0; i<tempArray.count; i++) {
-        TSMessage *message = tempArray[i];
-        if(message.attachmentURL && !message.attachment) {
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
+        for(int i=0; i<tempArray.count; i++) {
+            TSMessage *message = tempArray[i];
+            if(message.attachmentURL && !message.attachment) {
                 NSData *data = [message.attachmentURL getData];
                 UIImage *image = [[UIImage alloc] initWithData:data];
                 NSString *url = message.attachmentURL.url;
@@ -265,9 +267,9 @@
                         [self.messagesTable reloadData];
                     });
                 }
-            });
+            }
         }
-    }
+    });
 }
 
 
