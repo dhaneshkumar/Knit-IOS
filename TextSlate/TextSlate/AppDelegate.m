@@ -51,7 +51,7 @@
     [Parse enableLocalDatastore];
 
     // Override point for customization after application launch.
-    [self setKeysForKnit];
+    [self setKeysForDevelopmentKnit];
     [PFUser enableRevocableSessionInBackground];
     [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
     
@@ -585,6 +585,7 @@
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     application.applicationIconBadgeNumber = 0;
     [FBSDKAppEvents activateApp];
+    [[AppsFlyerTracker sharedTracker] trackAppLaunch];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
