@@ -62,7 +62,6 @@
             UIImage *image = [[sharedCache sharedInstance] getCachedImageForKey:url];
             message.attachmentURL = attachImageUrl;
             if(image) {
-                //NSLog(@"already cached");
                 message.attachment = image;
             }
         }
@@ -71,6 +70,7 @@
         [_messageIds addObject:message.messageId];
     }
 }
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -84,13 +84,8 @@
     _refreshControl.backgroundColor = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
     [self.messagesTable addSubview:_refreshControl];
     [_refreshControl addTarget:self action:@selector(pullDownToRefresh) forControlEvents:UIControlEventValueChanged];
-	/*
-    self.customView = [self.storyboard instantiateViewControllerWithIdentifier:@"customCoachMarkVC"];
-    [self.navigationController.view
-     addSubview:self.customView.view];
-    [self.customView viewWillAppear:NO];
-    [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(hideView) userInfo:nil repeats:NO];*/
 }
+
 
 - (void)applicationWillEnterForeground:(NSNotification *)notification {
     [self viewWillAppear:YES];
@@ -149,9 +144,11 @@
     }
 }
 
+
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return _messagesArray.count;
 }
+
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     TSMessage *message = (TSMessage *)[_messagesArray objectAtIndex:indexPath.row];
@@ -275,15 +272,16 @@
     [localQuery fromLocalDatastore];
     NSArray *objs = [localQuery findObjects];
     objs[0][@"isUpdateCountsGloballyCalled"] = boolValue;
-    [objs[0] pin];
+    [objs[0] pinInBackground];
     return;
 }
 
 
 -(BOOL)noJoinedClasses {
     NSArray *joinedClasses = [[PFUser currentUser] objectForKey:@"joined_groups"];
-    if(joinedClasses.count == 0)
+    if(joinedClasses.count == 0) {
         return true;
+    }
     return false;
 }
 
@@ -701,7 +699,6 @@
 
 
 -(void)updateCountsLocally {
-    //NSLog(@"updateCountsLocally called");
     _lastUpdateCalled = [NSDate date];
     NSArray *tempArray = [[NSArray alloc] initWithArray:_messageIds];
     [Data updateCountsLocally:tempArray successBlock:^(id object) {
@@ -723,7 +720,7 @@
             }
         });
     } errorBlock:^(NSError *error) {
-        //NSLog(@"Unable to fetch like confuse counts in inbox: %@", [error description]);
+        
     } hud:nil];
 }
 
@@ -783,7 +780,6 @@
                     [self setUpdateCountsGloballyCalled:@"false"];
                 });
             } errorBlock:^(NSError *error) {
-                //NSLog(@"Unable to fetch inbox messages when pulled up to refresh: %@", [error description]);
                 [self setUpdateCountsGloballyCalled:@"false"];
             } hud:nil];
         }
@@ -795,7 +791,6 @@
 
 
 -(void)updateSeenCountsGlobally {
-    //NSLog(@"updateSeenCountsCalled");
     _isUpdateSeenCountsCalled = true;
     NSArray *tempArray = [[NSArray alloc] initWithArray:_messagesArray];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
@@ -813,26 +808,31 @@
                 }
             }
         }
-
-        [Data updateSeenCountsGlobally:arr successBlock:^(id object) {
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
-                for(int i=0; i<arr.count; i++) {
-                    PFQuery *query = [PFQuery queryWithClassName:@"GroupDetails"];
-                    [query fromLocalDatastore];
-                    [query whereKey:@"messageId" equalTo:arr[i]];
-                    
-                    NSArray *objs = [query findObjects];
-                    if(objs.count>0) {
-                        PFObject *obj = objs[0];
-                        obj[@"seenStatus"] = @"true";
-                        [obj pin];
+        
+        if(arr.count > 0) {
+            [Data updateSeenCountsGlobally:arr successBlock:^(id object) {
+                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
+                    for(int i=0; i<arr.count; i++) {
+                        PFQuery *query = [PFQuery queryWithClassName:@"GroupDetails"];
+                        [query fromLocalDatastore];
+                        [query whereKey:@"messageId" equalTo:arr[i]];
+                        
+                        NSArray *objs = [query findObjects];
+                        if(objs.count>0) {
+                            PFObject *obj = objs[0];
+                            obj[@"seenStatus"] = @"true";
+                            [obj pin];
+                        }
                     }
-                }
+                    _isUpdateSeenCountsCalled = false;
+                });
+            } errorBlock:^(NSError *error) {
                 _isUpdateSeenCountsCalled = false;
-            });
-        } errorBlock:^(NSError *error) {
-            //NSLog(@"Unable to fetch inbox messages when pulled up to refresh: %@", [error description]);
-        } hud:nil];
+            } hud:nil];
+        }
+        else {
+            _isUpdateSeenCountsCalled = false;
+        }
     });
 }
 
