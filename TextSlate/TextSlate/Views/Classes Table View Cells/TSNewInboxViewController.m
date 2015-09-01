@@ -207,9 +207,6 @@
             if([localOs[0][@"isInboxDataConsistent"] isEqualToString:@"false"]) {
                 [self fetchOldMessages];
             }
-            else {
-                _isBottomRefreshCalled = false;
-            }
         });
     }
     return cell;
@@ -390,6 +387,7 @@
         [lq fromLocalDatastore];
         NSArray *localObjs = [lq findObjects];
         localObjs[0][@"isInboxDataConsistent"] = @"true";
+        _isBottomRefreshCalled = true;
         [localObjs[0] pinInBackground];
         return;
     }
@@ -399,6 +397,7 @@
         NSArray *localObjs = [lq findObjects];
         if([localObjs[0][@"isInboxDataConsistent"] isEqualToString:@"true"]) {
             _messageFlag=1;
+            _isBottomRefreshCalled = true;
             if(!_isILMCalled) {
                 [self.messagesTable setContentOffset:CGPointMake(0, -self.refreshControl.frame.size.height) animated:YES];
                 [_refreshControl beginRefreshing];
@@ -441,7 +440,6 @@
                 UIImage *image = [[UIImage alloc] initWithData:data];
                 NSString *url = message.attachmentURL.url;
                 if(image) {
-                    //NSLog(@"Caching here....");
                     [[sharedCache sharedInstance] cacheImage:image forKey:url];
                     message.attachment = image;
                     dispatch_sync(dispatch_get_main_queue(), ^{
@@ -484,14 +482,12 @@
                     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
                         UIImage *image = [[sharedCache sharedInstance] getCachedImageForKey:url];
                         if(image) {
-                            //NSLog(@"already cached");
                             message.attachment = image;
                         }
                         else{
                             NSData *data = [attachImageUrl getData];
                             UIImage *image = [[UIImage alloc] initWithData:data];
                             if(image) {
-                                //NSLog(@"Caching here....");
                                 [[sharedCache sharedInstance] cacheImage:image forKey:url];
                                 message.attachment = image;
                                 dispatch_sync(dispatch_get_main_queue(), ^{
@@ -530,6 +526,7 @@
     _hud = [MBProgressHUD showHUDAddedTo:self.view  animated:YES];
     _hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
     _hud.labelText = @"Loading messages";
+    _isBottomRefreshCalled = true;
     [Data updateInboxLocalDatastore:@"j" successBlock:^(id object) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
             NSMutableDictionary *members = (NSMutableDictionary *) object;
@@ -571,14 +568,12 @@
                     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
                         UIImage *image = [[sharedCache sharedInstance] getCachedImageForKey:url];
                         if(image) {
-                            //NSLog(@"already cached");
                             message.attachment = image;
                         }
                         else {
                             NSData *data = [attachImageUrl getData];
                             UIImage *image = [[UIImage alloc] initWithData:data];
                             if(image) {
-                                //NSLog(@"Caching here....");
                                 [[sharedCache sharedInstance] cacheImage:image forKey:url];
                                 message.attachment = image;
                                 dispatch_sync(dispatch_get_main_queue(), ^{
@@ -595,7 +590,7 @@
             dispatch_sync(dispatch_get_main_queue(), ^{
                 [self.messagesTable reloadData];
             });
-
+            _isBottomRefreshCalled = false;
             if(_messageFlag==1 && messageObjects.count==1) {
                  [RKDropdownAlert title:@"" message:@"You know what? You can like/confuse message and let teacher know."  time:3];
             }
@@ -603,11 +598,17 @@
             PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
             [lq fromLocalDatastore];
             NSArray *localOs = [lq findObjects];
-            localOs[0][@"isInboxDataConsistent"] = (messageObjects.count < 20) ? @"true" : @"false";
+            if(messageObjects.count < 20) {
+                localOs[0][@"isInboxDataConsistent"] = @"true";
+            }
+            else {
+                localOs[0][@"isInboxDataConsistent"] = @"false";
+                _isBottomRefreshCalled = false;
+            }
             [localOs[0] pinInBackground];
         });
     } errorBlock:^(NSError *error) {
-        //NSLog(@"Unable to fetch inbox messages while opening inbox tab: %@", [error description]);
+        _isBottomRefreshCalled = false;
         [_hud hide:YES];
     } hud:_hud];
 }
@@ -681,19 +682,20 @@
             dispatch_sync(dispatch_get_main_queue(), ^{
                 [self.messagesTable reloadData];
             });
-            //NSLog(@"new old messages : %lu", (unsigned long)_messagesArray.count);
             PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
             [lq fromLocalDatastore];
             NSArray *localOs = [lq findObjects];
-            localOs[0][@"isInboxDataConsistent"] = (messageObjects.count < 20) ? @"true" : @"false";
-            if([localOs[0][@"isInboxDataConsistent"] isEqualToString:@"false"]) {
+            if(messageObjects.count < 20) {
+                localOs[0][@"isInboxDataConsistent"] = @"true";
+            }
+            else {
+                localOs[0][@"isInboxDataConsistent"] = @"false";
                 _isBottomRefreshCalled = false;
             }
             [localOs[0] pinInBackground];
         });
     } errorBlock:^(NSError *error) {
-        //NSLog(@"Unable to fetch inbox messages when pulled up to refresh: %@", [error description]);
-            
+        _isBottomRefreshCalled = false;
     } hud:nil];
 }
 

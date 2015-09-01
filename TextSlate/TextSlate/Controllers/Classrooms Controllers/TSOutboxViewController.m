@@ -236,6 +236,9 @@
         if([localObjs[0][@"isOutboxDataConsistent"] isEqualToString:@"false"]) {
             [self fetchOldMessagesOnDataDeletion];
         }
+        else {
+            [self setRefreshCalled];
+        }
     }
     else {
         [self fetchImages];
@@ -348,11 +351,16 @@
             dispatch_sync(dispatch_get_main_queue(), ^{
                 [self.messagesTable reloadData];
             });
-            [self unsetRefreshCalled];
             PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
             [lq fromLocalDatastore];
             NSArray *localOs = [lq findObjects];
-            localOs[0][@"isOutboxDataConsistent"] = (messages.count < 20) ? @"true" : @"false";
+            if(messages.count < 20) {
+                localOs[0][@"isOutboxDataConsistent"] = @"true";
+            }
+            else {
+                localOs[0][@"isOutboxDataConsistent"] = @"false";
+                [self unsetRefreshCalled];
+            }
             [localOs[0] pinInBackground];
         });
     } errorBlock:^(NSError *error) {
@@ -434,6 +442,7 @@
             [localOs[0] pinInBackground];
         });
     } errorBlock:^(NSError *error) {
+        [self unsetRefreshCalled];
     } hud:nil];
 }
 

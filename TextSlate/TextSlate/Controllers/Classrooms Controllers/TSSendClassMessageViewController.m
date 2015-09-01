@@ -130,13 +130,6 @@
                                                destructiveButtonTitle:nil
                                                     otherButtonTitles:@"Invite parents", @"Delete class", @"Copy class code", nil];
     [actionSheet showInView:self.view];
-    /*
-    self.customUIActionSheetViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"customAlertSheetVC"];
-    self.customUIActionSheetViewController.classCode = _classCode;
-    self.customUIActionSheetViewController.sendClassVC = self;
-    [self.navigationController.view
-     addSubview:self.customUIActionSheetViewController.view];
-    [self.customUIActionSheetViewController viewWillAppear:NO];*/
 }
 
 -(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
@@ -178,9 +171,11 @@
     }
 }
 
+
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return _messagesArray.count;
 }
+
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     TSMessage *message = (TSMessage *)[_messagesArray objectAtIndex:indexPath.row];
@@ -227,9 +222,6 @@
             NSArray *localOs = [lq findObjects];
             if([localOs[0][@"isOutboxDataConsistent"] isEqualToString:@"false"]) {
                 [self fetchOldMessages];
-            }
-            else {
-                [self unsetRefreshCalled];
             }
         });
     }
@@ -279,6 +271,9 @@
         if([localObjs[0][@"isOutboxDataConsistent"] isEqualToString:@"false"]) {
             [self fetchOldMessagesOnDataDeletion];
         }
+        else {
+            [self setRefreshCalled];
+        }
     }
     else {
         [self fetchImages];
@@ -296,7 +291,6 @@
                 UIImage *image = [[UIImage alloc] initWithData:data];
                 NSString *url = message.attachmentURL.url;
                 if(image) {
-                    //NSLog(@"Caching here....");
                     [[sharedCache sharedInstance] cacheImage:image forKey:url];
                     message.attachment = image;
                     dispatch_sync(dispatch_get_main_queue(), ^{
@@ -349,6 +343,7 @@
             break;
         }
     }
+    [self setRefreshCalled];
     [Data updateInboxLocalDatastore:@"c" successBlock:^(id object) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
             NSArray *messages = (NSArray *)object;
@@ -384,11 +379,17 @@
             PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
             [lq fromLocalDatastore];
             NSArray *localOs = [lq findObjects];
-            localOs[0][@"isOutboxDataConsistent"] = (messages.count < 20) ? @"true" : @"false";
+            if(messages.count < 20) {
+                localOs[0][@"isOutboxDataConsistent"] = @"true";
+            }
+            else {
+                localOs[0][@"isOutboxDataConsistent"] = @"false";
+                [self unsetRefreshCalled];
+            }
             [localOs[0] pinInBackground];
         });
     } errorBlock:^(NSError *error) {
-        //NSLog(@"Unable to fetch inbox messages while opening inbox tab: %@", [error description]);
+        [self unsetRefreshCalled];
         [_hud hide:YES];
     } hud:_hud];
 }
@@ -474,44 +475,20 @@
             PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
             [lq fromLocalDatastore];
             NSArray *localOs = [lq findObjects];
-            localOs[0][@"isOutboxDataConsistent"] = (messages.count < 20) ? @"true" : @"false";
-            if([localOs[0][@"isOutboxDataConsistent"] isEqualToString:@"false"]) {
+            if (messages.count < 20) {
+                localOs[0][@"isOutboxDataConsistent"] = @"true";
+            }
+            else {
+                localOs[0][@"isOutboxDataConsistent"] = @"false";
                 [self unsetRefreshCalled];
             }
             [localOs[0] pinInBackground];
         });
     } errorBlock:^(NSError *error) {
-        //NSLog(@"Unable to fetch inbox messages when pulled up to refresh: %@", [error description]);
         [self unsetRefreshCalled];
     } hud:nil];
 }
 
-
--(void)updateCountsLocally:(NSArray *)array {
-    [Data updateCountsLocally:array successBlock:^(id object) {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
-            NSDictionary *messageObjects = (NSDictionary *)object;
-            for(NSString *messageObjectId in messageObjects) {
-                PFQuery *query = [PFQuery queryWithClassName:@"GroupDetails"];
-                [query fromLocalDatastore];
-                [query whereKey:@"messageId" equalTo:messageObjectId];
-                NSArray *msgs = (NSArray *)[query findObjects];
-                if(msgs.count>0) {
-                    PFObject *msg = (PFObject *)msgs[0];
-                    msg[@"seen_count"] = ((NSArray *)messageObjects[messageObjectId])[0];
-                    msg[@"like_count"] = ((NSArray *)messageObjects[messageObjectId])[1];
-                    msg[@"confused_count"] = ((NSArray *)messageObjects[messageObjectId])[2];
-                    [msg pin];
-                    ((TSMessage *)_mapCodeToObjects[messageObjectId]).seenCount = [msg[@"seen_count"] intValue];
-                    ((TSMessage *)_mapCodeToObjects[messageObjectId]).likeCount = [msg[@"like_count"] intValue];
-                    ((TSMessage *)_mapCodeToObjects[messageObjectId]).confuseCount = [msg[@"confused_count"] intValue];
-                }
-            }
-        });
-    } errorBlock:^(NSError *error) {
-        //NSLog(@"Unable to fetch like confuse counts in inbox: %@", [error description]);
-    } hud:nil];
-}
 
 -(NSString *)sentTimeDisplayText:(NSTimeInterval)diff {
     if(diff>=29030400) {
@@ -539,7 +516,6 @@
 
 
 - (void)inviteParentsTap:(UITapGestureRecognizer *)recognizer {
-    //NSLog(@"invite parents tapped!!");
     UINavigationController *inviteParentNav = [self.storyboard instantiateViewControllerWithIdentifier:@"inviteParentNavVC"];
     TSNewInviteParentViewController *inviteParent = (TSNewInviteParentViewController *)inviteParentNav.topViewController;
     inviteParent.classCode = _classCode;
