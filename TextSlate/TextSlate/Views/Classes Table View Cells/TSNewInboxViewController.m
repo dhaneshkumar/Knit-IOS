@@ -389,7 +389,7 @@
         NSArray *localObjs = [lq findObjects];
         localObjs[0][@"isInboxDataConsistent"] = @"true";
         _isBottomRefreshCalled = true;
-        [localObjs[0] pinInBackground];
+        [localObjs[0] pin];
         return;
     }
     if(_messagesArray.count==0) {
@@ -606,7 +606,7 @@
                 localOs[0][@"isInboxDataConsistent"] = @"false";
                 _isBottomRefreshCalled = false;
             }
-            [localOs[0] pinInBackground];
+            [localOs[0] pin];
         });
     } errorBlock:^(NSError *error) {
         _isBottomRefreshCalled = false;
@@ -693,7 +693,7 @@
                 localOs[0][@"isInboxDataConsistent"] = @"false";
                 _isBottomRefreshCalled = false;
             }
-            [localOs[0] pinInBackground];
+            [localOs[0] pin];
         });
     } errorBlock:^(NSError *error) {
         _isBottomRefreshCalled = false;

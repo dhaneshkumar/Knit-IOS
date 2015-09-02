@@ -390,7 +390,7 @@
                 localOs[0][@"isOutboxDataConsistent"] = @"false";
                 [self unsetRefreshCalled];
             }
-            [localOs[0] pinInBackground];
+            [localOs[0] pin];
         });
     } errorBlock:^(NSError *error) {
         [self unsetRefreshCalled];
@@ -486,7 +486,7 @@
                 localOs[0][@"isOutboxDataConsistent"] = @"false";
                 [self unsetRefreshCalled];
             }
-            [localOs[0] pinInBackground];
+            [localOs[0] pin];
         });
     } errorBlock:^(NSError *error) {
         [self unsetRefreshCalled];
