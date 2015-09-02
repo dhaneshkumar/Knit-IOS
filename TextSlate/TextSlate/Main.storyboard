@@ -875,25 +875,6 @@ Login using your email ID.</string>
                                                     </mask>
                                                 </variation>
                                             </label>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="fb_login" translatesAutoresizingMaskIntoConstraints="NO" id="SRc-F0-lU5">
-                                                <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" constant="273" id="rJ7-HA-laO"/>
-                                                    <constraint firstAttribute="height" constant="44" id="x7b-hB-OCc"/>
-                                                </constraints>
-                                                <variation key="default">
-                                                    <mask key="constraints">
-                                                        <exclude reference="rJ7-HA-laO"/>
-                                                        <exclude reference="x7b-hB-OCc"/>
-                                                    </mask>
-                                                </variation>
-                                                <variation key="heightClass=regular-widthClass=compact">
-                                                    <mask key="constraints">
-                                                        <include reference="rJ7-HA-laO"/>
-                                                        <include reference="x7b-hB-OCc"/>
-                                                    </mask>
-                                                </variation>
-                                            </imageView>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Q6w-Bu-MzQ">
                                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -953,43 +934,73 @@ Login using your email ID.</string>
                                                     </mask>
                                                 </variation>
                                             </label>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="google_login" translatesAutoresizingMaskIntoConstraints="NO" id="G71-Ol-w64">
-                                                <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1Nm-AN-kHy">
+                                                <rect key="frame" x="-23" y="-15" width="46" height="30"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="width" constant="273" id="Loq-Qw-xJ2"/>
-                                                    <constraint firstAttribute="height" constant="21" id="z8h-7O-bhb"/>
+                                                    <constraint firstAttribute="width" constant="271" id="nin-mg-ABO"/>
+                                                    <constraint firstAttribute="height" constant="31" id="t8I-Kj-Ala"/>
                                                 </constraints>
+                                                <state key="normal" backgroundImage="google_login">
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
                                                 <variation key="default">
                                                     <mask key="constraints">
-                                                        <exclude reference="Loq-Qw-xJ2"/>
-                                                        <exclude reference="z8h-7O-bhb"/>
+                                                        <exclude reference="nin-mg-ABO"/>
+                                                        <exclude reference="t8I-Kj-Ala"/>
                                                     </mask>
                                                 </variation>
                                                 <variation key="heightClass=regular-widthClass=compact">
                                                     <mask key="constraints">
-                                                        <include reference="Loq-Qw-xJ2"/>
-                                                        <include reference="z8h-7O-bhb"/>
+                                                        <include reference="nin-mg-ABO"/>
+                                                        <include reference="t8I-Kj-Ala"/>
                                                     </mask>
                                                 </variation>
-                                            </imageView>
+                                                <connections>
+                                                    <action selector="googleLoginTapped:" destination="ddZ-wq-35L" eventType="touchUpInside" id="tUP-Hw-xSI"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zLj-pF-ryd">
+                                                <rect key="frame" x="-23" y="-15" width="46" height="30"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="31" id="ZFv-LH-0Tg"/>
+                                                    <constraint firstAttribute="width" constant="271" id="nx0-71-ZlK"/>
+                                                </constraints>
+                                                <state key="normal" backgroundImage="fb_login">
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <variation key="default">
+                                                    <mask key="constraints">
+                                                        <exclude reference="ZFv-LH-0Tg"/>
+                                                        <exclude reference="nx0-71-ZlK"/>
+                                                    </mask>
+                                                </variation>
+                                                <variation key="heightClass=regular-widthClass=compact">
+                                                    <mask key="constraints">
+                                                        <include reference="ZFv-LH-0Tg"/>
+                                                        <include reference="nx0-71-ZlK"/>
+                                                    </mask>
+                                                </variation>
+                                                <connections>
+                                                    <action selector="fbLoginTapped:" destination="ddZ-wq-35L" eventType="touchUpInside" id="xV5-3G-zEB"/>
+                                                </connections>
+                                            </button>
                                         </subviews>
                                         <color key="backgroundColor" red="0.9137254901960784" green="0.91764705882352937" blue="0.92941176470588238" alpha="1" colorSpace="calibratedRGB"/>
                                         <gestureRecognizers/>
                                         <constraints>
-                                            <constraint firstAttribute="centerX" secondItem="SRc-F0-lU5" secondAttribute="centerX" id="08n-dj-Fvm"/>
                                             <constraint firstItem="tEm-64-aTu" firstAttribute="leading" secondItem="Gd6-xe-ca2" secondAttribute="leading" constant="16" id="2k4-Lf-GEF"/>
                                             <constraint firstAttribute="height" constant="800" id="4Qt-nA-9qj">
                                                 <variation key="heightClass=regular-widthClass=compact" constant="800"/>
                                             </constraint>
                                             <constraint firstItem="nFp-xH-wt9" firstAttribute="centerY" secondItem="Q6w-Bu-MzQ" secondAttribute="centerY" id="66A-PC-nM5"/>
                                             <constraint firstItem="ybU-fx-ALR" firstAttribute="centerY" secondItem="5WZ-6l-Zlb" secondAttribute="centerY" id="69v-Xb-eNP"/>
-                                            <constraint firstItem="SRc-F0-lU5" firstAttribute="top" secondItem="Gd6-xe-ca2" secondAttribute="top" constant="14" id="6aT-ey-3P4"/>
                                             <constraint firstItem="tEm-64-aTu" firstAttribute="trailing" secondItem="Gd6-xe-ca2" secondAttribute="trailingMargin" id="9P0-5P-cea"/>
                                             <constraint firstAttribute="trailing" secondItem="5WZ-6l-Zlb" secondAttribute="trailing" constant="16" id="9aW-oN-QdO"/>
+                                            <constraint firstItem="nFp-xH-wt9" firstAttribute="top" secondItem="1Nm-AN-kHy" secondAttribute="bottom" constant="11" id="A4x-Up-QuX"/>
                                             <constraint firstItem="ybU-fx-ALR" firstAttribute="leading" secondItem="Gd6-xe-ca2" secondAttribute="leading" constant="16" id="Afc-1q-TUU"/>
-                                            <constraint firstItem="G71-Ol-w64" firstAttribute="top" secondItem="SRc-F0-lU5" secondAttribute="bottom" constant="10" id="BQI-lZ-z8L"/>
+                                            <constraint firstItem="zLj-pF-ryd" firstAttribute="top" secondItem="Gd6-xe-ca2" secondAttribute="top" constant="21" id="E2E-7b-N3I"/>
                                             <constraint firstItem="rvo-Z8-hq9" firstAttribute="leading" secondItem="Gd6-xe-ca2" secondAttribute="leading" constant="16" id="Fap-wO-4E8"/>
-                                            <constraint firstAttribute="centerX" secondItem="G71-Ol-w64" secondAttribute="centerX" id="Ipb-TP-qYq"/>
+                                            <constraint firstAttribute="centerX" secondItem="1Nm-AN-kHy" secondAttribute="centerX" id="Fsg-6G-xgs"/>
                                             <constraint firstAttribute="trailing" secondItem="5eh-To-moq" secondAttribute="trailing" id="IqP-b5-20H"/>
                                             <constraint firstAttribute="trailing" secondItem="rvo-Z8-hq9" secondAttribute="trailing" constant="16" id="J1f-FQ-O65"/>
                                             <constraint firstAttribute="trailing" secondItem="hdw-9Q-5o7" secondAttribute="trailing" constant="16" id="Nw3-8B-SRs"/>
@@ -1003,10 +1014,11 @@ Login using your email ID.</string>
                                             <constraint firstItem="a4j-M8-rkt" firstAttribute="trailing" secondItem="Gd6-xe-ca2" secondAttribute="trailingMargin" id="ejL-eg-A7E"/>
                                             <constraint firstAttribute="centerX" secondItem="nFp-xH-wt9" secondAttribute="centerX" id="f7H-qa-fHm"/>
                                             <constraint firstItem="rvo-Z8-hq9" firstAttribute="top" secondItem="hdw-9Q-5o7" secondAttribute="bottom" constant="5" id="hUL-Kg-xDo"/>
+                                            <constraint firstAttribute="centerX" secondItem="zLj-pF-ryd" secondAttribute="centerX" id="ibz-ww-PAO"/>
                                             <constraint firstItem="Q6w-Bu-MzQ" firstAttribute="leading" secondItem="Gd6-xe-ca2" secondAttribute="leading" id="m8V-5z-4wH"/>
                                             <constraint firstItem="5WZ-6l-Zlb" firstAttribute="leading" secondItem="ybU-fx-ALR" secondAttribute="trailing" constant="5" id="n1Z-tD-cze"/>
+                                            <constraint firstItem="1Nm-AN-kHy" firstAttribute="top" secondItem="zLj-pF-ryd" secondAttribute="bottom" constant="8" id="o9X-5R-KV9"/>
                                             <constraint firstItem="tEm-64-aTu" firstAttribute="top" secondItem="5WZ-6l-Zlb" secondAttribute="bottom" constant="4" id="pvL-m2-J9p"/>
-                                            <constraint firstItem="nFp-xH-wt9" firstAttribute="top" secondItem="G71-Ol-w64" secondAttribute="bottom" constant="13" id="tm0-TJ-Ymd"/>
                                             <constraint firstItem="MUv-dx-itV" firstAttribute="top" secondItem="tEm-64-aTu" secondAttribute="bottom" constant="70" id="u0x-gn-gVE"/>
                                             <constraint firstAttribute="width" constant="400" id="w4F-6q-v6l"/>
                                             <constraint firstItem="MUv-dx-itV" firstAttribute="trailing" secondItem="Gd6-xe-ca2" secondAttribute="trailingMargin" id="x9T-Ai-js7"/>
@@ -1020,45 +1032,45 @@ Login using your email ID.</string>
                                                 <exclude reference="rvo-Z8-hq9"/>
                                                 <exclude reference="ybU-fx-ALR"/>
                                                 <exclude reference="a4j-M8-rkt"/>
-                                                <exclude reference="SRc-F0-lU5"/>
                                                 <exclude reference="Q6w-Bu-MzQ"/>
                                                 <exclude reference="5eh-To-moq"/>
                                                 <exclude reference="nFp-xH-wt9"/>
-                                                <exclude reference="G71-Ol-w64"/>
+                                                <exclude reference="1Nm-AN-kHy"/>
+                                                <exclude reference="zLj-pF-ryd"/>
                                             </mask>
                                             <mask key="constraints">
                                                 <exclude reference="4Qt-nA-9qj"/>
                                                 <exclude reference="w4F-6q-v6l"/>
-                                                <exclude reference="9aW-oN-QdO"/>
-                                                <exclude reference="Vbp-7k-AaW"/>
-                                                <exclude reference="n1Z-tD-cze"/>
-                                                <exclude reference="ZSP-1e-Vl6"/>
-                                                <exclude reference="u0x-gn-gVE"/>
-                                                <exclude reference="x9T-Ai-js7"/>
-                                                <exclude reference="WNb-MM-T7R"/>
-                                                <exclude reference="ejL-eg-A7E"/>
-                                                <exclude reference="Nw3-8B-SRs"/>
-                                                <exclude reference="UJY-qe-KBx"/>
-                                                <exclude reference="dm5-hg-MAG"/>
-                                                <exclude reference="66A-PC-nM5"/>
-                                                <exclude reference="f7H-qa-fHm"/>
-                                                <exclude reference="tm0-TJ-Ymd"/>
-                                                <exclude reference="Fap-wO-4E8"/>
-                                                <exclude reference="J1f-FQ-O65"/>
-                                                <exclude reference="hUL-Kg-xDo"/>
-                                                <exclude reference="2k4-Lf-GEF"/>
-                                                <exclude reference="9P0-5P-cea"/>
-                                                <exclude reference="pvL-m2-J9p"/>
-                                                <exclude reference="69v-Xb-eNP"/>
-                                                <exclude reference="Afc-1q-TUU"/>
-                                                <exclude reference="BQI-lZ-z8L"/>
-                                                <exclude reference="Ipb-TP-qYq"/>
-                                                <exclude reference="08n-dj-Fvm"/>
-                                                <exclude reference="6aT-ey-3P4"/>
-                                                <exclude reference="IqP-b5-20H"/>
+                                                <exclude reference="E2E-7b-N3I"/>
+                                                <exclude reference="ibz-ww-PAO"/>
+                                                <exclude reference="Fsg-6G-xgs"/>
+                                                <exclude reference="o9X-5R-KV9"/>
                                                 <exclude reference="StU-ou-pii"/>
                                                 <exclude reference="eRv-AO-q0x"/>
                                                 <exclude reference="m8V-5z-4wH"/>
+                                                <exclude reference="69v-Xb-eNP"/>
+                                                <exclude reference="Afc-1q-TUU"/>
+                                                <exclude reference="9aW-oN-QdO"/>
+                                                <exclude reference="Vbp-7k-AaW"/>
+                                                <exclude reference="n1Z-tD-cze"/>
+                                                <exclude reference="2k4-Lf-GEF"/>
+                                                <exclude reference="9P0-5P-cea"/>
+                                                <exclude reference="pvL-m2-J9p"/>
+                                                <exclude reference="66A-PC-nM5"/>
+                                                <exclude reference="A4x-Up-QuX"/>
+                                                <exclude reference="f7H-qa-fHm"/>
+                                                <exclude reference="ZSP-1e-Vl6"/>
+                                                <exclude reference="u0x-gn-gVE"/>
+                                                <exclude reference="x9T-Ai-js7"/>
+                                                <exclude reference="IqP-b5-20H"/>
+                                                <exclude reference="Nw3-8B-SRs"/>
+                                                <exclude reference="UJY-qe-KBx"/>
+                                                <exclude reference="dm5-hg-MAG"/>
+                                                <exclude reference="Fap-wO-4E8"/>
+                                                <exclude reference="J1f-FQ-O65"/>
+                                                <exclude reference="hUL-Kg-xDo"/>
+                                                <exclude reference="WNb-MM-T7R"/>
+                                                <exclude reference="ejL-eg-A7E"/>
                                             </mask>
                                         </variation>
                                         <variation key="heightClass=regular-widthClass=compact">
@@ -1070,45 +1082,45 @@ Login using your email ID.</string>
                                                 <include reference="rvo-Z8-hq9"/>
                                                 <include reference="ybU-fx-ALR"/>
                                                 <include reference="a4j-M8-rkt"/>
-                                                <include reference="SRc-F0-lU5"/>
                                                 <include reference="Q6w-Bu-MzQ"/>
                                                 <include reference="5eh-To-moq"/>
                                                 <include reference="nFp-xH-wt9"/>
-                                                <include reference="G71-Ol-w64"/>
+                                                <include reference="1Nm-AN-kHy"/>
+                                                <include reference="zLj-pF-ryd"/>
                                             </mask>
                                             <mask key="constraints">
                                                 <include reference="4Qt-nA-9qj"/>
                                                 <include reference="w4F-6q-v6l"/>
-                                                <include reference="9aW-oN-QdO"/>
-                                                <include reference="Vbp-7k-AaW"/>
-                                                <include reference="n1Z-tD-cze"/>
-                                                <include reference="ZSP-1e-Vl6"/>
-                                                <include reference="u0x-gn-gVE"/>
-                                                <include reference="x9T-Ai-js7"/>
-                                                <include reference="WNb-MM-T7R"/>
-                                                <include reference="ejL-eg-A7E"/>
-                                                <include reference="Nw3-8B-SRs"/>
-                                                <include reference="UJY-qe-KBx"/>
-                                                <include reference="dm5-hg-MAG"/>
-                                                <include reference="66A-PC-nM5"/>
-                                                <include reference="f7H-qa-fHm"/>
-                                                <include reference="tm0-TJ-Ymd"/>
-                                                <include reference="Fap-wO-4E8"/>
-                                                <include reference="J1f-FQ-O65"/>
-                                                <include reference="hUL-Kg-xDo"/>
-                                                <include reference="2k4-Lf-GEF"/>
-                                                <include reference="9P0-5P-cea"/>
-                                                <include reference="pvL-m2-J9p"/>
-                                                <include reference="69v-Xb-eNP"/>
-                                                <include reference="Afc-1q-TUU"/>
-                                                <include reference="BQI-lZ-z8L"/>
-                                                <include reference="Ipb-TP-qYq"/>
-                                                <include reference="08n-dj-Fvm"/>
-                                                <include reference="6aT-ey-3P4"/>
-                                                <include reference="IqP-b5-20H"/>
+                                                <include reference="E2E-7b-N3I"/>
+                                                <include reference="ibz-ww-PAO"/>
+                                                <include reference="Fsg-6G-xgs"/>
+                                                <include reference="o9X-5R-KV9"/>
                                                 <include reference="StU-ou-pii"/>
                                                 <include reference="eRv-AO-q0x"/>
                                                 <include reference="m8V-5z-4wH"/>
+                                                <include reference="69v-Xb-eNP"/>
+                                                <include reference="Afc-1q-TUU"/>
+                                                <include reference="9aW-oN-QdO"/>
+                                                <include reference="Vbp-7k-AaW"/>
+                                                <include reference="n1Z-tD-cze"/>
+                                                <include reference="2k4-Lf-GEF"/>
+                                                <include reference="9P0-5P-cea"/>
+                                                <include reference="pvL-m2-J9p"/>
+                                                <include reference="66A-PC-nM5"/>
+                                                <include reference="A4x-Up-QuX"/>
+                                                <include reference="f7H-qa-fHm"/>
+                                                <include reference="ZSP-1e-Vl6"/>
+                                                <include reference="u0x-gn-gVE"/>
+                                                <include reference="x9T-Ai-js7"/>
+                                                <include reference="IqP-b5-20H"/>
+                                                <include reference="Nw3-8B-SRs"/>
+                                                <include reference="UJY-qe-KBx"/>
+                                                <include reference="dm5-hg-MAG"/>
+                                                <include reference="Fap-wO-4E8"/>
+                                                <include reference="J1f-FQ-O65"/>
+                                                <include reference="hUL-Kg-xDo"/>
+                                                <include reference="WNb-MM-T7R"/>
+                                                <include reference="ejL-eg-A7E"/>
                                             </mask>
                                         </variation>
                                         <connections>
@@ -1180,22 +1192,20 @@ Login using your email ID.</string>
                         <outlet property="contentViewHeight" destination="4Qt-nA-9qj" id="EHZ-xl-lUR"/>
                         <outlet property="contentViewWidth" destination="w4F-6q-v6l" id="NC1-cY-1P8"/>
                         <outlet property="emailTextField" destination="hdw-9Q-5o7" id="vDl-Lc-xZv"/>
-                        <outlet property="fbLoginImg" destination="SRc-F0-lU5" id="acT-Od-qIm"/>
-                        <outlet property="fbLoginImgHeight" destination="x7b-hB-OCc" id="wrH-Xz-G0e"/>
-                        <outlet property="fbLoginImgWidth" destination="rJ7-HA-laO" id="Nvr-Oe-FgS"/>
+                        <outlet property="fbLoginButtonHeight" destination="ZFv-LH-0Tg" id="E5Y-gt-zP7"/>
+                        <outlet property="fbLoginButtonWidth" destination="nx0-71-ZlK" id="tJI-3A-bkQ"/>
                         <outlet property="forgotPassword" destination="a4j-M8-rkt" id="jH2-r9-Cow"/>
-                        <outlet property="googleLoginImg" destination="G71-Ol-w64" id="GaZ-P2-WGg"/>
-                        <outlet property="googleLoginImgHeight" destination="z8h-7O-bhb" id="E4J-iv-Sez"/>
-                        <outlet property="googleLoginImgWidth" destination="Loq-Qw-xJ2" id="Kbg-IB-05U"/>
+                        <outlet property="googleLoginButtonHeight" destination="t8I-Kj-Ala" id="aWa-XD-ISk"/>
+                        <outlet property="googleLoginButtonWidth" destination="nin-mg-ABO" id="ueg-0W-crk"/>
                         <outlet property="label2" destination="tEm-64-aTu" id="hdL-kx-di3"/>
                         <outlet property="label3" destination="MUv-dx-itV" id="YDk-s4-CvD"/>
                         <outlet property="lineWidth" destination="gg5-zs-Tlq" id="v4S-l3-EeS"/>
                         <outlet property="mobilTextField" destination="5WZ-6l-Zlb" id="Nnh-k9-lV4"/>
                         <outlet property="passwordTextField" destination="rvo-Z8-hq9" id="hFn-nz-kNP"/>
                         <outlet property="scrollView" destination="nZI-eR-1cV" id="kOg-8k-b4c"/>
-                        <outlet property="verticalSpace0" destination="6aT-ey-3P4" id="pfy-oL-se3"/>
-                        <outlet property="verticalSpace1" destination="BQI-lZ-z8L" id="Y07-fA-yJ9"/>
-                        <outlet property="verticalSpace2" destination="tm0-TJ-Ymd" id="TaS-R4-AwV"/>
+                        <outlet property="verticalSpace0" destination="E2E-7b-N3I" id="ivs-eh-UiP"/>
+                        <outlet property="verticalSpace1" destination="o9X-5R-KV9" id="BZh-Vy-d6O"/>
+                        <outlet property="verticalSpace2" destination="A4x-Up-QuX" id="nu6-dK-dAi"/>
                         <outlet property="verticalSpace3" destination="Vbp-7k-AaW" id="lt1-wk-UhY"/>
                         <outlet property="verticalSpace4" destination="pvL-m2-J9p" id="8iX-Ee-UwP"/>
                         <outlet property="verticalSpace5" destination="u0x-gn-gVE" id="16o-TQ-Jgt"/>
@@ -1265,25 +1275,6 @@ Login using your email ID.</string>
                                                     </mask>
                                                 </variation>
                                             </textField>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="fb_signup" translatesAutoresizingMaskIntoConstraints="NO" id="Bn0-cN-Mbb">
-                                                <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" constant="253" id="w9o-w7-Kr8"/>
-                                                    <constraint firstAttribute="height" constant="50" id="wxt-8f-rqs"/>
-                                                </constraints>
-                                                <variation key="default">
-                                                    <mask key="constraints">
-                                                        <exclude reference="w9o-w7-Kr8"/>
-                                                        <exclude reference="wxt-8f-rqs"/>
-                                                    </mask>
-                                                </variation>
-                                                <variation key="heightClass=regular-widthClass=compact">
-                                                    <mask key="constraints">
-                                                        <include reference="w9o-w7-Kr8"/>
-                                                        <include reference="wxt-8f-rqs"/>
-                                                    </mask>
-                                                </variation>
-                                            </imageView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Or" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dmd-H2-XCn">
                                                 <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
                                                 <constraints>
@@ -1364,47 +1355,78 @@ Login using your email ID.</string>
                                                     </mask>
                                                 </variation>
                                             </textField>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="google_signup" translatesAutoresizingMaskIntoConstraints="NO" id="0pZ-Yn-OvR">
-                                                <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tsD-Yq-HAw">
+                                                <rect key="frame" x="-23" y="-15" width="46" height="30"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="width" constant="240" id="arG-R1-ASS"/>
-                                                    <constraint firstAttribute="height" constant="29" id="ffM-Zm-vr6"/>
+                                                    <constraint firstAttribute="width" constant="264" id="Eqr-CC-6BG"/>
+                                                    <constraint firstAttribute="height" constant="30" id="GzE-J3-gd3"/>
                                                 </constraints>
+                                                <state key="normal" backgroundImage="fb_signup">
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
                                                 <variation key="default">
                                                     <mask key="constraints">
-                                                        <exclude reference="arG-R1-ASS"/>
-                                                        <exclude reference="ffM-Zm-vr6"/>
+                                                        <exclude reference="Eqr-CC-6BG"/>
+                                                        <exclude reference="GzE-J3-gd3"/>
                                                     </mask>
                                                 </variation>
                                                 <variation key="heightClass=regular-widthClass=compact">
                                                     <mask key="constraints">
-                                                        <include reference="arG-R1-ASS"/>
-                                                        <include reference="ffM-Zm-vr6"/>
+                                                        <include reference="Eqr-CC-6BG"/>
+                                                        <include reference="GzE-J3-gd3"/>
                                                     </mask>
                                                 </variation>
-                                            </imageView>
+                                                <connections>
+                                                    <action selector="fbImgTapped:" destination="Uvz-ky-B2V" eventType="touchUpInside" id="gp5-sj-mjk"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="P6i-8n-E5H">
+                                                <rect key="frame" x="-23" y="-15" width="46" height="30"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="30" id="KPN-c0-5CD"/>
+                                                    <constraint firstAttribute="width" constant="257" id="WFn-aR-B9D"/>
+                                                </constraints>
+                                                <state key="normal" backgroundImage="google_signup">
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <variation key="default">
+                                                    <mask key="constraints">
+                                                        <exclude reference="KPN-c0-5CD"/>
+                                                        <exclude reference="WFn-aR-B9D"/>
+                                                    </mask>
+                                                </variation>
+                                                <variation key="heightClass=regular-widthClass=compact">
+                                                    <mask key="constraints">
+                                                        <include reference="KPN-c0-5CD"/>
+                                                        <include reference="WFn-aR-B9D"/>
+                                                    </mask>
+                                                </variation>
+                                                <connections>
+                                                    <action selector="googleImgTapped:" destination="Uvz-ky-B2V" eventType="touchUpInside" id="67a-7s-P4S"/>
+                                                </connections>
+                                            </button>
                                         </subviews>
                                         <color key="backgroundColor" red="0.9137254901960784" green="0.91764705882352937" blue="0.92941176470588238" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstItem="wb8-wh-K02" firstAttribute="leading" secondItem="YHK-Rd-Ems" secondAttribute="leading" constant="16" id="1Cl-OP-ovv"/>
                                             <constraint firstItem="ozG-ak-6r7" firstAttribute="leading" secondItem="TYT-z9-MQb" secondAttribute="trailing" constant="1" id="4Sc-gL-gP2"/>
-                                            <constraint firstAttribute="centerX" secondItem="Bn0-cN-Mbb" secondAttribute="centerX" id="5mp-OM-0w5"/>
-                                            <constraint firstItem="dmd-H2-XCn" firstAttribute="top" secondItem="0pZ-Yn-OvR" secondAttribute="bottom" constant="8" id="93o-0A-kIq"/>
+                                            <constraint firstItem="P6i-8n-E5H" firstAttribute="top" secondItem="tsD-Yq-HAw" secondAttribute="bottom" constant="21" id="Coe-3p-V1X"/>
                                             <constraint firstAttribute="width" constant="400" id="Day-4o-nZi"/>
                                             <constraint firstAttribute="trailing" secondItem="ozG-ak-6r7" secondAttribute="trailing" constant="16" id="ElE-xL-Qj1"/>
-                                            <constraint firstAttribute="centerX" secondItem="0pZ-Yn-OvR" secondAttribute="centerX" id="FQG-yW-g27"/>
                                             <constraint firstItem="QLm-Nj-EfM" firstAttribute="leading" secondItem="YHK-Rd-Ems" secondAttribute="leading" id="Ndi-4A-cF6"/>
                                             <constraint firstItem="CiL-bG-KlY" firstAttribute="width" secondItem="QLm-Nj-EfM" secondAttribute="width" id="OCx-vU-aZE"/>
-                                            <constraint firstItem="0pZ-Yn-OvR" firstAttribute="top" secondItem="Bn0-cN-Mbb" secondAttribute="bottom" constant="13" id="QPa-4m-2D3"/>
                                             <constraint firstItem="dmd-H2-XCn" firstAttribute="centerY" secondItem="CiL-bG-KlY" secondAttribute="centerY" id="R8m-BJ-AJF"/>
                                             <constraint firstItem="TYT-z9-MQb" firstAttribute="leading" secondItem="YHK-Rd-Ems" secondAttribute="leading" constant="16" id="RZu-1u-lkQ"/>
                                             <constraint firstAttribute="centerX" secondItem="dmd-H2-XCn" secondAttribute="centerX" id="RmI-xy-kSu"/>
                                             <constraint firstAttribute="height" constant="800" id="VBb-5N-99G"/>
+                                            <constraint firstAttribute="centerX" secondItem="P6i-8n-E5H" secondAttribute="centerX" id="XbH-AK-Cuh"/>
                                             <constraint firstAttribute="trailing" secondItem="wb8-wh-K02" secondAttribute="trailing" constant="16" id="Zaj-TZ-uCt"/>
-                                            <constraint firstItem="Bn0-cN-Mbb" firstAttribute="top" secondItem="YHK-Rd-Ems" secondAttribute="top" constant="40" id="cP3-hZ-btB"/>
+                                            <constraint firstItem="tsD-Yq-HAw" firstAttribute="top" secondItem="YHK-Rd-Ems" secondAttribute="top" constant="28" id="ccN-KJ-D7V"/>
                                             <constraint firstItem="ozG-ak-6r7" firstAttribute="top" secondItem="wb8-wh-K02" secondAttribute="bottom" constant="8" id="get-kt-wiB"/>
                                             <constraint firstItem="wb8-wh-K02" firstAttribute="top" secondItem="dmd-H2-XCn" secondAttribute="bottom" constant="19" id="lPB-TW-n5n"/>
                                             <constraint firstItem="dmd-H2-XCn" firstAttribute="centerY" secondItem="QLm-Nj-EfM" secondAttribute="centerY" id="pe7-rt-akF"/>
+                                            <constraint firstItem="dmd-H2-XCn" firstAttribute="top" secondItem="P6i-8n-E5H" secondAttribute="bottom" constant="31" id="ta1-PE-keg"/>
+                                            <constraint firstAttribute="centerX" secondItem="tsD-Yq-HAw" secondAttribute="centerX" id="tzh-TK-Bug"/>
                                             <constraint firstAttribute="trailing" secondItem="CiL-bG-KlY" secondAttribute="trailing" id="uVK-XZ-kME"/>
                                             <constraint firstItem="TYT-z9-MQb" firstAttribute="top" secondItem="wb8-wh-K02" secondAttribute="bottom" constant="8" id="v6W-qF-jkb"/>
                                         </constraints>
@@ -1412,70 +1434,70 @@ Login using your email ID.</string>
                                             <mask key="subviews">
                                                 <exclude reference="wb8-wh-K02"/>
                                                 <exclude reference="ozG-ak-6r7"/>
-                                                <exclude reference="Bn0-cN-Mbb"/>
                                                 <exclude reference="dmd-H2-XCn"/>
                                                 <exclude reference="CiL-bG-KlY"/>
                                                 <exclude reference="QLm-Nj-EfM"/>
                                                 <exclude reference="TYT-z9-MQb"/>
-                                                <exclude reference="0pZ-Yn-OvR"/>
+                                                <exclude reference="tsD-Yq-HAw"/>
+                                                <exclude reference="P6i-8n-E5H"/>
                                             </mask>
                                             <mask key="constraints">
                                                 <exclude reference="Day-4o-nZi"/>
                                                 <exclude reference="VBb-5N-99G"/>
-                                                <exclude reference="RZu-1u-lkQ"/>
-                                                <exclude reference="v6W-qF-jkb"/>
-                                                <exclude reference="93o-0A-kIq"/>
-                                                <exclude reference="R8m-BJ-AJF"/>
-                                                <exclude reference="RmI-xy-kSu"/>
-                                                <exclude reference="pe7-rt-akF"/>
-                                                <exclude reference="4Sc-gL-gP2"/>
-                                                <exclude reference="ElE-xL-Qj1"/>
-                                                <exclude reference="get-kt-wiB"/>
+                                                <exclude reference="ccN-KJ-D7V"/>
+                                                <exclude reference="tzh-TK-Bug"/>
+                                                <exclude reference="Coe-3p-V1X"/>
+                                                <exclude reference="XbH-AK-Cuh"/>
+                                                <exclude reference="Ndi-4A-cF6"/>
                                                 <exclude reference="1Cl-OP-ovv"/>
                                                 <exclude reference="Zaj-TZ-uCt"/>
                                                 <exclude reference="lPB-TW-n5n"/>
-                                                <exclude reference="FQG-yW-g27"/>
-                                                <exclude reference="QPa-4m-2D3"/>
-                                                <exclude reference="5mp-OM-0w5"/>
-                                                <exclude reference="cP3-hZ-btB"/>
+                                                <exclude reference="RZu-1u-lkQ"/>
+                                                <exclude reference="v6W-qF-jkb"/>
+                                                <exclude reference="4Sc-gL-gP2"/>
+                                                <exclude reference="ElE-xL-Qj1"/>
+                                                <exclude reference="get-kt-wiB"/>
+                                                <exclude reference="R8m-BJ-AJF"/>
+                                                <exclude reference="RmI-xy-kSu"/>
+                                                <exclude reference="pe7-rt-akF"/>
+                                                <exclude reference="ta1-PE-keg"/>
                                                 <exclude reference="OCx-vU-aZE"/>
                                                 <exclude reference="uVK-XZ-kME"/>
-                                                <exclude reference="Ndi-4A-cF6"/>
                                             </mask>
                                         </variation>
                                         <variation key="heightClass=regular-widthClass=compact">
                                             <mask key="subviews">
                                                 <include reference="wb8-wh-K02"/>
                                                 <include reference="ozG-ak-6r7"/>
-                                                <include reference="Bn0-cN-Mbb"/>
                                                 <include reference="dmd-H2-XCn"/>
                                                 <include reference="CiL-bG-KlY"/>
                                                 <include reference="QLm-Nj-EfM"/>
                                                 <include reference="TYT-z9-MQb"/>
-                                                <include reference="0pZ-Yn-OvR"/>
+                                                <include reference="tsD-Yq-HAw"/>
+                                                <include reference="P6i-8n-E5H"/>
                                             </mask>
                                             <mask key="constraints">
                                                 <include reference="Day-4o-nZi"/>
                                                 <include reference="VBb-5N-99G"/>
-                                                <include reference="RZu-1u-lkQ"/>
-                                                <include reference="v6W-qF-jkb"/>
-                                                <include reference="93o-0A-kIq"/>
-                                                <include reference="R8m-BJ-AJF"/>
-                                                <include reference="RmI-xy-kSu"/>
-                                                <include reference="pe7-rt-akF"/>
-                                                <include reference="4Sc-gL-gP2"/>
-                                                <include reference="ElE-xL-Qj1"/>
-                                                <include reference="get-kt-wiB"/>
+                                                <include reference="ccN-KJ-D7V"/>
+                                                <include reference="tzh-TK-Bug"/>
+                                                <include reference="Coe-3p-V1X"/>
+                                                <include reference="XbH-AK-Cuh"/>
+                                                <include reference="Ndi-4A-cF6"/>
                                                 <include reference="1Cl-OP-ovv"/>
                                                 <include reference="Zaj-TZ-uCt"/>
                                                 <include reference="lPB-TW-n5n"/>
-                                                <include reference="FQG-yW-g27"/>
-                                                <include reference="QPa-4m-2D3"/>
-                                                <include reference="5mp-OM-0w5"/>
-                                                <include reference="cP3-hZ-btB"/>
+                                                <include reference="RZu-1u-lkQ"/>
+                                                <include reference="v6W-qF-jkb"/>
+                                                <include reference="4Sc-gL-gP2"/>
+                                                <include reference="ElE-xL-Qj1"/>
+                                                <include reference="get-kt-wiB"/>
+                                                <include reference="R8m-BJ-AJF"/>
+                                                <include reference="RmI-xy-kSu"/>
+                                                <include reference="pe7-rt-akF"/>
+                                                <include reference="ta1-PE-keg"/>
                                                 <include reference="OCx-vU-aZE"/>
                                                 <include reference="uVK-XZ-kME"/>
-                                                <include reference="Ndi-4A-cF6"/>
                                             </mask>
                                         </variation>
                                     </view>
@@ -1548,18 +1570,16 @@ Login using your email ID.</string>
                     <connections>
                         <outlet property="contentViewWidth" destination="Day-4o-nZi" id="I2r-DQ-8Ad"/>
                         <outlet property="displayName" destination="wb8-wh-K02" id="VX7-92-0ir"/>
-                        <outlet property="fbLoginImg" destination="Bn0-cN-Mbb" id="Hjy-xp-5nQ"/>
-                        <outlet property="fbLoginImgHeight" destination="wxt-8f-rqs" id="ehv-8H-gYI"/>
-                        <outlet property="fbLoginImgWidth" destination="w9o-w7-Kr8" id="efA-c2-mNM"/>
-                        <outlet property="googleSignupImg" destination="0pZ-Yn-OvR" id="8f6-ze-nU1"/>
-                        <outlet property="googleSignupImgHeight" destination="ffM-Zm-vr6" id="AZt-aB-WbY"/>
-                        <outlet property="googleSignupImgWidth" destination="arG-R1-ASS" id="nfx-UB-eSE"/>
+                        <outlet property="fbSignupButtonHeight" destination="GzE-J3-gd3" id="aTH-nF-V7I"/>
+                        <outlet property="fbSignupButtonWidth" destination="Eqr-CC-6BG" id="c63-I9-0bL"/>
+                        <outlet property="googleSignupButtonHeight" destination="KPN-c0-5CD" id="9IP-yv-VoF"/>
+                        <outlet property="googleSignupButtonWidth" destination="WFn-aR-B9D" id="U5z-zO-ukj"/>
                         <outlet property="lineWidth" destination="dBo-Zc-WwF" id="l4K-ng-cht"/>
                         <outlet property="phoneNumberTextField" destination="ozG-ak-6r7" id="jaq-mw-VDv"/>
                         <outlet property="scrollView" destination="ru6-XU-5NW" id="qlk-tV-ts0"/>
-                        <outlet property="verticalSpace1" destination="cP3-hZ-btB" id="ehe-ZE-ovl"/>
-                        <outlet property="verticalSpace2" destination="QPa-4m-2D3" id="5P5-lL-64y"/>
-                        <outlet property="verticalSpace3" destination="93o-0A-kIq" id="OYh-Dd-NxH"/>
+                        <outlet property="verticalSpace1" destination="ccN-KJ-D7V" id="k3a-hy-R1U"/>
+                        <outlet property="verticalSpace2" destination="Coe-3p-V1X" id="qOf-Zv-OS0"/>
+                        <outlet property="verticalSpace3" destination="ta1-PE-keg" id="148-hB-fPo"/>
                         <outlet property="verticalSpace4" destination="lPB-TW-n5n" id="jod-OZ-Nxb"/>
                     </connections>
                 </viewController>

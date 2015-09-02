@@ -35,12 +35,10 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *verticalSpace2;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *verticalSpace3;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *verticalSpace4;
-@property (weak, nonatomic) IBOutlet UIImageView *fbLoginImg;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *fbLoginImgWidth;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *fbLoginImgHeight;
-@property (weak, nonatomic) IBOutlet UIImageView *googleSignupImg;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *googleSignupImgHeight;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *googleSignupImgWidth;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *fbSignupButtonWidth;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *fbSignupButtonHeight;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *googleSignupButtonHeight;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *googleSignupButtonWidth;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *contentViewWidth;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *lineWidth;
@@ -70,20 +68,12 @@
     _verticalSpace3.constant = 24.0;
     _verticalSpace4.constant = 24.0;
     float screenWidth = [TSUtils getScreenWidth];
-    _fbLoginImgHeight.constant = 45.0;
-    _fbLoginImgWidth.constant = 280.0;
-    _googleSignupImgHeight.constant = 45.0;
-    _googleSignupImgWidth.constant = 280.0;
+    _fbSignupButtonHeight.constant = 45.0;
+    _fbSignupButtonWidth.constant = 280.0;
+    _googleSignupButtonHeight.constant = 45.0;
+    _googleSignupButtonWidth.constant = 280.0;
     _lineWidth.constant = (screenWidth-50.0)/2;
     _contentViewWidth.constant = screenWidth;
-    
-    UITapGestureRecognizer *fbImgTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(fbImgTapped:)];
-    _fbLoginImg.userInteractionEnabled = YES;
-    [_fbLoginImg addGestureRecognizer:fbImgTap];
-    
-    UITapGestureRecognizer *googleImgTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(googleImgTapped:)];
-    _googleSignupImg.userInteractionEnabled = YES;
-    [_googleSignupImg addGestureRecognizer:googleImgTap];
     
     UIToolbar* keyboardDoneButtonView = [[UIToolbar alloc] init];
     UIBarButtonItem *flexBarButton = [[UIBarButtonItem alloc]
@@ -185,8 +175,7 @@
     return YES;
 }
 
-
--(void)googleImgTapped:(UITapGestureRecognizer *)recognizer {
+- (IBAction)googleImgTapped:(id)sender {
     [[GIDSignIn sharedInstance] signOut];
     [[GIDSignIn sharedInstance] signIn];
 }
@@ -272,8 +261,7 @@
     } hud:hud];
 }
 
-
--(void)fbImgTapped:(UITapGestureRecognizer *)recognizer {
+- (IBAction)fbImgTapped:(id)sender {
     FBSDKLoginManager *login = [[FBSDKLoginManager alloc] init];
     [login logOut];
     [login logInWithReadPermissions:@[@"email"] handler:^(FBSDKLoginManagerLoginResult *result, NSError *error) {

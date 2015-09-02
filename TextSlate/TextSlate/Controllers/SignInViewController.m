@@ -22,12 +22,10 @@
 
 @interface SignInViewController ()
 
-@property (weak, nonatomic) IBOutlet UIImageView *fbLoginImg;
-@property (weak, nonatomic) IBOutlet UIImageView *googleLoginImg;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *fbLoginImgHeight;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *fbLoginImgWidth;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *googleLoginImgHeight;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *googleLoginImgWidth;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *fbLoginButtonHeight;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *fbLoginButtonWidth;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *googleLoginButtonHeight;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *googleLoginButtonWidth;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *verticalSpace0;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *verticalSpace1;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *verticalSpace2;
@@ -89,10 +87,10 @@
     [keyboardDoneButtonView sizeToFit];
     [keyboardDoneButtonView setItems:[NSArray arrayWithObjects:flexBarButton, doneButton, nil]];
     _mobilTextField.inputAccessoryView = keyboardDoneButtonView;
-    _fbLoginImgHeight.constant = 45.0;
-    _fbLoginImgWidth.constant = 280.0;
-    _googleLoginImgHeight.constant = 45.0;
-    _googleLoginImgWidth.constant = 280.0;
+    _fbLoginButtonHeight.constant = 45.0;
+    _fbLoginButtonWidth.constant = 280.0;
+    _googleLoginButtonHeight.constant = 45.0;
+    _googleLoginButtonWidth.constant = 280.0;
     _verticalSpace0.constant = 24.0;
     _verticalSpace1.constant = 8.0;
     _verticalSpace2.constant = 24.0;
@@ -106,13 +104,6 @@
     _contentViewWidth.constant = screenWidth;
     //_contentViewHeight.constant = 20+34+24+30+4+14+50+48+22+30+5+30+12+40+216-64-40;
     
-    UITapGestureRecognizer *fbLoginTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(fbLoginTapped:)];
-    _fbLoginImg.userInteractionEnabled = true;
-    [_fbLoginImg addGestureRecognizer:fbLoginTap];
-    
-    UITapGestureRecognizer *googleLoginTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(googleLoginTapped:)];
-    _googleLoginImg.userInteractionEnabled = YES;
-    [_googleLoginImg addGestureRecognizer:googleLoginTap];
     [self state1View];
     NSError* configureError;
     [[GGLContext sharedInstance] configureWithError: &configureError];

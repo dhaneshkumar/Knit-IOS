@@ -53,10 +53,12 @@
     [query whereKey:@"status" equalTo:@"pending"];
     NSArray *invites = [query findObjects];
     [self.navigationController popViewControllerAnimated:YES];
-    if(invites.count==1)
+    if(invites.count==1) {
         [RKDropdownAlert title:@"" message:@"Invitation sent successfully." time:2];
-    else if(invites.count>1)
+    }
+    else if(invites.count>1) {
         [RKDropdownAlert title:@"" message:@"Invitations sent successfully." time:2];
+    }
 }
 
 -(BOOL)canCallInviteFunction {
@@ -231,7 +233,6 @@
         member[@"type"] = [NSNumber numberWithInt:_type];
         member[@"status"] = @"pending";
         [member pinInBackground];
-        
         
         NSDictionary *dimensions = @{@"Invite Type" : [NSString stringWithFormat:@"type%d", _type], @"Invite Mode":(_isAddressBook?@"phone":@"email")};
         [PFAnalytics trackEvent:@"invitedUsersCount" dimensions:dimensions];
