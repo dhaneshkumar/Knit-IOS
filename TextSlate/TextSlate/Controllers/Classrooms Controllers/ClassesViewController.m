@@ -135,10 +135,12 @@
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.classesTable setEditing:NO animated:NO];
-    if(self.segmentedControl.selectedSegmentIndex==0)
+    if(self.segmentedControl.selectedSegmentIndex==0) {
         [_createOrJoinButton setTitle:@"+  Create New Class" forState:UIControlStateNormal];
-    else
+    }
+    else {
         [_createOrJoinButton setTitle:@"+  Join New Class" forState:UIControlStateNormal];
+    }
     [self.classesTable reloadData];
 }
 
@@ -220,10 +222,12 @@
 
 
 -(NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if(self.segmentedControl.selectedSegmentIndex==0)
+    if(self.segmentedControl.selectedSegmentIndex==0) {
         return _createdClasses.count;
-    else
+    }
+    else {
         return _joinedClasses.count;
+    }
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {

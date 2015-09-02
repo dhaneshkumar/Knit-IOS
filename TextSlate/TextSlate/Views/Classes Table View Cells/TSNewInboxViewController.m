@@ -168,10 +168,12 @@
     cell.likesCount.textColor = ([message.likeStatus isEqualToString:@"true"])?[UIColor colorWithRed:57.0f/255.0f green:181.0f/255.0f blue:74.0f/255.0f alpha:1.0]:[UIColor darkGrayColor];
     
     if(message.attachmentURL) {
-        if(message.attachment)
+        if(message.attachment) {
             cell.attachedImage.image = message.attachment;
-        else
+        }
+        else {
             cell.attachedImage.image = [UIImage imageNamed:@"white.jpg"];
+        }
         UIImage *img = cell.attachedImage.image;
         float height = img.size.height;
         float width = img.size.width;
@@ -190,8 +192,9 @@
         if(!message.attachment) {
             [cell.activityIndicator startAnimating];
         }
-        else
+        else {
             [cell.activityIndicator stopAnimating];
+        }
     }
     message.seenStatus = @"true";
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -840,10 +843,12 @@
 -(void)updateLikesDataFromCell:(int)row status:(NSString *)status {
     TSMessage *message = (TSMessage *)_messagesArray[row];
     message.likeStatus = status;
-    if([status isEqualToString:@"true"])
+    if([status isEqualToString:@"true"]) {
         message.likeCount++;
-    else
+    }
+    else {
         message.likeCount--;
+    }
     PFQuery *query = [PFQuery queryWithClassName:@"GroupDetails"];
     [query fromLocalDatastore];
     [query whereKey:@"messageId" equalTo:message.messageId];
@@ -861,10 +866,12 @@
 -(void)updateConfuseDataFromCell:(int)row status:(NSString *)status {
     TSMessage *message = (TSMessage *)_messagesArray[row];
     message.confuseStatus = status;
-    if([status isEqualToString:@"true"])
+    if([status isEqualToString:@"true"]) {
         message.confuseCount++;
-    else
+    }
+    else {
         message.confuseCount--;
+    }
     PFQuery *query = [PFQuery queryWithClassName:@"GroupDetails"];
     [query fromLocalDatastore];
     [query whereKey:@"messageId" equalTo:message.messageId];

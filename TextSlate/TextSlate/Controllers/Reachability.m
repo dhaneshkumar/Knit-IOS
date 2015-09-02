@@ -294,12 +294,10 @@ static void ReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkReach
     
 	if (SCNetworkReachabilityGetFlags(_reachabilityRef, &flags))
 	{
-		if (_alwaysReturnLocalWiFiStatus)
-		{
+		if (_alwaysReturnLocalWiFiStatus) {
 			returnValue = [self localWiFiStatusForFlags:flags];
 		}
-		else
-		{
+		else {
 			returnValue = [self networkStatusForFlags:flags];
 		}
 	}

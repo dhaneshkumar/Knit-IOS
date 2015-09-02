@@ -189,10 +189,12 @@
     cell.confuseCount.text = [NSString stringWithFormat:@"%d", message.confuseCount];
     cell.seenCount.text = [NSString stringWithFormat:@"%d", message.seenCount];
     if(message.attachmentURL) {
-        if(message.attachment)
+        if(message.attachment) {
             cell.attachedImage.image = message.attachment;
-        else
+        }
+        else {
             cell.attachedImage.image = [UIImage imageNamed:@"white.jpg"];
+        }
         UIImage *img = cell.attachedImage.image;
         float height = img.size.height;
         float width = img.size.width;
@@ -210,8 +212,9 @@
         if(!message.attachment) {
             [cell.activityIndicator startAnimating];
         }
-        else
+        else {
             [cell.activityIndicator stopAnimating];
+        }
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     if(indexPath.row == _messagesArray.count-1 && !_isBottomRefreshCalled) {
@@ -334,6 +337,7 @@
     _hud = [MBProgressHUD showHUDAddedTo:self.view  animated:YES];
     _hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
     _hud.labelText = @"Loading messages";
+    
     AppDelegate *apd = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     NSArray *vcs = (NSArray *)((UINavigationController *)apd.startNav).viewControllers;
     TSTabBarViewController *rootTab = (TSTabBarViewController *)((UINavigationController *)apd.startNav).topViewController;

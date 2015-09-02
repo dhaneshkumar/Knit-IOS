@@ -31,10 +31,12 @@
 
 -(void)initialization {
     if([PFUser currentUser]) {
-        if([[[PFUser currentUser] objectForKey:@"role"] isEqualToString:@"teacher"])
+        if([[[PFUser currentUser] objectForKey:@"role"] isEqualToString:@"teacher"]) {
             [self makeItTeacher];
-        else
+        }
+        else {
             [self makeItParent];
+        }
     }
 }
 

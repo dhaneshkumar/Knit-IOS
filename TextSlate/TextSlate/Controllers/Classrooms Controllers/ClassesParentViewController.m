@@ -98,10 +98,12 @@
         else {
             dvc.teacherPic = [UIImage imageNamed:@"defaultTeacher.png"];
         }
-        if(((NSArray *)joinedClassAssocNames[localCodegroup[@"code"]]).count==2)
+        if(((NSArray *)joinedClassAssocNames[localCodegroup[@"code"]]).count==2) {
             dvc.studentName = [[PFUser currentUser] objectForKey:@"name"];
-        else
+        }
+        else {
             dvc.studentName = ((NSArray *)joinedClassAssocNames[localCodegroup[@"code"]])[2];
+        }
         [_joinedClassVCs setObject:dvc forKey:localCodegroup[@"code"]];
     }
 }
@@ -157,10 +159,12 @@
                     else {
                         dvc.teacherPic = [UIImage imageNamed:@"defaultTeacher.png"];
                     }
-                    if(((NSArray *)joinedClassAssocNames[cg[@"code"]]).count==2)
+                    if(((NSArray *)joinedClassAssocNames[cg[@"code"]]).count==2) {
                         dvc.studentName = [[PFUser currentUser] objectForKey:@"name"];
-                    else
+                    }
+                    else {
                         dvc.studentName = ((NSArray *)joinedClassAssocNames[cg[@"code"]])[2];
+                    }
                     [_joinedClassVCs setObject:dvc forKey:cg[@"code"]];
                 }
                 dispatch_sync(dispatch_get_main_queue(), ^{

@@ -71,10 +71,12 @@
             [hud hide:YES];
             [RKDropdownAlert title:@"" message:@"We have got your feedback and we appreciate it." time:3];
             self.feedback.text = @"";
-            if(_isSeparateWindow)
+            if(_isSeparateWindow) {
                 [self dismissViewControllerAnimated:YES completion:nil];
-            else
+            }
+            else {
                 [self.navigationController popViewControllerAnimated:YES];
+            }
         } errorBlock:^(NSError *error) {
             [hud hide:YES];
             [RKDropdownAlert title:@"" message:@"Oops! Network connection error. Please try again." time:3];

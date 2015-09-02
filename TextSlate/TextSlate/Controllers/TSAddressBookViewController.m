@@ -143,15 +143,19 @@
     for ( int i = 0; i < nPeople; i++ ) {
         ABRecordRef ref = CFArrayGetValueAtIndex( allPeople, i );
         NSString *firstName = (__bridge NSString*)ABRecordCopyValue(ref, kABPersonFirstNameProperty);
-        if(firstName)
+        if(firstName) {
             firstName = [firstName stringByTrimmingCharactersInSet:characterset];
-        else
+        }
+        else {
             firstName = @"";
+        }
         NSString *lastName = (__bridge NSString*)ABRecordCopyValue(ref, kABPersonLastNameProperty);
-        if(lastName)
+        if(lastName) {
             lastName = [lastName stringByTrimmingCharactersInSet:characterset];
-        else
+        }
+        else {
             lastName = @"";
+        }
         NSString *name = [self formName:firstName name:lastName];
         if(_isAddressBook) {
             ABMultiValueRef phones = ABRecordCopyValue(ref, kABPersonPhoneProperty);
@@ -241,16 +245,22 @@
 
 -(NSString *)formName:(NSString *)firstName name:(NSString *)lastName {
     NSString *name = @"";
-    if([firstName isEqualToString:@""])
-        if([lastName isEqualToString:@""])
+    if([firstName isEqualToString:@""]) {
+        if([lastName isEqualToString:@""]) {
             name = @"Unknown";
-        else
+        }
+        else {
             name = lastName;
-    else
-        if([lastName isEqualToString:@""])
+        }
+    }
+    else {
+        if([lastName isEqualToString:@""]) {
             name = firstName;
-        else
+        }
+        else {
             name = [NSString stringWithFormat:@"%@ %@", firstName, lastName];
+        }
+    }
     return name;
 }
 

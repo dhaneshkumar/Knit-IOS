@@ -472,16 +472,19 @@
     return YES;
 }
 
+
 -(void)createLocalDatastore:(NSDate *)dt {
     PFObject *locals = [[PFObject alloc] initWithClassName:@"defaultLocals"];
     locals[@"iosUserID"] = [PFUser currentUser].objectId;
     locals[@"isInboxDataConsistent"] = @"false";
     locals[@"isUpdateCountsGloballyCalled"] = @"false";
     locals[@"isOutboxDataConsistent"] = @"false";
-    if(dt)
+    if(dt) {
         locals[@"timeDifference"] = dt;
-    else
+    }
+    else {
         locals[@"timeDifference"] = [NSDate dateWithTimeIntervalSince1970:0.0];
+    }
     locals[@"appLaunchCount"] = [NSNumber numberWithInt:0];
     locals[@"isNewLocalData"] = @"true";
     [locals pin];

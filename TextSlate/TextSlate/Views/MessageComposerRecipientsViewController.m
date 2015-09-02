@@ -49,8 +49,9 @@
             }
         [_pickerView selectRow:index inComponent:0 animated:YES];
     }
-    else
+    else {
         [_pickerView selectRow:_classArray.count/2 inComponent:0 animated:YES];
+    }
 }
 
 

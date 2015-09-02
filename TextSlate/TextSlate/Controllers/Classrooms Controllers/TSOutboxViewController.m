@@ -150,10 +150,12 @@
     cell.confuseCount.text = [NSString stringWithFormat:@"%d", message.confuseCount];
     cell.seenCount.text = [NSString stringWithFormat:@"%d", message.seenCount];
     if(message.attachmentURL) {
-        if(message.attachment)
+        if(message.attachment) {
             cell.attachedImage.image = message.attachment;
-        else
+        }
+        else {
             cell.attachedImage.image = [UIImage imageNamed:@"white.jpg"];
+        }
         UIImage *img = cell.attachedImage.image;
         float height = img.size.height;
         float width = img.size.width;
@@ -243,7 +245,8 @@
     else {
         [self fetchImages];
         if(!_isULCCalled) {
-            [self.messagesTable setContentOffset:CGPointMake(0, -self.refreshControl.frame.size.height) animated:YES];
+            //[self.messagesTable setContentOffset:CGPointMake(0, -self.refreshControl.frame.size.height) animated:YES];
+            [self.messagesTable setContentOffset:CGPointMake(0, self.messagesTable.contentOffset.y - self.refreshControl.frame.size.height) animated:YES];
             [_refreshControl beginRefreshing];
             [self updateCountsLocally];
         }
@@ -387,7 +390,6 @@
                 NSData *data = [attachImageUrl getData];
                 UIImage *image = [[UIImage alloc] initWithData:data];
                 if(image) {
-                    //NSLog(@"Caching here....");
                     [[sharedCache sharedInstance] cacheImage:image forKey:url];
                     message.attachment = image;
                     dispatch_sync(dispatch_get_main_queue(), ^{
@@ -435,8 +437,11 @@
             PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
             [lq fromLocalDatastore];
             NSArray *localOs = [lq findObjects];
-            localOs[0][@"isOutboxDataConsistent"] = (messages.count < 20) ? @"true" : @"false";
-            if([localOs[0][@"isOutboxDataConsistent"] isEqualToString:@"false"]) {
+            if(messages.count < 20) {
+                localOs[0][@"isOutboxDataConsistent"] = @"true";
+            }
+            else {
+                localOs[0][@"isOutboxDataConsistent"] = @"false";
                 [self unsetRefreshCalled];
             }
             [localOs[0] pinInBackground];
@@ -480,6 +485,10 @@
             dispatch_sync(dispatch_get_main_queue(), ^{
                 [self.messagesTable reloadData];
                 [_refreshControl endRefreshing];
+                if (self.messagesTable.contentOffset.y < 0) {
+                    [self.messagesTable setContentOffset:CGPointZero animated:YES];
+                }
+                //[self.messagesTable setContentOffset:CGPointMake(0, 0) animated:YES];
             });
             _isULCCalled = false;
         });

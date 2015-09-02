@@ -241,8 +241,9 @@
         if([textView.text length] == 0) {
             return NO;
         }
-        else
+        else {
             return YES;
+        }
     }
     else {
         NSUInteger newLength = _textMessage.text.length + text.length - range.length;
