@@ -129,10 +129,17 @@
     TSNewInboxViewController *inboxVC = [self.storyboard instantiateViewControllerWithIdentifier:@"inbox"];
     TSOutboxViewController *outboxVC = [self.storyboard instantiateViewControllerWithIdentifier:@"outbox"];
     TSSettingsTableViewController *settingVC = [self.storyboard instantiateViewControllerWithIdentifier:@"settingTab"];
-    
-    [classesVC initialization];
+    PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
+    [lq fromLocalDatastore];
+    NSArray *localOs = [lq findObjects];
+    BOOL arg = false;
+    if([localOs[0][@"isOutboxDataConsistent"] isEqualToString:@"true"]) {
+        arg = true;
+    }
+
+    [classesVC initialization:arg];
     [inboxVC initialization];
-    [outboxVC initialization];
+    [outboxVC initialization:arg];
     [settingVC initialization];
     
     [self messagesInitialization:classesVC.createdClassesVCs outbox:outboxVC];

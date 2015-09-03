@@ -20,8 +20,10 @@
 @property (strong, nonatomic) NSMutableDictionary *createdClassesVCs;
 @property (strong, nonatomic) NSMutableDictionary *joinedClassVCs;
 
--(void)initialization;
+-(void)initialization:(BOOL)isBottomRefreshCalled;
 -(void)setRefreshCalled;
 -(void)unsetRefreshCalled;
+-(void)fireHUD;
+-(void)stopHUD;
 
 @end

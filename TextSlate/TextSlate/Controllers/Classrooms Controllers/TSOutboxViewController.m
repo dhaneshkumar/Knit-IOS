@@ -11,7 +11,6 @@
 #import "TSOutboxMessageTableViewCell.h"
 #import "sharedCache.h"
 #import <Parse/Parse.h>
-#import "MBProgressHUD.h"
 #import "RKDropdownAlert.h"
 #import "AppDelegate.h"
 #import "ClassesViewController.h"
@@ -23,7 +22,6 @@
 @interface TSOutboxViewController ()
 
 @property (strong, nonatomic) NSDate * timeDiff;
-@property (strong, nonatomic) MBProgressHUD *hud;
 @property (strong, nonatomic) UIRefreshControl *refreshControl;
 @property (nonatomic) BOOL isULCCalled;
 
@@ -31,9 +29,9 @@
 
 @implementation TSOutboxViewController
 
--(void)initialization {
+-(void)initialization:(BOOL)isBottomRefreshCalled {
+    _isBottomRefreshCalled = isBottomRefreshCalled;
     _messagesArray = [[NSMutableArray alloc] init];
-    _isBottomRefreshCalled = false;
     _messagesArray = [[NSMutableArray alloc] init];
     _mapCodeToObjects = [[NSMutableDictionary alloc] init];
     _messageIds = [[NSMutableArray alloc] init];
@@ -322,19 +320,11 @@
 
 
 -(void)fetchOldMessagesOnDataDeletion {
-    _hud = [MBProgressHUD showHUDAddedTo:self.view  animated:YES];
-    _hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
-    _hud.labelText = @"Loading messages";
-    
-    TSTabBarViewController *rootTab = (TSTabBarViewController *)self.tabBarController;
-
     [self setRefreshCalled];
+    [self fireHUD];
     [Data updateInboxLocalDatastore:@"c" successBlock:^(id object) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
             NSArray *messages = (NSArray *)object;
-            dispatch_sync(dispatch_get_main_queue(), ^{
-                [_hud hide:YES];
-            });
             for(PFObject *messageObject in messages) {
                 messageObject[@"messageId"] = messageObject.objectId;
                 messageObject[@"createdTime"] = messageObject.createdAt;
@@ -346,6 +336,7 @@
                 [_messageIds addObject:message.messageId];
                 
                 TSMessage *sendClassMessage = [self createMessageObject:messageObject isSendClass:true];
+                TSTabBarViewController *rootTab = (TSTabBarViewController *)self.tabBarController;
                 ClassesViewController *classesVC = rootTab.viewControllers[0];
                 TSSendClassMessageViewController *sendClassVC = classesVC.createdClassesVCs[sendClassMessage.classCode];
                 sendClassVC.mapCodeToObjects[sendClassMessage.messageId] = sendClassMessage;
@@ -354,6 +345,7 @@
             dispatch_sync(dispatch_get_main_queue(), ^{
                 [self.messagesTable reloadData];
             });
+            [self stopHUD];
             PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
             [lq fromLocalDatastore];
             NSArray *localOs = [lq findObjects];
@@ -368,7 +360,7 @@
         });
     } errorBlock:^(NSError *error) {
         [self unsetRefreshCalled];
-        [_hud hide:YES];
+        [self stopHUD];
     } hud:_hud];
 }
 
@@ -407,9 +399,6 @@
 -(void)fetchOldMessages {
     TSMessage *msg = _messagesArray[_messagesArray.count-1];
     NSDate *oldestMsgDate = msg.sentTime;
-    
-    TSTabBarViewController *rootTab = (TSTabBarViewController *)self.tabBarController;
-    
     [Data updateInboxLocalDatastoreWithTime1:@"c" oldestMessageTime:oldestMsgDate successBlock:^(id object) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
             NSArray *messages = (NSArray *)object;
@@ -425,6 +414,7 @@
                 [_messageIds addObject:message.messageId];
                 
                 TSMessage *sendClassMessage = [self createMessageObject:messageObject isSendClass:true];
+                TSTabBarViewController *rootTab = (TSTabBarViewController *)self.tabBarController;
                 ClassesViewController *classesVC = rootTab.viewControllers[0];
                 TSSendClassMessageViewController *sendClassVC = classesVC.createdClassesVCs[sendClassMessage.classCode];
                 sendClassVC.mapCodeToObjects[sendClassMessage.messageId] = sendClassMessage;
@@ -563,6 +553,22 @@
     ClassesViewController *classesVC = rootTab.viewControllers[0];
     [classesVC setRefreshCalled];
     _isBottomRefreshCalled = false;
+}
+
+-(void)fireHUD {
+    TSTabBarViewController *rootTab = (TSTabBarViewController *)self.tabBarController;
+    ClassesViewController *classesVC = rootTab.viewControllers[0];
+    [classesVC fireHUD];
+    _hud = [MBProgressHUD showHUDAddedTo:self.view  animated:YES];
+    _hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
+    _hud.labelText = @"Loading messages";
+}
+
+-(void)stopHUD {
+    TSTabBarViewController *rootTab = (TSTabBarViewController *)self.tabBarController;
+    ClassesViewController *classesVC = rootTab.viewControllers[0];
+    [classesVC stopHUD];
+    [_hud hide:YES];
 }
 
 @end

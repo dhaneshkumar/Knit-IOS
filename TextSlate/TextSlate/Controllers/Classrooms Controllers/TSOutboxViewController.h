@@ -10,10 +10,12 @@
 #import "TSMessage.h"
 #import "JTSImageInfo.h"
 #import "JTSImageViewController.h"
+#import "MBProgressHUD.h"
 
 @interface TSOutboxViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *messagesTable;
+@property (strong, nonatomic) MBProgressHUD *hud;
 @property (strong, nonatomic) NSMutableArray *messagesArray;
 @property (nonatomic, strong) NSMutableDictionary *mapCodeToObjects;
 @property (nonatomic, strong) NSMutableArray *messageIds;
@@ -23,6 +25,6 @@
 @property (nonatomic) BOOL isBottomRefreshCalled;
 
 -(void)attachedImageTapped:(JTSImageInfo *)imageInfo;
--(void)initialization;
+-(void)initialization:(BOOL)isBottomRefreshCalled;
 
 @end

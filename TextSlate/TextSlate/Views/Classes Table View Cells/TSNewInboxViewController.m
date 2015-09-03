@@ -31,7 +31,16 @@
 @implementation TSNewInboxViewController
 
 -(void)initialization {
-    _isBottomRefreshCalled = false;
+    PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
+    [lq fromLocalDatastore];
+    NSArray *localOs = [lq findObjects];
+    if([localOs[0][@"isInboxDataConsistent"] isEqualToString:@"true"]) {
+        _isBottomRefreshCalled = true;
+    }
+    else {
+        _isBottomRefreshCalled = false;
+    }
+    
     _messagesArray = [[NSMutableArray alloc] init];
     _mapCodeToObjects = [[NSMutableDictionary alloc] init];
     _messageIds = [[NSMutableArray alloc] init];
@@ -591,7 +600,6 @@
             dispatch_sync(dispatch_get_main_queue(), ^{
                 [self.messagesTable reloadData];
             });
-            _isBottomRefreshCalled = false;
             if(_messageFlag==1 && messageObjects.count==1) {
                  [RKDropdownAlert title:@"" message:@"You know what? You can like/confuse message and let teacher know."  time:3];
             }

@@ -72,7 +72,7 @@
 }
 
 
--(void)initialization {
+-(void)initialization:(BOOL)isBottomRefreshCalled {
     _screenHeight = [TSUtils getScreenHeight];
     NSMutableArray *joinedClassCodes = [[NSMutableArray alloc] init];
     NSMutableDictionary *joinedClassAssocNames = [[NSMutableDictionary alloc] init];
@@ -126,7 +126,7 @@
     
     for(int i=0; i<_createdClasses.count; i++) {
         TSSendClassMessageViewController *dvc = (TSSendClassMessageViewController*)[self.storyboard instantiateViewControllerWithIdentifier:@"createdClassVC"];
-        [dvc initialization:_createdClasses[i][0] className:_createdClasses[i][1]];
+        [dvc initialization:_createdClasses[i][0] className:_createdClasses[i][1] isBottomRefreshCalled:isBottomRefreshCalled];
         [_createdClassesVCs setObject:dvc forKey:_createdClasses[i][0]];
     }
 }
@@ -345,5 +345,24 @@
         sendClassVC.isBottomRefreshCalled = false;
     }
 }
+
+
+-(void)fireHUD {
+    for(int i=0; i<_createdClasses.count; i++) {
+        TSSendClassMessageViewController *sendClassVC = _createdClassesVCs[_createdClasses[i][0]];
+        sendClassVC.hud = [MBProgressHUD showHUDAddedTo:sendClassVC.view  animated:YES];
+        sendClassVC.hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
+        sendClassVC.hud.labelText = @"Loading messages";
+    }
+}
+
+
+-(void)stopHUD {
+    for(int i=0; i<_createdClasses.count; i++) {
+        TSSendClassMessageViewController *sendClassVC = _createdClassesVCs[_createdClasses[i][0]];
+        [sendClassVC.hud hide:YES];
+    }
+}
+
 
 @end

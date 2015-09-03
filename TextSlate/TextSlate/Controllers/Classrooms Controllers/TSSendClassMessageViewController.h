@@ -11,6 +11,7 @@
 #import "JTSImageInfo.h"
 #import "JTSImageViewController.h"
 #import "TSMemberslistTableViewController.h"
+#import "MBProgressHUD.h"
 
 @interface TSSendClassMessageViewController : UIViewController <UITableViewDataSource,UITableViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate, UIActionSheetDelegate>
 
@@ -23,11 +24,12 @@
 @property (nonatomic) BOOL shouldScrollUp;
 @property (nonatomic) BOOL isBottomRefreshCalled;
 @property (nonatomic) int memberCount;
+@property (strong, nonatomic) MBProgressHUD *hud;
 @property (weak, nonatomic) IBOutlet UIButton *membersButton;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *membersButtonHeight;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *membersButtonWidth;
 
--(void)initialization:(NSString *)classCode className:(NSString *)className;
+-(void)initialization:(NSString *)classCode className:(NSString *)className isBottomRefreshCalled:(BOOL)isBottomRefreshCalled;
 -(void)attachedImageTapped:(JTSImageInfo *)imageInfo;
 -(void)deleteClass;
 

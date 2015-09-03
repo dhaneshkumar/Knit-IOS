@@ -15,7 +15,6 @@
 #import "TSCreatedClassMessageTableViewCell.h"
 #import "MessageComposerViewController.h"
 #import "RKDropdownAlert.h"
-#import "MBProgressHUD.h"
 #import "TSNewInviteParentViewController.h"
 #import "CustomUIActionSheetViewController.h"
 #import "AppDelegate.h"
@@ -31,7 +30,6 @@
 @property (strong,nonatomic) NSString *classCode;
 
 @property (strong, nonatomic) NSDate * timeDiff;
-@property (strong, nonatomic) MBProgressHUD *hud;
 @property (strong, nonatomic) CustomUIActionSheetViewController *customUIActionSheetViewController;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *topViewHeight;
 
@@ -39,10 +37,10 @@
 
 @implementation TSSendClassMessageViewController
 
--(void)initialization:(NSString *)classCode className:(NSString *)className {
+-(void)initialization:(NSString *)classCode className:(NSString *)className isBottomRefreshCalled:(BOOL)isBottomRefreshCalled {
     _classCode = classCode;
     _className = className;
-    _isBottomRefreshCalled = false;
+    _isBottomRefreshCalled = isBottomRefreshCalled;
     _messagesArray = [[NSMutableArray alloc] init];
     _mapCodeToObjects = [[NSMutableDictionary alloc] init];
     TSMemberslistTableViewController *memberListController = [self.storyboard instantiateViewControllerWithIdentifier:@"memberListVC"];
@@ -268,11 +266,16 @@
 
 -(void)displayMessages {
     if(_messagesArray.count==0) {
-        PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
-        [lq fromLocalDatastore];
-        NSArray *localObjs = [lq findObjects];
-        if([localObjs[0][@"isOutboxDataConsistent"] isEqualToString:@"false"]) {
-            [self fetchOldMessagesOnDataDeletion];
+        if(!_isBottomRefreshCalled) {
+            TSTabBarViewController *rootTab = [self getRootTab];
+            TSOutboxViewController *outboxVC = rootTab.viewControllers[2];
+            NSArray *messagesArray = outboxVC.messagesArray;
+            if(messagesArray.count==0) {
+                [self fetchOldMessagesOnDataDeletion];
+            }
+            else {
+                return;
+            }
         }
         else {
             [self setRefreshCalled];
@@ -334,32 +337,18 @@
 
 
 -(void)fetchOldMessagesOnDataDeletion {
-    _hud = [MBProgressHUD showHUDAddedTo:self.view  animated:YES];
-    _hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
-    _hud.labelText = @"Loading messages";
-    
-    AppDelegate *apd = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    NSArray *vcs = (NSArray *)((UINavigationController *)apd.startNav).viewControllers;
-    TSTabBarViewController *rootTab = (TSTabBarViewController *)((UINavigationController *)apd.startNav).topViewController;
-    for(id vc in vcs) {
-        if([vc isKindOfClass:[TSTabBarViewController class]]) {
-            rootTab = (TSTabBarViewController *)vc;
-            break;
-        }
-    }
+    [self fireHUD];
     [self setRefreshCalled];
     [Data updateInboxLocalDatastore:@"c" successBlock:^(id object) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
             NSArray *messages = (NSArray *)object;
-            dispatch_sync(dispatch_get_main_queue(), ^{
-                [_hud hide:YES];
-            });
             for(PFObject *messageObject in messages) {
                 messageObject[@"messageId"] = messageObject.objectId;
                 messageObject[@"createdTime"] = messageObject.createdAt;
                 [messageObject pin];
                 
                 TSMessage *message = [self createMessageObject:messageObject isSendClass:false];
+                TSTabBarViewController *rootTab = [self getRootTab];
                 TSOutboxViewController *outboxVC = rootTab.viewControllers[2];
                 outboxVC.mapCodeToObjects[message.messageId] = message;
                 [outboxVC.messagesArray addObject:message];
@@ -380,6 +369,7 @@
             dispatch_sync(dispatch_get_main_queue(), ^{
                 [self.messageTable reloadData];
             });
+            [self stopHUD];
             PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
             [lq fromLocalDatastore];
             NSArray *localOs = [lq findObjects];
@@ -394,7 +384,7 @@
         });
     } errorBlock:^(NSError *error) {
         [self unsetRefreshCalled];
-        [_hud hide:YES];
+        [self stopHUD];
     } hud:_hud];
 }
 
@@ -432,15 +422,7 @@
 
 
 -(void)fetchOldMessages {
-    AppDelegate *apd = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    NSArray *vcs = (NSArray *)((UINavigationController *)apd.startNav).viewControllers;
-    TSTabBarViewController *rootTab = (TSTabBarViewController *)((UINavigationController *)apd.startNav).topViewController;
-    for(id vc in vcs) {
-        if([vc isKindOfClass:[TSTabBarViewController class]]) {
-            rootTab = (TSTabBarViewController *)vc;
-            break;
-        }
-    }
+    TSTabBarViewController *rootTab = [self getRootTab];
     TSOutboxViewController *outboxVC = rootTab.viewControllers[2];
     TSMessage *msg = outboxVC.messagesArray[outboxVC.messagesArray.count-1];
     NSDate *oldestMsgDate = msg.sentTime;
@@ -545,16 +527,8 @@
         PFUser *currentUser = [PFUser currentUser];
         currentUser[@"Created_groups"] = createdClasses;
         [currentUser pin];
-        AppDelegate *apd = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-        NSArray *vcs = (NSArray *)((UINavigationController *)apd.startNav).viewControllers;
-        TSTabBarViewController *rootTab = (TSTabBarViewController *)((UINavigationController *)apd.startNav).topViewController;
-        for(id vc in vcs) {
-            if([vc isKindOfClass:[TSTabBarViewController class]]) {
-                rootTab = (TSTabBarViewController *)vc;
-                break;
-            }
-        }
         
+        TSTabBarViewController *rootTab = [self getRootTab];
         ClassesViewController *classesVC = rootTab.viewControllers[0];
         classesVC.createdClasses = [NSMutableArray arrayWithArray:[[createdClasses reverseObjectEnumerator] allObjects]];
         [classesVC.createdClassesVCs removeObjectForKey:_classCode];
@@ -611,16 +585,7 @@
 
 
 -(void)setRefreshCalled {
-    AppDelegate *apd = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    NSArray *vcs = (NSArray *)((UINavigationController *)apd.startNav).viewControllers;
-    TSTabBarViewController *rootTab = (TSTabBarViewController *)((UINavigationController *)apd.startNav).topViewController;
-    for(id vc in vcs) {
-        if([vc isKindOfClass:[TSTabBarViewController class]]) {
-            rootTab = (TSTabBarViewController *)vc;
-            break;
-        }
-    }
-    
+    TSTabBarViewController *rootTab = [self getRootTab];
     ClassesViewController *classesVC = rootTab.viewControllers[0];
     [classesVC setRefreshCalled];
     TSOutboxViewController *outboxVC = rootTab.viewControllers[2];
@@ -629,6 +594,33 @@
 
 
 -(void)unsetRefreshCalled {
+    TSTabBarViewController *rootTab = [self getRootTab];
+    ClassesViewController *classesVC = rootTab.viewControllers[0];
+    [classesVC setRefreshCalled];
+    TSOutboxViewController *outboxVC = rootTab.viewControllers[2];
+    outboxVC.isBottomRefreshCalled = false;
+}
+
+-(void)fireHUD {
+    TSTabBarViewController *rootTab = [self getRootTab];
+    ClassesViewController *classesVC = rootTab.viewControllers[0];
+    [classesVC fireHUD];
+    TSOutboxViewController *outboxVC = rootTab.viewControllers[2];
+    outboxVC.hud = [MBProgressHUD showHUDAddedTo:outboxVC.view  animated:YES];
+    outboxVC.hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
+    outboxVC.hud.labelText = @"Loading messages";
+}
+
+-(void)stopHUD {
+    TSTabBarViewController *rootTab = [self getRootTab];
+    ClassesViewController *classesVC = rootTab.viewControllers[0];
+    [classesVC stopHUD];
+    TSOutboxViewController *outboxVC = rootTab.viewControllers[2];
+    [outboxVC.hud hide:YES];
+}
+
+
+-(TSTabBarViewController *)getRootTab {
     AppDelegate *apd = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     NSArray *vcs = (NSArray *)((UINavigationController *)apd.startNav).viewControllers;
     TSTabBarViewController *rootTab = (TSTabBarViewController *)((UINavigationController *)apd.startNav).topViewController;
@@ -638,11 +630,7 @@
             break;
         }
     }
-    
-    ClassesViewController *classesVC = rootTab.viewControllers[0];
-    [classesVC setRefreshCalled];
-    TSOutboxViewController *outboxVC = rootTab.viewControllers[2];
-    outboxVC.isBottomRefreshCalled = false;
+    return rootTab;
 }
 
 
