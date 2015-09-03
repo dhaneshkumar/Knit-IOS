@@ -585,7 +585,6 @@
                 UIImagePickerController *picker = [[UIImagePickerController alloc] init];
                 picker.delegate = self;
                 picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-                
                 [self presentViewController:picker animated:YES completion:NULL];
             }
             else if(status == ALAuthorizationStatusDenied) {

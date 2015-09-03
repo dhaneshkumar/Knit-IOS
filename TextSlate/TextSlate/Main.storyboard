@@ -1257,24 +1257,6 @@ Login using your email ID.</string>
                                                     </mask>
                                                 </variation>
                                             </textField>
-                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="10-digit mobile number" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ozG-ak-6r7">
-                                                <rect key="frame" x="0.0" y="-30" width="97" height="30"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="30" id="Y6J-r6-OMQ"/>
-                                                </constraints>
-                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <textInputTraits key="textInputTraits"/>
-                                                <variation key="default">
-                                                    <mask key="constraints">
-                                                        <exclude reference="Y6J-r6-OMQ"/>
-                                                    </mask>
-                                                </variation>
-                                                <variation key="heightClass=regular-widthClass=compact">
-                                                    <mask key="constraints">
-                                                        <include reference="Y6J-r6-OMQ"/>
-                                                    </mask>
-                                                </variation>
-                                            </textField>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Or" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dmd-H2-XCn">
                                                 <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
                                                 <constraints>
@@ -1409,10 +1391,8 @@ Login using your email ID.</string>
                                         <color key="backgroundColor" red="0.9137254901960784" green="0.91764705882352937" blue="0.92941176470588238" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstItem="wb8-wh-K02" firstAttribute="leading" secondItem="YHK-Rd-Ems" secondAttribute="leading" constant="16" id="1Cl-OP-ovv"/>
-                                            <constraint firstItem="ozG-ak-6r7" firstAttribute="leading" secondItem="TYT-z9-MQb" secondAttribute="trailing" constant="1" id="4Sc-gL-gP2"/>
                                             <constraint firstItem="P6i-8n-E5H" firstAttribute="top" secondItem="tsD-Yq-HAw" secondAttribute="bottom" constant="21" id="Coe-3p-V1X"/>
                                             <constraint firstAttribute="width" constant="400" id="Day-4o-nZi"/>
-                                            <constraint firstAttribute="trailing" secondItem="ozG-ak-6r7" secondAttribute="trailing" constant="16" id="ElE-xL-Qj1"/>
                                             <constraint firstItem="QLm-Nj-EfM" firstAttribute="leading" secondItem="YHK-Rd-Ems" secondAttribute="leading" id="Ndi-4A-cF6"/>
                                             <constraint firstItem="CiL-bG-KlY" firstAttribute="width" secondItem="QLm-Nj-EfM" secondAttribute="width" id="OCx-vU-aZE"/>
                                             <constraint firstItem="dmd-H2-XCn" firstAttribute="centerY" secondItem="CiL-bG-KlY" secondAttribute="centerY" id="R8m-BJ-AJF"/>
@@ -1422,7 +1402,6 @@ Login using your email ID.</string>
                                             <constraint firstAttribute="centerX" secondItem="P6i-8n-E5H" secondAttribute="centerX" id="XbH-AK-Cuh"/>
                                             <constraint firstAttribute="trailing" secondItem="wb8-wh-K02" secondAttribute="trailing" constant="16" id="Zaj-TZ-uCt"/>
                                             <constraint firstItem="tsD-Yq-HAw" firstAttribute="top" secondItem="YHK-Rd-Ems" secondAttribute="top" constant="28" id="ccN-KJ-D7V"/>
-                                            <constraint firstItem="ozG-ak-6r7" firstAttribute="top" secondItem="wb8-wh-K02" secondAttribute="bottom" constant="8" id="get-kt-wiB"/>
                                             <constraint firstItem="wb8-wh-K02" firstAttribute="top" secondItem="dmd-H2-XCn" secondAttribute="bottom" constant="19" id="lPB-TW-n5n"/>
                                             <constraint firstItem="dmd-H2-XCn" firstAttribute="centerY" secondItem="QLm-Nj-EfM" secondAttribute="centerY" id="pe7-rt-akF"/>
                                             <constraint firstItem="dmd-H2-XCn" firstAttribute="top" secondItem="P6i-8n-E5H" secondAttribute="bottom" constant="31" id="ta1-PE-keg"/>
@@ -1433,7 +1412,6 @@ Login using your email ID.</string>
                                         <variation key="default">
                                             <mask key="subviews">
                                                 <exclude reference="wb8-wh-K02"/>
-                                                <exclude reference="ozG-ak-6r7"/>
                                                 <exclude reference="dmd-H2-XCn"/>
                                                 <exclude reference="CiL-bG-KlY"/>
                                                 <exclude reference="QLm-Nj-EfM"/>
@@ -1454,9 +1432,6 @@ Login using your email ID.</string>
                                                 <exclude reference="lPB-TW-n5n"/>
                                                 <exclude reference="RZu-1u-lkQ"/>
                                                 <exclude reference="v6W-qF-jkb"/>
-                                                <exclude reference="4Sc-gL-gP2"/>
-                                                <exclude reference="ElE-xL-Qj1"/>
-                                                <exclude reference="get-kt-wiB"/>
                                                 <exclude reference="R8m-BJ-AJF"/>
                                                 <exclude reference="RmI-xy-kSu"/>
                                                 <exclude reference="pe7-rt-akF"/>
@@ -1468,7 +1443,6 @@ Login using your email ID.</string>
                                         <variation key="heightClass=regular-widthClass=compact">
                                             <mask key="subviews">
                                                 <include reference="wb8-wh-K02"/>
-                                                <include reference="ozG-ak-6r7"/>
                                                 <include reference="dmd-H2-XCn"/>
                                                 <include reference="CiL-bG-KlY"/>
                                                 <include reference="QLm-Nj-EfM"/>
@@ -1489,9 +1463,6 @@ Login using your email ID.</string>
                                                 <include reference="lPB-TW-n5n"/>
                                                 <include reference="RZu-1u-lkQ"/>
                                                 <include reference="v6W-qF-jkb"/>
-                                                <include reference="4Sc-gL-gP2"/>
-                                                <include reference="ElE-xL-Qj1"/>
-                                                <include reference="get-kt-wiB"/>
                                                 <include reference="R8m-BJ-AJF"/>
                                                 <include reference="RmI-xy-kSu"/>
                                                 <include reference="pe7-rt-akF"/>
@@ -1575,7 +1546,6 @@ Login using your email ID.</string>
                         <outlet property="googleSignupButtonHeight" destination="KPN-c0-5CD" id="9IP-yv-VoF"/>
                         <outlet property="googleSignupButtonWidth" destination="WFn-aR-B9D" id="U5z-zO-ukj"/>
                         <outlet property="lineWidth" destination="dBo-Zc-WwF" id="l4K-ng-cht"/>
-                        <outlet property="phoneNumberTextField" destination="ozG-ak-6r7" id="jaq-mw-VDv"/>
                         <outlet property="scrollView" destination="ru6-XU-5NW" id="qlk-tV-ts0"/>
                         <outlet property="verticalSpace1" destination="ccN-KJ-D7V" id="k3a-hy-R1U"/>
                         <outlet property="verticalSpace2" destination="Coe-3p-V1X" id="qOf-Zv-OS0"/>
