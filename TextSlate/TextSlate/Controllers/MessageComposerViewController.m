@@ -316,7 +316,11 @@
             return;
         }
     }
+    [self sendMessagesNow];
     
+    /*
+    //Removed this time checking for time being. As it was introducing another window and doing ungalbaazi in hud closing.
+     
     NSDateComponents *components = [[NSCalendar currentCalendar] components:NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit fromDate:[self getCurrentServerTime]];
     NSInteger currentHour = [components hour];
     
@@ -331,9 +335,11 @@
     else {
         [self sendMessagesNow];
     }
+     */
 }
 
 -(void)sendMessagesNow {
+    [_textMessage resignFirstResponder];
     NSString *messageText = [self trimmedString:_textMessage.text];
     AppDelegate *apd = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     NSArray *vcs = (NSArray *)((UINavigationController *)apd.startNav).viewControllers;
