@@ -334,7 +334,6 @@
 }
 
 -(void)sendMessagesNow {
-    [_textMessage resignFirstResponder];
     NSString *messageText = [self trimmedString:_textMessage.text];
     AppDelegate *apd = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     NSArray *vcs = (NSArray *)((UINavigationController *)apd.startNav).viewControllers;
@@ -421,6 +420,7 @@
             
             //Cancel all local notifications
             [[UIApplication sharedApplication] cancelAllLocalNotifications];
+            
             [hud hide:YES];
             [self dismissViewControllerAnimated:YES completion:nil];
             if(wasMessageSent) {

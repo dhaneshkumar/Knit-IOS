@@ -125,6 +125,7 @@
     [_messagesTable reloadData];
     if(_refreshControl.isRefreshing) {
         [_refreshControl endRefreshing];
+        [self.messagesTable setContentOffset:CGPointMake(0, -self.refreshControl.frame.size.height) animated:YES];
         [_refreshControl beginRefreshing];
     }
 }
@@ -386,6 +387,7 @@
             dispatch_sync(dispatch_get_main_queue(), ^{
                 [self.messagesTable reloadData];
                 [_refreshControl endRefreshing];
+                [self.messagesTable setContentOffset:CGPointMake(0, 0) animated:YES];
             });
             _isILMCalled = NO;
         });
@@ -522,6 +524,7 @@
             dispatch_sync(dispatch_get_main_queue(), ^{
                 [self.messagesTable reloadData];
                 [_refreshControl endRefreshing];
+                [self.messagesTable setContentOffset:CGPointMake(0, 0) animated:YES];
                 if(messageObjects.count>0) {
                     NSIndexPath *rowIndexPath = [NSIndexPath indexPathForRow:0 inSection:0];
                     [self.messagesTable scrollToRowAtIndexPath:rowIndexPath atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
