@@ -4,11 +4,12 @@ platform :ios, '7.0'
 target 'Knit' do
     pod 'MBProgressHUD', '~> 0.9.1'
     pod 'RKDropdownAlert'
-    pod 'UIFloatLabelTextField'
-	pod 'YLGIFImage'
     pod 'AppsFlyer-SDK'
-    pod 'PulsingHalo'
     pod 'Google/SignIn'
+    pod 'Appsee'
+    pod 'PulsingHalo'
+    pod 'UIFloatLabelTextField'
+    pod 'YLGIFImage'
 end
 
 

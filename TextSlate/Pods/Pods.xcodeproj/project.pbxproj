@@ -10,11 +10,14 @@
 		01F02EFA925AB700367AB4090D4D20C1 /* YLGIFImage-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = E729AC49BD5C32B8D941CD5172126B57 /* YLGIFImage-dummy.m */; };
 		0266567F67644C4BF45C9475EC43C208 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5B903C4F72CA999FFE215A41FBCF244 /* Foundation.framework */; };
 		06F0F4BD65870654D2B0F5191A1D857E /* UIFloatLabelTextField-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CAEB6A727BE317E6900269783ED906A /* UIFloatLabelTextField-dummy.m */; };
+		074553D7E60185C1E09C282DAE293FA7 /* MBProgressHUD-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = B71B1F3F7B3AAD7800EBE26F5A9778EE /* MBProgressHUD-dummy.m */; };
 		0946569FC0AFC3BF030B2303B687114D /* YLImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 738BACAE94F5AB229557F36C4F8FB4F3 /* YLImageView.m */; };
+		0BEA0480382355A5E85207520030C550 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5B903C4F72CA999FFE215A41FBCF244 /* Foundation.framework */; };
+		29226E24614A36EB1C0A2AA9CC8F6090 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = F69EDD8080677A58A9CA02425F7A84DC /* MBProgressHUD.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
 		2C08C224EE7D32B6193B581249405BAB /* PulsingHalo-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = B854032A578005027C88F0155E40DCDB /* PulsingHalo-dummy.m */; };
-		2D01519A0C35C8A9222FE40524BDE13B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5B903C4F72CA999FFE215A41FBCF244 /* Foundation.framework */; };
 		2D332D19AE46C18FDB8872406B919E2F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5B903C4F72CA999FFE215A41FBCF244 /* Foundation.framework */; };
 		30B294F77F14D4EA04355F9EE49C1C4F /* PulsingHaloLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EDF1785F9CAF8C4663B4CB67ECC8351 /* PulsingHaloLayer.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
+		34183268DD92334BA96563A93C547731 /* MBProgressHUD.h in Headers */ = {isa = PBXBuildFile; fileRef = 27D443D2300F3241B75FAA0310A1D78B /* MBProgressHUD.h */; };
 		36DE1E43955E04D06B446F38B424F185 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5B903C4F72CA999FFE215A41FBCF244 /* Foundation.framework */; };
 		38822ACBACD81AFD0C230BED7C399416 /* Pods-Knit-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 53BE3C6D061D4CEB6E47F3F94944E6E4 /* Pods-Knit-dummy.m */; };
 		3DE035B44A5158AB88E4064725F3DBCF /* UIFloatLabelTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = B5B398B39E00817A6ACBBB7164731044 /* UIFloatLabelTextField.m */; };
@@ -25,152 +28,150 @@
 		877CE089D69732ADF2ADA77E41A89357 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF3B019FEA8F4EC048EFE17F0D3CD55E /* ImageIO.framework */; };
 		8A91CDD4BEAC158639217194B28A9323 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 665213201528636C6E128F26E82EC58A /* UIKit.framework */; };
 		9831ED2BB140BB29A33F7737504E37C3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5B903C4F72CA999FFE215A41FBCF244 /* Foundation.framework */; };
-		9F7AC158EB7734E60EC3C6C4A0BBA8C6 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 91F848982E13BF981BAA2FE850E8A5C8 /* CoreGraphics.framework */; };
 		A321B18C0CE7A41C33BD51E7B68F6688 /* PulsingHaloLayer.h in Headers */ = {isa = PBXBuildFile; fileRef = C635E7EDA0C1B6BCD8BE25D0EB2EA680 /* PulsingHaloLayer.h */; };
+		B0DB2DE95E37322A6E7348692E62DD28 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 91F848982E13BF981BAA2FE850E8A5C8 /* CoreGraphics.framework */; };
 		B9CB31537EDC338EDFE66F3E0703236F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 91F848982E13BF981BAA2FE850E8A5C8 /* CoreGraphics.framework */; };
 		BA1A6A5A04786793215C92B6C65F86FB /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 360679D53B8F17AFEED17A1CB4105D47 /* MobileCoreServices.framework */; };
 		BB4475BE34128944F6FB4E15BA0C772A /* YLGIFImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 20C9B946E0AD50A5ADAC842698498653 /* YLGIFImage.m */; };
 		C944E1B4B18BB29766F5D17ED0A60666 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9529E719B9E8A217170B9680EF3C086E /* QuartzCore.framework */; };
-		D1A0039A1BF9BEA3934A4DBA350E211F /* MBProgressHUD.h in Headers */ = {isa = PBXBuildFile; fileRef = 3B129D133EE852680BC77AF03501ED75 /* MBProgressHUD.h */; };
 		D8EAAA903FD57DC72C4BA2E579372F9E /* RKDropdownAlert.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B7C340C7FD4262B29FADA821B1F4F4F /* RKDropdownAlert.h */; };
 		DB5289EC6B937B4FBC37A8C52B507B85 /* YLGIFImage.h in Headers */ = {isa = PBXBuildFile; fileRef = 57F66DEDBB72726E991DFD5FEF2EAB58 /* YLGIFImage.h */; };
-		E12C71B5FD0FA69EEE985F0A41565BDD /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 589C55B122C54823D2C8D80EA8A89FA7 /* MBProgressHUD.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
-		F835C62C82F8601DC3038B31811DDE64 /* MBProgressHUD-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 88837D9BD8AF587F4FF28A76E7E0A5A5 /* MBProgressHUD-dummy.m */; };
 		FD33A7DD3F933788DDFCB645C4CEA39D /* YLImageView.h in Headers */ = {isa = PBXBuildFile; fileRef = EF1E3C57B1CA3C982E183B526E35500D /* YLImageView.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		53268703C143B5D5A344E929A6370D8A /* PBXContainerItemProxy */ = {
+		063078B77A98972C96242089D620614D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 547EA504C071A50E5CF78890947786F8;
-			remoteInfo = YLGIFImage;
+			remoteGlobalIDString = B673F82CB842106D547F673E49208C5C;
+			remoteInfo = MBProgressHUD;
 		};
-		60493A0B47E1FB90AE3AA3AC0042B7C5 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = BC3F1E15DB5A0E3E4D6FC822049258AF;
-			remoteInfo = RKDropdownAlert;
-		};
-		70B40FAAAF1CD273745DE8F1DB167826 /* PBXContainerItemProxy */ = {
+		326E1502597C2A2693DA5B8FEFAA9588 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = E419D028E3E032EAB30F020E8881EF45;
 			remoteInfo = PulsingHalo;
 		};
-		B4A90A5DDD145DD15458E2C9A7DDAE85 /* PBXContainerItemProxy */ = {
+		3E4D08A0FCC80BE534C5131DA56BCE76 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BC3F1E15DB5A0E3E4D6FC822049258AF;
+			remoteInfo = RKDropdownAlert;
+		};
+		4A11B3A5B2A4A3EFE4E5A8B4FD228767 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 46FA1AD2E63ACA6F551F87ED5A9F2F1B;
 			remoteInfo = UIFloatLabelTextField;
 		};
-		D3A7F717FD6601481D2DD864366619D5 /* PBXContainerItemProxy */ = {
+		DD06E66C7222C6989A446DFB401CD00D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 892132AC5F93C2869DC994017F411279;
-			remoteInfo = MBProgressHUD;
+			remoteGlobalIDString = 547EA504C071A50E5CF78890947786F8;
+			remoteInfo = YLGIFImage;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		013339B820AFEE365E4D4D7C43098FA6 /* GIDSignInButton.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = GIDSignInButton.h; path = Headers/Public/GIDSignInButton.h; sourceTree = "<group>"; };
+		018F8FFA329B98BAEE10EC5D166B6466 /* GGLConfiguration.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = GGLConfiguration.h; path = Headers/GGLCore/Public/GGLConfiguration.h; sourceTree = "<group>"; };
 		07E45964D7AB1BDB4303A05BE4AA8D4E /* Pods-Knit-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Knit-resources.sh"; sourceTree = "<group>"; };
-		0B4B894C019612A6C97AEAA6C7339260 /* libGTM_NSStringHTML.a */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = archive.ar; name = libGTM_NSStringHTML.a; path = Libraries/libGTM_NSStringHTML.a; sourceTree = "<group>"; };
+		0A19D1899DE5AEC092A55DB86C3E870B /* GIDGoogleUser.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = GIDGoogleUser.h; path = Headers/Public/GIDGoogleUser.h; sourceTree = "<group>"; };
 		0B7C340C7FD4262B29FADA821B1F4F4F /* RKDropdownAlert.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RKDropdownAlert.h; path = SlingshotDropdownAlert/RKDropdownAlert.h; sourceTree = "<group>"; };
+		1D4C3CD08AAEA9408514E9EF6628AC15 /* AppsFlyerTracker.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = AppsFlyerTracker.h; sourceTree = "<group>"; };
 		1DE739855E637458FBDF853F1B201CA2 /* libYLGIFImage.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libYLGIFImage.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		20078F5D0DB74EC9995EDA3939615165 /* libMBProgressHUD.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMBProgressHUD.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		20C9B946E0AD50A5ADAC842698498653 /* YLGIFImage.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = YLGIFImage.m; path = YLGIFImage/YLGIFImage.m; sourceTree = "<group>"; };
-		230D64047951AC2E91CF0759CF381B02 /* libGTM_NSDictionary+URLArguments.a */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = archive.ar; name = "libGTM_NSDictionary+URLArguments.a"; path = "Libraries/libGTM_NSDictionary+URLArguments.a"; sourceTree = "<group>"; };
-		28733335AF09B63F3928EC72872B5A77 /* GIDGoogleUser.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = GIDGoogleUser.h; path = Headers/Public/GIDGoogleUser.h; sourceTree = "<group>"; };
-		2FC58D3C187B89DF2113598F1419FF26 /* UIViewController+SignIn.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIViewController+SignIn.h"; path = "Headers/Public/UIViewController+SignIn.h"; sourceTree = "<group>"; };
-		31360D2EF4C12EF89D6C8F70E44D2B77 /* YLGIFImage-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "YLGIFImage-prefix.pch"; sourceTree = "<group>"; };
-		33AB5F7D2C686A2F17828F672091DF91 /* GIDProfileData.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = GIDProfileData.h; path = Headers/Public/GIDProfileData.h; sourceTree = "<group>"; };
+		2189FB89B0D1418AE19C951065F78503 /* libGSDK_Overload.a */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = archive.ar; name = libGSDK_Overload.a; path = Libraries/libGSDK_Overload.a; sourceTree = "<group>"; };
+		23ACE6B5264B726701AC9A71A6DE0DED /* libGGLSignIn.a */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = archive.ar; name = libGGLSignIn.a; path = Libraries/libGGLSignIn.a; sourceTree = "<group>"; };
+		246933FD843BDD9AE5E6F5EDBDF654B2 /* libGTM_iPhone.a */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = archive.ar; name = libGTM_iPhone.a; path = Libraries/libGTM_iPhone.a; sourceTree = "<group>"; };
+		27D443D2300F3241B75FAA0310A1D78B /* MBProgressHUD.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
+		29AE8E77D317632412E44AD186F3A5DC /* libGTMSessionFetcher_full.a */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = archive.ar; name = libGTMSessionFetcher_full.a; path = Libraries/libGTMSessionFetcher_full.a; sourceTree = "<group>"; };
+		2A2E7B5C2FAB1A02437DDE3134CD138F /* libSignIn.a */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = archive.ar; name = libSignIn.a; path = Libraries/libSignIn.a; sourceTree = "<group>"; };
+		2A9D6F2C050A655A0FB11FBDBB4F09E2 /* libMBProgressHUD.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMBProgressHUD.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		30BFE57F11533714EBC355F41BE6D0D2 /* libGTM_Regex.a */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = archive.ar; name = libGTM_Regex.a; path = Libraries/libGTM_Regex.a; sourceTree = "<group>"; };
 		360679D53B8F17AFEED17A1CB4105D47 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.3.sdk/System/Library/Frameworks/MobileCoreServices.framework; sourceTree = DEVELOPER_DIR; };
-		3B129D133EE852680BC77AF03501ED75 /* MBProgressHUD.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
-		40912E62A58A794EB035D609D52009D2 /* GGLErrorCode.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = GGLErrorCode.h; path = Headers/GGLCore/Public/GGLErrorCode.h; sourceTree = "<group>"; };
-		4174FA3304F5ECB3FECD0418E6C7D000 /* GIDSignInButton.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = GIDSignInButton.h; path = Headers/Public/GIDSignInButton.h; sourceTree = "<group>"; };
-		449733AF513187C3525AF4A709167FA4 /* GGLContext+SignIn.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "GGLContext+SignIn.h"; path = "Headers/GGLSignIn/Public/GGLContext+SignIn.h"; sourceTree = "<group>"; };
-		481273AB93C7EEB93B29F0C087452CA8 /* AppsFlyerTracker.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = AppsFlyerTracker.h; sourceTree = "<group>"; };
+		37B90E233943304838BE8B5C1EACE350 /* libGTMStackTrace.a */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = archive.ar; name = libGTMStackTrace.a; path = Libraries/libGTMStackTrace.a; sourceTree = "<group>"; };
+		3807DCB0FBCA881487B8DD0C0F8A7460 /* GoogleSignIn.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = GoogleSignIn.h; path = Headers/Public/GoogleSignIn.h; sourceTree = "<group>"; };
+		3936ED00C3EA24F914D533B53DCEAD87 /* libGTM_NSStringHTML.a */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = archive.ar; name = libGTM_NSStringHTML.a; path = Libraries/libGTM_NSStringHTML.a; sourceTree = "<group>"; };
+		3EB662B736228171A3750C9A660B16B0 /* libGTMOAuth2_internal.a */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = archive.ar; name = libGTMOAuth2_internal.a; path = Libraries/libGTMOAuth2_internal.a; sourceTree = "<group>"; };
 		4A49B10B8EA36ECA5FF9C14AEB9852DE /* libPulsingHalo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPulsingHalo.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		4E18196C797F196DE11CB68AAF59E3CC /* libGTM_core.a */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = archive.ar; name = libGTM_core.a; path = Libraries/libGTM_core.a; sourceTree = "<group>"; };
-		4EE217E93B4A51A217B23819F22D32F2 /* libGTM_DebugUtils.a */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = archive.ar; name = libGTM_DebugUtils.a; path = Libraries/libGTM_DebugUtils.a; sourceTree = "<group>"; };
-		53AFB092D5DFD2DDE8FE8B4CB755EB66 /* libGTMOAuth2_internal.a */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = archive.ar; name = libGTMOAuth2_internal.a; path = Libraries/libGTMOAuth2_internal.a; sourceTree = "<group>"; };
+		501748F247E1469D8CDC62CE9946546C /* GIDAuthentication.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = GIDAuthentication.h; path = Headers/Public/GIDAuthentication.h; sourceTree = "<group>"; };
+		51C41C3207A720B7E34984B166B6FC17 /* libGTMSessionFetcher_core.a */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = archive.ar; name = libGTMSessionFetcher_core.a; path = Libraries/libGTMSessionFetcher_core.a; sourceTree = "<group>"; };
 		53BE3C6D061D4CEB6E47F3F94944E6E4 /* Pods-Knit-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Knit-dummy.m"; sourceTree = "<group>"; };
-		53CE2A6A42A844041997AB3B83C305E5 /* MBProgressHUD-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "MBProgressHUD-prefix.pch"; sourceTree = "<group>"; };
-		56DB71A8D20CD22AC8DF8E50C4D43D97 /* libGTMSessionFetcher_core.a */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = archive.ar; name = libGTMSessionFetcher_core.a; path = Libraries/libGTMSessionFetcher_core.a; sourceTree = "<group>"; };
+		547B12071EC646805FE39758F61A4132 /* GIDSignIn.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = GIDSignIn.h; path = Headers/Public/GIDSignIn.h; sourceTree = "<group>"; };
 		5721DF66648EA71173B281B353462F36 /* UIFloatLabelTextField.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = UIFloatLabelTextField.h; path = UIFloatLabelTextField/UIFloatLabelTextField.h; sourceTree = "<group>"; };
 		57F66DEDBB72726E991DFD5FEF2EAB58 /* YLGIFImage.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = YLGIFImage.h; path = YLGIFImage/YLGIFImage.h; sourceTree = "<group>"; };
-		589C55B122C54823D2C8D80EA8A89FA7 /* MBProgressHUD.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
-		59A80B58004C75D7144E8593AC263582 /* GIDAuthentication.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = GIDAuthentication.h; path = Headers/Public/GIDAuthentication.h; sourceTree = "<group>"; };
-		5AA2AD510ABDD73C3B4F8FA77A8ABA4A /* RKDropdownAlert.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = RKDropdownAlert.xcconfig; sourceTree = "<group>"; };
-		5AAB03B05004F264C472725F187C6C05 /* libGTM_iPhone.a */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = archive.ar; name = libGTM_iPhone.a; path = Libraries/libGTM_iPhone.a; sourceTree = "<group>"; };
+		5B83CBEDBEE536B7DCAD70322CD4EA42 /* Appsee.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Appsee.framework; path = Appsee/Appsee.framework; sourceTree = "<group>"; };
+		5C69A914367E110A3B84F4908F44CFC2 /* MBProgressHUD-Private.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "MBProgressHUD-Private.xcconfig"; sourceTree = "<group>"; };
 		5CAEB6A727BE317E6900269783ED906A /* UIFloatLabelTextField-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "UIFloatLabelTextField-dummy.m"; sourceTree = "<group>"; };
-		61F9D9DEDC6E11C29698CB7516EAE6CC /* libGTM_NSStringXML.a */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = archive.ar; name = libGTM_NSStringXML.a; path = Libraries/libGTM_NSStringXML.a; sourceTree = "<group>"; };
+		5E2F84E20B5040C2F17A2C4B684AD9B3 /* libOpenInChrome.a */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = archive.ar; name = libOpenInChrome.a; path = Libraries/libOpenInChrome.a; sourceTree = "<group>"; };
+		60EAB5094A91DA842FD500FE1DAAB537 /* libGTM_UIFont+LineHeight.a */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = archive.ar; name = "libGTM_UIFont+LineHeight.a"; path = "Libraries/libGTM_UIFont+LineHeight.a"; sourceTree = "<group>"; };
+		630BA70B60A8CECDCD388DD79AEF90FB /* PulsingHalo.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = PulsingHalo.xcconfig; sourceTree = "<group>"; };
 		665213201528636C6E128F26E82EC58A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.3.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
-		66D6544EA3E48A29CDADF88B5B9AC79C /* UIFloatLabelTextField-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "UIFloatLabelTextField-prefix.pch"; sourceTree = "<group>"; };
-		68FA4655A161676D74C629355F529747 /* libGTM_KVO.a */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = archive.ar; name = libGTM_KVO.a; path = Libraries/libGTM_KVO.a; sourceTree = "<group>"; };
-		6C37E7FF28A95A6777B58545D47A24C0 /* libGTM_Regex.a */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = archive.ar; name = libGTM_Regex.a; path = Libraries/libGTM_Regex.a; sourceTree = "<group>"; };
+		6F5A906E2A508623106C3FB2695F0E77 /* GGLErrorCode.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = GGLErrorCode.h; path = Headers/GGLCore/Public/GGLErrorCode.h; sourceTree = "<group>"; };
 		6F61807CC69E75E2DF0376ED64BE0E83 /* libPods-Knit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Knit.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6F6F494358F109728C04450DA4A2897F /* Pods-Knit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Knit.debug.xcconfig"; sourceTree = "<group>"; };
+		7109F0F79425D2A1C6824C8AC0B892A7 /* YLGIFImage.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = YLGIFImage.xcconfig; sourceTree = "<group>"; };
+		73154E94EA6F298B5337A25E20E192C8 /* SignIn.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SignIn.h; path = Headers/GGLSignIn/Public/SignIn.h; sourceTree = "<group>"; };
 		738BACAE94F5AB229557F36C4F8FB4F3 /* YLImageView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = YLImageView.m; path = YLGIFImage/YLImageView.m; sourceTree = "<group>"; };
-		75630F92BCF85A651892D0672340F419 /* UIFloatLabelTextField.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = UIFloatLabelTextField.xcconfig; sourceTree = "<group>"; };
+		7842034797C3ADBF98BD50865D3166F0 /* libGTM_NSStringXML.a */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = archive.ar; name = libGTM_NSStringXML.a; path = Libraries/libGTM_NSStringXML.a; sourceTree = "<group>"; };
+		79532E90345A7668628FF47045DC3918 /* UIViewController+SignIn.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIViewController+SignIn.h"; path = "Headers/Public/UIViewController+SignIn.h"; sourceTree = "<group>"; };
+		79C65427C1BB89E15D17A5EF261B5305 /* RKDropdownAlert.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = RKDropdownAlert.xcconfig; sourceTree = "<group>"; };
 		7A9FC81F08C6C607B7478D5361CFDD89 /* RKDropdownAlert-Private.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "RKDropdownAlert-Private.xcconfig"; sourceTree = "<group>"; };
+		7B3876E02BE0BC293FD7B3DA4276702A /* UIFloatLabelTextField.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = UIFloatLabelTextField.xcconfig; sourceTree = "<group>"; };
 		7EA59C3467378676ED48DDCFFE6B468F /* libRKDropdownAlert.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRKDropdownAlert.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		7EDF1785F9CAF8C4663B4CB67ECC8351 /* PulsingHaloLayer.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PulsingHaloLayer.m; path = PulsingHalo/PulsingHaloLayer.m; sourceTree = "<group>"; };
-		8289BD29B63FDB9EDC1807F97DC3E61A /* libGGLSignIn.a */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = archive.ar; name = libGGLSignIn.a; path = Libraries/libGGLSignIn.a; sourceTree = "<group>"; };
-		82A270A85B02305C51608E1D14994819 /* GGLConfiguration.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = GGLConfiguration.h; path = Headers/GGLCore/Public/GGLConfiguration.h; sourceTree = "<group>"; };
-		850E82590E2E395C18D2088573FDF348 /* libGTMSessionFetcher_full.a */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = archive.ar; name = libGTMSessionFetcher_full.a; path = Libraries/libGTMSessionFetcher_full.a; sourceTree = "<group>"; };
+		83D109698B4D663D136E171D2049BAF8 /* libGTM_NSDictionary+URLArguments.a */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = archive.ar; name = "libGTM_NSDictionary+URLArguments.a"; path = "Libraries/libGTM_NSDictionary+URLArguments.a"; sourceTree = "<group>"; };
 		85904663179D2256F60732A546ABBFFB /* UIFloatLabelTextField-Private.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "UIFloatLabelTextField-Private.xcconfig"; sourceTree = "<group>"; };
-		85D21C6B1E9B864599824779CD3F9B53 /* libGTM_NSScannerJSON.a */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = archive.ar; name = libGTM_NSScannerJSON.a; path = Libraries/libGTM_NSScannerJSON.a; sourceTree = "<group>"; };
-		85FEE4EB195B9119478B2C9EA88BD34A /* RKDropdownAlert-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "RKDropdownAlert-prefix.pch"; sourceTree = "<group>"; };
-		88837D9BD8AF587F4FF28A76E7E0A5A5 /* MBProgressHUD-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "MBProgressHUD-dummy.m"; sourceTree = "<group>"; };
-		88F7B528D238320795714C31E9D08B51 /* MBProgressHUD.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = MBProgressHUD.xcconfig; sourceTree = "<group>"; };
-		8CC04E5EAAED0972813535B7C9EC9390 /* YLGIFImage.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = YLGIFImage.xcconfig; sourceTree = "<group>"; };
+		8C47A84F01C370C8FD34B4EE9AD88907 /* GoogleSignIn.bundle */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "wrapper.plug-in"; name = GoogleSignIn.bundle; path = Resources/GoogleSignIn.bundle; sourceTree = "<group>"; };
 		91F848982E13BF981BAA2FE850E8A5C8 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.3.sdk/System/Library/Frameworks/CoreGraphics.framework; sourceTree = DEVELOPER_DIR; };
 		9302B9290D262B584DF1844E5BF23983 /* Pods-Knit-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-Knit-acknowledgements.plist"; sourceTree = "<group>"; };
 		9529E719B9E8A217170B9680EF3C086E /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.3.sdk/System/Library/Frameworks/QuartzCore.framework; sourceTree = DEVELOPER_DIR; };
-		95417636AC72EDA40C070F83094BE1AF /* SignIn.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SignIn.h; path = Headers/GGLSignIn/Public/SignIn.h; sourceTree = "<group>"; };
+		953FD75B40DD13725B4664ED35496E60 /* libAppsFlyerLib.a */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = archive.ar; path = libAppsFlyerLib.a; sourceTree = "<group>"; };
+		965759BC740F91DAE166E4E5D5694B61 /* GGLContext+SignIn.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "GGLContext+SignIn.h"; path = "Headers/GGLSignIn/Public/GGLContext+SignIn.h"; sourceTree = "<group>"; };
+		983A16BB5D2D6D2BCC8CB95370E8967D /* libGTM_RoundedRectPath.a */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = archive.ar; name = libGTM_RoundedRectPath.a; path = Libraries/libGTM_RoundedRectPath.a; sourceTree = "<group>"; };
 		9A758D6E29D8AF26F3E0411C80CE5985 /* RKDropdownAlert.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = RKDropdownAlert.m; path = SlingshotDropdownAlert/RKDropdownAlert.m; sourceTree = "<group>"; };
-		A0D0E2C15AD51DAAA35E831D56046644 /* GIDSignIn.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = GIDSignIn.h; path = Headers/Public/GIDSignIn.h; sourceTree = "<group>"; };
+		9F6F523D332D65D76E0838F6E6640DEB /* libGTM_KVO.a */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = archive.ar; name = libGTM_KVO.a; path = Libraries/libGTM_KVO.a; sourceTree = "<group>"; };
+		A0A16700AF10B6714CD35139297A5C22 /* libGTM_StringEncoding.a */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = archive.ar; name = libGTM_StringEncoding.a; path = Libraries/libGTM_StringEncoding.a; sourceTree = "<group>"; };
+		A1E8A900DDCF0416318C44E2A27C4D4C /* GGLContext.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = GGLContext.h; path = Headers/GGLCore/Public/GGLContext.h; sourceTree = "<group>"; };
+		A2E3EF71F6F9D2B1A58675298326CE60 /* libGTM_SystemVersion.a */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = archive.ar; name = libGTM_SystemVersion.a; path = Libraries/libGTM_SystemVersion.a; sourceTree = "<group>"; };
 		A2EC2D6665290AABF517A4AF7132691C /* Pods-Knit-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-Knit-acknowledgements.markdown"; sourceTree = "<group>"; };
-		A44DC1AE2B54E2EF4D9DB773E3CBF073 /* libGTM_RoundedRectPath.a */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = archive.ar; name = libGTM_RoundedRectPath.a; path = Libraries/libGTM_RoundedRectPath.a; sourceTree = "<group>"; };
+		A566555AF6F1EAAA90698772F7286630 /* libGTM_GTMURLBuilder.a */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = archive.ar; name = libGTM_GTMURLBuilder.a; path = Libraries/libGTM_GTMURLBuilder.a; sourceTree = "<group>"; };
 		B5B398B39E00817A6ACBBB7164731044 /* UIFloatLabelTextField.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = UIFloatLabelTextField.m; path = UIFloatLabelTextField/UIFloatLabelTextField.m; sourceTree = "<group>"; };
 		B5B903C4F72CA999FFE215A41FBCF244 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.3.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		B71B1F3F7B3AAD7800EBE26F5A9778EE /* MBProgressHUD-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "MBProgressHUD-dummy.m"; sourceTree = "<group>"; };
 		B854032A578005027C88F0155E40DCDB /* PulsingHalo-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "PulsingHalo-dummy.m"; sourceTree = "<group>"; };
 		BA6428E9F66FD5A23C0A2E06ED26CD2F /* Podfile */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		BFF921CEBEB4261072CE65A05F9A5FFE /* PulsingHalo-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "PulsingHalo-prefix.pch"; sourceTree = "<group>"; };
-		C177F1D0029E8F1CAB879F801073F3EB /* libOpenInChrome.a */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = archive.ar; name = libOpenInChrome.a; path = Libraries/libOpenInChrome.a; sourceTree = "<group>"; };
-		C1A213089F6CABE30DE5B710B582F3E0 /* libGTM_StringEncoding.a */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = archive.ar; name = libGTM_StringEncoding.a; path = Libraries/libGTM_StringEncoding.a; sourceTree = "<group>"; };
-		C3537E3FB374488EC69CC1DA0D36DF01 /* libGSDK_Overload.a */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = archive.ar; name = libGSDK_Overload.a; path = Libraries/libGSDK_Overload.a; sourceTree = "<group>"; };
+		BE2DE43B3C07C2F26840CB48595559D4 /* libGGLCore.a */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = archive.ar; name = libGGLCore.a; path = Libraries/libGGLCore.a; sourceTree = "<group>"; };
+		C51012186F2071CBA35FBE09AB6B05AA /* libGTM_core.a */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = archive.ar; name = libGTM_core.a; path = Libraries/libGTM_core.a; sourceTree = "<group>"; };
 		C635E7EDA0C1B6BCD8BE25D0EB2EA680 /* PulsingHaloLayer.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PulsingHaloLayer.h; path = PulsingHalo/PulsingHaloLayer.h; sourceTree = "<group>"; };
+		C7192DDE4CE78C4F542F7D03B595CF61 /* MBProgressHUD-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "MBProgressHUD-prefix.pch"; sourceTree = "<group>"; };
 		C79B9710448E24F43C0816B322E7B6F4 /* PulsingHalo-Private.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "PulsingHalo-Private.xcconfig"; sourceTree = "<group>"; };
-		C95F79756326D9A036BC17B18D793876 /* MBProgressHUD-Private.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "MBProgressHUD-Private.xcconfig"; sourceTree = "<group>"; };
+		C98C5D06E604BC1D5EC14E2334ECB9BB /* RKDropdownAlert-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "RKDropdownAlert-prefix.pch"; sourceTree = "<group>"; };
 		CABC2E6CD81948CD0EE68D13C04A868C /* RKDropdownAlert-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "RKDropdownAlert-dummy.m"; sourceTree = "<group>"; };
+		CB103315331895D714236C43201B2E15 /* libGTM_AddressBook.a */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = archive.ar; name = libGTM_AddressBook.a; path = Libraries/libGTM_AddressBook.a; sourceTree = "<group>"; };
+		CD6202B479D3A522B8A0E6D8B454EDF8 /* PulsingHalo-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "PulsingHalo-prefix.pch"; sourceTree = "<group>"; };
 		CF3B019FEA8F4EC048EFE17F0D3CD55E /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.3.sdk/System/Library/Frameworks/ImageIO.framework; sourceTree = DEVELOPER_DIR; };
-		D5126AB0DD417F1F0372B632FB2E4B56 /* libGTMOAuth2_external.a */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = archive.ar; name = libGTMOAuth2_external.a; path = Libraries/libGTMOAuth2_external.a; sourceTree = "<group>"; };
-		D607EDE2046766A4D07EAE52784DA2C2 /* libGTMStackTrace.a */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = archive.ar; name = libGTMStackTrace.a; path = Libraries/libGTMStackTrace.a; sourceTree = "<group>"; };
 		D779EE29C1CED21BA67ABA6A1975C9E9 /* libUIFloatLabelTextField.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libUIFloatLabelTextField.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		D881F4A26E942DF691E690045B6813A5 /* libGTM_SystemVersion.a */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = archive.ar; name = libGTM_SystemVersion.a; path = Libraries/libGTM_SystemVersion.a; sourceTree = "<group>"; };
-		D9EABA2657C08A0F9373D5F53D3C45C8 /* GGLContext.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = GGLContext.h; path = Headers/GGLCore/Public/GGLContext.h; sourceTree = "<group>"; };
-		DAE44B78875C36557AA6AEA5A3BA5CDC /* libGTM_AddressBook.a */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = archive.ar; name = libGTM_AddressBook.a; path = Libraries/libGTM_AddressBook.a; sourceTree = "<group>"; };
-		DC2E769E59F1320AD93474BBE24D2F5D /* libGTM_GTMURLBuilder.a */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = archive.ar; name = libGTM_GTMURLBuilder.a; path = Libraries/libGTM_GTMURLBuilder.a; sourceTree = "<group>"; };
-		DE375729522CC75CA593ED68F9F14D5D /* libGTM_UIFont+LineHeight.a */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = archive.ar; name = "libGTM_UIFont+LineHeight.a"; path = "Libraries/libGTM_UIFont+LineHeight.a"; sourceTree = "<group>"; };
-		E30ED2D76B62C8A9281B55C215698A43 /* GoogleSignIn.bundle */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "wrapper.plug-in"; name = GoogleSignIn.bundle; path = Resources/GoogleSignIn.bundle; sourceTree = "<group>"; };
-		E67F78D02772AE24A7B3212BD53E0778 /* libAppsFlyerLib.a */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = archive.ar; path = libAppsFlyerLib.a; sourceTree = "<group>"; };
+		DA15781D7C772FE2D3E616D8E7028766 /* libGTM_DebugUtils.a */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = archive.ar; name = libGTM_DebugUtils.a; path = Libraries/libGTM_DebugUtils.a; sourceTree = "<group>"; };
+		DF7E300549E204158832BB047076B2A8 /* libGTMOAuth2_external.a */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = archive.ar; name = libGTMOAuth2_external.a; path = Libraries/libGTMOAuth2_external.a; sourceTree = "<group>"; };
 		E729AC49BD5C32B8D941CD5172126B57 /* YLGIFImage-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "YLGIFImage-dummy.m"; sourceTree = "<group>"; };
 		E7C5F6999AC076C87700AC0884B5EB95 /* YLGIFImage-Private.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "YLGIFImage-Private.xcconfig"; sourceTree = "<group>"; };
-		EA41876A0C5F4A30564108254C369096 /* libGGLCore.a */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = archive.ar; name = libGGLCore.a; path = Libraries/libGGLCore.a; sourceTree = "<group>"; };
+		EA2C9C5E286D27B13975C70A4A95B57A /* GIDProfileData.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = GIDProfileData.h; path = Headers/Public/GIDProfileData.h; sourceTree = "<group>"; };
+		EDA1D5BED2AC0B01F50FABE0160B1CCE /* libGTM_NSScannerJSON.a */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = archive.ar; name = libGTM_NSScannerJSON.a; path = Libraries/libGTM_NSScannerJSON.a; sourceTree = "<group>"; };
 		EE74B434339FC6CA8BF43FB0A0700E4C /* Pods-Knit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Knit.release.xcconfig"; sourceTree = "<group>"; };
 		EF1E3C57B1CA3C982E183B526E35500D /* YLImageView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = YLImageView.h; path = YLGIFImage/YLImageView.h; sourceTree = "<group>"; };
-		F1FCDB7C80CE25287E639EC8C7D307D3 /* libGIDExShared.a */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = archive.ar; name = libGIDExShared.a; path = Libraries/libGIDExShared.a; sourceTree = "<group>"; };
-		F305504F770422BF994B7A7777FF66CD /* PulsingHalo.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = PulsingHalo.xcconfig; sourceTree = "<group>"; };
-		F658FB782DE22E0B473E319F76F7FCBF /* libSignIn.a */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = archive.ar; name = libSignIn.a; path = Libraries/libSignIn.a; sourceTree = "<group>"; };
-		FF2384EF0C82A757C4F058672D4EFF57 /* GoogleSignIn.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = GoogleSignIn.h; path = Headers/Public/GoogleSignIn.h; sourceTree = "<group>"; };
-		FFD9B16DC2875BA1B283A20ABAB57E9C /* Core.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = Core.h; path = Headers/GGLCore/Public/Core.h; sourceTree = "<group>"; };
+		F19632C5B4C90B4DA41A2A018E795CB8 /* YLGIFImage-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "YLGIFImage-prefix.pch"; sourceTree = "<group>"; };
+		F1EF9551D4CC847107600988E018DF6C /* libGIDExShared.a */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = archive.ar; name = libGIDExShared.a; path = Libraries/libGIDExShared.a; sourceTree = "<group>"; };
+		F65D8AD018E4DC05DFAACAB2BD7020B7 /* UIFloatLabelTextField-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "UIFloatLabelTextField-prefix.pch"; sourceTree = "<group>"; };
+		F688CDC63D3E34C8B1F9324B34FA1622 /* Core.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = Core.h; path = Headers/GGLCore/Public/Core.h; sourceTree = "<group>"; };
+		F69EDD8080677A58A9CA02425F7A84DC /* MBProgressHUD.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
+		FB5BBBC2DD95DBDB1D20F6C6DA3ADE79 /* MBProgressHUD.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = MBProgressHUD.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -183,6 +184,15 @@
 				877CE089D69732ADF2ADA77E41A89357 /* ImageIO.framework in Frameworks */,
 				BA1A6A5A04786793215C92B6C65F86FB /* MobileCoreServices.framework in Frameworks */,
 				8A91CDD4BEAC158639217194B28A9323 /* UIKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8AD2055BC7FE4C879EE966CC1949536D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B0DB2DE95E37322A6E7348692E62DD28 /* CoreGraphics.framework in Frameworks */,
+				0BEA0480382355A5E85207520030C550 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -200,15 +210,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				2D332D19AE46C18FDB8872406B919E2F /* Foundation.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		F4FA53E6AF4FA92A35C5CE6B0A725241 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				9F7AC158EB7734E60EC3C6C4A0BBA8C6 /* CoreGraphics.framework in Frameworks */,
-				2D01519A0C35C8A9222FE40524BDE13B /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -231,16 +232,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		00D25756F28C5AB0BF4A2DA97A3C33E1 /* Core */ = {
+		0400F2F14032CF94F87A1E4798D24C65 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				FFD9B16DC2875BA1B283A20ABAB57E9C /* Core.h */,
-				82A270A85B02305C51608E1D14994819 /* GGLConfiguration.h */,
-				D9EABA2657C08A0F9373D5F53D3C45C8 /* GGLContext.h */,
-				40912E62A58A794EB035D609D52009D2 /* GGLErrorCode.h */,
-				8AE5FA1B306C12669574614FDE9B78B9 /* Frameworks */,
+				23ACE6B5264B726701AC9A71A6DE0DED /* libGGLSignIn.a */,
 			);
-			name = Core;
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		08EAF053CA748AC4D0B339D38713DCCA /* GoogleAppUtilities */ = {
+			isa = PBXGroup;
+			children = (
+				9AE572FF3B41D4D4211E89997410EA95 /* Frameworks */,
+			);
+			path = GoogleAppUtilities;
 			sourceTree = "<group>";
 		};
 		0F75DF6C7C5F002280EC53F48E80B587 /* Frameworks */ = {
@@ -251,100 +256,159 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		20820FD976F1F708F903FBA8288768C9 /* GoogleUtilities */ = {
+		1BE4F4B2544F3DBA7DEEDD5FB28DF13D /* GoogleUtilities */ = {
 			isa = PBXGroup;
 			children = (
-				3D35D5B66C06A8BA6EAC5787E7342B3A /* Frameworks */,
+				B2A89B3E6DB66B46129B75DF07A45A5F /* Frameworks */,
 			);
 			path = GoogleUtilities;
 			sourceTree = "<group>";
 		};
-		311E5AD50379AD88687578241629B56E /* YLGIFImage */ = {
+		2285CF74C3289DDA093A872760C28E95 /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				57F66DEDBB72726E991DFD5FEF2EAB58 /* YLGIFImage.h */,
-				20C9B946E0AD50A5ADAC842698498653 /* YLGIFImage.m */,
-				EF1E3C57B1CA3C982E183B526E35500D /* YLImageView.h */,
-				738BACAE94F5AB229557F36C4F8FB4F3 /* YLImageView.m */,
-				A6DF6F9ADC52FBDC924E95D1A366202B /* Support Files */,
+				7109F0F79425D2A1C6824C8AC0B892A7 /* YLGIFImage.xcconfig */,
+				E7C5F6999AC076C87700AC0884B5EB95 /* YLGIFImage-Private.xcconfig */,
+				E729AC49BD5C32B8D941CD5172126B57 /* YLGIFImage-dummy.m */,
+				F19632C5B4C90B4DA41A2A018E795CB8 /* YLGIFImage-prefix.pch */,
 			);
-			path = YLGIFImage;
+			name = "Support Files";
+			path = "../Target Support Files/YLGIFImage";
 			sourceTree = "<group>";
 		};
-		3725EFA96802911AA17B060CDDEFF2F8 /* RKDropdownAlert */ = {
+		2763E9D14CCE407DA76668295F2D4DA4 /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				0B7C340C7FD4262B29FADA821B1F4F4F /* RKDropdownAlert.h */,
-				9A758D6E29D8AF26F3E0411C80CE5985 /* RKDropdownAlert.m */,
-				F8BF99643A85FA95D4A307B617680960 /* Support Files */,
+				7B3876E02BE0BC293FD7B3DA4276702A /* UIFloatLabelTextField.xcconfig */,
+				85904663179D2256F60732A546ABBFFB /* UIFloatLabelTextField-Private.xcconfig */,
+				5CAEB6A727BE317E6900269783ED906A /* UIFloatLabelTextField-dummy.m */,
+				F65D8AD018E4DC05DFAACAB2BD7020B7 /* UIFloatLabelTextField-prefix.pch */,
 			);
-			path = RKDropdownAlert;
+			name = "Support Files";
+			path = "../Target Support Files/UIFloatLabelTextField";
 			sourceTree = "<group>";
 		};
-		373F8698BB0BC3322718550C56C62C04 /* MBProgressHUD */ = {
+		2BC2490AB9E5DFAE6A25D15936AED202 /* Appsee */ = {
 			isa = PBXGroup;
 			children = (
-				3B129D133EE852680BC77AF03501ED75 /* MBProgressHUD.h */,
-				589C55B122C54823D2C8D80EA8A89FA7 /* MBProgressHUD.m */,
-				7F1EF27EEF43834A734DDF894E25E449 /* Support Files */,
+				583EE270ED364FE4D4E14166E6299E0F /* Frameworks */,
 			);
-			path = MBProgressHUD;
+			path = Appsee;
 			sourceTree = "<group>";
 		};
-		3D35D5B66C06A8BA6EAC5787E7342B3A /* Frameworks */ = {
+		3D30FEA0EAF0137D829A20250AC01B24 /* GoogleNetworkingUtilities */ = {
 			isa = PBXGroup;
 			children = (
-				D607EDE2046766A4D07EAE52784DA2C2 /* libGTMStackTrace.a */,
-				DAE44B78875C36557AA6AEA5A3BA5CDC /* libGTM_AddressBook.a */,
-				4EE217E93B4A51A217B23819F22D32F2 /* libGTM_DebugUtils.a */,
-				DC2E769E59F1320AD93474BBE24D2F5D /* libGTM_GTMURLBuilder.a */,
-				68FA4655A161676D74C629355F529747 /* libGTM_KVO.a */,
-				230D64047951AC2E91CF0759CF381B02 /* libGTM_NSDictionary+URLArguments.a */,
-				85D21C6B1E9B864599824779CD3F9B53 /* libGTM_NSScannerJSON.a */,
-				0B4B894C019612A6C97AEAA6C7339260 /* libGTM_NSStringHTML.a */,
-				61F9D9DEDC6E11C29698CB7516EAE6CC /* libGTM_NSStringXML.a */,
-				6C37E7FF28A95A6777B58545D47A24C0 /* libGTM_Regex.a */,
-				A44DC1AE2B54E2EF4D9DB773E3CBF073 /* libGTM_RoundedRectPath.a */,
-				C1A213089F6CABE30DE5B710B582F3E0 /* libGTM_StringEncoding.a */,
-				D881F4A26E942DF691E690045B6813A5 /* libGTM_SystemVersion.a */,
-				DE375729522CC75CA593ED68F9F14D5D /* libGTM_UIFont+LineHeight.a */,
-				4E18196C797F196DE11CB68AAF59E3CC /* libGTM_core.a */,
-				5AAB03B05004F264C472725F187C6C05 /* libGTM_iPhone.a */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		48B11C580DD3534F147A5B44D3DC3D7B /* GoogleNetworkingUtilities */ = {
-			isa = PBXGroup;
-			children = (
-				96875EB9CC4151DDEF4EABBB072C2F38 /* Frameworks */,
+				B19229161D809AA44FFFEAD137AF464B /* Frameworks */,
 			);
 			path = GoogleNetworkingUtilities;
 			sourceTree = "<group>";
 		};
-		58A331EB40A2FA2697FEFFF8EA20A2F3 /* GoogleSymbolUtilities */ = {
+		3DD2F7FEAD9AE35D1B1FC1849FFF3227 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				D9C60149A0C3D75210F7B940F3234622 /* Frameworks */,
-			);
-			path = GoogleSymbolUtilities;
-			sourceTree = "<group>";
-		};
-		69EAF5D127C21FA192A6C31309C2415C /* GoogleAuthUtilities */ = {
-			isa = PBXGroup;
-			children = (
-				E173121B9AD4306872DD492662E37529 /* Frameworks */,
-			);
-			path = GoogleAuthUtilities;
-			sourceTree = "<group>";
-		};
-		720F9CA8700DF7B370B7CB15021B218C /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				F1FCDB7C80CE25287E639EC8C7D307D3 /* libGIDExShared.a */,
-				F658FB782DE22E0B473E319F76F7FCBF /* libSignIn.a */,
+				953FD75B40DD13725B4664ED35496E60 /* libAppsFlyerLib.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		4628D922133C8A096A1C48B9DDF8F4E2 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F1EF9551D4CC847107600988E018DF6C /* libGIDExShared.a */,
+				2A2E7B5C2FAB1A02437DDE3134CD138F /* libSignIn.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		475390868015C61F4C3EC1F553C1F015 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				2189FB89B0D1418AE19C951065F78503 /* libGSDK_Overload.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		583EE270ED364FE4D4E14166E6299E0F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				5B83CBEDBEE536B7DCAD70322CD4EA42 /* Appsee.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		58C6E66BA9973860E916F07AD2575371 /* AppsFlyer-SDK */ = {
+			isa = PBXGroup;
+			children = (
+				1D4C3CD08AAEA9408514E9EF6628AC15 /* AppsFlyerTracker.h */,
+				3DD2F7FEAD9AE35D1B1FC1849FFF3227 /* Frameworks */,
+			);
+			path = "AppsFlyer-SDK";
+			sourceTree = "<group>";
+		};
+		5A4777BE60A4E9BAEF44CCB5D21AE8F4 /* RKDropdownAlert */ = {
+			isa = PBXGroup;
+			children = (
+				0B7C340C7FD4262B29FADA821B1F4F4F /* RKDropdownAlert.h */,
+				9A758D6E29D8AF26F3E0411C80CE5985 /* RKDropdownAlert.m */,
+				AB0547347DA79EDAB153F09299A9BAE5 /* Support Files */,
+			);
+			path = RKDropdownAlert;
+			sourceTree = "<group>";
+		};
+		63BBA11DE47CAFE7BBCEF84D884A2CE5 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				58C6E66BA9973860E916F07AD2575371 /* AppsFlyer-SDK */,
+				2BC2490AB9E5DFAE6A25D15936AED202 /* Appsee */,
+				9A822B69F94AC50FD86E7E77832A3BDD /* Google */,
+				08EAF053CA748AC4D0B339D38713DCCA /* GoogleAppUtilities */,
+				E68FE123E8AFB7142A3598FC92F75493 /* GoogleAuthUtilities */,
+				3D30FEA0EAF0137D829A20250AC01B24 /* GoogleNetworkingUtilities */,
+				652C7720B301B58BDE258258F22FB94D /* GoogleSignIn */,
+				C781907A9E7E110C91F5E605A0C650B6 /* GoogleSymbolUtilities */,
+				1BE4F4B2544F3DBA7DEEDD5FB28DF13D /* GoogleUtilities */,
+				9B0385A94F308D6943FB214F5B0EBA16 /* MBProgressHUD */,
+				F87372080644A50F3A13BF6C35061C7C /* PulsingHalo */,
+				5A4777BE60A4E9BAEF44CCB5D21AE8F4 /* RKDropdownAlert */,
+				7CD1A4B06A094B7196C5B2C2619639EB /* UIFloatLabelTextField */,
+				D61C3E1AAF511B988DA3EC90F96E8F85 /* YLGIFImage */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		652C7720B301B58BDE258258F22FB94D /* GoogleSignIn */ = {
+			isa = PBXGroup;
+			children = (
+				501748F247E1469D8CDC62CE9946546C /* GIDAuthentication.h */,
+				0A19D1899DE5AEC092A55DB86C3E870B /* GIDGoogleUser.h */,
+				EA2C9C5E286D27B13975C70A4A95B57A /* GIDProfileData.h */,
+				547B12071EC646805FE39758F61A4132 /* GIDSignIn.h */,
+				013339B820AFEE365E4D4D7C43098FA6 /* GIDSignInButton.h */,
+				3807DCB0FBCA881487B8DD0C0F8A7460 /* GoogleSignIn.h */,
+				79532E90345A7668628FF47045DC3918 /* UIViewController+SignIn.h */,
+				4628D922133C8A096A1C48B9DDF8F4E2 /* Frameworks */,
+				768CFFF9378CA9F2F52EE942D483068C /* Resources */,
+			);
+			path = GoogleSignIn;
+			sourceTree = "<group>";
+		};
+		768CFFF9378CA9F2F52EE942D483068C /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				8C47A84F01C370C8FD34B4EE9AD88907 /* GoogleSignIn.bundle */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		7CD1A4B06A094B7196C5B2C2619639EB /* UIFloatLabelTextField */ = {
+			isa = PBXGroup;
+			children = (
+				5721DF66648EA71173B281B353462F36 /* UIFloatLabelTextField.h */,
+				B5B398B39E00817A6ACBBB7164731044 /* UIFloatLabelTextField.m */,
+				2763E9D14CCE407DA76668295F2D4DA4 /* Support Files */,
+			);
+			path = UIFloatLabelTextField;
 			sourceTree = "<group>";
 		};
 		7DB346D0F39D3F0E887471402A8071AB = {
@@ -352,83 +416,54 @@
 			children = (
 				BA6428E9F66FD5A23C0A2E06ED26CD2F /* Podfile */,
 				0F75DF6C7C5F002280EC53F48E80B587 /* Frameworks */,
-				B0EF5D63D9E4EF533FA9C72180CD22B1 /* Pods */,
+				63BBA11DE47CAFE7BBCEF84D884A2CE5 /* Pods */,
 				CCA510CFBEA2D207524CDA0D73C3B561 /* Products */,
 				B6119370E311C945D41EC8977DB87B11 /* Targets Support Files */,
 			);
 			sourceTree = "<group>";
 		};
-		7F1EF27EEF43834A734DDF894E25E449 /* Support Files */ = {
+		84A2907E1A0C0EE11E67471C29499785 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				88F7B528D238320795714C31E9D08B51 /* MBProgressHUD.xcconfig */,
-				C95F79756326D9A036BC17B18D793876 /* MBProgressHUD-Private.xcconfig */,
-				88837D9BD8AF587F4FF28A76E7E0A5A5 /* MBProgressHUD-dummy.m */,
-				53CE2A6A42A844041997AB3B83C305E5 /* MBProgressHUD-prefix.pch */,
-			);
-			name = "Support Files";
-			path = "../Target Support Files/MBProgressHUD";
-			sourceTree = "<group>";
-		};
-		8AE5FA1B306C12669574614FDE9B78B9 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				EA41876A0C5F4A30564108254C369096 /* libGGLCore.a */,
+				BE2DE43B3C07C2F26840CB48595559D4 /* libGGLCore.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		96875EB9CC4151DDEF4EABBB072C2F38 /* Frameworks */ = {
+		8DA317093594DDB9B0AD6A603B682360 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				56DB71A8D20CD22AC8DF8E50C4D43D97 /* libGTMSessionFetcher_core.a */,
-				850E82590E2E395C18D2088573FDF348 /* libGTMSessionFetcher_full.a */,
+				DF7E300549E204158832BB047076B2A8 /* libGTMOAuth2_external.a */,
+				3EB662B736228171A3750C9A660B16B0 /* libGTMOAuth2_internal.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		99C08F08F049A54398D5683F3E6296DC /* Support Files */ = {
+		9A822B69F94AC50FD86E7E77832A3BDD /* Google */ = {
 			isa = PBXGroup;
 			children = (
-				75630F92BCF85A651892D0672340F419 /* UIFloatLabelTextField.xcconfig */,
-				85904663179D2256F60732A546ABBFFB /* UIFloatLabelTextField-Private.xcconfig */,
-				5CAEB6A727BE317E6900269783ED906A /* UIFloatLabelTextField-dummy.m */,
-				66D6544EA3E48A29CDADF88B5B9AC79C /* UIFloatLabelTextField-prefix.pch */,
+				C5C744D7ED16053560DF9FDA095581BE /* Core */,
+				E6A282FFAFCDBFE4BD6CE09BC2D18970 /* SignIn */,
 			);
-			name = "Support Files";
-			path = "../Target Support Files/UIFloatLabelTextField";
+			path = Google;
 			sourceTree = "<group>";
 		};
-		9E64C31D56B591A4A8E6946BEA8DDBB1 /* UIFloatLabelTextField */ = {
+		9AE572FF3B41D4D4211E89997410EA95 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				5721DF66648EA71173B281B353462F36 /* UIFloatLabelTextField.h */,
-				B5B398B39E00817A6ACBBB7164731044 /* UIFloatLabelTextField.m */,
-				99C08F08F049A54398D5683F3E6296DC /* Support Files */,
+				5E2F84E20B5040C2F17A2C4B684AD9B3 /* libOpenInChrome.a */,
 			);
-			path = UIFloatLabelTextField;
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		A0A8080C5143D6A10ACBC6ECF1BE74F9 /* PulsingHalo */ = {
+		9B0385A94F308D6943FB214F5B0EBA16 /* MBProgressHUD */ = {
 			isa = PBXGroup;
 			children = (
-				C635E7EDA0C1B6BCD8BE25D0EB2EA680 /* PulsingHaloLayer.h */,
-				7EDF1785F9CAF8C4663B4CB67ECC8351 /* PulsingHaloLayer.m */,
-				F89FEB22B48572392CE36CA59960ADBE /* Support Files */,
+				27D443D2300F3241B75FAA0310A1D78B /* MBProgressHUD.h */,
+				F69EDD8080677A58A9CA02425F7A84DC /* MBProgressHUD.m */,
+				F6CF65FC3B96697256B69179BC841557 /* Support Files */,
 			);
-			path = PulsingHalo;
-			sourceTree = "<group>";
-		};
-		A6DF6F9ADC52FBDC924E95D1A366202B /* Support Files */ = {
-			isa = PBXGroup;
-			children = (
-				8CC04E5EAAED0972813535B7C9EC9390 /* YLGIFImage.xcconfig */,
-				E7C5F6999AC076C87700AC0884B5EB95 /* YLGIFImage-Private.xcconfig */,
-				E729AC49BD5C32B8D941CD5172126B57 /* YLGIFImage-dummy.m */,
-				31360D2EF4C12EF89D6C8F70E44D2B77 /* YLGIFImage-prefix.pch */,
-			);
-			name = "Support Files";
-			path = "../Target Support Files/YLGIFImage";
+			path = MBProgressHUD;
 			sourceTree = "<group>";
 		};
 		A7DD04AE07803A550F09A59977B0E754 /* iOS */ = {
@@ -444,39 +479,46 @@
 			name = iOS;
 			sourceTree = "<group>";
 		};
-		B0EF5D63D9E4EF533FA9C72180CD22B1 /* Pods */ = {
+		AB0547347DA79EDAB153F09299A9BAE5 /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				C55ADF09620E5B8D895F36A613E4F432 /* AppsFlyer-SDK */,
-				B315BE8517378A8D48FFCEB61564D42C /* Google */,
-				E91364EB37F9EBCAA9A72729E06151AA /* GoogleAppUtilities */,
-				69EAF5D127C21FA192A6C31309C2415C /* GoogleAuthUtilities */,
-				48B11C580DD3534F147A5B44D3DC3D7B /* GoogleNetworkingUtilities */,
-				C82F0E09C2BF94B4798FCFE13789CA3A /* GoogleSignIn */,
-				58A331EB40A2FA2697FEFFF8EA20A2F3 /* GoogleSymbolUtilities */,
-				20820FD976F1F708F903FBA8288768C9 /* GoogleUtilities */,
-				373F8698BB0BC3322718550C56C62C04 /* MBProgressHUD */,
-				A0A8080C5143D6A10ACBC6ECF1BE74F9 /* PulsingHalo */,
-				3725EFA96802911AA17B060CDDEFF2F8 /* RKDropdownAlert */,
-				9E64C31D56B591A4A8E6946BEA8DDBB1 /* UIFloatLabelTextField */,
-				311E5AD50379AD88687578241629B56E /* YLGIFImage */,
+				79C65427C1BB89E15D17A5EF261B5305 /* RKDropdownAlert.xcconfig */,
+				7A9FC81F08C6C607B7478D5361CFDD89 /* RKDropdownAlert-Private.xcconfig */,
+				CABC2E6CD81948CD0EE68D13C04A868C /* RKDropdownAlert-dummy.m */,
+				C98C5D06E604BC1D5EC14E2334ECB9BB /* RKDropdownAlert-prefix.pch */,
 			);
-			name = Pods;
+			name = "Support Files";
+			path = "../Target Support Files/RKDropdownAlert";
 			sourceTree = "<group>";
 		};
-		B315BE8517378A8D48FFCEB61564D42C /* Google */ = {
+		B19229161D809AA44FFFEAD137AF464B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				00D25756F28C5AB0BF4A2DA97A3C33E1 /* Core */,
-				FA078F29FD726B0D4D524D206C4F25D4 /* SignIn */,
+				51C41C3207A720B7E34984B166B6FC17 /* libGTMSessionFetcher_core.a */,
+				29AE8E77D317632412E44AD186F3A5DC /* libGTMSessionFetcher_full.a */,
 			);
-			path = Google;
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		B3A3685320DED1FEE7372BE19F54B7C0 /* Frameworks */ = {
+		B2A89B3E6DB66B46129B75DF07A45A5F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				8289BD29B63FDB9EDC1807F97DC3E61A /* libGGLSignIn.a */,
+				37B90E233943304838BE8B5C1EACE350 /* libGTMStackTrace.a */,
+				CB103315331895D714236C43201B2E15 /* libGTM_AddressBook.a */,
+				DA15781D7C772FE2D3E616D8E7028766 /* libGTM_DebugUtils.a */,
+				A566555AF6F1EAAA90698772F7286630 /* libGTM_GTMURLBuilder.a */,
+				9F6F523D332D65D76E0838F6E6640DEB /* libGTM_KVO.a */,
+				83D109698B4D663D136E171D2049BAF8 /* libGTM_NSDictionary+URLArguments.a */,
+				EDA1D5BED2AC0B01F50FABE0160B1CCE /* libGTM_NSScannerJSON.a */,
+				3936ED00C3EA24F914D533B53DCEAD87 /* libGTM_NSStringHTML.a */,
+				7842034797C3ADBF98BD50865D3166F0 /* libGTM_NSStringXML.a */,
+				30BFE57F11533714EBC355F41BE6D0D2 /* libGTM_Regex.a */,
+				983A16BB5D2D6D2BCC8CB95370E8967D /* libGTM_RoundedRectPath.a */,
+				A0A16700AF10B6714CD35139297A5C22 /* libGTM_StringEncoding.a */,
+				A2E3EF71F6F9D2B1A58675298326CE60 /* libGTM_SystemVersion.a */,
+				60EAB5094A91DA842FD500FE1DAAB537 /* libGTM_UIFont+LineHeight.a */,
+				C51012186F2071CBA35FBE09AB6B05AA /* libGTM_core.a */,
+				246933FD843BDD9AE5E6F5EDBDF654B2 /* libGTM_iPhone.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -489,43 +531,30 @@
 			name = "Targets Support Files";
 			sourceTree = "<group>";
 		};
-		B9585A70E3A1EF08DFF659348259E494 /* Frameworks */ = {
+		C5C744D7ED16053560DF9FDA095581BE /* Core */ = {
 			isa = PBXGroup;
 			children = (
-				C177F1D0029E8F1CAB879F801073F3EB /* libOpenInChrome.a */,
+				F688CDC63D3E34C8B1F9324B34FA1622 /* Core.h */,
+				018F8FFA329B98BAEE10EC5D166B6466 /* GGLConfiguration.h */,
+				A1E8A900DDCF0416318C44E2A27C4D4C /* GGLContext.h */,
+				6F5A906E2A508623106C3FB2695F0E77 /* GGLErrorCode.h */,
+				84A2907E1A0C0EE11E67471C29499785 /* Frameworks */,
 			);
-			name = Frameworks;
+			name = Core;
 			sourceTree = "<group>";
 		};
-		C55ADF09620E5B8D895F36A613E4F432 /* AppsFlyer-SDK */ = {
+		C781907A9E7E110C91F5E605A0C650B6 /* GoogleSymbolUtilities */ = {
 			isa = PBXGroup;
 			children = (
-				481273AB93C7EEB93B29F0C087452CA8 /* AppsFlyerTracker.h */,
-				D8F0222A84C1A98EAD839CD67999C6EE /* Frameworks */,
+				475390868015C61F4C3EC1F553C1F015 /* Frameworks */,
 			);
-			path = "AppsFlyer-SDK";
-			sourceTree = "<group>";
-		};
-		C82F0E09C2BF94B4798FCFE13789CA3A /* GoogleSignIn */ = {
-			isa = PBXGroup;
-			children = (
-				59A80B58004C75D7144E8593AC263582 /* GIDAuthentication.h */,
-				28733335AF09B63F3928EC72872B5A77 /* GIDGoogleUser.h */,
-				33AB5F7D2C686A2F17828F672091DF91 /* GIDProfileData.h */,
-				A0D0E2C15AD51DAAA35E831D56046644 /* GIDSignIn.h */,
-				4174FA3304F5ECB3FECD0418E6C7D000 /* GIDSignInButton.h */,
-				FF2384EF0C82A757C4F058672D4EFF57 /* GoogleSignIn.h */,
-				2FC58D3C187B89DF2113598F1419FF26 /* UIViewController+SignIn.h */,
-				720F9CA8700DF7B370B7CB15021B218C /* Frameworks */,
-				DE1465577933AB6439A4AD92DD22A9D6 /* Resources */,
-			);
-			path = GoogleSignIn;
+			path = GoogleSymbolUtilities;
 			sourceTree = "<group>";
 		};
 		CCA510CFBEA2D207524CDA0D73C3B561 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				20078F5D0DB74EC9995EDA3939615165 /* libMBProgressHUD.a */,
+				2A9D6F2C050A655A0FB11FBDBB4F09E2 /* libMBProgressHUD.a */,
 				6F61807CC69E75E2DF0376ED64BE0E83 /* libPods-Knit.a */,
 				4A49B10B8EA36ECA5FF9C14AEB9852DE /* libPulsingHalo.a */,
 				7EA59C3467378676ED48DDCFFE6B468F /* libRKDropdownAlert.a */,
@@ -535,69 +564,68 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		D8F0222A84C1A98EAD839CD67999C6EE /* Frameworks */ = {
+		D61C3E1AAF511B988DA3EC90F96E8F85 /* YLGIFImage */ = {
 			isa = PBXGroup;
 			children = (
-				E67F78D02772AE24A7B3212BD53E0778 /* libAppsFlyerLib.a */,
+				57F66DEDBB72726E991DFD5FEF2EAB58 /* YLGIFImage.h */,
+				20C9B946E0AD50A5ADAC842698498653 /* YLGIFImage.m */,
+				EF1E3C57B1CA3C982E183B526E35500D /* YLImageView.h */,
+				738BACAE94F5AB229557F36C4F8FB4F3 /* YLImageView.m */,
+				2285CF74C3289DDA093A872760C28E95 /* Support Files */,
 			);
-			name = Frameworks;
+			path = YLGIFImage;
 			sourceTree = "<group>";
 		};
-		D9C60149A0C3D75210F7B940F3234622 /* Frameworks */ = {
+		E68FE123E8AFB7142A3598FC92F75493 /* GoogleAuthUtilities */ = {
 			isa = PBXGroup;
 			children = (
-				C3537E3FB374488EC69CC1DA0D36DF01 /* libGSDK_Overload.a */,
+				8DA317093594DDB9B0AD6A603B682360 /* Frameworks */,
 			);
-			name = Frameworks;
+			path = GoogleAuthUtilities;
 			sourceTree = "<group>";
 		};
-		DE1465577933AB6439A4AD92DD22A9D6 /* Resources */ = {
+		E6A282FFAFCDBFE4BD6CE09BC2D18970 /* SignIn */ = {
 			isa = PBXGroup;
 			children = (
-				E30ED2D76B62C8A9281B55C215698A43 /* GoogleSignIn.bundle */,
+				965759BC740F91DAE166E4E5D5694B61 /* GGLContext+SignIn.h */,
+				73154E94EA6F298B5337A25E20E192C8 /* SignIn.h */,
+				0400F2F14032CF94F87A1E4798D24C65 /* Frameworks */,
 			);
-			name = Resources;
+			name = SignIn;
 			sourceTree = "<group>";
 		};
-		E173121B9AD4306872DD492662E37529 /* Frameworks */ = {
+		EE12ABA436266A74E2B57EFA8883B90D /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				D5126AB0DD417F1F0372B632FB2E4B56 /* libGTMOAuth2_external.a */,
-				53AFB092D5DFD2DDE8FE8B4CB755EB66 /* libGTMOAuth2_internal.a */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		E91364EB37F9EBCAA9A72729E06151AA /* GoogleAppUtilities */ = {
-			isa = PBXGroup;
-			children = (
-				B9585A70E3A1EF08DFF659348259E494 /* Frameworks */,
-			);
-			path = GoogleAppUtilities;
-			sourceTree = "<group>";
-		};
-		F89FEB22B48572392CE36CA59960ADBE /* Support Files */ = {
-			isa = PBXGroup;
-			children = (
-				F305504F770422BF994B7A7777FF66CD /* PulsingHalo.xcconfig */,
+				630BA70B60A8CECDCD388DD79AEF90FB /* PulsingHalo.xcconfig */,
 				C79B9710448E24F43C0816B322E7B6F4 /* PulsingHalo-Private.xcconfig */,
 				B854032A578005027C88F0155E40DCDB /* PulsingHalo-dummy.m */,
-				BFF921CEBEB4261072CE65A05F9A5FFE /* PulsingHalo-prefix.pch */,
+				CD6202B479D3A522B8A0E6D8B454EDF8 /* PulsingHalo-prefix.pch */,
 			);
 			name = "Support Files";
 			path = "../Target Support Files/PulsingHalo";
 			sourceTree = "<group>";
 		};
-		F8BF99643A85FA95D4A307B617680960 /* Support Files */ = {
+		F6CF65FC3B96697256B69179BC841557 /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				5AA2AD510ABDD73C3B4F8FA77A8ABA4A /* RKDropdownAlert.xcconfig */,
-				7A9FC81F08C6C607B7478D5361CFDD89 /* RKDropdownAlert-Private.xcconfig */,
-				CABC2E6CD81948CD0EE68D13C04A868C /* RKDropdownAlert-dummy.m */,
-				85FEE4EB195B9119478B2C9EA88BD34A /* RKDropdownAlert-prefix.pch */,
+				FB5BBBC2DD95DBDB1D20F6C6DA3ADE79 /* MBProgressHUD.xcconfig */,
+				5C69A914367E110A3B84F4908F44CFC2 /* MBProgressHUD-Private.xcconfig */,
+				B71B1F3F7B3AAD7800EBE26F5A9778EE /* MBProgressHUD-dummy.m */,
+				C7192DDE4CE78C4F542F7D03B595CF61 /* MBProgressHUD-prefix.pch */,
 			);
 			name = "Support Files";
-			path = "../Target Support Files/RKDropdownAlert";
+			path = "../Target Support Files/MBProgressHUD";
+			sourceTree = "<group>";
+		};
+		F87372080644A50F3A13BF6C35061C7C /* PulsingHalo */ = {
+			isa = PBXGroup;
+			children = (
+				C635E7EDA0C1B6BCD8BE25D0EB2EA680 /* PulsingHaloLayer.h */,
+				7EDF1785F9CAF8C4663B4CB67ECC8351 /* PulsingHaloLayer.m */,
+				EE12ABA436266A74E2B57EFA8883B90D /* Support Files */,
+			);
+			path = PulsingHalo;
 			sourceTree = "<group>";
 		};
 		F93E333CAB5F312C2A2937B2AD254AC6 /* Pods-Knit */ = {
@@ -614,16 +642,6 @@
 			path = "Target Support Files/Pods-Knit";
 			sourceTree = "<group>";
 		};
-		FA078F29FD726B0D4D524D206C4F25D4 /* SignIn */ = {
-			isa = PBXGroup;
-			children = (
-				449733AF513187C3525AF4A709167FA4 /* GGLContext+SignIn.h */,
-				95417636AC72EDA40C070F83094BE1AF /* SignIn.h */,
-				B3A3685320DED1FEE7372BE19F54B7C0 /* Frameworks */,
-			);
-			name = SignIn;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -636,19 +654,19 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		0D78C052D35BC766BAB4AEC2F2210BF4 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				34183268DD92334BA96563A93C547731 /* MBProgressHUD.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		254A138CBD550A86CC90C025011CAC7D /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				452A69E6956D037FB0F79F1892BCFA12 /* UIFloatLabelTextField.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		306601A3EB688984075E3DBD10D1CE3F /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				D1A0039A1BF9BEA3934A4DBA350E211F /* MBProgressHUD.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -705,23 +723,6 @@
 			productReference = 1DE739855E637458FBDF853F1B201CA2 /* libYLGIFImage.a */;
 			productType = "com.apple.product-type.library.static";
 		};
-		892132AC5F93C2869DC994017F411279 /* MBProgressHUD */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 27943AC3518A3248970DA1A79544B6EF /* Build configuration list for PBXNativeTarget "MBProgressHUD" */;
-			buildPhases = (
-				CCFC7B9420E9C8A8BBEE67A190473FC6 /* Sources */,
-				F4FA53E6AF4FA92A35C5CE6B0A725241 /* Frameworks */,
-				306601A3EB688984075E3DBD10D1CE3F /* Headers */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = MBProgressHUD;
-			productName = MBProgressHUD;
-			productReference = 20078F5D0DB74EC9995EDA3939615165 /* libMBProgressHUD.a */;
-			productType = "com.apple.product-type.library.static";
-		};
 		9589BDFC542156E7FE8FDABC89866C8E /* Pods-Knit */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 746E162211C0B4359390A56B7C07B1DE /* Build configuration list for PBXNativeTarget "Pods-Knit" */;
@@ -732,15 +733,32 @@
 			buildRules = (
 			);
 			dependencies = (
-				A15FE42BFBD363811BABDEC72FC582E4 /* PBXTargetDependency */,
-				F6C43F7574D8C1929FDE3362DBDD55AE /* PBXTargetDependency */,
-				73A2FB9FE67BFB0E77D2CF192C02480D /* PBXTargetDependency */,
-				62D250BB2DCE52F77EC04F16637E198D /* PBXTargetDependency */,
-				B9D4A846050BDF80AD288E0DE5937DA3 /* PBXTargetDependency */,
+				7BE5FC7B140D35BFFC0CA5E7E11790C9 /* PBXTargetDependency */,
+				A8504C1F4FE408C86723E808C7DDA637 /* PBXTargetDependency */,
+				042DB3EB0CD2C06B3565C10585C556BF /* PBXTargetDependency */,
+				A4A9133F4BCA2C913980CDFDD6CC4780 /* PBXTargetDependency */,
+				F2A670EEB29A5DDA18E88D5D905B9819 /* PBXTargetDependency */,
 			);
 			name = "Pods-Knit";
 			productName = "Pods-Knit";
 			productReference = 6F61807CC69E75E2DF0376ED64BE0E83 /* libPods-Knit.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		B673F82CB842106D547F673E49208C5C /* MBProgressHUD */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4157859E0BA1126FFDD2EAA0DC9466A4 /* Build configuration list for PBXNativeTarget "MBProgressHUD" */;
+			buildPhases = (
+				F34C1E5F61DBB99D68AFCB01660B72C6 /* Sources */,
+				8AD2055BC7FE4C879EE966CC1949536D /* Frameworks */,
+				0D78C052D35BC766BAB4AEC2F2210BF4 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MBProgressHUD;
+			productName = MBProgressHUD;
+			productReference = 2A9D6F2C050A655A0FB11FBDBB4F09E2 /* libMBProgressHUD.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 		BC3F1E15DB5A0E3E4D6FC822049258AF /* RKDropdownAlert */ = {
@@ -798,7 +816,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				892132AC5F93C2869DC994017F411279 /* MBProgressHUD */,
+				B673F82CB842106D547F673E49208C5C /* MBProgressHUD */,
 				9589BDFC542156E7FE8FDABC89866C8E /* Pods-Knit */,
 				E419D028E3E032EAB30F020E8881EF45 /* PulsingHalo */,
 				BC3F1E15DB5A0E3E4D6FC822049258AF /* RKDropdownAlert */,
@@ -845,12 +863,12 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		CCFC7B9420E9C8A8BBEE67A190473FC6 /* Sources */ = {
+		F34C1E5F61DBB99D68AFCB01660B72C6 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F835C62C82F8601DC3038B31811DDE64 /* MBProgressHUD-dummy.m in Sources */,
-				E12C71B5FD0FA69EEE985F0A41565BDD /* MBProgressHUD.m in Sources */,
+				074553D7E60185C1E09C282DAE293FA7 /* MBProgressHUD-dummy.m in Sources */,
+				29226E24614A36EB1C0A2AA9CC8F6090 /* MBProgressHUD.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -866,35 +884,35 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		62D250BB2DCE52F77EC04F16637E198D /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = UIFloatLabelTextField;
-			target = 46FA1AD2E63ACA6F551F87ED5A9F2F1B /* UIFloatLabelTextField */;
-			targetProxy = B4A90A5DDD145DD15458E2C9A7DDAE85 /* PBXContainerItemProxy */;
-		};
-		73A2FB9FE67BFB0E77D2CF192C02480D /* PBXTargetDependency */ = {
+		042DB3EB0CD2C06B3565C10585C556BF /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = RKDropdownAlert;
 			target = BC3F1E15DB5A0E3E4D6FC822049258AF /* RKDropdownAlert */;
-			targetProxy = 60493A0B47E1FB90AE3AA3AC0042B7C5 /* PBXContainerItemProxy */;
+			targetProxy = 3E4D08A0FCC80BE534C5131DA56BCE76 /* PBXContainerItemProxy */;
 		};
-		A15FE42BFBD363811BABDEC72FC582E4 /* PBXTargetDependency */ = {
+		7BE5FC7B140D35BFFC0CA5E7E11790C9 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = MBProgressHUD;
-			target = 892132AC5F93C2869DC994017F411279 /* MBProgressHUD */;
-			targetProxy = D3A7F717FD6601481D2DD864366619D5 /* PBXContainerItemProxy */;
+			target = B673F82CB842106D547F673E49208C5C /* MBProgressHUD */;
+			targetProxy = 063078B77A98972C96242089D620614D /* PBXContainerItemProxy */;
 		};
-		B9D4A846050BDF80AD288E0DE5937DA3 /* PBXTargetDependency */ = {
+		A4A9133F4BCA2C913980CDFDD6CC4780 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = YLGIFImage;
-			target = 547EA504C071A50E5CF78890947786F8 /* YLGIFImage */;
-			targetProxy = 53268703C143B5D5A344E929A6370D8A /* PBXContainerItemProxy */;
+			name = UIFloatLabelTextField;
+			target = 46FA1AD2E63ACA6F551F87ED5A9F2F1B /* UIFloatLabelTextField */;
+			targetProxy = 4A11B3A5B2A4A3EFE4E5A8B4FD228767 /* PBXContainerItemProxy */;
 		};
-		F6C43F7574D8C1929FDE3362DBDD55AE /* PBXTargetDependency */ = {
+		A8504C1F4FE408C86723E808C7DDA637 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = PulsingHalo;
 			target = E419D028E3E032EAB30F020E8881EF45 /* PulsingHalo */;
-			targetProxy = 70B40FAAAF1CD273745DE8F1DB167826 /* PBXContainerItemProxy */;
+			targetProxy = 326E1502597C2A2693DA5B8FEFAA9588 /* PBXContainerItemProxy */;
+		};
+		F2A670EEB29A5DDA18E88D5D905B9819 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = YLGIFImage;
+			target = 547EA504C071A50E5CF78890947786F8 /* YLGIFImage */;
+			targetProxy = DD06E66C7222C6989A446DFB401CD00D /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -933,12 +951,12 @@
 			};
 			name = Release;
 		};
-		26BD15FEB01FD8452A147DC14511AA1D /* Debug */ = {
+		0EC033D1C29F0921D4149CCF98491B26 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 85904663179D2256F60732A546ABBFFB /* UIFloatLabelTextField-Private.xcconfig */;
+			baseConfigurationReference = 5C69A914367E110A3B84F4908F44CFC2 /* MBProgressHUD-Private.xcconfig */;
 			buildSettings = {
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/UIFloatLabelTextField/UIFloatLabelTextField-prefix.pch";
+				GCC_PREFIX_HEADER = "Target Support Files/MBProgressHUD/MBProgressHUD-prefix.pch";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				OTHER_LDFLAGS = "";
@@ -949,12 +967,12 @@
 			};
 			name = Debug;
 		};
-		3BE47F37B64E1A1D622DC3CC6B5548B2 /* Debug */ = {
+		26BD15FEB01FD8452A147DC14511AA1D /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C95F79756326D9A036BC17B18D793876 /* MBProgressHUD-Private.xcconfig */;
+			baseConfigurationReference = 85904663179D2256F60732A546ABBFFB /* UIFloatLabelTextField-Private.xcconfig */;
 			buildSettings = {
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/MBProgressHUD/MBProgressHUD-prefix.pch";
+				GCC_PREFIX_HEADER = "Target Support Files/UIFloatLabelTextField/UIFloatLabelTextField-prefix.pch";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				OTHER_LDFLAGS = "";
@@ -1028,22 +1046,6 @@
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
-		};
-		77D0CC5DFC7BDA27CCC24856CB229121 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = C95F79756326D9A036BC17B18D793876 /* MBProgressHUD-Private.xcconfig */;
-			buildSettings = {
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/MBProgressHUD/MBProgressHUD-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				MTL_ENABLE_DEBUG_INFO = NO;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-			};
-			name = Release;
 		};
 		78DFB0AB7710FC67F9EFF1C6DF132A31 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -1164,23 +1166,39 @@
 			};
 			name = Debug;
 		};
+		ED7AC6E513CECCD54357F55162A2C571 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5C69A914367E110A3B84F4908F44CFC2 /* MBProgressHUD-Private.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/MBProgressHUD/MBProgressHUD-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		27943AC3518A3248970DA1A79544B6EF /* Build configuration list for PBXNativeTarget "MBProgressHUD" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				3BE47F37B64E1A1D622DC3CC6B5548B2 /* Debug */,
-				77D0CC5DFC7BDA27CCC24856CB229121 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		2D8E8EC45A3A1A1D94AE762CB5028504 /* Build configuration list for PBXProject "Pods" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				B37F0F91F85060E28F1DAAB522DC7EC1 /* Debug */,
 				052A17875CB827423D627183396CEB60 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4157859E0BA1126FFDD2EAA0DC9466A4 /* Build configuration list for PBXNativeTarget "MBProgressHUD" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0EC033D1C29F0921D4149CCF98491B26 /* Debug */,
+				ED7AC6E513CECCD54357F55162A2C571 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
