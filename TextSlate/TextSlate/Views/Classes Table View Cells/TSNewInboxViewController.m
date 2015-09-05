@@ -123,6 +123,10 @@
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [_messagesTable reloadData];
+    if(_refreshControl.isRefreshing) {
+        [_refreshControl endRefreshing];
+        [_refreshControl beginRefreshing];
+    }
 }
 
 
@@ -547,9 +551,6 @@
             for(PFObject *state in states) {
                 [statesForMessageID setObject:state forKey:state[@"message_id"]];
             }
-            dispatch_sync(dispatch_get_main_queue(), ^{
-                [_hud hide:YES];
-            });
             NSCharacterSet *characterset=[NSCharacterSet characterSetWithCharactersInString:@"\uFFFC\n "];
             for (PFObject *msg in messageObjects) {
                 msg[@"likeStatus"] = @"false";
@@ -599,11 +600,11 @@
             }
             dispatch_sync(dispatch_get_main_queue(), ^{
                 [self.messagesTable reloadData];
+                [_hud hide:YES];
             });
             if(_messageFlag==1 && messageObjects.count==1) {
                  [RKDropdownAlert title:@"" message:@"You know what? You can like/confuse message and let teacher know."  time:3];
             }
-
             PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
             [lq fromLocalDatastore];
             NSArray *localOs = [lq findObjects];

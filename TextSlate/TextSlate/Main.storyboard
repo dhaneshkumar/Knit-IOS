@@ -1041,36 +1041,36 @@ Login using your email ID.</string>
                                             <mask key="constraints">
                                                 <exclude reference="4Qt-nA-9qj"/>
                                                 <exclude reference="w4F-6q-v6l"/>
-                                                <exclude reference="E2E-7b-N3I"/>
-                                                <exclude reference="ibz-ww-PAO"/>
-                                                <exclude reference="Fsg-6G-xgs"/>
-                                                <exclude reference="o9X-5R-KV9"/>
-                                                <exclude reference="StU-ou-pii"/>
-                                                <exclude reference="eRv-AO-q0x"/>
-                                                <exclude reference="m8V-5z-4wH"/>
-                                                <exclude reference="69v-Xb-eNP"/>
-                                                <exclude reference="Afc-1q-TUU"/>
                                                 <exclude reference="9aW-oN-QdO"/>
                                                 <exclude reference="Vbp-7k-AaW"/>
                                                 <exclude reference="n1Z-tD-cze"/>
-                                                <exclude reference="2k4-Lf-GEF"/>
-                                                <exclude reference="9P0-5P-cea"/>
-                                                <exclude reference="pvL-m2-J9p"/>
-                                                <exclude reference="66A-PC-nM5"/>
-                                                <exclude reference="A4x-Up-QuX"/>
-                                                <exclude reference="f7H-qa-fHm"/>
                                                 <exclude reference="ZSP-1e-Vl6"/>
                                                 <exclude reference="u0x-gn-gVE"/>
                                                 <exclude reference="x9T-Ai-js7"/>
-                                                <exclude reference="IqP-b5-20H"/>
+                                                <exclude reference="WNb-MM-T7R"/>
+                                                <exclude reference="ejL-eg-A7E"/>
                                                 <exclude reference="Nw3-8B-SRs"/>
                                                 <exclude reference="UJY-qe-KBx"/>
                                                 <exclude reference="dm5-hg-MAG"/>
+                                                <exclude reference="66A-PC-nM5"/>
+                                                <exclude reference="A4x-Up-QuX"/>
+                                                <exclude reference="f7H-qa-fHm"/>
                                                 <exclude reference="Fap-wO-4E8"/>
                                                 <exclude reference="J1f-FQ-O65"/>
                                                 <exclude reference="hUL-Kg-xDo"/>
-                                                <exclude reference="WNb-MM-T7R"/>
-                                                <exclude reference="ejL-eg-A7E"/>
+                                                <exclude reference="2k4-Lf-GEF"/>
+                                                <exclude reference="9P0-5P-cea"/>
+                                                <exclude reference="pvL-m2-J9p"/>
+                                                <exclude reference="69v-Xb-eNP"/>
+                                                <exclude reference="Afc-1q-TUU"/>
+                                                <exclude reference="Fsg-6G-xgs"/>
+                                                <exclude reference="o9X-5R-KV9"/>
+                                                <exclude reference="E2E-7b-N3I"/>
+                                                <exclude reference="ibz-ww-PAO"/>
+                                                <exclude reference="IqP-b5-20H"/>
+                                                <exclude reference="StU-ou-pii"/>
+                                                <exclude reference="eRv-AO-q0x"/>
+                                                <exclude reference="m8V-5z-4wH"/>
                                             </mask>
                                         </variation>
                                         <variation key="heightClass=regular-widthClass=compact">
@@ -1091,36 +1091,36 @@ Login using your email ID.</string>
                                             <mask key="constraints">
                                                 <include reference="4Qt-nA-9qj"/>
                                                 <include reference="w4F-6q-v6l"/>
-                                                <include reference="E2E-7b-N3I"/>
-                                                <include reference="ibz-ww-PAO"/>
-                                                <include reference="Fsg-6G-xgs"/>
-                                                <include reference="o9X-5R-KV9"/>
-                                                <include reference="StU-ou-pii"/>
-                                                <include reference="eRv-AO-q0x"/>
-                                                <include reference="m8V-5z-4wH"/>
-                                                <include reference="69v-Xb-eNP"/>
-                                                <include reference="Afc-1q-TUU"/>
                                                 <include reference="9aW-oN-QdO"/>
                                                 <include reference="Vbp-7k-AaW"/>
                                                 <include reference="n1Z-tD-cze"/>
-                                                <include reference="2k4-Lf-GEF"/>
-                                                <include reference="9P0-5P-cea"/>
-                                                <include reference="pvL-m2-J9p"/>
-                                                <include reference="66A-PC-nM5"/>
-                                                <include reference="A4x-Up-QuX"/>
-                                                <include reference="f7H-qa-fHm"/>
                                                 <include reference="ZSP-1e-Vl6"/>
                                                 <include reference="u0x-gn-gVE"/>
                                                 <include reference="x9T-Ai-js7"/>
-                                                <include reference="IqP-b5-20H"/>
+                                                <include reference="WNb-MM-T7R"/>
+                                                <include reference="ejL-eg-A7E"/>
                                                 <include reference="Nw3-8B-SRs"/>
                                                 <include reference="UJY-qe-KBx"/>
                                                 <include reference="dm5-hg-MAG"/>
+                                                <include reference="66A-PC-nM5"/>
+                                                <include reference="A4x-Up-QuX"/>
+                                                <include reference="f7H-qa-fHm"/>
                                                 <include reference="Fap-wO-4E8"/>
                                                 <include reference="J1f-FQ-O65"/>
                                                 <include reference="hUL-Kg-xDo"/>
-                                                <include reference="WNb-MM-T7R"/>
-                                                <include reference="ejL-eg-A7E"/>
+                                                <include reference="2k4-Lf-GEF"/>
+                                                <include reference="9P0-5P-cea"/>
+                                                <include reference="pvL-m2-J9p"/>
+                                                <include reference="69v-Xb-eNP"/>
+                                                <include reference="Afc-1q-TUU"/>
+                                                <include reference="Fsg-6G-xgs"/>
+                                                <include reference="o9X-5R-KV9"/>
+                                                <include reference="E2E-7b-N3I"/>
+                                                <include reference="ibz-ww-PAO"/>
+                                                <include reference="IqP-b5-20H"/>
+                                                <include reference="StU-ou-pii"/>
+                                                <include reference="eRv-AO-q0x"/>
+                                                <include reference="m8V-5z-4wH"/>
                                             </mask>
                                         </variation>
                                         <connections>
@@ -1387,10 +1387,16 @@ Login using your email ID.</string>
                                                     <action selector="googleImgTapped:" destination="Uvz-ky-B2V" eventType="touchUpInside" id="67a-7s-P4S"/>
                                                 </connections>
                                             </button>
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="10-digit mobile number" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="HLD-rw-Ocy">
+                                                <rect key="frame" x="0.0" y="-30" width="97" height="30"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits"/>
+                                            </textField>
                                         </subviews>
                                         <color key="backgroundColor" red="0.9137254901960784" green="0.91764705882352937" blue="0.92941176470588238" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstItem="wb8-wh-K02" firstAttribute="leading" secondItem="YHK-Rd-Ems" secondAttribute="leading" constant="16" id="1Cl-OP-ovv"/>
+                                            <constraint firstItem="HLD-rw-Ocy" firstAttribute="top" secondItem="wb8-wh-K02" secondAttribute="bottom" constant="8" id="9X8-8Q-rqv"/>
                                             <constraint firstItem="P6i-8n-E5H" firstAttribute="top" secondItem="tsD-Yq-HAw" secondAttribute="bottom" constant="21" id="Coe-3p-V1X"/>
                                             <constraint firstAttribute="width" constant="400" id="Day-4o-nZi"/>
                                             <constraint firstItem="QLm-Nj-EfM" firstAttribute="leading" secondItem="YHK-Rd-Ems" secondAttribute="leading" id="Ndi-4A-cF6"/>
@@ -1400,8 +1406,10 @@ Login using your email ID.</string>
                                             <constraint firstAttribute="centerX" secondItem="dmd-H2-XCn" secondAttribute="centerX" id="RmI-xy-kSu"/>
                                             <constraint firstAttribute="height" constant="800" id="VBb-5N-99G"/>
                                             <constraint firstAttribute="centerX" secondItem="P6i-8n-E5H" secondAttribute="centerX" id="XbH-AK-Cuh"/>
+                                            <constraint firstAttribute="trailing" secondItem="HLD-rw-Ocy" secondAttribute="trailing" constant="16" id="Y8q-R8-hmO"/>
                                             <constraint firstAttribute="trailing" secondItem="wb8-wh-K02" secondAttribute="trailing" constant="16" id="Zaj-TZ-uCt"/>
                                             <constraint firstItem="tsD-Yq-HAw" firstAttribute="top" secondItem="YHK-Rd-Ems" secondAttribute="top" constant="28" id="ccN-KJ-D7V"/>
+                                            <constraint firstItem="HLD-rw-Ocy" firstAttribute="leading" secondItem="TYT-z9-MQb" secondAttribute="trailing" constant="2" id="lND-E6-L2R"/>
                                             <constraint firstItem="wb8-wh-K02" firstAttribute="top" secondItem="dmd-H2-XCn" secondAttribute="bottom" constant="19" id="lPB-TW-n5n"/>
                                             <constraint firstItem="dmd-H2-XCn" firstAttribute="centerY" secondItem="QLm-Nj-EfM" secondAttribute="centerY" id="pe7-rt-akF"/>
                                             <constraint firstItem="dmd-H2-XCn" firstAttribute="top" secondItem="P6i-8n-E5H" secondAttribute="bottom" constant="31" id="ta1-PE-keg"/>
@@ -1418,6 +1426,7 @@ Login using your email ID.</string>
                                                 <exclude reference="TYT-z9-MQb"/>
                                                 <exclude reference="tsD-Yq-HAw"/>
                                                 <exclude reference="P6i-8n-E5H"/>
+                                                <exclude reference="HLD-rw-Ocy"/>
                                             </mask>
                                             <mask key="constraints">
                                                 <exclude reference="Day-4o-nZi"/>
@@ -1432,6 +1441,9 @@ Login using your email ID.</string>
                                                 <exclude reference="lPB-TW-n5n"/>
                                                 <exclude reference="RZu-1u-lkQ"/>
                                                 <exclude reference="v6W-qF-jkb"/>
+                                                <exclude reference="9X8-8Q-rqv"/>
+                                                <exclude reference="Y8q-R8-hmO"/>
+                                                <exclude reference="lND-E6-L2R"/>
                                                 <exclude reference="R8m-BJ-AJF"/>
                                                 <exclude reference="RmI-xy-kSu"/>
                                                 <exclude reference="pe7-rt-akF"/>
@@ -1449,6 +1461,7 @@ Login using your email ID.</string>
                                                 <include reference="TYT-z9-MQb"/>
                                                 <include reference="tsD-Yq-HAw"/>
                                                 <include reference="P6i-8n-E5H"/>
+                                                <include reference="HLD-rw-Ocy"/>
                                             </mask>
                                             <mask key="constraints">
                                                 <include reference="Day-4o-nZi"/>
@@ -1463,6 +1476,9 @@ Login using your email ID.</string>
                                                 <include reference="lPB-TW-n5n"/>
                                                 <include reference="RZu-1u-lkQ"/>
                                                 <include reference="v6W-qF-jkb"/>
+                                                <include reference="9X8-8Q-rqv"/>
+                                                <include reference="Y8q-R8-hmO"/>
+                                                <include reference="lND-E6-L2R"/>
                                                 <include reference="R8m-BJ-AJF"/>
                                                 <include reference="RmI-xy-kSu"/>
                                                 <include reference="pe7-rt-akF"/>
@@ -1546,6 +1562,7 @@ Login using your email ID.</string>
                         <outlet property="googleSignupButtonHeight" destination="KPN-c0-5CD" id="9IP-yv-VoF"/>
                         <outlet property="googleSignupButtonWidth" destination="WFn-aR-B9D" id="U5z-zO-ukj"/>
                         <outlet property="lineWidth" destination="dBo-Zc-WwF" id="l4K-ng-cht"/>
+                        <outlet property="phoneNumberTextField" destination="HLD-rw-Ocy" id="5MJ-nV-AhE"/>
                         <outlet property="scrollView" destination="ru6-XU-5NW" id="qlk-tV-ts0"/>
                         <outlet property="verticalSpace1" destination="ccN-KJ-D7V" id="k3a-hy-R1U"/>
                         <outlet property="verticalSpace2" destination="Coe-3p-V1X" id="qOf-Zv-OS0"/>

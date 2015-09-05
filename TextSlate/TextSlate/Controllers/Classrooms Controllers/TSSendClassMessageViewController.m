@@ -84,11 +84,15 @@
     label.backgroundColor = [UIColor clearColor];
     label.font = [UIFont boldSystemFontOfSize: 12.0f];
     label.textAlignment = NSTextAlignmentCenter;
-    label.textColor = [UIColor blackColor];
     label.text = _classCode;
     [label sizeToFit];
     [titleView addSubview:label];
     self.navigationItem.titleView = titleView;
+    
+    if ([self respondsToSelector:@selector(edgesForExtendedLayout)]) {
+        self.edgesForExtendedLayout = UIRectEdgeNone;
+    }
+
 }
 
 -(IBAction)backButtonTapped:(id)sender {
@@ -596,7 +600,7 @@
 -(void)unsetRefreshCalled {
     TSTabBarViewController *rootTab = [self getRootTab];
     ClassesViewController *classesVC = rootTab.viewControllers[0];
-    [classesVC setRefreshCalled];
+    [classesVC unsetRefreshCalled];
     TSOutboxViewController *outboxVC = rootTab.viewControllers[2];
     outboxVC.isBottomRefreshCalled = false;
 }

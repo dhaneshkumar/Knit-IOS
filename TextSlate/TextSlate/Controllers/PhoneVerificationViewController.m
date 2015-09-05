@@ -132,8 +132,10 @@
                             return;
                         } else {
                             PFUser *currentUser = [PFUser currentUser];
+                            
                             //AppsFlyer
-                            [AppsFlyerTracker sharedTracker].customerUserID = currentUser[@"username"];
+                            NSDictionary *dict = @{@"USERNAME" : currentUser[@"username"]};
+                            [[AppsFlyerTracker sharedTracker] trackEvent:@"sign_up" withValues:dict];
                             
                             [self deleteAllLocalData];
                             [self createLocalDatastore:nil];

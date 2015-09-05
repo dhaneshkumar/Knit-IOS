@@ -103,6 +103,11 @@
     UIBarButtonItem *composeBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose  target:self action:@selector(composeMessage)];
     self.tabBarController.navigationItem.rightBarButtonItem = composeBarButtonItem;
     [_messagesTable reloadData];
+    if(_refreshControl.isRefreshing) {
+        [_refreshControl endRefreshing];
+        [self.messagesTable setContentOffset:CGPointMake(0, -self.refreshControl.frame.size.height) animated:YES];
+        [_refreshControl beginRefreshing];
+    }
 }
 
 
@@ -176,6 +181,7 @@
         }
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    NSLog(@"%d : %d", indexPath.row, _isBottomRefreshCalled);
     if(indexPath.row == _messagesArray.count-1 && !_isBottomRefreshCalled) {
         [self setRefreshCalled];
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
@@ -243,8 +249,7 @@
     else {
         [self fetchImages];
         if(!_isULCCalled) {
-            //[self.messagesTable setContentOffset:CGPointMake(0, -self.refreshControl.frame.size.height) animated:YES];
-            [self.messagesTable setContentOffset:CGPointMake(0, self.messagesTable.contentOffset.y - self.refreshControl.frame.size.height) animated:YES];
+            [self.messagesTable setContentOffset:CGPointMake(0, -self.refreshControl.frame.size.height) animated:YES];
             [_refreshControl beginRefreshing];
             [self updateCountsLocally];
         }
@@ -475,10 +480,7 @@
             dispatch_sync(dispatch_get_main_queue(), ^{
                 [self.messagesTable reloadData];
                 [_refreshControl endRefreshing];
-                if (self.messagesTable.contentOffset.y < 0) {
-                    [self.messagesTable setContentOffset:CGPointZero animated:YES];
-                }
-                //[self.messagesTable setContentOffset:CGPointMake(0, 0) animated:YES];
+                [self.messagesTable setContentOffset:CGPointMake(0, 0) animated:YES];
             });
             _isULCCalled = false;
         });
@@ -551,7 +553,7 @@
 -(void)unsetRefreshCalled {
     TSTabBarViewController *rootTab = (TSTabBarViewController *)self.tabBarController;
     ClassesViewController *classesVC = rootTab.viewControllers[0];
-    [classesVC setRefreshCalled];
+    [classesVC unsetRefreshCalled];
     _isBottomRefreshCalled = false;
 }
 

@@ -14,6 +14,7 @@
 #import "AppDelegate.h"
 #import "TSTabBarViewController.h"
 #import "ClassesViewController.h"
+#import "TSOutboxViewController.h"
 #import "TSSendClassMessageViewController.h"
 #import "TSUtils.h"
 
@@ -100,9 +101,10 @@
             }
         }
         ClassesViewController *classesVC = rootTab.viewControllers[0];
+        TSOutboxViewController *outboxVC = rootTab.viewControllers[2];
         classesVC.createdClasses = [NSMutableArray arrayWithArray:[[createdClasses reverseObjectEnumerator] allObjects]];
         TSSendClassMessageViewController *dvc = (TSSendClassMessageViewController*)[self.storyboard instantiateViewControllerWithIdentifier:@"createdClassVC"];
-        [dvc initialization:codeGroupForClass[@"code"] className:codeGroupForClass[@"name"]];
+        [dvc initialization:codeGroupForClass[@"code"] className:codeGroupForClass[@"name"] isBottomRefreshCalled:outboxVC.isBottomRefreshCalled];
         [classesVC.createdClassesVCs setObject:dvc forKey:codeGroupForClass[@"code"]];
         
         //Cancel all local notifications when a teacher user has created a class
