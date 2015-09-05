@@ -36,8 +36,14 @@
     if ([_tableView respondsToSelector:@selector(setSeparatorInset:)]) {
         [_tableView setSeparatorInset:UIEdgeInsetsZero];
     }
-    NSDictionary *dimensions = @{@"Invite Type" : [NSString stringWithFormat:@"type%d", _type], @"Invite Mode":(_isAddressBook?@"phone":@"email")};
-    [PFAnalytics trackEvent:@"inviteMode" dimensions:dimensions];
+    if(_type==2 || _type==3) {
+        NSDictionary *dimensions = @{@"Invite Type" : [NSString stringWithFormat:@"type%d", _type], @"Invite Mode":(_isAddressBook?@"phone":@"email"), @"classCode":_classCode};
+        [PFAnalytics trackEvent:@"inviteMode" dimensions:dimensions];
+    }
+    else {
+        NSDictionary *dimensions = @{@"Invite Type" : [NSString stringWithFormat:@"type%d", _type], @"Invite Mode":(_isAddressBook?@"phone":@"email")};
+        [PFAnalytics trackEvent:@"inviteMode" dimensions:dimensions];
+    }
 }
 
 -(IBAction)backButtonTapped:(id)sender {
@@ -234,8 +240,14 @@
         member[@"status"] = @"pending";
         [member pinInBackground];
         
-        NSDictionary *dimensions = @{@"Invite Type" : [NSString stringWithFormat:@"type%d", _type], @"Invite Mode":(_isAddressBook?@"phone":@"email")};
-        [PFAnalytics trackEvent:@"invitedUsersCount" dimensions:dimensions];
+        if(_type==2 || _type==3) {
+            NSDictionary *dimensions = @{@"Invite Type" : [NSString stringWithFormat:@"type%d", _type], @"Invite Mode":(_isAddressBook?@"phone":@"email"), @"classCode":_classCode};
+            [PFAnalytics trackEvent:@"invitedUsersCount" dimensions:dimensions];
+        }
+        else {
+            NSDictionary *dimensions = @{@"Invite Type" : [NSString stringWithFormat:@"type%d", _type], @"Invite Mode":(_isAddressBook?@"phone":@"email")};
+            [PFAnalytics trackEvent:@"invitedUsersCount" dimensions:dimensions];
+        }
         
         NSIndexPath* rowToReload = [NSIndexPath indexPathForRow:indexPath.row inSection:0];
         NSArray* rowsToReload = [NSArray arrayWithObjects:rowToReload, nil];

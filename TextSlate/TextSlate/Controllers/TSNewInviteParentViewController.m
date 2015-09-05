@@ -110,9 +110,14 @@
         _smsButton.hidden = true;
     }
     
-    
-    NSDictionary *dimensions = @{@"Invite Type" : [NSString stringWithFormat:@"type%d", _type], @"Source":_fromInApp?@"app":@"notification"};
-    [PFAnalytics trackEvent:@"invitePageOpenings" dimensions:dimensions];
+    if(_type==2 || _type==3) {
+        NSDictionary *dimensions = @{@"Invite Type" : [NSString stringWithFormat:@"type%d", _type], @"Source":_fromInApp?@"app":@"notification", @"classCode":_classCode};
+        [PFAnalytics trackEvent:@"invitePageOpenings" dimensions:dimensions];
+    }
+    else {
+        NSDictionary *dimensions = @{@"Invite Type" : [NSString stringWithFormat:@"type%d", _type], @"Source":_fromInApp?@"app":@"notification"};
+        [PFAnalytics trackEvent:@"invitePageOpenings" dimensions:dimensions];
+    }
 }
 
 -(IBAction)backButtonTapped:(id)sender {
@@ -184,8 +189,14 @@
     NSString* strSharingText = [sendCode stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSURL *whatsappURL = [NSURL URLWithString:[NSString stringWithFormat:@"whatsapp://send?text=%@",strSharingText]];
     if ([[UIApplication sharedApplication] canOpenURL: whatsappURL]) {
-        NSDictionary *dimensions = @{@"Invite Type" : [NSString stringWithFormat:@"type%d", _type], @"Invite Mode":@"whatsapp"};
-        [PFAnalytics trackEvent:@"inviteMode" dimensions:dimensions];
+        if(_type==2 || _type==3) {
+            NSDictionary *dimensions = @{@"Invite Type" : [NSString stringWithFormat:@"type%d", _type], @"Invite Mode":@"whatsapp", @"classCode":_classCode};
+            [PFAnalytics trackEvent:@"inviteMode" dimensions:dimensions];
+        }
+        else {
+            NSDictionary *dimensions = @{@"Invite Type" : [NSString stringWithFormat:@"type%d", _type], @"Invite Mode":@"whatsapp"};
+            [PFAnalytics trackEvent:@"inviteMode" dimensions:dimensions];
+        }
         [[UIApplication sharedApplication] openURL: whatsappURL];
     }
     else {
@@ -224,8 +235,14 @@
 
 
 -(void)label1Tapped:(id)sender {
-    NSDictionary *dimensions = @{@"Invite Type" : [NSString stringWithFormat:@"type%d", _type], @"Invite Mode":@"receiveInstructions"};
-    [PFAnalytics trackEvent:@"inviteMode" dimensions:dimensions];
+    if(_type==2 || _type==3) {
+        NSDictionary *dimensions = @{@"Invite Type" : [NSString stringWithFormat:@"type%d", _type], @"Invite Mode":@"receiveInstructions", @"classCode":_classCode};
+        [PFAnalytics trackEvent:@"inviteMode" dimensions:dimensions];
+    }
+    else {
+        NSDictionary *dimensions = @{@"Invite Type" : [NSString stringWithFormat:@"type%d", _type], @"Invite Mode":@"receiveInstructions"};
+        [PFAnalytics trackEvent:@"inviteMode" dimensions:dimensions];
+    }
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Knit"
                                                     message:@"Enter your email id"
                                                    delegate:self
