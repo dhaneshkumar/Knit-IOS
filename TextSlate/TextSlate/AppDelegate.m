@@ -52,7 +52,7 @@
     [Parse enableLocalDatastore];
 
     // Override point for customization after application launch.
-    [self setKeysForKnit];
+    [self setKeysForDevelopmentKnit];
     [PFUser enableRevocableSessionInBackground];
     [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
     
@@ -227,7 +227,7 @@
                     NSString *title=[userInfo objectForKey:@"groupName"];
                     _notificationId = [userInfo objectForKey:@"id"];
                     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
-                                                                    message:@"Which of your posts was not understood by parents!"
+                                                                    message:@"Which of your posts was not understood  by parents!"
                                                                    delegate:self cancelButtonTitle:@"Not now"
                                                           otherButtonTitles:@"See now",nil];
                     alert.tag = 3;
