@@ -360,18 +360,14 @@
                     NSString *url=attachImageUrl.url;
                     message.attachmentURL = attachImageUrl;
                     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
-                        UIImage *image = [[sharedCache sharedInstance] getCachedImageForKey:url];
-                        if(image) {
-                            //NSLog(@"already cached");
-                            message.attachment = image;
-                        }
-                        else{
-                            NSData *data = [attachImageUrl getData];
+                        NSData *data = [message.attachmentURL getData];
+                        if(data) {
                             UIImage *image = [[UIImage alloc] initWithData:data];
                             if(image) {
-                                //NSLog(@"Caching here....");
                                 [[sharedCache sharedInstance] cacheImage:image forKey:url];
                                 message.attachment = image;
+                                NSString *pathURL = [self createURL:url];
+                                [data writeToFile:pathURL atomically:YES];
                                 dispatch_sync(dispatch_get_main_queue(), ^{
                                     [self.messagesTable reloadData];
                                 });
@@ -448,20 +444,57 @@
 
 -(void)fetchImages {
     NSArray *tempArray = [[NSArray alloc] initWithArray:_messagesArray];
-    for(int i=0; i<tempArray.count; i++) {
-        TSMessage *message = tempArray[i];
-        if(message.attachmentURL && !message.attachment) {
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
-                NSData *data = [message.attachmentURL getData];
-                UIImage *image = [[UIImage alloc] initWithData:data];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
+        for(int i=0; i<tempArray.count; i++) {
+            TSMessage *message = tempArray[i];
+            if(message.attachmentURL && !message.attachment) {
                 NSString *url = message.attachmentURL.url;
-                if(image) {
-                    [[sharedCache sharedInstance] cacheImage:image forKey:url];
-                    message.attachment = image;
-                    dispatch_sync(dispatch_get_main_queue(), ^{
-                        [self.messagesTable reloadData];
-                    });
+                NSString *imgURL = [self createURL:url];
+                if(![[NSFileManager defaultManager] fileExistsAtPath:imgURL isDirectory:false]) {
+                    [self fetchAndSaveFile:message];
                 }
+                else {
+                    NSData *data = [[NSFileManager defaultManager] contentsAtPath:imgURL];
+                    if(data) {
+                        UIImage *image = [[UIImage alloc] initWithData:data];
+                        if(image) {
+                            [[sharedCache sharedInstance] cacheImage:image forKey:url];
+                            message.attachment = image;
+                            dispatch_sync(dispatch_get_main_queue(), ^{
+                                [self.messagesTable reloadData];
+                            });
+                        }
+                    }
+                    else {
+                        [self fetchAndSaveFile:message];
+                    }
+                }
+            }
+        }
+    });
+}
+
+
+-(NSString *)createURL:(NSString *)imageURL {
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
+    NSString *urlString = [paths firstObject];
+    urlString = [urlString stringByAppendingPathComponent:@"Images"];
+    urlString = [urlString stringByAppendingPathComponent:[NSString stringWithFormat:@"h%@", urlString]];
+    return urlString;
+}
+
+
+-(void)fetchAndSaveFile:(TSMessage *)message  {
+    NSData *data = [message.attachmentURL getData];
+    if(data) {
+        UIImage *image = [[UIImage alloc] initWithData:data];
+        if(image) {
+            [[sharedCache sharedInstance] cacheImage:image forKey:message.attachmentURL.url];
+            message.attachment = image;
+            NSString *pathURL = [self createURL:message.attachmentURL.url];
+            [data writeToFile:pathURL atomically:YES];
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                [self.messagesTable reloadData];
             });
         }
     }
@@ -496,16 +529,14 @@
                     NSString *url = attachImageUrl.url;
                     message.attachmentURL = attachImageUrl;
                     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
-                        UIImage *image = [[sharedCache sharedInstance] getCachedImageForKey:url];
-                        if(image) {
-                            message.attachment = image;
-                        }
-                        else{
-                            NSData *data = [attachImageUrl getData];
+                        NSData *data = [message.attachmentURL getData];
+                        if(data) {
                             UIImage *image = [[UIImage alloc] initWithData:data];
                             if(image) {
                                 [[sharedCache sharedInstance] cacheImage:image forKey:url];
                                 message.attachment = image;
+                                NSString *pathURL = [self createURL:url];
+                                [data writeToFile:pathURL atomically:YES];
                                 dispatch_sync(dispatch_get_main_queue(), ^{
                                     [self.messagesTable reloadData];
                                 });
@@ -580,20 +611,14 @@
                     NSString *url=attachImageUrl.url;
                     message.attachmentURL = attachImageUrl;
                     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
-                        UIImage *image = [[sharedCache sharedInstance] getCachedImageForKey:url];
-                        if(image) {
-                            message.attachment = image;
-                        }
-                        else {
-                            NSData *data = [attachImageUrl getData];
-                            NSLog(@"after fetch data size : %d", data.length);
+                        NSData *data = [message.attachmentURL getData];
+                        if(data) {
                             UIImage *image = [[UIImage alloc] initWithData:data];
-                            NSLog(@"after image conversion height, width : %f, %f", image.size.height, image.size.width);
-                            NSData *afterImageData = UIImageJPEGRepresentation(image, 1);
-                            NSLog(@"after image conversion size : %d", afterImageData.length);
                             if(image) {
                                 [[sharedCache sharedInstance] cacheImage:image forKey:url];
                                 message.attachment = image;
+                                NSString *pathURL = [self createURL:url];
+                                [data writeToFile:pathURL atomically:YES];
                                 dispatch_sync(dispatch_get_main_queue(), ^{
                                     [self.messagesTable reloadData];
                                 });
@@ -671,29 +696,17 @@
                     NSString *url=attachImageUrl.url;
                     message.attachmentURL = attachImageUrl;
                     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
-                        UIImage *image = [[sharedCache sharedInstance] getCachedImageForKey:url];
-                        if(image) {
-                            //NSLog(@"already cached");
-                            message.attachment = image;
-                        }
-                        else {
-                            //NSData *data = [attachImageUrl getData];
-                            //UIImage *image = [[UIImage alloc] initWithData:data];
-                            NSData *data = [attachImageUrl getData];
-                            NSLog(@"after fetch data size : %d", data.length);
+                        NSData *data = [message.attachmentURL getData];
+                        if(data) {
                             UIImage *image = [[UIImage alloc] initWithData:data];
-                            NSLog(@"after image conversion height, width : %f, %f", image.size.height, image.size.width);
-                            NSData *afterImageData = UIImageJPEGRepresentation(image, 1);
-                            NSLog(@"after image conversion size : %d", afterImageData.length);
-
                             if(image) {
-                                //NSLog(@"Caching here....");
                                 [[sharedCache sharedInstance] cacheImage:image forKey:url];
                                 message.attachment = image;
+                                NSString *pathURL = [self createURL:url];
+                                [data writeToFile:pathURL atomically:YES];
                                 dispatch_sync(dispatch_get_main_queue(), ^{
                                     [self.messagesTable reloadData];
                                 });
-                                
                             }
                         }
                     });

@@ -47,6 +47,7 @@
 @property (strong,nonatomic) UILabel *wordCount;
 @property (strong,nonatomic) NSDate *lastEntry;
 @property (strong,nonatomic) PFFile *finalAttachment;
+@property (strong, nonatomic) NSData *attachedImageData;
 @property (strong,nonatomic) UIProgressView *progressBar;
 @property (strong,nonatomic) UIImageView *attachImage;
 @property (strong,nonatomic) UIButton *cancelAttachment;
@@ -477,13 +478,10 @@
                                 NSString *url = _finalAttachment.url;
                                 newMessage.attachmentURL = _finalAttachment;
                                 newMessageForClassPage.attachmentURL = _finalAttachment;
-                                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
-                                    UIImage *image = [[sharedCache sharedInstance] getCachedImageForKey:url];
-                                    if(image) {
-                                        newMessage.attachment = image;
-                                        newMessageForClassPage.attachment = image;
-                                    }
-                                });
+                                UIImage *image = [[UIImage alloc] initWithData:_attachedImageData];
+                                [[sharedCache sharedInstance] cacheImage:image forKey:url];
+                                newMessage.attachment = image;
+                                newMessageForClassPage.attachment = image;
                                 
                                 outbox.mapCodeToObjects[newMessage.messageId] = newMessage;
                                 [outbox.messagesArray insertObject:newMessage atIndex:0];
@@ -562,12 +560,12 @@
             }
             else if(status == AVAuthorizationStatusDenied){
                 // denied
-                [RKDropdownAlert title:@"" message:@"Go to Settings and provide permission to access camera"  time:3];
+                [RKDropdownAlert title:@"" message:@"Go to Settings and provide permission to access Camera"  time:3];
                 return;
             }
             else if(status == AVAuthorizationStatusRestricted){
                 // restricted
-                [RKDropdownAlert title:@"" message:@"Go to Settings and provide permission to access camera"  time:3];
+                [RKDropdownAlert title:@"" message:@"Go to Settings and provide permission to access Camera"  time:3];
                 return;
             }
             else if(status == AVAuthorizationStatusNotDetermined) {
@@ -594,11 +592,11 @@
                 [self presentViewController:picker animated:YES completion:NULL];
             }
             else if(status == ALAuthorizationStatusDenied) {
-                [RKDropdownAlert title:@"" message:@"Go to Settings and provide permission to access photos"  time:3];
+                [RKDropdownAlert title:@"" message:@"Go to Settings and provide permission to access Photos"  time:3];
                 return;
             }
-            else if(status == ALAuthorizationStatusNotDetermined) {
-                [RKDropdownAlert title:@"" message:@"Go to Settings and provide permission to access photos"  time:3];
+            else if(status == ALAuthorizationStatusRestricted) {
+                [RKDropdownAlert title:@"" message:@"Go to Settings and provide permission to access Photos"  time:3];
                 return;
             }
             else if(status == ALAuthorizationStatusNotDetermined) {
@@ -617,8 +615,8 @@
     self.progressBar.hidden = NO;
     self.cancelAttachment.hidden = NO;
     _attachmentImage = info[UIImagePickerControllerOriginalImage];
-    NSData *imageData = UIImageJPEGRepresentation(_attachmentImage, 0);
-    _finalAttachment= [PFFile fileWithName:@"attachedImage.jpeg" data:imageData];
+    _attachedImageData = UIImageJPEGRepresentation(_attachmentImage, 0);
+    _finalAttachment= [PFFile fileWithName:@"attachedImage.jpg" data:_attachedImageData];
 
     _timer = [NSTimer scheduledTimerWithTimeInterval: 1.0f
                                              target: self
@@ -651,6 +649,7 @@
 
 -(void)removeAttachment{
     _finalAttachment=nil;
+    _attachedImageData = nil;
     self.progressBar.hidden=YES;
     self.attachmentImage=nil;
     self.attachImage.image=nil;

@@ -243,12 +243,7 @@
         message.messageId = messageObject[@"messageId"];
         if(messageObject[@"attachment"]) {
             PFFile *attachImageUrl=messageObject[@"attachment"];
-            NSString *url=attachImageUrl.url;
-            UIImage *image = [[sharedCache sharedInstance] getCachedImageForKey:url];
             message.attachmentURL = attachImageUrl;
-            if(image) {
-                message.attachment = image;
-            }
         }
         mapCodeToObjects[message.messageId] = message;
         [messagesArray addObject:message];
