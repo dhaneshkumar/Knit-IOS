@@ -43,6 +43,7 @@
 		5F7F8D371B53E1350054E91E /* 1242 x 2208 .png in Resources */ = {isa = PBXBuildFile; fileRef = 5F7F8D351B53E1350054E91E /* 1242 x 2208 .png */; };
 		5FBADCEB1B82640500876291 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5FBADCEA1B82640500876291 /* GoogleService-Info.plist */; };
 		5FBADCEC1B82657E00876291 /* GoogleService-Info.plist in Sources */ = {isa = PBXBuildFile; fileRef = 5FBADCEA1B82640500876291 /* GoogleService-Info.plist */; };
+		5FD7E1761BA2002D0041A17E /* ALAssetsLibrary+CustomPhotoAlbum.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FD7E1751BA2002D0041A17E /* ALAssetsLibrary+CustomPhotoAlbum.m */; };
 		5FDDA2241B5FC35000895D56 /* sms_in_circle-51.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FDDA2211B5FC34F00895D56 /* sms_in_circle-51.png */; };
 		5FDDA2251B5FC35000895D56 /* sms_in_circle-52.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FDDA2221B5FC35000895D56 /* sms_in_circle-52.png */; };
 		5FDDA2261B5FC35000895D56 /* sms_in_circle-53.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FDDA2231B5FC35000895D56 /* sms_in_circle-53.png */; };
@@ -259,6 +260,8 @@
 		5F7F8D341B53E1350054E91E /* 750x1334.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 750x1334.png; sourceTree = "<group>"; };
 		5F7F8D351B53E1350054E91E /* 1242 x 2208 .png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "1242 x 2208 .png"; sourceTree = "<group>"; };
 		5FBADCEA1B82640500876291 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		5FD7E1741BA2002D0041A17E /* ALAssetsLibrary+CustomPhotoAlbum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ALAssetsLibrary+CustomPhotoAlbum.h"; sourceTree = "<group>"; };
+		5FD7E1751BA2002D0041A17E /* ALAssetsLibrary+CustomPhotoAlbum.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ALAssetsLibrary+CustomPhotoAlbum.m"; sourceTree = "<group>"; };
 		5FDDA2211B5FC34F00895D56 /* sms_in_circle-51.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sms_in_circle-51.png"; sourceTree = "<group>"; };
 		5FDDA2221B5FC35000895D56 /* sms_in_circle-52.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sms_in_circle-52.png"; sourceTree = "<group>"; };
 		5FDDA2231B5FC35000895D56 /* sms_in_circle-53.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sms_in_circle-53.png"; sourceTree = "<group>"; };
@@ -765,6 +768,8 @@
 		973A4BC91A1F174D0039175A = {
 			isa = PBXGroup;
 			children = (
+				5FD7E1741BA2002D0041A17E /* ALAssetsLibrary+CustomPhotoAlbum.h */,
+				5FD7E1751BA2002D0041A17E /* ALAssetsLibrary+CustomPhotoAlbum.m */,
 				9786AE491A3F47E300801838 /* Frameworks */,
 				976F04461A4DE4A3003E9604 /* External Libraries */,
 				973A4BD41A1F174D0039175A /* TextSlate */,
@@ -1399,6 +1404,7 @@
 				406E1DF31B294FA500F17C33 /* FeedbackViewController.m in Sources */,
 				FBB860C21AF3595F0005474A /* JTSImageViewController.m in Sources */,
 				40CDDBB61A90E47E00922ADF /* TSMember.m in Sources */,
+				5FD7E1761BA2002D0041A17E /* ALAssetsLibrary+CustomPhotoAlbum.m in Sources */,
 				FB0F6CAD1B45547F0006BE95 /* MessageComposerRecipientsViewController.m in Sources */,
 				5FDDA2331B618F9600895D56 /* messageRecipientsViewController.m in Sources */,
 				FBB860C01AF3595F0005474A /* JTSAnimatedGIFUtility.m in Sources */,

@@ -23,11 +23,13 @@
 #import "ClassesParentViewController.h"
 #import "TSOutboxViewController.h"
 #import "TSUtils.h"
+#import "ALAssetsLibrary+CustomPhotoAlbum.h"
 
 @interface TSSendClassMessageViewController ()
 
 @property (strong,nonatomic) NSString *className;
 @property (strong,nonatomic) NSString *classCode;
+@property (strong, atomic) ALAssetsLibrary* library;
 
 @property (strong, nonatomic) NSDate * timeDiff;
 @property (strong, nonatomic) CustomUIActionSheetViewController *customUIActionSheetViewController;
@@ -48,6 +50,7 @@
     _memberCount = 0;
     [_memListVC initialization:_classCode className:_className sendClassVC:self];
     _shouldScrollUp = false;
+    _library = [[ALAssetsLibrary alloc] init];
 }
 
 -(void)viewDidLoad {
@@ -349,6 +352,7 @@
             message.attachment = image;
             NSString *pathURL = [self createURL:message.attachmentURL.url];
             [data writeToFile:pathURL atomically:YES];
+            [self.library saveImage:image toAlbum:@"Knit" withCompletionBlock:^(NSError *error) {}];
             dispatch_sync(dispatch_get_main_queue(), ^{
                 [self.messageTable reloadData];
             });
@@ -478,6 +482,7 @@
                         message.attachment = image;
                         NSString *pathURL = [self createURL:url];
                         [data writeToFile:pathURL atomically:YES];
+                        [self.library saveImage:image toAlbum:@"Knit" withCompletionBlock:^(NSError *error) {}];
                         dispatch_sync(dispatch_get_main_queue(), ^{
                             [self.messageTable reloadData];
                         });

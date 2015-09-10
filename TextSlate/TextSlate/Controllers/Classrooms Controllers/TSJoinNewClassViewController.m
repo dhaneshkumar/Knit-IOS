@@ -23,6 +23,7 @@
 #import "ClassesViewController.h"
 #import "ClassesParentViewController.h"
 #import "JoinedClassTableViewController.h"
+#import "ALAssetsLibrary+CustomPhotoAlbum.h"
 
 
 @interface TSJoinNewClassViewController ()
@@ -38,6 +39,8 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *inviteTeacherWidth;
 
 @property (strong, nonatomic) NSString *role;
+@property (strong, atomic) ALAssetsLibrary* library;
+
 @end
 
 @implementation TSJoinNewClassViewController
@@ -58,6 +61,7 @@
     if([_role isEqualToString:@"student"]) {
         _associatedPersonTextField.hidden = true;
     }
+    _library = [[ALAssetsLibrary alloc] init];
 }
 
 - (void)didReceiveMemoryWarning {

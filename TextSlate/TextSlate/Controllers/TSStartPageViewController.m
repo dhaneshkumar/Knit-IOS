@@ -130,10 +130,6 @@
 -(void)loginTap:(UITapGestureRecognizer *)recognizer {
     SignInViewController *signInVC = [self.storyboard instantiateViewControllerWithIdentifier:@"newSignInVC"];
     [self.navigationController pushViewController:signInVC animated:YES];
-    //UIImage *img = [UIImage imageNamed:@"mypic.jpg"];
-    //NSData *imageData = UIImageJPEGRepresentation(img, 0.1);
-    //UIImageWriteToSavedPhotosAlbum(img, nil, nil, nil);
-    //[self.library writeImageToSavedPhotosAlbum:[img CGImage] orientation:ALAssetOrientationUp completionBlock:nil];
 }
 
 

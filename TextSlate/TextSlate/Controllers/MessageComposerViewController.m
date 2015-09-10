@@ -27,6 +27,7 @@
 #import <AVFoundation/AVFoundation.h>
 #import <AssetsLibrary/AssetsLibrary.h>
 #import "messageRecipientsViewController.h"
+#import "ALAssetsLibrary+CustomPhotoAlbum.h"
 
 @interface MessageComposerViewController ()
 
@@ -54,6 +55,7 @@
 @property (strong ,nonatomic) NSTimer *timer;
 @property (nonatomic) BOOL hasSelectedClasses;
 @property (nonatomic) BOOL hasTypedMessage;
+@property (strong, atomic) ALAssetsLibrary* library;
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *recipientViewHeight;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *messageBodyView;
@@ -90,6 +92,8 @@
     _wordCount.textColor = [UIColor grayColor];
     _wordCount.font = [UIFont systemFontOfSize:13];
     _wordCount.text = @"300";
+    
+    _library = [[ALAssetsLibrary alloc] init];
     
     [self.navigationController.toolbar addSubview:_progressBar];
     [self.navigationController.toolbar addSubview:_attachImage];
@@ -485,6 +489,7 @@
                                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
                                     NSString *pathURL = [self createURL:url];
                                     [_attachedImageData writeToFile:pathURL atomically:YES];
+                                    [self.library saveImage:image toAlbum:@"Knit" withCompletionBlock:^(NSError *error) {}];
                                 });
                                 
                                 outbox.mapCodeToObjects[newMessage.messageId] = newMessage;

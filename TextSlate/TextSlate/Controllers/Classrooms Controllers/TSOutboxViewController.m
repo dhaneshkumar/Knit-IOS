@@ -18,12 +18,14 @@
 #import "TSSendClassMessageViewController.h"
 #import "TSTabBarViewController.h"
 #import "MessageComposerViewController.h"
+#import "ALAssetsLibrary+CustomPhotoAlbum.h"
 
 @interface TSOutboxViewController ()
 
 @property (strong, nonatomic) NSDate * timeDiff;
 @property (strong, nonatomic) UIRefreshControl *refreshControl;
 @property (nonatomic) BOOL isULCCalled;
+@property (strong, atomic) ALAssetsLibrary* library;
 
 @end
 
@@ -37,6 +39,7 @@
     _messageIds = [[NSMutableArray alloc] init];
     _shouldScrollUp = false;
     _isULCCalled = false;
+    _library = [[ALAssetsLibrary alloc] init];
 }
 
 
@@ -314,6 +317,7 @@
             message.attachment = image;
             NSString *pathURL = [self createURL:message.attachmentURL.url];
             [data writeToFile:pathURL atomically:YES];
+            [self.library saveImage:image toAlbum:@"Knit" withCompletionBlock:^(NSError *error) {}];
             dispatch_sync(dispatch_get_main_queue(), ^{
                 [self.messagesTable reloadData];
             });
@@ -430,6 +434,7 @@
                         message.attachment = image;
                         NSString *pathURL = [self createURL:url];
                         [data writeToFile:pathURL atomically:YES];
+                        [self.library saveImage:image toAlbum:@"Knit" withCompletionBlock:^(NSError *error) {}];
                         dispatch_sync(dispatch_get_main_queue(), ^{
                             [self.messagesTable reloadData];
                         });
