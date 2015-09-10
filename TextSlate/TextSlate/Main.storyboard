@@ -1431,25 +1431,25 @@ Login using your email ID.</string>
                                             <mask key="constraints">
                                                 <exclude reference="Day-4o-nZi"/>
                                                 <exclude reference="VBb-5N-99G"/>
-                                                <exclude reference="ccN-KJ-D7V"/>
-                                                <exclude reference="tzh-TK-Bug"/>
-                                                <exclude reference="Coe-3p-V1X"/>
-                                                <exclude reference="XbH-AK-Cuh"/>
-                                                <exclude reference="Ndi-4A-cF6"/>
-                                                <exclude reference="1Cl-OP-ovv"/>
-                                                <exclude reference="Zaj-TZ-uCt"/>
-                                                <exclude reference="lPB-TW-n5n"/>
-                                                <exclude reference="RZu-1u-lkQ"/>
-                                                <exclude reference="v6W-qF-jkb"/>
                                                 <exclude reference="9X8-8Q-rqv"/>
                                                 <exclude reference="Y8q-R8-hmO"/>
                                                 <exclude reference="lND-E6-L2R"/>
+                                                <exclude reference="RZu-1u-lkQ"/>
+                                                <exclude reference="v6W-qF-jkb"/>
                                                 <exclude reference="R8m-BJ-AJF"/>
                                                 <exclude reference="RmI-xy-kSu"/>
                                                 <exclude reference="pe7-rt-akF"/>
                                                 <exclude reference="ta1-PE-keg"/>
+                                                <exclude reference="1Cl-OP-ovv"/>
+                                                <exclude reference="Zaj-TZ-uCt"/>
+                                                <exclude reference="lPB-TW-n5n"/>
+                                                <exclude reference="Coe-3p-V1X"/>
+                                                <exclude reference="XbH-AK-Cuh"/>
+                                                <exclude reference="ccN-KJ-D7V"/>
+                                                <exclude reference="tzh-TK-Bug"/>
                                                 <exclude reference="OCx-vU-aZE"/>
                                                 <exclude reference="uVK-XZ-kME"/>
+                                                <exclude reference="Ndi-4A-cF6"/>
                                             </mask>
                                         </variation>
                                         <variation key="heightClass=regular-widthClass=compact">
@@ -1466,25 +1466,25 @@ Login using your email ID.</string>
                                             <mask key="constraints">
                                                 <include reference="Day-4o-nZi"/>
                                                 <include reference="VBb-5N-99G"/>
-                                                <include reference="ccN-KJ-D7V"/>
-                                                <include reference="tzh-TK-Bug"/>
-                                                <include reference="Coe-3p-V1X"/>
-                                                <include reference="XbH-AK-Cuh"/>
-                                                <include reference="Ndi-4A-cF6"/>
-                                                <include reference="1Cl-OP-ovv"/>
-                                                <include reference="Zaj-TZ-uCt"/>
-                                                <include reference="lPB-TW-n5n"/>
-                                                <include reference="RZu-1u-lkQ"/>
-                                                <include reference="v6W-qF-jkb"/>
                                                 <include reference="9X8-8Q-rqv"/>
                                                 <include reference="Y8q-R8-hmO"/>
                                                 <include reference="lND-E6-L2R"/>
+                                                <include reference="RZu-1u-lkQ"/>
+                                                <include reference="v6W-qF-jkb"/>
                                                 <include reference="R8m-BJ-AJF"/>
                                                 <include reference="RmI-xy-kSu"/>
                                                 <include reference="pe7-rt-akF"/>
                                                 <include reference="ta1-PE-keg"/>
+                                                <include reference="1Cl-OP-ovv"/>
+                                                <include reference="Zaj-TZ-uCt"/>
+                                                <include reference="lPB-TW-n5n"/>
+                                                <include reference="Coe-3p-V1X"/>
+                                                <include reference="XbH-AK-Cuh"/>
+                                                <include reference="ccN-KJ-D7V"/>
+                                                <include reference="tzh-TK-Bug"/>
                                                 <include reference="OCx-vU-aZE"/>
                                                 <include reference="uVK-XZ-kME"/>
+                                                <include reference="Ndi-4A-cF6"/>
                                             </mask>
                                         </variation>
                                     </view>

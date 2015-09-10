@@ -576,7 +576,7 @@
                 message.confuseStatus = msg[@"confuseStatus"];
                 message.messageId = msg.objectId;
                 if(msg[@"attachment"]) {
-                    PFFile *attachImageUrl=msg[@"attachment"];
+                    PFFile *attachImageUrl = msg[@"attachment"];
                     NSString *url=attachImageUrl.url;
                     message.attachmentURL = attachImageUrl;
                     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
@@ -586,7 +586,11 @@
                         }
                         else {
                             NSData *data = [attachImageUrl getData];
+                            NSLog(@"after fetch data size : %d", data.length);
                             UIImage *image = [[UIImage alloc] initWithData:data];
+                            NSLog(@"after image conversion height, width : %f, %f", image.size.height, image.size.width);
+                            NSData *afterImageData = UIImageJPEGRepresentation(image, 1);
+                            NSLog(@"after image conversion size : %d", afterImageData.length);
                             if(image) {
                                 [[sharedCache sharedInstance] cacheImage:image forKey:url];
                                 message.attachment = image;
@@ -673,8 +677,15 @@
                             message.attachment = image;
                         }
                         else {
+                            //NSData *data = [attachImageUrl getData];
+                            //UIImage *image = [[UIImage alloc] initWithData:data];
                             NSData *data = [attachImageUrl getData];
+                            NSLog(@"after fetch data size : %d", data.length);
                             UIImage *image = [[UIImage alloc] initWithData:data];
+                            NSLog(@"after image conversion height, width : %f, %f", image.size.height, image.size.width);
+                            NSData *afterImageData = UIImageJPEGRepresentation(image, 1);
+                            NSLog(@"after image conversion size : %d", afterImageData.length);
+
                             if(image) {
                                 //NSLog(@"Caching here....");
                                 [[sharedCache sharedInstance] cacheImage:image forKey:url];
