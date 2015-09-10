@@ -68,8 +68,8 @@
         if(messageObject[@"attachment"]) {
             PFFile *attachImageUrl=messageObject[@"attachment"];
             NSString *url=attachImageUrl.url;
-            UIImage *image = [[sharedCache sharedInstance] getCachedImageForKey:url];
             message.attachmentURL = attachImageUrl;
+            UIImage *image = [[sharedCache sharedInstance] getCachedImageForKey:url];
             if(image) {
                 message.attachment = image;
             }
@@ -186,7 +186,14 @@
             cell.attachedImage.image = message.attachment;
         }
         else {
-            cell.attachedImage.image = [UIImage imageNamed:@"white.jpg"];
+            UIImage *image = [[sharedCache sharedInstance] getCachedImageForKey:message.attachmentURL.url];
+            if(image) {
+                message.attachment = image;
+                cell.attachedImage.image = message.attachment;
+            }
+            else {
+                cell.attachedImage.image = [UIImage imageNamed:@"white.jpg"];
+            }
         }
         UIImage *img = cell.attachedImage.image;
         float height = img.size.height;

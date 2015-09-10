@@ -482,6 +482,10 @@
                                 [[sharedCache sharedInstance] cacheImage:image forKey:url];
                                 newMessage.attachment = image;
                                 newMessageForClassPage.attachment = image;
+                                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
+                                    NSString *pathURL = [self createURL:url];
+                                    [_attachedImageData writeToFile:pathURL atomically:YES];
+                                });
                                 
                                 outbox.mapCodeToObjects[newMessage.messageId] = newMessage;
                                 [outbox.messagesArray insertObject:newMessage atIndex:0];
@@ -531,6 +535,15 @@
             }
         }];
     }
+}
+
+
+-(NSString *)createURL:(NSString *)imageURL {
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
+    NSString *urlString = [paths firstObject];
+    urlString = [urlString stringByAppendingPathComponent:@"Images"];
+    urlString = [urlString stringByAppendingPathComponent:[NSString stringWithFormat:@"h%@", urlString]];
+    return urlString;
 }
 
 

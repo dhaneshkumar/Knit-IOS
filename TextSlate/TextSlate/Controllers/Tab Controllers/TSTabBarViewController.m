@@ -320,6 +320,7 @@
     return nil;
 }
 
+
 -(void)messagesInitialization:(NSMutableDictionary *)createdClassesVCs outbox:(TSOutboxViewController *)outboxVC {
     NSArray *createdClasses = [[PFUser currentUser] objectForKey:@"Created_groups"];
     NSMutableArray *createdClassCodes = [[NSMutableArray alloc] init];
