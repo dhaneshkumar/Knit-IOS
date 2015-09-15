@@ -7,8 +7,6 @@ target 'Knit' do
     pod 'AppsFlyer-SDK'
     pod 'Google/SignIn'
     pod 'Appsee'
-    pod 'PulsingHalo'
-    pod 'UIFloatLabelTextField'
     pod 'YLGIFImage'
 end
 
