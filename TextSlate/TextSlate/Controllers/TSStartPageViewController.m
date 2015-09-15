@@ -11,7 +11,7 @@
 #import "SignInViewController.h"
 #import "Data.h"
 #import "RKDropdownAlert.h"
-#import <AssetsLibrary/AssetsLibrary.h>
+#import "SearchViewController.h"
 
 @interface TSStartPageViewController ()
 
@@ -36,7 +36,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *parentLabel;
 @property (weak, nonatomic) IBOutlet UILabel *studentLabel;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *imageWidth;
-@property (strong, nonatomic) ALAssetsLibrary *library;
 
 @end
 
@@ -101,7 +100,6 @@
     border.frame = CGRectMake(0.0f, x-1.0f, _studentCell.frame.size.width, 1.0f);
     border.backgroundColor = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:0.5f].CGColor;
     [_studentCell.layer addSublayer:border];
-    _library = [[ALAssetsLibrary alloc] init];
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -130,6 +128,8 @@
 -(void)loginTap:(UITapGestureRecognizer *)recognizer {
     SignInViewController *signInVC = [self.storyboard instantiateViewControllerWithIdentifier:@"newSignInVC"];
     [self.navigationController pushViewController:signInVC animated:YES];
+    //SearchViewController *searchVC = [self.storyboard instantiateViewControllerWithIdentifier:@"searchVC"];
+    //[self presentViewController:searchVC animated:YES completion:nil];
 }
 
 

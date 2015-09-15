@@ -669,4 +669,36 @@
     }];
 }
 
+
++(void)areaAutoComplete:(NSString *)partialAreaName successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
+    [PFCloud callFunctionInBackground:@"areaAutoComplete" withParameters:@{@"partialAreaName":partialAreaName} block:^(id object, NSError *error) {
+        if(error) {
+            if(error.code == kPFErrorInvalidSessionToken) {
+                [self handleInvalidSession:nil];
+                return;
+            }
+            errorBlock(error);
+        }
+        else {
+            successBlock(object);
+        }
+    }];
+}
+
+
++(void)schoolsNearby:(NSString *)areaName successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock {
+    [PFCloud callFunctionInBackground:@"schoolsNearby" withParameters:@{@"areaName":areaName} block:^(id object, NSError *error) {
+        if(error) {
+            if(error.code == kPFErrorInvalidSessionToken) {
+                [self handleInvalidSession:nil];
+                return;
+            }
+            errorBlock(error);
+        }
+        else {
+            successBlock(object);
+        }
+    }];
+}
+
 @end

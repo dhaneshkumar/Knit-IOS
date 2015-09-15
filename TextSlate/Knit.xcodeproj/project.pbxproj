@@ -44,6 +44,7 @@
 		5FBADCEB1B82640500876291 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5FBADCEA1B82640500876291 /* GoogleService-Info.plist */; };
 		5FBADCEC1B82657E00876291 /* GoogleService-Info.plist in Sources */ = {isa = PBXBuildFile; fileRef = 5FBADCEA1B82640500876291 /* GoogleService-Info.plist */; };
 		5FD7E1761BA2002D0041A17E /* ALAssetsLibrary+CustomPhotoAlbum.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FD7E1751BA2002D0041A17E /* ALAssetsLibrary+CustomPhotoAlbum.m */; };
+		5FD7E17A1BA30F2B0041A17E /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FD7E1791BA30F2B0041A17E /* SearchViewController.m */; };
 		5FDDA2241B5FC35000895D56 /* sms_in_circle-51.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FDDA2211B5FC34F00895D56 /* sms_in_circle-51.png */; };
 		5FDDA2251B5FC35000895D56 /* sms_in_circle-52.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FDDA2221B5FC35000895D56 /* sms_in_circle-52.png */; };
 		5FDDA2261B5FC35000895D56 /* sms_in_circle-53.png in Resources */ = {isa = PBXBuildFile; fileRef = 5FDDA2231B5FC35000895D56 /* sms_in_circle-53.png */; };
@@ -262,6 +263,8 @@
 		5FBADCEA1B82640500876291 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		5FD7E1741BA2002D0041A17E /* ALAssetsLibrary+CustomPhotoAlbum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ALAssetsLibrary+CustomPhotoAlbum.h"; sourceTree = "<group>"; };
 		5FD7E1751BA2002D0041A17E /* ALAssetsLibrary+CustomPhotoAlbum.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ALAssetsLibrary+CustomPhotoAlbum.m"; sourceTree = "<group>"; };
+		5FD7E1781BA30F2B0041A17E /* SearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchViewController.h; sourceTree = "<group>"; };
+		5FD7E1791BA30F2B0041A17E /* SearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchViewController.m; sourceTree = "<group>"; };
 		5FDDA2211B5FC34F00895D56 /* sms_in_circle-51.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sms_in_circle-51.png"; sourceTree = "<group>"; };
 		5FDDA2221B5FC35000895D56 /* sms_in_circle-52.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sms_in_circle-52.png"; sourceTree = "<group>"; };
 		5FDDA2231B5FC35000895D56 /* sms_in_circle-53.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sms_in_circle-53.png"; sourceTree = "<group>"; };
@@ -573,6 +576,15 @@
 			name = "Phone Verification Controller";
 			sourceTree = "<group>";
 		};
+		5FD7E1771BA30ED50041A17E /* Search Controller */ = {
+			isa = PBXGroup;
+			children = (
+				5FD7E1781BA30F2B0041A17E /* SearchViewController.h */,
+				5FD7E1791BA30F2B0041A17E /* SearchViewController.m */,
+			);
+			name = "Search Controller";
+			sourceTree = "<group>";
+		};
 		5FDDA2301B618F6700895D56 /* Message Recipients */ = {
 			isa = PBXGroup;
 			children = (
@@ -585,6 +597,7 @@
 		971687D71A1F1BCA00FE98FC /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				5FD7E1771BA30ED50041A17E /* Search Controller */,
 				5FDDA2301B618F6700895D56 /* Message Recipients */,
 				FBAD1F9D1B43BAA300F8999A /* Web View */,
 				406E1DF01B294F7A00F17C33 /* Feedback Controller */,
@@ -1402,6 +1415,7 @@
 				973A4BD81A1F174D0039175A /* main.m in Sources */,
 				40CD58651A89455B000CB1AB /* FAQTableViewController.m in Sources */,
 				406E1DF31B294FA500F17C33 /* FeedbackViewController.m in Sources */,
+				5FD7E17A1BA30F2B0041A17E /* SearchViewController.m in Sources */,
 				FBB860C21AF3595F0005474A /* JTSImageViewController.m in Sources */,
 				40CDDBB61A90E47E00922ADF /* TSMember.m in Sources */,
 				5FD7E1761BA2002D0041A17E /* ALAssetsLibrary+CustomPhotoAlbum.m in Sources */,

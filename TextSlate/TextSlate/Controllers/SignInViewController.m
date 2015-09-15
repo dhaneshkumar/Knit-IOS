@@ -140,6 +140,10 @@
 
 
 -(void)signIn:(GIDSignIn *)signIn didSignInForUser:(GIDGoogleUser *)user withError:(NSError *)error {
+    if(error) {
+        return;
+    }
+    
     NSString *accessToken = user.authentication.accessToken;
     NSString *idToken = user.authentication.idToken;
     PFInstallation *currentInstallation = [PFInstallation currentInstallation];

@@ -80,4 +80,8 @@ typedef void (^errorBlock)(NSError *error);
 
 +(void)updateProfilePic:(PFFile *)newPic successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock hud:(MBProgressHUD *)hud;
 
++(void)areaAutoComplete:(NSString *)partialAreaName successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock;
+
++(void)schoolsNearby:(NSString *)areaName successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock;
+
 @end

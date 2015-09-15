@@ -183,6 +183,9 @@
 
 -(void)signIn:(GIDSignIn *)signIn didSignInForUser:(GIDGoogleUser *)user withError:(NSError *)error {
     // Perform any operations on signed in user here.
+    if(error) {
+        return;
+    }
     NSString *accessToken = user.authentication.accessToken;
     NSString *idToken = user.authentication.idToken;
     PFInstallation *currentInstallation = [PFInstallation currentInstallation];
