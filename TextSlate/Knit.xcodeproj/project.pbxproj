@@ -37,6 +37,7 @@
 		40EBADAC1A7E611F003FB0B1 /* 05-xxhdpi.png in Resources */ = {isa = PBXBuildFile; fileRef = 40EBADAB1A7E611F003FB0B1 /* 05-xxhdpi.png */; };
 		40EBADB01A7E6142003FB0B1 /* 640 x 1136.png in Resources */ = {isa = PBXBuildFile; fileRef = 40EBADAF1A7E6142003FB0B1 /* 640 x 1136.png */; };
 		40EBADB41A7E6150003FB0B1 /* classroom.png in Resources */ = {isa = PBXBuildFile; fileRef = 40EBADB11A7E6150003FB0B1 /* classroom.png */; };
+		5F18E81B1BA825D700CB596F /* QuickLook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F18E81A1BA825D700CB596F /* QuickLook.framework */; };
 		5F56DFA91B57E05800151889 /* settingsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F56DFA81B57E05800151889 /* settingsTableViewCell.m */; };
 		5F56DFAC1B582E5200151889 /* EditProfileNameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F56DFAB1B582E5200151889 /* EditProfileNameViewController.m */; };
 		5F7F8D361B53E1350054E91E /* 750x1334.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F7F8D341B53E1350054E91E /* 750x1334.png */; };
@@ -254,6 +255,7 @@
 		40EBADAD1A7E6135003FB0B1 /* 640 x 960.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "640 x 960.png"; sourceTree = "<group>"; };
 		40EBADAF1A7E6142003FB0B1 /* 640 x 1136.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "640 x 1136.png"; sourceTree = "<group>"; };
 		40EBADB11A7E6150003FB0B1 /* classroom.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = classroom.png; sourceTree = "<group>"; };
+		5F18E81A1BA825D700CB596F /* QuickLook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickLook.framework; path = System/Library/Frameworks/QuickLook.framework; sourceTree = SDKROOT; };
 		5F56DFA71B57E05800151889 /* settingsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = settingsTableViewCell.h; sourceTree = "<group>"; };
 		5F56DFA81B57E05800151889 /* settingsTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = settingsTableViewCell.m; sourceTree = "<group>"; };
 		5F56DFAA1B582E5200151889 /* EditProfileNameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditProfileNameViewController.h; sourceTree = "<group>"; };
@@ -486,6 +488,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5F18E81B1BA825D700CB596F /* QuickLook.framework in Frameworks */,
 				40D0185E1AF26A62000C87B1 /* Foundation.framework in Frameworks */,
 				408863741AF0273B00DCF61B /* Accounts.framework in Frameworks */,
 				408863721AF0272400DCF61B /* Social.framework in Frameworks */,
@@ -946,6 +949,7 @@
 		9786AE491A3F47E300801838 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5F18E81A1BA825D700CB596F /* QuickLook.framework */,
 				5FE281D21B669EA3003A62D6 /* FBSDKCoreKit.framework */,
 				5FE281D31B669EA3003A62D6 /* FBSDKLoginKit.framework */,
 				5FE281D41B669EA3003A62D6 /* FBSDKShareKit.framework */,

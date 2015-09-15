@@ -113,7 +113,7 @@
     [AppsFlyerTracker sharedTracker].appleAppID = @"962112913";
     
     //Appsee
-    [Appsee start:@"bf665ad6a91845309c9b0d9865c84897"];
+    //[Appsee start:@"bf665ad6a91845309c9b0d9865c84897"];
     
     //FBLogin SDK
     return [[FBSDKApplicationDelegate sharedInstance] application:application didFinishLaunchingWithOptions:launchOptions];
