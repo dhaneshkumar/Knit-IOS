@@ -11,8 +11,9 @@
 #import "JTSImageInfo.h"
 #import "JTSImageViewController.h"
 #import "MBProgressHUD.h"
+#import <QuickLook/QuickLook.h>
 
-@interface TSOutboxViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+@interface TSOutboxViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, QLPreviewControllerDataSource>
 
 @property (weak, nonatomic) IBOutlet UITableView *messagesTable;
 @property (strong, nonatomic) MBProgressHUD *hud;

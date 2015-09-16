@@ -10,8 +10,9 @@
 #import "TSMessage.h"
 #import "JTSImageInfo.h"
 #import "JTSImageViewController.h"
+#import <QuickLook/QuickLook.h>
 
-@interface TSNewInboxViewController : UIViewController <UITableViewDataSource, UITableViewDelegate,NSCacheDelegate>
+@interface TSNewInboxViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, NSCacheDelegate, QLPreviewControllerDataSource>
 
 @property (weak, nonatomic) IBOutlet UITableView *messagesTable;
 @property (nonatomic, strong) NSMutableArray *messagesArray;

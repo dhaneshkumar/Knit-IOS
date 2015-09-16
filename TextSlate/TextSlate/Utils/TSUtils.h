@@ -11,16 +11,18 @@
 
 @interface TSUtils : NSObject
 
-+ (void) applyRoundedCorners:(UIButton*)button;
++(void) applyRoundedCorners:(UIButton*)button;
 
-+ (NSString *) safe_string:(id) object;
++(NSString *) safe_string:(id) object;
 
-+ (int) safe_int:(id) object;
++(int) safe_int:(id) object;
 
-+ (CGFloat) getScreenHeight;
++(CGFloat) getScreenHeight;
 
-+ (CGFloat) getScreenWidth;
++(CGFloat) getScreenWidth;
 
-+ (float) getOSVersion;
++(float) getOSVersion;
+
++(NSString *)getFileTypeFromFileName:(NSString *)fileName;
 
 @end

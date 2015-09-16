@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 #import <Parse/Parse.h>
 #import "JTSImageInfo.h"
+#import <QuickLook/QuickLook.h>
 
-@interface JoinedClassTableViewController : UITableViewController<UIAlertViewDelegate>
+@interface JoinedClassTableViewController : UITableViewController<UIAlertViewDelegate, QLPreviewControllerDataSource>
 
 @property (strong, nonatomic) NSString *className;
 @property (strong, nonatomic) NSString *teacherName;

@@ -46,4 +46,34 @@
     return [[[UIDevice currentDevice] systemVersion] floatValue];
 }
 
++(NSString *)getFileTypeFromFileName:(NSString *)fileName {
+    NSRange range = [fileName rangeOfString:@"." options:NSBackwardsSearch];
+    if(range.location != NSNotFound) {
+        NSString *extension = [fileName substringFromIndex:range.location+1];
+        extension = [extension lowercaseString];
+        
+        if([extension isEqualToString:@"pdf"]) {
+            return @"pdf";
+        }
+        else if([extension hasPrefix:@"pp"]) {
+            return @"presentation";
+        }
+        else if([extension hasPrefix:@"xl"]) {
+            return @"sheet";
+        }
+        else if([extension hasPrefix:@"do"] || [extension isEqualToString:@"word"] || [extension isEqualToString:@"rtf"]) {
+            return @"document";
+        }
+        else if([extension isEqualToString:@"jpg"] || [extension isEqualToString:@"jpeg"]) {
+            return @"image";
+        }
+        else {
+            return @"others";
+        }
+    }
+    else {
+        return @"others";
+    }
+}
+
 @end

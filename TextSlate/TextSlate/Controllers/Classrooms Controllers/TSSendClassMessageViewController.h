@@ -12,8 +12,9 @@
 #import "JTSImageViewController.h"
 #import "TSMemberslistTableViewController.h"
 #import "MBProgressHUD.h"
+#import <QuickLook/QuickLook.h>
 
-@interface TSSendClassMessageViewController : UIViewController <UITableViewDataSource,UITableViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate, UIActionSheetDelegate>
+@interface TSSendClassMessageViewController : UIViewController <UITableViewDataSource,UITableViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate, UIActionSheetDelegate, QLPreviewControllerDataSource>
 
 @property(weak,nonatomic) IBOutlet UITableView *messageTable;
 

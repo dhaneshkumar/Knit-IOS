@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <QuickLook/QuickLook.h>
 
-@interface TSSettingsTableViewController : UIViewController<UIActionSheetDelegate,UIImagePickerControllerDelegate>
+@interface TSSettingsTableViewController : UIViewController<UIActionSheetDelegate, UIImagePickerControllerDelegate, QLPreviewControllerDataSource>
 
 @property (nonatomic, strong) NSString *profileName;
 
