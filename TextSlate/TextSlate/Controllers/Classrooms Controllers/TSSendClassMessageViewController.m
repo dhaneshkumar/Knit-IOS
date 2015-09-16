@@ -308,7 +308,7 @@
             TSMessage *message = tempArray[i];
             if(message.attachmentURL && !message.attachment) {
                 NSString *url = message.attachmentURL.url;
-                NSString *imgURL = [self createURL:url];
+                NSString *imgURL = [TSUtils createURL:url];
                 if(![[NSFileManager defaultManager] fileExistsAtPath:imgURL isDirectory:false]) {
                     [self fetchAndSaveFile:message];
                 }
@@ -334,15 +334,6 @@
 }
 
 
--(NSString *)createURL:(NSString *)imageURL {
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
-    NSString *urlString = [paths firstObject];
-    urlString = [urlString stringByAppendingPathComponent:@"Images"];
-    urlString = [urlString stringByAppendingPathComponent:[NSString stringWithFormat:@"h%@", urlString]];
-    return urlString;
-}
-
-
 -(void)fetchAndSaveFile:(TSMessage *)message  {
     NSData *data = [message.attachmentURL getData];
     if(data) {
@@ -350,7 +341,7 @@
         if(image) {
             [[sharedCache sharedInstance] cacheImage:image forKey:message.attachmentURL.url];
             message.attachment = image;
-            NSString *pathURL = [self createURL:message.attachmentURL.url];
+            NSString *pathURL = [TSUtils createURL:message.attachmentURL.url];
             [data writeToFile:pathURL atomically:YES];
             [self.library saveImage:image toAlbum:@"Knit" withCompletionBlock:^(NSError *error) {}];
             dispatch_sync(dispatch_get_main_queue(), ^{
@@ -472,17 +463,29 @@
         PFFile *attachImageUrl=messageObject[@"attachment"];
         NSString *url=attachImageUrl.url;
         message.attachmentURL = attachImageUrl;
+        message.attachmentName = messageObject[@"attachment_name"];
+        NSString *fileType = [TSUtils getFileTypeFromFileName:message.attachmentName];
+        
         if(!isSendClass) {
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
                 NSData *data = [message.attachmentURL getData];
                 if(data) {
-                    UIImage *image = [[UIImage alloc] initWithData:data];
-                    if(image) {
-                        [[sharedCache sharedInstance] cacheImage:image forKey:url];
-                        message.attachment = image;
-                        NSString *pathURL = [self createURL:url];
+                    if([fileType isEqualToString:@"image"]) {
+                        UIImage *image = [[UIImage alloc] initWithData:data];
+                        if(image) {
+                            message.attachment = image;
+                            NSString *pathURL = [TSUtils createURL:url];
+                            [data writeToFile:pathURL atomically:YES];
+                            [self.library saveImage:image toAlbum:@"Knit" withCompletionBlock:^(NSError *error) {}];
+                            dispatch_sync(dispatch_get_main_queue(), ^{
+                                [self.messageTable reloadData];
+                            });
+                        }
+                    }
+                    else {
+                        message.nonImageAttachment = data;
+                        NSString *pathURL = [TSUtils createURL:url];
                         [data writeToFile:pathURL atomically:YES];
-                        [self.library saveImage:image toAlbum:@"Knit" withCompletionBlock:^(NSError *error) {}];
                         dispatch_sync(dispatch_get_main_queue(), ^{
                             [self.messageTable reloadData];
                         });

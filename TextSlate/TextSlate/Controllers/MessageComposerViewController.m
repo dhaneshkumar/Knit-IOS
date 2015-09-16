@@ -403,8 +403,8 @@
                     messageObject[@"confused_count"] = [NSNumber numberWithInt:0];
                     messageObject[@"seen_count"] = [NSNumber numberWithInt:0];
                     [messageObject pin];
-                    TSMessage *newMessage=[[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:[messageObject[@"title"] stringByTrimmingCharactersInSet:characterset] sender:messageObject[@"Creator"] sentTime:messageObject[@"createdTime"] senderPic:nil likeCount:[messageObject[@"like_count"] intValue] confuseCount:[messageObject[@"confused_count"] intValue] seenCount:[messageObject[@"seen_count"] intValue]];
-                    TSMessage *newMessageForClassPage =[[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:[messageObject[@"title"] stringByTrimmingCharactersInSet:characterset] sender:messageObject[@"Creator"] sentTime:messageObject[@"createdTime"] senderPic:nil likeCount:[messageObject[@"like_count"] intValue] confuseCount:[messageObject[@"confused_count"] intValue] seenCount:[messageObject[@"seen_count"] intValue]];
+                    TSMessage *newMessage=[[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:[messageObject[@"title"] stringByTrimmingCharactersInSet:characterset] sender:messageObject[@"Creator"] sentTime:messageObject[@"createdTime"] likeCount:[messageObject[@"like_count"] intValue] confuseCount:[messageObject[@"confused_count"] intValue] seenCount:[messageObject[@"seen_count"] intValue]];
+                    TSMessage *newMessageForClassPage =[[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:[messageObject[@"title"] stringByTrimmingCharactersInSet:characterset] sender:messageObject[@"Creator"] sentTime:messageObject[@"createdTime"] likeCount:[messageObject[@"like_count"] intValue] confuseCount:[messageObject[@"confused_count"] intValue] seenCount:[messageObject[@"seen_count"] intValue]];
                     newMessage.messageId = messageObject[@"messageId"];
                     newMessageForClassPage.messageId = messageObject[@"messageId"];
                     outbox.mapCodeToObjects[newMessage.messageId] = newMessage;
@@ -473,9 +473,9 @@
                                 messageObject[@"seen_count"] = [NSNumber numberWithInt:0];
                                 [messageObject pin];
                                 
-                                TSMessage *newMessage=[[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:[messageObject[@"title"] stringByTrimmingCharactersInSet:characterset] sender:messageObject[@"Creator"] sentTime:messageObject[@"createdTime"] senderPic:nil likeCount:[messageObject[@"like_count"] intValue] confuseCount:[messageObject[@"confused_count"] intValue] seenCount:[messageObject[@"seen_count"] intValue]];
+                                TSMessage *newMessage=[[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:[messageObject[@"title"] stringByTrimmingCharactersInSet:characterset] sender:messageObject[@"Creator"] sentTime:messageObject[@"createdTime"] likeCount:[messageObject[@"like_count"] intValue] confuseCount:[messageObject[@"confused_count"] intValue] seenCount:[messageObject[@"seen_count"] intValue]];
                                 
-                                TSMessage *newMessageForClassPage =[[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:[messageObject[@"title"] stringByTrimmingCharactersInSet:characterset] sender:messageObject[@"Creator"] sentTime:messageObject[@"createdTime"] senderPic:nil likeCount:[messageObject[@"like_count"] intValue] confuseCount:[messageObject[@"confused_count"] intValue] seenCount:[messageObject[@"seen_count"] intValue]];
+                                TSMessage *newMessageForClassPage =[[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:[messageObject[@"title"] stringByTrimmingCharactersInSet:characterset] sender:messageObject[@"Creator"] sentTime:messageObject[@"createdTime"] likeCount:[messageObject[@"like_count"] intValue] confuseCount:[messageObject[@"confused_count"] intValue] seenCount:[messageObject[@"seen_count"] intValue]];
                                 
                                 newMessage.messageId = messageObject[@"messageId"];
                                 newMessageForClassPage.messageId = messageObject[@"messageId"];
@@ -487,7 +487,7 @@
                                 newMessage.attachment = image;
                                 newMessageForClassPage.attachment = image;
                                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
-                                    NSString *pathURL = [self createURL:url];
+                                    NSString *pathURL = [TSUtils createURL:url];
                                     [_attachedImageData writeToFile:pathURL atomically:YES];
                                     [self.library saveImage:image toAlbum:@"Knit" withCompletionBlock:^(NSError *error) {}];
                                 });
@@ -540,15 +540,6 @@
             }
         }];
     }
-}
-
-
--(NSString *)createURL:(NSString *)imageURL {
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
-    NSString *urlString = [paths firstObject];
-    urlString = [urlString stringByAppendingPathComponent:@"Images"];
-    urlString = [urlString stringByAppendingPathComponent:[NSString stringWithFormat:@"h%@", urlString]];
-    return urlString;
 }
 
 

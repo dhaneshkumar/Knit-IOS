@@ -246,8 +246,32 @@
         message.confuseStatus = messageObject[@"confuseStatus"];
         message.messageId = messageObject[@"messageId"];
         if(messageObject[@"attachment"]) {
-            PFFile *attachImageUrl=messageObject[@"attachment"];
+            PFFile *attachImageUrl = messageObject[@"attachment"];
+            NSString *url = attachImageUrl.url;
             message.attachmentURL = attachImageUrl;
+            message.attachmentName = messageObject[@"attachment_name"];
+            NSString *fileType = [TSUtils getFileTypeFromFileName:message.attachmentName];
+            
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
+                NSData *data = [message.attachmentURL getData];
+                if(data) {
+                    if([fileType isEqualToString:@"image"]) {
+                        UIImage *image = [[UIImage alloc] initWithData:data];
+                        if(image) {
+                            [[sharedCache sharedInstance] cacheImage:image forKey:url];
+                            message.attachment = image;
+                            NSString *pathURL = [TSUtils createURL:url];
+                            [data writeToFile:pathURL atomically:YES];
+                            [self.library saveImage:image toAlbum:@"Knit" withCompletionBlock:^(NSError *error) {}];
+                        }
+                    }
+                    else {
+                        message.nonImageAttachment = data;
+                        NSString *pathURL = [TSUtils createURL:url];
+                        [data writeToFile:pathURL atomically:YES];
+                    }
+                }
+            });
         }
         mapCodeToObjects[message.messageId] = message;
         [messagesArray addObject:message];

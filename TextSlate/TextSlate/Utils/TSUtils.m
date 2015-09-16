@@ -76,4 +76,13 @@
     }
 }
 
+
++(NSString *)createURL:(NSString *)imageURL {
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
+    NSString *urlString = [paths firstObject];
+    urlString = [urlString stringByAppendingPathComponent:@"Images"];
+    urlString = [urlString stringByAppendingPathComponent:urlString];
+    return urlString;
+}
+
 @end

@@ -25,4 +25,6 @@
 
 +(NSString *)getFileTypeFromFileName:(NSString *)fileName;
 
++(NSString *)createURL:(NSString *)imageURL;
+
 @end
