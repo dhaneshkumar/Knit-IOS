@@ -17,12 +17,16 @@
 #import "TSSendClassMessageViewController.h"
 #import "TSMember.h"
 #import "Data.h"
+#import "TSUtils.h"
 #import <Parse/Parse.h>
 #import "AppDelegate.h"
+#import "ALAssetsLibrary+CustomPhotoAlbum.h"
 
 #define classJoinAlertTag 1001
 
 @interface TSTabBarViewController () <UIAlertViewDelegate>
+
+@property (strong, atomic) ALAssetsLibrary* library;
 
 @end
 
@@ -30,6 +34,7 @@
 
 
 -(void)initialization {
+    _library = [[ALAssetsLibrary alloc] init];
     if([PFUser currentUser]) {
         if([[[PFUser currentUser] objectForKey:@"role"] isEqualToString:@"teacher"]) {
             [self makeItTeacher];
@@ -334,12 +339,13 @@
     [query orderByDescending:@"createdTime"];
     NSArray *messages = (NSArray *)[query findObjects];
     for (PFObject * messageObject in messages) {
-        TSMessage *message = [self createMessageObject:messageObject];
+        NSArray *messages = [self createMessageObjects:messageObject];
+        TSMessage *message = messages[0];
         outboxVC.mapCodeToObjects[message.messageId] = message;
         [outboxVC.messagesArray addObject:message];
         [outboxVC.messageIds addObject:message.messageId];
         
-        TSMessage *classMessage = [self createMessageObject:messageObject];
+        TSMessage *classMessage = messages[1];
         TSSendClassMessageViewController *sendClassVC = createdClassesVCs[classMessage.classCode];
         sendClassVC.mapCodeToObjects[classMessage.messageId] = classMessage;
         [sendClassVC.messagesArray addObject:classMessage];
@@ -347,20 +353,75 @@
 }
 
 
--(TSMessage *)createMessageObject:(PFObject *)messageObject {
+-(NSArray *)createMessageObjects:(PFObject *)messageObject {
     NSCharacterSet *characterset=[NSCharacterSet characterSetWithCharactersInString:@"\uFFFC\n "];
-    TSMessage *message = [[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:[messageObject[@"title"] stringByTrimmingCharactersInSet:characterset] sender:messageObject[@"Creator"] sentTime:messageObject[@"createdTime"] senderPic:nil likeCount:[messageObject[@"like_count"] intValue] confuseCount:[messageObject[@"confused_count"] intValue] seenCount:[messageObject[@"seen_count"] intValue]];
-    message.messageId = messageObject[@"messageId"];
+    TSMessage *outboxMessage = [[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:[messageObject[@"title"] stringByTrimmingCharactersInSet:characterset] sender:messageObject[@"Creator"] sentTime:messageObject[@"createdTime"] likeCount:[messageObject[@"like_count"] intValue] confuseCount:[messageObject[@"confused_count"] intValue] seenCount:[messageObject[@"seen_count"] intValue]];
+    TSMessage *sendClassMessage = [[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:[messageObject[@"title"] stringByTrimmingCharactersInSet:characterset] sender:messageObject[@"Creator"] sentTime:messageObject[@"createdTime"] likeCount:[messageObject[@"like_count"] intValue] confuseCount:[messageObject[@"confused_count"] intValue] seenCount:[messageObject[@"seen_count"] intValue]];
+    outboxMessage.messageId = messageObject[@"messageId"];
+    sendClassMessage.messageId = messageObject[@"messageId"];
     if(messageObject[@"attachment"]) {
         PFFile *attachImageUrl = messageObject[@"attachment"];
         NSString *url = attachImageUrl.url;
-        message.attachmentURL = attachImageUrl;
-        UIImage *image = [[sharedCache sharedInstance] getCachedImageForKey:url];
-        if(image) {
-            message.attachment = image;
+        NSString *imgURL = [TSUtils createURL:url];
+        outboxMessage.attachmentURL = attachImageUrl;
+        sendClassMessage.attachmentURL = attachImageUrl;
+        NSString *attachmentName = messageObject[@"attachment_name"];
+        outboxMessage.attachmentName = attachmentName;
+        sendClassMessage.attachmentName = attachmentName;
+        NSString *fileType = [TSUtils getFileTypeFromFileName:outboxMessage.attachmentName];
+        NSArray *messageObjects = [[NSArray alloc] initWithObjects:outboxMessage, sendClassMessage, nil];
+        
+        if(![[NSFileManager defaultManager] fileExistsAtPath:imgURL isDirectory:false]) {
+            [self fetchAttachmentsAtInit:messageObjects fileType:fileType];
+        }
+        else {
+            NSData *data = [[NSFileManager defaultManager] contentsAtPath:imgURL];
+            if(data) {
+                if([fileType isEqualToString:@"image"]) {
+                    UIImage *image = [[UIImage alloc] initWithData:data];
+                    if(image) {
+                        outboxMessage.attachment = image;
+                        sendClassMessage.attachment = image;
+                    }
+                }
+                else {
+                    outboxMessage.nonImageAttachment = data;
+                    sendClassMessage.nonImageAttachment = data;
+                }
+            }
+            else {
+                [self fetchAttachmentsAtInit:messageObjects fileType:fileType];
+            }
         }
     }
-    return message;
+    return [[NSArray alloc] initWithObjects:outboxMessage, sendClassMessage, nil];
+}
+
+
+-(void)fetchAttachmentsAtInit:(NSArray *)messageObjects fileType:(NSString *)fileType {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
+        TSMessage *outboxMessage = messageObjects[0];
+        TSMessage *sendClassMessage = messageObjects[1];
+        NSData *data = [outboxMessage.attachmentURL getData];
+        if([fileType isEqualToString:@"image"]) {
+            if(data) {
+                UIImage *image = [[UIImage alloc] initWithData:data];
+                if(image) {
+                    outboxMessage.attachment = image;
+                    sendClassMessage.attachment = image;
+                    NSString *pathURL = [TSUtils createURL:outboxMessage.attachmentURL.url];
+                    [data writeToFile:pathURL atomically:YES];
+                    [self.library saveImage:image toAlbum:@"Knit" withCompletionBlock:^(NSError *error) {}];
+                }
+            }
+        }
+        else {
+            outboxMessage.nonImageAttachment = data;
+            sendClassMessage.nonImageAttachment = data;
+            NSString *pathURL = [TSUtils createURL:outboxMessage.attachmentURL.url];
+            [data writeToFile:pathURL atomically:YES];
+        }
+    });
 }
 
 @end

@@ -483,7 +483,6 @@
                                 newMessage.attachmentURL = _finalAttachment;
                                 newMessageForClassPage.attachmentURL = _finalAttachment;
                                 UIImage *image = [[UIImage alloc] initWithData:_attachedImageData];
-                                [[sharedCache sharedInstance] cacheImage:image forKey:url];
                                 newMessage.attachment = image;
                                 newMessageForClassPage.attachment = image;
                                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
