@@ -413,14 +413,15 @@
                 messageObject[@"createdTime"] = messageObject.createdAt;
                 [messageObject pin];
                 
-                TSMessage *message = [self createMessageObject:messageObject isSendClass:false];
+                NSArray *messages = [self createMessageObjects:messageObject];
+                TSMessage *message = messages[0];
                 TSTabBarViewController *rootTab = [self getRootTab];
                 TSOutboxViewController *outboxVC = rootTab.viewControllers[2];
                 outboxVC.mapCodeToObjects[message.messageId] = message;
                 [outboxVC.messagesArray addObject:message];
                 [outboxVC.messageIds addObject:message.messageId];
                 
-                TSMessage *sendClassMessage = [self createMessageObject:messageObject isSendClass:true];
+                TSMessage *sendClassMessage = messages[1];
                 if([message.classCode isEqualToString:_classCode]) {
                     _mapCodeToObjects[sendClassMessage.messageId] = sendClassMessage;
                     [_messagesArray addObject:sendClassMessage];
@@ -455,48 +456,51 @@
 }
 
 
--(TSMessage *)createMessageObject:(PFObject *)messageObject isSendClass:(BOOL)isSendClass {
+-(NSArray *)createMessageObjects:(PFObject *)messageObject {
     NSCharacterSet *characterset=[NSCharacterSet characterSetWithCharactersInString:@"\uFFFC\n "];
-    TSMessage *message = [[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:[messageObject[@"title"] stringByTrimmingCharactersInSet:characterset] sender:messageObject[@"Creator"] sentTime:messageObject.createdAt likeCount:[messageObject[@"like_count"] intValue] confuseCount:[messageObject[@"confused_count"] intValue] seenCount:[messageObject[@"seen_count"] intValue]];
-    message.messageId = messageObject.objectId;
+    TSMessage *outboxMessage = [[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:[messageObject[@"title"] stringByTrimmingCharactersInSet:characterset] sender:messageObject[@"Creator"] sentTime:messageObject.createdAt likeCount:[messageObject[@"like_count"] intValue] confuseCount:[messageObject[@"confused_count"] intValue] seenCount:[messageObject[@"seen_count"] intValue]];
+    TSMessage *sendClassMessage = [[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:[messageObject[@"title"] stringByTrimmingCharactersInSet:characterset] sender:messageObject[@"Creator"] sentTime:messageObject.createdAt likeCount:[messageObject[@"like_count"] intValue] confuseCount:[messageObject[@"confused_count"] intValue] seenCount:[messageObject[@"seen_count"] intValue]];
+    outboxMessage.messageId = messageObject.objectId;
+    sendClassMessage.messageId = messageObject.objectId;
     if(messageObject[@"attachment"]) {
-        PFFile *attachImageUrl=messageObject[@"attachment"];
-        NSString *url=attachImageUrl.url;
-        message.attachmentURL = attachImageUrl;
-        message.attachmentName = messageObject[@"attachment_name"];
-        NSString *fileType = [TSUtils getFileTypeFromFileName:message.attachmentName];
+        PFFile *attachImageUrl = messageObject[@"attachment"];
+        NSString *url = attachImageUrl.url;
+        NSString *pathURL = [TSUtils createURL:url];
+        NSString *attachmentName = messageObject[@"attachment_name"];
+        outboxMessage.attachmentURL = attachImageUrl;
+        sendClassMessage.attachmentURL = attachImageUrl;
+        outboxMessage.attachmentName = attachmentName;
+        sendClassMessage.attachmentName = attachmentName;
+        NSString *fileType = [TSUtils getFileTypeFromFileName:attachmentName];
         
-        if(!isSendClass) {
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
-                NSData *data = [message.attachmentURL getData];
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
+            NSData *data = [outboxMessage.attachmentURL getData];
+            if([fileType isEqualToString:@"image"]) {
                 if(data) {
-                    if([fileType isEqualToString:@"image"]) {
-                        UIImage *image = [[UIImage alloc] initWithData:data];
-                        if(image) {
-                            message.attachment = image;
-                            NSString *pathURL = [TSUtils createURL:url];
-                            [data writeToFile:pathURL atomically:YES];
-                            [self.library saveImage:image toAlbum:@"Knit" withCompletionBlock:^(NSError *error) {}];
-                            dispatch_sync(dispatch_get_main_queue(), ^{
-                                [self.messageTable reloadData];
-                            });
-                        }
-                    }
-                    else {
-                        message.nonImageAttachment = data;
-                        NSString *pathURL = [TSUtils createURL:url];
+                    UIImage *image = [[UIImage alloc] initWithData:data];
+                    if(image) {
+                        outboxMessage.attachment = image;
+                        sendClassMessage.attachment = image;
                         [data writeToFile:pathURL atomically:YES];
+                        [self.library saveImage:image toAlbum:@"Knit" withCompletionBlock:^(NSError *error) {}];
                         dispatch_sync(dispatch_get_main_queue(), ^{
                             [self.messageTable reloadData];
                         });
                     }
                 }
-            });
-        }
+            }
+            else {
+                outboxMessage.nonImageAttachment = data;
+                sendClassMessage.nonImageAttachment = data;
+                [data writeToFile:pathURL atomically:YES];
+                dispatch_sync(dispatch_get_main_queue(), ^{
+                    [self.messageTable reloadData];
+                });
+            }
+        });
     }
-    return message;
+    return [[NSArray alloc] initWithObjects:outboxMessage, sendClassMessage, nil];
 }
-
 
 -(void)fetchOldMessages {
     TSTabBarViewController *rootTab = [self getRootTab];
@@ -513,13 +517,14 @@
                 messageObject[@"createdTime"] = messageObject.createdAt;
                 [messageObject pin];
                 
-                TSMessage *message = [self createMessageObject:messageObject isSendClass:false];
+                NSArray *messages = [self createMessageObjects:messageObject];
+                TSMessage *message = messages[0];
                 TSOutboxViewController *outboxVC = rootTab.viewControllers[2];
                 outboxVC.mapCodeToObjects[message.messageId] = message;
                 [outboxVC.messagesArray addObject:message];
                 [outboxVC.messageIds addObject:message.messageId];
                 
-                TSMessage *sendClassMessage = [self createMessageObject:messageObject isSendClass:true];
+                TSMessage *sendClassMessage = messages[1];
                 if([message.classCode isEqualToString:_classCode]) {
                     _mapCodeToObjects[sendClassMessage.messageId] = sendClassMessage;
                     [tempArray addObject:sendClassMessage];

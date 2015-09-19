@@ -181,10 +181,12 @@
 
 -(void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    if(![self isUpdateCountsGloballyCalled])
+    if(![self isUpdateCountsGloballyCalled]) {
         [self updateLikeCountStatusGlobally];
-    if(!_isUpdateSeenCountsCalled)
+    }
+    if(!_isUpdateSeenCountsCalled) {
         [self updateSeenCountsGlobally];
+    }
 }
 
 
@@ -230,39 +232,48 @@
     cell.likesCount.textColor = ([message.likeStatus isEqualToString:@"true"])?[UIColor colorWithRed:57.0f/255.0f green:181.0f/255.0f blue:74.0f/255.0f alpha:1.0]:[UIColor darkGrayColor];
     
     if(message.attachmentURL) {
-        if(message.attachment) {
-            cell.attachedImage.image = message.attachment;
-        }
-        else {
-            UIImage *image = [[sharedCache sharedInstance] getCachedImageForKey:message.attachmentURL.url];
-            if(image) {
-                message.attachment = image;
+        NSString *fileType = [TSUtils getFileTypeFromFileName:message.attachmentName];
+        if([fileType isEqualToString:@"image"]) {
+            if(message.attachment) {
                 cell.attachedImage.image = message.attachment;
             }
             else {
                 cell.attachedImage.image = [UIImage imageNamed:@"white.jpg"];
             }
-        }
-        UIImage *img = cell.attachedImage.image;
-        float height = img.size.height;
-        float width = img.size.width;
-        if(height>width) {
-            float changedWidth = 300.0*width/height;
-            cell.imageWidth.constant = changedWidth;
-            cell.imageHeight.constant = 300.0;
+            UIImage *img = cell.attachedImage.image;
+            float height = img.size.height;
+            float width = img.size.width;
+            if(height>width) {
+                float changedWidth = 300.0*width/height;
+                cell.imageWidth.constant = changedWidth;
+                cell.imageHeight.constant = 300.0;
+            }
+            else {
+                float changedHeight = 300.0*height/width;
+                cell.imageHeight.constant = changedHeight;
+                cell.imageWidth.constant = 300.0;
+            }
+            cell.attachedImage.contentMode = UIViewContentModeScaleToFill;
+            cell.activityIndicator.hidesWhenStopped = true;
+            if(!message.attachment) {
+                [cell.activityIndicator startAnimating];
+            }
+            else {
+                [cell.activityIndicator stopAnimating];
+            }
         }
         else {
-            float changedHeight = 300.0*height/width;
-            cell.imageHeight.constant = changedHeight;
-            cell.imageWidth.constant = 300.0;
-        }
-        cell.attachedImage.contentMode = UIViewContentModeScaleToFill;
-        cell.activityIndicator.hidesWhenStopped = true;
-        if(!message.attachment) {
-            [cell.activityIndicator startAnimating];
-        }
-        else {
-            [cell.activityIndicator stopAnimating];
+            cell.attachedImage.image = [UIImage imageNamed:fileType];
+            cell.imageHeight.constant = 80.0;
+            cell.imageWidth.constant = 120.0;
+            cell.attachedImage.contentMode = UIViewContentModeScaleToFill;
+            cell.activityIndicator.hidesWhenStopped = true;
+            if(!message.nonImageAttachment) {
+                [cell.activityIndicator startAnimating];
+            }
+            else {
+                [cell.activityIndicator stopAnimating];
+            }
         }
     }
     message.seenStatus = @"true";
@@ -292,13 +303,20 @@
     CGSize expectSize = [gettingSizeLabel sizeThatFits:maximumLabelSize];
     TSMessage *msg = (TSMessage *)_messagesArray[indexPath.row];
     if(msg.attachmentURL) {
-        UIImage *img = (msg.attachment)?msg.attachment:[UIImage imageNamed:@"white.jpg"];
-        float height = img.size.height;
-        float width = img.size.width;
-        float changedHeight = 300.0;
-        if(height<=width)
-            changedHeight = 300.0*height/width;
-        return expectSize.height+76+changedHeight;
+        NSString *fileType = [TSUtils getFileTypeFromFileName:msg.attachmentName];
+        if([fileType isEqualToString:@"image"]) {
+            UIImage *img = (msg.attachment)?msg.attachment:[UIImage imageNamed:@"white.jpg"];
+            float height = img.size.height;
+            float width = img.size.width;
+            float changedHeight = 300.0;
+            if(height<=width) {
+                changedHeight = 300.0*height/width;
+            }
+            return expectSize.height+76+changedHeight;
+        }
+        else {
+            return expectSize.height+86.0+80.0;
+        }
     }
     else {
         return expectSize.height+70;
@@ -413,7 +431,8 @@
                 
                 if(messageObj[@"attachment"]) {
                     PFFile *attachImageUrl = messageObj[@"attachment"];
-                    NSString *url=attachImageUrl.url;
+                    NSString *url = attachImageUrl.url;
+                    NSString *pathURL = [TSUtils createURL:url];
                     message.attachmentURL = attachImageUrl;
                     message.attachmentName = messageObj[@"attachment_name"];
                     NSString *fileType = [TSUtils getFileTypeFromFileName:message.attachmentName];
@@ -424,9 +443,7 @@
                             if([fileType isEqualToString:@"image"]) {
                                 UIImage *image = [[UIImage alloc] initWithData:data];
                                 if(image) {
-                                    [[sharedCache sharedInstance] cacheImage:image forKey:url];
                                     message.attachment = image;
-                                    NSString *pathURL = [TSUtils createURL:url];
                                     [data writeToFile:pathURL atomically:YES];
                                     [self.library saveImage:image toAlbum:@"Knit" withCompletionBlock:^(NSError *error) {}];
                                     dispatch_sync(dispatch_get_main_queue(), ^{
@@ -436,7 +453,6 @@
                             }
                             else {
                                 message.nonImageAttachment = data;
-                                NSString *pathURL = [TSUtils createURL:url];
                                 [data writeToFile:pathURL atomically:YES];
                                 dispatch_sync(dispatch_get_main_queue(), ^{
                                     [self.messagesTable reloadData];
@@ -496,7 +512,7 @@
             [_refreshControl beginRefreshing];
             [self insertLatestMessages];
         }
-        [self fetchImages];
+        [self fetchUnfetchedAttachments];
         if(_lastUpdateCalled) {
             NSDate *date = [NSDate date];
             NSTimeInterval ti = [date timeIntervalSinceDate:_lastUpdateCalled];
@@ -512,31 +528,40 @@
 }
 
 
--(void)fetchImages {
+-(void)fetchUnfetchedAttachments {
     NSArray *tempArray = [[NSArray alloc] initWithArray:_messagesArray];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
         for(int i=0; i<tempArray.count; i++) {
             TSMessage *message = tempArray[i];
-            if(message.attachmentURL && !message.attachment) {
-                NSString *url = message.attachmentURL.url;
-                NSString *imgURL = [TSUtils createURL:url];
-                if(![[NSFileManager defaultManager] fileExistsAtPath:imgURL isDirectory:false]) {
-                    [self fetchAndSaveFile:message];
-                }
-                else {
-                    NSData *data = [[NSFileManager defaultManager] contentsAtPath:imgURL];
-                    if(data) {
-                        UIImage *image = [[UIImage alloc] initWithData:data];
-                        if(image) {
-                            [[sharedCache sharedInstance] cacheImage:image forKey:url];
-                            message.attachment = image;
-                            dispatch_sync(dispatch_get_main_queue(), ^{
-                                [self.messagesTable reloadData];
-                            });
+            if(message.attachmentURL) {
+                NSString *fileType = [TSUtils getFileTypeFromFileName:message.attachmentName];
+                if([fileType isEqualToString:@"image"]) {
+                    if(!message.attachment) {
+                        NSData *data = [message.attachmentURL getData];
+                        if(data) {
+                            UIImage *image = [[UIImage alloc] initWithData:data];
+                            if(image) {
+                                message.attachment = image;
+                                NSString *pathURL = [TSUtils createURL:message.attachmentURL.url];
+                                [data writeToFile:pathURL atomically:YES];
+                                [self.library saveImage:image toAlbum:@"Knit" withCompletionBlock:^(NSError *error) {}];
+                                dispatch_sync(dispatch_get_main_queue(), ^{
+                                    [self.messagesTable reloadData];
+                                });
+                            }
                         }
                     }
-                    else {
-                        [self fetchAndSaveFile:message];
+                    
+                }
+                else {
+                    if(!message.nonImageAttachment) {
+                        NSData *data = [message.attachmentURL getData];
+                        message.nonImageAttachment = data;
+                        NSString *pathURL = [TSUtils createURL:message.attachmentURL.url];
+                        [data writeToFile:pathURL atomically:YES];
+                        dispatch_sync(dispatch_get_main_queue(), ^{
+                            [self.messagesTable reloadData];
+                        });
                     }
                 }
             }
@@ -589,6 +614,7 @@
                 if(messageObj[@"attachment"]) {
                     PFFile *attachImageUrl = messageObj[@"attachment"];
                     NSString *url = attachImageUrl.url;
+                    NSString *pathURL = [TSUtils createURL:url];
                     message.attachmentURL = attachImageUrl;
                     message.attachmentName = messageObj[@"attachment_name"];
                     NSString *fileType = [TSUtils getFileTypeFromFileName:message.attachmentName];
@@ -599,9 +625,7 @@
                             if([fileType isEqualToString:@"image"]) {
                                 UIImage *image = [[UIImage alloc] initWithData:data];
                                 if(image) {
-                                    [[sharedCache sharedInstance] cacheImage:image forKey:url];
                                     message.attachment = image;
-                                    NSString *pathURL = [TSUtils createURL:url];
                                     [data writeToFile:pathURL atomically:YES];
                                     [self.library saveImage:image toAlbum:@"Knit" withCompletionBlock:^(NSError *error) {}];
                                     dispatch_sync(dispatch_get_main_queue(), ^{
@@ -611,7 +635,6 @@
                             }
                             else {
                                 message.nonImageAttachment = data;
-                                NSString *pathURL = [TSUtils createURL:url];
                                 [data writeToFile:pathURL atomically:YES];
                                 dispatch_sync(dispatch_get_main_queue(), ^{
                                     [self.messagesTable reloadData];
@@ -682,9 +705,11 @@
                 message.likeStatus = msg[@"likeStatus"];
                 message.confuseStatus = msg[@"confuseStatus"];
                 message.messageId = msg.objectId;
+                
                 if(msg[@"attachment"]) {
                     PFFile *attachImageUrl = msg[@"attachment"];
                     NSString *url=attachImageUrl.url;
+                    NSString *pathURL = [TSUtils createURL:url];
                     message.attachmentURL = attachImageUrl;
                     message.attachmentName = msg[@"attachment_name"];
                     NSString *fileType = [TSUtils getFileTypeFromFileName:message.attachmentName];
@@ -695,9 +720,7 @@
                             if([fileType isEqualToString:@"image"]) {
                                 UIImage *image = [[UIImage alloc] initWithData:data];
                                 if(image) {
-                                    [[sharedCache sharedInstance] cacheImage:image forKey:url];
                                     message.attachment = image;
-                                    NSString *pathURL = [TSUtils createURL:url];
                                     [data writeToFile:pathURL atomically:YES];
                                     [self.library saveImage:image toAlbum:@"Knit" withCompletionBlock:^(NSError *error) {}];
                                     dispatch_sync(dispatch_get_main_queue(), ^{
@@ -707,7 +730,6 @@
                             }
                             else {
                                 message.nonImageAttachment = data;
-                                NSString *pathURL = [TSUtils createURL:url];
                                 [data writeToFile:pathURL atomically:YES];
                                 dispatch_sync(dispatch_get_main_queue(), ^{
                                     [self.messagesTable reloadData];
@@ -784,6 +806,7 @@
                 if(msg[@"attachment"]) {
                     PFFile *attachImageUrl = msg[@"attachment"];
                     NSString *url=attachImageUrl.url;
+                    NSString *pathURL = [TSUtils createURL:url];
                     message.attachmentURL = attachImageUrl;
                     message.attachmentName = msg[@"attachment_name"];
                     NSString *fileType = [TSUtils getFileTypeFromFileName:message.attachmentName];
@@ -794,9 +817,7 @@
                             if([fileType isEqualToString:@"image"]) {
                                 UIImage *image = [[UIImage alloc] initWithData:data];
                                 if(image) {
-                                    [[sharedCache sharedInstance] cacheImage:image forKey:url];
                                     message.attachment = image;
-                                    NSString *pathURL = [TSUtils createURL:url];
                                     [data writeToFile:pathURL atomically:YES];
                                     [self.library saveImage:image toAlbum:@"Knit" withCompletionBlock:^(NSError *error) {}];
                                     dispatch_sync(dispatch_get_main_queue(), ^{
@@ -806,7 +827,6 @@
                             }
                             else {
                                 message.nonImageAttachment = data;
-                                NSString *pathURL = [TSUtils createURL:url];
                                 [data writeToFile:pathURL atomically:YES];
                                 dispatch_sync(dispatch_get_main_queue(), ^{
                                     [self.messagesTable reloadData];

@@ -482,6 +482,8 @@
                                 NSString *url = _finalAttachment.url;
                                 newMessage.attachmentURL = _finalAttachment;
                                 newMessageForClassPage.attachmentURL = _finalAttachment;
+                                newMessage.attachmentName = @"attachedImage.jpg";
+                                newMessageForClassPage.attachmentName = @"attachedImage.jpg";
                                 UIImage *image = [[UIImage alloc] initWithData:_attachedImageData];
                                 newMessage.attachment = image;
                                 newMessageForClassPage.attachment = image;

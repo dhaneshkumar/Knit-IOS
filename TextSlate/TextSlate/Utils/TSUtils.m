@@ -56,13 +56,13 @@
             return @"pdf";
         }
         else if([extension hasPrefix:@"pp"]) {
-            return @"presentation";
+            return @"slides";
         }
         else if([extension hasPrefix:@"xl"]) {
             return @"sheet";
         }
         else if([extension hasPrefix:@"do"] || [extension isEqualToString:@"word"] || [extension isEqualToString:@"rtf"]) {
-            return @"document";
+            return @"doc";
         }
         else if([extension isEqualToString:@"jpg"] || [extension isEqualToString:@"jpeg"]) {
             return @"image";

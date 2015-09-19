@@ -244,10 +244,11 @@
         TSMessage *message = [[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:[messageObject[@"title"] stringByTrimmingCharactersInSet:characterset] sender:messageObject[@"Creator"] sentTime:messageObject.createdAt likeCount:([messageObject[@"like_count"] intValue]+[self adder:messageObject[@"likeStatusServer"] localStatus:messageObject[@"likeStatus"]]) confuseCount:([messageObject[@"confused_count"] intValue]+[self adder:messageObject[@"confuseStatusServer"] localStatus:messageObject[@"confuseStatus"]]) seenCount:0];
         message.likeStatus = messageObject[@"likeStatus"];
         message.confuseStatus = messageObject[@"confuseStatus"];
-        message.messageId = messageObject[@"messageId"];
+        message.messageId = messageObject.objectId;
         if(messageObject[@"attachment"]) {
             PFFile *attachImageUrl = messageObject[@"attachment"];
             NSString *url = attachImageUrl.url;
+            NSString *pathURL = [TSUtils createURL:url];
             message.attachmentURL = attachImageUrl;
             message.attachmentName = messageObject[@"attachment_name"];
             NSString *fileType = [TSUtils getFileTypeFromFileName:message.attachmentName];
@@ -258,16 +259,13 @@
                     if([fileType isEqualToString:@"image"]) {
                         UIImage *image = [[UIImage alloc] initWithData:data];
                         if(image) {
-                            [[sharedCache sharedInstance] cacheImage:image forKey:url];
                             message.attachment = image;
-                            NSString *pathURL = [TSUtils createURL:url];
                             [data writeToFile:pathURL atomically:YES];
                             [self.library saveImage:image toAlbum:@"Knit" withCompletionBlock:^(NSError *error) {}];
                         }
                     }
                     else {
                         message.nonImageAttachment = data;
-                        NSString *pathURL = [TSUtils createURL:url];
                         [data writeToFile:pathURL atomically:YES];
                     }
                 }
