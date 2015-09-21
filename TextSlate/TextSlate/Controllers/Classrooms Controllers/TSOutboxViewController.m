@@ -27,6 +27,7 @@
 @property (strong, nonatomic) UIRefreshControl *refreshControl;
 @property (nonatomic) BOOL isULCCalled;
 @property (strong, atomic) ALAssetsLibrary* library;
+@property (strong, nonatomic) NSString *QLPreviewFilePath;
 
 @end
 
@@ -144,7 +145,19 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     TSMessage *message = (TSMessage *)[_messagesArray objectAtIndex:indexPath.row];
-    NSString *cellIdentifier = (message.attachmentURL)?@"outboxAttachmentMessageCell":@"outboxMessageCell";
+    NSString *cellIdentifier = @"";
+    if(message.attachmentURL) {
+        NSString *fileType = [TSUtils getFileTypeFromFileName:message.attachmentName];
+        if([fileType isEqualToString:@"image"]) {
+            cellIdentifier = @"outboxAttachmentMessageCell";
+        }
+        else {
+            cellIdentifier = @"outboxNonImageMessageCell";
+        }
+    }
+    else {
+        cellIdentifier = @"outboxMessageCell";
+    }
     TSOutboxMessageTableViewCell *cell = (TSOutboxMessageTableViewCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     cell.className.text = message.className;
     cell.message.text = message.message;
@@ -155,38 +168,55 @@
     cell.confuseCount.text = [NSString stringWithFormat:@"%d", message.confuseCount];
     cell.seenCount.text = [NSString stringWithFormat:@"%d", message.seenCount];
     if(message.attachmentURL) {
-        if(message.attachment) {
-            cell.attachedImage.image = message.attachment;
-        }
-        else {
-            UIImage *image = [[sharedCache sharedInstance] getCachedImageForKey:message.attachmentURL.url];
-            if(image) {
-                message.attachment = image;
+        NSString *fileType = [TSUtils getFileTypeFromFileName:message.attachmentName];
+        if([fileType isEqualToString:@"image"]) {
+            if(message.attachment) {
                 cell.attachedImage.image = message.attachment;
             }
             else {
-                cell.attachedImage.image = [UIImage imageNamed:@"white.jpg"];
+                UIImage *image = [[sharedCache sharedInstance] getCachedImageForKey:message.attachmentURL.url];
+                if(image) {
+                    message.attachment = image;
+                    cell.attachedImage.image = message.attachment;
+                }
+                else {
+                    cell.attachedImage.image = [UIImage imageNamed:@"white.jpg"];
+                }
+            }
+            UIImage *img = cell.attachedImage.image;
+            float height = img.size.height;
+            float width = img.size.width;
+            if(height>width) {
+                float changedWidth = 300.0*width/height;
+                cell.imageWidth.constant = changedWidth;
+                cell.imageHeight.constant = 300.0;
+            }
+            else {
+                float changedHeight = 300.0*height/width;
+                cell.imageHeight.constant = changedHeight;
+                cell.imageWidth.constant = 300.0;
+            }
+            cell.activityIndicator.hidesWhenStopped = true;
+            if(!message.attachment) {
+                [cell.activityIndicator startAnimating];
+            }
+            else {
+                [cell.activityIndicator stopAnimating];
             }
         }
-        UIImage *img = cell.attachedImage.image;
-        float height = img.size.height;
-        float width = img.size.width;
-        if(height>width) {
-            float changedWidth = 300.0*width/height;
-            cell.imageWidth.constant = changedWidth;
-            cell.imageHeight.constant = 300.0;
-        }
         else {
-            float changedHeight = 300.0*height/width;
-            cell.imageHeight.constant = changedHeight;
-            cell.imageWidth.constant = 300.0;
-        }
-        cell.activityIndicator.hidesWhenStopped = true;
-        if(!message.attachment) {
-            [cell.activityIndicator startAnimating];
-        }
-        else {
-            [cell.activityIndicator stopAnimating];
+            cell.attachedImage.image = [UIImage imageNamed:fileType];
+            cell.imageHeight.constant = 80.0;
+            cell.imageWidth.constant = 120.0;
+            cell.attachedImage.contentMode = UIViewContentModeScaleToFill;
+            cell.activityIndicator.hidesWhenStopped = true;
+            if(!message.nonImageAttachment) {
+                [cell.activityIndicator startAnimating];
+            }
+            else {
+                [cell.activityIndicator stopAnimating];
+            }
+
         }
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -216,13 +246,19 @@
     CGSize expectSize = [gettingSizeLabel sizeThatFits:maximumLabelSize];
     TSMessage *msg = (TSMessage *)_messagesArray[indexPath.row];
     if(msg.attachmentURL) {
-        UIImage *img = msg.attachment?msg.attachment:[UIImage imageNamed:@"white.jpg"];
-        float height = img.size.height;
-        float width = img.size.width;
-        float changedHeight = 300.0;
-        if(height <= width)
-            changedHeight = 300.0*height/width;
-        return expectSize.height+76+changedHeight;
+        NSString *fileType = [TSUtils getFileTypeFromFileName:msg.attachmentName];
+        if([fileType isEqualToString:@"image"]) {
+            UIImage *img = msg.attachment?msg.attachment:[UIImage imageNamed:@"white.jpg"];
+            float height = img.size.height;
+            float width = img.size.width;
+            float changedHeight = 300.0;
+            if(height <= width)
+                changedHeight = 300.0*height/width;
+            return expectSize.height+76+changedHeight;
+        }
+        else {
+            return expectSize.height+86.0+80.0;
+        }
     }
     else {
         return expectSize.height+70;
@@ -256,7 +292,7 @@
         }
     }
     else {
-        [self fetchImages];
+        [self fetchUnfetchedAttachments];
         if(!_isULCCalled) {
             [self.messagesTable setContentOffset:CGPointMake(0, -self.refreshControl.frame.size.height) animated:YES];
             [_refreshControl beginRefreshing];
@@ -267,54 +303,45 @@
 }
 
 
--(void)fetchImages {
+-(void)fetchUnfetchedAttachments {
     NSArray *tempArray = [[NSArray alloc] initWithArray:_messagesArray];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
         for(int i=0; i<tempArray.count; i++) {
             TSMessage *message = tempArray[i];
-            if(message.attachmentURL && !message.attachment) {
-                NSString *url = message.attachmentURL.url;
-                NSString *imgURL = [TSUtils createURL:url];
-                if(![[NSFileManager defaultManager] fileExistsAtPath:imgURL isDirectory:false]) {
-                    [self fetchAndSaveFile:message];
-                }
-                else {
-                    NSData *data = [[NSFileManager defaultManager] contentsAtPath:imgURL];
-                    if(data) {
-                        UIImage *image = [[UIImage alloc] initWithData:data];
-                        if(image) {
-                            [[sharedCache sharedInstance] cacheImage:image forKey:url];
-                            message.attachment = image;
-                            dispatch_sync(dispatch_get_main_queue(), ^{
-                                [self.messagesTable reloadData];
-                            });
+            if(message.attachmentURL) {
+                NSString *fileType = [TSUtils getFileTypeFromFileName:message.attachmentName];
+                if([fileType isEqualToString:@"image"]) {
+                    if(!message.attachment) {
+                        NSData *data = [message.attachmentURL getData];
+                        if(data) {
+                            UIImage *image = [[UIImage alloc] initWithData:data];
+                            if(image) {
+                                message.attachment = image;
+                                NSString *pathURL = [TSUtils createURL:message.attachmentURL.url];
+                                [data writeToFile:pathURL atomically:YES];
+                                [self.library saveImage:image toAlbum:@"Knit" withCompletionBlock:^(NSError *error) {}];
+                                dispatch_sync(dispatch_get_main_queue(), ^{
+                                    [self.messagesTable reloadData];
+                                });
+                            }
                         }
                     }
-                    else {
-                        [self fetchAndSaveFile:message];
+                    
+                }
+                else {
+                    if(!message.nonImageAttachment) {
+                        NSData *data = [message.attachmentURL getData];
+                        message.nonImageAttachment = data;
+                        NSString *pathURL = [TSUtils createURL:message.attachmentURL.url];
+                        [data writeToFile:pathURL atomically:YES];
+                        dispatch_sync(dispatch_get_main_queue(), ^{
+                            [self.messagesTable reloadData];
+                        });
                     }
                 }
             }
         }
     });
-}
-
-
--(void)fetchAndSaveFile:(TSMessage *)message  {
-    NSData *data = [message.attachmentURL getData];
-    if(data) {
-        UIImage *image = [[UIImage alloc] initWithData:data];
-        if(image) {
-            [[sharedCache sharedInstance] cacheImage:image forKey:message.attachmentURL.url];
-            message.attachment = image;
-            NSString *pathURL = [TSUtils createURL:message.attachmentURL.url];
-            [data writeToFile:pathURL atomically:YES];
-            [self.library saveImage:image toAlbum:@"Knit" withCompletionBlock:^(NSError *error) {}];
-            dispatch_sync(dispatch_get_main_queue(), ^{
-                [self.messagesTable reloadData];
-            });
-        }
-    }
 }
 
 
@@ -579,16 +606,29 @@
 }
 
 
--(void)attachedImageTapped:(JTSImageInfo *)imageInfo {
-    imageInfo.referenceView = self.view;
-    //Setup view controller
-    JTSImageViewController *imageViewer = [[JTSImageViewController alloc]
-                                           initWithImageInfo:imageInfo
-                                           mode:JTSImageViewControllerMode_Image
-                                           backgroundStyle:JTSImageViewControllerBackgroundOption_Blurred];
-    
-    //Present the view controller.
-    [imageViewer showFromViewController:self transition:JTSImageViewControllerTransition_FromOffscreen];
+-(void)attachedImageTapped:(NSString*)messageId {
+    TSMessage *message = _mapCodeToObjects[messageId];
+    NSString *fileType = [TSUtils getFileTypeFromFileName:message.attachmentName];
+    if([fileType isEqualToString:@"image"]) {
+        if(message.attachment) {
+            _QLPreviewFilePath = [TSUtils createURL:message.attachmentURL.url];
+        }
+        else {
+            return;
+        }
+    }
+    else {
+        if(message.nonImageAttachment) {
+            _QLPreviewFilePath = [TSUtils createURL:message.attachmentURL.url];
+        }
+        else {
+            return;
+        }
+    }
+    QLPreviewController *previewController = [[QLPreviewController alloc]init];
+    previewController.dataSource = self;
+    [self presentViewController:previewController animated:YES completion:nil];
+    [previewController.navigationItem setRightBarButtonItem:nil];
 }
 
 -(CGFloat) getScreenWidth {
@@ -627,6 +667,15 @@
     ClassesViewController *classesVC = rootTab.viewControllers[0];
     [classesVC stopHUD];
     [_hud hide:YES];
+}
+
+-(NSInteger)numberOfPreviewItemsInPreviewController:(QLPreviewController *)controller {
+    return 1;
+}
+
+-(id <QLPreviewItem>)previewController:(QLPreviewController *)controller previewItemAtIndex:(NSInteger)index {
+    NSString *path = [[NSBundle mainBundle] pathForResource:_QLPreviewFilePath ofType:nil];
+    return [NSURL fileURLWithPath:path];
 }
 
 @end

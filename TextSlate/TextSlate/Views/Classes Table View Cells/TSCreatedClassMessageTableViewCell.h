@@ -10,6 +10,7 @@
 
 @interface TSCreatedClassMessageTableViewCell : UITableViewCell
 
+@property (strong, nonatomic) NSString *messageId;
 @property (weak, nonatomic) IBOutlet UILabel *message;
 @property (weak, nonatomic) IBOutlet UIImageView *attachedImage;
 @property (weak, nonatomic) IBOutlet UILabel *likesCount;

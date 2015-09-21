@@ -25,7 +25,7 @@
 @property (nonatomic, strong) NSString *notificationId;
 @property (nonatomic) BOOL isBottomRefreshCalled;
 
--(void)attachedImageTapped:(JTSImageInfo *)imageInfo;
+-(void)attachedImageTapped:(NSString *)messageId;
 -(void)initialization:(BOOL)isBottomRefreshCalled;
 
 @end

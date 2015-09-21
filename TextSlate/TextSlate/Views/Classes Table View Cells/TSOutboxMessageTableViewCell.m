@@ -31,15 +31,17 @@
 
 - (void)imageViewTap:(UITapGestureRecognizer *)recognizer {
     // Create image info
+    /*
     if([_attachedImage.image isEqual:[UIImage imageNamed:@"white.jpg"]])
         return;
     JTSImageInfo *imageInfo = [[JTSImageInfo alloc] init];
     imageInfo.image = _attachedImage.image;
     imageInfo.referenceRect = _attachedImage.frame;
+    */
     UINavigationController *controller = (UINavigationController *)[UIApplication sharedApplication].keyWindow.rootViewController;
     UITabBarController *cont = (UITabBarController *)controller.topViewController;
     TSOutboxViewController *outboxController = (TSOutboxViewController *)cont.viewControllers[2];
-    [outboxController attachedImageTapped:imageInfo];
+    [outboxController attachedImageTapped:_messageId];
 }
 
 

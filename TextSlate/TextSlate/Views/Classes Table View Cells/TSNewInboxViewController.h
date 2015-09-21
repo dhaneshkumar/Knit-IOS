@@ -23,7 +23,7 @@
 
 -(void)updateLikesDataFromCell:(int)row status:(NSString *)status;
 -(void)updateConfuseDataFromCell:(int)row status:(NSString *)status;
--(void)attachedImageTapped:(JTSImageInfo *)imageInfo;
+-(void)attachedImageTapped:(NSString *)messageId;
 -(void)initialization;
 
 @end

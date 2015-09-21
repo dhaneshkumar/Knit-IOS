@@ -11,6 +11,7 @@
 
 @interface TSInboxMessageTableViewCell : UITableViewCell
 
+@property (strong, nonatomic) NSString *messageId;
 @property (weak, nonatomic) IBOutlet UILabel *className;
 @property (weak, nonatomic) IBOutlet UILabel *teacherName;
 @property (weak, nonatomic) IBOutlet UILabel *sentTime;

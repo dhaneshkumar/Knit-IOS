@@ -28,7 +28,7 @@
 @property (nonatomic, strong) MBProgressHUD *hud;
 @property (nonatomic ,strong) CustomCoachMarkViewController *customView;
 @property (strong, atomic) ALAssetsLibrary* library;
-@property (strong, nonatomic) NSString *attachedFilePath;
+@property (strong, nonatomic) NSString *QLPreviewFilePath;
 
 @end
 
@@ -216,8 +216,21 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     TSMessage *message = (TSMessage *)[_messagesArray objectAtIndex:indexPath.row];
-    NSString *cellIdentifier = (message.attachmentURL)?@"inboxAttachmentMessageCell":@"inboxMessageCell";
+    NSString *cellIdentifier = @"";
+    if(message.attachmentURL) {
+        NSString *fileType = [TSUtils getFileTypeFromFileName:message.attachmentName];
+        if([fileType isEqualToString:@"image"]) {
+            cellIdentifier = @"inboxAttachmentMessageCell";
+        }
+        else {
+            cellIdentifier = @"inboxNonImageMessageCell";
+        }
+    }
+    else {
+        cellIdentifier = @"inboxMessageCell";
+    }
     TSInboxMessageTableViewCell *cell = (TSInboxMessageTableViewCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    cell.messageId = message.messageId;
     cell.className.text = message.className;
     cell.teacherName.text = [NSString stringWithFormat:@"by %@", message.sender];
     cell.message.text = message.message;
@@ -569,23 +582,6 @@
     });
 }
 
-
--(void)fetchAndSaveFile:(TSMessage *)message  {
-    NSData *data = [message.attachmentURL getData];
-    if(data) {
-        UIImage *image = [[UIImage alloc] initWithData:data];
-        if(image) {
-            [[sharedCache sharedInstance] cacheImage:image forKey:message.attachmentURL.url];
-            message.attachment = image;
-            NSString *pathURL = [TSUtils createURL:message.attachmentURL.url];
-            [data writeToFile:pathURL atomically:YES];
-            [self.library saveImage:image toAlbum:@"Knit" withCompletionBlock:^(NSError *error) {}];
-            dispatch_sync(dispatch_get_main_queue(), ^{
-                [self.messagesTable reloadData];
-            });
-        }
-    }
-}
 
  
 -(void)insertLatestMessages {
@@ -1046,7 +1042,8 @@
 }
 
 
--(void)attachedImageTapped:(JTSImageInfo *)imageInfo {
+-(void)attachedImageTapped:(NSString *)messageId {
+    /*
     imageInfo.referenceView = self.view;
     // Setup view controller
     JTSImageViewController *imageViewer = [[JTSImageViewController alloc]
@@ -1056,6 +1053,29 @@
     
     // Present the view controller.
     [imageViewer showFromViewController:self transition:JTSImageViewControllerTransition_FromOffscreen];
+     */
+    TSMessage *message = _mapCodeToObjects[messageId];
+    NSString *fileType = [TSUtils getFileTypeFromFileName:message.attachmentName];
+    if([fileType isEqualToString:@"image"]) {
+        if(message.attachment) {
+            _QLPreviewFilePath = [TSUtils createURL:message.attachmentURL.url];
+        }
+        else {
+            return;
+        }
+    }
+    else {
+        if(message.nonImageAttachment) {
+            _QLPreviewFilePath = [TSUtils createURL:message.attachmentURL.url];
+        }
+        else {
+            return;
+        }
+    }
+    QLPreviewController *previewController = [[QLPreviewController alloc]init];
+    previewController.dataSource = self;
+    [self presentViewController:previewController animated:YES completion:nil];
+    [previewController.navigationItem setRightBarButtonItem:nil];
 }
 
 -(CGFloat) getScreenWidth {
@@ -1080,7 +1100,7 @@
 }
 
 -(id <QLPreviewItem>)previewController:(QLPreviewController *)controller previewItemAtIndex:(NSInteger)index {
-    NSString *path = [[NSBundle mainBundle] pathForResource:_attachedFilePath ofType:nil];
+    NSString *path = [[NSBundle mainBundle] pathForResource:_QLPreviewFilePath ofType:nil];
     return [NSURL fileURLWithPath:path];
 }
 

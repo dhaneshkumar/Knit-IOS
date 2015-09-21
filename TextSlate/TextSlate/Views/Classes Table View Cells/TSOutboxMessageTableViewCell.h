@@ -10,6 +10,7 @@
 
 @interface TSOutboxMessageTableViewCell : UITableViewCell
 
+@property (strong, nonatomic) NSString *messageId;
 @property (weak, nonatomic) IBOutlet UILabel *className;
 @property (weak, nonatomic) IBOutlet UILabel *message;
 @property (weak, nonatomic) IBOutlet UILabel *sentTime;
