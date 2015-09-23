@@ -199,6 +199,7 @@
         cellIdentifier = @"createdClassMessageCell";
     }
     TSCreatedClassMessageTableViewCell *cell = (TSCreatedClassMessageTableViewCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    cell.messageId = message.messageId;
     cell.message.text = message.message;
     cell.messageWidth.constant = [self getScreenWidth] - 30.0;
     NSTimeInterval mti = [self getMessageTimeDiff:message.sentTime];
@@ -676,6 +677,7 @@
 
 -(void)attachedImageTapped:(NSString *)messageId {
     TSMessage *message = _mapCodeToObjects[messageId];
+    NSLog(@"message : %@, %@, %@", message.classCode, message.className, message.message);
     NSString *fileType = [TSUtils getFileTypeFromFileName:message.attachmentName];
     if([fileType isEqualToString:@"image"]) {
         if(message.attachment) {
@@ -762,8 +764,9 @@
 }
 
 -(id <QLPreviewItem>)previewController:(QLPreviewController *)controller previewItemAtIndex:(NSInteger)index {
-    NSString *path = [[NSBundle mainBundle] pathForResource:_QLPreviewFilePath ofType:nil];
-    return [NSURL fileURLWithPath:path];
+    //NSString *path = [[NSBundle mainBundle] pathForResource:_QLPreviewFilePath ofType:nil];
+    NSLog(@"fileURL : %@", _QLPreviewFilePath);
+    return [NSURL fileURLWithPath:_QLPreviewFilePath];
 }
 
 

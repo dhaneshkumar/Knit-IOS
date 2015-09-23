@@ -12,7 +12,7 @@
 #import "JTSImageViewController.h"
 #import <QuickLook/QuickLook.h>
 
-@interface TSNewInboxViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, NSCacheDelegate, QLPreviewControllerDataSource>
+@interface TSNewInboxViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, NSCacheDelegate, QLPreviewControllerDataSource, UIDocumentInteractionControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *messagesTable;
 @property (nonatomic, strong) NSMutableArray *messagesArray;

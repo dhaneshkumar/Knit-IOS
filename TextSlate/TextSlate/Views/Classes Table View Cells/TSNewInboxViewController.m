@@ -16,6 +16,7 @@
 #import "MBProgressHUD.h"
 #import "CustomCoachMarkViewController.h"
 #import "ALAssetsLibrary+CustomPhotoAlbum.h"
+#import "TSWebViewController.h"
 
 @interface TSNewInboxViewController ()
 
@@ -556,7 +557,13 @@
                             if(image) {
                                 message.attachment = image;
                                 NSString *pathURL = [TSUtils createURL:message.attachmentURL.url];
-                                [data writeToFile:pathURL atomically:YES];
+                                BOOL written = [data writeToFile:pathURL atomically:YES];
+                                if(written) {
+                                    NSLog(@"file %@ written", pathURL);
+                                }
+                                else {
+                                    NSLog(@"file %@ not written", pathURL);
+                                }
                                 [self.library saveImage:image toAlbum:@"Knit" withCompletionBlock:^(NSError *error) {}];
                                 dispatch_sync(dispatch_get_main_queue(), ^{
                                     [self.messagesTable reloadData];
@@ -660,7 +667,6 @@
         });
     } errorBlock:^(NSError *error) {
         _isILMCalled = NO;
-
     } hud:nil];
 }
 
@@ -704,7 +710,7 @@
                 
                 if(msg[@"attachment"]) {
                     PFFile *attachImageUrl = msg[@"attachment"];
-                    NSString *url=attachImageUrl.url;
+                    NSString *url = attachImageUrl.url;
                     NSString *pathURL = [TSUtils createURL:url];
                     message.attachmentURL = attachImageUrl;
                     message.attachmentName = msg[@"attachment_name"];
@@ -717,7 +723,13 @@
                                 UIImage *image = [[UIImage alloc] initWithData:data];
                                 if(image) {
                                     message.attachment = image;
-                                    [data writeToFile:pathURL atomically:YES];
+                                    BOOL written = [data writeToFile:pathURL atomically:YES];
+                                    if(written) {
+                                        NSLog(@"file %@ written", pathURL);
+                                    }
+                                    else {
+                                        NSLog(@"file %@ not written", pathURL);
+                                    }
                                     [self.library saveImage:image toAlbum:@"Knit" withCompletionBlock:^(NSError *error) {}];
                                     dispatch_sync(dispatch_get_main_queue(), ^{
                                         [self.messagesTable reloadData];
@@ -726,7 +738,13 @@
                             }
                             else {
                                 message.nonImageAttachment = data;
-                                [data writeToFile:pathURL atomically:YES];
+                                BOOL written = [data writeToFile:pathURL atomically:YES];
+                                if(written) {
+                                    NSLog(@"file %@ written", pathURL);
+                                }
+                                else {
+                                    NSLog(@"file %@ not written", pathURL);
+                                }
                                 dispatch_sync(dispatch_get_main_queue(), ^{
                                     [self.messagesTable reloadData];
                                 });
@@ -1054,7 +1072,9 @@
     // Present the view controller.
     [imageViewer showFromViewController:self transition:JTSImageViewControllerTransition_FromOffscreen];
      */
+    
     TSMessage *message = _mapCodeToObjects[messageId];
+    NSLog(@"message : %@, %@, %@", message.classCode, message.className, message.message);
     NSString *fileType = [TSUtils getFileTypeFromFileName:message.attachmentName];
     if([fileType isEqualToString:@"image"]) {
         if(message.attachment) {
@@ -1072,11 +1092,39 @@
             return;
         }
     }
+    if ([QLPreviewController canPreviewItem:[NSURL fileURLWithPath:_QLPreviewFilePath]]) {
+        NSLog(@"Can Preview Item");
+    }
+    else {
+        NSLog(@"Can't  Preview Item");
+    }
     QLPreviewController *previewController = [[QLPreviewController alloc]init];
     previewController.dataSource = self;
     [self presentViewController:previewController animated:YES completion:nil];
     [previewController.navigationItem setRightBarButtonItem:nil];
+    /*
+    UINavigationController *webViewNavigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"webViewNavVC"];
+    TSWebViewController *webViewVC = (TSWebViewController *)webViewNavigationController.topViewController;
+    webViewVC.url = _QLPreviewFilePath;
+    [self presentViewController:webViewNavigationController animated:YES completion:nil];
+    */
 }
+
+
+#pragma mark - UIDocumentInteractionControllerDelegate
+
+- (UIViewController *)documentInteractionControllerViewControllerForPreview:(UIDocumentInteractionController *)controller {
+    return self;
+}
+
+- (UIView *)documentInteractionControllerViewForPreview:(UIDocumentInteractionController *)controller {
+    return self.view;
+}
+
+- (CGRect)documentInteractionControllerRectForPreview:(UIDocumentInteractionController *)controller {
+    return self.view.frame;
+}
+
 
 -(CGFloat) getScreenWidth {
     CGRect screenRect = [[UIScreen mainScreen] bounds];
@@ -1100,8 +1148,9 @@
 }
 
 -(id <QLPreviewItem>)previewController:(QLPreviewController *)controller previewItemAtIndex:(NSInteger)index {
-    NSString *path = [[NSBundle mainBundle] pathForResource:_QLPreviewFilePath ofType:nil];
-    return [NSURL fileURLWithPath:path];
+    //NSString *path = [[NSBundle mainBundle] pathForResource:_QLPreviewFilePath ofType:nil];
+    NSLog(@"fileURL : %@", _QLPreviewFilePath);
+    return [NSURL fileURLWithPath:_QLPreviewFilePath];
 }
 
 @end

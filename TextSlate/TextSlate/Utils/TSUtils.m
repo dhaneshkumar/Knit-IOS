@@ -64,7 +64,7 @@
         else if([extension hasPrefix:@"do"] || [extension isEqualToString:@"word"] || [extension isEqualToString:@"rtf"]) {
             return @"doc";
         }
-        else if([extension isEqualToString:@"jpg"] || [extension isEqualToString:@"jpeg"]) {
+        else if([extension isEqualToString:@"jpg"] || [extension isEqualToString:@"jpeg"] || [extension isEqualToString:@"png"]) {
             return @"image";
         }
         else {
@@ -78,10 +78,15 @@
 
 
 +(NSString *)createURL:(NSString *)imageURL {
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
+    NSCharacterSet *slashes = [NSCharacterSet characterSetWithCharactersInString:@"/"];
+    imageURL = [[imageURL componentsSeparatedByCharactersInSet: slashes] componentsJoinedByString: @"_"];
+    imageURL = [imageURL substringFromIndex:imageURL.length-7];
+    imageURL = [@"xyz" stringByAppendingString:imageURL];
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *urlString = [paths firstObject];
-    urlString = [urlString stringByAppendingPathComponent:@"Images"];
-    urlString = [urlString stringByAppendingPathComponent:urlString];
+    //urlString = [urlString stringByAppendingPathComponent:@"Files"];
+    urlString = [urlString stringByAppendingPathComponent:imageURL];
+    NSLog(@"urlString : %@", urlString);
     return urlString;
 }
 
