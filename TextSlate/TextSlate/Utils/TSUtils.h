@@ -27,4 +27,9 @@
 
 +(NSString *)createURL:(NSString *)imageURL;
 
++(void)playAudio:(NSString *)path;
+
++(void)playVideo:(NSString *)path controller:(UIViewController *)parentController;
+
 @end
+

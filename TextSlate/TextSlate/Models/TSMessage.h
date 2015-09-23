@@ -17,10 +17,10 @@
 @property (strong, nonatomic) NSString * message;
 @property (strong, nonatomic) NSString * sender;
 @property (strong, nonatomic) NSDate * sentTime;
-@property (strong, nonatomic) UIImage *attachment;
+@property (strong, nonatomic) UIImage *attachmedImage;
 @property (strong, nonatomic) PFFile *attachmentURL;
-@property (strong, nonatomic) NSData *nonImageAttachment;
 @property (strong, nonatomic) NSString *attachmentName;
+@property (nonatomic) BOOL attachmentFetched;
 @property (strong, nonatomic) NSString *messageId;
 @property (nonatomic) int likeCount;
 @property (nonatomic) int confuseCount;

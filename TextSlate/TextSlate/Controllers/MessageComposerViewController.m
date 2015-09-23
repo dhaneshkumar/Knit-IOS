@@ -484,9 +484,11 @@
                                 newMessageForClassPage.attachmentURL = _finalAttachment;
                                 newMessage.attachmentName = @"attachedImage.jpg";
                                 newMessageForClassPage.attachmentName = @"attachedImage.jpg";
+                                newMessage.attachmentFetched = true;
+                                newMessageForClassPage.attachmentFetched = true;
                                 UIImage *image = [[UIImage alloc] initWithData:_attachedImageData];
-                                newMessage.attachment = image;
-                                newMessageForClassPage.attachment = image;
+                                newMessage.attachmedImage = image;
+                                newMessageForClassPage.attachmedImage = image;
                                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
                                     NSString *pathURL = [TSUtils createURL:url];
                                     [_attachedImageData writeToFile:pathURL atomically:YES];

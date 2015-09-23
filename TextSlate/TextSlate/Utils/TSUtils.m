@@ -97,13 +97,13 @@
     return urlString;
 }
 
--(void)playAudio:(NSString *)path {
++(void)playAudio:(NSString *)path {
     AVAudioPlayer *audioPlayer = [[AVAudioPlayer alloc]initWithContentsOfURL:[NSURL fileURLWithPath:path] error:NULL];
     [audioPlayer play];
 }
 
 
--(void)playVideo:(NSString *)path controller:(UIViewController *)parentController {
++(void)playVideo:(NSString *)path controller:(UIViewController *)parentController {
     MPMoviePlayerViewController *moviePlayer = [[MPMoviePlayerViewController alloc]initWithContentURL:[NSURL fileURLWithPath:path]];
     [parentController presentViewController:moviePlayer animated:NO completion:nil];
 }

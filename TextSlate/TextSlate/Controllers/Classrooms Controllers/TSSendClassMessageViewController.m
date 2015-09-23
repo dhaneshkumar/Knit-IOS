@@ -210,18 +210,11 @@
     if(message.attachmentURL) {
         NSString *fileType = [TSUtils getFileTypeFromFileName:message.attachmentName];
         if([fileType isEqualToString:@"image"]) {
-            if(message.attachment) {
-                cell.attachedImage.image = message.attachment;
+            if(message.attachmedImage) {
+                cell.attachedImage.image = message.attachmedImage;
             }
             else {
-                UIImage *image = [[sharedCache sharedInstance] getCachedImageForKey:message.attachmentURL.url];
-                if(image) {
-                    message.attachment = image;
-                    cell.attachedImage.image = message.attachment;
-                }
-                else {
-                    cell.attachedImage.image = [UIImage imageNamed:@"white.jpg"];
-                }
+                cell.attachedImage.image = [UIImage imageNamed:@"white.jpg"];
             }
             UIImage *img = cell.attachedImage.image;
             float height = img.size.height;
@@ -236,8 +229,9 @@
                 cell.imageHeight.constant = changedHeight;
                 cell.imageWidth.constant = 300.0;
             }
+            cell.attachedImage.contentMode = UIViewContentModeScaleToFill;
             cell.activityIndicator.hidesWhenStopped = true;
-            if(!message.attachment) {
+            if(!message.attachmedImage) {
                 [cell.activityIndicator startAnimating];
             }
             else {
@@ -250,7 +244,7 @@
             cell.imageWidth.constant = 120.0;
             cell.attachedImage.contentMode = UIViewContentModeScaleToFill;
             cell.activityIndicator.hidesWhenStopped = true;
-            if(!message.nonImageAttachment) {
+            if(!message.attachmentFetched) {
                 [cell.activityIndicator startAnimating];
             }
             else {
@@ -286,7 +280,7 @@
     if(message.attachmentURL) {
         NSString *fileType = [TSUtils getFileTypeFromFileName:message.attachmentName];
         if([fileType isEqualToString:@"image"]) {
-            UIImage *img = message.attachment?message.attachment:[UIImage imageNamed:@"white.jpg"];
+            UIImage *img = message.attachmedImage?message.attachmedImage:[UIImage imageNamed:@"white.jpg"];
             float height = img.size.height;
             float width = img.size.width;
             float changedHeight = 300.0;
@@ -346,12 +340,13 @@
             if(message.attachmentURL) {
                 NSString *fileType = [TSUtils getFileTypeFromFileName:message.attachmentName];
                 if([fileType isEqualToString:@"image"]) {
-                    if(!message.attachment) {
+                    if(!message.attachmedImage) {
                         NSData *data = [message.attachmentURL getData];
                         if(data) {
                             UIImage *image = [[UIImage alloc] initWithData:data];
                             if(image) {
-                                message.attachment = image;
+                                message.attachmedImage = image;
+                                message.attachmentFetched = true;
                                 NSString *pathURL = [TSUtils createURL:message.attachmentURL.url];
                                 [data writeToFile:pathURL atomically:YES];
                                 [self.library saveImage:image toAlbum:@"Knit" withCompletionBlock:^(NSError *error) {}];
@@ -364,9 +359,9 @@
                     
                 }
                 else {
-                    if(!message.nonImageAttachment) {
+                    if(!message.attachmentFetched) {
                         NSData *data = [message.attachmentURL getData];
-                        message.nonImageAttachment = data;
+                        message.attachmentFetched = true;
                         NSString *pathURL = [TSUtils createURL:message.attachmentURL.url];
                         [data writeToFile:pathURL atomically:YES];
                         dispatch_sync(dispatch_get_main_queue(), ^{
@@ -500,6 +495,8 @@
         sendClassMessage.attachmentURL = attachImageUrl;
         outboxMessage.attachmentName = attachmentName;
         sendClassMessage.attachmentName = attachmentName;
+        outboxMessage.attachmentFetched = false;
+        sendClassMessage.attachmentFetched = false;
         NSString *fileType = [TSUtils getFileTypeFromFileName:attachmentName];
         
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
@@ -508,8 +505,10 @@
                 if(data) {
                     UIImage *image = [[UIImage alloc] initWithData:data];
                     if(image) {
-                        outboxMessage.attachment = image;
-                        sendClassMessage.attachment = image;
+                        outboxMessage.attachmedImage = image;
+                        sendClassMessage.attachmedImage = image;
+                        outboxMessage.attachmentFetched = true;
+                        sendClassMessage.attachmentFetched = true;
                         [data writeToFile:pathURL atomically:YES];
                         [self.library saveImage:image toAlbum:@"Knit" withCompletionBlock:^(NSError *error) {}];
                         dispatch_sync(dispatch_get_main_queue(), ^{
@@ -519,8 +518,8 @@
                 }
             }
             else {
-                outboxMessage.nonImageAttachment = data;
-                sendClassMessage.nonImageAttachment = data;
+                outboxMessage.attachmentFetched = true;
+                sendClassMessage.attachmentFetched = true;
                 [data writeToFile:pathURL atomically:YES];
                 dispatch_sync(dispatch_get_main_queue(), ^{
                     [self.messageTable reloadData];
@@ -677,28 +676,29 @@
 
 -(void)attachedImageTapped:(NSString *)messageId {
     TSMessage *message = _mapCodeToObjects[messageId];
-    NSLog(@"message : %@, %@, %@", message.classCode, message.className, message.message);
     NSString *fileType = [TSUtils getFileTypeFromFileName:message.attachmentName];
-    if([fileType isEqualToString:@"image"]) {
-        if(message.attachment) {
-            _QLPreviewFilePath = [TSUtils createURL:message.attachmentURL.url];
+    if([fileType isEqualToString:@"audio"]) {
+        if(message.attachmentFetched) {
+            [TSUtils playAudio:[TSUtils createURL:message.attachmentURL.url]];
         }
-        else {
-            return;
+    }
+    else if([fileType isEqualToString:@"video"]) {
+        if(message.attachmentFetched) {
+            [TSUtils playVideo:[TSUtils createURL:message.attachmentURL.url] controller:self];
         }
     }
     else {
-        if(message.nonImageAttachment) {
-            _QLPreviewFilePath = [TSUtils createURL:message.attachmentURL.url];
+        _QLPreviewFilePath = [TSUtils createURL:message.attachmentURL.url];
+        if([QLPreviewController canPreviewItem:[NSURL fileURLWithPath:_QLPreviewFilePath]]) {
+            QLPreviewController *previewController = [[QLPreviewController alloc]init];
+            previewController.dataSource = self;
+            [self presentViewController:previewController animated:YES completion:nil];
+            [previewController.navigationItem setRightBarButtonItem:nil];
         }
         else {
-            return;
+            [RKDropdownAlert title:@"" message:@"Unable to open this file"  time:3];
         }
     }
-    QLPreviewController *previewController = [[QLPreviewController alloc]init];
-    previewController.dataSource = self;
-    [self presentViewController:previewController animated:YES completion:nil];
-    [previewController.navigationItem setRightBarButtonItem:nil];
 }
 
 
@@ -764,8 +764,6 @@
 }
 
 -(id <QLPreviewItem>)previewController:(QLPreviewController *)controller previewItemAtIndex:(NSInteger)index {
-    //NSString *path = [[NSBundle mainBundle] pathForResource:_QLPreviewFilePath ofType:nil];
-    NSLog(@"fileURL : %@", _QLPreviewFilePath);
     return [NSURL fileURLWithPath:_QLPreviewFilePath];
 }
 

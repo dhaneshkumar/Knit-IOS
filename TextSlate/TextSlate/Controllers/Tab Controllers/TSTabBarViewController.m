@@ -368,6 +368,8 @@
         NSString *attachmentName = messageObject[@"attachment_name"];
         outboxMessage.attachmentName = attachmentName;
         sendClassMessage.attachmentName = attachmentName;
+        outboxMessage.attachmentFetched = false;
+        sendClassMessage.attachmentFetched = false;
         NSString *fileType = [TSUtils getFileTypeFromFileName:outboxMessage.attachmentName];
         NSArray *messageObjects = [[NSArray alloc] initWithObjects:outboxMessage, sendClassMessage, nil];
         
@@ -380,14 +382,12 @@
                 if([fileType isEqualToString:@"image"]) {
                     UIImage *image = [[UIImage alloc] initWithData:data];
                     if(image) {
-                        outboxMessage.attachment = image;
-                        sendClassMessage.attachment = image;
+                        outboxMessage.attachmedImage = image;
+                        sendClassMessage.attachmedImage = image;
                     }
                 }
-                else {
-                    outboxMessage.nonImageAttachment = data;
-                    sendClassMessage.nonImageAttachment = data;
-                }
+                outboxMessage.attachmentFetched = true;
+                sendClassMessage.attachmentFetched = true;
             }
             else {
                 [self fetchAttachmentsAtInit:messageObjects fileType:fileType];
@@ -407,17 +407,19 @@
             if(data) {
                 UIImage *image = [[UIImage alloc] initWithData:data];
                 if(image) {
-                    outboxMessage.attachment = image;
-                    sendClassMessage.attachment = image;
+                    outboxMessage.attachmedImage = image;
+                    sendClassMessage.attachmedImage = image;
                     NSString *pathURL = [TSUtils createURL:outboxMessage.attachmentURL.url];
                     [data writeToFile:pathURL atomically:YES];
                     [self.library saveImage:image toAlbum:@"Knit" withCompletionBlock:^(NSError *error) {}];
                 }
+                outboxMessage.attachmentFetched = true;
+                sendClassMessage.attachmentFetched = true;
             }
         }
         else {
-            outboxMessage.nonImageAttachment = data;
-            sendClassMessage.nonImageAttachment = data;
+            outboxMessage.attachmentFetched = true;
+            sendClassMessage.attachmentFetched = true;
             NSString *pathURL = [TSUtils createURL:outboxMessage.attachmentURL.url];
             [data writeToFile:pathURL atomically:YES];
         }
