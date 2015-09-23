@@ -161,6 +161,14 @@
     hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
     hud.labelText = @"Logging in";
     
+    if(!currentInstallation.objectId) {
+        BOOL saveInstallationObj = [currentInstallation save];
+        if(!saveInstallationObj) {
+            [RKDropdownAlert title:@"" message:@"Error in saving installation object."  time:3];
+            return;
+        }
+    }
+    
     [Data googleSignIn:accessToken idToken:idToken installationId:installationId deviceType:devicetype areCoordinatesUpdated:_areCoordinatesUpdated latitude:_latitude longitude:_longitude os:[NSString stringWithFormat:@"iOS %@", osVersion] model:model successBlock:^(id object) {
         
         NSDictionary *tokenDict = object;
@@ -219,6 +227,14 @@
             MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[[UIApplication sharedApplication] keyWindow]  animated:YES];
             hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
             hud.labelText = @"Logging in";
+            
+            if(!currentInstallation.objectId) {
+                BOOL saveInstallationObj = [currentInstallation save];
+                if(!saveInstallationObj) {
+                    [RKDropdownAlert title:@"" message:@"Error in saving installation object."  time:3];
+                    return;
+                }
+            }
             
             [Data FBSignIn:tokenString installationId:installationId deviceType:devicetype areCoordinatesUpdated:_areCoordinatesUpdated latitude:_latitude longitude:_longitude os:[NSString stringWithFormat:@"iOS %@", osVersion] model:model successBlock:^(id object) {
                 
@@ -475,6 +491,14 @@
     NSString *os = [[NSNumber numberWithFloat:version] stringValue];
     struct utsname systemInfo;
     uname(&systemInfo);
+    
+    if(!currentInstallation.objectId) {
+        BOOL saveInstallationObj = [currentInstallation save];
+        if(!saveInstallationObj) {
+            [RKDropdownAlert title:@"" message:@"Error in saving installation object."  time:3];
+            return;
+        }
+    }
     
     [Data verifyOTPOldSignIn:userNameTyped password:passwordTyped installationId:installationId deviceType:devicetype areCoordinatesUpdated:_areCoordinatesUpdated latitude:_latitude longitude:_longitude os:[NSString stringWithFormat:@"iOS %@", os] model:[NSString stringWithCString:systemInfo.machine encoding:NSUTF8StringEncoding] successBlock:^(id object) {
         NSDictionary *tokenDict = object;

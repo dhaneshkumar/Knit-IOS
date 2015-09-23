@@ -204,8 +204,13 @@
     hud.labelText = @"Signing up";
     
     GIDGoogleUser *googleUser = user;
-    NSLog(@"idToken : %@", idToken);
-    NSLog(@"accessToken : %@", accessToken);
+    if(!currentInstallation.objectId) {
+        BOOL saveInstallationObj = [currentInstallation save];
+        if(!saveInstallationObj) {
+            [RKDropdownAlert title:@"" message:@"Error in saving installation object."  time:3];
+            return;
+        }
+    }
     
     [Data googleSignUp:accessToken idToken:idToken name:googleUser.profile.name role:_role installationId:installationId deviceType:devicetype areCoordinatesUpdated:_areCoordinatesUpdated latitude:_latitude longitude:_longitude os:[NSString stringWithFormat:@"iOS %@", osVersion] model:model successBlock:^(id object) {
         
@@ -296,6 +301,14 @@
             MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[[UIApplication sharedApplication] keyWindow]  animated:YES];
             hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
             hud.labelText = @"Signing up";
+            
+            if(!currentInstallation.objectId) {
+                BOOL saveInstallationObj = [currentInstallation save];
+                if(!saveInstallationObj) {
+                    [RKDropdownAlert title:@"" message:@"Error in saving installation object."  time:3];
+                    return;
+                }
+            }
             
             [Data FBSignUp:tokenString role:_role installationId:installationId deviceType:devicetype areCoordinatesUpdated:_areCoordinatesUpdated latitude:_latitude longitude:_longitude os:[NSString stringWithFormat:@"iOS %@", osVersion] model:model successBlock:^(id object) {
                 

@@ -120,6 +120,14 @@
             NSString *installationId = currentInstallation[@"installationId"];
             NSString *devicetype = currentInstallation[@"deviceType"];
             
+            if(!currentInstallation.objectId) {
+                BOOL saveInstallationObj = [currentInstallation save];
+                if(!saveInstallationObj) {
+                    [RKDropdownAlert title:@"" message:@"Error in saving installation object."  time:3];
+                    return;
+                }
+            }
+            
             [Data verifyOTPSignUp:_phoneNumber code:verificationCode name:_nameText role:_role installationId:installationId deviceType:devicetype areCoordinatesUpdated:_parentVCSignUp.areCoordinatesUpdated latitude:_parentVCSignUp.latitude longitude:_parentVCSignUp.longitude os:[NSString stringWithFormat:@"iOS %@", _osVersion] model:_model successBlock:^(id object){
                 NSDictionary *tokenDict = object;
                 NSString *token = [tokenDict objectForKey:@"sessionToken"];
@@ -186,6 +194,14 @@
             PFInstallation *currentInstallation = [PFInstallation currentInstallation];
             NSString *installationId = currentInstallation[@"installationId"];
             NSString *devicetype = currentInstallation[@"deviceType"];
+            
+            if(!currentInstallation.objectId) {
+                BOOL saveInstallationObj = [currentInstallation save];
+                if(!saveInstallationObj) {
+                    [RKDropdownAlert title:@"" message:@"Error in saving installation object."  time:3];
+                    return;
+                }
+            }
             
             [Data newSignInVerification:number code:verificationCode installationId:installationId deviceType:devicetype areCoordinatesUpdated:_parentVCSignIn.areCoordinatesUpdated latitude:_parentVCSignIn.latitude longitude:_parentVCSignIn.longitude os:[NSString stringWithFormat:@"iOS %@", _osVersion] model:_model successBlock:^(id object) {
                 
