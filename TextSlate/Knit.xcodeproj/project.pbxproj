@@ -52,7 +52,8 @@
 		5F18E8351BADC14E00CB596F /* file@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F18E8301BADC14E00CB596F /* file@3x.png */; };
 		5F18E8361BADC14E00CB596F /* pdf@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F18E8311BADC14E00CB596F /* pdf@3x.png */; };
 		5F18E8371BADC14E00CB596F /* slides@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F18E8321BADC14E00CB596F /* slides@3x.png */; };
-		5F18E8391BB1823100CB596F /* tfss-06d469a7-8fb7-4c25-9919-e48236934dec-presentation_sample__NC4C4XXUJG_1442916475594.ppt in Resources */ = {isa = PBXBuildFile; fileRef = 5F18E8381BB1823100CB596F /* tfss-06d469a7-8fb7-4c25-9919-e48236934dec-presentation_sample__NC4C4XXUJG_1442916475594.ppt */; };
+		5F18E83B1BB2ADFA00CB596F /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F18E83A1BB2ADFA00CB596F /* AVFoundation.framework */; };
+		5F18E83D1BB2AE0300CB596F /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F18E83C1BB2AE0300CB596F /* MediaPlayer.framework */; };
 		5F56DFA91B57E05800151889 /* settingsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F56DFA81B57E05800151889 /* settingsTableViewCell.m */; };
 		5F56DFAC1B582E5200151889 /* EditProfileNameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F56DFAB1B582E5200151889 /* EditProfileNameViewController.m */; };
 		5F7F8D361B53E1350054E91E /* 750x1334.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F7F8D341B53E1350054E91E /* 750x1334.png */; };
@@ -285,7 +286,8 @@
 		5F18E8301BADC14E00CB596F /* file@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "file@3x.png"; sourceTree = "<group>"; };
 		5F18E8311BADC14E00CB596F /* pdf@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pdf@3x.png"; sourceTree = "<group>"; };
 		5F18E8321BADC14E00CB596F /* slides@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "slides@3x.png"; sourceTree = "<group>"; };
-		5F18E8381BB1823100CB596F /* tfss-06d469a7-8fb7-4c25-9919-e48236934dec-presentation_sample__NC4C4XXUJG_1442916475594.ppt */ = {isa = PBXFileReference; lastKnownFileType = file; path = "tfss-06d469a7-8fb7-4c25-9919-e48236934dec-presentation_sample__NC4C4XXUJG_1442916475594.ppt"; sourceTree = "<group>"; };
+		5F18E83A1BB2ADFA00CB596F /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		5F18E83C1BB2AE0300CB596F /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		5F56DFA71B57E05800151889 /* settingsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = settingsTableViewCell.h; sourceTree = "<group>"; };
 		5F56DFA81B57E05800151889 /* settingsTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = settingsTableViewCell.m; sourceTree = "<group>"; };
 		5F56DFAA1B582E5200151889 /* EditProfileNameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditProfileNameViewController.h; sourceTree = "<group>"; };
@@ -518,6 +520,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5F18E83D1BB2AE0300CB596F /* MediaPlayer.framework in Frameworks */,
+				5F18E83B1BB2ADFA00CB596F /* AVFoundation.framework in Frameworks */,
 				5F18E81B1BA825D700CB596F /* QuickLook.framework in Frameworks */,
 				40D0185E1AF26A62000C87B1 /* Foundation.framework in Frameworks */,
 				408863741AF0273B00DCF61B /* Accounts.framework in Frameworks */,
@@ -679,7 +683,6 @@
 		971687DB1A1F1BCA00FE98FC /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				5F18E8381BB1823100CB596F /* tfss-06d469a7-8fb7-4c25-9919-e48236934dec-presentation_sample__NC4C4XXUJG_1442916475594.ppt */,
 				5F18E82E1BADC14D00CB596F /* doc@3x.png */,
 				5F18E82F1BADC14D00CB596F /* excel@3x.png */,
 				5F18E8301BADC14E00CB596F /* file@3x.png */,
@@ -994,6 +997,8 @@
 		9786AE491A3F47E300801838 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5F18E83C1BB2AE0300CB596F /* MediaPlayer.framework */,
+				5F18E83A1BB2ADFA00CB596F /* AVFoundation.framework */,
 				5F18E81A1BA825D700CB596F /* QuickLook.framework */,
 				5FE281D21B669EA3003A62D6 /* FBSDKCoreKit.framework */,
 				5FE281D31B669EA3003A62D6 /* FBSDKLoginKit.framework */,
@@ -1333,7 +1338,6 @@
 				40A9FC831AC42C0900082555 /* attach_30x30.png in Resources */,
 				FBA2364E1B0750250001D8E3 /* received@3x.png in Resources */,
 				5F18E8231BACCE8300CB596F /* file@1x.png in Resources */,
-				5F18E8391BB1823100CB596F /* tfss-06d469a7-8fb7-4c25-9919-e48236934dec-presentation_sample__NC4C4XXUJG_1442916475594.ppt in Resources */,
 				5FF1DC511B85AC730050A6E2 /* login_google@1x.png in Resources */,
 				FBA2364B1B0750250001D8E3 /* classroom@3x.png in Resources */,
 				5FDDA2261B5FC35000895D56 /* sms_in_circle-53.png in Resources */,
