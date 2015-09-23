@@ -6,7 +6,6 @@ target 'Knit' do
     pod 'RKDropdownAlert'
     pod 'AppsFlyer-SDK'
     pod 'Google/SignIn'
-    pod 'Appsee'
     pod 'YLGIFImage'
 end
 

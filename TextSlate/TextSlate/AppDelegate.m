@@ -25,7 +25,6 @@
 #import "FeedbackViewController.h"
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import "AppsFlyerTracker.h"
-#import <Appsee/Appsee.h>
 
 
 @interface AppDelegate ()
@@ -111,9 +110,6 @@
     //AppsFlyer
     [AppsFlyerTracker sharedTracker].appsFlyerDevKey = @"yM6MGfywAWmdjteEvgftxT";
     [AppsFlyerTracker sharedTracker].appleAppID = @"962112913";
-    
-    //Appsee
-    //[Appsee start:@"bf665ad6a91845309c9b0d9865c84897"];
     
     //FBLogin SDK
     return [[FBSDKApplicationDelegate sharedInstance] application:application didFinishLaunchingWithOptions:launchOptions];
