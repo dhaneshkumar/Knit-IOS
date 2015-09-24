@@ -442,7 +442,12 @@
             }
         } errorBlock:^(NSError *error) {
             [hud hide:YES];
-            [RKDropdownAlert title:@"" message:@"Oops! Network connection error. Please try again."  time:3];
+            if(error.code==100) {
+                [RKDropdownAlert title:@"" message:@"Internet connection error." time:3];
+            }
+            else {
+                [RKDropdownAlert title:@"" message:@"Oops! Some error occured while sending message." time:3];
+            }
         } hud:hud];
     }
     else if(_finalAttachment) {
@@ -450,98 +455,95 @@
         hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
         hud.labelText = @"Sending message";
         
-        [_finalAttachment saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-            if(!error) {
-                if (succeeded) {
-                    [Data sendMultiTextMessagewithAttachment:classCodes classNames:classNames checkMembers:checkMembers message:messageText attachment:(PFFile*) _finalAttachment filename:_finalAttachment.name successBlock:^(id object) {
-                        NSMutableDictionary *dict = (NSMutableDictionary *) object;
-                        NSArray *messageObjectIds = (NSArray *)[dict objectForKey:@"messageId"];
-                        NSArray *messageCreatedAts = (NSArray *)[dict objectForKey:@"createdAt"];
-                        BOOL wasMessageSent = true;
-                        for(int i=0; i<messageObjectIds.count; i++) {
-                            if(![messageObjectIds[i] isEqualToString:@""]) {
-                                PFObject *messageObject = [PFObject objectWithClassName:@"GroupDetails"];
-                                messageObject[@"Creator"] = [[PFUser currentUser] objectForKey:@"name"];
-                                messageObject[@"code"] = classCodes[i];
-                                messageObject[@"name"] = classNames[i];
-                                messageObject[@"title"] = messageText;
-                                messageObject[@"attachment"] = (PFFile *)_finalAttachment;
-                                messageObject[@"createdTime"] = messageCreatedAts[i];
-                                messageObject[@"messageId"] = messageObjectIds[i];
-                                messageObject[@"like_count"] = [NSNumber numberWithInt:0];
-                                messageObject[@"confused_count"] = [NSNumber numberWithInt:0];
-                                messageObject[@"seen_count"] = [NSNumber numberWithInt:0];
-                                [messageObject pin];
-                                
-                                TSMessage *newMessage=[[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:[messageObject[@"title"] stringByTrimmingCharactersInSet:characterset] sender:messageObject[@"Creator"] sentTime:messageObject[@"createdTime"] likeCount:[messageObject[@"like_count"] intValue] confuseCount:[messageObject[@"confused_count"] intValue] seenCount:[messageObject[@"seen_count"] intValue]];
-                                
-                                TSMessage *newMessageForClassPage =[[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:[messageObject[@"title"] stringByTrimmingCharactersInSet:characterset] sender:messageObject[@"Creator"] sentTime:messageObject[@"createdTime"] likeCount:[messageObject[@"like_count"] intValue] confuseCount:[messageObject[@"confused_count"] intValue] seenCount:[messageObject[@"seen_count"] intValue]];
-                                
-                                newMessage.messageId = messageObject[@"messageId"];
-                                newMessageForClassPage.messageId = messageObject[@"messageId"];
-                                NSString *url = _finalAttachment.url;
-                                newMessage.attachmentURL = _finalAttachment;
-                                newMessageForClassPage.attachmentURL = _finalAttachment;
-                                newMessage.attachmentName = @"attachedImage.jpg";
-                                newMessageForClassPage.attachmentName = @"attachedImage.jpg";
-                                newMessage.attachmentFetched = true;
-                                newMessageForClassPage.attachmentFetched = true;
-                                UIImage *image = [[UIImage alloc] initWithData:_attachedImageData];
-                                newMessage.attachmedImage = image;
-                                newMessageForClassPage.attachmedImage = image;
-                                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
-                                    NSString *pathURL = [TSUtils createURL:url];
-                                    [_attachedImageData writeToFile:pathURL atomically:YES];
-                                    [self.library saveImage:image toAlbum:@"Knit" withCompletionBlock:^(NSError *error) {}];
-                                });
-                                
-                                outbox.mapCodeToObjects[newMessage.messageId] = newMessage;
-                                [outbox.messagesArray insertObject:newMessage atIndex:0];
-                                [outbox.messageIds insertObject:newMessage.messageId atIndex:0];
-                                outbox.shouldScrollUp = true;
-                                
-                                TSSendClassMessageViewController *classPage = mutableDict[classCodes[i]];
-                                classPage.mapCodeToObjects[newMessageForClassPage.messageId] = newMessageForClassPage;
-                                [classPage.messagesArray insertObject:newMessageForClassPage atIndex:0];
-                                classPage.shouldScrollUp = true;
+        BOOL saved = [_finalAttachment save];
+        if(saved) {
+            [Data sendMultiTextMessagewithAttachment:classCodes classNames:classNames checkMembers:checkMembers message:messageText attachment:(PFFile*) _finalAttachment filename:_finalAttachment.name successBlock:^(id object) {
+                NSMutableDictionary *dict = (NSMutableDictionary *) object;
+                NSArray *messageObjectIds = (NSArray *)[dict objectForKey:@"messageId"];
+                NSArray *messageCreatedAts = (NSArray *)[dict objectForKey:@"createdAt"];
+                BOOL wasMessageSent = true;
+                for(int i=0; i<messageObjectIds.count; i++) {
+                    if(![messageObjectIds[i] isEqualToString:@""]) {
+                        PFObject *messageObject = [PFObject objectWithClassName:@"GroupDetails"];
+                        messageObject[@"Creator"] = [[PFUser currentUser] objectForKey:@"name"];
+                        messageObject[@"code"] = classCodes[i];
+                        messageObject[@"name"] = classNames[i];
+                        messageObject[@"title"] = messageText;
+                        messageObject[@"attachment"] = (PFFile *)_finalAttachment;
+                        messageObject[@"createdTime"] = messageCreatedAts[i];
+                        messageObject[@"messageId"] = messageObjectIds[i];
+                        messageObject[@"like_count"] = [NSNumber numberWithInt:0];
+                        messageObject[@"confused_count"] = [NSNumber numberWithInt:0];
+                        messageObject[@"seen_count"] = [NSNumber numberWithInt:0];
+                        [messageObject pin];
+                        
+                        TSMessage *newMessage=[[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:[messageObject[@"title"] stringByTrimmingCharactersInSet:characterset] sender:messageObject[@"Creator"] sentTime:messageObject[@"createdTime"] likeCount:[messageObject[@"like_count"] intValue] confuseCount:[messageObject[@"confused_count"] intValue] seenCount:[messageObject[@"seen_count"] intValue]];
+                        
+                        TSMessage *newMessageForClassPage =[[TSMessage alloc] initWithValues:messageObject[@"name"] classCode:messageObject[@"code"] message:[messageObject[@"title"] stringByTrimmingCharactersInSet:characterset] sender:messageObject[@"Creator"] sentTime:messageObject[@"createdTime"] likeCount:[messageObject[@"like_count"] intValue] confuseCount:[messageObject[@"confused_count"] intValue] seenCount:[messageObject[@"seen_count"] intValue]];
+                        
+                        newMessage.messageId = messageObject[@"messageId"];
+                        newMessageForClassPage.messageId = messageObject[@"messageId"];
+                        NSString *url = _finalAttachment.url;
+                        newMessage.attachmentURL = _finalAttachment;
+                        newMessageForClassPage.attachmentURL = _finalAttachment;
+                        newMessage.attachmentName = @"attachedImage.jpg";
+                        newMessageForClassPage.attachmentName = @"attachedImage.jpg";
+                        newMessage.attachmentFetched = true;
+                        newMessageForClassPage.attachmentFetched = true;
+                        UIImage *image = [[UIImage alloc] initWithData:_attachedImageData];
+                        newMessage.attachmedImage = image;
+                        newMessageForClassPage.attachmedImage = image;
+                        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
+                            NSString *pathURL = [TSUtils createURL:url];
+                            [_attachedImageData writeToFile:pathURL atomically:YES];
+                            [self.library saveImage:image toAlbum:@"Knit" withCompletionBlock:^(NSError *error) {}];
+                        });
+                        
+                        outbox.mapCodeToObjects[newMessage.messageId] = newMessage;
+                        [outbox.messagesArray insertObject:newMessage atIndex:0];
+                        [outbox.messageIds insertObject:newMessage.messageId atIndex:0];
+                        outbox.shouldScrollUp = true;
+                        
+                        TSSendClassMessageViewController *classPage = mutableDict[classCodes[i]];
+                        classPage.mapCodeToObjects[newMessageForClassPage.messageId] = newMessageForClassPage;
+                        [classPage.messagesArray insertObject:newMessageForClassPage atIndex:0];
+                        classPage.shouldScrollUp = true;
+                    }
+                    else {
+                        if(messageObjectIds.count==1) {
+                            if([dict objectForKey:@"Created_groups"]) {
+                                // to do
                             }
                             else {
-                                if(messageObjectIds.count==1) {
-                                    if([dict objectForKey:@"Created_groups"]) {
-                                        // to do
-                                    }
-                                    else {
-                                        wasMessageSent = false;
-                                    }
-                                }
+                                wasMessageSent = false;
                             }
                         }
-                        
-                        //Cancel all local notifications
-                        [[UIApplication sharedApplication] cancelAllLocalNotifications];
-                        [hud hide:YES];
-                        [self dismissViewControllerAnimated:YES completion:nil];
-                        if(wasMessageSent) {
-                            [RKDropdownAlert title:@"" message:@"Message sent successfully!"  time:2];
-                        }
-                        else {
-                            [RKDropdownAlert title:@"" message:@"No members in class. Message not sent!"  time:3];
-                        }
-                    } errorBlock:^(NSError *error) {
-                        [hud hide:YES];
-                        [RKDropdownAlert title:@"" message:@"Oops! Network connection error. Please try again."  time:3];
-                    } hud:hud];
+                    }
+                }
+                
+                //Cancel all local notifications
+                [[UIApplication sharedApplication] cancelAllLocalNotifications];
+                [hud hide:YES];
+                [self dismissViewControllerAnimated:YES completion:nil];
+                if(wasMessageSent) {
+                    [RKDropdownAlert title:@"" message:@"Message sent successfully!"  time:2];
                 }
                 else {
-                    [hud hide:YES];
-                    [RKDropdownAlert title:@"" message:@"Oops! Network connection error. Please try again." time:3];
+                    [RKDropdownAlert title:@"" message:@"No members in class. Message not sent!"  time:3];
                 }
-            }
-            else {
+            } errorBlock:^(NSError *error) {
                 [hud hide:YES];
-                [RKDropdownAlert title:@"" message:@"Oops! Network connection error. Please try again." time:3];
-            }
-        }];
+                if(error.code==100) {
+                    [RKDropdownAlert title:@"" message:@"Internet connection error." time:3];
+                }
+                else {
+                    [RKDropdownAlert title:@"" message:@"Oops! Some error occured while sending message." time:3];
+                }
+            } hud:hud];
+        }
+        else {
+            [RKDropdownAlert title:@"" message:@"Oops! Some error occured while attaching file." time:3];
+        }
     }
 }
 

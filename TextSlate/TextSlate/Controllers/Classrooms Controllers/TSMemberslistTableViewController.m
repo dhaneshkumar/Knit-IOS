@@ -204,7 +204,12 @@
                 [self.tableView deleteRowsAtIndexPaths:@[_indexPath] withRowAnimation:UITableViewRowAnimationFade];
             }errorBlock:^(NSError *error){
                 [hud hide:YES];
-                [RKDropdownAlert title:@"" message:@"Oops! Network connection error. Please try again."  time:3];
+                if(error.code==100) {
+                    [RKDropdownAlert title:@"" message:@"Internet connection error." time:3];
+                }
+                else {
+                    [RKDropdownAlert title:@"" message:@"Oops! Some error occured while removing member" time:3];
+                }
             } hud:hud];
         }
         else {
@@ -224,7 +229,12 @@
                 [self.tableView deleteRowsAtIndexPaths:@[_indexPath] withRowAnimation:UITableViewRowAnimationFade];
             }errorBlock:^(NSError *error){
                 [hud hide:YES];
-                [RKDropdownAlert title:@"" message:@"Oops! Network connection error. Please try again."  time:3];
+                if(error.code==100) {
+                    [RKDropdownAlert title:@"" message:@"Internet connection error." time:3];
+                }
+                else {
+                    [RKDropdownAlert title:@"" message:@"Oops! Some error occured while removing member" time:3];
+                }
             } hud:hud];
         }
     }
@@ -232,7 +242,6 @@
 
 
 -(void)pullDownToRefresh {
-    //NSLog(@"called : %d", _isRefreshCalled);
     if(_isRefreshCalled) {
         return;
     }

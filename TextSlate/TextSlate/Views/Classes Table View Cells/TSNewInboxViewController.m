@@ -491,6 +491,9 @@
         });
     } errorBlock:^(NSError *error) {
         _isILMCalled = NO;
+        if(error.code==100) {
+            [RKDropdownAlert title:@"" message:@"Check internet connection" time:3];
+        }
     } hud:nil];
 }
 
@@ -672,6 +675,9 @@
         });
     } errorBlock:^(NSError *error) {
         _isILMCalled = NO;
+        if(error.code==100) {
+            [RKDropdownAlert title:@"" message:@"Check internet connection" time:3];
+        }
     } hud:nil];
 }
 
@@ -785,6 +791,9 @@
     } errorBlock:^(NSError *error) {
         _isBottomRefreshCalled = false;
         [_hud hide:YES];
+        if(error.code==100) {
+            [RKDropdownAlert title:@"" message:@"Check internet connection" time:3];
+        }
     } hud:_hud];
 }
 
@@ -880,6 +889,9 @@
         });
     } errorBlock:^(NSError *error) {
         _isBottomRefreshCalled = false;
+        if(error.code==100) {
+            [RKDropdownAlert title:@"" message:@"Check internet connection" time:3];
+        }
     } hud:nil];
 }
 

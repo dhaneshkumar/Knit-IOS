@@ -168,7 +168,12 @@
         [RKDropdownAlert title:@"" message:@"Class successfully joined." time:3];
     } errorBlock:^(NSError *error) {
         [hud hide:YES];
-        [RKDropdownAlert title:@"" message:@"Error in joining Class. Please make sure you have the correct class code."  time:3];
+        if(error.code==100) {
+            [RKDropdownAlert title:@"" message:@"Internet connection error." time:3];
+        }
+        else {
+            [RKDropdownAlert title:@"" message:@"Oops! Some error occured while joining class" time:3];
+        }
     } hud:hud];
 }
 

@@ -119,7 +119,12 @@
     
     } errorBlock:^(NSError *error) {
         [hud hide:YES];
-        [RKDropdownAlert title:@"" message:@"Oops! Network connection error. Please try again."  time:3];
+        if(error.code==100) {
+            [RKDropdownAlert title:@"" message:@"Internet connection error." time:3];
+        }
+        else {
+            [RKDropdownAlert title:@"" message:@"Oops! Some error occured while creating class" time:3];
+        }
     } hud:hud];
 }
 

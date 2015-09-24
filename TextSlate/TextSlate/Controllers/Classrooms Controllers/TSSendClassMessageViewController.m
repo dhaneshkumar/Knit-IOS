@@ -476,6 +476,9 @@
     } errorBlock:^(NSError *error) {
         [self unsetRefreshCalled];
         [self stopHUD];
+        if(error.code==100) {
+            [RKDropdownAlert title:@"" message:@"Check internet connection" time:3];
+        }
     } hud:_hud];
 }
 

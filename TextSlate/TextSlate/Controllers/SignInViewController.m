@@ -177,7 +177,7 @@
             [PFUser becomeInBackground:token block:^(PFUser *user, NSError *error) {
                 if (error) {
                     [hud hide:YES];
-                    [RKDropdownAlert title:@"" message:@"Oops! Network connection error. Please try again."  time:3];
+                    [RKDropdownAlert title:@"" message:@"Internet connection error while becoming user"  time:3];
                     return;
                 } else {
                     PFUser *currentUser = [PFUser currentUser];
@@ -188,12 +188,20 @@
             }];
         }
         else {
-            [hud hide:YES];
-            [RKDropdownAlert title:@"" message:@"Oops! Network connection error. Please try again."  time:3];
-            return;
+            [RKDropdownAlert title:@"" message:@"Oops! Error occured. Token length." time:3];
         }
     } errorBlock:^(NSError *error) {
-        
+        [hud hide:YES];
+        if([[((NSDictionary *)error.userInfo) objectForKey:@"error"] isEqualToString:@"USER_DOESNOT_EXISTS"]) {
+            [self.navigationController popViewControllerAnimated:YES];
+            [RKDropdownAlert title:@"" message:@"User does not exist."  time:3];
+        }
+        else if(error.code==100) {
+            [RKDropdownAlert title:@"" message:@"Internet connection error." time:3];
+        }
+        else {
+            [RKDropdownAlert title:@"" message:@"Oops! Some error occured while logging in" time:3];
+        }
     } hud:hud];
 }
 
@@ -240,12 +248,11 @@
                 
                 NSDictionary *tokenDict = object;
                 NSString *token = [tokenDict objectForKey:@"sessionToken"];
-                
                 if(token.length>0) {
                     [PFUser becomeInBackground:token block:^(PFUser *user, NSError *error) {
                         if (error) {
                             [hud hide:YES];
-                            [RKDropdownAlert title:@"" message:@"Oops! Network connection error. Please try again."  time:3];
+                            [RKDropdownAlert title:@"" message:@"Oops! Network connection error while becoming user."  time:3];
                             return;
                         } else {
                             PFUser *currentUser = [PFUser currentUser];
@@ -257,17 +264,20 @@
                 }
                 else {
                     [hud hide:YES];
-                    [RKDropdownAlert title:@"" message:@"Oops! Network connection error. Please try again."  time:3];
-                    return;
+                    [RKDropdownAlert title:@"" message:@"Oops! Error occured. Token length."  time:3];
                 }
             } errorBlock:^(NSError *error) {
                 [hud hide:YES];
                 if([[((NSDictionary *)error.userInfo) objectForKey:@"error"] isEqualToString:@"USER_DOESNOT_EXISTS"]) {
                     [self.navigationController popViewControllerAnimated:YES];
                     [RKDropdownAlert title:@"" message:@"User does not exist."  time:3];
-                    return;
                 }
-                [RKDropdownAlert title:@"" message:@"Oops! Network connection error. Please try again."  time:3];
+                else if(error.code==100) {
+                    [RKDropdownAlert title:@"" message:@"Internet connection error." time:3];
+                }
+                else {
+                    [RKDropdownAlert title:@"" message:@"Oops! Some error occured while logging in" time:3];
+                }
                 return;
             } hud:hud];
         }
@@ -460,7 +470,12 @@
         [self.navigationController pushViewController:dvc animated:YES];
     } errorBlock:^(NSError *error) {
         [hud hide:YES];
-        [RKDropdownAlert title:@"" message:@"Oops! Network connection error. Please try again."  time:3];
+        if(error.code==100) {
+            [RKDropdownAlert title:@"" message:@"Internet connection error." time:3];
+        }
+        else {
+            [RKDropdownAlert title:@"" message:@"Oops! Some error occured while generating OTP" time:3];
+        }
     } hud:hud];
 }
 
@@ -507,28 +522,28 @@
         if([token length]>0) {
             [PFUser becomeInBackground:token block:^(PFUser *user, NSError *error) {
                 if (error) {
-                    UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error in signing in. Try again later." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
                     [hud hide:YES];
-                    [errorAlertView show];
-                    return;
+                    [RKDropdownAlert title:@"" message:@"Oops! " time:3];
                 } else {
                     [self commonLoginProcess:hud];
                 }
             }];
         }
         else {
-            UIAlertView *errorAlertView = [[UIAlertView alloc] initWithTitle:@"Knit" message:@"Error in signing in. Try again later." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
             [hud hide:YES];
-            [errorAlertView show];
+            [RKDropdownAlert title:@"" message:@"Oops! Error occured. Token length." time:3];
         }
     } errorBlock:^(NSError *error) {
+        [hud hide:YES];
         if(error.code == 141) {
-            [RKDropdownAlert title:@"" message:[NSString stringWithFormat:@"Password for username:%@ is not correct.", _emailTextField.text]  time:4];
+            [RKDropdownAlert title:@"" message:[NSString stringWithFormat:@"Password for username:%@ is not correct.", _emailTextField.text]  time:3];
+        }
+        else if(error.code==100) {
+            [RKDropdownAlert title:@"" message:@"Internet connection error." time:3];
         }
         else {
-            [RKDropdownAlert title:@"" message:@"Oops! Network connection error. Please try again."  time:3];
+            [RKDropdownAlert title:@"" message:@"Oops! Some error occured while sending message." time:3];
         }
-        [hud hide:YES];
     } hud:hud];
 }
 
