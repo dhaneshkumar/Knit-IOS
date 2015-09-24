@@ -110,7 +110,7 @@
 }
 
 
-+(BOOL)isOldUser {
++(BOOL)isChutiyaUser {
     NSString *username = [[PFUser currentUser] objectForKey:@"username"];
     if(username.length==10) {
         unichar c;
@@ -123,6 +123,18 @@
         return false;
     }
     return true;
+}
+
++(BOOL)isOldUser {
+    NSString *username = [[PFUser currentUser] objectForKey:@"username"];
+    unichar c;
+    for(int i=0; i<username.length; i++) {
+        c = [username characterAtIndex:i];
+        if(c>'9' || c<'0') {
+            return true;
+        }
+    }
+    return false;
 }
 
 @end

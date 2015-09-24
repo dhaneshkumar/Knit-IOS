@@ -25,7 +25,6 @@
 #import "FeedbackViewController.h"
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import "AppsFlyerTracker.h"
-#import "enterPhoneNumberViewController.h"
 
 
 @interface AppDelegate ()
@@ -541,7 +540,6 @@
     else if(alertView.tag==54) {
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
         UINavigationController *enterPhoneNumberNavigationController = [storyboard instantiateViewControllerWithIdentifier:@"enterPhoneNumberNav"];
-        enterPhoneNumberViewController *enterPhoneNumberVC = (enterPhoneNumberViewController *)enterPhoneNumberNavigationController.topViewController;
         TSTabBarViewController *rootTab = [self getTabBarVC];
         [rootTab presentViewController:enterPhoneNumberNavigationController animated:YES completion:nil];
     }
@@ -612,7 +610,7 @@
     [[AppsFlyerTracker sharedTracker] trackAppLaunch];
     PFUser *currentUser = [PFUser currentUser];
     if(currentUser) {
-        if(!currentUser[@"phone"] && [TSUtils isOldUser]) {
+        if(!currentUser[@"phone"] && [TSUtils isChutiyaUser]) {
             PFQuery *lq = [PFQuery queryWithClassName:@"phoneNumberPrompt"];
             [lq fromLocalDatastore];
             NSArray *objs = [lq findObjects];

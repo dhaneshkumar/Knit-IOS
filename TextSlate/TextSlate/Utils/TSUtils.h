@@ -31,6 +31,8 @@
 
 +(void)playVideo:(NSString *)path controller:(UIViewController *)parentController;
 
++(BOOL)isChutiyaUser;
+
 +(BOOL)isOldUser;
 
 @end

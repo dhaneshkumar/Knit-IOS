@@ -21,7 +21,6 @@
 #import "FeedbackViewController.h"
 #import "settingsTableViewCell.h"
 #import "EditProfileNameViewController.h"
-#import "enterPhoneNumberViewController.h"
 #import "JTSImageInfo.h"
 #import "JTSImageViewController.h"
 
@@ -30,6 +29,7 @@
 @property (weak, nonatomic) IBOutlet UITableView *settingsTableView;
 @property (strong,nonatomic) UIImage *resized;
 @property (nonatomic) BOOL isOldUser;
+@property (nonatomic) BOOL isChutiyaUser;
 @property (strong, nonatomic) UIImage *profilePic;
 
 @end
@@ -62,6 +62,7 @@
     [super viewDidAppear:animated];
     PFUser *currentUser = [PFUser currentUser];
     _profileName = currentUser[@"name"];
+    _isChutiyaUser = [TSUtils isChutiyaUser];
     _isOldUser = [TSUtils isOldUser];
     [_settingsTableView reloadData];
 }
@@ -79,7 +80,12 @@
         return 1;
     }
     else if(section==1) {
-        return 2;
+        if(_isOldUser) {
+            return 3;
+        }
+        else {
+            return 2;
+        }
     }
     else {
         return 3;
@@ -121,19 +127,41 @@
     
     else if(indexPath.section == 1) {
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"settingsRestCellsIdentifier" forIndexPath:indexPath];
-        if(indexPath.row == 0) {
-            if(_isOldUser && ![[PFUser currentUser] objectForKey:@"phone"]) {
-                cell.textLabel.text = @"Add your phone number";
-                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        if(_isOldUser) {
+            if(indexPath.row == 0) {
+                if(![[PFUser currentUser] objectForKey:@"phone"]) {
+                    cell.textLabel.text = @"Add your phone number";
+                    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+                }
+                else {
+                    cell.textLabel.text = [[PFUser currentUser] objectForKey:@"phone"];
+                    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+                }
+            }
+            else if(indexPath.row == 1) {
+                cell.textLabel.text = [[PFUser currentUser] objectForKey:@"username"];
+                cell.selectionStyle = UITableViewCellSelectionStyleNone;
             }
             else {
-                cell.textLabel.text = [[PFUser currentUser] objectForKey:@"phone"];
-                cell.selectionStyle = UITableViewCellSelectionStyleNone;
+                cell.textLabel.text = @"Log Out";
+                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             }
         }
         else {
-            cell.textLabel.text = @"Log Out";
-            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            if(indexPath.row == 0) {
+                if(_isChutiyaUser && ![[PFUser currentUser] objectForKey:@"phone"]) {
+                    cell.textLabel.text = @"Add your phone number";
+                    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+                }
+                else {
+                    cell.textLabel.text = [[PFUser currentUser] objectForKey:@"phone"];
+                    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+                }
+            }
+            else {
+                cell.textLabel.text = @"Log Out";
+                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            }
         }
         return cell;
     }
@@ -230,33 +258,25 @@
         [self presentViewController:editProfileNameNavigationController animated:YES completion:nil];
     }
     else if(indexPath.section == 1) {
-        if(indexPath.row == 0) {
-            if(_isOldUser && ![[PFUser currentUser] objectForKey:@"phone"]) {
-                UINavigationController *enterPhoneNumberNavigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"enterPhoneNumberNav"];
-                enterPhoneNumberViewController *enterPhoneNumberVC = (enterPhoneNumberViewController *)enterPhoneNumberNavigationController.topViewController;
-                [self presentViewController:enterPhoneNumberNavigationController animated:YES completion:nil];
+        if(_isOldUser) {
+            if(indexPath.row == 0) {
+                if(![[PFUser currentUser] objectForKey:@"phone"]) {
+                    [self showEnterNameVC];
+                }
+            }
+            else if(indexPath.row == 2) {
+                [self logoutRa];
             }
         }
         else {
-            PFInstallation *currentInstallation=[PFInstallation currentInstallation];
-            NSString *installationId = currentInstallation.installationId;
-            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[[UIApplication sharedApplication] keyWindow]  animated:YES];
-            hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
-            hud.labelText = @"Logging out";
-            
-            [Data appExit:installationId successBlock:^(id object) {
-                [[UIApplication sharedApplication] cancelAllLocalNotifications];
-                [hud hide:YES];
-                [(TSTabBarViewController*)self.tabBarController logout];
-            } errorBlock:^(NSError *error) {
-                [hud hide:YES];
-                if(error.code==100) {
-                    [RKDropdownAlert title:@"" message:@"Internet connection error." time:3];
+            if(indexPath.row == 0) {
+                if(_isChutiyaUser && ![[PFUser currentUser] objectForKey:@"phone"]) {
+                    [self showEnterNameVC];
                 }
-                else {
-                    [RKDropdownAlert title:@"" message:@"Oops! Some error occured while logging out" time:3];
-                }
-            } hud:hud];
+            }
+            else {
+                [self logoutRa];
+            }
         }
     }
     else {
@@ -274,6 +294,34 @@
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:iTunesLink]];
         }
     }
+}
+
+-(void)showEnterNameVC {
+    UINavigationController *enterPhoneNumberNavigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"enterPhoneNumberNav"];
+    [self presentViewController:enterPhoneNumberNavigationController animated:YES completion:nil];
+}
+
+
+-(void)logoutRa {
+    PFInstallation *currentInstallation=[PFInstallation currentInstallation];
+    NSString *installationId = currentInstallation.installationId;
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[[UIApplication sharedApplication] keyWindow]  animated:YES];
+    hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
+    hud.labelText = @"Logging out";
+    
+    [Data appExit:installationId successBlock:^(id object) {
+        [[UIApplication sharedApplication] cancelAllLocalNotifications];
+        [hud hide:YES];
+        [(TSTabBarViewController*)self.tabBarController logout];
+    } errorBlock:^(NSError *error) {
+        [hud hide:YES];
+        if(error.code==100) {
+            [RKDropdownAlert title:@"" message:@"Internet connection error." time:3];
+        }
+        else {
+            [RKDropdownAlert title:@"" message:@"Oops! Some error occured while logging out" time:3];
+        }
+    } hud:hud];
 }
 
 
