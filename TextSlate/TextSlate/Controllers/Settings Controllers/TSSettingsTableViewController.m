@@ -29,7 +29,6 @@
 @property (weak, nonatomic) IBOutlet UITableView *settingsTableView;
 @property (strong,nonatomic) UIImage *resized;
 @property (nonatomic) BOOL isOldUser;
-@property (nonatomic) BOOL isFBUser;
 @property (strong, nonatomic) UIImage *profilePic;
 
 @end
@@ -38,30 +37,24 @@
 
 
 -(void)initialization {
-    _isOldUser = true;
-    PFQuery *lq = [PFQuery queryWithClassName:@"defaultLocals"];
-    [lq fromLocalDatastore];
-    NSArray *localOs = [lq findObjects];
-    
-    if(localOs.count > 0) {
-        NSString *checkBool = [localOs[0] objectForKey:@"isOldUser"];
-        if([checkBool isEqualToString:@"NO"]) {
-            _isOldUser = false;
-        }
-        else {
-            _isOldUser = true;
-        }
-    }
-    _isFBUser = [self FBUser];
     _profilePic = nil;
 }
 
-
--(BOOL)FBUser {
-    PFUser *currentUser = [PFUser currentUser];
-    BOOL rv = (currentUser[@"isFB"] || currentUser[@"isGoogle"])?true:false;
-    return rv;
+-(BOOL)isOldUser {
+    NSString *username = [[PFUser currentUser] objectForKey:@"username"];
+    if(username.length==10) {
+        unichar c;
+        for(int i=0; i<username.length; i++) {
+            c = [username characterAtIndex:i];
+            if(c>'9' || c<'0') {
+                return true;
+            }
+        }
+        return false;
+    }
+    return true;
 }
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -84,6 +77,7 @@
     [super viewDidAppear:animated];
     PFUser *currentUser = [PFUser currentUser];
     _profileName = currentUser[@"name"];
+    _isOldUser = [self isOldUser];
     [_settingsTableView reloadData];
 }
 
@@ -100,12 +94,7 @@
         return 1;
     }
     else if(section==1) {
-        if(_isFBUser) {
-            return 1;
-        }
-        else {
-            return 2;
-        }
+        return 2;
     }
     else {
         return 3;
@@ -147,9 +136,15 @@
     
     else if(indexPath.section == 1) {
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"settingsRestCellsIdentifier" forIndexPath:indexPath];
-        if(indexPath.row == 0 && !_isFBUser) {
-            cell.textLabel.text = [[PFUser currentUser] objectForKey:@"username"];
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        if(indexPath.row == 0) {
+            if(_isOldUser && ![[PFUser currentUser] objectForKey:@"phone"]) {
+                cell.textLabel.text = @"Enter your phone number";
+                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            }
+            else {
+                cell.textLabel.text = [[PFUser currentUser] objectForKey:@"phone"];
+                cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            }
         }
         else {
             cell.textLabel.text = @"Log Out";
@@ -250,7 +245,12 @@
         [self presentViewController:editProfileNameNavigationController animated:YES completion:nil];
     }
     else if(indexPath.section == 1) {
-        if(indexPath.row == 1 || (_isFBUser && indexPath.row==0)) {
+        if(indexPath.row == 0) {
+            if(_isOldUser && ![[PFUser currentUser] objectForKey:@"phone"]) {
+                
+            }
+        }
+        else {
             PFInstallation *currentInstallation=[PFInstallation currentInstallation];
             NSString *installationId = currentInstallation.installationId;
             MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[[UIApplication sharedApplication] keyWindow]  animated:YES];

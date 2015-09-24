@@ -881,6 +881,108 @@
             </objects>
             <point key="canvasLocation" x="9453" y="-1923.75"/>
         </scene>
+        <!--Enter Phone Number View Controller-->
+        <scene sceneID="KvE-HD-2Mb">
+            <objects>
+                <viewController id="7nG-gp-iRZ" customClass="enterPhoneNumberViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="gyl-JS-Q7z"/>
+                        <viewControllerLayoutGuide type="bottom" id="TWx-RH-Xeu"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="DqZ-El-fNh">
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Enter Phone Number" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lPJ-hn-iHV">
+                                <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                                <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
+                                    <rect key="frame" x="16" y="97" width="161" height="21"/>
+                                </variation>
+                            </label>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="10-digit Mobile Number" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Bme-3o-e44">
+                                <rect key="frame" x="0.0" y="-30" width="97" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
+                                    <rect key="frame" x="56" y="134" width="317" height="30"/>
+                                </variation>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="+91" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Tc4-7j-MJT">
+                                <rect key="frame" x="0.0" y="-30" width="97" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
+                                    <rect key="frame" x="16" y="134" width="39" height="30"/>
+                                </variation>
+                            </textField>
+                        </subviews>
+                        <color key="backgroundColor" red="0.9137254901960784" green="0.91764705882352937" blue="0.92941176470588238" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="Tc4-7j-MJT" firstAttribute="leading" secondItem="DqZ-El-fNh" secondAttribute="leadingMargin" id="5Rm-du-pke"/>
+                            <constraint firstItem="lPJ-hn-iHV" firstAttribute="top" secondItem="gyl-JS-Q7z" secondAttribute="bottom" constant="25" id="GVD-as-ZK2"/>
+                            <constraint firstItem="Bme-3o-e44" firstAttribute="leading" secondItem="Tc4-7j-MJT" secondAttribute="trailing" constant="1" id="N60-wy-9eK"/>
+                            <constraint firstItem="lPJ-hn-iHV" firstAttribute="leading" secondItem="DqZ-El-fNh" secondAttribute="leadingMargin" id="Zjo-wi-GHk"/>
+                            <constraint firstItem="Bme-3o-e44" firstAttribute="centerY" secondItem="Tc4-7j-MJT" secondAttribute="centerY" id="jfg-Es-Obr"/>
+                            <constraint firstItem="Tc4-7j-MJT" firstAttribute="top" secondItem="lPJ-hn-iHV" secondAttribute="bottom" constant="16" id="piP-4j-OYe"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Bme-3o-e44" secondAttribute="trailing" constant="16" id="qb2-co-U4q"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="subviews">
+                                <exclude reference="lPJ-hn-iHV"/>
+                                <exclude reference="Bme-3o-e44"/>
+                                <exclude reference="Tc4-7j-MJT"/>
+                            </mask>
+                            <mask key="constraints">
+                                <exclude reference="GVD-as-ZK2"/>
+                                <exclude reference="Zjo-wi-GHk"/>
+                                <exclude reference="5Rm-du-pke"/>
+                                <exclude reference="piP-4j-OYe"/>
+                                <exclude reference="N60-wy-9eK"/>
+                                <exclude reference="jfg-Es-Obr"/>
+                                <exclude reference="qb2-co-U4q"/>
+                            </mask>
+                        </variation>
+                        <variation key="heightClass=regular-widthClass=compact">
+                            <mask key="subviews">
+                                <include reference="lPJ-hn-iHV"/>
+                                <include reference="Bme-3o-e44"/>
+                                <include reference="Tc4-7j-MJT"/>
+                            </mask>
+                            <mask key="constraints">
+                                <include reference="GVD-as-ZK2"/>
+                                <include reference="Zjo-wi-GHk"/>
+                                <include reference="5Rm-du-pke"/>
+                                <include reference="piP-4j-OYe"/>
+                                <include reference="N60-wy-9eK"/>
+                                <include reference="jfg-Es-Obr"/>
+                                <include reference="qb2-co-U4q"/>
+                            </mask>
+                        </variation>
+                    </view>
+                    <navigationItem key="navigationItem" id="fwu-TZ-Avf">
+                        <barButtonItem key="leftBarButtonItem" systemItem="stop" id="Kmr-Og-XOQ">
+                            <color key="tintColor" red="0.16078431369999999" green="0.71372549019999998" blue="0.96470588239999999" alpha="1" colorSpace="calibratedRGB"/>
+                            <connections>
+                                <action selector="cancelButtonPressed:" destination="7nG-gp-iRZ" id="Mpc-NJ-K6K"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="BrZ-Mz-uDV">
+                            <color key="tintColor" red="0.16078431369999999" green="0.71372549019999998" blue="0.96470588239999999" alpha="1" colorSpace="calibratedRGB"/>
+                            <connections>
+                                <action selector="doneButtonPressed:" destination="7nG-gp-iRZ" id="xZB-1U-A5y"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="phoneNumberField" destination="Bme-3o-e44" id="6r6-uN-RqN"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="BAP-AV-Etv" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="11466" y="-2019"/>
+        </scene>
         <!--Sign In View Controller-->
         <scene sceneID="4Xm-1a-NRc">
             <objects>
@@ -10362,6 +10464,24 @@ Login using your email ID.</string>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DTb-wJ-HBb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="7530" y="2235.75"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="N1c-e2-hsK">
+            <objects>
+                <navigationController storyboardIdentifier="enterPhoneNumberNav" automaticallyAdjustsScrollViewInsets="NO" id="sWr-Y4-5k1" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="geJ-CN-woG">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="7nG-gp-iRZ" kind="relationship" relationship="rootViewController" id="fSN-cS-Imd"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="tRd-Rq-gKY" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="10548" y="-2019"/>
         </scene>
     </scenes>
     <resources>
