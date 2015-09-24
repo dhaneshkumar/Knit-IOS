@@ -23,6 +23,7 @@
 #import "EditProfileNameViewController.h"
 #import "JTSImageInfo.h"
 #import "JTSImageViewController.h"
+#import "ALAssetsLibrary+CustomPhotoAlbum.h"
 
 @interface TSSettingsTableViewController ()
 
@@ -31,6 +32,7 @@
 @property (nonatomic) BOOL isOldUser;
 @property (nonatomic) BOOL isChutiyaUser;
 @property (strong, nonatomic) UIImage *profilePic;
+@property (strong, atomic) ALAssetsLibrary* library;
 
 @end
 
@@ -39,6 +41,21 @@
 
 -(void)initialization {
     _profilePic = nil;
+    _library = [[ALAssetsLibrary alloc] init];
+    PFFile *pid = [[PFUser currentUser] objectForKey:@"pid"];
+    NSString *imgURL = [TSUtils createURL:pid.url];
+    if(![[NSFileManager defaultManager] fileExistsAtPath:imgURL isDirectory:false]) {
+        [self fetchProfilePic:pid option:1];
+    }
+    else {
+        NSData *data = [[NSFileManager defaultManager] contentsAtPath:imgURL];
+        if(data) {
+            _profilePic = [[UIImage alloc] initWithData:data];
+        }
+        else {
+            [self fetchProfilePic:pid option:1];
+        }
+    }
 }
 
 - (void)viewDidLoad {
@@ -96,30 +113,13 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if(indexPath.section==0) {
         settingsTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"settingsFirstCellIdentifier" forIndexPath:indexPath];
-        
         PFFile *imageUrl = [[PFUser currentUser] objectForKey:@"pid"];
-        NSString *url1 = imageUrl.url;
-        UIImage *image = [[sharedCache sharedInstance] getCachedImageForKey:url1];
-        if(image) {
-            cell.profilePic.image = image;
-            _profilePic = image;
+        if(_profilePic) {
+            cell.profilePic.image = _profilePic;
         }
         else{
             cell.profilePic.image = [UIImage imageNamed:@"defaultTeacher.png"];
-            _profilePic = cell.profilePic.image;
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
-                NSURL *imageURL = [NSURL URLWithString:url1];
-                UIImage *image = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:imageURL]];
-                
-                if(image) {
-                    [[sharedCache sharedInstance] cacheImage:image forKey:url1];
-                    cell.profilePic.image = image;
-                    _profilePic = image;
-                    dispatch_sync(dispatch_get_main_queue(), ^{
-                        [_settingsTableView reloadData];
-                    });
-                }
-            });
+            [self fetchProfilePic:imageUrl option:2];
         }
         cell.profileName.text = _profileName;
         return cell;
@@ -468,6 +468,26 @@
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
     [picker dismissViewControllerAnimated:YES completion:NULL];
+}
+
+
+-(void)fetchProfilePic:(PFFile *)pid option:(int)option {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
+        NSData *data = [pid getData];
+        if(data) {
+            _profilePic = [[UIImage alloc] initWithData:data];
+            if(_profilePic) {
+                NSString *pathURL = [TSUtils createURL:pid.url];
+                [data writeToFile:pathURL atomically:YES];
+                [self.library saveImage:_profilePic toAlbum:@"Knit" withCompletionBlock:^(NSError *error) {}];
+                if(option==2) {
+                    dispatch_sync(dispatch_get_main_queue(), ^{
+                        [_settingsTableView reloadData];
+                    });
+                }
+            }
+        }
+    });
 }
 
 @end
