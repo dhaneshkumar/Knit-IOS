@@ -25,6 +25,7 @@
 #import "FeedbackViewController.h"
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import "AppsFlyerTracker.h"
+#import "enterPhoneNumberViewController.h"
 
 
 @interface AppDelegate ()
@@ -91,6 +92,7 @@
             if(!launchOptions[UIApplicationLaunchOptionsLocalNotificationKey] && !launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey]) {
                 int count = [(objs[0])[@"appLaunchCount"] intValue]+1;
                 (objs[0])[@"appLaunchCount"] = [NSNumber numberWithInt:count];
+                [objs[0] pinInBackground];
                 if(count==10) {
                     [self showRateOurApp];
                 }
@@ -536,6 +538,13 @@
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:iTunesLink]];
         });
     }
+    else if(alertView.tag==54) {
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
+        UINavigationController *enterPhoneNumberNavigationController = [storyboard instantiateViewControllerWithIdentifier:@"enterPhoneNumberNav"];
+        enterPhoneNumberViewController *enterPhoneNumberVC = (enterPhoneNumberViewController *)enterPhoneNumberNavigationController.topViewController;
+        TSTabBarViewController *rootTab = [self getTabBarVC];
+        [rootTab presentViewController:enterPhoneNumberNavigationController animated:YES completion:nil];
+    }
 }
 
 
@@ -571,6 +580,17 @@
 }
 
 
+-(void)showUpdatePhoneNumber {
+    NSString *title = @"Knit";
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
+                                                    message:@"Add your phone number"
+                                                   delegate:self cancelButtonTitle:@"Later"
+                                          otherButtonTitles:@"Now", nil];
+    alert.tag = 54;
+    [alert show];
+}
+
+
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
@@ -590,6 +610,27 @@
     application.applicationIconBadgeNumber = 0;
     [FBSDKAppEvents activateApp];
     [[AppsFlyerTracker sharedTracker] trackAppLaunch];
+    PFUser *currentUser = [PFUser currentUser];
+    if(currentUser) {
+        if(!currentUser[@"phone"] && [TSUtils isOldUser]) {
+            PFQuery *lq = [PFQuery queryWithClassName:@"phoneNumberPrompt"];
+            [lq fromLocalDatastore];
+            NSArray *objs = [lq findObjects];
+            if(objs.count==0) {
+                PFObject *obj = [[PFObject alloc] initWithClassName:@"phoneNumberPrompt"];
+                obj[@"count"] = [NSNumber numberWithInt:1];
+                [obj pinInBackground];
+            }
+            else {
+                int count = [(objs[0])[@"count"] intValue]+1;
+                (objs[0])[@"count"] = [NSNumber numberWithInt:count];
+                [objs[0] pinInBackground];
+                if(count%5==0) {
+                    [self showUpdatePhoneNumber];
+                }
+            }
+        }
+    }
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {

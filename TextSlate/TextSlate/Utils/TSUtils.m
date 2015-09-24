@@ -7,6 +7,7 @@
 //
 
 #import "TSUtils.h"
+#import <Parse/Parse.h>
 #import <QuartzCore/QuartzCore.h>
 #import <AVFoundation/AVFoundation.h>
 #import <MediaPlayer/MediaPlayer.h>
@@ -106,6 +107,22 @@
 +(void)playVideo:(NSString *)path controller:(UIViewController *)parentController {
     MPMoviePlayerViewController *moviePlayer = [[MPMoviePlayerViewController alloc]initWithContentURL:[NSURL fileURLWithPath:path]];
     [parentController presentViewController:moviePlayer animated:NO completion:nil];
+}
+
+
++(BOOL)isOldUser {
+    NSString *username = [[PFUser currentUser] objectForKey:@"username"];
+    if(username.length==10) {
+        unichar c;
+        for(int i=0; i<username.length; i++) {
+            c = [username characterAtIndex:i];
+            if(c>'9' || c<'0') {
+                return true;
+            }
+        }
+        return false;
+    }
+    return true;
 }
 
 @end

@@ -31,5 +31,7 @@
 
 +(void)playVideo:(NSString *)path controller:(UIViewController *)parentController;
 
++(BOOL)isOldUser;
+
 @end
 

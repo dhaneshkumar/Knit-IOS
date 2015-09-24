@@ -21,6 +21,7 @@
 #import "FeedbackViewController.h"
 #import "settingsTableViewCell.h"
 #import "EditProfileNameViewController.h"
+#import "enterPhoneNumberViewController.h"
 #import "JTSImageInfo.h"
 #import "JTSImageViewController.h"
 
@@ -39,22 +40,6 @@
 -(void)initialization {
     _profilePic = nil;
 }
-
--(BOOL)isOldUser {
-    NSString *username = [[PFUser currentUser] objectForKey:@"username"];
-    if(username.length==10) {
-        unichar c;
-        for(int i=0; i<username.length; i++) {
-            c = [username characterAtIndex:i];
-            if(c>'9' || c<'0') {
-                return true;
-            }
-        }
-        return false;
-    }
-    return true;
-}
-
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -77,7 +62,7 @@
     [super viewDidAppear:animated];
     PFUser *currentUser = [PFUser currentUser];
     _profileName = currentUser[@"name"];
-    _isOldUser = [self isOldUser];
+    _isOldUser = [TSUtils isOldUser];
     [_settingsTableView reloadData];
 }
 
@@ -138,7 +123,7 @@
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"settingsRestCellsIdentifier" forIndexPath:indexPath];
         if(indexPath.row == 0) {
             if(_isOldUser && ![[PFUser currentUser] objectForKey:@"phone"]) {
-                cell.textLabel.text = @"Enter your phone number";
+                cell.textLabel.text = @"Add your phone number";
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             }
             else {
@@ -247,7 +232,9 @@
     else if(indexPath.section == 1) {
         if(indexPath.row == 0) {
             if(_isOldUser && ![[PFUser currentUser] objectForKey:@"phone"]) {
-                
+                UINavigationController *enterPhoneNumberNavigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"enterPhoneNumberNav"];
+                enterPhoneNumberViewController *enterPhoneNumberVC = (enterPhoneNumberViewController *)enterPhoneNumberNavigationController.topViewController;
+                [self presentViewController:enterPhoneNumberNavigationController animated:YES completion:nil];
             }
         }
         else {
