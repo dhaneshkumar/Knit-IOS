@@ -186,15 +186,8 @@
     
     PFFile *attachImageUrl = codeGroupForClass[@"senderPic"];
     if(attachImageUrl) {
-        NSString *url=attachImageUrl.url;
-        UIImage *image = [[sharedCache sharedInstance] getCachedImageForKey:url];
         dvc.teacherUrl = attachImageUrl;
-        if(image) {
-            dvc.teacherPic = image;
-        }
-        else{
-            dvc.teacherPic = nil;
-        }
+        dvc.teacherPic = nil;
     }
     else {
         dvc.teacherPic = [UIImage imageNamed:@"defaultTeacher.png"];

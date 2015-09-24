@@ -85,19 +85,25 @@
         
         PFFile *attachImageUrl = localCodegroup[@"senderPic"];
         if(attachImageUrl) {
-            NSString *url=attachImageUrl.url;
-            UIImage *image = [[sharedCache sharedInstance] getCachedImageForKey:url];
             dvc.teacherUrl = attachImageUrl;
-            if(image) {
-                dvc.teacherPic = image;
-            }
-            else{
+            NSString *imgURL = [TSUtils createURL:attachImageUrl.url];
+            if(![[NSFileManager defaultManager] fileExistsAtPath:imgURL isDirectory:false]) {
                 dvc.teacherPic = nil;
+            }
+            else {
+                NSData *data = [[NSFileManager defaultManager] contentsAtPath:imgURL];
+                if(data) {
+                    dvc.teacherPic = [[UIImage alloc] initWithData:data];
+                }
+                else {
+                    dvc.teacherPic = nil;
+                }
             }
         }
         else {
             dvc.teacherPic = [UIImage imageNamed:@"defaultTeacher.png"];
         }
+            
         if(((NSArray *)joinedClassAssocNames[localCodegroup[@"code"]]).count==2) {
             dvc.studentName = [[PFUser currentUser] objectForKey:@"name"];
         }
@@ -107,7 +113,6 @@
         [_joinedClassVCs setObject:dvc forKey:localCodegroup[@"code"]];
     }
 }
-
 
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -146,15 +151,8 @@
                     
                     PFFile *attachImageUrl = cg[@"senderPic"];
                     if(attachImageUrl) {
-                        NSString *url=attachImageUrl.url;
-                        UIImage *image = [[sharedCache sharedInstance] getCachedImageForKey:url];
                         dvc.teacherUrl = attachImageUrl;
-                        if(image) {
-                            dvc.teacherPic = image;
-                        }
-                        else{
-                            dvc.teacherPic = nil;
-                        }
+                        dvc.teacherPic = nil;
                     }
                     else {
                         dvc.teacherPic = [UIImage imageNamed:@"defaultTeacher.png"];

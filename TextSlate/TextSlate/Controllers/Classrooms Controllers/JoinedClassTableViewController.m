@@ -103,16 +103,17 @@
             cell.teacherPicOutlet.image = [UIImage imageNamed:@"defaultTeacher.png"];
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
                 NSData *data = [_teacherUrl getData];
-                UIImage *image = [[UIImage alloc] initWithData:data];
-                NSString *url = _teacherUrl.url;
-                if(image) {
-                    [[sharedCache sharedInstance] cacheImage:image forKey:url];
-                    _teacherPic = image;
-                    dispatch_sync(dispatch_get_main_queue(), ^{
-                        NSIndexPath* rowToReload = [NSIndexPath indexPathForRow:indexPath.row inSection:indexPath.section];
-                        NSArray* rowsToReload = [NSArray arrayWithObjects:rowToReload, nil];
-                        [self.tableView reloadRowsAtIndexPaths:rowsToReload withRowAnimation:UITableViewRowAnimationNone];
-                    });
+                if(data) {
+                    _teacherPic = [[UIImage alloc] initWithData:data];
+                    if(_teacherPic) {
+                        NSString *pathURL = [TSUtils createURL:_teacherUrl.url];
+                        [data writeToFile:pathURL atomically:YES];
+                        dispatch_sync(dispatch_get_main_queue(), ^{
+                            NSIndexPath* rowToReload = [NSIndexPath indexPathForRow:indexPath.row inSection:indexPath.section];
+                            NSArray* rowsToReload = [NSArray arrayWithObjects:rowToReload, nil];
+                            [self.tableView reloadRowsAtIndexPaths:rowsToReload withRowAnimation:UITableViewRowAnimationNone];
+                        });
+                    }
                 }
             });
         }
