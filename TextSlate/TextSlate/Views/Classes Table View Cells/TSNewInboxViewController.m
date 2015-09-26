@@ -17,6 +17,8 @@
 #import "CustomCoachMarkViewController.h"
 #import "ALAssetsLibrary+CustomPhotoAlbum.h"
 #import "TSWebViewController.h"
+#import <AVFoundation/AVFoundation.h>
+#import "STKAudioPlayer.h"
 
 @interface TSNewInboxViewController ()
 
@@ -30,6 +32,7 @@
 @property (nonatomic ,strong) CustomCoachMarkViewController *customView;
 @property (strong, atomic) ALAssetsLibrary* library;
 @property (strong, nonatomic) NSString *QLPreviewFilePath;
+@property (nonatomic, strong) AVAudioPlayer *audioPlayer;
 
 @end
 
@@ -1085,12 +1088,39 @@
     TSMessage *message = _mapCodeToObjects[messageId];
     NSString *fileType = [TSUtils getFileTypeFromFileName:message.attachmentName];
     if([fileType isEqualToString:@"audio"]) {
+        NSLog(@"audio file tapped");
         if(message.attachmentFetched) {
-            [TSUtils playAudio:[TSUtils createURL:message.attachmentURL.url]];
+            NSLog(@"audio file play karo");
+            
+            STKAudioPlayer* audioPlayer = [[STKAudioPlayer alloc] init];
+            [audioPlayer playURL:[NSURL fileURLWithPath:path]];
+            return;
+            NSError *error;
+            AVAudioSession *audioSession = [AVAudioSession sharedInstance];
+            [audioSession setCategory:AVAudioSessionCategoryPlayback error:nil];
+            [audioSession setActive:YES error:nil];
+            //[TSUtils playAudio:[TSUtils createURL:message.attachmentURL.url] audioPlayer:_audioPlayer];
+            //NSString *path = [TSUtils createURL:message.attachmentURL.url];
+            NSString *path = [NSString stringWithFormat:@"%@/skyfall.mp3", [[NSBundle mainBundle] resourcePath]];
+            _audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:path] error:&error];
+            NSLog(@"error : %@", [error description]);
+            if([_audioPlayer prepareToPlay]) {
+                NSLog(@"preparing");
+                _audioPlayer.volume = 1.0;
+            }
+            else {
+                NSLog(@"some error");
+            }
+            if([_audioPlayer play]) {
+                NSLog(@"playing");
+            }
+            NSLog(@"not playing");
         }
     }
     else if([fileType isEqualToString:@"video"]) {
+        NSLog(@"video file tapped");
         if(message.attachmentFetched) {
+            NSLog(@"video file play karo");
             [TSUtils playVideo:[TSUtils createURL:message.attachmentURL.url] controller:self];
         }
     }

@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <AVFoundation/AVFoundation.h>
 #import <UIKit/UIKit.h>
 
 @interface TSUtils : NSObject
@@ -27,7 +28,7 @@
 
 +(NSString *)createURL:(NSString *)imageURL;
 
-+(void)playAudio:(NSString *)path;
++(void)playAudio:(NSString *)path audioPlayer:(AVAudioPlayer *)audioPlayer;
 
 +(void)playVideo:(NSString *)path controller:(UIViewController *)parentController;
 

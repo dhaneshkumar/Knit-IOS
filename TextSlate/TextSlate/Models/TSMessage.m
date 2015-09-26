@@ -20,9 +20,9 @@
         self.likeCount = likeCount;
         self.confuseCount = confuseCount;
         self.seenCount = seenCount;
-        self.attachment = nil;
+        self.attachmedImage = nil;
         self.attachmentURL = nil;
-        self.nonImageAttachment = nil;
+        self.attachmentFetched = false;
         self.attachmentName = nil;
         self.seenStatus = @"false";
     }

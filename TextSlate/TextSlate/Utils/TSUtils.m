@@ -9,7 +9,6 @@
 #import "TSUtils.h"
 #import <Parse/Parse.h>
 #import <QuartzCore/QuartzCore.h>
-#import <AVFoundation/AVFoundation.h>
 #import <MediaPlayer/MediaPlayer.h>
 #import <MobileCoreServices/MobileCoreServices.h>
 
@@ -98,8 +97,8 @@
     return urlString;
 }
 
-+(void)playAudio:(NSString *)path {
-    AVAudioPlayer *audioPlayer = [[AVAudioPlayer alloc]initWithContentsOfURL:[NSURL fileURLWithPath:path] error:NULL];
++(void)playAudio:(NSString *)path audioPlayer:(AVAudioPlayer *)audioPlayer {
+    audioPlayer = [[AVAudioPlayer alloc]initWithContentsOfURL:[NSURL fileURLWithPath:path] error:NULL];
     [audioPlayer play];
 }
 

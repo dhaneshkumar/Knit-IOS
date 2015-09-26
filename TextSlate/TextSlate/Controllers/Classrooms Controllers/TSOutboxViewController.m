@@ -613,7 +613,7 @@
     NSString *fileType = [TSUtils getFileTypeFromFileName:message.attachmentName];
     if([fileType isEqualToString:@"audio"]) {
         if(message.attachmentFetched) {
-            [TSUtils playAudio:[TSUtils createURL:message.attachmentURL.url]];
+            //[TSUtils playAudio:[TSUtils createURL:message.attachmentURL.url]];
         }
     }
     else if([fileType isEqualToString:@"video"]) {
