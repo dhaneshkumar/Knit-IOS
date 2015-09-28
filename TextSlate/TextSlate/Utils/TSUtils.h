@@ -36,5 +36,7 @@
 
 +(BOOL)isOldUser;
 
++(NSString *)stripMessage:(NSString *)message;
+
 @end
 

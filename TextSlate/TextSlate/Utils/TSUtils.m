@@ -136,4 +136,13 @@
     return false;
 }
 
++(NSString *)stripMessage:(NSString *)message {
+    NSString *extraStuff = @"(This message contains a file attachment. Please update your app to see it)";
+    if([message hasSuffix:extraStuff]) {
+        message = [message substringToIndex:message.length-extraStuff.length];
+    }
+    return message;
+}
+
+
 @end

@@ -237,7 +237,7 @@
     cell.messageId = message.messageId;
     cell.className.text = message.className;
     cell.teacherName.text = [NSString stringWithFormat:@"by %@", message.sender];
-    cell.message.text = message.message;
+    cell.message.text = [TSUtils stripMessage:message.message];
     cell.messageWidth.constant = [self getScreenWidth] - 30.0;
     NSTimeInterval mti = [self getMessageTimeDiff:message.sentTime];
     cell.sentTime.text = [self sentTimeDisplayText:mti];
@@ -312,7 +312,7 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     UILabel *gettingSizeLabel = [[UILabel alloc] init];
     gettingSizeLabel.font = [UIFont systemFontOfSize:14.0];
-    gettingSizeLabel.text = ((TSMessage *)_messagesArray[indexPath.row]).message;
+    gettingSizeLabel.text = [TSUtils stripMessage:((TSMessage *)_messagesArray[indexPath.row]).message];
     gettingSizeLabel.numberOfLines = 0;
     gettingSizeLabel.lineBreakMode = NSLineBreakByWordWrapping;
     CGSize maximumLabelSize = CGSizeMake([self getScreenWidth] - 30.0, 9999);
