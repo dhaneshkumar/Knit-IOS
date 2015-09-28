@@ -8,10 +8,14 @@
 
 #import "enterPhoneNumberViewController.h"
 #import "Data.h"
+#import "TSUtils.h"
 #import <RKDropdownAlert.h>
 #import "MBProgressHUD.h"
+#import "verifyPhoneNumberViewController.h"
 
 @interface enterPhoneNumberViewController ()
+
+@property (weak, nonatomic) IBOutlet UIButton *verifyButton;
 
 @end
 
@@ -19,6 +23,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [TSUtils applyRoundedCorners:_verifyButton];
     _phoneNumberField.delegate = self;
     _phoneNumberField.keyboardType = UIKeyboardTypeNumberPad;
     self.navigationItem.title = @"Knit";
@@ -39,7 +44,7 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (IBAction)doneButtonPressed:(id)sender {
+- (IBAction)verifyButtonPressed:(id)sender {
     if(_phoneNumberField.text.length<10) {
         [RKDropdownAlert title:@"" message:@"Please make sure that the phone number entered is 10 digits."  time:3];
         return;
@@ -49,25 +54,25 @@
         [RKDropdownAlert title:@"" message:@"Please make sure that the phone number entered is correct."  time:3];
         return;
     }
+    
     [_phoneNumberField resignFirstResponder];
     
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[[UIApplication sharedApplication] keyWindow]  animated:YES];
     hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
-    hud.labelText = @"Updating name";
+    hud.labelText = @"Verifying";
     
-    [Data updatePhoneNumber:_phoneNumberField.text successBlock:^(id object) {
-        PFObject *currentUser = [PFUser currentUser];
-        currentUser[@"phone"] = _phoneNumberField.text;
-        [currentUser pin];
+    [Data generateOTP:_phoneNumberField.text successBlock:^(id object) {
         [hud hide:YES];
-        [self dismissViewControllerAnimated:YES completion:nil];
-    } errorBlock:^(NSError *error){
+        verifyPhoneNumberViewController *dvc = [self.storyboard instantiateViewControllerWithIdentifier:@"verifyPhoneNumberVC"];
+        dvc.phoneNumberString = _phoneNumberField.text;
+        [self.navigationController pushViewController:dvc animated:YES];
+    } errorBlock:^(NSError *error) {
         [hud hide:YES];
         if(error.code==100) {
             [RKDropdownAlert title:@"" message:@"Internet connection error." time:3];
         }
         else {
-            [RKDropdownAlert title:@"" message:@"Oops! Some error occured while updating number" time:3];
+            [RKDropdownAlert title:@"" message:@"Oops! Some error occured while generating OTP" time:3];
         }
     } hud:hud];
 }

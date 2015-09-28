@@ -653,8 +653,8 @@
     }];
 }
 
-+(void)updatePhoneNumber:(NSString *)number successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock hud:(MBProgressHUD *)hud {
-    [PFCloud callFunctionInBackground:@"updatePhoneNumber" withParameters:@{@"number":number} block:^(id object, NSError *error) {
++(void)updatePhoneNumber:(NSString *)number code:(NSString *)code successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock hud:(MBProgressHUD *)hud  {
+    [PFCloud callFunctionInBackground:@"updatePhoneNumber" withParameters:@{@"number":number, @"code":code} block:^(id object, NSError *error) {
         if(error) {
             if(error.code == kPFErrorInvalidSessionToken) {
                 [self handleInvalidSession:hud];

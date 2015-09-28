@@ -65,6 +65,7 @@
 		5F18E8511BB68B2000CB596F /* video@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F18E84F1BB68B2000CB596F /* video@3x.png */; };
 		5F18E8531BB68B3200CB596F /* doc@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F18E8521BB68B3200CB596F /* doc@2x.png */; };
 		5F18E8571BB6A57000CB596F /* AudioPlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F18E8561BB6A57000CB596F /* AudioPlayerViewController.m */; };
+		5F18E85A1BB901AE00CB596F /* verifyPhoneNumberViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F18E8591BB901AE00CB596F /* verifyPhoneNumberViewController.m */; };
 		5F56DFA91B57E05800151889 /* settingsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F56DFA81B57E05800151889 /* settingsTableViewCell.m */; };
 		5F56DFAC1B582E5200151889 /* EditProfileNameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F56DFAB1B582E5200151889 /* EditProfileNameViewController.m */; };
 		5F7F8D361B53E1350054E91E /* 750x1334.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F7F8D341B53E1350054E91E /* 750x1334.png */; };
@@ -312,6 +313,8 @@
 		5F18E8521BB68B3200CB596F /* doc@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "doc@2x.png"; sourceTree = "<group>"; };
 		5F18E8551BB6A57000CB596F /* AudioPlayerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioPlayerViewController.h; sourceTree = "<group>"; };
 		5F18E8561BB6A57000CB596F /* AudioPlayerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioPlayerViewController.m; sourceTree = "<group>"; };
+		5F18E8581BB901AE00CB596F /* verifyPhoneNumberViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = verifyPhoneNumberViewController.h; sourceTree = "<group>"; };
+		5F18E8591BB901AE00CB596F /* verifyPhoneNumberViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = verifyPhoneNumberViewController.m; sourceTree = "<group>"; };
 		5F56DFA71B57E05800151889 /* settingsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = settingsTableViewCell.h; sourceTree = "<group>"; };
 		5F56DFA81B57E05800151889 /* settingsTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = settingsTableViewCell.m; sourceTree = "<group>"; };
 		5F56DFAA1B582E5200151889 /* EditProfileNameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditProfileNameViewController.h; sourceTree = "<group>"; };
@@ -642,6 +645,8 @@
 			children = (
 				5F18E83F1BB4A1D900CB596F /* enterPhoneNumberViewController.h */,
 				5F18E8401BB4A1D900CB596F /* enterPhoneNumberViewController.m */,
+				5F18E8581BB901AE00CB596F /* verifyPhoneNumberViewController.h */,
+				5F18E8591BB901AE00CB596F /* verifyPhoneNumberViewController.m */,
 			);
 			name = "Phone Number";
 			sourceTree = "<group>";
@@ -1538,6 +1543,7 @@
 				5FDDA22F1B618F2100895D56 /* messageRecipientsTableViewCell.m in Sources */,
 				5F56DFA91B57E05800151889 /* settingsTableViewCell.m in Sources */,
 				975B1E901A211A380028BE25 /* TSClass.m in Sources */,
+				5F18E85A1BB901AE00CB596F /* verifyPhoneNumberViewController.m in Sources */,
 				971687E71A1F823900FE98FC /* TSUtils.m in Sources */,
 				975B1E941A2133030028BE25 /* TSTabBarViewController.m in Sources */,
 				5F18E8411BB4A1D900CB596F /* enterPhoneNumberViewController.m in Sources */,

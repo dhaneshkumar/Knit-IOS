@@ -78,7 +78,7 @@ typedef void (^errorBlock)(NSError *error);
 
 +(void)updateProfileName:(NSString *)newName successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock hud:(MBProgressHUD *)hud;
 
-+(void)updatePhoneNumber:(NSString *)number successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock hud:(MBProgressHUD *)hud;
++(void)updatePhoneNumber:(NSString *)number code:(NSString *)code successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock hud:(MBProgressHUD *)hud;
 
 +(void)updateProfilePic:(PFFile *)newPic successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock hud:(MBProgressHUD *)hud;
 
