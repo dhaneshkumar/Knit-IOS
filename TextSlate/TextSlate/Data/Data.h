@@ -64,11 +64,7 @@ typedef void (^errorBlock)(NSError *error);
 
 +(void)verifyOTPSignUp:(NSString *)phoneNum code:(NSInteger)code name:(NSString *)name role:(NSString *)role installationId:(NSString *)installationId deviceType:(NSString *)deviceType areCoordinatesUpdated:(BOOL)areCoordinatesUpdated latitude:(double)latitude longitude:(double)longitude os:(NSString *)os model:(NSString *)model successBlock:(successBlock) successBlock errorBlock:(errorBlock) errorBlock hud:(MBProgressHUD *)hud;
 
-+(void)FBSignUp:(NSString *)accessToken role:(NSString *)role installationId:(NSString *)installationId deviceType:(NSString *)deviceType areCoordinatesUpdated:(BOOL)areCoordinatesUpdated latitude:(double)latitude longitude:(double)longitude os:(NSString *)os model:(NSString *)model successBlock:(successBlock) successBlock errorBlock:(errorBlock) errorBlock hud:(MBProgressHUD *)hud;
-
 +(void)FBSignIn:(NSString *)accessToken installationId:(NSString *)installationId deviceType:(NSString *)deviceType areCoordinatesUpdated:(BOOL)areCoordinatesUpdated latitude:(double)latitude longitude:(double)longitude os:(NSString *)os model:(NSString *)model successBlock:(successBlock) successBlock errorBlock:(errorBlock) errorBlock hud:(MBProgressHUD *)hud;
-
-+(void)googleSignUp:(NSString *)accessToken idToken:(NSString *)idToken name:(NSString *)name role:(NSString *)role installationId:(NSString *)installationId deviceType:(NSString *)deviceType areCoordinatesUpdated:(BOOL)areCoordinatesUpdated latitude:(double)latitude longitude:(double)longitude os:(NSString *)os model:(NSString *)model successBlock:(successBlock) successBlock errorBlock:(errorBlock) errorBlock hud:(MBProgressHUD *)hud;
 
 +(void)googleSignIn:(NSString *)accessToken idToken:(NSString *)idToken installationId:(NSString *)installationId deviceType:(NSString *)deviceType areCoordinatesUpdated:(BOOL)areCoordinatesUpdated latitude:(double)latitude longitude:(double)longitude os:(NSString *)os model:(NSString *)model successBlock:(successBlock) successBlock errorBlock:(errorBlock) errorBlock hud:(MBProgressHUD *)hud;
 

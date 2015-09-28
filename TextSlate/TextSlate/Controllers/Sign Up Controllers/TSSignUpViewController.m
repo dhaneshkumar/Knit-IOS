@@ -31,17 +31,9 @@
 @property (strong,nonatomic) NSString *getOTP;
 @property (strong,nonatomic) NSMutableArray *classDetails;
 @property (strong, nonatomic) CLLocationManager *locationManager;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *verticalSpace1;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *verticalSpace2;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *verticalSpace3;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *verticalSpace4;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *fbSignupButtonWidth;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *fbSignupButtonHeight;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *googleSignupButtonHeight;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *googleSignupButtonWidth;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *contentViewWidth;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *lineWidth;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *contentViewHeight;
 
 @end
 
@@ -63,17 +55,9 @@
     _areCoordinatesUpdated = false;
     _latitude = 0.0;
     _longitude = 0.0;
-    _verticalSpace1.constant = 24.0;
-    _verticalSpace2.constant = 8.0;
-    _verticalSpace3.constant = 24.0;
-    _verticalSpace4.constant = 24.0;
     float screenWidth = [TSUtils getScreenWidth];
-    _fbSignupButtonHeight.constant = 45.0;
-    _fbSignupButtonWidth.constant = 280.0;
-    _googleSignupButtonHeight.constant = 45.0;
-    _googleSignupButtonWidth.constant = 280.0;
-    _lineWidth.constant = (screenWidth-50.0)/2;
     _contentViewWidth.constant = screenWidth;
+    _contentViewHeight.constant = [TSUtils getScreenHeight];
     
     UIToolbar* keyboardDoneButtonView = [[UIToolbar alloc] init];
     UIBarButtonItem *flexBarButton = [[UIBarButtonItem alloc]
@@ -83,10 +67,6 @@
     [keyboardDoneButtonView sizeToFit];
     [keyboardDoneButtonView setItems:[NSArray arrayWithObjects:flexBarButton, doneButton, nil]];
     _phoneNumberTextField.inputAccessoryView = keyboardDoneButtonView;
-    NSError* configureError;
-    [[GGLContext sharedInstance] configureWithError: &configureError];
-    [GIDSignIn sharedInstance].delegate = self;
-    [GIDSignIn sharedInstance].uiDelegate = self;
 }
 
 -(void)viewDidAppear:(BOOL)animated {
@@ -147,12 +127,6 @@
     */
 }
 
--(CGFloat) getScreenHeight {
-    CGRect screenRect = [[UIScreen mainScreen] bounds];
-    CGFloat screenHeight = screenRect.size.height;
-    return screenHeight;
-}
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -174,221 +148,6 @@
     }];
     return YES;
 }
-
-- (IBAction)googleImgTapped:(id)sender {
-    [[GIDSignIn sharedInstance] signOut];
-    [[GIDSignIn sharedInstance] signIn];
-}
-
-
--(void)signIn:(GIDSignIn *)signIn didSignInForUser:(GIDGoogleUser *)user withError:(NSError *)error {
-    // Perform any operations on signed in user here.
-    if(error) {
-        return;
-    }
-    NSString *accessToken = user.authentication.accessToken;
-    NSString *idToken = user.authentication.idToken;
-    PFInstallation *currentInstallation = [PFInstallation currentInstallation];
-    NSString *installationId = currentInstallation[@"installationId"];
-    NSString *devicetype = currentInstallation[@"deviceType"];
-    
-    float version = [[[UIDevice currentDevice] systemVersion] floatValue];
-    NSString *osVersion = [[NSNumber numberWithFloat:version] stringValue];
-    
-    struct utsname systemInfo;
-    uname(&systemInfo);
-    NSString *model = [NSString stringWithCString:systemInfo.machine encoding:NSUTF8StringEncoding];
-    
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[[UIApplication sharedApplication] keyWindow]  animated:YES];
-    hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
-    hud.labelText = @"Signing up";
-    
-    GIDGoogleUser *googleUser = user;
-    if(!currentInstallation.objectId) {
-        BOOL saveInstallationObj = [currentInstallation save];
-        if(!saveInstallationObj) {
-            [RKDropdownAlert title:@"" message:@"Error in saving installation object."  time:3];
-            return;
-        }
-    }
-    
-    [Data googleSignUp:accessToken idToken:idToken name:googleUser.profile.name role:_role installationId:installationId deviceType:devicetype areCoordinatesUpdated:_areCoordinatesUpdated latitude:_latitude longitude:_longitude os:[NSString stringWithFormat:@"iOS %@", osVersion] model:model successBlock:^(id object) {
-        
-        NSDictionary *tokenDict = object;
-        NSString *token = [tokenDict objectForKey:@"sessionToken"];
-        if(token.length>0) {
-            [PFUser becomeInBackground:token block:^(PFUser *user, NSError *error) {
-                if (error) {
-                    [hud hide:YES];
-                    [RKDropdownAlert title:@"" message:@"Oops! Network connection error in becoming user"  time:3];
-                    return;
-                } else {
-                    PFUser *currentUser = [PFUser currentUser];
-                    
-                    //AppsFlyer
-                    NSDictionary *dict = @{@"USERNAME" : currentUser[@"username"]};
-                    [[AppsFlyerTracker sharedTracker] trackEvent:@"sign_up" withValues:dict];
-                    
-                    [self deleteAllLocalData];
-                    [self createLocalDatastore:nil];
-                    
-                    AppDelegate *apd = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-                    UINavigationController *rootNav = (UINavigationController *)apd.startNav;
-                    NSArray *vcs = rootNav.viewControllers;
-                    TSTabBarViewController *rootTab = (TSTabBarViewController *)rootNav.topViewController;
-                    for(id vc in vcs) {
-                        if([vc isKindOfClass:[TSTabBarViewController class]]) {
-                            rootTab = (TSTabBarViewController *)vc;
-                            break;
-                        }
-                    }
-                    
-                    currentUser[@"isGoogle"] = @"YES";
-                    [currentUser pin];
-                    [rootTab initialization];
-                    [self fireNotifications];
-                    [self getAndSaveGoogleProfilePicture:googleUser];
-                    [hud hide:YES];
-                    [self dismissViewControllerAnimated:YES completion:nil];
-                }
-            }];
-        }
-        else {
-            [hud hide:YES];
-            [RKDropdownAlert title:@"" message:@"Oops! Error occured. Token length."  time:3];
-            return;
-        }
-    } errorBlock:^(NSError *error) {
-        [hud hide:YES];
-        if([[((NSDictionary *)error.userInfo) objectForKey:@"error"] isEqualToString:@"USER_ALREADY_EXISTS"]) {
-            [self.navigationController popViewControllerAnimated:YES];
-            [RKDropdownAlert title:@"Knit" message:@"User already exists."  time:3];
-            return;
-        }
-        else if(error.code==100) {
-            [RKDropdownAlert title:@"" message:@"Internet connection error." time:3];
-        }
-        else {
-            [RKDropdownAlert title:@"" message:@"Oops! Some error occured while signing up" time:3];
-        }
-    } hud:hud];
-}
-
-- (IBAction)fbImgTapped:(id)sender {
-    FBSDKLoginManager *login = [[FBSDKLoginManager alloc] init];
-    [login logOut];
-    [login logInWithReadPermissions:@[@"email"] handler:^(FBSDKLoginManagerLoginResult *result, NSError *error) {
-        if (error) {
-            //error
-        } else if (result.isCancelled) {
-            // Handle cancellations
-        } else {
-            //Permission granted
-            FBSDKAccessToken *currentAccessToken = [FBSDKAccessToken currentAccessToken];
-            NSString *tokenString = currentAccessToken.tokenString;
-            NSString *userId = currentAccessToken.userID;
-            if ([result.grantedPermissions containsObject:@"email"]) {
-                //do something if needed
-            }
-            PFInstallation *currentInstallation = [PFInstallation currentInstallation];
-            NSString *installationId = currentInstallation[@"installationId"];
-            NSString *devicetype = currentInstallation[@"deviceType"];
-            
-            float version = [[[UIDevice currentDevice] systemVersion] floatValue];
-            NSString *osVersion = [[NSNumber numberWithFloat:version] stringValue];
-            
-            struct utsname systemInfo;
-            uname(&systemInfo);
-            NSString *model = [NSString stringWithCString:systemInfo.machine encoding:NSUTF8StringEncoding];
-            
-            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[[UIApplication sharedApplication] keyWindow]  animated:YES];
-            hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
-            hud.labelText = @"Signing up";
-            
-            if(!currentInstallation.objectId) {
-                BOOL saveInstallationObj = [currentInstallation save];
-                if(!saveInstallationObj) {
-                    [RKDropdownAlert title:@"" message:@"Error in saving installation object."  time:3];
-                    return;
-                }
-            }
-            
-            [Data FBSignUp:tokenString role:_role installationId:installationId deviceType:devicetype areCoordinatesUpdated:_areCoordinatesUpdated latitude:_latitude longitude:_longitude os:[NSString stringWithFormat:@"iOS %@", osVersion] model:model successBlock:^(id object) {
-                
-                NSDictionary *tokenDict = object;
-                NSString *token = [tokenDict objectForKey:@"sessionToken"];
-                
-                if(token.length>0) {
-                    [PFUser becomeInBackground:token block:^(PFUser *user, NSError *error) {
-                        if (error) {
-                            [hud hide:YES];
-                            [RKDropdownAlert title:@"" message:@"Oops! Network connection error in becoming user."  time:3];
-                            return;
-                        } else {
-                            PFUser *currentUser = [PFUser currentUser];
-                            
-                            //AppsFlyer
-                            NSDictionary *dict = @{@"USERNAME" : currentUser[@"username"]};
-                            [[AppsFlyerTracker sharedTracker] trackEvent:@"sign_up" withValues:dict];
-                            
-                            [self deleteAllLocalData];
-                            [self createLocalDatastore:nil];
-                            
-                            AppDelegate *apd = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-                            UINavigationController *rootNav = (UINavigationController *)apd.startNav;
-                            NSArray *vcs = rootNav.viewControllers;
-                            TSTabBarViewController *rootTab = (TSTabBarViewController *)rootNav.topViewController;
-                            for(id vc in vcs) {
-                                if([vc isKindOfClass:[TSTabBarViewController class]]) {
-                                    rootTab = (TSTabBarViewController *)vc;
-                                    break;
-                                }
-                            }
-                            
-                            currentUser[@"isFB"] = @"YES";
-                            [currentUser pin];
-                            [rootTab initialization];
-                            [self fireNotifications];
-                            [self getAndSaveFBProfilePicture:userId];
-                            
-                            [hud hide:YES];
-                            [self dismissViewControllerAnimated:YES completion:nil];
-                        }
-                    }];
-                }
-                else {
-                    [hud hide:YES];
-                    [RKDropdownAlert title:@"" message:@"Oops! Error occured. Token length."  time:3];
-                    return;
-                }
-            } errorBlock:^(NSError *error) {
-                [hud hide:YES];
-                if([[((NSDictionary *)error.userInfo) objectForKey:@"error"] isEqualToString:@"USER_ALREADY_EXISTS"]) {
-                    [self.navigationController popViewControllerAnimated:YES];
-                    [RKDropdownAlert title:@"Knit" message:@"User already exists."  time:3];
-                }
-                else if(error.code==100) {
-                    [RKDropdownAlert title:@"" message:@"Internet connection error." time:3];
-                }
-                else {
-                    [RKDropdownAlert title:@"" message:@"Oops! Some error occured while signing up" time:3];
-                }
-                return;
-            } hud:hud];
-        }
-    }];
-}
-
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 
 - (IBAction)signUpClicked:(UIButton *)sender {
@@ -454,16 +213,15 @@
     return;
 }
 
+
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
-    //NSLog(@"didUpdateToLocation: %@", newLocation);
-    CLLocation *currentLocation = newLocation;
     
+    CLLocation *currentLocation = newLocation;
     if (currentLocation != nil) {
         _latitude = currentLocation.coordinate.latitude;
         _longitude = currentLocation.coordinate.longitude;
         _areCoordinatesUpdated = true;
     }
-    
     [_locationManager stopUpdatingLocation];
 }
 
@@ -602,76 +360,5 @@
         [[UIApplication sharedApplication] scheduleLocalNotification:localNotification2];
     }
 }
-
-
--(void)getAndSaveFBProfilePicture:(NSString *)userId {
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
-        NSString *url = [NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=large", userId];
-        NSData *data = [NSData dataWithContentsOfURL: [NSURL URLWithString:url]];
-        UIImage *image = [[UIImage alloc] initWithData:data];
-        if(image) {
-            PFFile *imageFile = [PFFile fileWithName:@"Profileimage.jpeg" data:data];
-            [imageFile saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-                if (!error) {
-                    if (succeeded) {
-                        [Data updateProfilePic:imageFile successBlock:^(id object) {
-                            [[sharedCache sharedInstance] cacheImage:[[UIImage alloc] initWithData:data] forKey:imageFile.url];
-                            PFUser *user = [PFUser currentUser];
-                            user[@"pid"] = imageFile;
-                            [user pin];
-                        } errorBlock:^(NSError *error) {
-                            //
-                        } hud:nil];
-                    }
-                    else {
-                        //
-                    }
-                } else {
-                    //
-                }
-            }];
-        }
-    });
-    return;
-}
-
-
--(void)getAndSaveGoogleProfilePicture:(GIDGoogleUser *)user {
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
-        GIDProfileData *profile = user.profile;
-        if(!profile.hasImage) {
-            return;
-        }
-        NSUInteger dimension = 200.0;
-        NSURL *imageURL = [profile imageURLWithDimension:dimension];
-        
-        NSData *data = [NSData dataWithContentsOfURL:imageURL];
-        UIImage *image = [[UIImage alloc] initWithData:data];
-        if(image) {
-            PFFile *imageFile = [PFFile fileWithName:@"Profileimage.jpeg" data:data];
-            [imageFile saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-                if (!error) {
-                    if (succeeded) {
-                        [Data updateProfilePic:imageFile successBlock:^(id object) {
-                            [[sharedCache sharedInstance] cacheImage:[[UIImage alloc] initWithData:data] forKey:imageFile.url];
-                            PFUser *user = [PFUser currentUser];
-                            user[@"pid"] = imageFile;
-                            [user pin];
-                        } errorBlock:^(NSError *error) {
-                            //
-                        } hud:nil];
-                    }
-                    else {
-                        //
-                    }
-                } else {
-                    //
-                }
-            }];
-        }
-    });
-    return;
-}
-
 
 @end
