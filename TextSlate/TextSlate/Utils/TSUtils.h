@@ -38,5 +38,7 @@
 
 +(NSString *)stripMessage:(NSString *)message;
 
++(NSString *)getAppVersion;
+
 @end
 

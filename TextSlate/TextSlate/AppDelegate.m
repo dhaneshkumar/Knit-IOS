@@ -99,6 +99,34 @@
         }
         TSTabBarViewController *rootTab = (TSTabBarViewController *)_startNav.topViewController;
         [rootTab initialization];
+        
+        if([PFInstallation currentInstallation].objectId) {
+            PFQuery *lq = [PFQuery queryWithClassName:@"appVersion"];
+            [lq fromLocalDatastore];
+            NSArray *objs = [lq findObjects];
+            NSString *currentVersion = [TSUtils getAppVersion];
+            NSLog(@"current version : %@", currentVersion);
+            if(objs.count==0) {
+                [Data updateAppVersion:currentVersion successBlock:^(id object) {
+                    PFObject *appVersion = [[PFObject alloc] initWithClassName:@"appVersion"];
+                    appVersion[@"version"] = currentVersion;
+                    [appVersion pinInBackground];
+                } errorBlock:^(NSError *error) {
+                    //
+                } hud:nil];
+            }
+            else {
+                NSString *version = objs[0][@"version"];
+                if(![currentVersion isEqualToString:version]) {
+                    [Data updateAppVersion:currentVersion successBlock:^(id object) {
+                        objs[0][@"version"] = currentVersion;
+                        [objs[0] pinInBackground];
+                    } errorBlock:^(NSError *error) {
+                        //
+                    } hud:nil];
+                }
+            }
+        }
     }
     
     if(launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey]) {

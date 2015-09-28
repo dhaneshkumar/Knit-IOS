@@ -145,4 +145,9 @@
 }
 
 
++(NSString *)getAppVersion {
+    return [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+}
+
+
 @end

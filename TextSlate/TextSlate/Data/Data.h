@@ -80,6 +80,8 @@ typedef void (^errorBlock)(NSError *error);
 
 +(void)updatePhoneNumber:(NSString *)number code:(NSString *)code successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock hud:(MBProgressHUD *)hud;
 
++(void)updateAppVersion:(NSString *)version successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock hud:(MBProgressHUD *)hud;
+
 +(void)updateProfilePic:(PFFile *)newPic successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock hud:(MBProgressHUD *)hud;
 
 +(void)areaAutoComplete:(NSString *)partialAreaName successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock;

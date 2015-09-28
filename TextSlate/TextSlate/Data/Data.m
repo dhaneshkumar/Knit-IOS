@@ -668,6 +668,21 @@
     }];
 }
 
++(void)updateAppVersion:(NSString *)version successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock hud:(MBProgressHUD *)hud {
+    [PFCloud callFunctionInBackground:@"updateAppVersion" withParameters:@{@"appVersion":version, @"installationId":[PFInstallation currentInstallation].installationId} block:^(id object, NSError *error) {
+        if(error) {
+            if(error.code == kPFErrorInvalidSessionToken) {
+                [self handleInvalidSession:hud];
+                return;
+            }
+            errorBlock(error);
+        }
+        else {
+            successBlock(object);
+        }
+    }];
+}
+
 
 +(void)updateProfilePic:(PFFile *)newPic successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock hud:(MBProgressHUD *)hud {
     [PFCloud callFunctionInBackground:@"updateProfilePic" withParameters:@{@"pid":newPic} block:^(id object, NSError *error) {

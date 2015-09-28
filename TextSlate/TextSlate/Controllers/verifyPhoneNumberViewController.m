@@ -53,8 +53,8 @@
         hud.labelText = @"Verifying";
         
         [Data updatePhoneNumber:_phoneNumberString code:_otpField.text successBlock:^(id object) {
-            int success = (int)object;
-            if(success) {
+            NSNumber *success = (NSNumber *)object;
+            if([success boolValue]) {
                 PFObject *currentUser = [PFUser currentUser];
                 currentUser[@"phone"] = _phoneNumberString;
                 [currentUser pin];
