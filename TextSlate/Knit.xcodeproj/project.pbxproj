@@ -64,6 +64,7 @@
 		5F18E8501BB68B2000CB596F /* audio@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F18E84E1BB68B2000CB596F /* audio@3x.png */; };
 		5F18E8511BB68B2000CB596F /* video@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F18E84F1BB68B2000CB596F /* video@3x.png */; };
 		5F18E8531BB68B3200CB596F /* doc@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F18E8521BB68B3200CB596F /* doc@2x.png */; };
+		5F18E8571BB6A57000CB596F /* AudioPlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F18E8561BB6A57000CB596F /* AudioPlayerViewController.m */; };
 		5F56DFA91B57E05800151889 /* settingsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F56DFA81B57E05800151889 /* settingsTableViewCell.m */; };
 		5F56DFAC1B582E5200151889 /* EditProfileNameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F56DFAB1B582E5200151889 /* EditProfileNameViewController.m */; };
 		5F7F8D361B53E1350054E91E /* 750x1334.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F7F8D341B53E1350054E91E /* 750x1334.png */; };
@@ -309,6 +310,8 @@
 		5F18E84E1BB68B2000CB596F /* audio@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "audio@3x.png"; sourceTree = "<group>"; };
 		5F18E84F1BB68B2000CB596F /* video@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "video@3x.png"; sourceTree = "<group>"; };
 		5F18E8521BB68B3200CB596F /* doc@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "doc@2x.png"; sourceTree = "<group>"; };
+		5F18E8551BB6A57000CB596F /* AudioPlayerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioPlayerViewController.h; sourceTree = "<group>"; };
+		5F18E8561BB6A57000CB596F /* AudioPlayerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioPlayerViewController.m; sourceTree = "<group>"; };
 		5F56DFA71B57E05800151889 /* settingsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = settingsTableViewCell.h; sourceTree = "<group>"; };
 		5F56DFA81B57E05800151889 /* settingsTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = settingsTableViewCell.m; sourceTree = "<group>"; };
 		5F56DFAA1B582E5200151889 /* EditProfileNameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditProfileNameViewController.h; sourceTree = "<group>"; };
@@ -643,6 +646,15 @@
 			name = "Phone Number";
 			sourceTree = "<group>";
 		};
+		5F18E8541BB6A54500CB596F /* Audio Player */ = {
+			isa = PBXGroup;
+			children = (
+				5F18E8551BB6A57000CB596F /* AudioPlayerViewController.h */,
+				5F18E8561BB6A57000CB596F /* AudioPlayerViewController.m */,
+			);
+			name = "Audio Player";
+			sourceTree = "<group>";
+		};
 		5FD7E1771BA30ED50041A17E /* Search Controller */ = {
 			isa = PBXGroup;
 			children = (
@@ -664,6 +676,7 @@
 		971687D71A1F1BCA00FE98FC /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				5F18E8541BB6A54500CB596F /* Audio Player */,
 				5F18E83E1BB4A19B00CB596F /* Phone Number */,
 				5FD7E1771BA30ED50041A17E /* Search Controller */,
 				5FDDA2301B618F6700895D56 /* Message Recipients */,
@@ -1510,6 +1523,7 @@
 				971687E01A1F1C2B00FE98FC /* TSTeacher.m in Sources */,
 				40D9861B1A9B921100D8BB0C /* PhoneVerificationViewController.m in Sources */,
 				FB6A04AF1AC2DE7B009E9D9D /* EditStudentNameViewController.m in Sources */,
+				5F18E8571BB6A57000CB596F /* AudioPlayerViewController.m in Sources */,
 				FBC1BD021AB60CE4004921CD /* TSCreatedClass.m in Sources */,
 				FBC1BD091AB7000B004921CD /* teacherDetailsTableViewCell.m in Sources */,
 				975B1E9B1A213A130028BE25 /* TSCreateClassroomViewController.m in Sources */,

@@ -18,7 +18,7 @@
 #import "ALAssetsLibrary+CustomPhotoAlbum.h"
 #import "TSWebViewController.h"
 #import <AVFoundation/AVFoundation.h>
-#import "STKAudioPlayer.h"
+#import "AudioPlayerViewController.h"
 
 @interface TSNewInboxViewController ()
 
@@ -1088,33 +1088,25 @@
     TSMessage *message = _mapCodeToObjects[messageId];
     NSString *fileType = [TSUtils getFileTypeFromFileName:message.attachmentName];
     if([fileType isEqualToString:@"audio"]) {
-        NSLog(@"audio file tapped");
         if(message.attachmentFetched) {
-            NSLog(@"audio file play karo");
-            
-            STKAudioPlayer* audioPlayer = [[STKAudioPlayer alloc] init];
-            [audioPlayer playURL:[NSURL fileURLWithPath:path]];
-            return;
             NSError *error;
             AVAudioSession *audioSession = [AVAudioSession sharedInstance];
             [audioSession setCategory:AVAudioSessionCategoryPlayback error:nil];
             [audioSession setActive:YES error:nil];
-            //[TSUtils playAudio:[TSUtils createURL:message.attachmentURL.url] audioPlayer:_audioPlayer];
-            //NSString *path = [TSUtils createURL:message.attachmentURL.url];
             NSString *path = [NSString stringWithFormat:@"%@/skyfall.mp3", [[NSBundle mainBundle] resourcePath]];
             _audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:path] error:&error];
             NSLog(@"error : %@", [error description]);
             if([_audioPlayer prepareToPlay]) {
                 NSLog(@"preparing");
                 _audioPlayer.volume = 1.0;
+                UINavigationController *audioPlayerNavVC = [self.storyboard instantiateViewControllerWithIdentifier:@"audioPlayerNavVC"];
+                AudioPlayerViewController *audioPlayerVC = (AudioPlayerViewController *)audioPlayerNavVC.topViewController;
+                audioPlayerVC.audioPlayer = _audioPlayer;
+                [self presentViewController:audioPlayerNavVC animated:YES completion:nil];
             }
             else {
                 NSLog(@"some error");
             }
-            if([_audioPlayer play]) {
-                NSLog(@"playing");
-            }
-            NSLog(@"not playing");
         }
     }
     else if([fileType isEqualToString:@"video"]) {
