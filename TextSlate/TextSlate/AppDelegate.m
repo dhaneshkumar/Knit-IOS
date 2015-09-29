@@ -99,7 +99,7 @@
         }
         TSTabBarViewController *rootTab = (TSTabBarViewController *)_startNav.topViewController;
         [rootTab initialization];
-        
+        /*
         if([PFInstallation currentInstallation].objectId) {
             PFQuery *lq = [PFQuery queryWithClassName:@"appVersion"];
             [lq fromLocalDatastore];
@@ -127,6 +127,7 @@
                 }
             }
         }
+         */
     }
     
     if(launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey]) {

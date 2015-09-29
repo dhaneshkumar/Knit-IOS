@@ -694,12 +694,8 @@
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
             NSMutableDictionary *members = (NSMutableDictionary *) object;
             NSArray *messageObjects = (NSArray *)[members objectForKey:@"message"];
-            NSArray *states = (NSArray *)[members objectForKey:@"states"];
+            NSDictionary *states = (NSDictionary *)[members objectForKey:@"states"];
             
-            NSMutableDictionary *statesForMessageID = [[NSMutableDictionary alloc] init];
-            for(PFObject *state in states) {
-                [statesForMessageID setObject:state forKey:state[@"message_id"]];
-            }
             NSCharacterSet *characterset=[NSCharacterSet characterSetWithCharactersInString:@"\uFFFC\n "];
             for (PFObject *msg in messageObjects) {
                 msg[@"likeStatus"] = @"false";
@@ -709,12 +705,13 @@
                 msg[@"seenStatus"] = @"false";
                 msg[@"messageId"] = msg.objectId;
                 msg[@"createdTime"] = msg.createdAt;
-                PFObject *state = [statesForMessageID objectForKey:msg.objectId];
+                NSArray *state = [states objectForKey:msg.objectId];
                 if(state) {
-                    msg[@"likeStatus"] = [state[@"like_status"] boolValue]?@"true":@"false";
-                    msg[@"likeStatusServer"] = [state[@"like_status"] boolValue]?@"true":@"false";
-                    msg[@"confuseStatus"] = [state[@"confused_status"] boolValue]?@"true":@"false";
-                    msg[@"confuseStatusServer"] = [state[@"confused_status"] boolValue]?@"true":@"false";
+                    msg[@"likeStatus"] = [state[0] boolValue]?@"true":@"false";
+                    msg[@"likeStatusServer"] = [state[0] boolValue]?@"true":@"false";
+                    msg[@"confuseStatus"] = [state[1] boolValue]?@"true":@"false";
+                    msg[@"confuseStatusServer"] = [state[1] boolValue]?@"true":@"false";
+                    NSLog(@"like, confuse : %@, %@", msg[@"likeStatus"], msg[@"likeStatusServer"]);
                 }
                 [msg pin];
                 TSMessage *message = [[TSMessage alloc] initWithValues:msg[@"name"] classCode:msg[@"code"] message:[msg[@"title"] stringByTrimmingCharactersInSet:characterset] sender:msg[@"Creator"] sentTime:msg.createdAt likeCount:[msg[@"like_count"] intValue] confuseCount:[msg[@"confused_count"] intValue] seenCount:0];
@@ -808,14 +805,11 @@
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^ {
             NSMutableDictionary *members = (NSMutableDictionary *) object;
             NSArray *messageObjects = (NSArray *)[members objectForKey:@"message"];
-            NSArray *states = (NSArray *)[members objectForKey:@"states"];
+            NSDictionary *states = (NSDictionary *)[members objectForKey:@"states"];
             
-            NSMutableDictionary *statesForMessageID = [[NSMutableDictionary alloc] init];
-            for(PFObject *state in states) {
-                [statesForMessageID setObject:state forKey:state[@"message_id"]];
-            }
             NSCharacterSet *characterset=[NSCharacterSet characterSetWithCharactersInString:@"\uFFFC\n "];
             NSMutableArray *tempArray = [[NSMutableArray alloc] initWithArray:_messagesArray];
+            
             for (PFObject *msg in messageObjects) {
                 msg[@"likeStatus"] = @"false";
                 msg[@"confuseStatus"] = @"false";
@@ -824,12 +818,13 @@
                 msg[@"seenStatus"] = @"false";
                 msg[@"messageId"] = msg.objectId;
                 msg[@"createdTime"] = msg.createdAt;
-                PFObject *state = [statesForMessageID objectForKey:msg.objectId];
+                
+                NSArray *state = [states objectForKey:msg.objectId];
                 if(state) {
-                    msg[@"likeStatus"] = [state[@"like_status"] boolValue]?@"true":@"false";
-                    msg[@"likeStatusServer"] = [state[@"like_status"] boolValue]?@"true":@"false";
-                    msg[@"confuseStatus"] = [state[@"confused_status"] boolValue]?@"true":@"false";
-                    msg[@"confuseStatusServer"] = [state[@"confused_status"] boolValue]?@"true":@"false";
+                    msg[@"likeStatus"] = [state[0] boolValue]?@"true":@"false";
+                    msg[@"likeStatusServer"] = [state[0] boolValue]?@"true":@"false";
+                    msg[@"confuseStatus"] = [state[1] boolValue]?@"true":@"false";
+                    msg[@"confuseStatusServer"] = [state[1] boolValue]?@"true":@"false";
                 }
                 [msg pin];
                 TSMessage *message = [[TSMessage alloc] initWithValues:msg[@"name"] classCode:msg[@"code"] message:[msg[@"title"] stringByTrimmingCharactersInSet:characterset] sender:msg[@"Creator"] sentTime:msg.createdAt likeCount:[msg[@"like_count"] intValue] confuseCount:[msg[@"confused_count"] intValue] seenCount:0];

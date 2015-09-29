@@ -152,9 +152,11 @@
                 if(_isChutiyaUser && ![[PFUser currentUser] objectForKey:@"phone"]) {
                     cell.textLabel.text = @"Add your phone number";
                     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+                    cell.selectionStyle = UITableViewCellSelectionStyleDefault;
                 }
                 else {
                     cell.textLabel.text = [[PFUser currentUser] objectForKey:@"phone"];
+                    cell.accessoryType = UITableViewCellAccessoryNone;
                     cell.selectionStyle = UITableViewCellSelectionStyleNone;
                 }
             }
@@ -250,6 +252,7 @@
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSLog(@"called from row : %d, column : %d", indexPath.row, indexPath.section);
     if(indexPath.section == 0) {
         UINavigationController *editProfileNameNavigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"editProfileNameNav"];
         EditProfileNameViewController *editProfileNameVC = (EditProfileNameViewController *)editProfileNameNavigationController.topViewController;

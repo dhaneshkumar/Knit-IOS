@@ -313,7 +313,7 @@
 }
 
 +(void) generateOTP:(NSString *)phoneNum successBlock:(successBlock) successBlock errorBlock:(errorBlock) errorBlock hud:(MBProgressHUD *)hud {
-    [PFCloud callFunctionInBackground:@"genCode" withParameters:@{@"number":phoneNum } block:^(id object, NSError *error) {
+    [PFCloud callFunctionInBackground:@"genCode2" withParameters:@{@"number":phoneNum } block:^(id object, NSError *error) {
         if (error) {
             if(error.code == kPFErrorInvalidSessionToken) {
                 [self handleInvalidSession:hud];
@@ -594,8 +594,8 @@
     }];
 }
 
-+(void)updatePhoneNumber:(NSString *)number code:(NSString *)code successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock hud:(MBProgressHUD *)hud  {
-    [PFCloud callFunctionInBackground:@"updatePhoneNumber" withParameters:@{@"number":number, @"code":code} block:^(id object, NSError *error) {
++(void)updatePhoneNumber:(NSString *)number code:(NSInteger)code successBlock:(successBlock)successBlock errorBlock:(errorBlock)errorBlock hud:(MBProgressHUD *)hud  {
+    [PFCloud callFunctionInBackground:@"updatePhoneNumber" withParameters:@{@"number":number, @"code":[NSNumber numberWithInt:code]} block:^(id object, NSError *error) {
         if(error) {
             if(error.code == kPFErrorInvalidSessionToken) {
                 [self handleInvalidSession:hud];

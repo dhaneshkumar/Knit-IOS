@@ -48,11 +48,13 @@
         [RKDropdownAlert title:@"" message:@"OTP should be 4 digit long."  time:3];
     }
     else {
+        NSInteger verificationCode = [_otpField.text integerValue];
+        
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[[UIApplication sharedApplication] keyWindow]  animated:YES];
         hud.color = [UIColor colorWithRed:41.0f/255.0f green:182.0f/255.0f blue:246.0f/255.0f alpha:1.0];
         hud.labelText = @"Verifying";
         
-        [Data updatePhoneNumber:_phoneNumberString code:_otpField.text successBlock:^(id object) {
+        [Data updatePhoneNumber:_phoneNumberString code:verificationCode successBlock:^(id object) {
             NSNumber *success = (NSNumber *)object;
             if([success boolValue]) {
                 PFObject *currentUser = [PFUser currentUser];
