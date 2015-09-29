@@ -120,6 +120,7 @@
             NSString *installationId = currentInstallation[@"installationId"];
             NSString *devicetype = currentInstallation[@"deviceType"];
             
+            
             if(!currentInstallation.objectId) {
                 BOOL saveInstallationObj = [currentInstallation save];
                 if(!saveInstallationObj) {
@@ -127,6 +128,7 @@
                     return;
                 }
             }
+            
             
             [Data verifyOTPSignUp:_phoneNumber code:verificationCode name:_nameText role:_role installationId:installationId deviceType:devicetype areCoordinatesUpdated:_parentVCSignUp.areCoordinatesUpdated latitude:_parentVCSignUp.latitude longitude:_parentVCSignUp.longitude os:[NSString stringWithFormat:@"iOS %@", _osVersion] model:_model successBlock:^(id object){
                 NSDictionary *tokenDict = object;
@@ -181,7 +183,7 @@
                     [RKDropdownAlert title:@"" message:@"Internet connection error." time:3];
                 }
                 else {
-                    [RKDropdownAlert title:@"" message:@"Oops! Some error occured while signing up" time:3];
+                    [RKDropdownAlert title:@"" message:[NSString stringWithFormat:@"Oops! Some error occured while signing up : %i", error.code] time:3];
                 }
             } hud:hud];
         }

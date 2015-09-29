@@ -141,9 +141,10 @@
 
 -(void)signIn:(GIDSignIn *)signIn didSignInForUser:(GIDGoogleUser *)user withError:(NSError *)error {
     if(error) {
+        NSLog(@"kidhar?");
         return;
     }
-    
+    NSLog(@"idhar");
     NSString *accessToken = user.authentication.accessToken;
     NSString *idToken = user.authentication.idToken;
     PFInstallation *currentInstallation = [PFInstallation currentInstallation];
@@ -210,10 +211,13 @@
     FBSDKLoginManager *login = [[FBSDKLoginManager alloc] init];
     [login logOut];
     [login logInWithReadPermissions:@[@"email"] handler:^(FBSDKLoginManagerLoginResult *result, NSError *error) {
+        NSLog(@"coming here : %@", error);
         if (error) {
-            //error
+            NSLog(@"error : %@", error);
         } else if (result.isCancelled) {
             // Handle cancellations
+            FBSDKAccessToken *currentAccessToken = [FBSDKAccessToken currentAccessToken];
+            NSLog(@"lol cancels : %@, %@", currentAccessToken, currentAccessToken.tokenString);
         } else {
             //Permission granted
             FBSDKAccessToken *currentAccessToken = [FBSDKAccessToken currentAccessToken];
@@ -221,10 +225,11 @@
             if ([result.grantedPermissions containsObject:@"email"]) {
                 //do something if needed
             }
+            
             PFInstallation *currentInstallation = [PFInstallation currentInstallation];
             NSString *installationId = currentInstallation[@"installationId"];
             NSString *devicetype = currentInstallation[@"deviceType"];
-            
+            NSLog(@"info : %@, %@, %@", currentAccessToken, currentAccessToken.tokenString, installationId);
             float version = [[[UIDevice currentDevice] systemVersion] floatValue];
             NSString *osVersion = [[NSNumber numberWithFloat:version] stringValue];
             

@@ -665,12 +665,12 @@
 
 
 -(BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
-    NSLog(@"url : %@, source application : %@", url, sourceApplication);
-    if([sourceApplication isEqualToString:@"com.apple.mobilesafari"]) {
+    NSString *URL = [[url absoluteString] lowercaseString];
+    if([URL hasPrefix:@"knitapp"]) {
         //deep linking. opens when url is knitapp://
         return true;
     }
-    else if([sourceApplication isEqualToString:@"com.facebook.Facebook"]) {
+    else if([URL hasPrefix:@"fb"]) {
         return [[FBSDKApplicationDelegate sharedInstance] application:application openURL:url sourceApplication:sourceApplication annotation:annotation];
     }
     else {
