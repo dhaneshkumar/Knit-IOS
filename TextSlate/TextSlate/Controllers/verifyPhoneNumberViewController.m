@@ -9,6 +9,7 @@
 #import "verifyPhoneNumberViewController.h"
 #import "RKDropdownAlert.h"
 #import "Data.h"
+#import "TSUtils.h"
 #import "MBProgressHUD.h"
 
 @interface verifyPhoneNumberViewController ()
@@ -27,6 +28,7 @@
     self.navigationItem.title = @"Knit";
     UIBarButtonItem *bb = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"back"] style:UIBarButtonItemStylePlain target:self action:@selector(backButtonTapped:)];
     [self.navigationItem setLeftBarButtonItem:bb];
+    [TSUtils applyRoundedCorners:_submitButton];
     _otpField.delegate = self;
     _otpField.keyboardType = UIKeyboardTypeNumberPad;
 }

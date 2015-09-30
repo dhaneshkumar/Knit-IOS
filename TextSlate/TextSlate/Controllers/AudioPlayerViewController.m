@@ -7,6 +7,7 @@
 //
 
 #import "AudioPlayerViewController.h"
+#import "TSUtils.h"
 
 @interface AudioPlayerViewController ()
 
@@ -21,6 +22,8 @@
     _isPlaying = false;
     _audioPlayer.volume = 0.5;
     _volumeSlider.value = 0.5;
+    [TSUtils applyRoundedCorners:_playButton];
+    [TSUtils applyRoundedCorners:_stopButton];
 }
 
 - (void)didReceiveMemoryWarning {

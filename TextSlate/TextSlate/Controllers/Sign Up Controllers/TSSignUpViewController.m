@@ -57,7 +57,7 @@
     _longitude = 0.0;
     float screenWidth = [TSUtils getScreenWidth];
     _contentViewWidth.constant = screenWidth;
-    _contentViewHeight.constant = [TSUtils getScreenHeight];
+    _contentViewHeight.constant = [TSUtils getScreenHeight]-64.0;
     
     UIToolbar* keyboardDoneButtonView = [[UIToolbar alloc] init];
     UIBarButtonItem *flexBarButton = [[UIBarButtonItem alloc]
@@ -142,10 +142,6 @@
 
 
 -(BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
-    [UIView animateWithDuration:0.5 animations:^{
-        [self.view layoutIfNeeded];
-        [_scrollView setContentOffset:CGPointMake(0, 125.0)];
-    }];
     return YES;
 }
 

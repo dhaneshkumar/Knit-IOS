@@ -249,6 +249,7 @@
     cell.likesCount.textColor = ([message.likeStatus isEqualToString:@"true"])?[UIColor colorWithRed:57.0f/255.0f green:181.0f/255.0f blue:74.0f/255.0f alpha:1.0]:[UIColor darkGrayColor];
     
     if(message.attachmentURL) {
+        NSLog(@"name : %@", message.attachmentURL.name);
         NSString *fileType = [TSUtils getFileTypeFromFileName:message.attachmentName];
         if([fileType isEqualToString:@"image"]) {
             if(message.attachmedImage) {
@@ -1088,7 +1089,7 @@
             AVAudioSession *audioSession = [AVAudioSession sharedInstance];
             [audioSession setCategory:AVAudioSessionCategoryPlayback error:nil];
             [audioSession setActive:YES error:nil];
-            NSString *path = [NSString stringWithFormat:@"%@/skyfall.mp3", [[NSBundle mainBundle] resourcePath]];
+            NSString *path = [TSUtils createURL:message.attachmentURL.url];
             _audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:path] error:&error];
             NSLog(@"error : %@", [error description]);
             if([_audioPlayer prepareToPlay]) {
